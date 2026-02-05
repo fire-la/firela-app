@@ -1,6 +1,6 @@
 # beanclaw
 
-> **Your Beancount Account Keeper** - Mobile app for managing your Beancount accounts on the go.
+> **Beancount account management for mobile - Data sovereignty for your financial data**
 
 ## Data Sovereignty First
 
