@@ -37,14 +37,14 @@ FIREla is part of the firela open source ecosystem, all built on the principle o
 
 ```
 ┌─────────────────┐      ┌─────────────────┐
-│   billclaw      │ ───▶ │   FIREla        │
+│   billclaw      │      │   FIREla        │
 │   Data Import   │      │   Account Mgmt  │
 │   (OpenClaw)    │      │   (Flutter)     │
 └────────┬────────┘      └────────┬────────┘
-         │  You hold the         │  You hold the
-         │  access tokens        │  account keys
-         │                       │
-         └───────────┬───────────┘
+         │  You hold the          │
+         │  access tokens         │
+         │                        │
+         └───────────┬────────────┘
                      ▼
          ┌─────────────────────┐
          │  FIREla server      │
@@ -56,7 +56,7 @@ FIREla is part of the firela open source ecosystem, all built on the principle o
 
 - **billclaw**: Import your financial data (Plaid, Gmail) - **you hold the API keys**
 - **FIREla**: Manage accounts on mobile - **you hold the account credentials**
-- **FIRE la**: Backend for data processing - **your data remains yours**
+- **FIREla server**: Backend for data processing - **your data remains yours**
 
 ## Why Data Sovereignty Matters
 
