@@ -1,0 +1,676 @@
+{
+  "@@locale": "en",
+  
+  "appTitle": "FIREla",
+  "@appTitle": {
+    "description": "The application title"
+  },
+  
+  "welcomeMessage": "Welcome to FIREla",
+  "@welcomeMessage": {
+    "description": "Welcome message on home screen"
+  },
+  
+  "appDescription": "Your personal finance companion with data sovereignty",
+  "@appDescription": {
+    "description": "App description on home screen"
+  },
+  
+  "toggleTheme": "Toggle Theme",
+  "@toggleTheme": {
+    "description": "Tooltip for theme toggle button"
+  },
+  
+  "changeLanguage": "Change Language",
+  "@changeLanguage": {
+    "description": "Tooltip for language selector"
+  },
+  
+  "currentLocale": "Current Locale",
+  "@currentLocale": {
+    "description": "Label for current locale display"
+  },
+  
+  "currentTheme": "Current Theme",
+  "@currentTheme": {
+    "description": "Label for current theme display"
+  },
+  
+  "featureDataSovereignty": "Data Sovereignty",
+  "@featureDataSovereignty": {
+    "description": "Title for data sovereignty feature"
+  },
+  
+  "featureDataSovereigntyDesc": "Your financial data belongs to you. Complete ownership and control.",
+  "@featureDataSovereigntyDesc": {
+    "description": "Description for data sovereignty feature"
+  },
+  
+  "featureRealTimeSync": "Real-time Sync",
+  "@featureRealTimeSync": {
+    "description": "Title for real-time sync feature"
+  },
+  
+  "featureRealTimeSyncDesc": "Stay synchronized with your beancount backend seamlessly.",
+  "@featureRealTimeSyncDesc": {
+    "description": "Description for real-time sync feature"
+  },
+  
+  "featureOfflineSupport": "Offline Support",
+  "@featureOfflineSupport": {
+    "description": "Title for offline support feature"
+  },
+  
+  "featureOfflineSupportDesc": "Works offline, syncs when connection is restored.",
+  "@featureOfflineSupportDesc": {
+    "description": "Description for offline support feature"
+  },
+  
+  "accountsTitle": "Accounts",
+  "@accountsTitle": {
+    "description": "Title for accounts page"
+  },
+  
+  "createAccount": "Create Account",
+  "@createAccount": {
+    "description": "Button text to create new account"
+  },
+  
+  "settings": "Settings",
+  "@settings": {
+    "description": "Settings menu item"
+  },
+  
+  "loading": "Loading...",
+  "@loading": {
+    "description": "Loading message"
+  },
+  
+  "error": "Error",
+  "@error": {
+    "description": "Error label"
+  },
+  
+  "retry": "Retry",
+  "@retry": {
+    "description": "Retry button text"
+  },
+  
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Cancel button text"
+  },
+  
+  "save": "Save",
+  "@save": {
+    "description": "Save button text"
+  },
+  
+  "tabFireJourney": "FIRE Journey",
+  "@tabFireJourney": {
+    "description": "Tab label for FIRE journey page"
+  },
+  
+  "tabAssets": "Assets",
+  "@tabAssets": {
+    "description": "Tab label for assets page"
+  },
+  
+  "tabMine": "Mine",
+  "@tabMine": {
+    "description": "Tab label for settings page"
+  },
+  
+  "fireJourneyDays": "You've persisted for {days} days",
+  "@fireJourneyDays": {
+    "description": "Shows FIRE journey progress in days",
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  
+  "watchFirePlan": "Watch Fire Plan",
+  "@watchFirePlan": {
+    "description": "Button to view FIRE plan"
+  },
+  
+  "progress": "Progress",
+  "@progress": {
+    "description": "Progress label"
+  },
+  
+  "safety": "Safety",
+  "@safety": {
+    "description": "Safety label"
+  },
+  
+  "netAssets": "Net Assets (CNY)",
+  "@netAssets": {
+    "description": "Net assets label"
+  },
+  
+  "dailyIncome": "Daily Income (CNY)",
+  "@dailyIncome": {
+    "description": "Daily income label"
+  },
+  
+  "netProfit": "Net Profit",
+  "@netProfit": {
+    "description": "Net profit label"
+  },
+  
+  "freeMonths": "{months} Months Fund",
+  "@freeMonths": {
+    "description": "Emergency fund in months",
+    "placeholders": {
+      "months": {
+        "type": "int"
+      }
+    }
+  },
+  
+  "assetsLiabilities": "Assets & Liabilities",
+  "@assetsLiabilities": {
+    "description": "Assets and liabilities tab"
+  },
+  
+  "incomeExpense": "Income & Expense",
+  "@incomeExpense": {
+    "description": "Income and expense tab"
+  },
+  
+  "totalAssets": "Total Assets",
+  "@totalAssets": {
+    "description": "Total assets label"
+  },
+  
+  "totalLiabilities": "Total Liabilities",
+  "@totalLiabilities": {
+    "description": "Total liabilities label"
+  },
+  
+  "assets": "Assets",
+  "@assets": {
+    "description": "Assets label"
+  },
+  
+  "liabilities": "Liabilities",
+  "@liabilities": {
+    "description": "Liabilities label"
+  },
+  
+  "details": "Details",
+  "@details": {
+    "description": "Details button"
+  },
+  
+  "assetDistribution": "Asset Distribution",
+  "@assetDistribution": {
+    "description": "Asset distribution chart title"
+  },
+  
+  "assetChange": "Asset Change Trend",
+  "@assetChange": {
+    "description": "Asset change trend chart title"
+  },
+  
+  "monthlyIncrease": "{month} +{amount}",
+  "@monthlyIncrease": {
+    "description": "Monthly increase amount",
+    "placeholders": {
+      "month": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  
+  "monthlyExpense": "Monthly Expense (CNY)",
+  "@monthlyExpense": {
+    "description": "Monthly expense label"
+  },
+  
+  "income": "Income",
+  "@income": {
+    "description": "Income label"
+  },
+  
+  "budgetManagement": "Budget Management",
+  "@budgetManagement": {
+    "description": "Budget management button"
+  },
+  
+  "expenseTrend": "Expense Trend",
+  "@expenseTrend": {
+    "description": "Expense trend chart title"
+  },
+  
+  "used": "Used {percent}%",
+  "@used": {
+    "description": "Budget usage percentage",
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  
+  "remaining": "Remaining ¥{amount}",
+  "@remaining": {
+    "description": "Remaining budget amount",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  
+  "expenseDetails": "Expense Details",
+  "@expenseDetails": {
+    "description": "Expense details section title"
+  },
+  
+  "total": "Total",
+  "@total": {
+    "description": "Total label"
+  },
+  
+  "food": "Food",
+  "@food": {
+    "description": "Food category"
+  },
+  
+  "transportation": "Transportation",
+  "@transportation": {
+    "description": "Transportation category"
+  },
+  
+  "entertainment": "Entertainment",
+  "@entertainment": {
+    "description": "Entertainment category"
+  },
+  
+  "becomeMember": "Become IGN Member",
+  "@becomeMember": {
+    "description": "Become member button"
+  },
+  
+  "memberBenefit": "Unlock exclusive AI financial services and join Fire Journey",
+  "@memberBenefit": {
+    "description": "Member benefit description"
+  },
+  
+  "activateNow": "Activate Now",
+  "@activateNow": {
+    "description": "Activate membership button"
+  },
+  
+  "dataExport": "Data Export",
+  "@dataExport": {
+    "description": "Data export menu item"
+  },
+  
+  "privacyStatement": "Privacy Statement",
+  "@privacyStatement": {
+    "description": "Privacy statement menu item"
+  },
+  
+  "aboutUs": "About Us",
+  "@aboutUs": {
+    "description": "About us menu item"
+  },
+  
+  "helpCenter": "Help Center",
+  "@helpCenter": {
+    "description": "Help center menu item"
+  },
+  
+  "suggestions": "Suggestions",
+  "@suggestions": {
+    "description": "Suggestions menu item"
+  },
+  
+  "logout": "Logout",
+  "@logout": {
+    "description": "Logout button"
+  },
+
+  "loginNow": "Login Now",
+  "@loginNow": {
+    "description": "Login now button when not logged in"
+  },
+  
+  "statistics": "Statistics",
+  "@statistics": {
+    "description": "Statistics label"
+  },
+  
+  "balanced": "Balanced",
+  "@balanced": {
+    "description": "Balanced allocation type"
+  },
+  
+  "aggressive": "Aggressive",
+  "@aggressive": {
+    "description": "Aggressive allocation type"
+  },
+  
+  "conservative": "Conservative",
+  "@conservative": {
+    "description": "Conservative allocation type"
+  },
+  
+  "aiAccounting": "AI Accounting",
+  "@aiAccounting": {
+    "description": "AI accounting mode"
+  },
+  
+  "manualAccounting": "Manual Accounting",
+  "@manualAccounting": {
+    "description": "Manual accounting mode"
+  },
+  
+  "enterExpenseDescription": "Enter expense description, e.g. \"Dinner 20 yuan\"",
+  "@enterExpenseDescription": {
+    "description": "Placeholder text for expense input"
+  },
+  
+  "photoRecognition": "Photo Recognition",
+  "@photoRecognition": {
+    "description": "Photo recognition button"
+  },
+  
+  "billImport": "Bill Import",
+  "@billImport": {
+    "description": "Bill import button"
+  },
+  
+  "analyzing": "Analyzing...",
+  "@analyzing": {
+    "description": "Analysis in progress text"
+  },
+  
+  "aiParseSuccess": "AI Parse Success",
+  "@aiParseSuccess": {
+    "description": "AI parse success title"
+  },
+  
+  "expense": "Expense",
+  "@expense": {
+    "description": "Expense type"
+  },
+  
+  "income": "Income",
+  "@income": {
+    "description": "Income type"
+  },
+  
+  "date": "Date",
+  "@date": {
+    "description": "Date label"
+  },
+  
+  "expenseType": "Expense Type",
+  "@expenseType": {
+    "description": "Expense type label"
+  },
+  
+  "expenseAmount": "Expense Amount",
+  "@expenseAmount": {
+    "description": "Expense amount label"
+  },
+  
+  "notes": "Notes",
+  "@notes": {
+    "description": "Notes label"
+  },
+  
+  "confirm": "Confirm",
+  "@confirm": {
+    "description": "Confirm button"
+  },
+  
+  "pleaseSelect": "Please Select",
+  "@pleaseSelect": {
+    "description": "Please select placeholder"
+  },
+  
+  "enterAmount": "Enter Amount",
+  "@enterAmount": {
+    "description": "Enter amount placeholder"
+  },
+  
+  "expenseTypeNotRecognized": "Expense type not recognized, please select manually",
+  "@expenseTypeNotRecognized": {
+    "description": "Expense type not recognized message"
+  },
+  
+  "expenseAmountNotRecognized": "Expense amount not recognized, please enter manually",
+  "@expenseAmountNotRecognized": {
+    "description": "Expense amount not recognized message"
+  },
+  
+  "missingRequiredFields": "Missing Required Fields",
+  "@missingRequiredFields": {
+    "description": "Missing required fields message"
+  },
+  
+  "billImportTitle": "Bill Import",
+  "@billImportTitle": {
+    "description": "Bill import page title"
+  },
+  
+  "importBill": "Import Bill",
+  "@importBill": {
+    "description": "Import bill step"
+  },
+  
+  "parseBill": "Parse Bill",
+  "@parseBill": {
+    "description": "Parse bill step"
+  },
+  
+  "pleaseImportAlipayBill": "Please import Alipay bill",
+  "@pleaseImportAlipayBill": {
+    "description": "Please import Alipay bill prompt"
+  },
+  
+  "addFile": "Add File",
+  "@addFile": {
+    "description": "Add file button"
+  },
+  
+  "supportedFormats": "Supports Excel or CSV format, max 2MB",
+  "@supportedFormats": {
+    "description": "Supported file formats"
+  },
+  
+  "howToGetBill": "How to get bill?",
+  "@howToGetBill": {
+    "description": "How to get bill title"
+  },
+  
+  "parsingBill": "Parsing bill, please wait...",
+  "@parsingBill": {
+    "description": "Parsing bill message"
+  },
+  
+  "reupload": "Re-upload",
+  "@reupload": {
+    "description": "Re-upload button"
+  },
+  
+  "accountingComplete": "{count} accounting entries completed",
+  "@accountingComplete": {
+    "description": "Accounting complete message",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+
+  "reviewCenterTitle": "Review Center",
+  "@reviewCenterTitle": {
+    "description": "Review Center page title"
+  },
+
+  "reviewCenterAll": "All",
+  "@reviewCenterAll": {
+    "description": "All transactions tab"
+  },
+
+  "reviewCenterHigh": "High Confidence",
+  "@reviewCenterHigh": {
+    "description": "High confidence tab"
+  },
+
+  "reviewCenterMedium": "Needs Confirmation",
+  "@reviewCenterMedium": {
+    "description": "Medium confidence tab"
+  },
+
+  "reviewCenterLow": "Suggested Review",
+  "@reviewCenterLow": {
+    "description": "Low confidence tab"
+  },
+
+  "reviewCenterEmpty": "No pending transactions",
+  "@reviewCenterEmpty": {
+    "description": "Empty state message"
+  },
+
+  "reviewCenterKeep": "Keep",
+  "@reviewCenterKeep": {
+    "description": "Keep transaction button"
+  },
+
+  "reviewCenterDelete": "Delete",
+  "@reviewCenterDelete": {
+    "description": "Delete transaction button"
+  },
+
+  "reviewCenterSave": "Save",
+  "@reviewCenterSave": {
+    "description": "Save transaction button"
+  },
+
+  "reviewCenterConfirmDelete": "Confirm Delete",
+  "@reviewCenterConfirmDelete": {
+    "description": "Delete confirmation title"
+  },
+
+  "reviewCenterConfirmDeleteMessage": "Are you sure you want to delete this transaction? This action cannot be undone.",
+  "@reviewCenterConfirmDeleteMessage": {
+    "description": "Delete confirmation message"
+  },
+
+  "reviewCenterConfirmSuccess": "Transaction confirmed",
+  "@reviewCenterConfirmSuccess": {
+    "description": "Transaction confirmed toast"
+  },
+
+  "reviewCenterDeleteSuccess": "Transaction deleted",
+  "@reviewCenterDeleteSuccess": {
+    "description": "Transaction deleted toast"
+  },
+
+  "reviewCenterSaveSuccess": "Saved successfully",
+  "@reviewCenterSaveSuccess": {
+    "description": "Save success toast"
+  },
+
+  "reviewCenterLoading": "Loading...",
+  "@reviewCenterLoading": {
+    "description": "Loading message"
+  },
+
+  "reviewCenterError": "Failed to load, please retry",
+  "@reviewCenterError": {
+    "description": "Error message"
+  },
+
+  "reviewCenterDetailTitle": "Transaction Detail",
+  "@reviewCenterDetailTitle": {
+    "description": "Detail page title"
+  },
+
+  "reviewCenterConfidence": "AI Confidence Level",
+  "@reviewCenterConfidence": {
+    "description": "Confidence level label"
+  },
+
+  "reviewCenterAccount": "Account",
+  "@reviewCenterAccount": {
+    "description": "Account field label"
+  },
+
+  "reviewCenterMerchant": "Merchant",
+  "@reviewCenterMerchant": {
+    "description": "Merchant field label"
+  },
+
+  "reviewCenterAmount": "Amount",
+  "@reviewCenterAmount": {
+    "description": "Amount field label"
+  },
+
+  "reviewCenterDateTime": "Date & Time",
+  "@reviewCenterDateTime": {
+    "description": "Date time field label"
+  },
+
+  "reviewCenterNotes": "Notes",
+  "@reviewCenterNotes": {
+    "description": "Notes field label"
+  },
+
+  "reviewCenterExpense": "Expense",
+  "@reviewCenterExpense": {
+    "description": "Expense label"
+  },
+
+  "reviewCenterIncome": "Income",
+  "@reviewCenterIncome": {
+    "description": "Income label"
+  },
+
+  "reviewCenterInvalidId": "Invalid transaction ID",
+  "@reviewCenterInvalidId": {
+    "description": "Invalid ID error"
+  },
+
+  "reviewCenterLoadFailed": "Failed to load, please retry",
+  "@reviewCenterLoadFailed": {
+    "description": "Load failed error"
+  },
+
+  "reviewCenterDeleteFailed": "Failed to delete, please retry",
+  "@reviewCenterDeleteFailed": {
+    "description": "Delete failed error"
+  },
+
+  "reviewCenterSaveFailed": "Failed to save, please retry",
+  "@reviewCenterSaveFailed": {
+    "description": "Save failed error"
+  },
+
+  "reviewCenterEnterAccount": "Please enter account name",
+  "@reviewCenterEnterAccount": {
+    "description": "Enter account validation"
+  },
+
+  "reviewCenterEnterMerchant": "Please enter merchant name",
+  "@reviewCenterEnterMerchant": {
+    "description": "Enter merchant validation"
+  },
+
+  "reviewCenterEnterValidAmount": "Please enter a valid amount",
+  "@reviewCenterEnterValidAmount": {
+    "description": "Enter valid amount validation"
+  }
+}
