@@ -1,4 +1,4 @@
-import '../data/models/confidence_level.dart';
+import '../models/confidence_level.dart';
 
 /// Pending transaction entity (domain model)
 /// Represents a transaction imported from bill files that requires user review

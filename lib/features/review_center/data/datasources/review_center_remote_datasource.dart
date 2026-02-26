@@ -1,6 +1,6 @@
 import '../../../../core/network/api_client.dart';
 import '../../../../core/utils/logger.dart';
-import '../models/confidence_level.dart';
+import '../../domain/models/confidence_level.dart';
 import '../models/pending_transaction_model.dart';
 
 /// Remote datasource for Review Center API calls

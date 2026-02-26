@@ -1,5 +1,5 @@
 import '../../domain/entities/pending_transaction.dart';
-import 'confidence_level.dart';
+import '../../domain/models/confidence_level.dart';
 
 /// Data model for pending transaction with JSON serialization
 class PendingTransactionModel extends PendingTransaction {
