@@ -50,8 +50,6 @@ Create the data models following existing patterns in the codebase:
    - Extend/implement the entity
    - Include `fromJson()` and `toJson()` methods
    - Follow the pattern in `transaction_model.dart` for serialization
-
-**Phase 01 Scope:** For pagination, datasource methods return `dynamic` (raw JSON) for now. A PaginatedResponse wrapper can be added when UI layer needs it.
   </action>
   <verify>
     - Files exist with correct structure
@@ -84,8 +82,6 @@ Create the remote datasource for API calls following the existing ApiClient patt
 4. Log API calls with context prefix `[ReviewCenter]`
 
 Note: API endpoint paths will be determined by exploring the API documentation. Use placeholder paths like `/v1/bean/pending-transactions` that can be adjusted.
-
-**Before implementing:** Check API docs at https://api-s.firela.io/api/docs#/ for actual endpoint paths. If endpoint is not documented after 10 minutes, ask user for clarification or use placeholder with TODO comment.
   </action>
   <verify>
     - File exists with all methods defined
@@ -112,18 +108,11 @@ Create repository layer following clean architecture:
 
 2. **ReviewCenterRepository** in data layer:
    - Implement the interface
-   - Use singleton pattern matching `ApiClient.instance`:
-     ```dart
-     class ReviewCenterRepository implements ReviewCenterRepositoryInterface {
-       ReviewCenterRepository._();
-       static final ReviewCenterRepository instance = ReviewCenterRepository._();
-       final ReviewCenterRemoteDatasource _datasource = ReviewCenterRemoteDatasource.instance;
-     }
-     ```
+   - Inject ReviewCenterRemoteDatasource
    - Handle data transformation (Model → Entity)
    - Include proper error handling and logging
 
-Follow the singleton pattern used by ApiClient.instance.
+Follow the existing repository patterns in the codebase.
   </action>
   <verify>
     - Both files exist with correct structure
