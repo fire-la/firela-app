@@ -1,65 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'app.dart';
+import 'core/utils/logger.dart';
+import 'core/network/auth_manager.dart';
+import 'core/services/analytics_service.dart';
 
-void main() {
-  runApp(const BeanclawApp());
-}
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
 
-class BeanclawApp extends StatelessWidget {
-  const BeanclawApp({super.key});
+  // Initialize Hive for local storage
+  await Hive.initFlutter();
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'beanclaw',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFFE63946), // OpenClaw Red
-          brightness: Brightness.light,
-        ),
-        useMaterial3: true,
-      ),
-      darkTheme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFFE63946),
-          brightness: Brightness.dark,
-        ),
-        useMaterial3: true,
-      ),
-      themeMode: ThemeMode.system,
-      home: const HomePage(),
-    );
-  }
-}
+  // Initialize auth manager
+  await AuthManager.instance.init();
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  // Initialize PostHog analytics
+  await AnalyticsService().initialize(
+    apiKey: const String.fromEnvironment('POSTHOG_API_KEY', defaultValue: ''),
+    host: const String.fromEnvironment(
+      'POSTHOG_HOST',
+      defaultValue: 'https://us.i.posthog.com',
+    ),
+  );
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('beanclaw'),
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.account_balance_wallet,
-              size: 100,
-              color: Theme.of(context).colorScheme.primary,
-            ),
-            const SizedBox(height: 24),
-            Text(
-              'Your Beancount Account Keeper',
-              style: Theme.of(context).textTheme.headlineSmall,
-            ),
-            const SizedBox(height: 16),
-            const Text('Coming soon...'),
-          ],
-        ),
-      ),
-    );
-  }
+  logger.i('FIREla app starting...');
+
+  runApp(const FirelaApp());
 }
