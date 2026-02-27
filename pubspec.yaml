@@ -1,10 +1,10 @@
-name: beanclaw
+name: firela
 description: "Beancount account management mobile app - Your personal finance companion"
-version: 0.0.1
-homepage: https://github.com/fire-zu/beanclaw
-repository: https://github.com/fire-zu/beanclaw
-issue_tracker: https://github.com/fire-zu/beanclaw/issues
-documentation: https://github.com/fire-zu/beanclaw/blob/main/README.md
+version: 1.0.0
+homepage: https://github.com/fire-la/firela
+repository: https://github.com/fire-la/firela
+issue_tracker: https://github.com/fire-la/firela/issues
+documentation: https://github.com/fire-la/firela/blob/main/README.md
 
 environment:
   sdk: ^3.5.0
@@ -14,11 +14,25 @@ dependencies:
   flutter:
     sdk: flutter
 
-  # State Management
-  flutter_riverpod: ^2.5.0
+  # Internationalization
+  flutter_localizations:
+    sdk: flutter
+  intl: ^0.19.0
+
+  # State Management & Hooks
+  signals: ^6.3.0
+  signals_flutter: ^6.3.0
+  flutter_hooks: ^0.20.5
+
+  # Data Fetching (React Query style)
+  fquery: ^1.2.0
+
+  # Navigation
+  go_router: ^14.6.2
 
   # HTTP & API
   http: ^1.2.0
+  http_parser: ^4.0.2
   web_socket_channel: ^2.4.0
 
   # Local Storage
@@ -27,12 +41,25 @@ dependencies:
   path_provider: ^2.1.2
 
   # Utils
-  intl: ^0.19.0
   logger: ^2.3.0
   uuid: ^4.4.0
 
+  # Analytics
+  posthog_flutter: ^5.6.0
+
+  # Cloudflare Turnstile (bot protection)
+  cloudflare_turnstile: ^3.3.1
+
   # UI Components
   cupertino_icons: ^1.0.6
+  
+  # Charts & Indicators
+  fl_chart: ^0.70.2
+  percent_indicator: ^4.2.3
+  
+  # Image & File Picker
+  image_picker: ^1.1.2
+  file_picker: ^8.1.4
 
 dev_dependencies:
   flutter_test:
@@ -43,6 +70,7 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  generate: true  # Enable l10n code generation
 
   assets:
     - assets/images/
