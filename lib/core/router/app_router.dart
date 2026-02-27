@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:posthog_flutter/posthog_flutter.dart';
 import '../../features/main/presentation/pages/main_page.dart';
 import '../../features/accounts/presentation/pages/accounts_page.dart';
 import '../../features/expense/presentation/pages/bill_import_page.dart';
@@ -9,31 +10,34 @@ import 'route_names.dart';
 
 /// Application router configuration
 final appRouter = GoRouter(
+  observers: [
+    PosthogObserver(), // PostHog screen tracking observer
+  ],
   initialLocation: RouteNames.home,
   routes: [
     GoRoute(
       path: RouteNames.home,
-      name: RouteNames.home,
+      name: 'home',
       builder: (context, state) => const MainPage(),
     ),
     GoRoute(
       path: RouteNames.accounts,
-      name: RouteNames.accounts,
+      name: 'accounts',
       builder: (context, state) => const AccountsPage(),
     ),
     GoRoute(
       path: RouteNames.billImport,
-      name: RouteNames.billImport,
+      name: 'bill_import',
       builder: (context, state) => const BillImportPage(),
     ),
     GoRoute(
       path: RouteNames.reviewCenter,
-      name: RouteNames.reviewCenter,
+      name: 'review_center',
       builder: (context, state) => const ReviewCenterPage(),
     ),
     GoRoute(
       path: RouteNames.reviewCenterDetail,
-      name: RouteNames.reviewCenterDetail,
+      name: 'review_center_detail',
       builder: (context, state) {
         final id = state.pathParameters['id'] ?? '';
         return ReviewDetailPage(id: id);
