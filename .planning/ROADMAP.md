@@ -2,7 +2,7 @@
 
 ## Overview
 
-Build a complete Beancount mobile companion app, starting with transaction review, then expanding to bill import, asset tracking, FIRE journey progress, and home dashboard.
+Build a complete Beancount mobile companion app, starting with transaction review, then analytics integration, bill import, asset tracking, FIRE journey progress, and home dashboard.
 
 ## Domain Expertise
 
@@ -17,11 +17,12 @@ None - Flutter mobile development follows standard patterns documented in codeba
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Review Center** - Pending transaction review with confidence indicators
-- [ ] **Phase 2: Bill Import Enhancement** - OCR/NLP expense recognition and parsing
-- [ ] **Phase 3: Assets & Liabilities Dashboard** - Visualization and position tracking
-- [ ] **Phase 4: FIRE Journey Tracker** - Progress tracking and projections
-- [ ] **Phase 5: Settings & Sync** - Account management and offline sync
-- [ ] **Phase 6: Home Dashboard** - Summary widgets and quick actions
+- [ ] **Phase 2: Analytics Integration** - PostHog analytics for data monitoring and optimization
+- [ ] **Phase 3: Bill Import Enhancement** - OCR/NLP expense recognition and parsing
+- [ ] **Phase 4: Assets & Liabilities Dashboard** - Visualization and position tracking
+- [ ] **Phase 5: FIRE Journey Tracker** - Progress tracking and projections
+- [ ] **Phase 6: Settings & Sync** - Account management and offline sync
+- [ ] **Phase 7: Home Dashboard** - Summary widgets and quick actions
 
 ## Phase Details
 
@@ -37,7 +38,19 @@ Plans:
 - [x] 01-03: List page with 4 tabs and infinite scroll
 - [x] 01-04: Detail page with edit form and i18n
 
-### Phase 2: Bill Import Enhancement
+### Phase 2: Analytics Integration
+**Goal**: Integrate PostHog analytics for user behavior tracking, screen view analytics, feature flags, and data-driven optimization
+**Depends on**: Nothing (infrastructure layer)
+**Research**: Unlikely (well-documented PostHog Flutter SDK)
+**Research topics**: PostHog Flutter SDK, go_router observer pattern, event taxonomy
+**Plans**: 3 plans
+
+Plans:
+- [ ] 02-01: PostHog SDK setup and initialization
+- [ ] 02-02: Screen tracking and user identification
+- [ ] 02-03: Event capture for key user actions
+
+### Phase 3: Bill Import Enhancement
 **Goal**: Enhanced bill import with OCR/NLP recognition, better parsing, and expense categorization
 **Depends on**: Phase 1 (transaction patterns)
 **Research**: Likely (OCR/NLP integration, receipt parsing APIs)
@@ -45,11 +58,11 @@ Plans:
 **Plans**: TBD
 
 Plans:
-- [ ] 02-01: OCR/receipt scanning integration
-- [ ] 02-02: NLP expense categorization enhancement
-- [ ] 02-03: Bill import workflow improvements
+- [ ] 03-01: OCR/receipt scanning integration
+- [ ] 03-02: NLP expense categorization enhancement
+- [ ] 03-03: Bill import workflow improvements
 
-### Phase 3: Assets & Liabilities Dashboard
+### Phase 4: Assets & Liabilities Dashboard
 **Goal**: Visual dashboard for tracking assets, liabilities, and net worth over time
 **Depends on**: Phase 1 (data patterns)
 **Research**: Likely (charting library optimization, data aggregation patterns)
@@ -57,43 +70,43 @@ Plans:
 **Plans**: TBD
 
 Plans:
-- [ ] 03-01: Assets data layer and aggregation
-- [ ] 03-02: Liabilities tracking implementation
-- [ ] 03-03: Dashboard visualization with charts
+- [ ] 04-01: Assets data layer and aggregation
+- [ ] 04-02: Liabilities tracking implementation
+- [ ] 04-03: Dashboard visualization with charts
 
-### Phase 4: FIRE Journey Tracker
+### Phase 5: FIRE Journey Tracker
 **Goal**: Track progress toward financial independence with projections and goal setting
-**Depends on**: Phase 3 (asset/liability data)
+**Depends on**: Phase 4 (asset/liability data)
 **Research**: Likely (FIRE calculation algorithms, projection models)
 **Research topics**: FIRE number calculation, safe withdrawal rate models, projection visualizations
 **Plans**: TBD
 
 Plans:
-- [ ] 04-01: FIRE calculation engine
-- [ ] 04-02: Progress tracking and milestones
-- [ ] 04-03: Projection visualizations
+- [ ] 05-01: FIRE calculation engine
+- [ ] 05-02: Progress tracking and milestones
+- [ ] 05-03: Projection visualizations
 
-### Phase 5: Settings & Sync
+### Phase 6: Settings & Sync
 **Goal**: Complete settings page with account management, preferences, and offline sync
 **Depends on**: Phase 1 (auth patterns)
 **Research**: Unlikely (internal patterns, existing auth flow)
 **Plans**: TBD
 
 Plans:
-- [ ] 05-01: Settings page implementation
-- [ ] 05-02: Account management and sync
-- [ ] 05-03: Offline mode and conflict resolution
+- [ ] 06-01: Settings page implementation
+- [ ] 06-02: Account management and sync
+- [ ] 06-03: Offline mode and conflict resolution
 
-### Phase 6: Home Dashboard
+### Phase 7: Home Dashboard
 **Goal**: Summary dashboard with quick actions, insights, and navigation shortcuts
-**Depends on**: Phases 1-4 (all feature data)
+**Depends on**: Phases 1-5 (all feature data)
 **Research**: Unlikely (internal patterns)
 **Plans**: TBD
 
 Plans:
-- [ ] 06-01: Dashboard layout and summary widgets
-- [ ] 06-02: Quick actions and shortcuts
-- [ ] 06-03: Insights and recommendations
+- [ ] 07-01: Dashboard layout and summary widgets
+- [ ] 07-02: Quick actions and shortcuts
+- [ ] 07-03: Insights and recommendations
 
 ## Progress
 
@@ -103,8 +116,9 @@ Phases execute in numeric order: 1 → 2 → 2.1 → 2.2 → 3 → 3.1 → 4
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Review Center | 4/4 | Complete | 2026-02-26 |
-| 2. Bill Import | 0/3 | Not started | - |
-| 3. Assets Dashboard | 0/3 | Not started | - |
-| 4. FIRE Journey | 0/3 | Not started | - |
-| 5. Settings & Sync | 0/3 | Not started | - |
-| 6. Home Dashboard | 0/3 | Not started | - |
+| 2. Analytics Integration | 0/3 | Not started | - |
+| 3. Bill Import | 0/3 | Not started | - |
+| 4. Assets Dashboard | 0/3 | Not started | - |
+| 5. FIRE Journey | 0/3 | Not started | - |
+| 6. Settings & Sync | 0/3 | Not started | - |
+| 7. Home Dashboard | 0/3 | Not started | - |

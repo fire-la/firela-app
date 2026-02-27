@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-02-27)
 
 **Core value:** Beancount account management for mobile with data sovereignty
-**Current focus:** Phase 2 — Bill Import Enhancement
+**Current focus:** Phase 2 — Analytics Integration (PostHog)
 
 ## Current Position
 
-Phase: 2 of 6 (Bill Import Enhancement)
+Phase: 2 of 7 (Analytics Integration)
 Plan: Not started
 Status: Ready to plan
-Last activity: 2026-02-27 — Roadmap created, Phase 1 marked complete
+Last activity: 2026-02-27 — Inserted PostHog Analytics phase as new Phase 2
 
-Progress: ████░░░░░░ 17%
+Progress: ████░░░░░░ 14%
 
 ## Performance Metrics
 
@@ -44,6 +44,7 @@ Recent decisions affecting current work:
 - [Phase 01]: Delete requires confirmation dialog
 - [Phase 01]: Toast feedback for all actions
 - [Phase 01]: Pre-fill form with transaction data on load
+- [Phase 02]: Using PostHog for analytics (open-source, self-hostable, Flutter SDK support)
 
 ### Deferred Issues
 
@@ -56,5 +57,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-27
-Stopped at: Roadmap created, ready to plan Phase 2
+Stopped at: PostHog Analytics phase inserted, ready to plan
 Resume file: None
