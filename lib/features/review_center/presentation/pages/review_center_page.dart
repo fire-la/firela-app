@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:signals_flutter/signals_flutter.dart';
+import '../../../../core/services/analytics_service.dart';
+import '../../../../core/services/analytics_events.dart';
 import '../../domain/models/confidence_level.dart';
 import '../providers/use_review_center.dart';
 import '../widgets/pending_transaction_card.dart';
@@ -31,6 +33,12 @@ class ReviewCenterPage extends HookWidget {
         final index = tabController.index;
         if (index >= 0 && index < tabs.length) {
           state.changeTab(tabs[index].$1);
+          // Track tab switch
+          final tabNames = ['all', 'high', 'medium', 'low'];
+          AnalyticsService().trackReviewCenter(
+            eventType: AnalyticsEvents.reviewTabSwitched,
+            tabName: tabNames[index],
+          );
         }
       }
 
@@ -92,6 +100,11 @@ class ReviewCenterPage extends HookWidget {
       final success = await state.confirmTransaction(id);
       if (success) {
         showToast('已保留该交易');
+        // Track transaction approved
+        AnalyticsService().trackReviewCenter(
+          eventType: AnalyticsEvents.reviewTransactionApproved,
+          transactionId: id,
+        );
       } else {
         showToast('操作失败，请重试', isError: true);
       }
@@ -105,6 +118,11 @@ class ReviewCenterPage extends HookWidget {
       final success = await state.deleteTransaction(id);
       if (success) {
         showToast('已删除该交易');
+        // Track transaction rejected
+        AnalyticsService().trackReviewCenter(
+          eventType: AnalyticsEvents.reviewTransactionRejected,
+          transactionId: id,
+        );
       } else {
         showToast('删除失败，请重试', isError: true);
       }

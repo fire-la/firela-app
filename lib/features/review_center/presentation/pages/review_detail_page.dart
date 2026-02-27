@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import '../../../../core/services/analytics_service.dart';
+import '../../../../core/services/analytics_events.dart';
 import '../../domain/entities/pending_transaction.dart';
 import '../../data/repositories/review_center_repository.dart';
 import '../widgets/confidence_indicator.dart';
@@ -105,6 +107,12 @@ class ReviewDetailPage extends HookWidget {
       try {
         await ReviewCenterRepository.instance.deleteTransaction(id);
         await fetchPendingCount();
+        // Track transaction rejected
+        AnalyticsService().trackReviewCenter(
+          eventType: AnalyticsEvents.reviewTransactionRejected,
+          transactionId: id,
+          confidenceLevel: transaction.value?.confidenceLevel.name,
+        );
         showToast('已删除');
         if (context.mounted) context.pop(true);
       } catch (e) {
@@ -144,6 +152,18 @@ class ReviewDetailPage extends HookWidget {
           'transaction_time': selectedDate.value.toIso8601String(),
           'notes': notesController.text,
         });
+
+        // Track transaction edited and approved
+        AnalyticsService().trackReviewCenter(
+          eventType: AnalyticsEvents.reviewTransactionEdited,
+          transactionId: id,
+          confidenceLevel: original?.confidenceLevel.name,
+        );
+        AnalyticsService().trackReviewCenter(
+          eventType: AnalyticsEvents.reviewTransactionApproved,
+          transactionId: id,
+          confidenceLevel: original?.confidenceLevel.name,
+        );
 
         showToast('保存成功');
         if (context.mounted) context.pop(true);
