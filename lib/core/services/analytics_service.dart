@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:posthog_flutter/posthog_flutter.dart';
+import 'analytics_events.dart';
 
 /// Centralized analytics service using PostHog
 ///
@@ -82,6 +83,64 @@ class AnalyticsService {
   /// Reset the current user (e.g., on logout)
   Future<void> reset() async {
     await Posthog().reset();
+  }
+
+  /// Track bill import event
+  Future<void> trackBillImport({
+    required String eventType,
+    String? fileType,
+    int? fileSize,
+    int? recordCount,
+    bool? success,
+    String? errorMessage,
+  }) async {
+    await capture(
+      eventType,
+      properties: {
+        if (fileType != null) AnalyticsProps.fileType: fileType,
+        if (fileSize != null) AnalyticsProps.fileSize: fileSize,
+        if (recordCount != null) AnalyticsProps.recordCount: recordCount,
+        if (success != null) AnalyticsProps.success: success,
+        if (errorMessage != null) AnalyticsProps.errorMessage: errorMessage,
+      },
+    );
+  }
+
+  /// Track review center event
+  Future<void> trackReviewCenter({
+    required String eventType,
+    String? tabName,
+    String? confidenceLevel,
+    String? transactionId,
+  }) async {
+    await capture(
+      eventType,
+      properties: {
+        if (tabName != null) AnalyticsProps.tabName: tabName,
+        if (confidenceLevel != null)
+          AnalyticsProps.confidenceLevel: confidenceLevel,
+        if (transactionId != null) AnalyticsProps.transactionId: transactionId,
+      },
+    );
+  }
+
+  /// Track expense event
+  Future<void> trackExpense({
+    required String eventType,
+    double? amount,
+    String? currency,
+    String? category,
+    bool? hasPhoto,
+  }) async {
+    await capture(
+      eventType,
+      properties: {
+        if (amount != null) AnalyticsProps.amount: amount,
+        if (currency != null) AnalyticsProps.currency: currency,
+        if (category != null) AnalyticsProps.category: category,
+        if (hasPhoto != null) AnalyticsProps.hasPhoto: hasPhoto,
+      },
+    );
   }
 
   /// Get platform name
