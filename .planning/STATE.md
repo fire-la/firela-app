@@ -10,16 +10,16 @@ See: .planning/PROJECT.md (updated 2026-02-27)
 ## Current Position
 
 Phase: 2.2 of 9 (API Path & Region Routing Update) - INSERTED
-Plan: 02.2-01 not yet created (0/2 plans)
-Status: Phase 2.2 inserted, ready for planning
-Last activity: 2026-03-02 — Inserted Phase 2.2 for API path updates
+Plan: 02.2-02 of 2 (Feature Datasource Updates)
+Status: Plan 01 complete, ready for Plan 02
+Last activity: 2026-03-02 — Completed 02.2-01: Region-Aware API Infrastructure
 
-Progress: ████████░░ 32%
+Progress: █████████░ 36%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 8
+- Total plans completed: 9
 - Average duration: ~13 min
 - Total execution time: ~2 hours
 - Total plans planned: 14 (2 in Phase 2.2, 3 in Phase 3, more in later phases)
@@ -31,6 +31,7 @@ Progress: ████████░░ 32%
 | 1. Review Center | 4 | ~60 min | ~15 min |
 | 2. Analytics Integration | 3 | ~28 min | ~9 min |
 | 2.1. Automated Testing | 1 | ~15 min | ~15 min |
+| 2.2. API Path & Region | 1/2 | ~10 min | ~10 min |
 
 **Recent Trend:**
 - Last 5 plans: 8min, 10min, 10min, 10min, 15min
@@ -55,11 +56,15 @@ Recent decisions affecting current work:
 - [Phase 02.1]: Use patrol for enhanced UI testing DSL
 - [Phase 02.1]: Use Page Object Model pattern for test organization
 - [Phase 02.1]: Separate daily and PR workflows for CI/CD
+- [Phase 02.2-01]: Use signal pattern for region state management
+- [Phase 02.2-01]: Inject region prefix automatically in ApiClient._buildUrl()
+- [Phase 02.2-01]: Default region is 'cn'
+- [Phase 02.2-01]: baseUrl includes /api prefix (https://api-s.firela.io/api)
 
 ### Roadmap Evolution
 
 - Phase 2.1 inserted after Phase 2: Automated Testing Infrastructure (URGENT) - COMPLETE
-- Phase 2.2 inserted after Phase 2.1: API Path & Region Routing Update (URGENT)
+- Phase 2.2 inserted after Phase 2.1: API Path & Region Routing Update (URGENT) - IN PROGRESS
 
 ### Deferred Issues
 
@@ -72,5 +77,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-03-02
-Stopped at: Phase 2.2 inserted for API path and region routing updates
+Stopped at: Phase 2.2 Plan 01 complete, ready for Plan 02
 Resume file: None

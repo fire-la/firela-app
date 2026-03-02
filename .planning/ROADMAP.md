@@ -65,7 +65,7 @@ Plans:
 - Add region selection UI (settings)
 
 Plans:
-- [ ] 02.2-01: Update API paths and add region routing infrastructure
+- [x] 02.2-01: Update API paths and add region routing infrastructure
 - [ ] 02.2-02: Update feature datasources with correct endpoints
 
 ### Phase 3: Bill Import Enhancement
@@ -136,7 +136,7 @@ Phases execute in numeric order: 1 → 2 → 2.1 → 2.2 → 3 → 3.1 → 4
 | 1. Review Center | 4/4 | Complete | 2026-02-26 |
 | 2. Analytics Integration | 3/3 | Complete | 2026-02-27 |
 | 2.1. Automated Testing | 1/1 | Complete | 2026-03-02 |
-| 2.2. API Path & Region | 0/2 | Planned | - |
+| 2.2. API Path & Region | 1/2 | In Progress | 2026-03-02 |
 | 3. Bill Import | 0/3 | Planned | - |
 | 4. Assets Dashboard | 0/3 | Not started | - |
 | 5. FIRE Journey | 0/3 | Not started | - |
