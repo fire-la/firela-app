@@ -4,13 +4,14 @@ import '../../domain/models/confidence_level.dart';
 import '../models/pending_transaction_model.dart';
 
 /// Remote datasource for Review Center API calls
+/// Endpoints: /bean/review-center (region-scoped, ApiClient adds /v1/{region} prefix)
 class ReviewCenterRemoteDatasource {
   ReviewCenterRemoteDatasource._();
   static final ReviewCenterRemoteDatasource instance = ReviewCenterRemoteDatasource._();
 
-  // TODO: Confirm actual endpoint paths from API documentation
-  // https://api-s.firela.io/api/docs#/
-  static const String _basePath = '/v1/bean/pending-transactions';
+  /// Base path for Review Center endpoints
+  /// ApiClient._buildUrl() will construct: /api/v1/{region}/bean/review-center
+  static const String _basePath = '/bean/review-center';
 
   /// Get paginated list of pending transactions
   /// If [level] is null, returns all transactions (for "全部" tab)
@@ -50,14 +51,33 @@ class ReviewCenterRemoteDatasource {
     }
   }
 
+  /// Accept a pending transaction (records it as a regular transaction)
+  /// Alias for confirmTransaction for semantic clarity
+  Future<dynamic> acceptTransaction(String id) async {
+    return confirmTransaction(id);
+  }
+
   /// Confirm a pending transaction (records it as a regular transaction)
+  /// Uses POST /bean/review-center/:id/accept
   Future<dynamic> confirmTransaction(String id) async {
-    logger.i('[ReviewCenter] Confirming transaction: $id');
+    logger.i('[ReviewCenter] Confirming (accepting) transaction: $id');
 
     try {
-      return await ApiClient.instance.post('$_basePath/$id/confirm');
+      return await ApiClient.instance.post('$_basePath/$id/accept');
     } catch (e) {
       logger.e('[ReviewCenter] Failed to confirm transaction: $e');
+      rethrow;
+    }
+  }
+
+  /// Reject a pending transaction
+  Future<dynamic> rejectTransaction(String id) async {
+    logger.i('[ReviewCenter] Rejecting transaction: $id');
+
+    try {
+      return await ApiClient.instance.post('$_basePath/$id/reject');
+    } catch (e) {
+      logger.e('[ReviewCenter] Failed to reject transaction: $e');
       rethrow;
     }
   }
