@@ -65,10 +65,6 @@ class ApiConstants {
   /// 导入器配置
   static const String importerConfigEndpoint = '/bean/import/config';
 
-  // ============ Review Center 审核中心 (地域前缀端点) ============
-  /// 审核中心待审核项
-  static const String reviewCenterEndpoint = '/bean/review-center';
-
   // ============ Dashboard 仪表盘端点 ============
   /// 净资产概览 GET
   static const String netWorthEndpoint = '/dashboard/net-worth';

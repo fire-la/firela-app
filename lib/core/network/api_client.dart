@@ -174,7 +174,12 @@ class ApiClient {
     final encodedBody = body != null ? jsonEncode(body) : null;
 
     logger.i('[ApiClient] $method $uri');
-    logger.d('[ApiClient] 请求头: $headers');
+    // Redact sensitive headers before logging
+    final sanitizedHeaders = Map<String, String>.from(headers);
+    if (sanitizedHeaders.containsKey('Authorization')) {
+      sanitizedHeaders['Authorization'] = 'Bearer ***';
+    }
+    logger.d('[ApiClient] 请求头: $sanitizedHeaders');
     if (encodedBody != null) {
       logger.d('[ApiClient] 请求体: $encodedBody');
     }
