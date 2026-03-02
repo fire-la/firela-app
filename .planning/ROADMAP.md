@@ -18,6 +18,8 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Review Center** - Pending transaction review with confidence indicators
 - [x] **Phase 2: Analytics Integration** - PostHog analytics for data monitoring and optimization
+- [x] **Phase 2.1: Automated Testing Infrastructure** (INSERTED) - Integration tests, CI/CD, daily runs, report generation
+- [ ] **Phase 2.2: API Path & Region Routing Update** (INSERTED) - Update API paths per latest docs, add region routing support
 - [ ] **Phase 3: Bill Import Enhancement** - OCR/NLP expense recognition and parsing
 - [ ] **Phase 4: Assets & Liabilities Dashboard** - Visualization and position tracking
 - [ ] **Phase 5: FIRE Journey Tracker** - Progress tracking and projections
@@ -49,6 +51,22 @@ Plans:
 - [x] 02-01: PostHog SDK setup and initialization
 - [x] 02-02: Screen tracking and user identification
 - [x] 02-03: Event capture for key user actions
+
+### Phase 2.2: API Path & Region Routing Update (INSERTED)
+**Goal**: Update API paths according to latest API documentation and implement region-aware routing
+**Depends on**: Phase 2 (infrastructure)
+**Research**: Unlikely (clear documentation available)
+**Plans**: 1-2 plans (PLANNED)
+
+**Key Changes:**
+- Review Center: `/v1/bean/pending-transactions` → `/api/v1/{region}/bean/review-center`
+- Add region routing support (cn, us, eu-core, de)
+- Update ApiClient to inject region prefix for Bean module endpoints
+- Add region selection UI (settings)
+
+Plans:
+- [ ] 02.2-01: Update API paths and add region routing infrastructure
+- [ ] 02.2-02: Update feature datasources with correct endpoints
 
 ### Phase 3: Bill Import Enhancement
 **Goal**: Enhanced bill import with OCR/NLP recognition, better parsing, and expense categorization
@@ -117,6 +135,8 @@ Phases execute in numeric order: 1 → 2 → 2.1 → 2.2 → 3 → 3.1 → 4
 |-------|----------------|--------|-----------|
 | 1. Review Center | 4/4 | Complete | 2026-02-26 |
 | 2. Analytics Integration | 3/3 | Complete | 2026-02-27 |
+| 2.1. Automated Testing | 1/1 | Complete | 2026-03-02 |
+| 2.2. API Path & Region | 0/2 | Planned | - |
 | 3. Bill Import | 0/3 | Planned | - |
 | 4. Assets Dashboard | 0/3 | Not started | - |
 | 5. FIRE Journey | 0/3 | Not started | - |
