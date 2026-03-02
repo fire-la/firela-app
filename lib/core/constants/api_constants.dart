@@ -29,14 +29,17 @@ class ApiConstants {
   static const Duration tokenExpireDuration = Duration(days: 180);
 
   // ============ Auth 认证相关端点 (全局端点，无需地域前缀) ============
+  // 注意: AuthManager 直接构建 URL (不通过 ApiClient._buildUrl)，
+  // 所以这些端点需要包含 /v1 前缀
+
   /// 创建新用户 POST
-  static const String createUserEndpoint = '/users';
+  static const String createUserEndpoint = '/v1/users';
 
   /// 匿名登录（使用 accessToken） POST
-  static const String anonymousLoginEndpoint = '/auth/sessions/anonymous';
+  static const String anonymousLoginEndpoint = '/v1/auth/sessions/anonymous';
 
   /// 获取用户信息 GET
-  static const String userInfoEndpoint = '/users';
+  static const String userInfoEndpoint = '/v1/users';
 
   // ============ NLP 自然语言记账端点 (地域前缀端点) ============
   /// NLP 处理 POST
