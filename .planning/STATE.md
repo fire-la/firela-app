@@ -5,24 +5,24 @@
 See: .planning/PROJECT.md (updated 2026-02-27)
 
 **Core value:** Beancount account management for mobile with data sovereignty
-**Current focus:** Phase 2.2 — API Path & Region Routing Update (INSERTED)
+**Current focus:** Phase 3 — Bill Import Enhancement
 
 ## Current Position
 
-Phase: 2.2 of 9 (API Path & Region Routing Update) - INSERTED
-Plan: 02.2-02 of 2 (Feature Datasource Updates)
-Status: Plan 01 complete, ready for Plan 02
-Last activity: 2026-03-02 — Completed 02.2-01: Region-Aware API Infrastructure
+Phase: 3 of 9 (Bill Import Enhancement)
+Plan: Not started (0/3 plans)
+Status: Phase 2.2 complete, ready for Phase 3 planning
+Last activity: 2026-03-02 — Completed Phase 2.2: API Path & Region Routing Update
 
-Progress: █████████░ 36%
+Progress: ██████████ 40%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 9
+- Total plans completed: 10
 - Average duration: ~13 min
-- Total execution time: ~2 hours
-- Total plans planned: 14 (2 in Phase 2.2, 3 in Phase 3, more in later phases)
+- Total execution time: ~2.5 hours
+- Total plans planned: 14 (3 in Phase 3, more in later phases)
 
 **By Phase:**
 
@@ -31,10 +31,10 @@ Progress: █████████░ 36%
 | 1. Review Center | 4 | ~60 min | ~15 min |
 | 2. Analytics Integration | 3 | ~28 min | ~9 min |
 | 2.1. Automated Testing | 1 | ~15 min | ~15 min |
-| 2.2. API Path & Region | 1/2 | ~10 min | ~10 min |
+| 2.2. API Path & Region | 2 | ~20 min | ~10 min |
 
 **Recent Trend:**
-- Last 5 plans: 8min, 10min, 10min, 10min, 15min
+- Last 5 plans: 10min, 10min, 10min, 10min, 10min
 - Trend: Stable
 
 ## Accumulated Context
@@ -60,11 +60,13 @@ Recent decisions affecting current work:
 - [Phase 02.2-01]: Inject region prefix automatically in ApiClient._buildUrl()
 - [Phase 02.2-01]: Default region is 'cn'
 - [Phase 02.2-01]: baseUrl includes /api prefix (https://api-s.firela.io/api)
+- [Phase 02.2-02]: Keep confirmTransaction method name for backward compatibility
+- [Phase 02.2-02]: Auth endpoints keep /v1 prefix (AuthManager bypasses _buildUrl)
 
 ### Roadmap Evolution
 
 - Phase 2.1 inserted after Phase 2: Automated Testing Infrastructure (URGENT) - COMPLETE
-- Phase 2.2 inserted after Phase 2.1: API Path & Region Routing Update (URGENT) - IN PROGRESS
+- Phase 2.2 inserted after Phase 2.1: API Path & Region Routing Update (URGENT) - COMPLETE
 
 ### Deferred Issues
 
@@ -77,5 +79,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-03-02
-Stopped at: Phase 2.2 Plan 01 complete, ready for Plan 02
+Stopped at: Phase 2.2 complete, ready for Phase 3
 Resume file: None
