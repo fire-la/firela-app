@@ -1,0 +1,20 @@
+# OpenAPI Generator Configuration
+targets:
+  $default:
+    builders:
+      openapi_generator:
+        options:
+          # Input OpenAPI spec file
+          input_spec:
+            path: openapi.yaml
+            url: https://raw.githubusercontent.com/fire-la/api-specs/main/openapi.yaml
+
+          # Output configuration
+          output_path: lib/api/generated
+
+          # Generator options
+          generator_name: dart-dio
+          additional_properties:
+            nullableFields: true
+            useEnumExtension: true
+            enumUnknownDefaultCase: true
