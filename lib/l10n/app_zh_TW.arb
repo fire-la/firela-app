@@ -166,5 +166,16 @@
   "yearsToFireValue": "距離 FIRE {years} 年",
   "projectionYearValue": "第 {years} 年",
   "baselineScenario": "基準",
-  "aggressiveScenario": "進取"
+  "aggressiveScenario": "進取",
+
+  "scenarioModeling": "情景模擬",
+  "reset": "重置",
+  "monthlySavings": "月儲蓄額",
+  "adjustedSavingsValue": "調整後: {amount}",
+  "expectedReturn": "預期收益率",
+  "returnRateDescription": "年化投資收益率",
+  "retirementSpending": "退休開支",
+  "retirementSpendingDescription": "佔當前開支的比例",
+  "scenarioImpactPositive": "調整這些設置可以查看如何加快你的 FIRE 進程。",
+  "scenarioImpactNeutral": "修改上方的滑塊來查看變化如何影響你的 FIRE 時間線。"
 }

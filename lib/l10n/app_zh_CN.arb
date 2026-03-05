@@ -165,5 +165,16 @@
   "yearsToFireValue": "距离 FIRE {years} 年",
   "projectionYearValue": "第 {years} 年",
   "baselineScenario": "基准",
-  "aggressiveScenario": "激进"
+  "aggressiveScenario": "激进",
+
+  "scenarioModeling": "情景模拟",
+  "reset": "重置",
+  "monthlySavings": "月储蓄额",
+  "adjustedSavingsValue": "调整后: {amount}",
+  "expectedReturn": "预期收益率",
+  "returnRateDescription": "年化投资收益率",
+  "retirementSpending": "退休开支",
+  "retirementSpendingDescription": "占当前开支的比例",
+  "scenarioImpactPositive": "调整这些设置可以查看如何加快你的 FIRE 进程。",
+  "scenarioImpactNeutral": "修改上方的滑块来查看变化如何影响你的 FIRE 时间线。"
 }

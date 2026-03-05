@@ -1019,5 +1019,60 @@
   "aggressiveScenario": "Aggressive",
   "@aggressiveScenario": {
     "description": "Aggressive scenario name"
+  },
+
+  "scenarioModeling": "Scenario Modeling",
+  "@scenarioModeling": {
+    "description": "Title for scenario modeling section"
+  },
+
+  "reset": "Reset",
+  "@reset": {
+    "description": "Reset button"
+  },
+
+  "monthlySavings": "Monthly Savings",
+  "@monthlySavings": {
+    "description": "Monthly savings label"
+  },
+
+  "adjustedSavingsValue": "Adjusted: {amount}",
+  "@adjustedSavingsValue": {
+    "description": "Adjusted savings value display",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+
+  "expectedReturn": "Expected Return",
+  "@expectedReturn": {
+    "description": "Expected return rate label"
+  },
+
+  "returnRateDescription": "Annual investment return rate",
+  "@returnRateDescription": {
+    "description": "Description for return rate"
+  },
+
+  "retirementSpending": "Retirement Spending",
+  "@retirementSpending": {
+    "description": "Retirement spending level"
+  },
+
+  "retirementSpendingDescription": "As percentage of current expenses",
+  "@retirementSpendingDescription": {
+    "description": "Description for retirement spending"
+  },
+
+  "scenarioImpactPositive": "Adjusting these settings shows how you can accelerate your FIRE timeline.",
+  "@scenarioImpactPositive": {
+    "description": "Positive scenario impact message"
+  },
+
+  "scenarioImpactNeutral": "Modify the sliders above to see how changes affect your FIRE timeline.",
+  "@scenarioImpactNeutral": {
+    "description": "Neutral scenario impact message"
   }
 }

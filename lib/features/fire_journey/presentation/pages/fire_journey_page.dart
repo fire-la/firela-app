@@ -9,6 +9,7 @@ import '../widgets/milestone_badge.dart';
 import '../widgets/shimmer_loading.dart';
 import '../widgets/animated_number.dart';
 import '../widgets/fire_projection_chart.dart';
+import '../widgets/scenario_selector.dart';
 
 /// FIRE Journey page showing progress and milestones
 class FireJourneyPage extends HookWidget {
@@ -211,22 +212,33 @@ class FireJourneyPage extends HookWidget {
   ) {
     final theme = Theme.of(context);
 
-    // Build projection scenarios
+    // Scenario state
+    final scenarioModel = useState(const ScenarioModel(
+      monthlySavingsDelta: 0,
+      expectedReturn: 0.07,
+      retirementSpendingRate: 1.0,
+    ));
+
+    // Build projection scenarios based on current settings
     final currentNetWorth = fireProgress.progress?.currentNetWorth ?? 0;
-    final monthlySavings = fireProgress.progress?.monthlySavings ?? 0;
+    final baseMonthlySavings = fireProgress.progress?.monthlySavings ?? 0;
     final fireNumber = fireProgress.goal?.targetAmount ?? 0;
+
+    // Calculate adjusted savings and return based on scenario
+    final adjustedSavings = baseMonthlySavings * (1 + scenarioModel.value.monthlySavingsDelta);
+    final adjustedReturn = scenarioModel.value.expectedReturn;
 
     final scenarios = [
       ProjectionScenario(
         name: l10n.baselineScenario,
-        monthlySavings: monthlySavings,
+        monthlySavings: baseMonthlySavings,
         annualReturn: 0.07, // 7% default
         color: Colors.black,
       ),
       ProjectionScenario(
         name: l10n.aggressiveScenario,
-        monthlySavings: monthlySavings * 1.2, // 20% more savings
-        annualReturn: 0.10, // 10% return
+        monthlySavings: adjustedSavings,
+        annualReturn: adjustedReturn,
         color: Colors.green,
       ),
     ];
@@ -259,6 +271,17 @@ class FireJourneyPage extends HookWidget {
               scenarios: scenarios,
               targetYears: fireProgress.progress?.yearsToFire,
               isLoading: false,
+            ),
+
+            const SizedBox(height: 16),
+
+            // Scenario Modeling Controls
+            ScenarioSelector(
+              baseMonthlySavings: baseMonthlySavings,
+              baseAnnualReturn: 0.07,
+              onScenarioChanged: (model) {
+                scenarioModel.value = model;
+              },
             ),
 
             const SizedBox(height: 16),
