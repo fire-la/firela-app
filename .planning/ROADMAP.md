@@ -1,37 +1,17 @@
 # Roadmap: FIREla
 
-## Overview
+## Milestones
 
-Build a complete Beancount mobile companion app, starting with transaction review, then analytics integration, bill import, asset tracking, FIRE journey progress, and home dashboard.
-
-## Domain Expertise
-
-None - Flutter mobile development follows standard patterns documented in codebase analysis.
+- ✅ **v1.0 MVP** — Phases 1-7 (shipped 2026-03-06)
+- 📋 **v1.1 Polish** — Phases 8+ (planned)
 
 ## Phases
 
-**Phase Numbering:**
-- Integer phases (1, 2, 3): Planned milestone work
-- Decimal phases (2.1, 2.2): Urgent insertions (marked with INSERTED)
-
-Decimal phases appear between their surrounding integers in numeric order.
-
-- [x] **Phase 1: Review Center** - Pending transaction review with confidence indicators
-- [x] **Phase 2: Analytics Integration** - PostHog analytics for data monitoring and optimization
-- [x] **Phase 2.1: Automated Testing Infrastructure** (INSERTED) - Integration tests, CI/CD, daily runs, report generation
-- [x] **Phase 2.2: API Path & Region Routing Update** (INSERTED) - Update API paths per latest docs, add region routing support
-- [ ] **Phase 3: Bill Import Enhancement** - OCR/NLP expense recognition and parsing
-- [ ] **Phase 4: Assets & Liabilities Dashboard** - Visualization and position tracking
-- [ ] **Phase 5: FIRE Journey Tracker** - Progress tracking and projections
-- [ ] **Phase 6: Settings & Sync** - Account management and offline sync
-- [ ] **Phase 7: Home Dashboard** - Summary widgets and quick actions
-
-## Phase Details
+<details>
+<summary>✅ v1.0 MVP (Phases 1-7) — SHIPPED 2026-03-06</summary>
 
 ### Phase 1: Review Center ✅
 **Goal**: Complete pending transaction review system with confidence indicators
-**Depends on**: Nothing (first phase)
-**Research**: Unlikely (established patterns)
 **Plans**: 4 plans (COMPLETE)
 
 Plans:
@@ -41,10 +21,7 @@ Plans:
 - [x] 01-04: Detail page with edit form and i18n
 
 ### Phase 2: Analytics Integration ✅
-**Goal**: Integrate PostHog analytics for user behavior tracking, screen view analytics, feature flags, and data-driven optimization
-**Depends on**: Nothing (infrastructure layer)
-**Research**: Unlikely (well-documented PostHog Flutter SDK)
-**Research topics**: PostHog Flutter SDK, go_router observer pattern, event taxonomy
+**Goal**: Integrate PostHog analytics
 **Plans**: 3 plans (COMPLETE)
 
 Plans:
@@ -52,39 +29,32 @@ Plans:
 - [x] 02-02: Screen tracking and user identification
 - [x] 02-03: Event capture for key user actions
 
-### Phase 2.2: API Path & Region Routing Update (INSERTED)
-**Goal**: Update API paths according to latest API documentation and implement region-aware routing
-**Depends on**: Phase 2 (infrastructure)
-**Research**: Unlikely (clear documentation available)
-**Plans**: 1-2 plans (PLANNED)
-
-**Key Changes:**
-- Review Center: `/v1/bean/pending-transactions` → `/api/v1/{region}/bean/review-center`
-- Add region routing support (cn, us, eu-core, de)
-- Update ApiClient to inject region prefix for Bean module endpoints
-- Add region selection UI (settings)
+### Phase 2.1: Automated Testing ✅
+**Goal**: Integration tests with CI/CD
+**Plans**: 1 plan (COMPLETE)
 
 Plans:
-- [x] 02.2-01: Update API paths and add region routing infrastructure
-- [x] 02.2-02: Update feature datasources with correct endpoints
+- [x] 02.1-01: Patrol integration tests with CI/CD
+
+### Phase 2.2: API Path & Region ✅
+**Goal**: Update API paths and add region routing
+**Plans**: 2 plans (COMPLETE)
+
+Plans:
+- [x] 02.2-01: Update API paths and add region routing
+- [x] 02.2-02: Update feature datasources with endpoints
 
 ### Phase 3: Bill Import Enhancement ✅
-**Goal**: Enhanced bill import with OCR/NLP recognition, better parsing, and expense categorization
-**Depends on**: Phase 1 (transaction patterns)
-**Research**: Likely (OCR/NLP integration, receipt parsing APIs)
-**Research topics**: OCR libraries for Flutter, receipt parsing services, NLP expense categorization
+**Goal**: Enhanced bill import with OCR/NLP
 **Plans**: 3 plans (COMPLETE)
 
 Plans:
 - [x] 03-01: OCR/receipt scanning integration
-- [x] 03-02: NLP expense categorization enhancement
+- [x] 03-02: NLP expense categorization
 - [x] 03-03: Bill import workflow improvements
 
-### Phase 4: Assets & Liabilities Dashboard ✅
-**Goal**: Visual dashboard for tracking assets, liabilities, and net worth over time
-**Depends on**: Phase 1 (data patterns)
-**Research**: Likely (charting library optimization, data aggregation patterns)
-**Research topics**: fl_chart advanced usage, time-series data visualization, net worth calculation
+### Phase 4: Assets & Liabilities ✅
+**Goal**: Visual dashboard for tracking financial positions
 **Plans**: 3 plans (COMPLETE)
 
 Plans:
@@ -92,53 +62,62 @@ Plans:
 - [x] 04-02: Liabilities tracking implementation
 - [x] 04-03: Dashboard visualization with charts
 
-### Phase 5: FIRE Journey Tracker
-**Goal**: Track progress toward financial independence with projections and goal setting
-**Depends on**: Phase 4 (asset/liability data)
-**Research**: Likely (FIRE calculation algorithms, projection models)
-**Research topics**: FIRE number calculation, safe withdrawal rate models, projection visualizations
-**Plans**: 3 plans (IN PROGRESS)
+### Phase 5: FIRE Journey ✅
+**Goal**: Track progress toward financial independence
+**Plans**: 3 plans (COMPLETE)
 
 Plans:
 - [x] 05-01: FIRE calculation engine
 - [x] 05-02: Progress tracking and milestones
-- [ ] 05-03: Projection visualizations
+- [x] 05-03: Projection visualizations
 
-### Phase 6: Settings & Sync
-**Goal**: Complete settings page with account management, preferences, and offline sync
-**Depends on**: Phase 1 (auth patterns)
-**Research**: Unlikely (internal patterns, existing auth flow)
-**Plans**: TBD
+### Phase 6: Settings & Sync ✅
+**Goal**: Complete settings page with offline sync
+**Plans**: 3 plans (COMPLETE)
 
 Plans:
-- [ ] 06-01: Settings page implementation
-- [ ] 06-02: Account management and sync
-- [ ] 06-03: Offline mode and conflict resolution
+- [x] 06-01: Settings page implementation
+- [x] 06-02: Account management and sync
+- [x] 06-03: Offline mode and conflict resolution
 
-### Phase 7: Home Dashboard
-**Goal**: Summary dashboard with quick actions, insights, and navigation shortcuts
-**Depends on**: Phases 1-5 (all feature data)
-**Research**: Unlikely (internal patterns)
-**Plans**: TBD
+### Phase 7: Home Dashboard ✅
+**Goal**: Summary dashboard with quick actions
+**Plans**: 3 plans (COMPLETE)
 
 Plans:
-- [ ] 07-01: Dashboard layout and summary widgets
-- [ ] 07-02: Quick actions and shortcuts
-- [ ] 07-03: Insights and recommendations
+- [x] 07-01: Dashboard layout and summary widgets
+- [x] 07-02: Quick actions and shortcuts
+- [x] 07-03: Insights and recommendations
+
+</details>
+
+---
+
+## 📋 v1.1 Polish (Planned)
+
+Future enhancements:
+- Performance optimization
+- Accessibility improvements
+- Additional test coverage
+- User feedback incorporation
 
 ## Progress
 
-**Execution Order:**
-Phases execute in numeric order: 1 → 2 → 2.1 → 2.2 → 3 → 3.1 → 4
+| Phase | Milestone | Plans Complete | Status | Completed |
+|-------|-----------|----------------|--------|-----------|
+| 1. Review Center | v1.0 | 4/4 | Complete | 2026-02-26 |
+| 2. Analytics | v1.0 | 3/3 | Complete | 2026-02-27 |
+| 2.1. Testing | v1.0 | 1/1 | Complete | 2026-03-02 |
+| 2.2. API Region | v1.0 | 2/2 | Complete | 2026-03-02 |
+| 3. Bill Import | v1.0 | 3/3 | Complete | 2026-03-05 |
+| 4. Assets | v1.0 | 3/3 | Complete | 2026-03-05 |
+| 5. FIRE Journey | v1.0 | 3/3 | Complete | 2026-03-05 |
+| 6. Settings | v1.0 | 3/3 | Complete | 2026-03-06 |
+| 7. Home Dashboard | v1.0 | 3/3 | Complete | 2026-03-06 |
 
-| Phase | Plans Complete | Status | Completed |
-|-------|----------------|--------|-----------|
-| 1. Review Center | 4/4 | Complete | 2026-02-26 |
-| 2. Analytics Integration | 3/3 | Complete | 2026-02-27 |
-| 2.1. Automated Testing | 1/1 | Complete | 2026-03-02 |
-| 2.2. API Path & Region | 2/2 | Complete | 2026-03-02 |
-| 3. Bill Import | 3/3 | Complete | 2026-03-05 |
-| 4. Assets Dashboard | 3/3 | Complete | 2026-03-05 |
-| 5. FIRE Journey | 2/3 | In progress | - |
-| 6. Settings & Sync | 0/3 | Not started | - |
-| 7. Home Dashboard | 0/3 | Not started | - |
+**Total: 9 phases, 25 plans, 100% complete**
+
+---
+
+*v1.0 MVP shipped: 2026-03-06*
+*See [milestones/v1.0-mvp.md](milestones/v1.0-mvp.md) for full archive*
