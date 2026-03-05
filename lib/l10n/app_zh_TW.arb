@@ -106,5 +106,13 @@
   "takePhoto": "拍照",
   "chooseFromGallery": "從相簿選擇",
   "scanReceiptTitle": "掃描收據識別",
-  "processingOcr": "正在識別收據..."
+  "processingOcr": "正在識別收據...",
+  "categorizationPreviewTitle": "分類預覽",
+  "items": "條目",
+  "needsReview": "需確認",
+  "confirmImport": "確認導入",
+  "editCategories": "編輯分類",
+  "avgConfidence": "平均置信度",
+  "allHighConfidence": "全部高置信度",
+  "someNeedReview": "部分需確認"
 }

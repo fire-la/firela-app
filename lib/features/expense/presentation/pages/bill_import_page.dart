@@ -10,6 +10,7 @@ import '../../../../core/services/auth_service.dart';
 import '../../../../core/services/analytics_service.dart';
 import '../../../../core/services/analytics_events.dart';
 import '../../../../core/utils/logger.dart';
+import '../widgets/categorization_preview_sheet.dart';
 
 /// Bill import page
 class BillImportPage extends HookWidget {
@@ -23,6 +24,9 @@ class BillImportPage extends HookWidget {
     final isParsing = useState(false);
     final parseProgress = useState(0.0);
     final importResult = useState<Map<String, dynamic>?>(null);
+    final categorizationItems = useState<List<CategorizationItem>>([]);
+    final editedCount = useState(0);
+    final importSource = useState<String>('file'); // 'file' or 'ocr'
 
     return Scaffold(
       appBar: AppBar(
@@ -86,7 +90,7 @@ class BillImportPage extends HookWidget {
             else if (selectedFile.value != null)
               _buildSelectedFileArea(context, l10n, theme, selectedFile)
             else
-              _buildFileUploadArea(context, l10n, theme, selectedFile, isParsing, parseProgress, importResult),
+              _buildFileUploadArea(context, l10n, theme, selectedFile, isParsing, parseProgress, importResult, categorizationItems, editedCount, importSource),
 
             const SizedBox(height: 40),
 
@@ -129,6 +133,9 @@ class BillImportPage extends HookWidget {
     ValueNotifier<bool> isParsing,
     ValueNotifier<double> parseProgress,
     ValueNotifier<Map<String, dynamic>?> importResult,
+    ValueNotifier<List<CategorizationItem>> categorizationItems,
+    ValueNotifier<int> editedCount,
+    ValueNotifier<String> importSource,
   ) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -145,6 +152,9 @@ class BillImportPage extends HookWidget {
                 isParsing,
                 parseProgress,
                 importResult,
+                categorizationItems,
+                editedCount,
+                importSource,
               ),
               icon: const Icon(Icons.camera_alt_outlined),
               label: Text(l10n.scanReceipt),
@@ -203,13 +213,18 @@ class BillImportPage extends HookWidget {
                   fileSize: result.files.single.size,
                 );
                 // 开始上传导入
-                await _startImport(
-                  context,
-                  result.files.single.path!,
-                  isParsing,
-                  parseProgress,
-                  importResult,
-                );
+                if (context.mounted) {
+                  await _startImport(
+                    context,
+                    result.files.single.path!,
+                    isParsing,
+                    parseProgress,
+                    importResult,
+                    categorizationItems,
+                    editedCount,
+                    importSource,
+                  );
+                }
               }
             },
             child: Container(
@@ -259,6 +274,9 @@ class BillImportPage extends HookWidget {
     ValueNotifier<bool> isParsing,
     ValueNotifier<double> parseProgress,
     ValueNotifier<Map<String, dynamic>?> importResult,
+    ValueNotifier<List<CategorizationItem>> categorizationItems,
+    ValueNotifier<int> editedCount,
+    ValueNotifier<String> importSource,
   ) {
     showModalBottomSheet(
       context: context,
@@ -278,6 +296,9 @@ class BillImportPage extends HookWidget {
                   parseProgress,
                   importResult,
                   l10n,
+                  categorizationItems,
+                  editedCount,
+                  importSource,
                 );
               },
             ),
@@ -293,6 +314,9 @@ class BillImportPage extends HookWidget {
                   parseProgress,
                   importResult,
                   l10n,
+                  categorizationItems,
+                  editedCount,
+                  importSource,
                 );
               },
             ),
@@ -310,6 +334,9 @@ class BillImportPage extends HookWidget {
     ValueNotifier<double> parseProgress,
     ValueNotifier<Map<String, dynamic>?> importResult,
     AppLocalizations l10n,
+    ValueNotifier<List<CategorizationItem>> categorizationItems,
+    ValueNotifier<int> editedCount,
+    ValueNotifier<String> importSource,
   ) async {
     // Check login
     if (!AuthManager.instance.isLoggedIn) {
@@ -357,7 +384,6 @@ class BillImportPage extends HookWidget {
       await Future.delayed(const Duration(milliseconds: 300));
 
       isParsing.value = false;
-      importResult.value = result;
 
       logger.i('[OCR] 识别结果: $result');
 
@@ -375,11 +401,29 @@ class BillImportPage extends HookWidget {
 
       if (context.mounted) {
         if (success && data != null) {
-          // Show success message with extracted info
-          final merchant = data['merchant'] ?? '';
-          final amount = data['amount'] ?? 0;
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('识别成功: $merchant ¥$amount')),
+          // Create categorization item from OCR result
+          final item = CategorizationItem(
+            id: DateTime.now().millisecondsSinceEpoch.toString(),
+            merchant: data['merchant'] ?? '',
+            amount: (data['amount'] ?? 0).toDouble(),
+            date: DateTime.now(),
+            suggestedCategory: data['category'] ?? '其他',
+            confidence: (data['confidence'] ?? 0).toDouble(),
+            selectedCategory: data['category'] ?? '其他',
+          );
+
+          categorizationItems.value = [item];
+          importSource.value = 'ocr';
+
+          final theme = Theme.of(context);
+          _showCategorizationPreview(
+            context,
+            l10n,
+            theme,
+            [item],
+            categorizationItems,
+            editedCount,
+            importSource,
           );
         } else {
           final errorMsg = result['error'] ?? '识别失败，请重试';
@@ -612,6 +656,102 @@ class BillImportPage extends HookWidget {
     );
   }
 
+  /// Show categorization preview bottom sheet
+  void _showCategorizationPreview(
+    BuildContext context,
+    AppLocalizations l10n,
+    ThemeData theme,
+    List<CategorizationItem> items,
+    ValueNotifier<List<CategorizationItem>> categorizationItems,
+    ValueNotifier<int> editedCount,
+    ValueNotifier<String> importSource,
+  ) {
+    // Track preview shown
+    AnalyticsService().trackCategorization(
+      eventType: AnalyticsEvents.categorizationPreviewShown,
+      itemCount: items.length,
+      avgConfidence: items.isEmpty
+          ? 0
+          : items.map((e) => e.confidence).reduce((a, b) => a + b) / items.length,
+      source: importSource.value,
+    );
+
+    // Default categories (in production, these would come from beancount config)
+    final defaultCategories = [
+      '餐饮', '交通', '购物', '娱乐', '医疗', '教育', '居住', '通讯', '其他'
+    ];
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      isDismissible: false,
+      enableDrag: false,
+      builder: (context) => CategorizationPreviewSheet(
+        items: items,
+        availableCategories: defaultCategories,
+        onConfirm: () {
+          Navigator.pop(context);
+          _confirmCategorization(
+            context,
+            l10n,
+            theme,
+            categorizationItems,
+            editedCount,
+            importSource,
+          );
+        },
+        onCancel: () {
+          Navigator.pop(context);
+          AnalyticsService().trackCategorization(
+            eventType: AnalyticsEvents.categorizationCancelled,
+            itemCount: items.length,
+            source: importSource.value,
+          );
+        },
+        onCategoryChanged: (index, newCategory) {
+          AnalyticsService().trackCategorization(
+            eventType: AnalyticsEvents.categorizationItemEdited,
+            itemCount: items.length,
+            source: importSource.value,
+          );
+        },
+      ),
+    );
+  }
+
+  /// Confirm categorization and submit to backend
+  Future<void> _confirmCategorization(
+    BuildContext context,
+    AppLocalizations l10n,
+    ThemeData theme,
+    ValueNotifier<List<CategorizationItem>> categorizationItems,
+    ValueNotifier<int> editedCount,
+    ValueNotifier<String> importSource,
+  ) async {
+    final items = categorizationItems.value;
+    final edits = items.where((e) => e.selectedCategory != e.suggestedCategory).length;
+
+    // Track confirmation
+    await AnalyticsService().trackCategorization(
+      eventType: AnalyticsEvents.categorizationConfirmed,
+      itemCount: items.length,
+      editedCount: edits,
+      avgConfidence: items.isEmpty
+          ? 0
+          : items.map((e) => e.confidence).reduce((a, b) => a + b) / items.length,
+      source: importSource.value,
+    );
+
+    // TODO: Submit categorized items to backend for beancount import
+    // For now, show success and navigate back
+    if (context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('已导入 ${items.length} 笔记账')),
+      );
+      Navigator.pop(context);
+    }
+  }
+
   Widget _buildStepCard(BuildContext context, ThemeData theme, String text) {
     return Container(
       width: double.infinity,
@@ -642,6 +782,9 @@ class BillImportPage extends HookWidget {
     ValueNotifier<bool> isParsing,
     ValueNotifier<double> parseProgress,
     ValueNotifier<Map<String, dynamic>?> importResult,
+    ValueNotifier<List<CategorizationItem>> categorizationItems,
+    ValueNotifier<int> editedCount,
+    ValueNotifier<String> importSource,
   ) async {
     isParsing.value = true;
     parseProgress.value = 0.1;
@@ -663,7 +806,6 @@ class BillImportPage extends HookWidget {
       await Future.delayed(const Duration(milliseconds: 300));
 
       isParsing.value = false;
-      importResult.value = result;
 
       logger.i('[BillImport] 导入结果: $result');
 
@@ -674,6 +816,30 @@ class BillImportPage extends HookWidget {
         recordCount: imported,
         success: true,
       );
+
+      // Parse categorization items from result
+      final transactions = result['transactions'] as List<dynamic>? ?? [];
+      if (transactions.isNotEmpty && context.mounted) {
+        final items = transactions
+            .map((t) => CategorizationItem.fromJson(t as Map<String, dynamic>))
+            .toList();
+        categorizationItems.value = items;
+        importSource.value = 'file';
+
+        final l10n = AppLocalizations.of(context)!;
+        final theme = Theme.of(context);
+        _showCategorizationPreview(
+          context,
+          l10n,
+          theme,
+          items,
+          categorizationItems,
+          editedCount,
+          importSource,
+        );
+      } else {
+        importResult.value = result;
+      }
     } catch (e) {
       isParsing.value = false;
       parseProgress.value = 0.0;

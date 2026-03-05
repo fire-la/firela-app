@@ -105,5 +105,13 @@
   "takePhoto": "拍照",
   "chooseFromGallery": "从相册选择",
   "scanReceiptTitle": "扫描收据识别",
-  "processingOcr": "正在识别收据..."
+  "processingOcr": "正在识别收据...",
+  "categorizationPreviewTitle": "分类预览",
+  "items": "条目",
+  "needsReview": "需确认",
+  "confirmImport": "确认导入",
+  "editCategories": "编辑分类",
+  "avgConfidence": "平均置信度",
+  "allHighConfidence": "全部高置信度",
+  "someNeedReview": "部分需确认"
 }
