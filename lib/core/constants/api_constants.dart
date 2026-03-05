@@ -62,6 +62,10 @@ class ApiConstants {
   /// 识别文件类型 POST
   static const String identifyFileEndpoint = '/bean/import/identify';
 
+  // ============ OCR 端点 (地域前缀端点) ============
+  /// OCR 识别收据图片 POST (multipart/form-data)
+  static const String ocrReceiptEndpoint = '/bean/ocr/receipt';
+
   /// 导入器配置
   static const String importerConfigEndpoint = '/bean/import/config';
 
