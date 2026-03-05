@@ -5,13 +5,16 @@ import '../constants/storage_keys.dart';
 import '../network/auth_manager.dart';
 import '../network/api_client.dart';
 import '../utils/logger.dart';
+import 'offline_cache_service.dart';
+import '../../shared/signals/connectivity_signal.dart';
+import 'conflict_resolution_service.dart';
 
 /// Sync status enum
 enum SyncStatus {
   idle,
   syncing,
   success,
-  error,
+  error
 }
 
 /// Sync service singleton for data synchronization with server
@@ -21,6 +24,8 @@ class SyncService {
 
   Box? _box;
   final _syncStatusSignal = signal<SyncStatus>(SyncStatus.idle);
+  final _conflictService = ConflictResolutionService.instance;
+  final _client = ApiClient.instance;
   String? _lastError;
 
   /// Signal for sync status (can be watched in UI)
@@ -33,6 +38,7 @@ class SyncService {
   Future<void> init() async {
     _box = await Hive.openBox('sync');
     _syncStatusSignal.value = SyncStatus.idle;
+    await _conflictService.init();
     logger.i('[SyncService] Initialized');
   }
 
@@ -96,17 +102,18 @@ class SyncService {
     logger.i('[SyncService] Starting full sync...');
 
     try {
-      final client = ApiClient.instance;
-
       // Sync transactions - fetch latest from server
       // In production, this would be a more comprehensive sync
-      await client.get('/bean/transactions', queryParams: {'limit': '100'});
+      await _client.get('/bean/transactions', queryParams: {'limit': '100'});
 
       // Sync accounts/balances
-      await client.get('/bean/balances');
+      await _client.get('/bean/balances');
 
       // Sync FIRE goal
-      await client.get('/bean/fire-goal');
+      await _client.get('/bean/fire-goal');
+
+      // Process pending operations
+      await _processPendingOperations();
 
       // Update last sync time
       final now = DateTime.now();
@@ -129,5 +136,46 @@ class SyncService {
     _syncStatusSignal.value = SyncStatus.idle;
     _lastError = null;
     logger.i('[SyncService] Sync data cleared');
+  }
+
+  /// Process pending operations
+  Future<void> _processPendingOperations() async {
+    if (!ConnectivityService.instance.isOnline) return;
+
+    final ops = PendingOperationsQueue.instance.getPendingOperations();
+
+    if (ops.isEmpty) return;
+
+    for (final op in ops) {
+      try {
+        switch (op.type) {
+          case PendingOperationType.confirmTransaction:
+            await _client.post('/bean/review-center/${op.data['transactionId']}/accept');
+            break;
+          case PendingOperationType.updateTransaction:
+            await _client.put('/bean/review-center/${op.id}', body: op.data);
+            break;
+          case PendingOperationType.deleteTransaction:
+            await _client.delete('/bean/review-center/${op.data['transactionId']}');
+            break;
+          case PendingOperationType.createTransaction:
+            final transaction = op.data['transaction'] as Map<String, dynamic>;
+            await _client.post('/bean/transactions', body: transaction);
+            break;
+        }
+
+        // Success - remove from pending queue
+        await PendingOperationsQueue.instance.removeOperation(op.id);
+        logger.i('[SyncService] Pending operation ${op.id} completed');
+      } catch (e) {
+        // Update retry count
+        final updated = op.copyWith(
+          retryCount: op.retryCount + 1,
+          error: e.toString(),
+        );
+        logger.e('[SyncService] Pending operation ${op.id} failed: $e');
+        await PendingOperationsQueue.instance.updateOperation(updated);
+      }
+    }
   }
 }
