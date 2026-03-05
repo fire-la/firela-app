@@ -9,6 +9,13 @@ class AnalyticsEvents {
   static const String billImportFailed = 'bill_import_failed';
   static const String nlpResultDisplayed = 'nlp_result_displayed';
 
+  // OCR Events
+  static const String ocrImageSelected = 'ocr_image_selected';
+  static const String ocrProcessingStarted = 'ocr_processing_started';
+  static const String ocrProcessingSuccess = 'ocr_processing_success';
+  static const String ocrProcessingFailed = 'ocr_processing_failed';
+  static const String ocrResultConfirmed = 'ocr_result_confirmed';
+
   // Review Center Events
   static const String reviewListViewed = 'review_list_viewed';
   static const String reviewTabSwitched = 'review_tab_switched';
@@ -21,6 +28,7 @@ class AnalyticsEvents {
   static const String expenseUpdated = 'expense_updated';
   static const String photoRecognitionUsed = 'photo_recognition_used';
   static const String manualEntryUsed = 'manual_entry_used';
+  static const String expenseButtonClicked = 'expense_button_clicked';
 }
 
 /// Analytics event properties
@@ -36,6 +44,11 @@ class AnalyticsProps {
   static const String fileType = 'file_type'; // csv, xlsx
   static const String fileSize = 'file_size_bytes';
   static const String recordCount = 'record_count';
+
+  // OCR
+  static const String imageSource = 'image_source'; // camera, gallery
+  static const String confidence = 'confidence'; // OCR confidence score
+  static const String merchant = 'merchant'; // Recognized merchant name
 
   // Review Center
   static const String tabName = 'tab_name';

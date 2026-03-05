@@ -27,7 +27,17 @@ class AnalyticsService {
 
     final config = PostHogConfig(apiKey);
     config.host = host;
-    config.captureApplicationLifecycleEvents = true;
+
+    // Core features
+    config.captureApplicationLifecycleEvents = true;  // Auto-track app open/close
+    config.debug = kDebugMode;  // Enable debug logs in debug mode
+
+    // Session Replay - records user sessions for playback
+    config.sessionReplay = true;
+    config.sessionReplayConfig.maskAllTexts = true;  // Privacy: mask all texts
+    config.sessionReplayConfig.maskAllImages = false;
+    config.sessionReplayConfig.throttleDelay = const Duration(milliseconds: 500);
+
     await Posthog().setup(config);
   }
 
@@ -100,6 +110,27 @@ class AnalyticsService {
         if (fileType != null) AnalyticsProps.fileType: fileType,
         if (fileSize != null) AnalyticsProps.fileSize: fileSize,
         if (recordCount != null) AnalyticsProps.recordCount: recordCount,
+        if (success != null) AnalyticsProps.success: success,
+        if (errorMessage != null) AnalyticsProps.errorMessage: errorMessage,
+      },
+    );
+  }
+
+  /// Track OCR event
+  Future<void> trackOcr({
+    required String eventType,
+    String? imageSource,
+    double? confidence,
+    String? merchant,
+    bool? success,
+    String? errorMessage,
+  }) async {
+    await capture(
+      eventType,
+      properties: {
+        if (imageSource != null) AnalyticsProps.imageSource: imageSource,
+        if (confidence != null) AnalyticsProps.confidence: confidence,
+        if (merchant != null) AnalyticsProps.merchant: merchant,
         if (success != null) AnalyticsProps.success: success,
         if (errorMessage != null) AnalyticsProps.errorMessage: errorMessage,
       },
