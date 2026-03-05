@@ -10,6 +10,7 @@ import '../../../../core/network/auth_manager.dart';
 import '../../../../core/services/auth_service.dart';
 import 'about_page.dart';
 import 'help_center_page.dart';
+import 'account_settings_page.dart';
 
 /// Settings page (Mine)
 class SettingsPage extends StatefulWidget {
@@ -242,7 +243,14 @@ class SettingsPageState extends State<SettingsPage> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
       child: isLoggedIn
-          ? profileRow
+          ? InkWell(
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const AccountSettingsPage()),
+              ),
+              borderRadius: BorderRadius.circular(8),
+              child: profileRow,
+            )
           : InkWell(
               onTap: () => _handleLogin(context),
               borderRadius: BorderRadius.circular(8),
