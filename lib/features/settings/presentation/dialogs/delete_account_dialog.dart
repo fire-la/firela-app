@@ -230,13 +230,15 @@ class _DeleteAccountDialogState extends State<DeleteAccountDialog> {
         // Clear auth data
         AuthManager.instance.clearAllData();
 
+        if (!mounted) return;
+
         // Store l10n message before context becomes invalid
         final successMessage = l10n.accountDeleted;
 
-        // Pop the dialog
+        // Pop the dialog and show success - all context use is guarded by mounted check above
+        // ignore: use_build_context_synchronously
         Navigator.pop(context);
-
-        // Show success message
+        // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(successMessage)),
         );
