@@ -174,6 +174,25 @@ class AnalyticsService {
     );
   }
 
+  /// Track categorization event
+  Future<void> trackCategorization({
+    required String eventType,
+    int? itemCount,
+    int? editedCount,
+    double? avgConfidence,
+    String? source,
+  }) async {
+    await capture(
+      eventType,
+      properties: {
+        if (itemCount != null) AnalyticsProps.itemCount: itemCount,
+        if (editedCount != null) AnalyticsProps.editedCount: editedCount,
+        if (avgConfidence != null) AnalyticsProps.avgConfidence: avgConfidence,
+        if (source != null) AnalyticsProps.categorizationSource: source,
+      },
+    );
+  }
+
   /// Get platform name
   String get _platform => defaultTargetPlatform.name;
 }

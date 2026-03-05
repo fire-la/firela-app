@@ -29,6 +29,12 @@ class AnalyticsEvents {
   static const String photoRecognitionUsed = 'photo_recognition_used';
   static const String manualEntryUsed = 'manual_entry_used';
   static const String expenseButtonClicked = 'expense_button_clicked';
+
+  // Categorization Events
+  static const String categorizationPreviewShown = 'categorization_preview_shown';
+  static const String categorizationItemEdited = 'categorization_item_edited';
+  static const String categorizationConfirmed = 'categorization_confirmed';
+  static const String categorizationCancelled = 'categorization_cancelled';
 }
 
 /// Analytics event properties
@@ -60,4 +66,10 @@ class AnalyticsProps {
   static const String currency = 'currency';
   static const String category = 'category';
   static const String hasPhoto = 'has_photo';
+
+  // Categorization
+  static const String itemCount = 'item_count';
+  static const String editedCount = 'edited_count';
+  static const String avgConfidence = 'avg_confidence';
+  static const String categorizationSource = 'categorization_source'; // file_import, ocr
 }
