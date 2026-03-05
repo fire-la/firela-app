@@ -16,7 +16,6 @@ import '../../../settings/presentation/pages/settings_page.dart';
 import '../../../expense/presentation/widgets/expense_entry_bottom_sheet.dart';
 import '../../../expense/presentation/widgets/nlp_result_bottom_sheet.dart';
 import '../../../../shared/signals/connectivity_signal.dart';
-import '../../../../shared/widgets/offline_indicator.dart';
 
 /// Main page with bottom navigation
 class MainPage extends HookWidget {
@@ -46,18 +45,7 @@ class MainPage extends HookWidget {
     // Start connectivity monitoring
     useEffect(() {
       ConnectivityService.instance.startMonitoring();
-
-      // Track connectivity changes for toast notifications
-      final subscription = connectivitySignal.subscribe((state) {
-        if (state.lastChanged != null && context.mounted) {
-          if (state.isOnline) {
-            OfflineToast.showConnectionRestored(context);
-          }
-        }
-      });
-
       return () {
-        subscription();
         ConnectivityService.instance.stopMonitoring();
       };
     }, []);
@@ -69,18 +57,9 @@ class MainPage extends HookWidget {
     ];
 
     return Scaffold(
-      body: Column(
-        children: [
-          // Offline indicator at the top
-          const OfflineIndicator(),
-          // Main content
-          Expanded(
-            child: IndexedStack(
-              index: currentIndex.value,
-              children: pages,
-            ),
-          ),
-        ],
+      body: IndexedStack(
+        index: currentIndex.value,
+        children: pages,
       ),
       // FAB 悬浮记账按钮（仅在资产页面显示）
       floatingActionButton: currentIndex.value == 1
