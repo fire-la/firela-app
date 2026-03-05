@@ -6,6 +6,8 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 
 import '../providers/use_fire_progress.dart';
 import '../widgets/milestone_badge.dart';
+import '../widgets/shimmer_loading.dart';
+import '../widgets/animated_number.dart';
 
 /// FIRE Journey page showing progress and milestones
 class FireJourneyPage extends HookWidget {
@@ -46,7 +48,7 @@ class FireJourneyPage extends HookWidget {
         centerTitle: false,
       ),
       body: fireProgress.isLoading
-          ? _buildLoadingState(context, l10n)
+          ? _buildShimmerLoadingState(context, l10n)
           : fireProgress.hasNoGoal
               ? _buildEmptyState(context, l10n)
               : _buildContent(context, l10n, fireProgress),
@@ -86,7 +88,10 @@ class FireJourneyPage extends HookWidget {
         ),
         actions: [
           TextButton(
-            onPressed: () => Navigator.of(context).pop(),
+            onPressed: () {
+              HapticFeedback.lightImpact();
+              Navigator.of(context).pop();
+            },
             child: Text(l10n.confirm),
           ),
         ],
@@ -94,20 +99,62 @@ class FireJourneyPage extends HookWidget {
     );
   }
 
-  Widget _buildLoadingState(BuildContext context, AppLocalizations l10n) {
-    final theme = Theme.of(context);
-
-    return Center(
+  Widget _buildShimmerLoadingState(BuildContext context, AppLocalizations l10n) {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(16),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const CircularProgressIndicator(),
-          const SizedBox(height: 16),
-          Text(
-            l10n.loading,
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: theme.colorScheme.outline,
+          // Shimmer journey card
+          ShimmerLoading(
+            child: Container(
+              height: 100,
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                borderRadius: BorderRadius.circular(8),
+              ),
             ),
+          ),
+          const SizedBox(height: 16),
+
+          // Shimmer fire map
+          ShimmerLoading(
+            child: Container(
+              height: 280,
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ),
+          ),
+          const SizedBox(height: 16),
+
+          // Shimmer net assets and daily income
+          Row(
+            children: [
+              Expanded(
+                child: ShimmerLoading(
+                  child: Container(
+                    height: 80,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: ShimmerLoading(
+                  child: Container(
+                    height: 80,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ],
       ),
@@ -144,6 +191,7 @@ class FireJourneyPage extends HookWidget {
             const SizedBox(height: 24),
             FilledButton.icon(
               onPressed: () {
+                HapticFeedback.mediumImpact();
                 // TODO: Navigate to goal setting page
               },
               icon: const Icon(Icons.add),
@@ -203,8 +251,8 @@ class FireJourneyPage extends HookWidget {
                             ),
                           ),
                           const SizedBox(height: 8),
-                          Text(
-                            fireProgress.netAssetsFormatted,
+                          AnimatedNumber(
+                            value: fireProgress.progress?.currentNetWorth ?? 0,
                             style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                               fontWeight: FontWeight.w500,
                             ),
@@ -231,8 +279,8 @@ class FireJourneyPage extends HookWidget {
                             ),
                           ),
                           const SizedBox(height: 8),
-                          Text(
-                            fireProgress.dailyIncomeFormatted,
+                          AnimatedNumber(
+                            value: (fireProgress.progress?.monthlySavings ?? 0) / 30,
                             style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                               fontWeight: FontWeight.w500,
                             ),
@@ -313,6 +361,8 @@ class FireJourneyPage extends HookWidget {
                 progressColor: const Color(0xFF000000),
                 backgroundColor: const Color(0xFFE0E0E0),
                 circularStrokeCap: CircularStrokeCap.round,
+                animation: true,
+                animationDuration: 500,
               ),
             ],
           ),
@@ -332,6 +382,8 @@ class FireJourneyPage extends HookWidget {
                 progressColor: const Color(0xFF000000),
                 backgroundColor: const Color(0xFFE0E0E0),
                 circularStrokeCap: CircularStrokeCap.round,
+                animation: true,
+                animationDuration: 500,
               ),
             ],
           ),
