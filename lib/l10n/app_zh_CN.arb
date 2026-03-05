@@ -269,5 +269,21 @@
   "youAreOffline": "当前离线 - 部分功能可能受限",
   "syncPending": "待同步",
   "connectionRestored": "网络已恢复 - 正在同步...",
-  "actionFailedOffline": "操作失败 - 请在联网后重试"
+  "actionFailedOffline": "操作失败 - 请在联网后重试",
+
+  "homeGreetingMorning": "早上好",
+  "homeGreetingAfternoon": "下午好",
+  "homeGreetingEvening": "晚上好",
+  "homeSyncedJustNow": "刚刚同步",
+  "homeSyncedMinutes": "{minutes}分钟前同步",
+  "homeSyncedHours": "{hours}小时前同步",
+  "homeNetWorth": "净资产",
+  "homeThisMonth": "本月",
+  "homePendingReviews": "待确认交易",
+  "homeNoPending": "没有待处理项",
+  "homeFireProgress": "FIRE进度",
+  "homeSetGoal": "设置目标",
+  "homeYearsToFire": "距离FIRE年数",
+  "homeYearsToFireValue": "{years}年",
+  "homeSavingsRate": "储蓄率"
 }

@@ -1494,5 +1494,95 @@
   "actionFailedOffline": "Action failed - Please try again when online",
   "@actionFailedOffline": {
     "description": "Action failed due to offline status"
+  },
+
+  "homeGreetingMorning": "Good morning",
+  "@homeGreetingMorning": {
+    "description": "Morning greeting on home page"
+  },
+
+  "homeGreetingAfternoon": "Good afternoon",
+  "@homeGreetingAfternoon": {
+    "description": "Afternoon greeting on home page"
+  },
+
+  "homeGreetingEvening": "Good evening",
+  "@homeGreetingEvening": {
+    "description": "Evening greeting on home page"
+  },
+
+  "homeSyncedJustNow": "Synced just now",
+  "@homeSyncedJustNow": {
+    "description": "Last sync time - just now"
+  },
+
+  "homeSyncedMinutes": "Synced {minutes} min ago",
+  "@homeSyncedMinutes": {
+    "description": "Last sync time - minutes ago",
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+
+  "homeSyncedHours": "Synced {hours}h ago",
+  "@homeSyncedHours": {
+    "description": "Last sync time - hours ago",
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+
+  "homeNetWorth": "Net Worth",
+  "@homeNetWorth": {
+    "description": "Net worth label on home page"
+  },
+
+  "homeThisMonth": "This month",
+  "@homeThisMonth": {
+    "description": "This month label"
+  },
+
+  "homePendingReviews": "Pending Reviews",
+  "@homePendingReviews": {
+    "description": "Pending reviews label on home page"
+  },
+
+  "homeNoPending": "No pending items",
+  "@homeNoPending": {
+    "description": "No pending items message"
+  },
+
+  "homeFireProgress": "FIRE Progress",
+  "@homeFireProgress": {
+    "description": "FIRE progress label on home page"
+  },
+
+  "homeSetGoal": "Set Goal",
+  "@homeSetGoal": {
+    "description": "Set goal button text"
+  },
+
+  "homeYearsToFire": "Years to FIRE",
+  "@homeYearsToFire": {
+    "description": "Years to FIRE label"
+  },
+
+  "homeYearsToFireValue": "{years} years",
+  "@homeYearsToFireValue": {
+    "description": "Years to FIRE value",
+    "placeholders": {
+      "years": {
+        "type": "String"
+      }
+    }
+  },
+
+  "homeSavingsRate": "Savings Rate",
+  "@homeSavingsRate": {
+    "description": "Savings rate label on home page"
   }
 }

@@ -270,5 +270,21 @@
   "youAreOffline": "目前離線 - 部分功能可能受限",
   "syncPending": "待同步",
   "connectionRestored": "網路已恢復 - 正在同步...",
-  "actionFailedOffline": "操作失敗 - 請在聯網後重試"
+  "actionFailedOffline": "操作失敗 - 請在聯網後重試",
+
+  "homeGreetingMorning": "早安",
+  "homeGreetingAfternoon": "午安",
+  "homeGreetingEvening": "晚安",
+  "homeSyncedJustNow": "剛剛同步",
+  "homeSyncedMinutes": "{minutes}分鐘前同步",
+  "homeSyncedHours": "{hours}小時前同步",
+  "homeNetWorth": "淨資產",
+  "homeThisMonth": "本月",
+  "homePendingReviews": "待確認交易",
+  "homeNoPending": "沒有待處理項",
+  "homeFireProgress": "FIRE進度",
+  "homeSetGoal": "設定目標",
+  "homeYearsToFire": "距離FIRE年數",
+  "homeYearsToFireValue": "{years}年",
+  "homeSavingsRate": "儲蓄率"
 }
