@@ -10,19 +10,19 @@ See: .planning/PROJECT.md (updated 2026-02-27)
 ## Current Position
 
 Phase: 5 of 9 (FIRE Journey Tracker - IN PROGRESS)
-Plan: 1 of 3 plans
-Status: Phase 5 Plan 01 COMPLETE
-Last activity: 2026-03-05 — Completed Phase 5 Plan 01: FIRE Calculation Engine
+Plan: 2 of 3 plans
+Status: Phase 5 Plan 02 COMPLETE
+Last activity: 2026-03-05 — Completed Phase 5 Plan 02: Progress Tracking and Milestones
 
 Progress: ████████████████ 100%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 17
+- Total plans completed: 18
 - Average duration: ~12 min
-- Total execution time: ~3.4 hours
-- Total plans planned: 17 (Phase 5 Plan 01 complete)
+- Total execution time: ~3.6 hours
+- Total plans planned: 18 (Phase 5 Plan 02 complete)
 
 **By Phase:**
 
@@ -34,7 +34,7 @@ Progress: ████████████████ 100%
 | 2.2. API Path & Region | 2 | ~20 min | ~10 min |
 | 3. Bill Import | 3 | ~40 min | ~13 min |
 | 4. Assets Dashboard | 3 | ~30 min | ~10 min |
-| 5. FIRE Journey | 1/3 | ~10 min | ~10 min |
+| 5. FIRE Journey | 2/3 | ~20 min | ~10 min |
 
 **Recent Trend:**
 - Last 5 plans: 10min, 10min, 10min, 10min, 10min
@@ -83,6 +83,10 @@ Recent decisions affecting current work:
 - [Phase 05-01]: Use 7% default annual return rate for compound interest calculations
 - [Phase 05-01]: Iterative calculation for years-to-FIRE with monthly contributions
 - [Phase 05-01]: FireGoalStorage handles offline scenarios with local caching
+- [Phase 05-02]: Use Hive for persistent milestone tracking
+- [Phase 05-02]: Default milestones: 10万, 50万, 100万, 500万, 1000万 (CNY)
+- [Phase 05-02]: Shimmer loading for better UX during data fetches
+- [Phase 05-02]: HapticFeedback.mediumImpact on pull-to-refresh, heavyImpact on milestone achieved
 
 ### Roadmap Evolution
 
@@ -90,7 +94,7 @@ Recent decisions affecting current work:
 - Phase 2.2 inserted after Phase 2.1: API Path & Region Routing Update (URGENT) - COMPLETE
 - Phase 3 complete: Bill Import Enhancement - 3/3 plans
 - Phase 4 complete: Assets & Liabilities Dashboard - 3/3 plans
-- Phase 5 in progress: FIRE Journey Tracker - 1/3 plans
+- Phase 5 in progress: FIRE Journey Tracker - 2/3 plans
 
 ### Deferred Issues
 
@@ -103,5 +107,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-03-05
-Stopped at: Phase 5 Plan 01 COMPLETE, Ready for Plan 02
+Stopped at: Phase 5 Plan 02 COMPLETE, Ready for Plan 03
 Resume file: None

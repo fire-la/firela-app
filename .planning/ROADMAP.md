@@ -101,7 +101,7 @@ Plans:
 
 Plans:
 - [x] 05-01: FIRE calculation engine
-- [ ] 05-02: Progress tracking and milestones
+- [x] 05-02: Progress tracking and milestones
 - [ ] 05-03: Projection visualizations
 
 ### Phase 6: Settings & Sync
@@ -139,6 +139,6 @@ Phases execute in numeric order: 1 → 2 → 2.1 → 2.2 → 3 → 3.1 → 4
 | 2.2. API Path & Region | 2/2 | Complete | 2026-03-02 |
 | 3. Bill Import | 3/3 | Complete | 2026-03-05 |
 | 4. Assets Dashboard | 3/3 | Complete | 2026-03-05 |
-| 5. FIRE Journey | 1/3 | In progress | - |
+| 5. FIRE Journey | 2/3 | In progress | - |
 | 6. Settings & Sync | 0/3 | Not started | - |
 | 7. Home Dashboard | 0/3 | Not started | - |
