@@ -286,5 +286,17 @@
   "homeSetGoal": "設定目標",
   "homeYearsToFire": "距離FIRE年數",
   "homeYearsToFireValue": "{years}年",
-  "homeSavingsRate": "儲蓄率"
+  "homeSavingsRate": "儲蓄率",
+
+  "homeQuickActions": "快捷操作",
+  "homeAddExpense": "記一筆",
+  "homeBillImport": "賬單導入",
+  "homeReviewPending": "待確認",
+  "homeShortcuts": "快捷入口",
+  "homeAssets": "資產負債",
+  "homeFireJourney": "FIRE之路",
+  "homeSettings": "設定",
+  "homeReviewCenter": "待確認",
+  "pleaseLogin": "請先登入",
+  "expenseEntrySuccess": "記帳成功"
 }

@@ -1584,5 +1584,60 @@
   "homeSavingsRate": "Savings Rate",
   "@homeSavingsRate": {
     "description": "Savings rate label on home page"
+  },
+
+  "homeQuickActions": "Quick Actions",
+  "@homeQuickActions": {
+    "description": "Quick actions section title"
+  },
+
+  "homeAddExpense": "Add Expense",
+  "@homeAddExpense": {
+    "description": "Add expense button"
+  },
+
+  "homeBillImport": "Bill Import",
+  "@homeBillImport": {
+    "description": "Bill import button"
+  },
+
+  "homeReviewPending": "Review",
+  "@homeReviewPending": {
+    "description": "Review pending button"
+  },
+
+  "homeShortcuts": "Shortcuts",
+  "@homeShortcuts": {
+    "description": "Shortcuts section title"
+  },
+
+  "homeAssets": "Assets",
+  "@homeAssets": {
+    "description": "Assets shortcut label"
+  },
+
+  "homeFireJourney": "FIRE Journey",
+  "@homeFireJourney": {
+    "description": "FIRE Journey shortcut label"
+  },
+
+  "homeSettings": "Settings",
+  "@homeSettings": {
+    "description": "Settings shortcut label"
+  },
+
+  "homeReviewCenter": "Review",
+  "@homeReviewCenter": {
+    "description": "Review center shortcut label"
+  },
+
+  "pleaseLogin": "Please login first",
+  "@pleaseLogin": {
+    "description": "Please login prompt"
+  },
+
+  "expenseEntrySuccess": "Expense saved successfully",
+  "@expenseEntrySuccess": {
+    "description": "Expense entry success message"
   }
 }

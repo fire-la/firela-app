@@ -4,9 +4,12 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:signals_flutter/signals_flutter.dart';
 import '../../../../core/router/route_names.dart';
+import '../../../../shared/widgets/offline_indicator.dart';
 import '../widgets/net_worth_card.dart';
 import '../widgets/pending_reviews_card.dart';
 import '../widgets/fire_progress_card.dart';
+import '../widgets/quick_actions_section.dart';
+import '../widgets/feature_shortcuts_section.dart';
 import '../providers/use_home_data.dart';
 
 /// Home dashboard page with summary widgets
@@ -24,54 +27,69 @@ class HomePage extends HookWidget {
 
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      body: SafeArea(
-        child: RefreshIndicator(
-          onRefresh: onRefresh,
-          child: SingleChildScrollView(
-            physics: const AlwaysScrollableScrollPhysics(),
-            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Header with greeting
-                _buildHeader(context, l10n, homeData),
-                const SizedBox(height: 20),
-
-                // Net Worth Card
-                NetWorthCard(
-                  homeData: homeData,
-                  onTap: () => context.go(RouteNames.accounts),
-                ),
-                const SizedBox(height: 16),
-
-                // Pending Reviews and FIRE Progress Cards (side by side)
-                Row(
+      body: Column(
+        children: [
+          // Offline indicator at the top
+          const OfflineIndicator(),
+          // Main content
+          Expanded(
+            child: RefreshIndicator(
+              onRefresh: onRefresh,
+              child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Expanded(
-                      child: PendingReviewsCard(
-                        onTap: () => context.go(RouteNames.reviewCenter),
-                      ),
+                    // Header with greeting
+                    _buildHeader(context, l10n, homeData),
+                    const SizedBox(height: 20),
+
+                    // Net Worth Card
+                    NetWorthCard(
+                      homeData: homeData,
+                      onTap: () => context.go(RouteNames.accounts),
                     ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: FireProgressCard(
-                        onTap: () {
-                          // Navigate to FIRE journey (first tab in main page)
-                          context.go(RouteNames.home);
-                        },
-                      ),
+                    const SizedBox(height: 16),
+
+                    // Quick Actions Section
+                    const QuickActionsSection(),
+                    const SizedBox(height: 16),
+
+                    // Pending Reviews and FIRE Progress Cards (side by side)
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: PendingReviewsCard(
+                            onTap: () => context.go(RouteNames.reviewCenter),
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: FireProgressCard(
+                            onTap: () {
+                              // Navigate to FIRE journey (first tab in main page)
+                              context.go(RouteNames.home);
+                            },
+                          ),
+                        ),
+                      ],
                     ),
+                    const SizedBox(height: 16),
+
+                    // Feature Shortcuts Section
+                    const FeatureShortcutsSection(),
+                    const SizedBox(height: 16),
+
+                    // Add padding at bottom for scroll
+                    const SizedBox(height: 24),
                   ],
                 ),
-                const SizedBox(height: 16),
-
-                // Add padding at bottom for scroll
-                const SizedBox(height: 24),
-              ],
+              ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }
