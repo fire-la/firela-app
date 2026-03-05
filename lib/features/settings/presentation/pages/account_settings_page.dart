@@ -5,6 +5,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import '../../../../core/constants/storage_keys.dart';
 import '../../../../core/network/auth_manager.dart';
 import '../../../../core/services/auth_service.dart';
+import '../dialogs/delete_account_dialog.dart';
 
 /// Account settings page with user info, name editing, and account management
 class AccountSettingsPage extends StatefulWidget {
@@ -89,52 +90,7 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
   }
 
   void _showDeleteAccountDialog(AppLocalizations l10n) {
-    showDialog(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: Text(l10n.deleteAccount),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(l10n.deleteAccountConfirm),
-            const SizedBox(height: 8),
-            Text(
-              l10n.deleteAccountWarning,
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.error,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx),
-            child: Text(l10n.cancel),
-          ),
-          FilledButton(
-            style: FilledButton.styleFrom(
-              backgroundColor: Theme.of(context).colorScheme.error,
-            ),
-            onPressed: () {
-              // Clear all auth data
-              AuthManager.instance.clearAllData();
-              // Clear settings
-              _settingsBox?.clear();
-              Navigator.pop(ctx);
-              // Pop account settings page
-              Navigator.pop(context);
-              // Show confirmation
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(l10n.deleteAccount)),
-              );
-            },
-            child: Text(l10n.deleteAccount),
-          ),
-        ],
-      ),
-    );
+    showDeleteAccountDialog(context);
   }
 
   Future<void> _handleReLogin(AppLocalizations l10n) async {

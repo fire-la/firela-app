@@ -1,5 +1,8 @@
+import 'package:http/http.dart' as http;
 import '../network/api_client.dart';
 import '../constants/api_constants.dart';
+import '../network/auth_manager.dart';
+import '../utils/logger.dart';
 
 /// IGN API 服务
 /// 参考 IGN 项目 api/ign.js 的所有接口封装
@@ -162,5 +165,38 @@ class IgnApiService {
   Future<Map<String, dynamic>> saveFireGoal(Map<String, dynamic> data) async {
     final result = await _client.post(ApiConstants.fireGoalEndpoint, body: data);
     return Map<String, dynamic>.from(result as Map);
+  }
+
+  // ============ 账户管理 ============
+
+  /// 删除用户账户
+  /// 调用 DELETE /api/v1/users/me
+  /// 返回 success/failure
+  Future<bool> deleteAccount() async {
+    try {
+      // Note: This is a global endpoint, we need to call it directly
+      final uri = Uri.parse('${ApiConstants.ignBaseUrl}${ApiConstants.deleteUserEndpoint}');
+      final response = await http.delete(
+        uri,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ${AuthManager.instance.authToken}',
+        },
+      ).timeout(ApiConstants.timeout);
+
+      if (response.statusCode >= 200 && response.statusCode < 300) {
+        logger.i('[IgnApiService] Account deleted successfully');
+        return true;
+      } else if (response.statusCode == 401) {
+        throw Exception('Unauthorized - please login again');
+      } else if (response.statusCode == 404) {
+        throw Exception('User not found');
+      } else {
+        throw Exception('Failed to delete account: ${response.statusCode}');
+      }
+    } catch (e) {
+      logger.e('[IgnApiService] deleteAccount failed: $e');
+      rethrow;
+    }
   }
 }
