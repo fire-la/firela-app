@@ -268,7 +268,7 @@ class PendingOperationsQueue {
     try {
       return _opsBox.values.map((value) {
         return PendingOperation.fromJson(
-          jsonDecode(value as String) as Map<String, dynamic>,
+          jsonDecode(value) as Map<String, dynamic>,
         );
       }).toList()
         ..sort((a, b) => a.createdAt.compareTo(b.createdAt));
