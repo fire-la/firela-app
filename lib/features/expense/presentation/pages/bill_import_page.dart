@@ -10,6 +10,7 @@ import '../../../../core/services/analytics_service.dart';
 import '../../../../core/services/analytics_events.dart';
 import '../../../../core/utils/logger.dart';
 import '../widgets/categorization_preview_sheet.dart';
+import '../widgets/import_error_display.dart';
 import '../widgets/import_progress_indicator.dart';
 
 /// Bill import page
@@ -28,6 +29,9 @@ class BillImportPage extends HookWidget {
     final editedCount = useState(0);
     final importSource = useState<String>('file'); // 'file' or 'ocr'
     final currentStep = useState<ImportStep>(ImportStep.idle);
+    final errorMessage = useState<String?>(null);
+    final errorDetails = useState<String?>(null);
+    final lastImportPath = useState<String?>(null);
 
     return Scaffold(
       appBar: AppBar(
@@ -67,7 +71,24 @@ class BillImportPage extends HookWidget {
             const SizedBox(height: 24),
 
             // File upload area or selected file
-            if (importResult.value != null)
+            if (errorMessage.value != null)
+              _buildErrorArea(
+                context,
+                l10n,
+                theme,
+                errorMessage,
+                errorDetails,
+                lastImportPath,
+                isParsing,
+                parseProgress,
+                importResult,
+                categorizationItems,
+                editedCount,
+                importSource,
+                currentStep,
+                selectedFile,
+              )
+            else if (importResult.value != null)
               _buildImportResultArea(context, l10n, theme, importResult, selectedFile, isParsing, currentStep)
             else if (isParsing.value)
               _buildParsingArea(context, l10n, theme, parseProgress, selectedFile, currentStep)
@@ -198,8 +219,13 @@ class BillImportPage extends HookWidget {
                   fileType: result.files.single.extension ?? 'unknown',
                   fileSize: result.files.single.size,
                 );
-                // 开始上传导入
+                // 开始上传导入 - note: these parameters will be added in a separate update
                 if (context.mounted) {
+                  // Create temporary notifiers for error handling within this context
+                  final lastImportPath = useState<String?>(null);
+                  final errorMessage = useState<String?>(null);
+                  final errorDetails = useState<String?>(null);
+
                   await _startImport(
                     context,
                     result.files.single.path!,
@@ -210,7 +236,15 @@ class BillImportPage extends HookWidget {
                     editedCount,
                     importSource,
                     currentStep,
+                    lastImportPath,
+                    errorMessage,
+                    errorDetails,
                   );
+
+                  // If there was an error, show it
+                  if (errorMessage.value != null && context.mounted) {
+                    _showErrorDialog(context, l10n, errorMessage.value!, errorDetails.value);
+                  }
                 }
               }
             },
@@ -249,6 +283,28 @@ class BillImportPage extends HookWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  /// Show error dialog using ImportErrorDisplay
+  void _showErrorDialog(
+    BuildContext context,
+    AppLocalizations l10n,
+    String errorMessage,
+    String? errorDetails,
+  ) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        contentPadding: const EdgeInsets.all(16),
+        content: ImportErrorDisplay(
+          errorMessage: errorMessage,
+          technicalDetails: errorDetails,
+          onDismiss: () {
+            Navigator.pop(context);
+          },
+        ),
       ),
     );
   }
@@ -480,6 +536,61 @@ class BillImportPage extends HookWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildErrorArea(
+    BuildContext context,
+    AppLocalizations l10n,
+    ThemeData theme,
+    ValueNotifier<String?> errorMessage,
+    ValueNotifier<String?> errorDetails,
+    ValueNotifier<String?> lastImportPath,
+    ValueNotifier<bool> isParsing,
+    ValueNotifier<double> parseProgress,
+    ValueNotifier<Map<String, dynamic>?> importResult,
+    ValueNotifier<List<CategorizationItem>> categorizationItems,
+    ValueNotifier<int> editedCount,
+    ValueNotifier<String> importSource,
+    ValueNotifier<ImportStep> currentStep,
+    ValueNotifier<PlatformFile?> selectedFile,
+  ) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        children: [
+          ImportErrorDisplay(
+            errorMessage: errorMessage.value ?? 'Unknown error',
+            technicalDetails: errorDetails.value,
+            onRetry: lastImportPath.value != null
+                ? () {
+                    errorMessage.value = null;
+                    errorDetails.value = null;
+                    _startImport(
+                      context,
+                      lastImportPath.value!,
+                      isParsing,
+                      parseProgress,
+                      importResult,
+                      categorizationItems,
+                      editedCount,
+                      importSource,
+                      currentStep,
+                      lastImportPath,
+                      errorMessage,
+                      errorDetails,
+                    );
+                  }
+                : null,
+            onDismiss: () {
+              errorMessage.value = null;
+              errorDetails.value = null;
+              currentStep.value = ImportStep.idle;
+              selectedFile.value = null;
+            },
+          ),
+        ],
       ),
     );
   }
@@ -775,10 +886,16 @@ class BillImportPage extends HookWidget {
     ValueNotifier<int> editedCount,
     ValueNotifier<String> importSource,
     ValueNotifier<ImportStep> currentStep,
+    ValueNotifier<String?> lastImportPath,
+    ValueNotifier<String?> errorMessage,
+    ValueNotifier<String?> errorDetails,
   ) async {
     isParsing.value = true;
     currentStep.value = ImportStep.uploading;
     parseProgress.value = 0.1;
+    lastImportPath.value = filePath;
+    errorMessage.value = null;
+    errorDetails.value = null;
 
     // Track import started
     await AnalyticsService().trackBillImport(
@@ -849,18 +966,8 @@ class BillImportPage extends HookWidget {
       );
 
       if (context.mounted) {
-        String errorMsg = '导入失败，请重试';
-        if (e.toString().contains('413')) {
-          errorMsg = '文件过大，请选择小于50MB的文件';
-        } else if (e.toString().contains('429')) {
-          errorMsg = '请等待当前导入完成后再试';
-        } else if (e.toString().contains('400')) {
-          errorMsg = '文件格式不支持';
-        }
-
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(errorMsg)),
-        );
+        errorMessage.value = e.toString();
+        errorDetails.value = 'File: $filePath\nError: $e';
       }
     }
   }
