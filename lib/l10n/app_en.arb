@@ -672,5 +672,57 @@
   "reviewCenterEnterValidAmount": "Please enter a valid amount",
   "@reviewCenterEnterValidAmount": {
     "description": "Enter valid amount validation"
-  }
+  },
+
+  "region": "Region",
+  "@region": {
+    "description": "Region label"
+  },
+
+  "selectRegion": "Select Region",
+  "@selectRegion": {
+    "description": "Select region dialog title"
+  },
+
+  "switchRegion": "Switch Region",
+  "@switchRegion": {
+    "description": "Switch region dialog title"
+  },
+
+  "switchRegionConfirm": "Data will be reloaded after switching region. Continue?",
+  "@switchRegionConfirm": {
+    "description": "Switch region confirmation message"
+  },
+
+  "regionSwitched": "Switched to {name} region",
+  "@regionSwitched": {
+    "description": "Region switched success message",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+
+  "scanReceipt": "Scan Receipt",
+  "@scanReceipt": {
+    "description": "Scan receipt button text"
+  },
+
+  "takePhoto": "Take Photo",
+  "@takePhoto": {
+    "description": "Take photo option"
+  },
+
+  "chooseFromGallery": "Choose from Gallery",
+  "@chooseFromGallery": {
+    "description": "Choose from gallery option"
+  },
+
+  "scanReceiptTitle": "Scan Receipt Recognition",
+  "@scanReceiptTitle": {
+    "description": "Scan receipt page title"
+  },
+
+  "processingOcr": "Processing receipt..."
 }

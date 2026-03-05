@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import '../../../../core/services/ign_api_service.dart';
 import '../../../../core/network/auth_manager.dart';
@@ -131,77 +132,281 @@ class BillImportPage extends HookWidget {
   ) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: InkWell(
-        onTap: () async {
-          // 检查登录
-          if (!AuthManager.instance.isLoggedIn) {
-            if (context.mounted) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('请先登录')),
-              );
-              await AuthService.instance.showLoginOptions(context);
-            }
-            return;
-          }
-
-          final result = await FilePicker.platform.pickFiles(
-            type: FileType.custom,
-            allowedExtensions: ['xlsx', 'xls', 'csv'],
-          );
-
-          if (result != null && result.files.single.path != null && context.mounted) {
-            selectedFile.value = result.files.single;
-            // Track file selected
-            await AnalyticsService().trackBillImport(
-              eventType: AnalyticsEvents.billFileSelected,
-              fileType: result.files.single.extension ?? 'unknown',
-              fileSize: result.files.single.size,
-            );
-            // 开始上传导入
-            await _startImport(
-              context,
-              result.files.single.path!,
-              isParsing,
-              parseProgress,
-              importResult,
-            );
-          }
-        },
-        child: Container(
-          height: 200,
-          decoration: BoxDecoration(
-            color: theme.colorScheme.surfaceContainerHighest,
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(
-              color: theme.colorScheme.outline.withValues(alpha: 0.2),
-              style: BorderStyle.solid,
+      child: Column(
+        children: [
+          // Scan Receipt Button
+          SizedBox(
+            width: double.infinity,
+            child: OutlinedButton.icon(
+              onPressed: () => _showImageSourceDialog(
+                context,
+                l10n,
+                theme,
+                isParsing,
+                parseProgress,
+                importResult,
+              ),
+              icon: const Icon(Icons.camera_alt_outlined),
+              label: Text(l10n.scanReceipt),
+              style: OutlinedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+              ),
             ),
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+
+          const SizedBox(height: 16),
+
+          // Divider
+          Row(
             children: [
-              Icon(
-                Icons.insert_drive_file_outlined,
-                size: 48,
-                color: theme.colorScheme.outline,
-              ),
-              const SizedBox(height: 16),
-              Text(
-                l10n.addFile,
-                style: theme.textTheme.titleMedium,
-              ),
-              const SizedBox(height: 8),
-              Text(
-                l10n.supportedFormats,
-                style: theme.textTheme.bodySmall?.copyWith(
-                  color: theme.colorScheme.outline,
+              Expanded(child: Divider(color: theme.colorScheme.outline.withValues(alpha: 0.3))),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Text(
+                  'OR',
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: theme.colorScheme.outline,
+                  ),
                 ),
               ),
+              Expanded(child: Divider(color: theme.colorScheme.outline.withValues(alpha: 0.3))),
             ],
           ),
+
+          const SizedBox(height: 16),
+
+          // File Upload Area
+          InkWell(
+            onTap: () async {
+              // 检查登录
+              if (!AuthManager.instance.isLoggedIn) {
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('请先登录')),
+                  );
+                  await AuthService.instance.showLoginOptions(context);
+                }
+                return;
+              }
+
+              final result = await FilePicker.platform.pickFiles(
+                type: FileType.custom,
+                allowedExtensions: ['xlsx', 'xls', 'csv'],
+              );
+
+              if (result != null && result.files.single.path != null && context.mounted) {
+                selectedFile.value = result.files.single;
+                // Track file selected
+                await AnalyticsService().trackBillImport(
+                  eventType: AnalyticsEvents.billFileSelected,
+                  fileType: result.files.single.extension ?? 'unknown',
+                  fileSize: result.files.single.size,
+                );
+                // 开始上传导入
+                await _startImport(
+                  context,
+                  result.files.single.path!,
+                  isParsing,
+                  parseProgress,
+                  importResult,
+                );
+              }
+            },
+            child: Container(
+              height: 160,
+              decoration: BoxDecoration(
+                color: theme.colorScheme.surfaceContainerHighest,
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(
+                  color: theme.colorScheme.outline.withValues(alpha: 0.2),
+                  style: BorderStyle.solid,
+                ),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.insert_drive_file_outlined,
+                    size: 48,
+                    color: theme.colorScheme.outline,
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    l10n.addFile,
+                    style: theme.textTheme.titleMedium,
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    l10n.supportedFormats,
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: theme.colorScheme.outline,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// Show dialog to choose image source (camera or gallery)
+  void _showImageSourceDialog(
+    BuildContext context,
+    AppLocalizations l10n,
+    ThemeData theme,
+    ValueNotifier<bool> isParsing,
+    ValueNotifier<double> parseProgress,
+    ValueNotifier<Map<String, dynamic>?> importResult,
+  ) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: const Icon(Icons.camera_alt),
+              title: Text(l10n.takePhoto),
+              onTap: () {
+                Navigator.pop(context);
+                _processOcrImage(
+                  context,
+                  ImageSource.camera,
+                  isParsing,
+                  parseProgress,
+                  importResult,
+                  l10n,
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.photo_library),
+              title: Text(l10n.chooseFromGallery),
+              onTap: () {
+                Navigator.pop(context);
+                _processOcrImage(
+                  context,
+                  ImageSource.gallery,
+                  isParsing,
+                  parseProgress,
+                  importResult,
+                  l10n,
+                );
+              },
+            ),
+          ],
         ),
       ),
     );
+  }
+
+  /// Process OCR image from camera or gallery
+  Future<void> _processOcrImage(
+    BuildContext context,
+    ImageSource source,
+    ValueNotifier<bool> isParsing,
+    ValueNotifier<double> parseProgress,
+    ValueNotifier<Map<String, dynamic>?> importResult,
+    AppLocalizations l10n,
+  ) async {
+    // Check login
+    if (!AuthManager.instance.isLoggedIn) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('请先登录')),
+        );
+        await AuthService.instance.showLoginOptions(context);
+      }
+      return;
+    }
+
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(
+      source: source,
+      maxWidth: 1920,
+      maxHeight: 1080,
+      imageQuality: 85,
+    );
+
+    if (image == null) return;
+
+    // Track image selected
+    await AnalyticsService().trackOcr(
+      eventType: AnalyticsEvents.ocrImageSelected,
+      imageSource: source == ImageSource.camera ? 'camera' : 'gallery',
+    );
+
+    isParsing.value = true;
+    parseProgress.value = 0.1;
+
+    // Track OCR started
+    await AnalyticsService().trackOcr(
+      eventType: AnalyticsEvents.ocrProcessingStarted,
+    );
+
+    try {
+      parseProgress.value = 0.3;
+      await Future.delayed(const Duration(milliseconds: 200));
+
+      parseProgress.value = 0.6;
+      final result = await IgnApiService.instance.ocrReceiptImage(image.path);
+
+      parseProgress.value = 1.0;
+      await Future.delayed(const Duration(milliseconds: 300));
+
+      isParsing.value = false;
+      importResult.value = result;
+
+      logger.i('[OCR] 识别结果: $result');
+
+      // Track OCR success
+      final success = result['success'] ?? false;
+      final data = result['data'] as Map<String, dynamic>?;
+      await AnalyticsService().trackOcr(
+        eventType: success
+            ? AnalyticsEvents.ocrProcessingSuccess
+            : AnalyticsEvents.ocrProcessingFailed,
+        confidence: data?['confidence']?.toDouble(),
+        merchant: data?['merchant'],
+        success: success,
+      );
+
+      if (context.mounted) {
+        if (success && data != null) {
+          // Show success message with extracted info
+          final merchant = data['merchant'] ?? '';
+          final amount = data['amount'] ?? 0;
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('识别成功: $merchant ¥$amount')),
+          );
+        } else {
+          final errorMsg = result['error'] ?? '识别失败，请重试';
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(errorMsg)),
+          );
+        }
+      }
+    } catch (e) {
+      isParsing.value = false;
+      parseProgress.value = 0.0;
+
+      logger.e('[OCR] 识别失败: $e');
+
+      // Track OCR failure
+      await AnalyticsService().trackOcr(
+        eventType: AnalyticsEvents.ocrProcessingFailed,
+        errorMessage: e.toString(),
+        success: false,
+      );
+
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('识别失败: $e')),
+        );
+      }
+    }
   }
 
   Widget _buildSelectedFileArea(
