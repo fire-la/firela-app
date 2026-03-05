@@ -82,6 +82,10 @@ class ApiConstants {
   /// 账户列表（按平台分组） GET
   static const String dashboardAccountsEndpoint = '/dashboard/accounts';
 
+  /// 负债按类型明细 GET
+  /// 返回 {total: number, byType: [{type, amount, count, accounts}]}
+  static const String liabilitiesBreakdownEndpoint = '/dashboard/liabilities/breakdown';
+
   // ============ Bean 余额/商品/价格 (地域前缀端点) ============
   /// 余额查询
   static const String balanceEndpoint = '/bean/balances';

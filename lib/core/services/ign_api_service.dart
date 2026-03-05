@@ -124,6 +124,13 @@ class IgnApiService {
     return (result as List).cast<Map<String, dynamic>>();
   }
 
+  /// 获取负债按类型明细
+  /// 返回 {total: number, byType: [{type, amount, count, accounts}]}
+  Future<Map<String, dynamic>> getLiabilitiesBreakdown() async {
+    final result = await _client.get(ApiConstants.liabilitiesBreakdownEndpoint);
+    return Map<String, dynamic>.from(result as Map);
+  }
+
   // ============ 余额/收款方 ============
 
   /// 获取账户余额
