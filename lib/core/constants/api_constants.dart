@@ -86,6 +86,10 @@ class ApiConstants {
   /// 返回 {total: number, byType: [{type, amount, count, accounts}]}
   static const String liabilitiesBreakdownEndpoint = '/dashboard/liabilities/breakdown';
 
+  // ============ FIRE Journey 端点 (地域前缀端点) ============
+  /// FIRE 目标 GET/POST
+  static const String fireGoalEndpoint = '/bean/fire-goal';
+
   // ============ Bean 余额/商品/价格 (地域前缀端点) ============
   /// 余额查询
   static const String balanceEndpoint = '/bean/balances';

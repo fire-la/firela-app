@@ -142,4 +142,25 @@ class IgnApiService {
   Future<dynamic> getPayeeList() async {
     return await _client.get(ApiConstants.payeeEndpoint);
   }
+
+  // ============ FIRE Journey ============
+
+  /// 获取 FIRE 目标
+  /// 返回 {targetAmount, targetDate, monthlyExpenses, withdrawalRate, createdAt, updatedAt}
+  Future<Map<String, dynamic>?> getFireGoal() async {
+    try {
+      final result = await _client.get(ApiConstants.fireGoalEndpoint);
+      return Map<String, dynamic>.from(result as Map);
+    } catch (e) {
+      // Return null if no goal exists yet
+      return null;
+    }
+  }
+
+  /// 保存 FIRE 目标
+  /// [data] 包含 targetAmount, targetDate, monthlyExpenses, withdrawalRate 等
+  Future<Map<String, dynamic>> saveFireGoal(Map<String, dynamic> data) async {
+    final result = await _client.post(ApiConstants.fireGoalEndpoint, body: data);
+    return Map<String, dynamic>.from(result as Map);
+  }
 }
