@@ -1,0 +1,580 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:go_router/go_router.dart';
+import '../../../../core/services/analytics_service.dart';
+import '../../../../core/services/analytics_events.dart';
+import '../../../../core/services/auth_service.dart';
+import '../../../../core/services/ign_api_service.dart';
+import '../../../../core/network/auth_manager.dart';
+import '../../../../core/network/api_client.dart';
+import '../../../../core/router/route_names.dart';
+import '../../../../core/utils/logger.dart';
+import '../../../fire_journey/presentation/pages/fire_journey_page.dart';
+import '../../../assets/presentation/pages/assets_tabs_page.dart';
+import '../../../settings/presentation/pages/settings_page.dart';
+import '../../../expense/presentation/widgets/expense_entry_bottom_sheet.dart';
+import '../../../expense/presentation/widgets/nlp_result_bottom_sheet.dart';
+import '../../../../shared/signals/connectivity_signal.dart';
+import '../../../../shared/widgets/offline_indicator.dart';
+
+/// Main page with bottom navigation
+class MainPage extends HookWidget {
+  const MainPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final currentIndex = useState(0);
+
+    // NLP 会话状态
+    final nlpSessionId = useState<String>('');
+
+    // SettingsPage 的 key，用于在切换 Tab 时刷新状态
+    final settingsKey = useMemoized(() => GlobalKey<SettingsPageState>());
+
+    // 页面加载时检查登录状态
+    useEffect(() {
+      Future.microtask(() {
+        if (context.mounted) {
+          AuthService.instance.checkAndLogin(context);
+        }
+      });
+      return null;
+    }, const []);
+
+    // Start connectivity monitoring
+    useEffect(() {
+      ConnectivityService.instance.startMonitoring();
+
+      // Track connectivity changes for toast notifications
+      final subscription = connectivitySignal.subscribe((state) {
+        if (state.lastChanged != null && context.mounted) {
+          if (state.isOnline) {
+            OfflineToast.showConnectionRestored(context);
+          }
+        }
+      });
+
+      return () {
+        subscription();
+        ConnectivityService.instance.stopMonitoring();
+      };
+    }, []);
+
+    final pages = [
+      const FireJourneyPage(),
+      const AssetsTabsPage(),
+      SettingsPage(key: settingsKey),
+    ];
+
+    return Scaffold(
+      body: Column(
+        children: [
+          // Offline indicator at the top
+          const OfflineIndicator(),
+          // Main content
+          Expanded(
+            child: IndexedStack(
+              index: currentIndex.value,
+              children: pages,
+            ),
+          ),
+        ],
+      ),
+      // FAB 悬浮记账按钮（仅在资产页面显示）
+      floatingActionButton: currentIndex.value == 1
+          ? Padding(
+              padding: const EdgeInsets.only(bottom: 16),
+              child: FloatingActionButton(
+                onPressed: () => _onFloatingAddTap(context, nlpSessionId),
+                backgroundColor: const Color(0xFF1A1A1A),
+                foregroundColor: Colors.white,
+                elevation: 4,
+                shape: const CircleBorder(),
+                child: const Icon(Icons.add, size: 28),
+              ),
+            )
+          : null,
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: currentIndex.value,
+        onTap: (index) {
+          currentIndex.value = index;
+          if (index == 2) {
+            settingsKey.currentState?.refresh();
+          }
+        },
+        type: BottomNavigationBarType.fixed,
+        selectedItemColor: Theme.of(context).colorScheme.primary,
+        unselectedItemColor: Theme.of(context).colorScheme.outline,
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
+        items: [
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.route),
+            label: l10n.tabFireJourney,
+          ),
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.bar_chart),
+            label: l10n.tabAssets,
+          ),
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.person),
+            label: l10n.tabMine,
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// 悬浮按钮点击 - 打开记账弹窗
+  void _onFloatingAddTap(BuildContext context, ValueNotifier<String> nlpSessionId) {
+    // Track expense button click
+    AnalyticsService().capture(AnalyticsEvents.expenseButtonClicked);
+
+    // 检查登录状态
+    if (!AuthManager.instance.isLoggedIn) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('请先登录')),
+      );
+      Future.delayed(const Duration(milliseconds: 500), () {
+        if (context.mounted) {
+          AuthService.instance.showLoginOptions(context);
+        }
+      });
+      return;
+    }
+
+    // 打开记账弹窗（键盘适配：isScrollControlled + AnimatedPadding）
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (ctx) {
+        return AnimatedPadding(
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(ctx).viewInsets.bottom,
+          ),
+          duration: const Duration(milliseconds: 100),
+          child: ExpenseEntryBottomSheet(
+            onSubmit: (text) {
+              _handleNlpSubmit(context, text, nlpSessionId);
+            },
+            onBillImport: () {
+              _handleBillImport(context);
+            },
+          ),
+        );
+      },
+    );
+  }
+
+  /// 处理 NLP 记账提交
+  /// 参考 IGN 项目 handleNlpSubmit 方法，处理不同置信度的返回结果
+  Future<void> _handleNlpSubmit(
+    BuildContext context,
+    String text,
+    ValueNotifier<String> nlpSessionId,
+  ) async {
+    logger.i('[MainPage] NLP submit: $text');
+
+    // 显示 loading
+    if (!context.mounted) return;
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => const Center(child: CircularProgressIndicator()),
+    );
+
+    try {
+      final response = await IgnApiService.instance.processNlp(
+        text,
+        sessionId: nlpSessionId.value.isEmpty ? null : nlpSessionId.value,
+      );
+
+      // 更新 sessionId
+      if (response['sessionId'] != null) {
+        nlpSessionId.value = response['sessionId'];
+      }
+
+      if (!context.mounted) return;
+      Navigator.pop(context); // 关闭 loading
+
+      final action = response['action'] as String? ?? '';
+      final confidence = (response['confidence'] as num?)?.toDouble() ?? 0.0;
+
+      logger.i('[MainPage] NLP response: action=$action, confidence=$confidence');
+
+      switch (action) {
+        case 'created':
+          // 高置信度 (≥75%)，直接成功
+          _showNlpResult(context, 'success', response, nlpSessionId);
+          break;
+
+        case 'confirm':
+        case 'confirm_payee':
+          // 低置信度 (<75%) 或收款方未匹配，需要用户确认
+          _showNlpResult(context, 'confirm', response, nlpSessionId,
+            message: action == 'confirm_payee'
+                ? (response['message'] ?? '收款方未匹配，请确认交易信息')
+                : null);
+          break;
+
+        case 'confirm_duplicate':
+          // 检测到可能重复的交易
+          _showNlpResult(context, 'confirm', response, nlpSessionId,
+            message: response['message'] ?? '检测到类似交易，请确认是否继续记录');
+          break;
+
+        case 'ask':
+          // 缺少字段，需要补充
+          _showNlpResult(context, 'ask', response, nlpSessionId,
+            message: response['message'],
+            waitingFor: response['waitingFor']);
+          break;
+
+        case 'cancel':
+          // 用户取消
+          nlpSessionId.value = '';
+          break;
+
+        default:
+          // 未知响应，显示确认表单
+          _showNlpResult(context, 'confirm', response, nlpSessionId,
+            message: response['message']);
+      }
+    } catch (e) {
+      logger.e('[MainPage] NLP 请求失败: $e');
+
+      // 详细调试信息
+      if (e is ApiException) {
+        logger.e('[MainPage] 状态码: ${e.statusCode}, 消息: ${e.message}');
+        if (e.data != null) {
+          logger.e('[MainPage] 响应数据: ${e.data}');
+        }
+      }
+
+      if (context.mounted) {
+        Navigator.pop(context); // 关闭 loading
+
+        String errorMsg = '分析失败，请重试';
+        if (e is ApiException) {
+          if (e.statusCode == 422) {
+            // 422 通常是账户不存在或分类未配置
+            final message = e.message;
+            if (message.contains('not found in account standards')) {
+              // 检查是否是 NLP 服务端错误（API 返回 similarAccounts 数组）
+              final errorData = e.data as Map<String, dynamic>?;
+              final similarAccounts = errorData?['similarAccounts'] as List<dynamic>?;
+              final suggestedAccount = similarAccounts?.isNotEmpty == true
+                  ? similarAccounts![0]['name'] as String?
+                  : null;
+              final operation = errorData?['operation'] as String?;
+
+              if (suggestedAccount != null) {
+                errorMsg = '分类未识别，已使用: $suggestedAccount';
+              } else if (operation == 'createTransactionAfterPayeeConfirmation') {
+                errorMsg = 'NLP服务异常：无法识别分类，请尝试更具体的描述（如"午餐餐饮花费88元"）';
+              } else {
+                errorMsg = '账户未配置：请先在 Beancount 账本中添加对应账户，或尝试更具体的描述';
+              }
+            } else {
+              errorMsg = '分类未识别，请尝试更具体的描述方式';
+            }
+          } else if (e.statusCode == 400) {
+            errorMsg = '输入信息有误';
+          } else if (e.statusCode == 500) {
+            errorMsg = '服务端错误: ${e.message}';
+          } else {
+            errorMsg = '请求失败 (${e.statusCode}): ${e.message}';
+          }
+        }
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(errorMsg),
+            duration: const Duration(seconds: 5),
+          ),
+        );
+      }
+    }
+  }
+
+  /// 显示 NLP 结果弹窗
+  void _showNlpResult(
+    BuildContext context,
+    String mode,
+    Map<String, dynamic> response,
+    ValueNotifier<String> nlpSessionId, {
+    String? message,
+    String? waitingFor,
+  }) {
+    final parsedData = response['parsedData'] as Map<String, dynamic>?
+        ?? response['transaction'] as Map<String, dynamic>?
+        ?? response['duplicateData']?['sourceTransaction'] as Map<String, dynamic>?
+        ?? {};
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (ctx) => Padding(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(ctx).viewInsets.bottom,
+        ),
+        child: NlpResultBottomSheet(
+          mode: mode,
+          parsedData: Map<String, dynamic>.from(parsedData),
+          message: message,
+          waitingFor: waitingFor,
+          intent: response['intent'] ?? 'expense',
+          onConfirm: (data) async {
+            if (mode == 'success') {
+              // 成功模式，直接完成
+              nlpSessionId.value = '';
+              if (context.mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('记账成功')),
+                );
+              }
+            } else if (mode == 'ask' && data['_userInput'] != null) {
+              // ask 模式：发送用户补充的信息（带 sessionId 继续多轮对话）
+              final userInput = data['_userInput'] as String;
+              if (context.mounted) {
+                await _handleNlpSubmit(context, userInput, nlpSessionId);
+              }
+            } else if (nlpSessionId.value.isNotEmpty) {
+              // 有 sessionId，通过多轮对话确认（发送 '确认' + sessionId）
+              if (context.mounted) {
+                await _handleNlpSubmit(context, '确认', nlpSessionId);
+              }
+            } else {
+              // 无 sessionId，直接调用 createTransaction 创建交易
+              if (context.mounted) {
+                await _handleDirectConfirm(context, Map<String, dynamic>.from(parsedData), nlpSessionId);
+              }
+            }
+          },
+          onCancel: () {
+            // 清除会话
+            if (nlpSessionId.value.isNotEmpty) {
+              IgnApiService.instance.clearNlpSession(nlpSessionId.value).catchError((_) {});
+            }
+            nlpSessionId.value = '';
+          },
+        ),
+      ),
+    );
+  }
+
+  /// 直接确认创建交易（无 sessionId 时的兜底方案）
+  Future<void> _handleDirectConfirm(
+    BuildContext context,
+    Map<String, dynamic> parsedData,
+    ValueNotifier<String> nlpSessionId,
+  ) async {
+    logger.i('[MainPage] 无 sessionId，直接创建交易: $parsedData');
+
+    // 转换为 Beancount 交易格式
+    final transaction = _convertToBeancountFormat(parsedData);
+    logger.i('[MainPage] 转换后的交易格式: $transaction');
+
+    if (!context.mounted) return;
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => const Center(child: CircularProgressIndicator()),
+    );
+
+    try {
+      await IgnApiService.instance.createTransaction(transaction);
+      nlpSessionId.value = '';
+
+      if (context.mounted) {
+        Navigator.pop(context); // 关闭 loading
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('记账成功')),
+        );
+      }
+    } catch (e) {
+      logger.e('[MainPage] 直接创建交易失败: $e');
+
+      // 处理422账户验证错误，尝试使用API建议的账户重试（支持多轮重试）
+      if (e is ApiException && e.statusCode == 422 && e.data != null) {
+        Map<String, dynamic>? errorData = e.data as Map<String, dynamic>?;
+        var currentTransaction = transaction;
+        var retryCount = 0;
+        const maxRetries = 5; // 最多重试5次，避免无限循环
+
+        while (retryCount < maxRetries) {
+          // API 返回 similarAccounts 数组，取第一个作为建议账户
+          final similarAccounts = errorData?['similarAccounts'] as List<dynamic>?;
+          final suggestedAccount = similarAccounts?.isNotEmpty == true
+              ? similarAccounts![0]['name'] as String?
+              : null;
+          final invalidAccount = errorData?['invalidAccount'] as String?;
+
+          if (suggestedAccount == null || invalidAccount == null) {
+            break;
+          }
+
+          retryCount++;
+          logger.i('[MainPage] 账户验证失败，使用建议账户重试 ($retryCount): $invalidAccount -> $suggestedAccount');
+
+          // 替换无效账户为建议账户
+          currentTransaction = _replaceAccountInTransaction(
+            currentTransaction,
+            invalidAccount,
+            suggestedAccount,
+          );
+          logger.i('[MainPage] 修正后的交易格式: $currentTransaction');
+
+          try {
+            await IgnApiService.instance.createTransaction(currentTransaction);
+            nlpSessionId.value = '';
+
+            if (context.mounted) {
+              Navigator.pop(context); // 关闭 loading
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('记账成功')),
+              );
+            }
+            return; // 成功，退出
+          } catch (retryError) {
+            if (retryError is ApiException && retryError.statusCode == 422 && retryError.data != null) {
+              // 继续重试下一个无效账户
+              final newData = retryError.data as Map<String, dynamic>?;
+              if (newData?['suggestedAccount'] != null && newData?['invalidAccount'] != null) {
+                // 更新 errorData 继续循环
+                errorData = newData;
+                logger.e('[MainPage] 重试仍然失败，继续尝试: ${newData?['invalidAccount']}');
+                continue;
+              }
+            }
+            logger.e('[MainPage] 重试失败: $retryError');
+            break; // 非账户验证错误，退出重试
+          }
+        }
+      }
+
+      if (context.mounted) {
+        Navigator.pop(context); // 关闭 loading
+
+        String errorMsg = '记账失败，请重试';
+        if (e is ApiException) {
+          if (e.statusCode == 422) {
+            final errorData = e.data as Map<String, dynamic>?;
+            // API 返回 similarAccounts 数组，取第一个作为建议账户
+            final similarAccounts = errorData?['similarAccounts'] as List<dynamic>?;
+            final suggested = similarAccounts?.isNotEmpty == true
+                ? similarAccounts![0]['name'] as String?
+                : null;
+            if (suggested != null) {
+              errorMsg = '账户不存在，建议使用: $suggested';
+            } else {
+              errorMsg = '交易处理失败: ${e.message}';
+            }
+          } else if (e.statusCode == 400) {
+            errorMsg = '交易格式错误: ${e.message}';
+          } else {
+            errorMsg = '请求失败 (${e.statusCode}): ${e.message}';
+          }
+        }
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(errorMsg), duration: const Duration(seconds: 5)),
+        );
+      }
+    }
+  }
+
+  /// 替换交易中的账户
+  Map<String, dynamic> _replaceAccountInTransaction(
+    Map<String, dynamic> transaction,
+    String oldAccount,
+    String newAccount,
+  ) {
+    final corrected = Map<String, dynamic>.from(transaction);
+    final postings = List<Map<String, dynamic>>.from(corrected['postings'] as List);
+
+    for (int i = 0; i < postings.length; i++) {
+      if (postings[i]['account'] == oldAccount) {
+        postings[i] = Map<String, dynamic>.from(postings[i]);
+        postings[i]['account'] = newAccount;
+      }
+    }
+
+    corrected['postings'] = postings;
+    return corrected;
+  }
+
+  /// 将 NLP 解析的数据转换为 Beancount 交易格式
+  /// 输入格式: {amount: 88, currency: CNY, date: 2026-02-25, narration: 餐饮, payee: 午餐费, category: food}
+  /// 输出格式: {date: ..., narration: ..., payee: ..., postings: [{account: ..., units: "88.0", currency: "CNY"}, ...]}
+  Map<String, dynamic> _convertToBeancountFormat(Map<String, dynamic> parsedData) {
+    final amount = (parsedData['amount'] as num?)?.toDouble() ?? 0.0;
+    final currency = parsedData['currency'] as String? ?? 'CNY';
+    final date = parsedData['date'] as String?;
+    final narration = parsedData['narration'] as String?;
+    final payee = parsedData['payee'] as String?;
+    final category = parsedData['category'] as String?;
+
+    // 根据 category 映射到 Beancount 账户
+    final expenseAccount = _mapCategoryToAccount(category);
+
+    // 构建 postings 数组（units 为字符串格式，currency 为直接字段）
+    final postings = <Map<String, dynamic>>[
+      {
+        'account': expenseAccount,
+        'units': amount.toString(),
+        'currency': currency,
+      },
+      // 负数表示资金流出（贷方）
+      {
+        'account': 'Assets:Unknown', // 默认资产账户，用户可能需要配置
+        'units': (-amount).toString(),
+        'currency': currency,
+      },
+    ];
+
+    return {
+      if (date != null) 'date': date,
+      if (narration != null) 'narration': narration,
+      if (payee != null) 'payee': payee,
+      'postings': postings,
+    };
+  }
+
+  /// 将 NLP 分类映射到 Beancount 账户
+  /// 注意：所有账户名必须符合后端账户标准，否则会返回 422 错误
+  /// 默认使用 Expenses:Uncategorized 作为兜底账户
+  String _mapCategoryToAccount(String? category) {
+    switch (category) {
+      case 'food':
+      case 'dining':
+        return 'Expenses:Uncategorized';  // 后端账户标准中没有 Expenses:Food
+      case 'transport':
+      case 'transportation':
+        return 'Expenses:Uncategorized';  // 后端账户标准中没有 Expenses:Transport
+      case 'shopping':
+        return 'Expenses:Uncategorized';  // 后端账户标准中没有 Expenses:Shopping
+      case 'entertainment':
+        return 'Expenses:Uncategorized';  // 后端账户标准中没有 Expenses:Entertainment
+      case 'health':
+      case 'medical':
+        return 'Expenses:Uncategorized';  // 后端账户标准中没有 Expenses:Health
+      case 'education':
+        return 'Expenses:Uncategorized';  // 后端账户标准中没有 Expenses:Education
+      case 'housing':
+        return 'Expenses:Uncategorized';  // 后端账户标准中没有 Expenses:Housing
+      case 'utilities':
+        return 'Expenses:Uncategorized';  // 后端账户标准中没有 Expenses:Utilities
+      default:
+        return 'Expenses:Uncategorized';
+    }
+  }
+
+  /// 处理账单导入 - 跳转到账单导入页面
+  void _handleBillImport(BuildContext context) {
+    context.push(RouteNames.billImport);
+  }
+}

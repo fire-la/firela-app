@@ -1469,5 +1469,30 @@
   "accountDeleted": "Account deleted successfully",
   "@accountDeleted": {
     "description": "Account deleted message"
+  },
+
+  "offline": "Offline",
+  "@offline": {
+    "description": "Offline status"
+  },
+
+  "youAreOffline": "You are offline - Some features may be limited",
+  "@youAreOffline": {
+    "description": "Offline banner message"
+  },
+
+  "syncPending": "Sync pending",
+  "@syncPending": {
+    "description": "Sync pending status"
+  },
+
+  "connectionRestored": "Connection restored - Syncing...",
+  "@connectionRestored": {
+    "description": "Connection restored toast"
+  },
+
+  "actionFailedOffline": "Action failed - Please try again when online",
+  "@actionFailedOffline": {
+    "description": "Action failed due to offline status"
   }
 }

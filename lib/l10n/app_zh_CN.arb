@@ -263,5 +263,11 @@
   "deleteAccountTitle": "删除账户",
   "typeDelete": "输入 DELETE 确认",
   "understandWarning": "我理解此操作无法撤销",
-  "accountDeleted": "账户已删除"
+  "accountDeleted": "账户已删除",
+
+  "offline": "离线",
+  "youAreOffline": "当前离线 - 部分功能可能受限",
+  "syncPending": "待同步",
+  "connectionRestored": "网络已恢复 - 正在同步...",
+  "actionFailedOffline": "操作失败 - 请在联网后重试"
 }

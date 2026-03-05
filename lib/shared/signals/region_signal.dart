@@ -1,5 +1,8 @@
 import 'package:signals_flutter/signals_flutter.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import '../../core/network/api_client.dart';
+import '../../core/constants/storage_keys.dart';
+import '../../core/utils/logger.dart';
 
 /// Region code type
 /// Supported regions: cn, us, eu-core, de
@@ -58,14 +61,53 @@ const Map<RegionCode, RegionInfo> regionInfoMap = {
   ),
 };
 
+/// Initialize region from persisted storage
+Future<void> initRegion() async {
+  try {
+    final box = await Hive.openBox(StorageKeys.preferencesBox);
+    final savedRegion = box.get('region', defaultValue: 'cn') as String;
+
+    if (regionInfoMap.containsKey(savedRegion)) {
+      regionSignal.value = savedRegion;
+      ApiClient.instance.setRegion(savedRegion);
+      logger.i('[Region] Loaded region: $savedRegion');
+    } else {
+      // Default to 'cn' if saved region is invalid
+      regionSignal.value = 'cn';
+      ApiClient.instance.setRegion('cn');
+      logger.w('[Region] Invalid saved region: $savedRegion, defaulting to cn');
+    }
+  } catch (e) {
+    logger.e('[Region] Failed to init region: $e');
+    // Default to 'cn' on error
+    regionSignal.value = 'cn';
+    ApiClient.instance.setRegion('cn');
+  }
+}
+
 /// Set region
 /// Updates both the signal and ApiClient
-void setRegion(RegionCode region) {
+/// Returns a Future for compatibility with await
+Future<void> setRegion(RegionCode region) async {
   if (!regionInfoMap.containsKey(region)) {
     throw ArgumentError('Invalid region code: $region. Valid regions: ${regionInfoMap.keys.join(', ')}');
   }
   regionSignal.value = region;
   ApiClient.instance.setRegion(region);
+
+  // Persist region to storage
+  await _persistRegion(region);
+}
+
+/// Persist region to storage
+Future<void> _persistRegion(RegionCode region) async {
+  try {
+    final box = await Hive.openBox(StorageKeys.preferencesBox);
+    await box.put('region', region);
+    logger.i('[Region] Saved region: $region');
+  } catch (e) {
+    logger.e('[Region] Failed to save region: $e');
+  }
 }
 
 /// Get current region info

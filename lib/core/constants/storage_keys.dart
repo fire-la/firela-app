@@ -43,4 +43,19 @@ class StorageKeys {
 
   /// Decimal precision (0-4)
   static const String decimalPrecision = 'decimal_precision';
+
+  /// Offline cache box name
+  static const String offlineCacheBox = 'offline_cache';
+
+  /// Pending operations box name
+  static const String pendingOperationsBox = 'pending_operations';
+
+  /// Cached pending transactions
+  static const String cachedPendingTransactions = 'cached_pending_transactions';
+
+  /// Cached net worth history
+  static const String cachedNetWorthHistory = 'cached_net_worth_history';
+
+  /// Cached FIRE goal
+  static const String cachedFireGoal = 'cached_fire_goal';
 }
