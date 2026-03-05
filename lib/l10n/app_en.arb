@@ -1154,5 +1154,215 @@
   "alreadyAchieved": "Achieved!",
   "@alreadyAchieved": {
     "description": "Already achieved label"
+  },
+
+  "exportData": "Export Data",
+  "@exportData": {
+    "description": "Export data title"
+  },
+
+  "exportAsJson": "Export as JSON",
+  "@exportAsJson": {
+    "description": "Export as JSON option"
+  },
+
+  "exportAsCsv": "Export as CSV",
+  "@exportAsCsv": {
+    "description": "Export as CSV option"
+  },
+
+  "exporting": "Exporting...",
+  "@exporting": {
+    "description": "Exporting in progress"
+  },
+
+  "exportSuccess": "Export successful",
+  "@exportSuccess": {
+    "description": "Export success message"
+  },
+
+  "exportFailed": "Export failed",
+  "@exportFailed": {
+    "description": "Export failed message"
+  },
+
+  "privacyPolicy": "Privacy Policy",
+  "@privacyPolicy": {
+    "description": "Privacy policy title"
+  },
+
+  "termsOfService": "Terms of Service",
+  "@termsOfService": {
+    "description": "Terms of service title"
+  },
+
+  "licenses": "Open Source Licenses",
+  "@licenses": {
+    "description": "Licenses title"
+  },
+
+  "faq": "Frequently Asked Questions",
+  "@faq": {
+    "description": "FAQ title"
+  },
+
+  "contactSupport": "Contact Support",
+  "@contactSupport": {
+    "description": "Contact support button"
+  },
+
+  "sendFeedback": "Send Feedback",
+  "@sendFeedback": {
+    "description": "Send feedback button"
+  },
+
+  "accountSettings": "Account Settings",
+  "@accountSettings": {
+    "description": "Account settings title"
+  },
+
+  "userId": "User ID",
+  "@userId": {
+    "description": "User ID label"
+  },
+
+  "displayName": "Display Name",
+  "@displayName": {
+    "description": "Display name label"
+  },
+
+  "customName": "Custom Name",
+  "@customName": {
+    "description": "Custom name label"
+  },
+
+  "securityToken": "Security Token",
+  "@securityToken": {
+    "description": "Security token label"
+  },
+
+  "savedToken": "Token Saved",
+  "@savedToken": {
+    "description": "Token saved indicator"
+  },
+
+  "reLogin": "Re-login",
+  "@reLogin": {
+    "description": "Re-login button"
+  },
+
+  "deleteAccount": "Delete Account",
+  "@deleteAccount": {
+    "description": "Delete account button"
+  },
+
+  "deleteAccountConfirm": "Are you sure you want to delete your account? This action cannot be undone.",
+  "@deleteAccountConfirm": {
+    "description": "Delete account confirmation message"
+  },
+
+  "deleteAccountWarning": "All your data will be permanently deleted.",
+  "@deleteAccountWarning": {
+    "description": "Delete account warning"
+  },
+
+  "accountCreated": "Account Created",
+  "@accountCreated": {
+    "description": "Account created label"
+  },
+
+  "preferences": "Preferences",
+  "@preferences": {
+    "description": "Preferences section title"
+  },
+
+  "autoSync": "Auto Sync",
+  "@autoSync": {
+    "description": "Auto sync toggle label"
+  },
+
+  "autoSyncDesc": "Automatically sync data with server",
+  "@autoSyncDesc": {
+    "description": "Auto sync description"
+  },
+
+  "notifications": "Notifications",
+  "@notifications": {
+    "description": "Notifications toggle label"
+  },
+
+  "notificationsDesc": "Enable push notifications",
+  "@notificationsDesc": {
+    "description": "Notifications description"
+  },
+
+  "decimalPrecision": "Decimal Precision",
+  "@decimalPrecision": {
+    "description": "Decimal precision label"
+  },
+
+  "systemSettings": "System Settings",
+  "@systemSettings": {
+    "description": "System settings button"
+  },
+
+  "copiedToClipboard": "Copied to clipboard",
+  "@copiedToClipboard": {
+    "description": "Copied to clipboard message"
+  },
+
+  "version": "Version",
+  "@version": {
+    "description": "Version label"
+  },
+
+  "buildNumber": "Build",
+  "@buildNumber": {
+    "description": "Build number label"
+  },
+
+  "aboutApp": "About",
+  "@aboutApp": {
+    "description": "About app title"
+  },
+
+  "faq1Question": "How do I create an account?",
+  "@faq1Question": {},
+  "faq1Answer": "Tap the 'Login Now' button on the profile page and select 'Create New Account'. Your security token will be generated automatically.",
+  "@faq1Answer": {},
+
+  "faq2Question": "How do I export my data?",
+  "@faq2Question": {},
+  "faq2Answer": "Go to Settings > Data Export and choose your preferred format (JSON or CSV).",
+  "@faq2Answer": {},
+
+  "faq3Question": "Is my data secure?",
+  "@faq3Question": {},
+  "faq3Answer": "Yes, your data is encrypted and stored securely. You have full control over your data.",
+  "@faq3Answer": {},
+
+  "faq4Question": "How do I switch regions?",
+  "@faq4Question": {},
+  "faq4Answer": "Go to Settings, find the Region section, and select your preferred region. Data will be reloaded.",
+  "@faq4Answer": {},
+
+  "privacyContent": "Your privacy is important to us. This app collects minimal data necessary for functionality. Your financial data is encrypted and stored securely. We do not sell or share your personal information with third parties.",
+  "@privacyContent": {
+    "description": "Privacy policy content"
+  },
+
+  "editName": "Edit Name",
+  "@editName": {
+    "description": "Edit name dialog title"
+  },
+
+  "enterDisplayName": "Enter your display name",
+  "@enterDisplayName": {
+    "description": "Display name input placeholder"
+  },
+
+  "noDataToExport": "No data available to export",
+  "@noDataToExport": {
+    "description": "No data message"
   }
 }
