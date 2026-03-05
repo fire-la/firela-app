@@ -9,6 +9,7 @@ import '../../../../core/services/auth_service.dart';
 import '../../../../core/services/analytics_service.dart';
 import '../../../../core/services/analytics_events.dart';
 import '../../../../core/utils/logger.dart';
+import '../widgets/batch_import_summary.dart';
 import '../widgets/categorization_preview_sheet.dart';
 import '../widgets/import_error_display.dart';
 import '../widgets/import_progress_indicator.dart';
@@ -652,13 +653,10 @@ class BillImportPage extends HookWidget {
     ValueNotifier<ImportStep> currentStep,
   ) {
     final result = importResult.value!;
-    final imported = result['imported'] ?? 0;
-    final failed = result['failed'] ?? 0;
-    final skipped = result['skipped'] ?? 0;
-    final isSuccess = imported > 0;
+    final batchResult = BatchImportResult.fromJson(result);
 
     // Set current step based on result
-    if (isSuccess) {
+    if (batchResult.isSuccess) {
       currentStep.value = ImportStep.complete;
     } else {
       currentStep.value = ImportStep.error;
@@ -666,93 +664,28 @@ class BillImportPage extends HookWidget {
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Column(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: isSuccess
-                  ? Colors.green.withValues(alpha: 0.1)
-                  : Colors.red.withValues(alpha: 0.1),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Column(
-              children: [
-                Icon(
-                  isSuccess ? Icons.check_circle : Icons.error_outline,
-                  size: 48,
-                  color: isSuccess ? Colors.green : Colors.red,
-                ),
-                const SizedBox(height: 12),
-                Text(
-                  isSuccess ? '导入成功' : '导入失败',
-                  style: theme.textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: isSuccess ? Colors.green[700] : Colors.red[700],
-                  ),
-                ),
-                const SizedBox(height: 16),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    _buildStatItem(theme, '$imported', '成功导入', Colors.green),
-                    if (skipped > 0)
-                      _buildStatItem(theme, '$skipped', '跳过(重复)', Colors.orange),
-                    if (failed > 0)
-                      _buildStatItem(theme, '$failed', '失败', Colors.red),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 16),
-          Row(
-            children: [
-              Expanded(
-                child: OutlinedButton(
-                  onPressed: () {
-                    selectedFile.value = null;
-                    isParsing.value = false;
-                    importResult.value = null;
-                    currentStep.value = ImportStep.idle;
-                  },
-                  child: Text(l10n.batchImportContinueImport),
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: FilledButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: Text(l10n.batchImportDone),
-                ),
-              ),
-            ],
-          ),
-        ],
+      child: BatchImportSummary(
+        result: batchResult,
+        onViewImported: () {
+          // Navigate to income/expense page
+          Navigator.pop(context);
+        },
+        onReviewLowConfidence: batchResult.hasReviewItems
+            ? () {
+                // Navigate to review center with low confidence filter
+                Navigator.pop(context);
+              }
+            : null,
+        onContinueImport: () {
+          selectedFile.value = null;
+          isParsing.value = false;
+          importResult.value = null;
+          currentStep.value = ImportStep.idle;
+        },
+        onDone: () {
+          Navigator.pop(context);
+        },
       ),
-    );
-  }
-
-  Widget _buildStatItem(ThemeData theme, String value, String label, Color color) {
-    return Column(
-      children: [
-        Text(
-          value,
-          style: theme.textTheme.headlineSmall?.copyWith(
-            fontWeight: FontWeight.bold,
-            color: color,
-          ),
-        ),
-        const SizedBox(height: 4),
-        Text(
-          label,
-          style: theme.textTheme.bodySmall?.copyWith(
-            color: color,
-          ),
-        ),
-      ],
     );
   }
 
