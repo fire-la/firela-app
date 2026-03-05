@@ -77,7 +77,7 @@ Plans:
 
 Plans:
 - [x] 03-01: OCR/receipt scanning integration
-- [ ] 03-02: NLP expense categorization enhancement
+- [x] 03-02: NLP expense categorization enhancement
 - [ ] 03-03: Bill import workflow improvements
 
 ### Phase 4: Assets & Liabilities Dashboard
@@ -137,7 +137,7 @@ Phases execute in numeric order: 1 → 2 → 2.1 → 2.2 → 3 → 3.1 → 4
 | 2. Analytics Integration | 3/3 | Complete | 2026-02-27 |
 | 2.1. Automated Testing | 1/1 | Complete | 2026-03-02 |
 | 2.2. API Path & Region | 2/2 | Complete | 2026-03-02 |
-| 3. Bill Import | 1/3 | In progress | - |
+| 3. Bill Import | 2/3 | In progress | - |
 | 4. Assets Dashboard | 0/3 | Not started | - |
 | 5. FIRE Journey | 0/3 | Not started | - |
 | 6. Settings & Sync | 0/3 | Not started | - |
