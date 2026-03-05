@@ -13,6 +13,7 @@ import 'about_page.dart';
 import 'help_center_page.dart';
 import 'account_settings_page.dart';
 import '../widgets/sync_status_widget.dart';
+import '../dialogs/backup_dialog.dart';
 
 /// Settings page (Mine)
 class SettingsPage extends StatefulWidget {
@@ -681,6 +682,17 @@ class SettingsPageState extends State<SettingsPage> {
                 ),
               ),
             ),
+            // Backup/Restore option
+            ListTile(
+              leading: const Icon(Icons.backup_outlined),
+              title: Text(l10n.backupData),
+              subtitle: Text(l10n.backupWarning.split('.').first),
+              onTap: () {
+                Navigator.pop(ctx);
+                showBackupDialog(context);
+              },
+            ),
+            Divider(height: 1, color: theme.colorScheme.outline.withValues(alpha: 0.1)),
             ListTile(
               leading: const Icon(Icons.data_object),
               title: Text(l10n.exportAsJson),
