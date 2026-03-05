@@ -139,5 +139,12 @@
   "batchImportReviewLowConfidence": "查看低置信度",
   "batchImportContinueImport": "繼續導入",
   "batchImportDone": "完成",
-  "batchImportItemsImported": "成功導入{count}條記錄"
+  "batchImportItemsImported": "成功導入{count}條記錄",
+
+  "liabilitiesByType": "負債分類",
+  "creditCards": "信用卡",
+  "loans": "貸款",
+  "mortgages": "房貸",
+  "otherLiabilities": "其他負債",
+  "liabilityDetails": "負債詳情"
 }

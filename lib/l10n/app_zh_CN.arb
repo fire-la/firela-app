@@ -138,5 +138,12 @@
   "batchImportReviewLowConfidence": "查看低置信度",
   "batchImportContinueImport": "继续导入",
   "batchImportDone": "完成",
-  "batchImportItemsImported": "成功导入{count}条记录"
+  "batchImportItemsImported": "成功导入{count}条记录",
+
+  "liabilitiesByType": "负债分类",
+  "creditCards": "信用卡",
+  "loans": "贷款",
+  "mortgages": "房贷",
+  "otherLiabilities": "其他负债",
+  "liabilityDetails": "负债详情"
 }

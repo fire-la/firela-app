@@ -899,5 +899,35 @@
         "type": "int"
       }
     }
+  },
+
+  "liabilitiesByType": "Liabilities by Type",
+  "@liabilitiesByType": {
+    "description": "Liabilities breakdown by type section title"
+  },
+
+  "creditCards": "Credit Cards",
+  "@creditCards": {
+    "description": "Credit cards liability type"
+  },
+
+  "loans": "Loans",
+  "@loans": {
+    "description": "Loans liability type"
+  },
+
+  "mortgages": "Mortgages",
+  "@mortgages": {
+    "description": "Mortgages liability type"
+  },
+
+  "otherLiabilities": "Other Liabilities",
+  "@otherLiabilities": {
+    "description": "Other liabilities type"
+  },
+
+  "liabilityDetails": "Liability Details",
+  "@liabilityDetails": {
+    "description": "Liability details section"
   }
 }
