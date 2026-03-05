@@ -5,6 +5,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 import '../providers/use_fire_progress.dart';
+import '../widgets/milestone_badge.dart';
 
 /// FIRE Journey page showing progress and milestones
 class FireJourneyPage extends HookWidget {
@@ -15,6 +16,22 @@ class FireJourneyPage extends HookWidget {
     final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final fireProgress = useFireProgress();
+
+    // Show celebration dialog for newly achieved milestones
+    useEffect(() {
+      if (fireProgress.newlyAchievedMilestones.isNotEmpty) {
+        Future.microtask(() {
+          if (context.mounted) {
+            _showCelebrationDialog(
+              context,
+              l10n,
+              fireProgress.newlyAchievedMilestones,
+            );
+          }
+        });
+      }
+      return null;
+    }, [fireProgress.newlyAchievedMilestones.length]);
 
     return Scaffold(
       backgroundColor: theme.colorScheme.surface,
@@ -33,6 +50,47 @@ class FireJourneyPage extends HookWidget {
           : fireProgress.hasNoGoal
               ? _buildEmptyState(context, l10n)
               : _buildContent(context, l10n, fireProgress),
+    );
+  }
+
+  void _showCelebrationDialog(
+    BuildContext context,
+    AppLocalizations l10n,
+    List<dynamic> milestones,
+  ) {
+    HapticFeedback.heavyImpact();
+
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Row(
+          children: [
+            const Icon(Icons.celebration, color: Colors.black),
+            const SizedBox(width: 8),
+            Text(l10n.milestoneAchieved),
+          ],
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              l10n.celebrateProgress,
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+            const SizedBox(height: 16),
+            ...milestones.map((m) => Padding(
+              padding: const EdgeInsets.symmetric(vertical: 4),
+              child: MilestoneBadge(milestone: m),
+            )),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text(l10n.confirm),
+          ),
+        ],
+      ),
     );
   }
 
@@ -289,10 +347,7 @@ class FireJourneyPage extends HookWidget {
   ) {
     final theme = Theme.of(context);
     final currentNetWorth = fireProgress.progress?.currentNetWorth ?? 0;
-    final targetAmount = fireProgress.goal?.targetAmount ?? 0;
-
-    // Calculate milestone achievements based on current net worth
-    final milestones = _getDefaultMilestones(targetAmount);
+    final milestones = fireProgress.milestones;
 
     // Calculate emergency fund months (6 months of expenses)
     final monthlyExpenses = fireProgress.goal?.monthlyExpenses ?? 0;
@@ -315,26 +370,26 @@ class FireJourneyPage extends HookWidget {
             ),
           ),
 
-          // Milestones - show achieved and locked
+          // Milestones - show from hook data
           if (milestones.length > 2) ...[
             Positioned(
               top: 40,
               right: 60,
-              child: _buildMilestone(context, milestones[2]['label'], currentNetWorth >= milestones[2]['amount']),
+              child: MilestoneBadge(milestone: milestones[2]),
             ),
           ],
           if (milestones.length > 1) ...[
             Positioned(
               top: 100,
               right: 100,
-              child: _buildMilestone(context, milestones[1]['label'], currentNetWorth >= milestones[1]['amount']),
+              child: MilestoneBadge(milestone: milestones[1]),
             ),
           ],
           if (milestones.isNotEmpty) ...[
             Positioned(
               bottom: 100,
               right: 80,
-              child: _buildMilestone(context, milestones[0]['label'], currentNetWorth >= milestones[0]['amount']),
+              child: MilestoneBadge(milestone: milestones[0]),
             ),
           ],
 
@@ -401,58 +456,6 @@ class FireJourneyPage extends HookWidget {
                   style: theme.textTheme.bodySmall,
                 ),
               ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  /// Get default milestones based on target amount
-  List<Map<String, dynamic>> _getDefaultMilestones(double targetAmount) {
-    // Standard milestones in CNY (万 = 10,000)
-    const standardMilestones = [
-      {'amount': 100000.0, 'label': '10万'},      // 100k
-      {'amount': 500000.0, 'label': '50万'},      // 500k
-      {'amount': 1000000.0, 'label': '100万'},    // 1M
-      {'amount': 5000000.0, 'label': '500万'},    // 5M
-      {'amount': 10000000.0, 'label': '1000万'},  // 10M
-    ];
-
-    // If target amount is set, filter relevant milestones
-    if (targetAmount > 0) {
-      return standardMilestones.where((m) => m['amount'] as double <= targetAmount * 1.2).toList();
-    }
-
-    return standardMilestones;
-  }
-
-  Widget _buildMilestone(BuildContext context, String label, bool achieved) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-      decoration: BoxDecoration(
-        color: achieved ? const Color(0xFFFFFFFF) : const Color(0xFFE0E0E0),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: achieved ? const Color(0xFF000000) : const Color(0xFF999999),
-          width: 1.5,
-        ),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(
-            achieved ? Icons.check : Icons.lock_outline,
-            size: 14,
-            color: achieved ? const Color(0xFF000000) : const Color(0xFF666666),
-          ),
-          const SizedBox(width: 4),
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 11,
-              fontWeight: FontWeight.w500,
-              color: achieved ? const Color(0xFF000000) : const Color(0xFF666666),
             ),
           ),
         ],

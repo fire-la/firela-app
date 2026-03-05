@@ -155,5 +155,9 @@
   "fireGoal": "FIRE目标",
   "fireNumber": "FIRE数字",
   "savingsRate": "储蓄率",
-  "yearsToFire": "距离FIRE年数"
+  "yearsToFire": "距离FIRE年数",
+
+  "milestoneAchieved": "里程碑达成！",
+  "celebrateProgress": "恭喜你在FIRE之路上达成这个里程碑！",
+  "refreshToSeeUpdates": "下拉刷新查看最新进度"
 }

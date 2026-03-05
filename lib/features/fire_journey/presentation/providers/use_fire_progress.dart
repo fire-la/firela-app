@@ -8,7 +8,9 @@ import '../../../../core/utils/logger.dart';
 import '../../data/services/fire_calculation_service.dart';
 import '../../data/services/fire_goal_storage.dart';
 import '../../domain/models/fire_goal.dart';
+import '../../domain/models/fire_milestone.dart';
 import '../../domain/models/fire_progress.dart';
+import '../widgets/milestone_badge.dart';
 
 /// Result of the useFireProgress hook
 class FireProgressResult {
@@ -16,6 +18,8 @@ class FireProgressResult {
     this.progress,
     this.goal,
     this.journeyStartDate,
+    this.milestones = const [],
+    this.newlyAchievedMilestones = const [],
     this.isLoading = false,
     this.error,
     this.refresh,
@@ -29,6 +33,12 @@ class FireProgressResult {
 
   /// Date when FIRE journey started (for calculating days)
   final DateTime? journeyStartDate;
+
+  /// Milestones with achievement status
+  final List<FireMilestone> milestones;
+
+  /// Newly achieved milestones (for celebration)
+  final List<FireMilestone> newlyAchievedMilestones;
 
   /// Loading state
   final bool isLoading;
@@ -105,6 +115,8 @@ FireProgressResult useFireProgress() {
   final netWorth = useState<double>(0.0);
   final monthlyIncome = useState<double>(0.0);
   final monthlyExpenses = useState<double>(0.0);
+  final milestones = useState<List<FireMilestone>>([]);
+  final newlyAchievedMilestones = useState<List<FireMilestone>>([]);
 
   // Load data on mount
   useEffect(() {
@@ -117,6 +129,8 @@ FireProgressResult useFireProgress() {
       netWorth: netWorth,
       monthlyIncome: monthlyIncome,
       monthlyExpenses: monthlyExpenses,
+      milestones: milestones,
+      newlyAchievedMilestones: newlyAchievedMilestones,
     ));
     return null;
   }, const []);
@@ -132,6 +146,8 @@ FireProgressResult useFireProgress() {
       netWorth: netWorth,
       monthlyIncome: monthlyIncome,
       monthlyExpenses: monthlyExpenses,
+      milestones: milestones,
+      newlyAchievedMilestones: newlyAchievedMilestones,
       forceRefresh: true,
     );
   }
@@ -140,6 +156,8 @@ FireProgressResult useFireProgress() {
     progress: progress.value,
     goal: goal.value,
     journeyStartDate: journeyStartDate.value,
+    milestones: milestones.value,
+    newlyAchievedMilestones: newlyAchievedMilestones.value,
     isLoading: isLoading.value,
     error: error.value,
     refresh: refresh,
@@ -156,6 +174,8 @@ Future<void> _fetchData({
   required ValueNotifier<double> netWorth,
   required ValueNotifier<double> monthlyIncome,
   required ValueNotifier<double> monthlyExpenses,
+  required ValueNotifier<List<FireMilestone>> milestones,
+  required ValueNotifier<List<FireMilestone>> newlyAchievedMilestones,
   bool forceRefresh = false,
 }) async {
   if (!AuthManager.instance.isLoggedIn) {
@@ -219,13 +239,30 @@ Future<void> _fetchData({
 
       progress.value = calculatedProgress;
 
+      // Check milestones
+      final newAchieved = await MilestoneService.instance.checkMilestones(
+        netWorth.value,
+        fireGoal.targetAmount,
+      );
+      newlyAchievedMilestones.value = newAchieved;
+
+      // Get milestones with status
+      final allMilestones = await MilestoneService.instance.getMilestonesWithStatus(
+        netWorth.value,
+        fireGoal.targetAmount,
+      );
+      milestones.value = allMilestones;
+
       logger.i(
         '[useFireProgress] Progress calculated: '
         'netWorth=${netWorth.value}, goal=${fireGoal.targetAmount}, '
-        'progress=${calculatedProgress.progressPercentage.toStringAsFixed(1)}%',
+        'progress=${calculatedProgress.progressPercentage.toStringAsFixed(1)}%, '
+        'milestones=${allMilestones.where((m) => m.achieved).length}/${allMilestones.length}',
       );
     } else {
       progress.value = null;
+      milestones.value = [];
+      newlyAchievedMilestones.value = [];
       logger.i('[useFireProgress] No FIRE goal set');
     }
   } catch (e) {

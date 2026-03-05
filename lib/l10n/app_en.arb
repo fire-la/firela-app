@@ -969,5 +969,20 @@
   "yearsToFire": "Years to FIRE",
   "@yearsToFire": {
     "description": "Estimated years to reach FIRE"
+  },
+
+  "milestoneAchieved": "Milestone Achieved!",
+  "@milestoneAchieved": {
+    "description": "Title for milestone achievement celebration"
+  },
+
+  "celebrateProgress": "Congratulations on reaching this milestone on your FIRE journey!",
+  "@celebrateProgress": {
+    "description": "Message for milestone celebration"
+  },
+
+  "refreshToSeeUpdates": "Pull to refresh and see your latest progress",
+  "@refreshToSeeUpdates": {
+    "description": "Hint for pull-to-refresh"
   }
 }
