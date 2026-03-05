@@ -949,5 +949,25 @@
   "period1Year": "1Y",
   "@period1Year": {
     "description": "1 year period selector label"
+  },
+
+  "fireGoal": "FIRE Goal",
+  "@fireGoal": {
+    "description": "FIRE goal label"
+  },
+
+  "fireNumber": "FIRE Number",
+  "@fireNumber": {
+    "description": "FIRE number (target amount for financial independence)"
+  },
+
+  "savingsRate": "Savings Rate",
+  "@savingsRate": {
+    "description": "Savings rate percentage"
+  },
+
+  "yearsToFire": "Years to FIRE",
+  "@yearsToFire": {
+    "description": "Estimated years to reach FIRE"
   }
 }

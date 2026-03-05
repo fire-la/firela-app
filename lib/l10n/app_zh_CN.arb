@@ -150,5 +150,10 @@
   "period1Month": "1月",
   "period3Months": "3月",
   "period6Months": "6月",
-  "period1Year": "1年"
+  "period1Year": "1年",
+
+  "fireGoal": "FIRE目标",
+  "fireNumber": "FIRE数字",
+  "savingsRate": "储蓄率",
+  "yearsToFire": "距离FIRE年数"
 }
