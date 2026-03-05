@@ -6,6 +6,7 @@ import 'package:signals_flutter/signals_flutter.dart';
 import '../../../../shared/signals/theme_signal.dart';
 import '../../../../shared/signals/locale_signal.dart';
 import '../../../../shared/signals/region_signal.dart';
+import '../../../../shared/signals/preferences_signal.dart';
 import '../../../../core/network/auth_manager.dart';
 import '../../../../core/services/auth_service.dart';
 import 'about_page.dart';
@@ -107,9 +108,14 @@ class SettingsPageState extends State<SettingsPage> {
                 ],
               ),
             ),
-            
+
             const SizedBox(height: 24),
-            
+
+            // Preferences section
+            _buildPreferencesSection(context, l10n),
+
+            const SizedBox(height: 24),
+
             // Theme and language settings
             _buildQuickSettings(context, l10n),
             
@@ -807,5 +813,148 @@ Sample,2026-03-05,0.00,CNY,Export,"This is a sample export. Connect to your acco
         );
       }
     }
+  }
+
+  /// Build preferences section with toggles
+  Widget _buildPreferencesSection(BuildContext context, AppLocalizations l10n) {
+    final theme = Theme.of(context);
+
+    return Watch((context) {
+      final preferences = preferencesSignal.value;
+
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Section header
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Text(
+              l10n.preferences,
+              style: theme.textTheme.titleSmall?.copyWith(
+                color: theme.colorScheme.outline,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+          const SizedBox(height: 8),
+
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 16),
+            decoration: BoxDecoration(
+              color: theme.colorScheme.surfaceContainerHighest,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Column(
+              children: [
+                // Auto sync toggle
+                SwitchListTile(
+                  secondary: Icon(
+                    Icons.sync,
+                    color: theme.colorScheme.outline,
+                  ),
+                  title: Text(l10n.autoSync),
+                  subtitle: Text(
+                    l10n.autoSyncDesc,
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: theme.colorScheme.outline,
+                    ),
+                  ),
+                  value: preferences.autoSync,
+                  onChanged: (value) => setAutoSync(value),
+                ),
+                Divider(height: 1, color: theme.colorScheme.outline.withValues(alpha: 0.1)),
+
+                // Notifications toggle
+                SwitchListTile(
+                  secondary: Icon(
+                    Icons.notifications_outlined,
+                    color: theme.colorScheme.outline,
+                  ),
+                  title: Text(l10n.notifications),
+                  subtitle: Text(
+                    l10n.notificationsDesc,
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: theme.colorScheme.outline,
+                    ),
+                  ),
+                  value: preferences.showNotifications,
+                  onChanged: (value) => setShowNotifications(value),
+                ),
+                Divider(height: 1, color: theme.colorScheme.outline.withValues(alpha: 0.1)),
+
+                // Decimal precision selector
+                InkWell(
+                  onTap: () => _showDecimalPrecisionDialog(context, l10n, preferences.decimalPrecision),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.calculate_outlined,
+                          color: theme.colorScheme.outline,
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(l10n.decimalPrecision),
+                              const SizedBox(height: 2),
+                              Text(
+                                '${preferences.decimalPrecision} decimal places',
+                                style: theme.textTheme.bodySmall?.copyWith(
+                                  color: theme.colorScheme.outline,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Icon(
+                          Icons.chevron_right,
+                          size: 20,
+                          color: theme.colorScheme.outline,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      );
+    });
+  }
+
+  /// Show decimal precision selection dialog
+  void _showDecimalPrecisionDialog(BuildContext context, AppLocalizations l10n, int currentValue) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(l10n.decimalPrecision),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: List.generate(5, (index) {
+            return RadioListTile<int>(
+              title: Text('$index decimal places'),
+              value: index,
+              groupValue: currentValue,
+              onChanged: (value) {
+                if (value != null) {
+                  setDecimalPrecision(value);
+                  Navigator.pop(ctx);
+                }
+              },
+            );
+          }),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text(l10n.cancel),
+          ),
+        ],
+      ),
+    );
   }
 }

@@ -4,6 +4,8 @@ import 'app.dart';
 import 'core/utils/logger.dart';
 import 'core/network/auth_manager.dart';
 import 'core/services/analytics_service.dart';
+import 'shared/signals/region_signal.dart';
+import 'shared/signals/preferences_signal.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,13 +16,16 @@ void main() async {
   // Initialize auth manager
   await AuthManager.instance.init();
 
+  // Initialize region from persisted storage
+  await initRegion();
+
+  // Initialize preferences from persisted storage
+  await initPreferences();
+
   // Initialize PostHog analytics
   await AnalyticsService().initialize(
-    apiKey: const String.fromEnvironment('POSTHOG_API_KEY', defaultValue: ''),
-    host: const String.fromEnvironment(
-      'POSTHOG_HOST',
-      defaultValue: 'https://us.i.posthog.com',
-    ),
+    apiKey: 'phc_F3fU6SVOPHPLggFYxLSgM9xdeKXdgr6O8Xet3SuY5tD',
+    host: 'https://us.i.posthog.com',
   );
 
   logger.i('FIREla app starting...');
