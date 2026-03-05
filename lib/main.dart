@@ -35,11 +35,8 @@ import 'shared/signals/preferences_signal.dart';void main() async {
   // Initialize preferences from persisted storage
   await initPreferences();
 
-  // Initialize PostHog analytics
-  await AnalyticsService().initialize(
-    apiKey: 'phc_F3fU6SVOPHPLggFYxLSgM9xdeKXdgr6O8Xet3SuY5tD',
-    host: 'https://us.i.posthog.com',
-  );
+  // Initialize analytics (no-op mode, no data collection)
+  await AnalyticsService().initialize();
 
   logger.i('FIREla app starting...');
 

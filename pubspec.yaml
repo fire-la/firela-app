@@ -44,8 +44,7 @@ dependencies:
   logger: ^2.3.0
   uuid: ^4.4.0
 
-  # Analytics
-  posthog_flutter: ^5.6.0
+  # Utils
   package_info_plus: ^8.0.0
 
   # Cloudflare Turnstile (bot protection)

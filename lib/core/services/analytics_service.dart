@@ -1,12 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:posthog_flutter/posthog_flutter.dart';
 import 'analytics_events.dart';
 
-/// Centralized analytics service using PostHog
+/// Centralized analytics service (no-op implementation)
 ///
-/// This service provides a unified interface for tracking events,
-/// identifying users, and managing analytics across the app.
+/// This service provides a unified interface for tracking events.
+/// Currently a no-op implementation - no data is collected.
+/// Ready for future analytics integration (e.g., Sentry, custom analytics).
 class AnalyticsService {
   static final AnalyticsService _instance = AnalyticsService._internal();
   factory AnalyticsService() => _instance;
@@ -14,56 +14,45 @@ class AnalyticsService {
 
   String? _appVersion;
 
-  /// Initialize PostHog with API key and host
+  /// Initialize analytics service
   ///
   /// Call this in main.dart before runApp()
   Future<void> initialize({
-    required String apiKey,
-    required String host,
+    String? apiKey,
+    String? host,
   }) async {
-    // Get app version
+    // Get app version for future use
     final packageInfo = await PackageInfo.fromPlatform();
     _appVersion = packageInfo.version;
 
-    final config = PostHogConfig(apiKey);
-    config.host = host;
-
-    // Core features
-    config.captureApplicationLifecycleEvents = true;  // Auto-track app open/close
-    config.debug = kDebugMode;  // Enable debug logs in debug mode
-
-    // Session Replay - records user sessions for playback
-    config.sessionReplay = true;
-    config.sessionReplayConfig.maskAllTexts = true;  // Privacy: mask all texts
-    config.sessionReplayConfig.maskAllImages = false;
-    config.sessionReplayConfig.throttleDelay = const Duration(milliseconds: 500);
-
-    await Posthog().setup(config);
+    if (kDebugMode) {
+      debugPrint('AnalyticsService initialized (no-op mode)');
+    }
   }
 
-  /// Capture an event with optional properties
+  /// Capture an event with optional properties (no-op)
   Future<void> capture(
     String eventName, {
     Map<String, Object>? properties,
   }) async {
-    await Posthog().capture(
-      eventName: eventName,
-      properties: properties,
-    );
+    // No-op: no data collection
+    if (kDebugMode) {
+      debugPrint('Analytics: $eventName ${properties ?? {}}');
+    }
   }
 
-  /// Identify a user with optional user properties
+  /// Identify a user with optional user properties (no-op)
   Future<void> identify({
     required String userId,
     Map<String, Object>? userProperties,
   }) async {
-    await Posthog().identify(
-      userId: userId,
-      userProperties: userProperties,
-    );
+    // No-op: no data collection
+    if (kDebugMode) {
+      debugPrint('Analytics identify: $userId');
+    }
   }
 
-  /// Identify user after login
+  /// Identify user after login (no-op)
   ///
   /// Call this when user successfully authenticates
   Future<void> identifyUser({
@@ -82,20 +71,17 @@ class AnalyticsService {
     );
   }
 
-  /// Set user properties without changing identity
+  /// Set user properties without changing identity (no-op)
   Future<void> setUserProperties(Map<String, Object> properties) async {
-    await capture(
-      '\$user_properties_set',
-      properties: properties,
-    );
+    // No-op: no data collection
   }
 
-  /// Reset the current user (e.g., on logout)
+  /// Reset the current user (e.g., on logout) (no-op)
   Future<void> reset() async {
-    await Posthog().reset();
+    // No-op: no data collection
   }
 
-  /// Track bill import event
+  /// Track bill import event (no-op)
   Future<void> trackBillImport({
     required String eventType,
     String? fileType,
@@ -116,7 +102,7 @@ class AnalyticsService {
     );
   }
 
-  /// Track OCR event
+  /// Track OCR event (no-op)
   Future<void> trackOcr({
     required String eventType,
     String? imageSource,
@@ -137,7 +123,7 @@ class AnalyticsService {
     );
   }
 
-  /// Track review center event
+  /// Track review center event (no-op)
   Future<void> trackReviewCenter({
     required String eventType,
     String? tabName,
@@ -155,7 +141,7 @@ class AnalyticsService {
     );
   }
 
-  /// Track expense event
+  /// Track expense event (no-op)
   Future<void> trackExpense({
     required String eventType,
     double? amount,
@@ -174,7 +160,7 @@ class AnalyticsService {
     );
   }
 
-  /// Track categorization event
+  /// Track categorization event (no-op)
   Future<void> trackCategorization({
     required String eventType,
     int? itemCount,

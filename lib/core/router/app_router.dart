@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:posthog_flutter/posthog_flutter.dart';
 import '../../features/main/presentation/pages/main_page.dart';
 import '../../features/accounts/presentation/pages/accounts_page.dart';
 import '../../features/expense/presentation/pages/bill_import_page.dart';
@@ -11,9 +10,6 @@ import 'route_names.dart';
 
 /// Application router configuration
 final appRouter = GoRouter(
-  observers: [
-    PosthogObserver(), // PostHog screen tracking observer
-  ],
   initialLocation: RouteNames.home,
   routes: [
     GoRoute(
