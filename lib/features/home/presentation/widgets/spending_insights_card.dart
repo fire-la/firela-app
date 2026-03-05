@@ -67,7 +67,6 @@ class SpendingInsightsCard extends HookWidget {
 
             // Income vs Expense bars
             _buildComparisonBar(
-              context: context,
               theme: theme,
               label: l10n.homeIncomeThisMonth,
               amount: monthlyIncome,
@@ -77,7 +76,6 @@ class SpendingInsightsCard extends HookWidget {
             const SizedBox(height: 12),
 
             _buildComparisonBar(
-              context: context,
               theme: theme,
               label: l10n.homeExpenseThisMonth,
               amount: monthlyExpense,
@@ -167,7 +165,6 @@ class SpendingInsightsCard extends HookWidget {
   }
 
   Widget _buildComparisonBar({
-    required BuildContext context,
     required ThemeData theme,
     required String label,
     required double amount,
