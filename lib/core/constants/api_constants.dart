@@ -73,6 +73,9 @@ class ApiConstants {
   /// 净资产概览 GET
   static const String netWorthEndpoint = '/dashboard/net-worth';
 
+  /// 净资产历史数据 GET (query: months)
+  static const String netWorthHistoryEndpoint = '/dashboard/net-worth/history';
+
   /// 现金流汇总 GET
   static const String cashFlowEndpoint = '/dashboard/cash-flow';
 

@@ -113,6 +113,17 @@ class IgnApiService {
     return Map<String, dynamic>.from(result as Map);
   }
 
+  /// 获取净资产历史数据
+  /// [months] 查询的月份数
+  /// 返回 [{date, netWorth, totalAssets, totalLiabilities}, ...]
+  Future<List<Map<String, dynamic>>> getNetWorthHistory({required int months}) async {
+    final result = await _client.get(
+      ApiConstants.netWorthHistoryEndpoint,
+      queryParams: {'months': months.toString()},
+    );
+    return (result as List).cast<Map<String, dynamic>>();
+  }
+
   // ============ 余额/收款方 ============
 
   /// 获取账户余额
