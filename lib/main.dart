@@ -4,6 +4,7 @@ import 'app.dart';
 import 'core/utils/logger.dart';
 import 'core/network/auth_manager.dart';
 import 'core/services/analytics_service.dart';
+import 'core/services/sync_service.dart';
 import 'shared/signals/region_signal.dart';
 import 'shared/signals/preferences_signal.dart';
 
@@ -15,6 +16,9 @@ void main() async {
 
   // Initialize auth manager
   await AuthManager.instance.init();
+
+  // Initialize sync service
+  await SyncService.instance.init();
 
   // Initialize region from persisted storage
   await initRegion();

@@ -12,6 +12,7 @@ import '../../../../core/services/auth_service.dart';
 import 'about_page.dart';
 import 'help_center_page.dart';
 import 'account_settings_page.dart';
+import '../widgets/sync_status_widget.dart';
 
 /// Settings page (Mine)
 class SettingsPage extends StatefulWidget {
@@ -48,8 +49,15 @@ class SettingsPageState extends State<SettingsPage> {
             
             // User profile
             _buildUserProfile(context, l10n),
-            
+
             const SizedBox(height: 16),
+
+            // Sync status widget (only show when logged in)
+            if (AuthManager.instance.isLoggedIn)
+              const SyncStatusWidget(),
+
+            if (AuthManager.instance.isLoggedIn)
+              const SizedBox(height: 16),
             
             // Membership card
             _buildMembershipCard(context, l10n),

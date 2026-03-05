@@ -1364,5 +1364,110 @@
   "noDataToExport": "No data available to export",
   "@noDataToExport": {
     "description": "No data message"
+  },
+
+  "lastSynced": "Last Synced",
+  "@lastSynced": {
+    "description": "Last synced label"
+  },
+
+  "syncNow": "Sync Now",
+  "@syncNow": {
+    "description": "Sync now button"
+  },
+
+  "syncing": "Syncing...",
+  "@syncing": {
+    "description": "Syncing status"
+  },
+
+  "syncSuccess": "Sync successful",
+  "@syncSuccess": {
+    "description": "Sync success message"
+  },
+
+  "syncFailed": "Sync failed",
+  "@syncFailed": {
+    "description": "Sync failed message"
+  },
+
+  "never": "Never",
+  "@never": {
+    "description": "Never synced status"
+  },
+
+  "backup": "Backup",
+  "@backup": {
+    "description": "Backup button"
+  },
+
+  "restore": "Restore",
+  "@restore": {
+    "description": "Restore button"
+  },
+
+  "backupData": "Backup Data",
+  "@backupData": {
+    "description": "Backup data title"
+  },
+
+  "restoreData": "Restore Data",
+  "@restoreData": {
+    "description": "Restore data title"
+  },
+
+  "backupCreated": "Backup created successfully",
+  "@backupCreated": {
+    "description": "Backup created message"
+  },
+
+  "backupFailed": "Backup failed",
+  "@backupFailed": {
+    "description": "Backup failed message"
+  },
+
+  "restoreSuccess": "Data restored successfully",
+  "@restoreSuccess": {
+    "description": "Restore success message"
+  },
+
+  "restoreFailed": "Restore failed",
+  "@restoreFailed": {
+    "description": "Restore failed message"
+  },
+
+  "backupWarning": "Restoring will overwrite all current data. This action cannot be undone.",
+  "@backupWarning": {
+    "description": "Backup warning message"
+  },
+
+  "lastBackup": "Last Backup",
+  "@lastBackup": {
+    "description": "Last backup label"
+  },
+
+  "noBackupFound": "No backup file found",
+  "@noBackupFound": {
+    "description": "No backup file message"
+  },
+
+  "deleteAccountTitle": "Delete Account",
+  "@deleteAccountTitle": {
+    "description": "Delete account dialog title"
+  },
+
+  "typeDelete": "Type DELETE to confirm",
+  "@typeDelete": {
+    "description": "Type delete confirmation"
+  },
+
+  "understandWarning": "I understand this action cannot be undone",
+  "@understandWarning": {
+    "description": "Understand warning checkbox"
+  },
+
+  "accountDeleted": "Account deleted successfully",
+  "@accountDeleted": {
+    "description": "Account deleted message"
   }
 }

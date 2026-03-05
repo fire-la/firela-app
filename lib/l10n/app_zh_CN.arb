@@ -239,5 +239,29 @@
   "privacyContent": "您的隐私对我们很重要。本应用仅收集运行所需的最少数据。您的财务数据经过加密并安全存储。我们不会出售或与第三方共享您的个人信息。",
   "editName": "编辑名称",
   "enterDisplayName": "输入您的显示名称",
-  "noDataToExport": "没有可导出的数据"
+  "noDataToExport": "没有可导出的数据",
+
+  "lastSynced": "上次同步",
+  "syncNow": "立即同步",
+  "syncing": "同步中...",
+  "syncSuccess": "同步成功",
+  "syncFailed": "同步失败",
+  "never": "从未",
+
+  "backup": "备份",
+  "restore": "恢复",
+  "backupData": "备份数据",
+  "restoreData": "恢复数据",
+  "backupCreated": "备份创建成功",
+  "backupFailed": "备份失败",
+  "restoreSuccess": "数据恢复成功",
+  "restoreFailed": "恢复失败",
+  "backupWarning": "恢复数据将覆盖当前所有数据，此操作无法撤销。",
+  "lastBackup": "上次备份",
+  "noBackupFound": "未找到备份文件",
+
+  "deleteAccountTitle": "删除账户",
+  "typeDelete": "输入 DELETE 确认",
+  "understandWarning": "我理解此操作无法撤销",
+  "accountDeleted": "账户已删除"
 }

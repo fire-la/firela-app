@@ -240,5 +240,29 @@
   "privacyContent": "您的隱私對我們很重要。本應用僅收集運行所需的最少數據。您的財務數據經過加密並安全儲存。我們不會出售或與第三方共享您的個人資訊。",
   "editName": "編輯名稱",
   "enterDisplayName": "輸入您的顯示名稱",
-  "noDataToExport": "沒有可導出的數據"
+  "noDataToExport": "沒有可導出的數據",
+
+  "lastSynced": "上次同步",
+  "syncNow": "立即同步",
+  "syncing": "同步中...",
+  "syncSuccess": "同步成功",
+  "syncFailed": "同步失敗",
+  "never": "從未",
+
+  "backup": "備份",
+  "restore": "恢復",
+  "backupData": "備份數據",
+  "restoreData": "恢復數據",
+  "backupCreated": "備份創建成功",
+  "backupFailed": "備份失敗",
+  "restoreSuccess": "數據恢復成功",
+  "restoreFailed": "恢復失敗",
+  "backupWarning": "恢復數據將覆蓋當前所有數據，此操作無法撤銷。",
+  "lastBackup": "上次備份",
+  "noBackupFound": "未找到備份檔案",
+
+  "deleteAccountTitle": "刪除帳戶",
+  "typeDelete": "輸入 DELETE 確認",
+  "understandWarning": "我理解此操作無法撤銷",
+  "accountDeleted": "帳戶已刪除"
 }

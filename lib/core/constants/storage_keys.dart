@@ -20,6 +20,9 @@ class StorageKeys {
   /// Last sync timestamp
   static const String lastSync = 'last_sync';
 
+  /// Last backup timestamp
+  static const String lastBackup = 'last_backup';
+
   /// Cached accounts
   static const String cachedAccounts = 'cached_accounts';
 
