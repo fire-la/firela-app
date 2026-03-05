@@ -1074,5 +1074,85 @@
   "scenarioImpactNeutral": "Modify the sliders above to see how changes affect your FIRE timeline.",
   "@scenarioImpactNeutral": {
     "description": "Neutral scenario impact message"
+  },
+
+  "fireTypes": "FIRE Types",
+  "@fireTypes": {
+    "description": "Title for FIRE types section"
+  },
+
+  "fullFire": "Full FIRE",
+  "@fullFire": {
+    "description": "Full FIRE type name"
+  },
+
+  "fullFireDescription": "Traditional FIRE with full financial independence",
+  "@fullFireDescription": {
+    "description": "Full FIRE description"
+  },
+
+  "coastFire": "Coast FIRE",
+  "@coastFire": {
+    "description": "Coast FIRE type name"
+  },
+
+  "coastFireDescription": "Save enough early, let it grow without adding more",
+  "@coastFireDescription": {
+    "description": "Coast FIRE description"
+  },
+
+  "baristaFire": "Barista FIRE",
+  "@baristaFire": {
+    "description": "Barista FIRE type name"
+  },
+
+  "baristaFireDescription": "Work part-time, cover some expenses with savings",
+  "@baristaFireDescription": {
+    "description": "Barista FIRE description"
+  },
+
+  "leanFire": "Lean FIRE",
+  "@leanFire": {
+    "description": "Lean FIRE type name"
+  },
+
+  "leanFireDescription": "Minimalist lifestyle with lower expenses",
+  "@leanFireDescription": {
+    "description": "Lean FIRE description"
+  },
+
+  "targetAmount": "Target",
+  "@targetAmount": {
+    "description": "Target amount label"
+  },
+
+  "currentProgress": "Progress",
+  "@currentProgress": {
+    "description": "Current progress label"
+  },
+
+  "monthlyNeeded": "Monthly",
+  "@monthlyNeeded": {
+    "description": "Monthly savings needed label"
+  },
+
+  "timeToReach": "Time",
+  "@timeToReach": {
+    "description": "Time to reach label"
+  },
+
+  "yearsValue": "{years} years",
+  "@yearsValue": {
+    "description": "Years value display",
+    "placeholders": {
+      "years": {
+        "type": "String"
+      }
+    }
+  },
+
+  "alreadyAchieved": "Achieved!",
+  "@alreadyAchieved": {
+    "description": "Already achieved label"
   }
 }

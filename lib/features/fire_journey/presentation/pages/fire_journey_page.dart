@@ -10,6 +10,7 @@ import '../widgets/shimmer_loading.dart';
 import '../widgets/animated_number.dart';
 import '../widgets/fire_projection_chart.dart';
 import '../widgets/scenario_selector.dart';
+import '../widgets/fire_type_card.dart';
 
 /// FIRE Journey page showing progress and milestones
 class FireJourneyPage extends HookWidget {
@@ -219,10 +220,14 @@ class FireJourneyPage extends HookWidget {
       retirementSpendingRate: 1.0,
     ));
 
+    // Selected FIRE type
+    final selectedFireType = useState<FireType?>(null);
+
     // Build projection scenarios based on current settings
     final currentNetWorth = fireProgress.progress?.currentNetWorth ?? 0;
     final baseMonthlySavings = fireProgress.progress?.monthlySavings ?? 0;
     final fireNumber = fireProgress.goal?.targetAmount ?? 0;
+    final monthlyExpenses = fireProgress.goal?.monthlyExpenses ?? 0;
 
     // Calculate adjusted savings and return based on scenario
     final adjustedSavings = baseMonthlySavings * (1 + scenarioModel.value.monthlySavingsDelta);
@@ -281,6 +286,20 @@ class FireJourneyPage extends HookWidget {
               baseAnnualReturn: 0.07,
               onScenarioChanged: (model) {
                 scenarioModel.value = model;
+              },
+            ),
+
+            const SizedBox(height: 16),
+
+            // FIRE Types Carousel
+            FireTypesCarousel(
+              currentNetWorth: currentNetWorth,
+              monthlyExpenses: monthlyExpenses,
+              monthlySavings: baseMonthlySavings,
+              annualReturn: scenarioModel.value.expectedReturn,
+              selectedType: selectedFireType.value,
+              onTypeSelected: (type) {
+                selectedFireType.value = type;
               },
             ),
 

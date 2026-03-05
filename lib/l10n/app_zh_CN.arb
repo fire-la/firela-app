@@ -176,5 +176,21 @@
   "retirementSpending": "退休开支",
   "retirementSpendingDescription": "占当前开支的比例",
   "scenarioImpactPositive": "调整这些设置可以查看如何加快你的 FIRE 进程。",
-  "scenarioImpactNeutral": "修改上方的滑块来查看变化如何影响你的 FIRE 时间线。"
+  "scenarioImpactNeutral": "修改上方的滑块来查看变化如何影响你的 FIRE 时间线。",
+
+  "fireTypes": "FIRE 类型",
+  "fullFire": "完全 FIRE",
+  "fullFireDescription": "传统的完全财务自由",
+  "coastFire": "海岸 FIRE",
+  "coastFireDescription": "早期存够本金，之后让其自行增值",
+  "baristaFire": "咖啡师 FIRE",
+  "baristaFireDescription": "兼职工作，部分开支由储蓄覆盖",
+  "leanFire": "极简 FIRE",
+  "leanFireDescription": "极简生活方式，降低开支",
+  "targetAmount": "目标",
+  "currentProgress": "进度",
+  "monthlyNeeded": "月储蓄",
+  "timeToReach": "时间",
+  "yearsValue": "{years} 年",
+  "alreadyAchieved": "已达成!"
 }
