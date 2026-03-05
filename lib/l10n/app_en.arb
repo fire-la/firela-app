@@ -1631,6 +1631,116 @@
     "description": "Review center shortcut label"
   },
 
+  "homeSavingsRateLabel": "Savings Rate",
+  "@homeSavingsRateLabel": {
+    "description": "Savings rate label in spending insights"
+  },
+
+  "homeSavingsRateExcellent": "Excellent",
+  "@homeSavingsRateExcellent": {
+    "description": "Excellent savings rate label (>=60%)"
+  },
+
+  "homeSavingsRateGood": "Good",
+  "@homeSavingsRateGood": {
+    "description": "Good savings rate label (>=40%)"
+  },
+
+  "homeSavingsRateFair": "Fair",
+  "@homeSavingsRateFair": {
+    "description": "Fair savings rate label (>=20%)"
+  },
+
+  "homeSavingsRateNeedsWork": "Needs Work",
+  "@homeSavingsRateNeedsWork": {
+    "description": "Needs work savings rate label (<20%)"
+  },
+
+  "homeSpendingInsights": "Spending Insights",
+  "@homeSpendingInsights": {
+    "description": "Spending insights card title"
+  },
+
+  "homeIncomeThisMonth": "Income",
+  "@homeIncomeThisMonth": {
+    "description": "Income this month label"
+  },
+
+  "homeExpenseThisMonth": "Expense",
+  "@homeExpenseThisMonth": {
+    "description": "Expense this month label"
+  },
+
+  "homeNetSavings": "Net Savings",
+  "@homeNetSavings": {
+    "description": "Net savings label"
+  },
+
+  "homeOverspendingWarning": "Spending exceeds income this month",
+  "@homeOverspendingWarning": {
+    "description": "Warning message when overspending"
+  },
+
+  "homeRecommendations": "Recommendations",
+  "@homeRecommendations": {
+    "description": "Recommendations section title"
+  },
+
+  "homeRecSetFireGoal": "Set your FIRE goal",
+  "@homeRecSetFireGoal": {
+    "description": "Recommendation to set FIRE goal"
+  },
+
+  "homeRecSetFireGoalDesc": "Track your journey to financial independence",
+  "@homeRecSetFireGoalDesc": {
+    "description": "Description for set FIRE goal recommendation"
+  },
+
+  "homeRecReviewPending": "Review {count} pending transactions",
+  "@homeRecReviewPending": {
+    "description": "Recommendation to review pending transactions",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+
+  "homeRecReviewPendingDesc": "Keep your finances organized and up to date",
+  "@homeRecReviewPendingDesc": {
+    "description": "Description for review pending recommendation"
+  },
+
+  "homeRecIncreaseSavings": "Increase your savings rate",
+  "@homeRecIncreaseSavings": {
+    "description": "Recommendation to increase savings"
+  },
+
+  "homeRecIncreaseSavingsDesc": "Aim for 20%+ to reach FIRE faster",
+  "@homeRecIncreaseSavingsDesc": {
+    "description": "Description for increase savings recommendation"
+  },
+
+  "homeRecReduceTimeline": "Reduce your FIRE timeline",
+  "@homeRecReduceTimeline": {
+    "description": "Recommendation to reduce FIRE timeline"
+  },
+
+  "homeRecReduceTimelineDesc": "Consider increasing monthly contributions",
+  "@homeRecReduceTimelineDesc": {
+    "description": "Description for reduce timeline recommendation"
+  },
+
+  "homeRecReduceSpending": "Reduce overspending",
+  "@homeRecReduceSpending": {
+    "description": "Recommendation to reduce spending"
+  },
+
+  "homeRecReduceSpendingDesc": "Your expenses exceed income this month",
+  "@homeRecReduceSpendingDesc": {
+    "description": "Description for reduce spending recommendation"
+  },
+
   "pleaseLogin": "Please login first",
   "@pleaseLogin": {
     "description": "Please login prompt"

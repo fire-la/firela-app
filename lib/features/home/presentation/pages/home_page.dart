@@ -10,6 +10,9 @@ import '../widgets/pending_reviews_card.dart';
 import '../widgets/fire_progress_card.dart';
 import '../widgets/quick_actions_section.dart';
 import '../widgets/feature_shortcuts_section.dart';
+import '../widgets/savings_rate_indicator.dart';
+import '../widgets/spending_insights_card.dart';
+import '../widgets/recommendations_section.dart';
 import '../providers/use_home_data.dart';
 
 /// Home dashboard page with summary widgets
@@ -80,6 +83,25 @@ class HomePage extends HookWidget {
 
                     // Feature Shortcuts Section
                     const FeatureShortcutsSection(),
+                    const SizedBox(height: 16),
+
+                    // Insights Section - Savings Rate and Spending Insights
+                    const Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: SavingsRateIndicator(),
+                        ),
+                        SizedBox(width: 12),
+                        Expanded(
+                          child: SpendingInsightsCard(),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+
+                    // Recommendations Section
+                    const RecommendationsSection(),
                     const SizedBox(height: 16),
 
                     // Add padding at bottom for scroll
