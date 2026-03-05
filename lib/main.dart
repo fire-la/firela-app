@@ -4,11 +4,14 @@ import 'app.dart';
 import 'core/utils/logger.dart';
 import 'core/network/auth_manager.dart';
 import 'core/services/analytics_service.dart';
+import 'core/services/sentry_service.dart';
 import 'core/services/sync_service.dart';
 import 'core/services/backup_service.dart';
 import 'core/services/offline_cache_service.dart';
 import 'shared/signals/region_signal.dart';
-import 'shared/signals/preferences_signal.dart';void main() async {
+import 'shared/signals/preferences_signal.dart';
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // Initialize Hive for local storage
@@ -37,6 +40,9 @@ import 'shared/signals/preferences_signal.dart';void main() async {
 
   // Initialize analytics (no-op mode, no data collection)
   await AnalyticsService().initialize();
+
+  // Initialize Sentry error monitoring
+  await SentryService.instance.initialize();
 
   logger.i('FIREla app starting...');
 
