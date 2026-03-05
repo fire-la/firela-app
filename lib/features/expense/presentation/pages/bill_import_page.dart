@@ -3,7 +3,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:percent_indicator/linear_percent_indicator.dart';
 import '../../../../core/services/ign_api_service.dart';
 import '../../../../core/network/auth_manager.dart';
 import '../../../../core/services/auth_service.dart';
@@ -11,6 +10,7 @@ import '../../../../core/services/analytics_service.dart';
 import '../../../../core/services/analytics_events.dart';
 import '../../../../core/utils/logger.dart';
 import '../widgets/categorization_preview_sheet.dart';
+import '../widgets/import_progress_indicator.dart';
 
 /// Bill import page
 class BillImportPage extends HookWidget {
@@ -27,6 +27,7 @@ class BillImportPage extends HookWidget {
     final categorizationItems = useState<List<CategorizationItem>>([]);
     final editedCount = useState(0);
     final importSource = useState<String>('file'); // 'file' or 'ocr'
+    final currentStep = useState<ImportStep>(ImportStep.idle);
 
     return Scaffold(
       appBar: AppBar(
@@ -38,32 +39,15 @@ class BillImportPage extends HookWidget {
           children: [
             const SizedBox(height: 24),
 
-            // Progress indicator
+            // Stepped progress indicator
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Row(
-                children: [
-                  _StepIndicator(
-                    step: 1,
-                    label: l10n.importBill,
-                    isActive: !isParsing.value,
-                    isCompleted: selectedFile.value != null,
-                  ),
-                  Expanded(
-                    child: Container(
-                      height: 2,
-                      color: selectedFile.value != null
-                          ? const Color(0xFF000000)
-                          : const Color(0xFFE0E0E0),
-                    ),
-                  ),
-                  _StepIndicator(
-                    step: 2,
-                    label: l10n.parseBill,
-                    isActive: isParsing.value,
-                    isCompleted: importResult.value != null,
-                  ),
-                ],
+              child: ImportProgressIndicator(
+                currentStep: currentStep.value,
+                progress: parseProgress.value,
+                itemCount: categorizationItems.value.isNotEmpty
+                    ? categorizationItems.value.length
+                    : null,
               ),
             ),
 
@@ -84,13 +68,13 @@ class BillImportPage extends HookWidget {
 
             // File upload area or selected file
             if (importResult.value != null)
-              _buildImportResultArea(context, l10n, theme, importResult, selectedFile, isParsing)
+              _buildImportResultArea(context, l10n, theme, importResult, selectedFile, isParsing, currentStep)
             else if (isParsing.value)
-              _buildParsingArea(context, l10n, theme, parseProgress, selectedFile)
+              _buildParsingArea(context, l10n, theme, parseProgress, selectedFile, currentStep)
             else if (selectedFile.value != null)
               _buildSelectedFileArea(context, l10n, theme, selectedFile)
             else
-              _buildFileUploadArea(context, l10n, theme, selectedFile, isParsing, parseProgress, importResult, categorizationItems, editedCount, importSource),
+              _buildFileUploadArea(context, l10n, theme, selectedFile, isParsing, parseProgress, importResult, categorizationItems, editedCount, importSource, currentStep),
 
             const SizedBox(height: 40),
 
@@ -136,6 +120,7 @@ class BillImportPage extends HookWidget {
     ValueNotifier<List<CategorizationItem>> categorizationItems,
     ValueNotifier<int> editedCount,
     ValueNotifier<String> importSource,
+    ValueNotifier<ImportStep> currentStep,
   ) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -155,6 +140,7 @@ class BillImportPage extends HookWidget {
                 categorizationItems,
                 editedCount,
                 importSource,
+                currentStep,
               ),
               icon: const Icon(Icons.camera_alt_outlined),
               label: Text(l10n.scanReceipt),
@@ -223,6 +209,7 @@ class BillImportPage extends HookWidget {
                     categorizationItems,
                     editedCount,
                     importSource,
+                    currentStep,
                   );
                 }
               }
@@ -277,6 +264,7 @@ class BillImportPage extends HookWidget {
     ValueNotifier<List<CategorizationItem>> categorizationItems,
     ValueNotifier<int> editedCount,
     ValueNotifier<String> importSource,
+    ValueNotifier<ImportStep> currentStep,
   ) {
     showModalBottomSheet(
       context: context,
@@ -299,6 +287,7 @@ class BillImportPage extends HookWidget {
                   categorizationItems,
                   editedCount,
                   importSource,
+                  currentStep,
                 );
               },
             ),
@@ -317,6 +306,7 @@ class BillImportPage extends HookWidget {
                   categorizationItems,
                   editedCount,
                   importSource,
+                  currentStep,
                 );
               },
             ),
@@ -337,6 +327,7 @@ class BillImportPage extends HookWidget {
     ValueNotifier<List<CategorizationItem>> categorizationItems,
     ValueNotifier<int> editedCount,
     ValueNotifier<String> importSource,
+    ValueNotifier<ImportStep> currentStep,
   ) async {
     // Check login
     if (!AuthManager.instance.isLoggedIn) {
@@ -366,6 +357,7 @@ class BillImportPage extends HookWidget {
     );
 
     isParsing.value = true;
+    currentStep.value = ImportStep.uploading;
     parseProgress.value = 0.1;
 
     // Track OCR started
@@ -375,12 +367,15 @@ class BillImportPage extends HookWidget {
 
     try {
       parseProgress.value = 0.3;
+      currentStep.value = ImportStep.parsing;
       await Future.delayed(const Duration(milliseconds: 200));
 
       parseProgress.value = 0.6;
+      currentStep.value = ImportStep.categorizing;
       final result = await IgnApiService.instance.ocrReceiptImage(image.path);
 
       parseProgress.value = 1.0;
+      currentStep.value = ImportStep.reviewing;
       await Future.delayed(const Duration(milliseconds: 300));
 
       isParsing.value = false;
@@ -426,6 +421,7 @@ class BillImportPage extends HookWidget {
             importSource,
           );
         } else {
+          currentStep.value = ImportStep.error;
           final errorMsg = result['error'] ?? '识别失败，请重试';
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(errorMsg)),
@@ -435,6 +431,7 @@ class BillImportPage extends HookWidget {
     } catch (e) {
       isParsing.value = false;
       parseProgress.value = 0.0;
+      currentStep.value = ImportStep.error;
 
       logger.e('[OCR] 识别失败: $e');
 
@@ -493,6 +490,7 @@ class BillImportPage extends HookWidget {
     ThemeData theme,
     ValueNotifier<double> parseProgress,
     ValueNotifier<PlatformFile?> selectedFile,
+    ValueNotifier<ImportStep> currentStep,
   ) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -506,15 +504,15 @@ class BillImportPage extends HookWidget {
             ),
             child: Row(
               children: [
-                Icon(
-                  Icons.insert_drive_file,
-                  size: 32,
-                  color: theme.colorScheme.onSurface,
+                const SizedBox(
+                  width: 32,
+                  height: 32,
+                  child: CircularProgressIndicator(strokeWidth: 2),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
                   child: Text(
-                    selectedFile.value?.name ?? '正在导入...',
+                    selectedFile.value?.name ?? l10n.parsingBill,
                     style: theme.textTheme.bodyMedium,
                   ),
                 ),
@@ -522,29 +520,11 @@ class BillImportPage extends HookWidget {
             ),
           ),
           const SizedBox(height: 16),
-          LinearPercentIndicator(
-            padding: EdgeInsets.zero,
-            lineHeight: 6,
-            percent: parseProgress.value.clamp(0.0, 1.0),
-            progressColor: const Color(0xFF000000),
-            backgroundColor: const Color(0xFFE0E0E0),
-            barRadius: const Radius.circular(3),
-            animation: true,
-            animationDuration: 300,
-          ),
-          const SizedBox(height: 12),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                l10n.parsingBill,
-                style: theme.textTheme.bodyMedium,
-              ),
-              Text(
-                '${(parseProgress.value * 100).toInt()}%',
-                style: theme.textTheme.bodySmall,
-              ),
-            ],
+          Text(
+            l10n.parsingBill,
+            style: theme.textTheme.bodyMedium?.copyWith(
+              color: theme.colorScheme.outline,
+            ),
           ),
         ],
       ),
@@ -558,12 +538,20 @@ class BillImportPage extends HookWidget {
     ValueNotifier<Map<String, dynamic>?> importResult,
     ValueNotifier<PlatformFile?> selectedFile,
     ValueNotifier<bool> isParsing,
+    ValueNotifier<ImportStep> currentStep,
   ) {
     final result = importResult.value!;
     final imported = result['imported'] ?? 0;
     final failed = result['failed'] ?? 0;
     final skipped = result['skipped'] ?? 0;
     final isSuccess = imported > 0;
+
+    // Set current step based on result
+    if (isSuccess) {
+      currentStep.value = ImportStep.complete;
+    } else {
+      currentStep.value = ImportStep.error;
+    }
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -615,8 +603,9 @@ class BillImportPage extends HookWidget {
                     selectedFile.value = null;
                     isParsing.value = false;
                     importResult.value = null;
+                    currentStep.value = ImportStep.idle;
                   },
-                  child: const Text('继续导入'),
+                  child: Text(l10n.batchImportContinueImport),
                 ),
               ),
               const SizedBox(width: 12),
@@ -625,7 +614,7 @@ class BillImportPage extends HookWidget {
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: const Text('完成'),
+                  child: Text(l10n.batchImportDone),
                 ),
               ),
             ],
@@ -785,8 +774,10 @@ class BillImportPage extends HookWidget {
     ValueNotifier<List<CategorizationItem>> categorizationItems,
     ValueNotifier<int> editedCount,
     ValueNotifier<String> importSource,
+    ValueNotifier<ImportStep> currentStep,
   ) async {
     isParsing.value = true;
+    currentStep.value = ImportStep.uploading;
     parseProgress.value = 0.1;
 
     // Track import started
@@ -797,12 +788,15 @@ class BillImportPage extends HookWidget {
     try {
       // 模拟进度（实际上传是一次性的）
       parseProgress.value = 0.3;
+      currentStep.value = ImportStep.parsing;
       await Future.delayed(const Duration(milliseconds: 200));
 
       parseProgress.value = 0.6;
+      currentStep.value = ImportStep.categorizing;
       final result = await IgnApiService.instance.importBillFile(filePath);
 
       parseProgress.value = 1.0;
+      currentStep.value = ImportStep.reviewing;
       await Future.delayed(const Duration(milliseconds: 300));
 
       isParsing.value = false;
@@ -843,6 +837,7 @@ class BillImportPage extends HookWidget {
     } catch (e) {
       isParsing.value = false;
       parseProgress.value = 0.0;
+      currentStep.value = ImportStep.error;
 
       logger.e('[BillImport] 导入失败: $e');
 
@@ -868,67 +863,5 @@ class BillImportPage extends HookWidget {
         );
       }
     }
-  }
-}
-
-/// Step indicator widget
-class _StepIndicator extends StatelessWidget {
-  const _StepIndicator({
-    required this.step,
-    required this.label,
-    required this.isActive,
-    required this.isCompleted,
-  });
-
-  final int step;
-  final String label;
-  final bool isActive;
-  final bool isCompleted;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return Column(
-      children: [
-        Container(
-          width: 32,
-          height: 32,
-          decoration: BoxDecoration(
-            color: isActive || isCompleted
-                ? const Color(0xFF000000)
-                : const Color(0xFFE0E0E0),
-            shape: BoxShape.circle,
-          ),
-          child: Center(
-            child: isCompleted
-                ? const Icon(
-                    Icons.check,
-                    color: Color(0xFFFFFFFF),
-                    size: 20,
-                  )
-                : Text(
-                    step.toString(),
-                    style: TextStyle(
-                      color: isActive || isCompleted
-                          ? const Color(0xFFFFFFFF)
-                          : theme.colorScheme.outline,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-          ),
-        ),
-        const SizedBox(height: 4),
-        Text(
-          label,
-          style: theme.textTheme.bodySmall?.copyWith(
-            color: isActive || isCompleted
-                ? theme.colorScheme.onSurface
-                : theme.colorScheme.outline,
-            fontWeight: isActive ? FontWeight.w600 : FontWeight.normal,
-          ),
-        ),
-      ],
-    );
   }
 }

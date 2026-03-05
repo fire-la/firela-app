@@ -724,5 +724,180 @@
     "description": "Scan receipt page title"
   },
 
-  "processingOcr": "Processing receipt..."
+  "processingOcr": "Processing receipt...",
+
+  "categorizationPreviewTitle": "Categorization Preview",
+  "@categorizationPreviewTitle": {
+    "description": "Categorization preview dialog title"
+  },
+
+  "items": "items",
+  "@items": {
+    "description": "Number of items"
+  },
+
+  "needsReview": "need review",
+  "@needsReview": {
+    "description": "Items that need review label"
+  },
+
+  "confirmImport": "Confirm Import",
+  "@confirmImport": {
+    "description": "Confirm import button"
+  },
+
+  "editCategories": "Edit Categories",
+  "@editCategories": {
+    "description": "Edit categories button"
+  },
+
+  "avgConfidence": "Average Confidence",
+  "@avgConfidence": {
+    "description": "Average confidence label"
+  },
+
+  "allHighConfidence": "All High Confidence",
+  "@allHighConfidence": {
+    "description": "All items have high confidence"
+  },
+
+  "someNeedReview": "Some Need Review",
+  "@someNeedReview": {
+    "description": "Some items need review"
+  },
+
+  "importProgressIdle": "Ready to Import",
+  "@importProgressIdle": {
+    "description": "Import idle state label"
+  },
+
+  "importProgressUploading": "Uploading",
+  "@importProgressUploading": {
+    "description": "Upload step label"
+  },
+
+  "importProgressParsing": "Parsing",
+  "@importProgressParsing": {
+    "description": "Parsing step label"
+  },
+
+  "importProgressCategorizing": "Categorizing",
+  "@importProgressCategorizing": {
+    "description": "Categorizing step label"
+  },
+
+  "importProgressReviewing": "Reviewing",
+  "@importProgressReviewing": {
+    "description": "Reviewing step label"
+  },
+
+  "importProgressComplete": "Complete",
+  "@importProgressComplete": {
+    "description": "Complete step label"
+  },
+
+  "importProgressError": "Error",
+  "@importProgressError": {
+    "description": "Error state label"
+  },
+
+  "importErrorRetry": "Please try again",
+  "@importErrorRetry": {
+    "description": "Error retry suggestion"
+  },
+
+  "importErrorFileTooLarge": "File is too large. Please select a file smaller than {size}.",
+  "@importErrorFileTooLarge": {
+    "description": "File too large error message",
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+
+  "importErrorUnsupportedFormat": "Unsupported file format. Please use CSV or Excel files.",
+  "@importErrorUnsupportedFormat": {
+    "description": "Unsupported format error message"
+  },
+
+  "importErrorNetwork": "Network error. Please check your connection and try again.",
+  "@importErrorNetwork": {
+    "description": "Network error message"
+  },
+
+  "importErrorParsingFailed": "Failed to parse bill. Please check the file format.",
+  "@importErrorParsingFailed": {
+    "description": "Parsing failed error message"
+  },
+
+  "importErrorDuplicateDetected": "Duplicate transactions detected and skipped.",
+  "@importErrorDuplicateDetected": {
+    "description": "Duplicate detection message"
+  },
+
+  "importErrorGeneric": "An error occurred. Please try again.",
+  "@importErrorGeneric": {
+    "description": "Generic error message"
+  },
+
+  "importErrorViewDetails": "View Details",
+  "@importErrorViewDetails": {
+    "description": "View error details button"
+  },
+
+  "importErrorRetryButton": "Retry",
+  "@importErrorRetryButton": {
+    "description": "Retry button text"
+  },
+
+  "batchImportSummaryTitle": "Import Summary",
+  "@batchImportSummaryTitle": {
+    "description": "Batch import summary title"
+  },
+
+  "batchImportSuccessfullyImported": "Successfully Imported",
+  "@batchImportSuccessfullyImported": {
+    "description": "Successfully imported label"
+  },
+
+  "batchImportDuplicatesSkipped": "Duplicates Skipped",
+  "@batchImportDuplicatesSkipped": {
+    "description": "Duplicates skipped label"
+  },
+
+  "batchImportRequiresReview": "Requires Review",
+  "@batchImportRequiresReview": {
+    "description": "Requires review label"
+  },
+
+  "batchImportViewImported": "View Imported",
+  "@batchImportViewImported": {
+    "description": "View imported button"
+  },
+
+  "batchImportReviewLowConfidence": "Review Low Confidence",
+  "@batchImportReviewLowConfidence": {
+    "description": "Review low confidence button"
+  },
+
+  "batchImportContinueImport": "Continue Import",
+  "@batchImportContinueImport": {
+    "description": "Continue import button"
+  },
+
+  "batchImportDone": "Done",
+  "@batchImportDone": {
+    "description": "Done button"
+  },
+
+  "batchImportItemsImported": "{count} items imported successfully",
+  "@batchImportItemsImported": {
+    "description": "Items imported message",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }
