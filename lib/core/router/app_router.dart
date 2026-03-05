@@ -6,6 +6,7 @@ import '../../features/accounts/presentation/pages/accounts_page.dart';
 import '../../features/expense/presentation/pages/bill_import_page.dart';
 import '../../features/review_center/presentation/pages/review_center_page.dart';
 import '../../features/review_center/presentation/pages/review_detail_page.dart';
+import '../../features/assets/presentation/pages/asset_detail_placeholder_page.dart';
 import 'route_names.dart';
 
 /// Application router configuration
@@ -42,6 +43,16 @@ final appRouter = GoRouter(
         final id = state.pathParameters['id'] ?? '';
         return ReviewDetailPage(id: id);
       },
+    ),
+    GoRoute(
+      path: RouteNames.assetsDetails,
+      name: 'assets_details',
+      builder: (context, state) => const AssetDetailPlaceholderPage(title: 'Details'),
+    ),
+    GoRoute(
+      path: RouteNames.assetsStatistics,
+      name: 'assets_statistics',
+      builder: (context, state) => const AssetDetailPlaceholderPage(title: 'Statistics'),
     ),
   ],
   errorBuilder: (context, state) => Scaffold(

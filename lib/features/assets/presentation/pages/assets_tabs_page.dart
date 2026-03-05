@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:go_router/go_router.dart';
+import 'package:flutter/services.dart';
 import '../../../../core/services/ign_api_service.dart';
 import '../../../../core/network/auth_manager.dart';
 import '../../../../core/utils/logger.dart';
 import '../../../review_center/presentation/widgets/review_center_badge.dart';
+import '../../data/services/dashboard_aggregation_service.dart';
+import '../../domain/models/net_worth_history_point.dart';
+import '../../../../core/router/route_names.dart';
 import 'assets_liabilities_page.dart';
 import 'income_expense_page.dart';
 
@@ -112,10 +117,14 @@ class AssetsTabsPage extends HookWidget {
     final currency = useState('CNY');
     final errorMsg = useState<String?>(null);
 
+    // 历史数据状态
+    final netWorthHistory = useState<List<NetWorthHistoryPoint>>([]);
+    final selectedPeriodMonths = useState(6);
+    final isHistoryLoading = useState(false);
+
     // 加载数据
     useEffect(() {
       Future.microtask(() => _fetchData(
-        context: context,
         isLoading: isLoading,
         netWorth: netWorth,
         totalAssets: totalAssets,
@@ -128,6 +137,37 @@ class AssetsTabsPage extends HookWidget {
       ));
       return null;
     }, const []);
+
+    // 加载历史数据
+    useEffect(() {
+      Future.microtask(() => _fetchHistoryData(
+        months: selectedPeriodMonths.value,
+        netWorthHistory: netWorthHistory,
+        isHistoryLoading: isHistoryLoading,
+      ));
+      return null;
+    }, [selectedPeriodMonths.value]);
+
+    // Refresh with haptic feedback
+    Future<void> handleRefresh() async {
+      HapticFeedback.mediumImpact();
+      await _fetchData(
+        isLoading: isLoading,
+        netWorth: netWorth,
+        totalAssets: totalAssets,
+        totalLiabilities: totalLiabilities,
+        accounts: accounts,
+        monthlyIncome: monthlyIncome,
+        monthlyExpense: monthlyExpense,
+        currency: currency,
+        errorMsg: errorMsg,
+      );
+      await _fetchHistoryData(
+        months: selectedPeriodMonths.value,
+        netWorthHistory: netWorthHistory,
+        isHistoryLoading: isHistoryLoading,
+      );
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -164,19 +204,15 @@ class AssetsTabsPage extends HookWidget {
             totalAssets: totalAssets.value,
             totalLiabilities: totalLiabilities.value,
             accounts: accounts.value,
+            netWorthHistory: netWorthHistory.value,
+            selectedPeriodMonths: selectedPeriodMonths.value,
             error: errorMsg.value,
-            onRefresh: () => _fetchData(
-              context: context,
-              isLoading: isLoading,
-              netWorth: netWorth,
-              totalAssets: totalAssets,
-              totalLiabilities: totalLiabilities,
-              accounts: accounts,
-              monthlyIncome: monthlyIncome,
-              monthlyExpense: monthlyExpense,
-              currency: currency,
-              errorMsg: errorMsg,
-            ),
+            onRefresh: handleRefresh,
+            onPeriodChanged: (months) {
+              selectedPeriodMonths.value = months;
+            },
+            onDetailsTap: () => context.go(RouteNames.assetsDetails),
+            onStatisticsTap: () => context.go(RouteNames.assetsStatistics),
           ),
           IncomeExpensePage(
             isLoading: isLoading.value,
@@ -184,27 +220,46 @@ class AssetsTabsPage extends HookWidget {
             monthlyExpense: monthlyExpense.value,
             currency: currency.value,
             error: errorMsg.value,
-            onRefresh: () => _fetchData(
-              context: context,
-              isLoading: isLoading,
-              netWorth: netWorth,
-              totalAssets: totalAssets,
-              totalLiabilities: totalLiabilities,
-              accounts: accounts,
-              monthlyIncome: monthlyIncome,
-              monthlyExpense: monthlyExpense,
-              currency: currency,
-              errorMsg: errorMsg,
-            ),
+            onRefresh: handleRefresh,
           ),
         ],
       ),
     );
   }
 
+  /// Fetch net worth history data
+  static Future<void> _fetchHistoryData({
+    required int months,
+    required ValueNotifier<List<NetWorthHistoryPoint>> netWorthHistory,
+    required ValueNotifier<bool> isHistoryLoading,
+  }) async {
+    if (!AuthManager.instance.isLoggedIn) {
+      logger.i('[AssetsTabsPage] 未登录，跳过历史数据加载');
+      return;
+    }
+
+    isHistoryLoading.value = true;
+
+    try {
+      logger.i('[AssetsTabsPage] 开始加载历史数据: $months 个月');
+
+      final historyData = await IgnApiService.instance.getNetWorthHistory(months: months);
+
+      // Convert to NetWorthHistoryPoint list using DashboardAggregationService
+      final history = DashboardAggregationService.instance.aggregateNetWorthHistory(historyData);
+
+      netWorthHistory.value = history;
+      logger.i('[AssetsTabsPage] 历史数据加载完成: ${history.length} 个数据点');
+    } catch (e) {
+      logger.e('[AssetsTabsPage] 历史数据加载失败: $e');
+      netWorthHistory.value = [];
+    } finally {
+      isHistoryLoading.value = false;
+    }
+  }
+
   /// 并行加载资产数据（参考 IGN fetchData 方法）
   static Future<void> _fetchData({
-    required BuildContext context,
     required ValueNotifier<bool> isLoading,
     required ValueNotifier<String> netWorth,
     required ValueNotifier<String> totalAssets,

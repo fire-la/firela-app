@@ -145,5 +145,10 @@
   "loans": "贷款",
   "mortgages": "房贷",
   "otherLiabilities": "其他负债",
-  "liabilityDetails": "负债详情"
+  "liabilityDetails": "负债详情",
+
+  "period1Month": "1月",
+  "period3Months": "3月",
+  "period6Months": "6月",
+  "period1Year": "1年"
 }

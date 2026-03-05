@@ -929,5 +929,25 @@
   "liabilityDetails": "Liability Details",
   "@liabilityDetails": {
     "description": "Liability details section"
+  },
+
+  "period1Month": "1M",
+  "@period1Month": {
+    "description": "1 month period selector label"
+  },
+
+  "period3Months": "3M",
+  "@period3Months": {
+    "description": "3 months period selector label"
+  },
+
+  "period6Months": "6M",
+  "@period6Months": {
+    "description": "6 months period selector label"
+  },
+
+  "period1Year": "1Y",
+  "@period1Year": {
+    "description": "1 year period selector label"
   }
 }

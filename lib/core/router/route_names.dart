@@ -31,4 +31,10 @@ class RouteNames {
 
   /// Review Center detail route
   static const String reviewCenterDetail = '/review-center/:id';
+
+  /// Assets details route
+  static const String assetsDetails = '/assets/details';
+
+  /// Assets statistics route
+  static const String assetsStatistics = '/assets/statistics';
 }
