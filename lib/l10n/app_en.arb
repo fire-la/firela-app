@@ -984,5 +984,40 @@
   "refreshToSeeUpdates": "Pull to refresh and see your latest progress",
   "@refreshToSeeUpdates": {
     "description": "Hint for pull-to-refresh"
+  },
+
+  "fireProjectionTitle": "FIRE Projection",
+  "@fireProjectionTitle": {
+    "description": "Title for FIRE projection chart"
+  },
+
+  "yearsToFireValue": "{years} years to FIRE",
+  "@yearsToFireValue": {
+    "description": "Years to FIRE value display",
+    "placeholders": {
+      "years": {
+        "type": "String"
+      }
+    }
+  },
+
+  "projectionYearValue": "Year {years}",
+  "@projectionYearValue": {
+    "description": "Projection year value",
+    "placeholders": {
+      "years": {
+        "type": "String"
+      }
+    }
+  },
+
+  "baselineScenario": "Baseline",
+  "@baselineScenario": {
+    "description": "Baseline scenario name"
+  },
+
+  "aggressiveScenario": "Aggressive",
+  "@aggressiveScenario": {
+    "description": "Aggressive scenario name"
   }
 }

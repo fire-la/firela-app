@@ -159,5 +159,11 @@
 
   "milestoneAchieved": "里程碑达成！",
   "celebrateProgress": "恭喜你在FIRE之路上达成这个里程碑！",
-  "refreshToSeeUpdates": "下拉刷新查看最新进度"
+  "refreshToSeeUpdates": "下拉刷新查看最新进度",
+
+  "fireProjectionTitle": "FIRE 预测",
+  "yearsToFireValue": "距离 FIRE {years} 年",
+  "projectionYearValue": "第 {years} 年",
+  "baselineScenario": "基准",
+  "aggressiveScenario": "激进"
 }

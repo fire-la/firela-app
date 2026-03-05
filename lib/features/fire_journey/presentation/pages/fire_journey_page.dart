@@ -8,6 +8,7 @@ import '../providers/use_fire_progress.dart';
 import '../widgets/milestone_badge.dart';
 import '../widgets/shimmer_loading.dart';
 import '../widgets/animated_number.dart';
+import '../widgets/fire_projection_chart.dart';
 
 /// FIRE Journey page showing progress and milestones
 class FireJourneyPage extends HookWidget {
@@ -208,6 +209,28 @@ class FireJourneyPage extends HookWidget {
     AppLocalizations l10n,
     FireProgressResult fireProgress,
   ) {
+    final theme = Theme.of(context);
+
+    // Build projection scenarios
+    final currentNetWorth = fireProgress.progress?.currentNetWorth ?? 0;
+    final monthlySavings = fireProgress.progress?.monthlySavings ?? 0;
+    final fireNumber = fireProgress.goal?.targetAmount ?? 0;
+
+    final scenarios = [
+      ProjectionScenario(
+        name: l10n.baselineScenario,
+        monthlySavings: monthlySavings,
+        annualReturn: 0.07, // 7% default
+        color: Colors.black,
+      ),
+      ProjectionScenario(
+        name: l10n.aggressiveScenario,
+        monthlySavings: monthlySavings * 1.2, // 20% more savings
+        annualReturn: 0.10, // 10% return
+        color: Colors.green,
+      ),
+    ];
+
     return RefreshIndicator(
       onRefresh: () async {
         HapticFeedback.mediumImpact();
@@ -229,6 +252,17 @@ class FireJourneyPage extends HookWidget {
 
             const SizedBox(height: 16),
 
+            // FIRE Projection Chart
+            FireProjectionChart(
+              currentNetWorth: currentNetWorth,
+              fireNumber: fireNumber,
+              scenarios: scenarios,
+              targetYears: fireProgress.progress?.yearsToFire,
+              isLoading: false,
+            ),
+
+            const SizedBox(height: 16),
+
             // Net assets and daily income
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -238,7 +272,7 @@ class FireJourneyPage extends HookWidget {
                     child: Container(
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                        color: theme.colorScheme.surfaceContainerHighest,
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Column(
@@ -246,14 +280,14 @@ class FireJourneyPage extends HookWidget {
                         children: [
                           Text(
                             l10n.netAssets,
-                            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                              color: Theme.of(context).colorScheme.outline,
+                            style: theme.textTheme.bodySmall?.copyWith(
+                              color: theme.colorScheme.outline,
                             ),
                           ),
                           const SizedBox(height: 8),
                           AnimatedNumber(
                             value: fireProgress.progress?.currentNetWorth ?? 0,
-                            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                            style: theme.textTheme.headlineMedium?.copyWith(
                               fontWeight: FontWeight.w500,
                             ),
                           ),
@@ -266,7 +300,7 @@ class FireJourneyPage extends HookWidget {
                     child: Container(
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                        color: theme.colorScheme.surfaceContainerHighest,
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Column(
@@ -274,14 +308,14 @@ class FireJourneyPage extends HookWidget {
                         children: [
                           Text(
                             l10n.dailyIncome,
-                            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                              color: Theme.of(context).colorScheme.outline,
+                            style: theme.textTheme.bodySmall?.copyWith(
+                              color: theme.colorScheme.outline,
                             ),
                           ),
                           const SizedBox(height: 8),
                           AnimatedNumber(
                             value: (fireProgress.progress?.monthlySavings ?? 0) / 30,
-                            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                            style: theme.textTheme.headlineMedium?.copyWith(
                               fontWeight: FontWeight.w500,
                             ),
                           ),
