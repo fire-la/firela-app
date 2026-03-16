@@ -12,15 +12,13 @@ import '../models/pending_transaction_model.dart';
 /// - ApiClientWrapper adds /v1/{region} prefix
 /// - API docs: https://api-s.firela.io/api/docs-json
 class ReviewCenterRemoteDatasource {
-  ReviewCenterRemoteDatasource._();
+  ReviewCenterRemoteDatasource._() {
+    _dio = ApiClientWrapper.instance.dio;
+  }
   static final ReviewCenterRemoteDatasource instance = ReviewCenterRemoteDatasource._();
 
   /// Dio client from ApiClientWrapper
   late final Dio _dio;
-
-  ReviewCenterRemoteDatasource() {
-    _dio = ApiClientWrapper.instance.dio;
-  }
 
   /// Base path for Review Center endpoints
   static const String _basePath = '/bean/reviews';
