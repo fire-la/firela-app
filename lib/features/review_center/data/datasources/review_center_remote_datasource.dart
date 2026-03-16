@@ -1,54 +1,147 @@
-import '../../../../core/network/api_client.dart';
+import '../../../../api/api_client.dart';
+import '../../../../api/generated/openapi.dart';
+import 'package:dio/dio.dart';
 import '../../../../core/utils/logger.dart';
 import '../../domain/models/confidence_level.dart';
 import '../models/pending_transaction_model.dart';
 
 /// Remote datasource for Review Center API calls
-/// Endpoints: /bean/review-center (region-scoped, ApiClient adds /v1/{region} prefix)
+///
+/// This datasource uses typed API types from OpenAPI spec.
+/// - Endpoints: /bean/reviews (region-scoped)
+/// - ApiClientWrapper adds /v1/{region} prefix
+/// - API docs: https://api-s.firela.io/api/docs-json
 class ReviewCenterRemoteDatasource {
   ReviewCenterRemoteDatasource._();
   static final ReviewCenterRemoteDatasource instance = ReviewCenterRemoteDatasource._();
 
-  /// Base path for Review Center endpoints
-  /// ApiClient._buildUrl() will construct: /api/v1/{region}/bean/review-center
-  static const String _basePath = '/bean/review-center';
+  /// Dio client from ApiClientWrapper
+  late final Dio _dio;
 
-  /// Get paginated list of pending transactions
+  ReviewCenterRemoteDatasource() {
+    _dio = ApiClientWrapper.instance.dio;
+  }
+
+  /// Base path for Review Center endpoints
+  static const String _basePath = '/bean/reviews';
+
+  /// Handle Dio errors and convert to domain exceptions
+  Never _handleDioError(DioException e) {
+    if (e.response?.statusCode == 401) {
+      throw Exception('Login expired');
+    }
+    if (e.response?.statusCode == 404) {
+      throw Exception('Transaction not found');
+    }
+    throw Exception(e.message ?? 'Network error');
+  }
+
+  /// Get paginated list of pending transactions with typed response
+  /// API: GET /api/v1/{region}/bean/reviews
+  /// Query params: type, confidenceLevel, sortBy, page, limit
   /// If [level] is null, returns all transactions (for "全部" tab)
-  Future<dynamic> getPendingTransactions({
+  ///
+  /// Returns typed [TransactionListResponse] for type-safe access.
+  Future<TransactionListResponse> getPendingTransactionsTyped({
     ConfidenceLevel? level,
     int page = 1,
-    int pageSize = 20,
+    int limit = 20,
   }) async {
     final queryParams = <String, String>{
       'page': page.toString(),
-      'page_size': pageSize.toString(),
+      'limit': limit.toString(),
     };
 
     if (level != null) {
-      queryParams['confidence_level'] = level.name.toUpperCase();
+      queryParams['confidenceLevel'] = level.name.toLowerCase();
     }
 
     logger.i('[ReviewCenter] Fetching pending transactions: level=$level, page=$page');
 
     try {
-      return await ApiClient.instance.get(_basePath, queryParams: queryParams);
-    } catch (e) {
-      logger.e('[ReviewCenter] Failed to fetch pending transactions: $e');
+      final response = await _dio.get(
+        _basePath,
+        queryParameters: queryParams,
+      );
+
+      if (response.data == null) {
+        return const TransactionListResponse(data: [], total: 0);
+      }
+
+      // Parse typed response
+      if (response.data is Map<String, dynamic>) {
+        return TransactionListResponse.fromJson(response.data);
+      }
+
+      // Fallback: wrap raw list
+      if (response.data is List) {
+        final items = response.data as List<dynamic>;
+        return TransactionListResponse(
+          data: items
+              .whereType<Map<String, dynamic>>()
+              .map((json) => TransactionDetail.fromJson(json))
+              .toList(),
+          total: items.length,
+        );
+      }
+
+      return const TransactionListResponse(data: [], total: 0);
+    } on DioException catch (e) {
+      logger.e('[ReviewCenter] Failed to fetch pending transactions: ${e.message}');
+      _handleDioError(e);
       rethrow;
     }
   }
 
-  /// Get single pending transaction detail by ID
-  Future<dynamic> getPendingTransactionDetail(String id) async {
+  /// Get paginated list of pending transactions (backward-compatible dynamic response)
+  /// API: GET /api/v1/{region}/bean/reviews
+  /// Query params: type, confidenceLevel, sortBy, page, limit
+  /// If [level] is null, returns all transactions (for "全部" tab)
+  ///
+  /// Note: Prefer [getPendingTransactionsTyped] for type-safe access.
+  Future<dynamic> getPendingTransactions({
+    ConfidenceLevel? level,
+    int page = 1,
+    int limit = 20,
+  }) async {
+    // Use typed method and return raw data for backward compatibility
+    final typedResponse = await getPendingTransactionsTyped(
+      level: level,
+      page: page,
+      limit: limit,
+    );
+
+    // Return raw map for compatibility with existing code
+    return {
+      'data': typedResponse.data.map((t) => t.toJson()),
+      'total': typedResponse.total,
+      'limit': typedResponse.limit,
+      'offset': typedResponse.offset,
+    };
+  }
+
+  /// Get single pending transaction detail by ID (typed)
+  /// API: GET /api/v1/{region}/bean/reviews/:id
+  Future<TransactionDetail> getPendingTransactionDetailTyped(String id) async {
     logger.i('[ReviewCenter] Fetching transaction detail: $id');
 
     try {
-      return await ApiClient.instance.get('$_basePath/$id');
-    } catch (e) {
-      logger.e('[ReviewCenter] Failed to fetch transaction detail: $e');
+      final response = await _dio.get('$_basePath/$id');
+      return TransactionDetail.fromJson(response.data as Map<String, dynamic>);
+    } on DioException catch (e) {
+      logger.e('[ReviewCenter] Failed to fetch transaction detail: ${e.message}');
+      _handleDioError(e);
       rethrow;
     }
+  }
+
+  /// Get single pending transaction detail by ID (backward-compatible)
+  /// API: GET /api/v1/{region}/bean/reviews/:id
+  ///
+  /// Note: Prefer [getPendingTransactionDetailTyped] for type-safe access.
+  Future<dynamic> getPendingTransactionDetail(String id) async {
+    final typed = await getPendingTransactionDetailTyped(id);
+    return typed.toJson();
   }
 
   /// Accept a pending transaction (records it as a regular transaction)
@@ -58,26 +151,37 @@ class ReviewCenterRemoteDatasource {
   }
 
   /// Confirm a pending transaction (records it as a regular transaction)
-  /// Uses POST /bean/review-center/:id/accept
+  /// Uses POST /bean/reviews/:id/resolve with action: 'ACCEPT'
   Future<dynamic> confirmTransaction(String id) async {
     logger.i('[ReviewCenter] Confirming (accepting) transaction: $id');
 
     try {
-      return await ApiClient.instance.post('$_basePath/$id/accept');
-    } catch (e) {
-      logger.e('[ReviewCenter] Failed to confirm transaction: $e');
+      final response = await _dio.post(
+        '$_basePath/$id/resolve',
+        data: {'action': 'ACCEPT'},
+      );
+      return response.data;
+    } on DioException catch (e) {
+      logger.e('[ReviewCenter] Failed to confirm transaction: ${e.message}');
+      _handleDioError(e);
       rethrow;
     }
   }
 
-  /// Reject a pending transaction
+  /// Reject a pending transaction (undo/delete)
+  /// Uses POST /bean/reviews/:id/resolve with action: 'REJECT'
   Future<dynamic> rejectTransaction(String id) async {
     logger.i('[ReviewCenter] Rejecting transaction: $id');
 
     try {
-      return await ApiClient.instance.post('$_basePath/$id/reject');
-    } catch (e) {
-      logger.e('[ReviewCenter] Failed to reject transaction: $e');
+      final response = await _dio.post(
+        '$_basePath/$id/resolve',
+        data: {'action': 'REJECT'},
+      );
+      return response.data;
+    } on DioException catch (e) {
+      logger.e('[ReviewCenter] Failed to reject transaction: ${e.message}');
+      _handleDioError(e);
       rethrow;
     }
   }
@@ -87,47 +191,57 @@ class ReviewCenterRemoteDatasource {
     logger.i('[ReviewCenter] Updating transaction: $id');
 
     try {
-      return await ApiClient.instance.put('$_basePath/$id', body: data);
-    } catch (e) {
-      logger.e('[ReviewCenter] Failed to update transaction: $e');
+      final response = await _dio.put('$_basePath/$id', data: data);
+      return response.data;
+    } on DioException catch (e) {
+      logger.e('[ReviewCenter] Failed to update transaction: ${e.message}');
+      _handleDioError(e);
       rethrow;
     }
   }
 
-  /// Delete a pending transaction
+  /// Delete a pending transaction (reject)
+  /// Uses POST /bean/reviews/:id/resolve with action: 'REJECT'
   Future<void> deleteTransaction(String id) async {
-    logger.i('[ReviewCenter] Deleting transaction: $id');
+    logger.i('[ReviewCenter] Deleting (rejecting) transaction: $id');
 
     try {
-      await ApiClient.instance.delete('$_basePath/$id');
-    } catch (e) {
-      logger.e('[ReviewCenter] Failed to delete transaction: $e');
+      await _dio.post(
+        '$_basePath/$id/resolve',
+        data: {'action': 'REJECT'},
+      );
+    } on DioException catch (e) {
+      logger.e('[ReviewCenter] Failed to delete transaction: ${e.message}');
+      _handleDioError(e);
       rethrow;
     }
   }
 
-  /// Get pending count for badge (total and by level)
-  /// Returns a map with total, high, medium, low counts
+  /// Get pending count for badge (total and by type)
+  /// Uses GET /bean/reviews/stats
+  /// Returns a map with total, byType counts
   Future<Map<String, int>> getPendingCount() async {
     logger.i('[ReviewCenter] Fetching pending count');
 
     try {
-      final response = await ApiClient.instance.get('$_basePath/count');
+      final response = await _dio.get('$_basePath/stats');
 
       // Handle various response formats
-      if (response is Map<String, dynamic>) {
+      // API returns: {total: number, byType: {DUPLICATE: number, RULE_MATCH: number, ...}}
+      if (response.data is Map<String, dynamic>) {
+        final byType = response.data['byType'] as Map<String, dynamic>? ?? {};
         return {
-          'total': response['total'] as int? ?? 0,
-          'high': response['high'] as int? ?? response['HIGH'] as int? ?? 0,
-          'medium': response['medium'] as int? ?? response['MEDIUM'] as int? ?? 0,
-          'low': response['low'] as int? ?? response['LOW'] as int? ?? 0,
+          'total': response.data['total'] as int? ?? 0,
+          'high': byType['DUPLICATE'] as int? ?? 0,
+          'medium': byType['RULE_MATCH'] as int? ?? byType['PAYEE_MATCH'] as int? ?? 0,
+          'low': byType['ACCOUNT_VALIDATION'] as int? ?? byType['PIPELINE_ERROR'] as int? ?? 0,
         };
       }
 
       // If response is just a number, treat as total
-      if (response is int) {
+      if (response.data is int) {
         return {
-          'total': response,
+          'total': response.data,
           'high': 0,
           'medium': 0,
           'low': 0,
@@ -135,8 +249,8 @@ class ReviewCenterRemoteDatasource {
       }
 
       return {'total': 0, 'high': 0, 'medium': 0, 'low': 0};
-    } catch (e) {
-      logger.e('[ReviewCenter] Failed to fetch pending count: $e');
+    } on DioException catch (e) {
+      logger.e('[ReviewCenter] Failed to fetch pending count: ${e.message}');
       rethrow;
     }
   }

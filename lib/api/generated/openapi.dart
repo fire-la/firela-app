@@ -1,8 +1,8 @@
-/// Manual type definitions based on OpenAPI spec
-/// Generated from: openapi.yaml (fire-la/api-specs)
-///
-/// Note: These types are manually created as a workaround for openapi-generator-dart
-/// compatibility issues with Dart 3.5+. They follow the OpenAPI spec structure.
+// Manual type definitions based on OpenAPI spec
+// Generated from: openapi.yaml (fire-la/api-specs)
+//
+// Note: These types are manually created as a workaround for openapi-generator-dart
+// compatibility issues with Dart 3.5+. They follow the OpenAPI spec structure.
 
 // ============================================
 // Enums
