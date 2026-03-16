@@ -1,0 +1,1515 @@
+openapi: 3.0.3
+info:
+  title: IGN API
+  description: |
+    IGN Beancount SaaS API - Enterprise-grade double-entry accounting platform.
+    
+    A complete implementation of the Beancount accounting engine with multi-region support.
+  version: 1.0.0
+  contact:
+    name: Firela Team
+
+servers:
+  - url: http://localhost:3333/api/v1
+    description: Local development
+  - url: https://staging.ign.dev/api/v1
+    description: Staging
+
+tags:
+  - name: Health
+    description: System health checks
+  - name: Transaction
+    description: Transaction management (double-entry accounting entries)
+  - name: Account
+    description: Account management (Assets, Liabilities, Income, Expenses, Equity)
+  - name: Commodity
+    description: Commodity/currency definitions
+  - name: Price
+    description: Price quotes for commodities
+  - name: Balance
+    description: Account balance queries
+
+paths:
+  # ============================================
+  # Health
+  # ============================================
+  /health:
+    get:
+      tags: [Health]
+      summary: Health check
+      description: Returns the health status of the API service
+      operationId: getHealth
+      responses:
+        '200':
+          description: Service is healthy
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+
+  # ============================================
+  # Transactions
+  # ============================================
+  /{region}/bean/transactions:
+    get:
+      tags: [Transaction]
+      summary: List transactions
+      description: Retrieve a paginated list of transactions for the specified region
+      operationId: listTransactions
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/RegionPath'
+        - name: limit
+          in: query
+          description: Maximum number of results (1-100)
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+            maximum: 100
+        - name: offset
+          in: query
+          description: Number of items to skip
+          schema:
+            type: integer
+            default: 0
+            minimum: 0
+        - name: dateFrom
+          in: query
+          description: Filter from date (inclusive, ISO 8601)
+          schema:
+            type: string
+            format: date
+        - name: dateTo
+          in: query
+          description: Filter to date (inclusive, ISO 8601)
+          schema:
+            type: string
+            format: date
+        - name: status
+          in: query
+          description: Filter by transaction status
+          schema:
+            $ref: '#/components/schemas/TxnStatus'
+        - name: search
+          in: query
+          description: Search in narration and payee fields
+          schema:
+            type: string
+            maxLength: 200
+        - name: accountId
+          in: query
+          description: Filter by account ID
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of transactions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionListResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+    post:
+      tags: [Transaction]
+      summary: Create transaction
+      description: |
+        Create a new double-entry transaction. 
+        
+        A transaction must have at least 2 postings that balance (debits = credits).
+        The system will automatically interpolate missing amounts if possible.
+      operationId: createTransaction
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/RegionPath'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTransactionRequest'
+      responses:
+        '201':
+          description: Transaction created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /{region}/bean/transactions/{id}:
+    get:
+      tags: [Transaction]
+      summary: Get transaction
+      description: Retrieve a specific transaction by ID with full details
+      operationId: getTransaction
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/RegionPath'
+        - $ref: '#/components/parameters/TransactionIdPath'
+      responses:
+        '200':
+          description: Transaction details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionDetail'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    patch:
+      tags: [Transaction]
+      summary: Update transaction metadata
+      description: Update transaction metadata fields (does not change postings)
+      operationId: updateTransaction
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/RegionPath'
+        - $ref: '#/components/parameters/TransactionIdPath'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTransactionRequest'
+      responses:
+        '200':
+          description: Transaction updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionDetail'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    delete:
+      tags: [Transaction]
+      summary: Void transaction
+      description: Mark a transaction as voided (soft delete)
+      operationId: voidTransaction
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/RegionPath'
+        - $ref: '#/components/parameters/TransactionIdPath'
+      responses:
+        '204':
+          description: Transaction voided
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  # ============================================
+  # Accounts
+  # ============================================
+  /{region}/bean/accounts:
+    get:
+      tags: [Account]
+      summary: List accounts
+      description: Retrieve all accounts for the specified region with optional filters
+      operationId: listAccounts
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/RegionPath'
+        - name: type
+          in: query
+          description: Filter by account type
+          schema:
+            $ref: '#/components/schemas/AccountType'
+        - name: status
+          in: query
+          description: Filter by account status
+          schema:
+            $ref: '#/components/schemas/AccountStatus'
+        - name: isCustom
+          in: query
+          description: Filter custom accounts only
+          schema:
+            type: boolean
+        - name: search
+          in: query
+          description: Search in path and i18nKey
+          schema:
+            type: string
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 100
+            minimum: 1
+            maximum: 500
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            default: 0
+      responses:
+        '200':
+          description: List of accounts
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountListResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+    post:
+      tags: [Account]
+      summary: Create account
+      description: Create a new Beancount account
+      operationId: createAccount
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/RegionPath'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAccountRequest'
+      responses:
+        '201':
+          description: Account created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /{region}/bean/accounts/{id}:
+    get:
+      tags: [Account]
+      summary: Get account
+      description: Retrieve a specific account by ID
+      operationId: getAccount
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/RegionPath'
+        - $ref: '#/components/parameters/AccountIdPath'
+      responses:
+        '200':
+          description: Account details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    put:
+      tags: [Account]
+      summary: Update account
+      description: Update account properties
+      operationId: updateAccount
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/RegionPath'
+        - $ref: '#/components/parameters/AccountIdPath'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateAccountRequest'
+      responses:
+        '200':
+          description: Account updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    delete:
+      tags: [Account]
+      summary: Delete account
+      description: Delete an account (only if no postings reference it)
+      operationId: deleteAccount
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/RegionPath'
+        - $ref: '#/components/parameters/AccountIdPath'
+      responses:
+        '204':
+          description: Account deleted
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+
+  /{region}/bean/accounts/{id}/close:
+    post:
+      tags: [Account]
+      summary: Close account
+      description: Mark an account as closed
+      operationId: closeAccount
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/RegionPath'
+        - $ref: '#/components/parameters/AccountIdPath'
+      responses:
+        '200':
+          description: Account closed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /{region}/bean/accounts/{id}/reopen:
+    post:
+      tags: [Account]
+      summary: Reopen account
+      description: Reopen a previously closed account
+      operationId: reopenAccount
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/RegionPath'
+        - $ref: '#/components/parameters/AccountIdPath'
+      responses:
+        '200':
+          description: Account reopened
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  # ============================================
+  # Commodities
+  # ============================================
+  /{region}/bean/commodities:
+    get:
+      tags: [Commodity]
+      summary: List commodities
+      description: Retrieve all commodity definitions for the region
+      operationId: listCommodities
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/RegionPath'
+      responses:
+        '200':
+          description: List of commodities
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommodityListResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+    post:
+      tags: [Commodity]
+      summary: Create commodity
+      description: Create a new commodity/currency definition
+      operationId: createCommodity
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/RegionPath'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCommodityRequest'
+      responses:
+        '201':
+          description: Commodity created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommodityResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /{region}/bean/commodities/{symbol}:
+    get:
+      tags: [Commodity]
+      summary: Get commodity
+      description: Retrieve a specific commodity by symbol
+      operationId: getCommodity
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/RegionPath'
+        - $ref: '#/components/parameters/CommoditySymbolPath'
+      responses:
+        '200':
+          description: Commodity details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommodityResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    put:
+      tags: [Commodity]
+      summary: Update commodity
+      description: Update commodity properties
+      operationId: updateCommodity
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/RegionPath'
+        - $ref: '#/components/parameters/CommoditySymbolPath'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCommodityRequest'
+      responses:
+        '200':
+          description: Commodity updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommodityResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    delete:
+      tags: [Commodity]
+      summary: Delete commodity
+      description: Delete a commodity definition
+      operationId: deleteCommodity
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/RegionPath'
+        - $ref: '#/components/parameters/CommoditySymbolPath'
+      responses:
+        '204':
+          description: Commodity deleted
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /{region}/bean/commodities/{symbol}/ensure:
+    post:
+      tags: [Commodity]
+      summary: Get or create commodity
+      description: Get existing commodity or create if not exists
+      operationId: ensureCommodity
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/RegionPath'
+        - $ref: '#/components/parameters/CommoditySymbolPath'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnsureCommodityRequest'
+      responses:
+        '200':
+          description: Commodity found or created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommodityResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /{region}/bean/commodities/bulk:
+    post:
+      tags: [Commodity]
+      summary: Bulk create commodities
+      description: Create multiple commodities at once
+      operationId: bulkCreateCommodities
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/RegionPath'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [commodities]
+              properties:
+                commodities:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/CreateCommodityRequest'
+      responses:
+        '201':
+          description: Commodities created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommodityListResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  # ============================================
+  # Prices
+  # ============================================
+  /{region}/bean/prices:
+    get:
+      tags: [Price]
+      summary: List prices
+      description: Retrieve all price quotes for the region
+      operationId: listPrices
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/RegionPath'
+      responses:
+        '200':
+          description: List of prices
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PriceListResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+    post:
+      tags: [Price]
+      summary: Create price
+      description: Create a new price quote
+      operationId: createPrice
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/RegionPath'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePriceRequest'
+      responses:
+        '201':
+          description: Price created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PriceResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /{region}/bean/prices/{id}:
+    get:
+      tags: [Price]
+      summary: Get price
+      description: Retrieve a specific price quote by ID
+      operationId: getPrice
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/RegionPath'
+        - $ref: '#/components/parameters/PriceIdPath'
+      responses:
+        '200':
+          description: Price details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PriceResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    put:
+      tags: [Price]
+      summary: Update price
+      description: Update a price quote
+      operationId: updatePrice
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/RegionPath'
+        - $ref: '#/components/parameters/PriceIdPath'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatePriceRequest'
+      responses:
+        '200':
+          description: Price updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PriceResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    delete:
+      tags: [Price]
+      summary: Delete price
+      description: Delete a price quote
+      operationId: deletePrice
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/RegionPath'
+        - $ref: '#/components/parameters/PriceIdPath'
+      responses:
+        '204':
+          description: Price deleted
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /{region}/bean/prices/bulk:
+    post:
+      tags: [Price]
+      summary: Bulk create prices
+      description: Create multiple price quotes at once
+      operationId: bulkCreatePrices
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/RegionPath'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [prices]
+              properties:
+                prices:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/CreatePriceRequest'
+      responses:
+        '201':
+          description: Prices created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PriceListResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  # ============================================
+  # Balances
+  # ============================================
+  /{region}/bean/balances:
+    get:
+      tags: [Balance]
+      summary: Query balance
+      description: Get the balance of an account in a specific currency
+      operationId: getBalance
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/RegionPath'
+        - name: account
+          in: query
+          required: true
+          description: Account path (e.g., "Assets:Bank:Checking")
+          schema:
+            type: string
+        - name: date
+          in: query
+          description: Query date (defaults to today)
+          schema:
+            type: string
+            format: date
+        - name: currency
+          in: query
+          required: true
+          description: Currency code (e.g., "USD")
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Balance result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BalanceResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /{region}/bean/balances/multi-currency:
+    get:
+      tags: [Balance]
+      summary: Query multi-currency balance
+      description: Get the balance of an account across all currencies
+      operationId: getMultiCurrencyBalance
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/RegionPath'
+        - name: account
+          in: query
+          required: true
+          description: Account path (e.g., "Assets:Bank:Checking")
+          schema:
+            type: string
+        - name: date
+          in: query
+          description: Query date (defaults to today)
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Multi-currency balance result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MultiCurrencyBalanceResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT token obtained from authentication
+
+  parameters:
+    RegionPath:
+      name: region
+      in: path
+      required: true
+      description: Region code for tenant context
+      schema:
+        type: string
+        enum: [cn, us, eu-core, de]
+
+    TransactionIdPath:
+      name: id
+      in: path
+      required: true
+      description: Transaction ID (CUID format)
+      schema:
+        type: string
+
+    AccountIdPath:
+      name: id
+      in: path
+      required: true
+      description: Account ID (UUID format)
+      schema:
+        type: string
+        format: uuid
+
+    CommoditySymbolPath:
+      name: symbol
+      in: path
+      required: true
+      description: Commodity symbol (e.g., "USD", "AAPL")
+      schema:
+        type: string
+        maxLength: 50
+        pattern: '^[A-Z0-9_\-\.]+$'
+
+    PriceIdPath:
+      name: id
+      in: path
+      required: true
+      description: Price ID (UUID format)
+      schema:
+        type: string
+        format: uuid
+
+  schemas:
+    # ==========================================
+    # Enums
+    # ==========================================
+    AccountType:
+      type: string
+      enum: [Assets, Liabilities, Income, Expenses, Equity]
+      description: Beancount account type
+
+    AccountStatus:
+      type: string
+      enum: [OPEN, CLOSED, SUSPENDED]
+      description: Account lifecycle status
+
+    BookingMethod:
+      type: string
+      enum: [FIFO, LIFO, HIFO, AVERAGE, STRICT, STRICT_WITH_SIZE, NONE]
+      description: Inventory booking method for cost tracking
+
+    TxnStatus:
+      type: string
+      enum: [ACTIVE, VOIDED, SUPERSEDED]
+      description: Transaction lifecycle status
+
+    TransactionFlag:
+      type: string
+      enum: ["*", "!"]
+      description: "Transaction flag: '*' = complete, '!' = incomplete"
+
+    # ==========================================
+    # Health
+    # ==========================================
+    HealthResponse:
+      type: object
+      required: [status]
+      properties:
+        status:
+          type: string
+          enum: [ok, degraded]
+        version:
+          type: string
+
+    # ==========================================
+    # Transaction Schemas
+    # ==========================================
+    Posting:
+      type: object
+      required: [account]
+      properties:
+        id:
+          type: string
+        accountId:
+          type: string
+        accountName:
+          type: string
+          description: Full Beancount account path
+        units:
+          type: string
+          description: Decimal string for precision
+        currency:
+          type: string
+          maxLength: 20
+        costAmount:
+          type: string
+        costCurrency:
+          type: string
+        costDate:
+          type: string
+          format: date
+        priceAmount:
+          type: string
+        priceCurrency:
+          type: string
+        flag:
+          type: string
+        meta:
+          type: object
+          additionalProperties: true
+
+    CreatePostingRequest:
+      type: object
+      required: [account]
+      properties:
+        account:
+          type: string
+          description: Full Beancount account path (e.g., "Assets:Bank:Checking")
+        units:
+          type: string
+          description: Decimal string for precision (e.g., "100.50")
+        currency:
+          type: string
+          maxLength: 20
+          description: Currency code if units provided
+        meta:
+          type: object
+          additionalProperties: true
+
+    CreateTransactionRequest:
+      type: object
+      required: [date, narration, postings]
+      properties:
+        date:
+          type: string
+          format: date
+        flag:
+          type: string
+          enum: ["*", "!"]
+          default: "*"
+          description: "Transaction flag: '*' = complete, '!' = incomplete"
+        payee:
+          type: string
+        narration:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+        links:
+          type: array
+          items:
+            type: string
+        postings:
+          type: array
+          items:
+            $ref: '#/components/schemas/CreatePostingRequest'
+          minItems: 1
+        meta:
+          type: object
+          additionalProperties: true
+        idempotencyKey:
+          type: string
+          maxLength: 128
+
+    UpdateTransactionRequest:
+      type: object
+      properties:
+        payee:
+          type: string
+        narration:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+        links:
+          type: array
+          items:
+            type: string
+        meta:
+          type: object
+          additionalProperties: true
+
+    TransactionDetail:
+      type: object
+      required: [id, date, narration, status, postings]
+      properties:
+        id:
+          type: string
+        date:
+          type: string
+          format: date
+        flag:
+          $ref: '#/components/schemas/TransactionFlag'
+        customFlag:
+          type: string
+        payee:
+          type: string
+        narration:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+        links:
+          type: array
+          items:
+            type: string
+        meta:
+          type: object
+          additionalProperties: true
+        status:
+          $ref: '#/components/schemas/TxnStatus'
+        sourceType:
+          type: string
+        sourcePlatform:
+          type: string
+        postings:
+          type: array
+          items:
+            $ref: '#/components/schemas/Posting'
+        createdAt:
+          type: string
+          format: date-time
+        voidedAt:
+          type: string
+          format: date-time
+        voidedBy:
+          type: string
+        correctionReason:
+          type: string
+
+    TransactionResponse:
+      type: object
+      required: [transactionId, date, narration, postings]
+      properties:
+        transactionId:
+          type: string
+        idempotencyKey:
+          type: string
+        date:
+          type: string
+          format: date
+        flag:
+          $ref: '#/components/schemas/TransactionFlag'
+        payee:
+          type: string
+        narration:
+          type: string
+        postings:
+          type: array
+          items:
+            $ref: '#/components/schemas/Posting'
+        interpolated:
+          type: boolean
+        booked:
+          type: boolean
+        warnings:
+          type: array
+          items:
+            type: string
+        createdAccountIds:
+          type: array
+          items:
+            type: string
+        recurringSuggestion:
+          type: object
+          additionalProperties: true
+
+    TransactionListResponse:
+      type: object
+      required: [data, total]
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/TransactionDetail'
+        total:
+          type: integer
+        limit:
+          type: integer
+        offset:
+          type: integer
+
+    # ==========================================
+    # Account Schemas
+    # ==========================================
+    PlatformInfo:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        canonical:
+          type: string
+        logoUrl:
+          type: string
+        type:
+          type: string
+
+    AccountResponse:
+      type: object
+      required: [id, path, type, status, openDate, bookingMethod, isCustom]
+      properties:
+        id:
+          type: string
+          format: uuid
+        path:
+          type: string
+          description: Full Beancount account path
+        type:
+          $ref: '#/components/schemas/AccountType'
+        status:
+          $ref: '#/components/schemas/AccountStatus'
+        openDate:
+          type: string
+          format: date
+        closeDate:
+          type: string
+          format: date
+        currencies:
+          type: array
+          items:
+            type: string
+          nullable: true
+        bookingMethod:
+          $ref: '#/components/schemas/BookingMethod'
+        templatePath:
+          type: string
+        isCustom:
+          type: boolean
+        i18nKey:
+          type: string
+          maxLength: 100
+        icon:
+          type: string
+          maxLength: 50
+        openMeta:
+          type: object
+          additionalProperties: true
+        platformId:
+          type: string
+          format: uuid
+          nullable: true
+        platform:
+          $ref: '#/components/schemas/PlatformInfo'
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    CreateAccountRequest:
+      type: object
+      required: [path, openDate]
+      properties:
+        path:
+          type: string
+          pattern: '^(Assets|Liabilities|Income|Expenses|Equity)(:[A-Za-z0-9]+)+$'
+          description: Full Beancount account path
+        openDate:
+          type: string
+          format: date
+        currencies:
+          type: array
+          items:
+            type: string
+          nullable: true
+        bookingMethod:
+          $ref: '#/components/schemas/BookingMethod'
+        templatePath:
+          type: string
+        isCustom:
+          type: boolean
+          default: false
+        i18nKey:
+          type: string
+          maxLength: 100
+        icon:
+          type: string
+          maxLength: 50
+        openMeta:
+          type: object
+          additionalProperties: true
+        platformId:
+          type: string
+          format: uuid
+
+    UpdateAccountRequest:
+      type: object
+      properties:
+        currencies:
+          type: array
+          items:
+            type: string
+          nullable: true
+        bookingMethod:
+          $ref: '#/components/schemas/BookingMethod'
+        i18nKey:
+          type: string
+          maxLength: 100
+        icon:
+          type: string
+          maxLength: 50
+
+    AccountListResponse:
+      type: object
+      required: [items, total]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountResponse'
+        total:
+          type: integer
+
+    # ==========================================
+    # Commodity Schemas
+    # ==========================================
+    CommodityResponse:
+      type: object
+      required: [id, symbol, date]
+      properties:
+        id:
+          type: string
+        userId:
+          type: string
+          nullable: true
+        symbol:
+          type: string
+          maxLength: 50
+        date:
+          type: string
+          format: date
+        metadata:
+          type: object
+          additionalProperties: true
+        symbolProfileId:
+          type: string
+          format: uuid
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    CreateCommodityRequest:
+      type: object
+      required: [symbol, date]
+      properties:
+        symbol:
+          type: string
+          maxLength: 50
+          pattern: '^[A-Z0-9_\-\.]+$'
+        date:
+          type: string
+          format: date
+        metadata:
+          type: object
+          additionalProperties: true
+        symbolProfileId:
+          type: string
+          format: uuid
+
+    UpdateCommodityRequest:
+      type: object
+      properties:
+        metadata:
+          type: object
+          additionalProperties: true
+        symbolProfileId:
+          type: string
+          format: uuid
+
+    EnsureCommodityRequest:
+      type: object
+      required: [date]
+      properties:
+        date:
+          type: string
+          format: date
+        metadata:
+          type: object
+          additionalProperties: true
+        symbolProfileId:
+          type: string
+          format: uuid
+
+    CommodityListResponse:
+      type: object
+      required: [items, total]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/CommodityResponse'
+        total:
+          type: integer
+
+    # ==========================================
+    # Price Schemas
+    # ==========================================
+    PriceResponse:
+      type: object
+      required: [id, userId, currency, quoteCurrency, amount, date]
+      properties:
+        id:
+          type: string
+        userId:
+          type: string
+        currency:
+          type: string
+        quoteCurrency:
+          type: string
+        amount:
+          type: number
+          minimum: 0
+        date:
+          type: string
+          format: date
+        meta:
+          type: object
+          additionalProperties: true
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    CreatePriceRequest:
+      type: object
+      required: [currency, quoteCurrency, amount, date]
+      properties:
+        currency:
+          type: string
+          description: Base currency (e.g., "USD")
+        quoteCurrency:
+          type: string
+          description: Quote currency (e.g., "CNY")
+        amount:
+          type: number
+          minimum: 0
+          description: Exchange rate
+        date:
+          type: string
+          format: date
+        metadata:
+          type: object
+          additionalProperties: true
+
+    UpdatePriceRequest:
+      type: object
+      properties:
+        amount:
+          type: number
+          minimum: 0
+        metadata:
+          type: object
+          additionalProperties: true
+
+    PriceListResponse:
+      type: object
+      required: [items, total]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/PriceResponse'
+        total:
+          type: integer
+
+    # ==========================================
+    # Balance Schemas
+    # ==========================================
+    BalanceResponse:
+      type: object
+      required: [account, balance, currency, date]
+      properties:
+        account:
+          type: string
+        balance:
+          type: string
+          description: Decimal string for precision
+        currency:
+          type: string
+        date:
+          type: string
+          format: date
+
+    MultiCurrencyBalanceResponse:
+      type: object
+      required: [account, balances, date]
+      properties:
+        account:
+          type: string
+        balances:
+          type: object
+          additionalProperties:
+            type: string
+          description: Map of currency to balance (decimal strings)
+        date:
+          type: string
+          format: date
+
+    # ==========================================
+    # Error Schemas (RFC 9457)
+    # ==========================================
+    ApiError:
+      type: object
+      required: [type, title, status]
+      properties:
+        type:
+          type: string
+          description: Error type URI
+        title:
+          type: string
+          description: Short error title
+        status:
+          type: integer
+          description: HTTP status code
+        detail:
+          type: string
+          description: Detailed error message
+        instance:
+          type: string
+          description: Request path
+
+  responses:
+    BadRequest:
+      description: Invalid request parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiError'
+
+    Unauthorized:
+      description: Authentication required
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiError'
+
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiError'
+
+    Conflict:
+      description: Resource conflict (e.g., account has postings)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiError'

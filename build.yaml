@@ -14,8 +14,10 @@ targets:
         enabled: true
         options:
           input_spec:
-            # Fetch OpenAPI spec from GitHub (fire-la/api-specs repo)
-            url: https://raw.githubusercontent.com/fire-la/api-specs/main/openapi.yaml
+            # Use local OpenAPI spec file
+            path: openapi.yaml
+            # Remote spec (alternative):
+            # url: https://raw.githubusercontent.com/fire-la/api-specs/main/openapi.yaml
           output_directory: lib/api/generated
           use_path_style: true
           enum_unknown_value: true
