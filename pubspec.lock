@@ -126,6 +126,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.3"
+  cli_launcher:
+    dependency: transitive
+    description:
+      name: cli_launcher
+      sha256: "67d89e0a1c07b103d1253f6b953a43d3f502ee36805c8cfc21196282c9ddf177"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.2"
   clock:
     dependency: transitive
     description:
@@ -222,6 +230,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.7.12"
+  dio:
+    dependency: "direct main"
+    description:
+      name: dio
+      sha256: aff32c08f92787a557dd5c0145ac91536481831a01b4648136373cddb0e64f8c
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.9.2"
+  dio_web_adapter:
+    dependency: transitive
+    description:
+      name: dio_web_adapter
+      sha256: "2f9e64323a7c3c7ef69567d5c800424a11f8337b8b228bad02524c9fb3c1f340"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.2"
   dispose_scope:
     dependency: transitive
     description:
@@ -761,6 +785,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.5.0"
+  openapi_generator:
+    dependency: "direct dev"
+    description:
+      name: openapi_generator
+      sha256: fb39046f1753d92d2e25d1b4b132dd4f5b462b3b1b8af4a2b63078b8ac8e3a56
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.1.0"
+  openapi_generator_annotations:
+    dependency: "direct dev"
+    description:
+      name: openapi_generator_annotations
+      sha256: "5b4d548c18b417cfc6abd03098a28971d6211d6e10ec57e4f8fb9b2eb46c0641"
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.1.0"
+  openapi_generator_cli:
+    dependency: transitive
+    description:
+      name: openapi_generator_cli
+      sha256: a7b764d8b121ecb7cdd466c688da1e1a592f7fff73673dcdb35ee5009f49739b
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.1.0"
   package_config:
     dependency: transitive
     description:
