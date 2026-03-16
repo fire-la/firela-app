@@ -1,0 +1,23 @@
+# OpenAPI Generator Configuration
+# Reference: TYPE_GENERATION_GUIDE.md
+#
+# Usage:
+#   flutter pub run build_runner build --delete-conflicting-outputs
+#
+# The spec is fetched from GitHub (fire-la/api-specs repo)
+# Generated types are output to lib/api/generated/
+
+targets:
+  $default:
+    builders:
+      openapi_generator|openapi:
+        enabled: true
+        options:
+          input_spec:
+            # Fetch OpenAPI spec from GitHub (fire-la/api-specs repo)
+            url: https://raw.githubusercontent.com/fire-la/api-specs/main/openapi.yaml
+          output_directory: lib/api/generated
+          use_path_style: true
+          enum_unknown_value: true
+          # Generate nullable fields for optional properties
+          nullable_fields: true
