@@ -97,11 +97,12 @@ Plans:
 
 ### Phase 8: OpenAPI Types Integration 🔧
 **Goal**: Integrate OpenAPI type generation for type-safe API calls
-**Plans**: 2-3 plans (Not started)
+**Plans**: 2 plans (Not started)
 
-- [ ] 08-01: Setup openapi-generator and configure build.yaml
+- [ ] 08-01: Setup openapi-generator and generate types
 - [ ] 08-02: Migrate datasources to use generated types
-- [ ] 08-03: CI/CD integration for automatic type updates
+
+**Context**: [08-CONTEXT.md](phases/08-openapi-types-integration/08-CONTEXT.md)
 
 **Context**: [08-CONTEXT.md](phases/08-openapi-types-integration/08-CONTEXT.md)
 
