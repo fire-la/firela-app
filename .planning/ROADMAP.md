@@ -97,9 +97,9 @@ Plans:
 
 ### Phase 8: OpenAPI Types Integration 🔧
 **Goal**: Integrate OpenAPI type generation for type-safe API calls
-**Plans**: 2 plans (Not started)
+**Plans**: 2 plans (1/2 complete)
 
-- [ ] 08-01: Setup openapi-generator and generate types
+- [x] 08-01: Setup openapi-generator and generate types
 - [ ] 08-02: Migrate datasources to use generated types
 
 **Context**: [08-CONTEXT.md](phases/08-openapi-types-integration/08-CONTEXT.md)
@@ -125,7 +125,7 @@ Plans:
 | 5. FIRE Journey | v1.0 | 3/3 | Complete | 2026-03-05 |
 | 6. Settings | v1.0 | 3/3 | Complete | 2026-03-06 |
 | 7. Home Dashboard | v1.0 | 3/3 | Complete | 2026-03-06 |
-| 8. OpenAPI Types | v1.1 | 0/3 | Not started | - |
+| 8. OpenAPI Types | v1.1 | 1/2 | In progress | 2026-03-16 |
 
 **v1.0: 9 phases, 25 plans, 100% complete | v1.1: In progress**
 
