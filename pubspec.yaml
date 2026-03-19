@@ -18,10 +18,15 @@ dependencies:
   built_value: ^8.9.0
   built_collection: ^5.1.1
 
+  # Parser dependencies (Phase 33.2-02)
+  decimal: ^2.3.3      # Precise decimal arithmetic for financial calculations
+  csv: ^6.0.0          # CSV parsing
+  charset: ^1.0.0      # Official Dart charset library with GBK support
+  file_picker: ^8.0.0  # File selection
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^3.0.0
   build_runner: ^2.4.0
   openapi_generator: ^5.0.0
   json_serializable: ^6.7.0
