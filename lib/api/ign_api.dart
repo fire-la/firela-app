@@ -36,6 +36,17 @@ class TransactionApi {
   Future<Response> getTransaction(String region, String id) async {
     return await _dio.get('/$region/bean/transactions/$id');
   }
+
+  /// Batch create transactions
+  Future<Response> batchCreateTransactions(
+    String region, {
+    required List<Map<String, dynamic>> transactions,
+  }) async {
+    return await _dio.post(
+      '/$region/bean/transactions/batch',
+      data: {'transactions': transactions},
+    );
+  }
 }
 
 /// Account API Service
