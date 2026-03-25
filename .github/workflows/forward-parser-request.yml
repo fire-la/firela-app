@@ -1,0 +1,62 @@
+name: Forward Parser Request to IGN
+
+on:
+  issues:
+    types: [opened, labeled]
+
+permissions:
+  issues: write
+
+jobs:
+  forward:
+    # Only run for issues with 'new-parser' label
+    if: contains(github.event.issue.labels.*.name, 'new-parser')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Forward to IGN
+        env:
+          IGN_DISPATCH_TOKEN: ${{ secrets.IGN_DISPATCH_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
+        run: |
+          # Forward issue to IGN repository via repository_dispatch
+          # The IGN workflow will handle validation, PII detection, and AI generation
+          
+          # Base64 encode the issue body to avoid shell escaping issues
+          ISSUE_BODY_B64=$(echo "$ISSUE_BODY" | base64 -w 0)
+          
+          curl -X POST \
+            -H "Authorization: token $IGN_DISPATCH_TOKEN" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/fire-zu/ign/dispatches \
+            -d '{
+              "event_type": "external_parser_request",
+              "client_payload": {
+                "issue_number": "'$ISSUE_NUMBER'",
+                "source_repo": "fire-la/firela",
+                "issue_body_b64": "'$ISSUE_BODY_B64'"
+              }
+            }'
+
+      - name: Comment on Issue
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: |
+          gh issue comment $ISSUE_NUMBER --body "✅ **Request Forwarded**
+
+          Your parser request has been forwarded to IGN for processing.
+
+          **What happens next:**
+          1. Our system will validate your submission
+          2. PII detection will be performed
+          3. AI will generate the parser
+          4. A pull request will be created
+
+          You will receive updates on this issue within 24 hours.
+
+          Track progress: [IGN Actions](https://github.com/fire-zu/ign/actions)"

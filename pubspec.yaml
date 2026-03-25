@@ -1,10 +1,10 @@
-name: firela
+name: firela_app
 description: "Beancount account management mobile app - Your personal finance companion"
 version: 1.0.0
-homepage: https://github.com/fire-la/firela
-repository: https://github.com/fire-la/firela
-issue_tracker: https://github.com/fire-la/firela/issues
-documentation: https://github.com/fire-la/firela/blob/main/README.md
+homepage: https://github.com/fire-la/firela-app
+repository: https://github.com/fire-la/firela-app
+issue_tracker: https://github.com/fire-la/firela-app/issues
+documentation: https://github.com/fire-la/firela-app/blob/main/README.md
 
 environment:
   sdk: ^3.5.0
