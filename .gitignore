@@ -77,3 +77,12 @@ lib/generated_plugin_registrant.dart
 # Exceptions to above rules.
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/*.packages
 !/dev/ci/**/Gemfile.lock
+
+# Hindsight local config
+.hindsight.json
+
+# System Files
+.DS_Store
+**/.DS_Store
+Thumbs.db
+**/Thumbs.db

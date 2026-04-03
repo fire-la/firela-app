@@ -6,6 +6,7 @@ library;
 
 import 'package:dio/dio.dart';
 import 'api_client.dart';
+import 'region_types.dart';
 
 /// API Error type alias
 typedef IgnApiException = DioException;
@@ -128,6 +129,42 @@ class HealthApi {
   }
 }
 
+/// Region API Service
+///
+/// Provides region metadata including hierarchy information.
+/// Use this to get available regions and their configuration.
+class RegionApi {
+  final Dio _dio;
+
+  RegionApi(this._dio);
+
+  /// Get all user-facing regions with metadata
+  ///
+  /// Returns structured region info including hierarchy chains
+  /// so the frontend can understand inheritance without exposing
+  /// internal-only regions (like 'eu-core') as selectable options.
+  ///
+  /// Example response:
+  /// ```json
+  /// {
+  ///   "regions": [
+  ///     { "code": "cn", "displayName": "China", "chain": ["cn"], ... },
+  ///     { "code": "us", "displayName": "United States", "chain": ["us"], ... },
+  ///     { "code": "de", "displayName": "Germany", "parent": "eu-core",
+  ///       "chain": ["eu-core", "de"], ... }
+  ///   ]
+  /// }
+  /// ```
+  Future<List<RegionInfo>> getRegions(String region) async {
+    final response = await _dio.get('/$region/bean/account-standards/regions');
+    final data = response.data as Map<String, dynamic>;
+    final regions = data['regions'] as List<dynamic>;
+    return regions
+        .map((e) => RegionInfo.fromJson(e as Map<String, dynamic>))
+        .toList();
+  }
+}
+
 /// IGN API Service
 ///
 /// Provides type-safe access to all IGN backend APIs.
@@ -161,4 +198,5 @@ class IgnApi {
   PriceApi get prices => PriceApi(_client.dio);
   BalanceApi get balances => BalanceApi(_client.dio);
   HealthApi get health => HealthApi(_client.dio);
+  RegionApi get regions => RegionApi(_client.dio);
 }
