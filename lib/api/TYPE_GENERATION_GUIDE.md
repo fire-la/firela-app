@@ -38,6 +38,7 @@ The firela Flutter app uses **manual Dio HTTP wrappers** to communicate with the
 ### Development
 
 ```bash
+# Run with local backend
 flutter run --dart-define=API_URL=http://localhost:3334/api/v1
 ```
 
