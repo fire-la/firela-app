@@ -29,25 +29,17 @@ class Region {
 }
 
 /// Region configuration
+///
+/// Mirrors the backend's RegionConfigDto (currency, dateFormat, locale).
 class RegionConfig {
   final String currency;
   final String dateFormat;
   final String locale;
-  final String? decimalSeparator;
-  final String? thousandsSeparator;
-  final String? currencySymbol;
-  final String? currencyPosition;
-  final List<String>? sharedFeatures;
 
   const RegionConfig({
     required this.currency,
     required this.dateFormat,
     required this.locale,
-    this.decimalSeparator,
-    this.thousandsSeparator,
-    this.currencySymbol,
-    this.currencyPosition,
-    this.sharedFeatures,
   });
 
   factory RegionConfig.fromJson(Map<String, dynamic> json) {
@@ -55,13 +47,6 @@ class RegionConfig {
       currency: json['currency'] as String,
       dateFormat: json['dateFormat'] as String,
       locale: json['locale'] as String,
-      decimalSeparator: json['decimalSeparator'] as String?,
-      thousandsSeparator: json['thousandsSeparator'] as String?,
-      currencySymbol: json['currencySymbol'] as String?,
-      currencyPosition: json['currencyPosition'] as String?,
-      sharedFeatures: (json['sharedFeatures'] as List<dynamic>?)
-          ?.map((e) => e as String)
-          .toList(),
     );
   }
 }
