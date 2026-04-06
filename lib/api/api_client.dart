@@ -19,7 +19,7 @@ class ApiClient {
     _dio = Dio(BaseOptions(
       baseUrl: const String.fromEnvironment(
         'API_URL',
-        defaultValue: 'http://localhost:3333/api/v1',
+        defaultValue: 'http://localhost:3334/api/v1',
       ),
       connectTimeout: const Duration(seconds: 30),
       receiveTimeout: const Duration(seconds: 30),
