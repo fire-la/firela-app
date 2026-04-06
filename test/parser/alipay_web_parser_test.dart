@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:firela/parser/parser.dart';
+import 'package:firela_app/parser/parser.dart';
 
 void main() {
   late AlipayWebParser parser;
