@@ -1,6 +1,7 @@
 import 'package:signals_flutter/signals_flutter.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import '../../core/network/api_client.dart';
+import '../../api/api_client.dart';
 import '../../core/constants/storage_keys.dart';
 import '../../core/utils/logger.dart';
 
@@ -69,34 +70,40 @@ Future<void> initRegion() async {
 
     if (regionInfoMap.containsKey(savedRegion)) {
       regionSignal.value = savedRegion;
-      ApiClient.instance.setRegion(savedRegion);
+      _syncRegionToClients(savedRegion);
       logger.i('[Region] Loaded region: $savedRegion');
     } else {
       // Default to 'cn' if saved region is invalid
       regionSignal.value = 'cn';
-      ApiClient.instance.setRegion('cn');
+      _syncRegionToClients('cn');
       logger.w('[Region] Invalid saved region: $savedRegion, defaulting to cn');
     }
   } catch (e) {
     logger.e('[Region] Failed to init region: $e');
     // Default to 'cn' on error
     regionSignal.value = 'cn';
-    ApiClient.instance.setRegion('cn');
+    _syncRegionToClients('cn');
   }
 }
 
 /// Set region
-/// Updates both the signal and ApiClient
+/// Updates both the signal and all API clients
 /// Returns a Future for compatibility with await
 Future<void> setRegion(RegionCode region) async {
   if (!regionInfoMap.containsKey(region)) {
     throw ArgumentError('Invalid region code: $region. Valid regions: ${regionInfoMap.keys.join(', ')}');
   }
   regionSignal.value = region;
-  ApiClient.instance.setRegion(region);
+  _syncRegionToClients(region);
 
   // Persist region to storage
   await _persistRegion(region);
+}
+
+/// Sync region to both old ApiClient and new ApiClientWrapper
+void _syncRegionToClients(RegionCode region) {
+  ApiClient.instance.setRegion(region);
+  ApiClientWrapper.instance.setRegion(region);
 }
 
 /// Persist region to storage

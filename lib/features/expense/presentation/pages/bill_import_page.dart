@@ -1,6 +1,8 @@
+import 'dart:io';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:firela_app/generated/l10n/app_localizations.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../../core/services/ign_api_service.dart';
@@ -9,6 +11,7 @@ import '../../../../core/services/auth_service.dart';
 import '../../../../core/services/analytics_service.dart';
 import '../../../../core/services/analytics_events.dart';
 import '../../../../core/utils/logger.dart';
+import '../../../../parser/parser.dart';
 import '../widgets/batch_import_summary.dart';
 import '../widgets/categorization_preview_sheet.dart';
 import '../widgets/import_error_display.dart';
@@ -96,7 +99,7 @@ class BillImportPage extends HookWidget {
             else if (selectedFile.value != null)
               _buildSelectedFileArea(context, l10n, theme, selectedFile)
             else
-              _buildFileUploadArea(context, l10n, theme, selectedFile, isParsing, parseProgress, importResult, categorizationItems, editedCount, importSource, currentStep),
+              _buildFileUploadArea(context, l10n, theme, selectedFile, isParsing, parseProgress, importResult, categorizationItems, editedCount, importSource, currentStep, lastImportPath, errorMessage, errorDetails),
 
             const SizedBox(height: 40),
 
@@ -143,6 +146,9 @@ class BillImportPage extends HookWidget {
     ValueNotifier<int> editedCount,
     ValueNotifier<String> importSource,
     ValueNotifier<ImportStep> currentStep,
+    ValueNotifier<String?> lastImportPath,
+    ValueNotifier<String?> errorMessage,
+    ValueNotifier<String?> errorDetails,
   ) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -163,6 +169,7 @@ class BillImportPage extends HookWidget {
                 editedCount,
                 importSource,
                 currentStep,
+                selectedFile,
               ),
               icon: const Icon(Icons.camera_alt_outlined),
               label: Text(l10n.scanReceipt),
@@ -220,13 +227,8 @@ class BillImportPage extends HookWidget {
                   fileType: result.files.single.extension ?? 'unknown',
                   fileSize: result.files.single.size,
                 );
-                // 开始上传导入 - note: these parameters will be added in a separate update
+                // 开始导入解析
                 if (context.mounted) {
-                  // Create temporary notifiers for error handling within this context
-                  final lastImportPath = useState<String?>(null);
-                  final errorMessage = useState<String?>(null);
-                  final errorDetails = useState<String?>(null);
-
                   await _startImport(
                     context,
                     result.files.single.path!,
@@ -240,12 +242,8 @@ class BillImportPage extends HookWidget {
                     lastImportPath,
                     errorMessage,
                     errorDetails,
+                    selectedFile,
                   );
-
-                  // If there was an error, show it
-                  if (errorMessage.value != null && context.mounted) {
-                    _showErrorDialog(context, l10n, errorMessage.value!, errorDetails.value);
-                  }
                 }
               }
             },
@@ -288,28 +286,6 @@ class BillImportPage extends HookWidget {
     );
   }
 
-  /// Show error dialog using ImportErrorDisplay
-  void _showErrorDialog(
-    BuildContext context,
-    AppLocalizations l10n,
-    String errorMessage,
-    String? errorDetails,
-  ) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        contentPadding: const EdgeInsets.all(16),
-        content: ImportErrorDisplay(
-          errorMessage: errorMessage,
-          technicalDetails: errorDetails,
-          onDismiss: () {
-            Navigator.pop(context);
-          },
-        ),
-      ),
-    );
-  }
-
   /// Show dialog to choose image source (camera or gallery)
   void _showImageSourceDialog(
     BuildContext context,
@@ -322,6 +298,7 @@ class BillImportPage extends HookWidget {
     ValueNotifier<int> editedCount,
     ValueNotifier<String> importSource,
     ValueNotifier<ImportStep> currentStep,
+    ValueNotifier<PlatformFile?> selectedFile,
   ) {
     showModalBottomSheet(
       context: context,
@@ -345,6 +322,7 @@ class BillImportPage extends HookWidget {
                   editedCount,
                   importSource,
                   currentStep,
+                  selectedFile,
                 );
               },
             ),
@@ -364,6 +342,7 @@ class BillImportPage extends HookWidget {
                   editedCount,
                   importSource,
                   currentStep,
+                  selectedFile,
                 );
               },
             ),
@@ -385,6 +364,7 @@ class BillImportPage extends HookWidget {
     ValueNotifier<int> editedCount,
     ValueNotifier<String> importSource,
     ValueNotifier<ImportStep> currentStep,
+    ValueNotifier<PlatformFile?> selectedFile,
   ) async {
     // Check login
     if (!AuthManager.instance.isLoggedIn) {
@@ -476,6 +456,10 @@ class BillImportPage extends HookWidget {
             categorizationItems,
             editedCount,
             importSource,
+            selectedFile,
+            isParsing,
+            currentStep,
+            importResult,
           );
         } else {
           currentStep.value = ImportStep.error;
@@ -581,6 +565,7 @@ class BillImportPage extends HookWidget {
                       lastImportPath,
                       errorMessage,
                       errorDetails,
+                      selectedFile,
                     );
                   }
                 : null,
@@ -698,6 +683,10 @@ class BillImportPage extends HookWidget {
     ValueNotifier<List<CategorizationItem>> categorizationItems,
     ValueNotifier<int> editedCount,
     ValueNotifier<String> importSource,
+    ValueNotifier<PlatformFile?> selectedFile,
+    ValueNotifier<bool> isParsing,
+    ValueNotifier<ImportStep> currentStep,
+    ValueNotifier<Map<String, dynamic>?> importResult,
   ) {
     // Track preview shown
     AnalyticsService().trackCategorization(
@@ -719,22 +708,30 @@ class BillImportPage extends HookWidget {
       isScrollControlled: true,
       isDismissible: false,
       enableDrag: false,
-      builder: (context) => CategorizationPreviewSheet(
+      builder: (sheetContext) => CategorizationPreviewSheet(
         items: items,
         availableCategories: defaultCategories,
         onConfirm: () {
-          Navigator.pop(context);
+          Navigator.pop(sheetContext);
           _confirmCategorization(
-            context,
+            context,  // 使用外部页面的 context，而不是弹窗的 context
             l10n,
             theme,
             categorizationItems,
             editedCount,
             importSource,
+            importResult,
+            isParsing,
+            currentStep,
           );
         },
         onCancel: () {
-          Navigator.pop(context);
+          Navigator.pop(sheetContext);
+          // 重置状态，允许用户重新选择文件
+          selectedFile.value = null;
+          isParsing.value = false;
+          currentStep.value = ImportStep.idle;
+          categorizationItems.value = [];
           AnalyticsService().trackCategorization(
             eventType: AnalyticsEvents.categorizationCancelled,
             itemCount: items.length,
@@ -760,6 +757,9 @@ class BillImportPage extends HookWidget {
     ValueNotifier<List<CategorizationItem>> categorizationItems,
     ValueNotifier<int> editedCount,
     ValueNotifier<String> importSource,
+    ValueNotifier<Map<String, dynamic>?> importResult,
+    ValueNotifier<bool> isParsing,
+    ValueNotifier<ImportStep> currentStep,
   ) async {
     final items = categorizationItems.value;
     final edits = items.where((e) => e.selectedCategory != e.suggestedCategory).length;
@@ -775,14 +775,105 @@ class BillImportPage extends HookWidget {
       source: importSource.value,
     );
 
-    // TODO: Submit categorized items to backend for beancount import
-    // For now, show success and navigate back
-    if (context.mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('已导入 ${items.length} 笔记账')),
-      );
-      Navigator.pop(context);
+    // Convert CategorizationItems to API request format and upload
+    // 参考 parser-usage-guide.md 5.2 节的请求格式
+    // 注意: beancount 要求交易必须平衡 (sum of postings = 0)
+    // 支出交易需要两个 posting:
+    // 1. 费用账户 (Expenses:xxx) - 正数表示费用增加
+    // 2. 资产账户 (Assets:xxx) - 负数表示资产减少
+    final transactions = items.map((item) {
+      final expenseAccount = _categoryToAccount(item.selectedCategory);
+      final isIncome = item.selectedCategory == '收入';
+      final amount = item.amount.abs();
+
+      return {
+        'date': '${item.date.year.toString().padLeft(4, '0')}-'
+            '${item.date.month.toString().padLeft(2, '0')}-'
+            '${item.date.day.toString().padLeft(2, '0')}',
+        'narration': item.merchant,
+        'payee': item.merchant, // 交易对象
+        'postings': [
+          {
+            'account': expenseAccount,
+            'units': isIncome ? amount.toStringAsFixed(2) : amount.toStringAsFixed(2),
+            'currency': 'CNY',
+          },
+          {
+            // 来源/去处账户: 支出时资产减少, 收入时资产增加
+            // 使用 Assets:Unknown (后端 account standards 中定义的账户)
+            'account': 'Assets:Unknown',
+            'units': (-amount).toStringAsFixed(2), // 与支出金额相反
+            'currency': 'CNY',
+          },
+        ],
+        'meta': {
+          'source': 'bill-import',
+          'category': item.selectedCategory,
+          'confidence': item.confidence,
+        },
+        'idempotencyKey': 'import-${item.id}',
+        'autoCreateAccounts': true, // 自动创建不存在的账户
+      };
+    }).toList();
+
+    // 显示加载状态
+    isParsing.value = true;
+    currentStep.value = ImportStep.uploading;
+
+    Map<String, dynamic>? result;
+    Object? error;
+
+    try {
+      // Upload transactions to backend
+      result = await IgnApiService.instance.uploadParsedTransactions(transactions);
+      logger.i('[BillImport] 上传交易成功: $result');
+    } catch (e) {
+      error = e;
+      logger.e('[BillImport] 上传交易失败: $e');
     }
+
+    // 关闭加载状态并更新结果
+    isParsing.value = false;
+
+    if (context.mounted) {
+      if (result != null) {
+        // 设置导入结果，让页面显示结果摘要
+        importResult.value = result;
+        currentStep.value = ImportStep.complete;
+
+        final imported = result['imported'] as int;
+        final failed = result['failed'] as int;
+        final skipped = result['skipped'] as int;
+
+        // 显示简短提示
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('已导入 $imported 笔记账${skipped > 0 ? '，跳过 $skipped 笔重复' : ''}'),
+            backgroundColor: failed > 0 ? Colors.orange : null,
+          ),
+        );
+      } else if (error != null) {
+        currentStep.value = ImportStep.error;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('导入失败: $error'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
+  }
+
+  /// Convert category to beancount account path
+  /// Note: 后端目前只支持 Expenses:Uncategorized，分类信息保存在 meta 中
+  /// 用户可以在应用内后续重新分类
+  String _categoryToAccount(String category) {
+    if (category == '收入') {
+      return 'Income:Uncategorized';
+    }
+    // 所有支出类型统一使用 Expenses:Uncategorized
+    // 分类信息保存在 meta.category 中，用户可后续重新分类
+    return 'Expenses:Uncategorized';
   }
 
   Widget _buildStepCard(BuildContext context, ThemeData theme, String text) {
@@ -808,7 +899,7 @@ class BillImportPage extends HookWidget {
     );
   }
 
-  /// 开始导入文件
+  /// 开始导入文件 (使用本地解析器)
   Future<void> _startImport(
     BuildContext context,
     String filePath,
@@ -822,9 +913,10 @@ class BillImportPage extends HookWidget {
     ValueNotifier<String?> lastImportPath,
     ValueNotifier<String?> errorMessage,
     ValueNotifier<String?> errorDetails,
+    ValueNotifier<PlatformFile?> selectedFile,
   ) async {
     isParsing.value = true;
-    currentStep.value = ImportStep.uploading;
+    currentStep.value = ImportStep.parsing;
     parseProgress.value = 0.1;
     lastImportPath.value = filePath;
     errorMessage.value = null;
@@ -836,53 +928,107 @@ class BillImportPage extends HookWidget {
     );
 
     try {
-      // 模拟进度（实际上传是一次性的）
-      parseProgress.value = 0.3;
-      currentStep.value = ImportStep.parsing;
-      await Future.delayed(const Duration(milliseconds: 200));
+      // 读取文件
+      parseProgress.value = 0.2;
+      final file = File(filePath);
+      final content = await file.readAsBytes();
+      final filename = filePath.split('/').last;
 
+      logger.i('[BillImport] 文件名: $filename');
+      logger.i('[BillImport] 文件大小: ${content.length} bytes');
+
+      // 输出文件内容的前 500 字节用于调试
+      try {
+        final preview = utf8.decode(content.take(500).toList());
+        logger.i('[BillImport] 文件内容预览:\n$preview');
+      } catch (e) {
+        logger.w('[BillImport] 无法用 UTF-8 解码预览: $e');
+      }
+
+      // 使用 ParserRegistry 检测并解析
+      parseProgress.value = 0.4;
+      final registry = ParserRegistry();
+      logger.i('[BillImport] 可用解析器: ${registry.all.map((p) => p.name).join(", ")}');
+
+      final parser = registry.detect(filename, content);
+
+      if (parser == null) {
+        logger.e('[BillImport] 无法识别文件格式');
+        throw Exception('不支持的文件格式，请使用支付宝或微信账单');
+      }
+
+      logger.i('[BillImport] 检测到解析器: ${parser.name}');
+
+      // 解析文件
       parseProgress.value = 0.6;
       currentStep.value = ImportStep.categorizing;
-      final result = await IgnApiService.instance.importBillFile(filePath);
+      final result = parser.parse(content);
 
-      parseProgress.value = 1.0;
+      // 处理解析结果
+      parseProgress.value = 0.8;
       currentStep.value = ImportStep.reviewing;
-      await Future.delayed(const Duration(milliseconds: 300));
 
-      isParsing.value = false;
+      switch (result) {
+        case ParseSuccess():
+          logger.i('[BillImport] 解析成功: ${result.data.length} 条交易');
 
-      logger.i('[BillImport] 导入结果: $result');
+          // 处理警告
+          if (result.hasWarnings) {
+            for (final warning in result.warnings!) {
+              logger.w('[BillImport] 解析警告: ${warning.message}');
+            }
+          }
 
-      // Track import success
-      final imported = result['imported'] ?? 0;
-      await AnalyticsService().trackBillImport(
-        eventType: AnalyticsEvents.billImportSuccess,
-        recordCount: imported,
-        success: true,
-      );
+          // 转换为 CategorizationItem
+          final items = result.data.map((txn) {
+            return CategorizationItem(
+              id: txn.metadata?['orderNo'] ?? txn.dateStr + txn.amount.toString(),
+              merchant: txn.payee ?? txn.description,
+              amount: txn.absAmount,
+              date: txn.date,
+              suggestedCategory: _inferCategory(txn.description, txn.payee),
+              confidence: _calculateConfidence(txn),
+              selectedCategory: _inferCategory(txn.description, txn.payee),
+            );
+          }).toList();
 
-      // Parse categorization items from result
-      final transactions = result['transactions'] as List<dynamic>? ?? [];
-      if (transactions.isNotEmpty && context.mounted) {
-        final items = transactions
-            .map((t) => CategorizationItem.fromJson(t as Map<String, dynamic>))
-            .toList();
-        categorizationItems.value = items;
-        importSource.value = 'file';
+          if (items.isEmpty) {
+            throw Exception('未找到有效的交易记录');
+          }
 
-        final l10n = AppLocalizations.of(context)!;
-        final theme = Theme.of(context);
-        _showCategorizationPreview(
-          context,
-          l10n,
-          theme,
-          items,
-          categorizationItems,
-          editedCount,
-          importSource,
-        );
-      } else {
-        importResult.value = result;
+          parseProgress.value = 1.0;
+          isParsing.value = false;
+          categorizationItems.value = items;
+          importSource.value = 'file';
+
+          // Track parse success
+          await AnalyticsService().trackBillImport(
+            eventType: AnalyticsEvents.billImportSuccess,
+            recordCount: items.length,
+            success: true,
+          );
+
+          if (context.mounted) {
+            final l10n = AppLocalizations.of(context)!;
+            final theme = Theme.of(context);
+            _showCategorizationPreview(
+              context,
+              l10n,
+              theme,
+              items,
+              categorizationItems,
+              editedCount,
+              importSource,
+              selectedFile,
+              isParsing,
+              currentStep,
+              importResult,
+            );
+          }
+
+        case ParseFailure():
+          final errorMessages = result.errors.map((e) => e.message).join('\n');
+          throw Exception('解析失败:\n$errorMessages');
       }
     } catch (e) {
       isParsing.value = false;
@@ -903,5 +1049,59 @@ class BillImportPage extends HookWidget {
         errorDetails.value = 'File: $filePath\nError: $e';
       }
     }
+  }
+
+  /// 根据描述推断分类
+  String _inferCategory(String description, String? payee) {
+    final text = '$description ${payee ?? ''}'.toLowerCase();
+
+    // 简单的分类规则
+    if (text.contains('餐') || text.contains('食') || text.contains('外卖') ||
+        text.contains('coffee') || text.contains('咖啡')) {
+      return '餐饮';
+    }
+    if (text.contains('滴滴') || text.contains('打车') || text.contains('地铁') ||
+        text.contains('公交') || text.contains('加油')) {
+      return '交通';
+    }
+    if (text.contains('超市') || text.contains('购物') || text.contains('淘宝') ||
+        text.contains('京东') || text.contains('拼多多')) {
+      return '购物';
+    }
+    if (text.contains('电影') || text.contains('游戏') || text.contains('娱乐')) {
+      return '娱乐';
+    }
+    if (text.contains('医疗') || text.contains('药') || text.contains('医院')) {
+      return '医疗';
+    }
+    if (text.contains('教育') || text.contains('培训') || text.contains('书')) {
+      return '教育';
+    }
+    if (text.contains('房租') || text.contains('水电') || text.contains('物业')) {
+      return '居住';
+    }
+    if (text.contains('话费') || text.contains('流量') || text.contains('宽带')) {
+      return '通讯';
+    }
+    if (text.contains('工资') || text.contains('薪') || text.contains('奖金')) {
+      return '收入';
+    }
+
+    return '其他';
+  }
+
+  /// 计算置信度 (0-100)
+  double _calculateConfidence(dynamic txn) {
+    // 基于交易信息计算置信度
+    // 有商家的交易
+    if (txn.payee != null && txn.payee!.isNotEmpty) {
+      return 80.0;
+    }
+    // 有备注的交易
+    if (txn.description != null && txn.description!.isNotEmpty) {
+      return 70.0;
+    }
+    // 默认中等置信度
+    return 60.0;
   }
 }

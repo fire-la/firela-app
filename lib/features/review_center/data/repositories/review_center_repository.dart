@@ -2,8 +2,8 @@ import '../../domain/entities/pending_transaction.dart';
 import '../../domain/repositories/review_center_repository_interface.dart';
 import '../datasources/review_center_remote_datasource.dart';
 import '../../domain/models/confidence_level.dart';
-import '../models/pending_transaction_model.dart';
 import '../../../../core/utils/logger.dart';
+import '../../../../api/type_adapter.dart';
 
 /// Repository implementation for Review Center
 class ReviewCenterRepository implements ReviewCenterRepositoryInterface {
@@ -19,14 +19,16 @@ class ReviewCenterRepository implements ReviewCenterRepositoryInterface {
     int pageSize = 20,
   }) async {
     try {
-      final response = await _datasource.getPendingTransactions(
+      // Use raw API response for correct field mapping
+      final response = await _datasource.getRawPendingTransactions(
         level: level,
         page: page,
-        pageSize: pageSize,
+        limit: pageSize,
       );
 
-      // Parse response and convert to entities
-      final models = _datasource.parseTransactionList(response);
+      // Parse items array using TypeAdapter for correct field mapping
+      final items = response['items'] as List<dynamic>? ?? [];
+      final models = TypeAdapter.toPendingTransactionListFromRaw(items);
       return models.map((model) => model as PendingTransaction).toList();
     } catch (e) {
       logger.e('[ReviewCenterRepository] Failed to get pending transactions: $e');
@@ -37,8 +39,9 @@ class ReviewCenterRepository implements ReviewCenterRepositoryInterface {
   @override
   Future<PendingTransaction> getPendingTransactionDetail(String id) async {
     try {
-      final response = await _datasource.getPendingTransactionDetail(id);
-      return PendingTransactionModel.fromJson(response as Map<String, dynamic>);
+      // Use raw API response for correct field mapping
+      final response = await _datasource.getRawPendingTransactionDetail(id);
+      return TypeAdapter.toPendingTransactionFromRaw(response);
     } catch (e) {
       logger.e('[ReviewCenterRepository] Failed to get transaction detail: $e');
       rethrow;

@@ -12,17 +12,27 @@ class ApiClientWrapper {
   ApiClientWrapper._();
   static final ApiClientWrapper instance = ApiClientWrapper._();
 
-  late final Dio _dio;
+  Dio? _dio;
+  bool _initialized = false;
 
   String _currentRegion = 'cn';
 
   /// Get the configured Dio instance (for generated API clients)
-  Dio get dio => _dio;
-
   String get currentRegion => _currentRegion;
+
+  /// Get the configured Dio instance
+  /// Auto-initializes on first access
+  Dio get dio {
+    if (!_initialized) {
+      initialize();
+    }
+    return _dio!;
+  }
 
   /// Initialize Dio with base configuration
   void initialize() {
+    if (_initialized) return;
+
     _dio = Dio(BaseOptions(
       baseUrl: ApiConstants.ignBaseUrl,
       connectTimeout: ApiConstants.timeout,
@@ -33,7 +43,7 @@ class ApiClientWrapper {
     ));
 
     // Add auth interceptor
-    _dio.interceptors.add(InterceptorsWrapper(
+    _dio!.interceptors.add(InterceptorsWrapper(
       onRequest: (options, handler) async {
         // Add auth token if available
         final token = AuthManager.instance.authToken;
@@ -54,6 +64,8 @@ class ApiClientWrapper {
         return handler.next(error);
       },
     ));
+
+    _initialized = true;
   }
 
   /// Build URL path with region prefix (mirrors existing ApiClient logic)

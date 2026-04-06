@@ -47,6 +47,20 @@ class RawTransaction<CustomFields> {
     this.customFields,
   });
 
+  /// Returns the absolute value of the amount as a Decimal
+  Decimal get absAmountDecimal => amount.abs();
+
+  /// Returns the absolute value of the amount as a double
+  double get absAmount => amount.abs().toDouble();
+
+  /// Returns the date as a formatted string (yyyy-MM-dd)
+  String get dateStr {
+    final y = date.year.toString().padLeft(4, '0');
+    final m = date.month.toString().padLeft(2, '0');
+    final d = date.day.toString().padLeft(2, '0');
+    return '$y-$m-$d';
+  }
+
   @override
   String toString() =>
       'RawTransaction(date: $date, amount: $amount, currency: $currency, description: $description)';
@@ -70,6 +84,9 @@ class ParseSuccess<T> extends ParseResult<T> {
   final List<ParseWarning>? warnings;
 
   ParseSuccess({required this.data, this.warnings});
+
+  /// Returns true if there are warnings
+  bool get hasWarnings => warnings != null && warnings!.isNotEmpty;
 }
 
 /// Failed parse result.
@@ -177,6 +194,9 @@ class ParseWarning {
 /// - Infer account paths
 /// - Read user configuration
 abstract class Parser<T extends RawTransaction> {
+  /// Human-readable name of this parser
+  String get name;
+
   /// Identify if this parser can handle the given file.
   ///
   /// [filename] - File name (may include path)

@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 import '../utils/logger.dart';
+import 'analytics_service.dart';
 
 /// Centralized Sentry error monitoring service
 ///
@@ -38,7 +38,8 @@ class SentryService {
     }
 
     try {
-      final packageInfo = await PackageInfo.fromPlatform();
+      // Reuse cached PackageInfo from AnalyticsService
+      final packageInfo = await AnalyticsService.packageInfo;
       _appVersion = packageInfo.version;
       _buildNumber = packageInfo.buildNumber;
 

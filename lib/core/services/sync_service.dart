@@ -150,13 +150,16 @@ class SyncService {
       try {
         switch (op.type) {
           case PendingOperationType.confirmTransaction:
-            await _client.post('/bean/review-center/${op.data['transactionId']}/accept');
+            // API: POST /bean/reviews/{id}/resolve
+            await _client.post('/bean/reviews/${op.data['transactionId']}/resolve');
             break;
           case PendingOperationType.updateTransaction:
-            await _client.put('/bean/review-center/${op.id}', body: op.data);
+            // API: PUT /bean/reviews/{id}
+            await _client.put('/bean/reviews/${op.id}', body: op.data);
             break;
           case PendingOperationType.deleteTransaction:
-            await _client.delete('/bean/review-center/${op.data['transactionId']}');
+            // API: POST /bean/reviews/{id}/undo (undo = reject/delete)
+            await _client.post('/bean/reviews/${op.data['transactionId']}/undo');
             break;
           case PendingOperationType.createTransaction:
             final transaction = op.data['transaction'] as Map<String, dynamic>;

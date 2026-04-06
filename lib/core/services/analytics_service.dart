@@ -13,6 +13,12 @@ class AnalyticsService {
   AnalyticsService._internal();
 
   String? _appVersion;
+  static PackageInfo? _cachedPackageInfo;
+
+  /// Get cached PackageInfo (shared across services to avoid duplicate calls)
+  static Future<PackageInfo> get packageInfo async {
+    return _cachedPackageInfo ??= await PackageInfo.fromPlatform();
+  }
 
   /// Initialize analytics service
   ///
@@ -22,7 +28,7 @@ class AnalyticsService {
     String? host,
   }) async {
     // Get app version for future use
-    final packageInfo = await PackageInfo.fromPlatform();
+    final packageInfo = await AnalyticsService.packageInfo;
     _appVersion = packageInfo.version;
 
     if (kDebugMode) {

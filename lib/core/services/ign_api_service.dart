@@ -79,6 +79,126 @@ class IgnApiService {
     return Map<String, dynamic>.from(result as Map);
   }
 
+  /// 上传单笔解析后的交易
+  ///
+  /// [transaction] 交易数据，包含:
+  /// - date: 交易日期 (YYYY-MM-DD)
+  /// - narration: 交易描述
+  /// - payee: 交易对方 (可选)
+  /// - postings: [{account, units, currency}]
+  /// - meta: 元数据 (可选)
+  /// - idempotencyKey: 幂等键 (可选)
+  ///
+  /// 返回 {transactionId, ...}
+  Future<Map<String, dynamic>> uploadParsedTransaction(
+    Map<String, dynamic> transaction,
+  ) async {
+    final result = await _client.post(
+      ApiConstants.transactionEndpoint,
+      body: transaction,
+    );
+    return Map<String, dynamic>.from(result as Map);
+  }
+
+  /// 批量上传解析后的交易（使用批量 API）
+  ///
+  /// [transactions] 交易列表
+  ///
+  /// 返回 {imported, failed, skipped, transactionIds, errors}
+  ///
+  /// 注意: API 每批最多支持 100 条交易，超过会自动分批处理
+  Future<Map<String, dynamic>> uploadParsedTransactions(
+    List<Map<String, dynamic>> transactions,
+  ) async {
+    if (transactions.isEmpty) {
+      return {
+        'imported': 0,
+        'failed': 0,
+        'skipped': 0,
+        'transactionIds': <String>[],
+        'errors': <String>[],
+      };
+    }
+
+    const int batchSize = 100; // API 限制每批最多 100 条
+    final allTransactionIds = <String>[];
+    final allErrors = <String>[];
+    var totalImported = 0;
+    var totalFailed = 0;
+    var totalSkipped = 0;
+
+    // 分批处理
+    for (var i = 0; i < transactions.length; i += batchSize) {
+      final end = (i + batchSize < transactions.length) ? i + batchSize : transactions.length;
+      final batch = transactions.sublist(i, end);
+
+      logger.i('[IgnApiService] Processing batch ${i ~/ batchSize + 1}: ${batch.length} transactions');
+
+      try {
+        // 使用批量 API 创建交易
+        final response = await _client.post(
+          ApiConstants.transactionBatchEndpoint,
+          body: {'transactions': batch},
+        );
+
+        // 解析响应 - API返回 {succeeded: [...], failed: [...], skipped: [...]}
+        final result = response as Map<String, dynamic>;
+
+        // 处理 succeeded 列表
+        final succeededList = result['succeeded'] as List<dynamic>? ?? [];
+        final transactionIds = succeededList
+            .map((t) => (t as Map<String, dynamic>)['transactionId'] as String?)
+            .whereType<String>()
+            .toList();
+
+        // 处理 failed 列表
+        final failedList = result['failed'] as List<dynamic>? ?? [];
+        final failedErrors = failedList
+            .map((f) {
+              final failed = f as Map<String, dynamic>;
+              return '${failed['error'] ?? failed['message'] ?? 'Unknown error'}';
+            })
+            .toList();
+
+        // 处理 skipped 列表
+        final skippedList = result['skipped'] as List<dynamic>? ?? [];
+        final skippedErrors = skippedList
+            .map((s) {
+              final skipped = s as Map<String, dynamic>;
+              return '${skipped['reason'] ?? skipped['message'] ?? 'Skipped'}';
+            })
+            .toList();
+
+        final imported = transactionIds.length;
+        final failed = failedList.length;
+        final skipped = skippedList.length;
+        final errors = [...failedErrors, ...skippedErrors];
+
+        allTransactionIds.addAll(transactionIds);
+        allErrors.addAll(errors);
+        totalImported += imported;
+        totalFailed += failed;
+        totalSkipped += skipped;
+
+        logger.i('[IgnApiService] Batch ${i ~/ batchSize + 1} result: imported=$imported, failed=$failed, skipped=$skipped');
+      } catch (e) {
+        logger.e('[IgnApiService] Batch ${i ~/ batchSize + 1} failed: $e');
+        totalFailed += batch.length;
+        allErrors.add('Batch ${i ~/ batchSize + 1} failed: $e');
+      }
+    }
+
+    logger.i('[IgnApiService] Total import result: imported=$totalImported, failed=$totalFailed, skipped=$totalSkipped');
+
+    return {
+      'imported': totalImported,
+      'failed': totalFailed,
+      'skipped': totalSkipped,
+      'transactionIds': allTransactionIds,
+      'errors': allErrors,
+    };
+  }
+
   // ============ OCR 收据识别 ============
 
   /// OCR 识别收据图片

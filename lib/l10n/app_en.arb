@@ -474,9 +474,9 @@
     "description": "Parse bill step"
   },
   
-  "pleaseImportAlipayBill": "Please import Alipay bill",
+  "pleaseImportAlipayBill": "Please import bill file",
   "@pleaseImportAlipayBill": {
-    "description": "Please import Alipay bill prompt"
+    "description": "Please import bill file prompt"
   },
   
   "addFile": "Add File",

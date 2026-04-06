@@ -24,7 +24,9 @@ class ApiClient {
 
   /// 需要地域前缀的路径前缀
   /// 参考 region-routing-integration.md
-  static const List<String> _regionScopedPrefixes = ['/bean/', '/reporting/', '/region/'];
+  /// API文档: https://api-s.firela.io/api/docs-json
+  /// 地域前缀端点: /bean/*, /dashboard/*, /reporting/*, /region/*
+  static const List<String> _regionScopedPrefixes = ['/bean/', '/dashboard/', '/reporting/', '/region/'];
 
   /// 判断路径是否需要地域前缀
   /// 全局端点 (auth, symbol, platforms) 不需要地域前缀

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:firela_app/generated/l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/services/analytics_service.dart';
 import '../../../../core/services/analytics_events.dart';
@@ -32,16 +32,6 @@ class MainPage extends HookWidget {
     // SettingsPage 的 key，用于在切换 Tab 时刷新状态
     final settingsKey = useMemoized(() => GlobalKey<SettingsPageState>());
 
-    // 页面加载时检查登录状态
-    useEffect(() {
-      Future.microtask(() {
-        if (context.mounted) {
-          AuthService.instance.checkAndLogin(context);
-        }
-      });
-      return null;
-    }, const []);
-
     // Start connectivity monitoring
     useEffect(() {
       ConnectivityService.instance.startMonitoring();
@@ -50,16 +40,30 @@ class MainPage extends HookWidget {
       };
     }, []);
 
-    final pages = [
-      const FireJourneyPage(),
-      const AssetsTabsPage(),
-      SettingsPage(key: settingsKey),
-    ];
+    // Lazy-load tab pages: only build once visited, then keep alive.
+    // This avoids building all 3 tabs + their data fetches on startup.
+    final visitedTabs = useState<Set<int>>({0}); // Start with first tab loaded
+
+    useEffect(() {
+      // Mark current tab as visited whenever it changes
+      visitedTabs.value = {...visitedTabs.value, currentIndex.value};
+      return null;
+    }, [currentIndex.value]);
 
     return Scaffold(
-      body: IndexedStack(
-        index: currentIndex.value,
-        children: pages,
+      body: Stack(
+        children: [
+          for (int i = 0; i < 3; i++)
+            Offstage(
+              offstage: currentIndex.value != i,
+              child: visitedTabs.value.contains(i)
+                  ? TickerMode(
+                      enabled: currentIndex.value == i,
+                      child: _buildPage(i, settingsKey),
+                    )
+                  : const SizedBox.shrink(),
+            ),
+        ],
       ),
       // FAB 悬浮记账按钮（仅在资产页面显示）
       floatingActionButton: currentIndex.value == 1
@@ -104,6 +108,20 @@ class MainPage extends HookWidget {
         ],
       ),
     );
+  }
+
+  /// Build page by index (lazy)
+  Widget _buildPage(int index, GlobalKey<SettingsPageState> settingsKey) {
+    switch (index) {
+      case 0:
+        return const FireJourneyPage();
+      case 1:
+        return const AssetsTabsPage();
+      case 2:
+        return SettingsPage(key: settingsKey);
+      default:
+        return const SizedBox.shrink();
+    }
   }
 
   /// 悬浮按钮点击 - 打开记账弹窗
@@ -329,6 +347,10 @@ class MainPage extends HookWidget {
               }
             } else {
               // 无 sessionId，直接调用 createTransaction 创建交易
+              // 先关闭 NlpResultBottomSheet，避免遮住后续的 loading/success 反馈
+              if (context.mounted) {
+                Navigator.pop(context);
+              }
               if (context.mounted) {
                 await _handleDirectConfirm(context, Map<String, dynamic>.from(parsedData), nlpSessionId);
               }

@@ -1,0 +1,2165 @@
+import 'dart:async';
+
+import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:intl/intl.dart' as intl;
+
+import 'app_localizations_en.dart';
+import 'app_localizations_zh.dart';
+
+// ignore_for_file: type=lint
+
+/// Callers can lookup localized strings with an instance of AppLocalizations
+/// returned by `AppLocalizations.of(context)`.
+///
+/// Applications need to include `AppLocalizations.delegate()` in their app's
+/// `localizationDelegates` list, and the locales they support in the app's
+/// `supportedLocales` list. For example:
+///
+/// ```dart
+/// import 'l10n/app_localizations.dart';
+///
+/// return MaterialApp(
+///   localizationsDelegates: AppLocalizations.localizationsDelegates,
+///   supportedLocales: AppLocalizations.supportedLocales,
+///   home: MyApplicationHome(),
+/// );
+/// ```
+///
+/// ## Update pubspec.yaml
+///
+/// Please make sure to update your pubspec.yaml to include the following
+/// packages:
+///
+/// ```yaml
+/// dependencies:
+///   # Internationalization support.
+///   flutter_localizations:
+///     sdk: flutter
+///   intl: any # Use the pinned version from flutter_localizations
+///
+///   # Rest of dependencies
+/// ```
+///
+/// ## iOS Applications
+///
+/// iOS applications define key application metadata, including supported
+/// locales, in an Info.plist file that is built into the application bundle.
+/// To configure the locales supported by your app, you’ll need to edit this
+/// file.
+///
+/// First, open your project’s ios/Runner.xcworkspace Xcode workspace file.
+/// Then, in the Project Navigator, open the Info.plist file under the Runner
+/// project’s Runner folder.
+///
+/// Next, select the Information Property List item, select Add Item from the
+/// Editor menu, then select Localizations from the pop-up menu.
+///
+/// Select and expand the newly-created Localizations item then, for each
+/// locale your application supports, add a new item and select the locale
+/// you wish to add from the pop-up menu in the Value field. This list should
+/// be consistent with the languages listed in the AppLocalizations.supportedLocales
+/// property.
+abstract class AppLocalizations {
+  AppLocalizations(String locale)
+      : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+
+  final String localeName;
+
+  static AppLocalizations? of(BuildContext context) {
+    return Localizations.of<AppLocalizations>(context, AppLocalizations);
+  }
+
+  static const LocalizationsDelegate<AppLocalizations> delegate =
+      _AppLocalizationsDelegate();
+
+  /// A list of this localizations delegate along with the default localizations
+  /// delegates.
+  ///
+  /// Returns a list of localizations delegates containing this delegate along with
+  /// GlobalMaterialLocalizations.delegate, GlobalCupertinoLocalizations.delegate,
+  /// and GlobalWidgetsLocalizations.delegate.
+  ///
+  /// Additional delegates can be added by appending to this list in
+  /// MaterialApp. This list does not have to be used at all if a custom list
+  /// of delegates is preferred or required.
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
+      <LocalizationsDelegate<dynamic>>[
+    delegate,
+    GlobalMaterialLocalizations.delegate,
+    GlobalCupertinoLocalizations.delegate,
+    GlobalWidgetsLocalizations.delegate,
+  ];
+
+  /// A list of this localizations delegate's supported locales.
+  static const List<Locale> supportedLocales = <Locale>[
+    Locale('en'),
+    Locale('zh'),
+    Locale('zh', 'CN'),
+    Locale('zh', 'TW')
+  ];
+
+  /// The application title
+  ///
+  /// In en, this message translates to:
+  /// **'FIREla'**
+  String get appTitle;
+
+  /// Welcome message on home screen
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to FIREla'**
+  String get welcomeMessage;
+
+  /// App description on home screen
+  ///
+  /// In en, this message translates to:
+  /// **'Your personal finance companion with data sovereignty'**
+  String get appDescription;
+
+  /// Tooltip for theme toggle button
+  ///
+  /// In en, this message translates to:
+  /// **'Toggle Theme'**
+  String get toggleTheme;
+
+  /// Tooltip for language selector
+  ///
+  /// In en, this message translates to:
+  /// **'Change Language'**
+  String get changeLanguage;
+
+  /// Label for current locale display
+  ///
+  /// In en, this message translates to:
+  /// **'Current Locale'**
+  String get currentLocale;
+
+  /// Label for current theme display
+  ///
+  /// In en, this message translates to:
+  /// **'Current Theme'**
+  String get currentTheme;
+
+  /// Title for data sovereignty feature
+  ///
+  /// In en, this message translates to:
+  /// **'Data Sovereignty'**
+  String get featureDataSovereignty;
+
+  /// Description for data sovereignty feature
+  ///
+  /// In en, this message translates to:
+  /// **'Your financial data belongs to you. Complete ownership and control.'**
+  String get featureDataSovereigntyDesc;
+
+  /// Title for real-time sync feature
+  ///
+  /// In en, this message translates to:
+  /// **'Real-time Sync'**
+  String get featureRealTimeSync;
+
+  /// Description for real-time sync feature
+  ///
+  /// In en, this message translates to:
+  /// **'Stay synchronized with your beancount backend seamlessly.'**
+  String get featureRealTimeSyncDesc;
+
+  /// Title for offline support feature
+  ///
+  /// In en, this message translates to:
+  /// **'Offline Support'**
+  String get featureOfflineSupport;
+
+  /// Description for offline support feature
+  ///
+  /// In en, this message translates to:
+  /// **'Works offline, syncs when connection is restored.'**
+  String get featureOfflineSupportDesc;
+
+  /// Title for accounts page
+  ///
+  /// In en, this message translates to:
+  /// **'Accounts'**
+  String get accountsTitle;
+
+  /// Button text to create new account
+  ///
+  /// In en, this message translates to:
+  /// **'Create Account'**
+  String get createAccount;
+
+  /// Settings menu item
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settings;
+
+  /// Loading message
+  ///
+  /// In en, this message translates to:
+  /// **'Loading...'**
+  String get loading;
+
+  /// Error label
+  ///
+  /// In en, this message translates to:
+  /// **'Error'**
+  String get error;
+
+  /// Retry button text
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get retry;
+
+  /// Cancel button text
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// Save button text
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get save;
+
+  /// Tab label for FIRE journey page
+  ///
+  /// In en, this message translates to:
+  /// **'FIRE Journey'**
+  String get tabFireJourney;
+
+  /// Tab label for assets page
+  ///
+  /// In en, this message translates to:
+  /// **'Assets'**
+  String get tabAssets;
+
+  /// Tab label for settings page
+  ///
+  /// In en, this message translates to:
+  /// **'Mine'**
+  String get tabMine;
+
+  /// Shows FIRE journey progress in days
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve persisted for {days} days'**
+  String fireJourneyDays(int days);
+
+  /// Button to view FIRE plan
+  ///
+  /// In en, this message translates to:
+  /// **'Watch Fire Plan'**
+  String get watchFirePlan;
+
+  /// Progress label
+  ///
+  /// In en, this message translates to:
+  /// **'Progress'**
+  String get progress;
+
+  /// Safety label
+  ///
+  /// In en, this message translates to:
+  /// **'Safety'**
+  String get safety;
+
+  /// Net assets label
+  ///
+  /// In en, this message translates to:
+  /// **'Net Assets (CNY)'**
+  String get netAssets;
+
+  /// Daily income label
+  ///
+  /// In en, this message translates to:
+  /// **'Daily Income (CNY)'**
+  String get dailyIncome;
+
+  /// Net profit label
+  ///
+  /// In en, this message translates to:
+  /// **'Net Profit'**
+  String get netProfit;
+
+  /// Emergency fund in months
+  ///
+  /// In en, this message translates to:
+  /// **'{months} Months Fund'**
+  String freeMonths(int months);
+
+  /// Assets and liabilities tab
+  ///
+  /// In en, this message translates to:
+  /// **'Assets & Liabilities'**
+  String get assetsLiabilities;
+
+  /// Income and expense tab
+  ///
+  /// In en, this message translates to:
+  /// **'Income & Expense'**
+  String get incomeExpense;
+
+  /// Total assets label
+  ///
+  /// In en, this message translates to:
+  /// **'Total Assets'**
+  String get totalAssets;
+
+  /// Total liabilities label
+  ///
+  /// In en, this message translates to:
+  /// **'Total Liabilities'**
+  String get totalLiabilities;
+
+  /// Assets label
+  ///
+  /// In en, this message translates to:
+  /// **'Assets'**
+  String get assets;
+
+  /// Liabilities label
+  ///
+  /// In en, this message translates to:
+  /// **'Liabilities'**
+  String get liabilities;
+
+  /// Details button
+  ///
+  /// In en, this message translates to:
+  /// **'Details'**
+  String get details;
+
+  /// Asset distribution chart title
+  ///
+  /// In en, this message translates to:
+  /// **'Asset Distribution'**
+  String get assetDistribution;
+
+  /// Asset change trend chart title
+  ///
+  /// In en, this message translates to:
+  /// **'Asset Change Trend'**
+  String get assetChange;
+
+  /// Monthly increase amount
+  ///
+  /// In en, this message translates to:
+  /// **'{month} +{amount}'**
+  String monthlyIncrease(String month, String amount);
+
+  /// Monthly expense label
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly Expense (CNY)'**
+  String get monthlyExpense;
+
+  /// Income type
+  ///
+  /// In en, this message translates to:
+  /// **'Income'**
+  String get income;
+
+  /// Budget management button
+  ///
+  /// In en, this message translates to:
+  /// **'Budget Management'**
+  String get budgetManagement;
+
+  /// Expense trend chart title
+  ///
+  /// In en, this message translates to:
+  /// **'Expense Trend'**
+  String get expenseTrend;
+
+  /// Budget usage percentage
+  ///
+  /// In en, this message translates to:
+  /// **'Used {percent}%'**
+  String used(int percent);
+
+  /// Remaining budget amount
+  ///
+  /// In en, this message translates to:
+  /// **'Remaining ¥{amount}'**
+  String remaining(String amount);
+
+  /// Expense details section title
+  ///
+  /// In en, this message translates to:
+  /// **'Expense Details'**
+  String get expenseDetails;
+
+  /// Total label
+  ///
+  /// In en, this message translates to:
+  /// **'Total'**
+  String get total;
+
+  /// Food category
+  ///
+  /// In en, this message translates to:
+  /// **'Food'**
+  String get food;
+
+  /// Transportation category
+  ///
+  /// In en, this message translates to:
+  /// **'Transportation'**
+  String get transportation;
+
+  /// Entertainment category
+  ///
+  /// In en, this message translates to:
+  /// **'Entertainment'**
+  String get entertainment;
+
+  /// Become member button
+  ///
+  /// In en, this message translates to:
+  /// **'Become IGN Member'**
+  String get becomeMember;
+
+  /// Member benefit description
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock exclusive AI financial services and join Fire Journey'**
+  String get memberBenefit;
+
+  /// Activate membership button
+  ///
+  /// In en, this message translates to:
+  /// **'Activate Now'**
+  String get activateNow;
+
+  /// Data export menu item
+  ///
+  /// In en, this message translates to:
+  /// **'Data Export'**
+  String get dataExport;
+
+  /// Privacy statement menu item
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Statement'**
+  String get privacyStatement;
+
+  /// About us menu item
+  ///
+  /// In en, this message translates to:
+  /// **'About Us'**
+  String get aboutUs;
+
+  /// Help center menu item
+  ///
+  /// In en, this message translates to:
+  /// **'Help Center'**
+  String get helpCenter;
+
+  /// Suggestions menu item
+  ///
+  /// In en, this message translates to:
+  /// **'Suggestions'**
+  String get suggestions;
+
+  /// Logout button
+  ///
+  /// In en, this message translates to:
+  /// **'Logout'**
+  String get logout;
+
+  /// Login now button when not logged in
+  ///
+  /// In en, this message translates to:
+  /// **'Login Now'**
+  String get loginNow;
+
+  /// Statistics label
+  ///
+  /// In en, this message translates to:
+  /// **'Statistics'**
+  String get statistics;
+
+  /// Balanced allocation type
+  ///
+  /// In en, this message translates to:
+  /// **'Balanced'**
+  String get balanced;
+
+  /// Aggressive allocation type
+  ///
+  /// In en, this message translates to:
+  /// **'Aggressive'**
+  String get aggressive;
+
+  /// Conservative allocation type
+  ///
+  /// In en, this message translates to:
+  /// **'Conservative'**
+  String get conservative;
+
+  /// AI accounting mode
+  ///
+  /// In en, this message translates to:
+  /// **'AI Accounting'**
+  String get aiAccounting;
+
+  /// Manual accounting mode
+  ///
+  /// In en, this message translates to:
+  /// **'Manual Accounting'**
+  String get manualAccounting;
+
+  /// Placeholder text for expense input
+  ///
+  /// In en, this message translates to:
+  /// **'Enter expense description, e.g. \"Dinner 20 yuan\"'**
+  String get enterExpenseDescription;
+
+  /// Photo recognition button
+  ///
+  /// In en, this message translates to:
+  /// **'Photo Recognition'**
+  String get photoRecognition;
+
+  /// Bill import button
+  ///
+  /// In en, this message translates to:
+  /// **'Bill Import'**
+  String get billImport;
+
+  /// Analysis in progress text
+  ///
+  /// In en, this message translates to:
+  /// **'Analyzing...'**
+  String get analyzing;
+
+  /// AI parse success title
+  ///
+  /// In en, this message translates to:
+  /// **'AI Parse Success'**
+  String get aiParseSuccess;
+
+  /// Expense type
+  ///
+  /// In en, this message translates to:
+  /// **'Expense'**
+  String get expense;
+
+  /// Date label
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get date;
+
+  /// Expense type label
+  ///
+  /// In en, this message translates to:
+  /// **'Expense Type'**
+  String get expenseType;
+
+  /// Expense amount label
+  ///
+  /// In en, this message translates to:
+  /// **'Expense Amount'**
+  String get expenseAmount;
+
+  /// Notes label
+  ///
+  /// In en, this message translates to:
+  /// **'Notes'**
+  String get notes;
+
+  /// Confirm button
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm'**
+  String get confirm;
+
+  /// Please select placeholder
+  ///
+  /// In en, this message translates to:
+  /// **'Please Select'**
+  String get pleaseSelect;
+
+  /// Enter amount placeholder
+  ///
+  /// In en, this message translates to:
+  /// **'Enter Amount'**
+  String get enterAmount;
+
+  /// Expense type not recognized message
+  ///
+  /// In en, this message translates to:
+  /// **'Expense type not recognized, please select manually'**
+  String get expenseTypeNotRecognized;
+
+  /// Expense amount not recognized message
+  ///
+  /// In en, this message translates to:
+  /// **'Expense amount not recognized, please enter manually'**
+  String get expenseAmountNotRecognized;
+
+  /// Missing required fields message
+  ///
+  /// In en, this message translates to:
+  /// **'Missing Required Fields'**
+  String get missingRequiredFields;
+
+  /// Bill import page title
+  ///
+  /// In en, this message translates to:
+  /// **'Bill Import'**
+  String get billImportTitle;
+
+  /// Import bill step
+  ///
+  /// In en, this message translates to:
+  /// **'Import Bill'**
+  String get importBill;
+
+  /// Parse bill step
+  ///
+  /// In en, this message translates to:
+  /// **'Parse Bill'**
+  String get parseBill;
+
+  /// Please import bill file prompt
+  ///
+  /// In en, this message translates to:
+  /// **'Please import bill file'**
+  String get pleaseImportAlipayBill;
+
+  /// Add file button
+  ///
+  /// In en, this message translates to:
+  /// **'Add File'**
+  String get addFile;
+
+  /// Supported file formats
+  ///
+  /// In en, this message translates to:
+  /// **'Supports Excel or CSV format, max 2MB'**
+  String get supportedFormats;
+
+  /// How to get bill title
+  ///
+  /// In en, this message translates to:
+  /// **'How to get bill?'**
+  String get howToGetBill;
+
+  /// Parsing bill message
+  ///
+  /// In en, this message translates to:
+  /// **'Parsing bill, please wait...'**
+  String get parsingBill;
+
+  /// Re-upload button
+  ///
+  /// In en, this message translates to:
+  /// **'Re-upload'**
+  String get reupload;
+
+  /// Accounting complete message
+  ///
+  /// In en, this message translates to:
+  /// **'{count} accounting entries completed'**
+  String accountingComplete(int count);
+
+  /// Review Center page title
+  ///
+  /// In en, this message translates to:
+  /// **'Review Center'**
+  String get reviewCenterTitle;
+
+  /// All transactions tab
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get reviewCenterAll;
+
+  /// High confidence tab
+  ///
+  /// In en, this message translates to:
+  /// **'High Confidence'**
+  String get reviewCenterHigh;
+
+  /// Medium confidence tab
+  ///
+  /// In en, this message translates to:
+  /// **'Needs Confirmation'**
+  String get reviewCenterMedium;
+
+  /// Low confidence tab
+  ///
+  /// In en, this message translates to:
+  /// **'Suggested Review'**
+  String get reviewCenterLow;
+
+  /// Empty state message
+  ///
+  /// In en, this message translates to:
+  /// **'No pending transactions'**
+  String get reviewCenterEmpty;
+
+  /// Keep transaction button
+  ///
+  /// In en, this message translates to:
+  /// **'Keep'**
+  String get reviewCenterKeep;
+
+  /// Delete transaction button
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get reviewCenterDelete;
+
+  /// Save transaction button
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get reviewCenterSave;
+
+  /// Delete confirmation title
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Delete'**
+  String get reviewCenterConfirmDelete;
+
+  /// Delete confirmation message
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this transaction? This action cannot be undone.'**
+  String get reviewCenterConfirmDeleteMessage;
+
+  /// Transaction confirmed toast
+  ///
+  /// In en, this message translates to:
+  /// **'Transaction confirmed'**
+  String get reviewCenterConfirmSuccess;
+
+  /// Transaction deleted toast
+  ///
+  /// In en, this message translates to:
+  /// **'Transaction deleted'**
+  String get reviewCenterDeleteSuccess;
+
+  /// Save success toast
+  ///
+  /// In en, this message translates to:
+  /// **'Saved successfully'**
+  String get reviewCenterSaveSuccess;
+
+  /// Loading message
+  ///
+  /// In en, this message translates to:
+  /// **'Loading...'**
+  String get reviewCenterLoading;
+
+  /// Error message
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load, please retry'**
+  String get reviewCenterError;
+
+  /// Detail page title
+  ///
+  /// In en, this message translates to:
+  /// **'Transaction Detail'**
+  String get reviewCenterDetailTitle;
+
+  /// Confidence level label
+  ///
+  /// In en, this message translates to:
+  /// **'AI Confidence Level'**
+  String get reviewCenterConfidence;
+
+  /// Account field label
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get reviewCenterAccount;
+
+  /// Merchant field label
+  ///
+  /// In en, this message translates to:
+  /// **'Merchant'**
+  String get reviewCenterMerchant;
+
+  /// Amount field label
+  ///
+  /// In en, this message translates to:
+  /// **'Amount'**
+  String get reviewCenterAmount;
+
+  /// Date time field label
+  ///
+  /// In en, this message translates to:
+  /// **'Date & Time'**
+  String get reviewCenterDateTime;
+
+  /// Notes field label
+  ///
+  /// In en, this message translates to:
+  /// **'Notes'**
+  String get reviewCenterNotes;
+
+  /// Expense label
+  ///
+  /// In en, this message translates to:
+  /// **'Expense'**
+  String get reviewCenterExpense;
+
+  /// Income label
+  ///
+  /// In en, this message translates to:
+  /// **'Income'**
+  String get reviewCenterIncome;
+
+  /// Invalid ID error
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid transaction ID'**
+  String get reviewCenterInvalidId;
+
+  /// Load failed error
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load, please retry'**
+  String get reviewCenterLoadFailed;
+
+  /// Delete failed error
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to delete, please retry'**
+  String get reviewCenterDeleteFailed;
+
+  /// Save failed error
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to save, please retry'**
+  String get reviewCenterSaveFailed;
+
+  /// Enter account validation
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter account name'**
+  String get reviewCenterEnterAccount;
+
+  /// Enter merchant validation
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter merchant name'**
+  String get reviewCenterEnterMerchant;
+
+  /// Enter valid amount validation
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid amount'**
+  String get reviewCenterEnterValidAmount;
+
+  /// Region label
+  ///
+  /// In en, this message translates to:
+  /// **'Region'**
+  String get region;
+
+  /// Select region dialog title
+  ///
+  /// In en, this message translates to:
+  /// **'Select Region'**
+  String get selectRegion;
+
+  /// Switch region dialog title
+  ///
+  /// In en, this message translates to:
+  /// **'Switch Region'**
+  String get switchRegion;
+
+  /// Switch region confirmation message
+  ///
+  /// In en, this message translates to:
+  /// **'Data will be reloaded after switching region. Continue?'**
+  String get switchRegionConfirm;
+
+  /// Region switched success message
+  ///
+  /// In en, this message translates to:
+  /// **'Switched to {name} region'**
+  String regionSwitched(String name);
+
+  /// Scan receipt button text
+  ///
+  /// In en, this message translates to:
+  /// **'Scan Receipt'**
+  String get scanReceipt;
+
+  /// Take photo option
+  ///
+  /// In en, this message translates to:
+  /// **'Take Photo'**
+  String get takePhoto;
+
+  /// Choose from gallery option
+  ///
+  /// In en, this message translates to:
+  /// **'Choose from Gallery'**
+  String get chooseFromGallery;
+
+  /// Scan receipt page title
+  ///
+  /// In en, this message translates to:
+  /// **'Scan Receipt Recognition'**
+  String get scanReceiptTitle;
+
+  /// No description provided for @processingOcr.
+  ///
+  /// In en, this message translates to:
+  /// **'Processing receipt...'**
+  String get processingOcr;
+
+  /// Categorization preview dialog title
+  ///
+  /// In en, this message translates to:
+  /// **'Categorization Preview'**
+  String get categorizationPreviewTitle;
+
+  /// Number of items
+  ///
+  /// In en, this message translates to:
+  /// **'items'**
+  String get items;
+
+  /// Items that need review label
+  ///
+  /// In en, this message translates to:
+  /// **'need review'**
+  String get needsReview;
+
+  /// Confirm import button
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Import'**
+  String get confirmImport;
+
+  /// Edit categories button
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Categories'**
+  String get editCategories;
+
+  /// Average confidence label
+  ///
+  /// In en, this message translates to:
+  /// **'Average Confidence'**
+  String get avgConfidence;
+
+  /// All items have high confidence
+  ///
+  /// In en, this message translates to:
+  /// **'All High Confidence'**
+  String get allHighConfidence;
+
+  /// Some items need review
+  ///
+  /// In en, this message translates to:
+  /// **'Some Need Review'**
+  String get someNeedReview;
+
+  /// Import idle state label
+  ///
+  /// In en, this message translates to:
+  /// **'Ready to Import'**
+  String get importProgressIdle;
+
+  /// Upload step label
+  ///
+  /// In en, this message translates to:
+  /// **'Uploading'**
+  String get importProgressUploading;
+
+  /// Parsing step label
+  ///
+  /// In en, this message translates to:
+  /// **'Parsing'**
+  String get importProgressParsing;
+
+  /// Categorizing step label
+  ///
+  /// In en, this message translates to:
+  /// **'Categorizing'**
+  String get importProgressCategorizing;
+
+  /// Reviewing step label
+  ///
+  /// In en, this message translates to:
+  /// **'Reviewing'**
+  String get importProgressReviewing;
+
+  /// Complete step label
+  ///
+  /// In en, this message translates to:
+  /// **'Complete'**
+  String get importProgressComplete;
+
+  /// Error state label
+  ///
+  /// In en, this message translates to:
+  /// **'Error'**
+  String get importProgressError;
+
+  /// Error retry suggestion
+  ///
+  /// In en, this message translates to:
+  /// **'Please try again'**
+  String get importErrorRetry;
+
+  /// File too large error message
+  ///
+  /// In en, this message translates to:
+  /// **'File is too large. Please select a file smaller than {size}.'**
+  String importErrorFileTooLarge(String size);
+
+  /// Unsupported format error message
+  ///
+  /// In en, this message translates to:
+  /// **'Unsupported file format. Please use CSV or Excel files.'**
+  String get importErrorUnsupportedFormat;
+
+  /// Network error message
+  ///
+  /// In en, this message translates to:
+  /// **'Network error. Please check your connection and try again.'**
+  String get importErrorNetwork;
+
+  /// Parsing failed error message
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to parse bill. Please check the file format.'**
+  String get importErrorParsingFailed;
+
+  /// Duplicate detection message
+  ///
+  /// In en, this message translates to:
+  /// **'Duplicate transactions detected and skipped.'**
+  String get importErrorDuplicateDetected;
+
+  /// Generic error message
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred. Please try again.'**
+  String get importErrorGeneric;
+
+  /// View error details button
+  ///
+  /// In en, this message translates to:
+  /// **'View Details'**
+  String get importErrorViewDetails;
+
+  /// Retry button text
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get importErrorRetryButton;
+
+  /// Batch import summary title
+  ///
+  /// In en, this message translates to:
+  /// **'Import Summary'**
+  String get batchImportSummaryTitle;
+
+  /// Successfully imported label
+  ///
+  /// In en, this message translates to:
+  /// **'Successfully Imported'**
+  String get batchImportSuccessfullyImported;
+
+  /// Duplicates skipped label
+  ///
+  /// In en, this message translates to:
+  /// **'Duplicates Skipped'**
+  String get batchImportDuplicatesSkipped;
+
+  /// Requires review label
+  ///
+  /// In en, this message translates to:
+  /// **'Requires Review'**
+  String get batchImportRequiresReview;
+
+  /// View imported button
+  ///
+  /// In en, this message translates to:
+  /// **'View Imported'**
+  String get batchImportViewImported;
+
+  /// Review low confidence button
+  ///
+  /// In en, this message translates to:
+  /// **'Review Low Confidence'**
+  String get batchImportReviewLowConfidence;
+
+  /// Continue import button
+  ///
+  /// In en, this message translates to:
+  /// **'Continue Import'**
+  String get batchImportContinueImport;
+
+  /// Done button
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get batchImportDone;
+
+  /// Items imported message
+  ///
+  /// In en, this message translates to:
+  /// **'{count} items imported successfully'**
+  String batchImportItemsImported(int count);
+
+  /// Liabilities breakdown by type section title
+  ///
+  /// In en, this message translates to:
+  /// **'Liabilities by Type'**
+  String get liabilitiesByType;
+
+  /// Credit cards liability type
+  ///
+  /// In en, this message translates to:
+  /// **'Credit Cards'**
+  String get creditCards;
+
+  /// Loans liability type
+  ///
+  /// In en, this message translates to:
+  /// **'Loans'**
+  String get loans;
+
+  /// Mortgages liability type
+  ///
+  /// In en, this message translates to:
+  /// **'Mortgages'**
+  String get mortgages;
+
+  /// Other liabilities type
+  ///
+  /// In en, this message translates to:
+  /// **'Other Liabilities'**
+  String get otherLiabilities;
+
+  /// Liability details section
+  ///
+  /// In en, this message translates to:
+  /// **'Liability Details'**
+  String get liabilityDetails;
+
+  /// 1 month period selector label
+  ///
+  /// In en, this message translates to:
+  /// **'1M'**
+  String get period1Month;
+
+  /// 3 months period selector label
+  ///
+  /// In en, this message translates to:
+  /// **'3M'**
+  String get period3Months;
+
+  /// 6 months period selector label
+  ///
+  /// In en, this message translates to:
+  /// **'6M'**
+  String get period6Months;
+
+  /// 1 year period selector label
+  ///
+  /// In en, this message translates to:
+  /// **'1Y'**
+  String get period1Year;
+
+  /// FIRE goal label
+  ///
+  /// In en, this message translates to:
+  /// **'FIRE Goal'**
+  String get fireGoal;
+
+  /// FIRE number (target amount for financial independence)
+  ///
+  /// In en, this message translates to:
+  /// **'FIRE Number'**
+  String get fireNumber;
+
+  /// Savings rate percentage
+  ///
+  /// In en, this message translates to:
+  /// **'Savings Rate'**
+  String get savingsRate;
+
+  /// Estimated years to reach FIRE
+  ///
+  /// In en, this message translates to:
+  /// **'Years to FIRE'**
+  String get yearsToFire;
+
+  /// Title for milestone achievement celebration
+  ///
+  /// In en, this message translates to:
+  /// **'Milestone Achieved!'**
+  String get milestoneAchieved;
+
+  /// Message for milestone celebration
+  ///
+  /// In en, this message translates to:
+  /// **'Congratulations on reaching this milestone on your FIRE journey!'**
+  String get celebrateProgress;
+
+  /// Hint for pull-to-refresh
+  ///
+  /// In en, this message translates to:
+  /// **'Pull to refresh and see your latest progress'**
+  String get refreshToSeeUpdates;
+
+  /// Title for FIRE projection chart
+  ///
+  /// In en, this message translates to:
+  /// **'FIRE Projection'**
+  String get fireProjectionTitle;
+
+  /// Years to FIRE value display
+  ///
+  /// In en, this message translates to:
+  /// **'{years} years to FIRE'**
+  String yearsToFireValue(String years);
+
+  /// Projection year value
+  ///
+  /// In en, this message translates to:
+  /// **'Year {years}'**
+  String projectionYearValue(String years);
+
+  /// Baseline scenario name
+  ///
+  /// In en, this message translates to:
+  /// **'Baseline'**
+  String get baselineScenario;
+
+  /// Aggressive scenario name
+  ///
+  /// In en, this message translates to:
+  /// **'Aggressive'**
+  String get aggressiveScenario;
+
+  /// Title for scenario modeling section
+  ///
+  /// In en, this message translates to:
+  /// **'Scenario Modeling'**
+  String get scenarioModeling;
+
+  /// Reset button
+  ///
+  /// In en, this message translates to:
+  /// **'Reset'**
+  String get reset;
+
+  /// Monthly savings label
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly Savings'**
+  String get monthlySavings;
+
+  /// Adjusted savings value display
+  ///
+  /// In en, this message translates to:
+  /// **'Adjusted: {amount}'**
+  String adjustedSavingsValue(String amount);
+
+  /// Expected return rate label
+  ///
+  /// In en, this message translates to:
+  /// **'Expected Return'**
+  String get expectedReturn;
+
+  /// Description for return rate
+  ///
+  /// In en, this message translates to:
+  /// **'Annual investment return rate'**
+  String get returnRateDescription;
+
+  /// Retirement spending level
+  ///
+  /// In en, this message translates to:
+  /// **'Retirement Spending'**
+  String get retirementSpending;
+
+  /// Description for retirement spending
+  ///
+  /// In en, this message translates to:
+  /// **'As percentage of current expenses'**
+  String get retirementSpendingDescription;
+
+  /// Positive scenario impact message
+  ///
+  /// In en, this message translates to:
+  /// **'Adjusting these settings shows how you can accelerate your FIRE timeline.'**
+  String get scenarioImpactPositive;
+
+  /// Neutral scenario impact message
+  ///
+  /// In en, this message translates to:
+  /// **'Modify the sliders above to see how changes affect your FIRE timeline.'**
+  String get scenarioImpactNeutral;
+
+  /// Title for FIRE types section
+  ///
+  /// In en, this message translates to:
+  /// **'FIRE Types'**
+  String get fireTypes;
+
+  /// Full FIRE type name
+  ///
+  /// In en, this message translates to:
+  /// **'Full FIRE'**
+  String get fullFire;
+
+  /// Full FIRE description
+  ///
+  /// In en, this message translates to:
+  /// **'Traditional FIRE with full financial independence'**
+  String get fullFireDescription;
+
+  /// Coast FIRE type name
+  ///
+  /// In en, this message translates to:
+  /// **'Coast FIRE'**
+  String get coastFire;
+
+  /// Coast FIRE description
+  ///
+  /// In en, this message translates to:
+  /// **'Save enough early, let it grow without adding more'**
+  String get coastFireDescription;
+
+  /// Barista FIRE type name
+  ///
+  /// In en, this message translates to:
+  /// **'Barista FIRE'**
+  String get baristaFire;
+
+  /// Barista FIRE description
+  ///
+  /// In en, this message translates to:
+  /// **'Work part-time, cover some expenses with savings'**
+  String get baristaFireDescription;
+
+  /// Lean FIRE type name
+  ///
+  /// In en, this message translates to:
+  /// **'Lean FIRE'**
+  String get leanFire;
+
+  /// Lean FIRE description
+  ///
+  /// In en, this message translates to:
+  /// **'Minimalist lifestyle with lower expenses'**
+  String get leanFireDescription;
+
+  /// Target amount label
+  ///
+  /// In en, this message translates to:
+  /// **'Target'**
+  String get targetAmount;
+
+  /// Current progress label
+  ///
+  /// In en, this message translates to:
+  /// **'Progress'**
+  String get currentProgress;
+
+  /// Monthly savings needed label
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly'**
+  String get monthlyNeeded;
+
+  /// Time to reach label
+  ///
+  /// In en, this message translates to:
+  /// **'Time'**
+  String get timeToReach;
+
+  /// Years value display
+  ///
+  /// In en, this message translates to:
+  /// **'{years} years'**
+  String yearsValue(String years);
+
+  /// Already achieved label
+  ///
+  /// In en, this message translates to:
+  /// **'Achieved!'**
+  String get alreadyAchieved;
+
+  /// Export data title
+  ///
+  /// In en, this message translates to:
+  /// **'Export Data'**
+  String get exportData;
+
+  /// Export as JSON option
+  ///
+  /// In en, this message translates to:
+  /// **'Export as JSON'**
+  String get exportAsJson;
+
+  /// Export as CSV option
+  ///
+  /// In en, this message translates to:
+  /// **'Export as CSV'**
+  String get exportAsCsv;
+
+  /// Exporting in progress
+  ///
+  /// In en, this message translates to:
+  /// **'Exporting...'**
+  String get exporting;
+
+  /// Export success message
+  ///
+  /// In en, this message translates to:
+  /// **'Export successful'**
+  String get exportSuccess;
+
+  /// Export failed message
+  ///
+  /// In en, this message translates to:
+  /// **'Export failed'**
+  String get exportFailed;
+
+  /// Privacy policy title
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Policy'**
+  String get privacyPolicy;
+
+  /// Terms of service title
+  ///
+  /// In en, this message translates to:
+  /// **'Terms of Service'**
+  String get termsOfService;
+
+  /// Licenses title
+  ///
+  /// In en, this message translates to:
+  /// **'Open Source Licenses'**
+  String get licenses;
+
+  /// FAQ title
+  ///
+  /// In en, this message translates to:
+  /// **'Frequently Asked Questions'**
+  String get faq;
+
+  /// Contact support button
+  ///
+  /// In en, this message translates to:
+  /// **'Contact Support'**
+  String get contactSupport;
+
+  /// Send feedback button
+  ///
+  /// In en, this message translates to:
+  /// **'Send Feedback'**
+  String get sendFeedback;
+
+  /// Account settings title
+  ///
+  /// In en, this message translates to:
+  /// **'Account Settings'**
+  String get accountSettings;
+
+  /// User ID label
+  ///
+  /// In en, this message translates to:
+  /// **'User ID'**
+  String get userId;
+
+  /// Display name label
+  ///
+  /// In en, this message translates to:
+  /// **'Display Name'**
+  String get displayName;
+
+  /// Custom name label
+  ///
+  /// In en, this message translates to:
+  /// **'Custom Name'**
+  String get customName;
+
+  /// Security token label
+  ///
+  /// In en, this message translates to:
+  /// **'Security Token'**
+  String get securityToken;
+
+  /// Token saved indicator
+  ///
+  /// In en, this message translates to:
+  /// **'Token Saved'**
+  String get savedToken;
+
+  /// Re-login button
+  ///
+  /// In en, this message translates to:
+  /// **'Re-login'**
+  String get reLogin;
+
+  /// Delete account button
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Account'**
+  String get deleteAccount;
+
+  /// Delete account confirmation message
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete your account? This action cannot be undone.'**
+  String get deleteAccountConfirm;
+
+  /// Delete account warning
+  ///
+  /// In en, this message translates to:
+  /// **'All your data will be permanently deleted.'**
+  String get deleteAccountWarning;
+
+  /// Account created label
+  ///
+  /// In en, this message translates to:
+  /// **'Account Created'**
+  String get accountCreated;
+
+  /// Preferences section title
+  ///
+  /// In en, this message translates to:
+  /// **'Preferences'**
+  String get preferences;
+
+  /// Auto sync toggle label
+  ///
+  /// In en, this message translates to:
+  /// **'Auto Sync'**
+  String get autoSync;
+
+  /// Auto sync description
+  ///
+  /// In en, this message translates to:
+  /// **'Automatically sync data with server'**
+  String get autoSyncDesc;
+
+  /// Notifications toggle label
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get notifications;
+
+  /// Notifications description
+  ///
+  /// In en, this message translates to:
+  /// **'Enable push notifications'**
+  String get notificationsDesc;
+
+  /// Decimal precision label
+  ///
+  /// In en, this message translates to:
+  /// **'Decimal Precision'**
+  String get decimalPrecision;
+
+  /// System settings button
+  ///
+  /// In en, this message translates to:
+  /// **'System Settings'**
+  String get systemSettings;
+
+  /// Copied to clipboard message
+  ///
+  /// In en, this message translates to:
+  /// **'Copied to clipboard'**
+  String get copiedToClipboard;
+
+  /// Version label
+  ///
+  /// In en, this message translates to:
+  /// **'Version'**
+  String get version;
+
+  /// Build number label
+  ///
+  /// In en, this message translates to:
+  /// **'Build'**
+  String get buildNumber;
+
+  /// About app title
+  ///
+  /// In en, this message translates to:
+  /// **'About'**
+  String get aboutApp;
+
+  /// No description provided for @faq1Question.
+  ///
+  /// In en, this message translates to:
+  /// **'How do I create an account?'**
+  String get faq1Question;
+
+  /// No description provided for @faq1Answer.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the \'Login Now\' button on the profile page and select \'Create New Account\'. Your security token will be generated automatically.'**
+  String get faq1Answer;
+
+  /// No description provided for @faq2Question.
+  ///
+  /// In en, this message translates to:
+  /// **'How do I export my data?'**
+  String get faq2Question;
+
+  /// No description provided for @faq2Answer.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to Settings > Data Export and choose your preferred format (JSON or CSV).'**
+  String get faq2Answer;
+
+  /// No description provided for @faq3Question.
+  ///
+  /// In en, this message translates to:
+  /// **'Is my data secure?'**
+  String get faq3Question;
+
+  /// No description provided for @faq3Answer.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, your data is encrypted and stored securely. You have full control over your data.'**
+  String get faq3Answer;
+
+  /// No description provided for @faq4Question.
+  ///
+  /// In en, this message translates to:
+  /// **'How do I switch regions?'**
+  String get faq4Question;
+
+  /// No description provided for @faq4Answer.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to Settings, find the Region section, and select your preferred region. Data will be reloaded.'**
+  String get faq4Answer;
+
+  /// Privacy policy content
+  ///
+  /// In en, this message translates to:
+  /// **'Your privacy is important to us. This app collects minimal data necessary for functionality. Your financial data is encrypted and stored securely. We do not sell or share your personal information with third parties.'**
+  String get privacyContent;
+
+  /// Edit name dialog title
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Name'**
+  String get editName;
+
+  /// Display name input placeholder
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your display name'**
+  String get enterDisplayName;
+
+  /// No data message
+  ///
+  /// In en, this message translates to:
+  /// **'No data available to export'**
+  String get noDataToExport;
+
+  /// Last synced label
+  ///
+  /// In en, this message translates to:
+  /// **'Last Synced'**
+  String get lastSynced;
+
+  /// Sync now button
+  ///
+  /// In en, this message translates to:
+  /// **'Sync Now'**
+  String get syncNow;
+
+  /// Syncing status
+  ///
+  /// In en, this message translates to:
+  /// **'Syncing...'**
+  String get syncing;
+
+  /// Sync success message
+  ///
+  /// In en, this message translates to:
+  /// **'Sync successful'**
+  String get syncSuccess;
+
+  /// Sync failed message
+  ///
+  /// In en, this message translates to:
+  /// **'Sync failed'**
+  String get syncFailed;
+
+  /// Never synced status
+  ///
+  /// In en, this message translates to:
+  /// **'Never'**
+  String get never;
+
+  /// Backup button
+  ///
+  /// In en, this message translates to:
+  /// **'Backup'**
+  String get backup;
+
+  /// Restore button
+  ///
+  /// In en, this message translates to:
+  /// **'Restore'**
+  String get restore;
+
+  /// Backup data title
+  ///
+  /// In en, this message translates to:
+  /// **'Backup Data'**
+  String get backupData;
+
+  /// Restore data title
+  ///
+  /// In en, this message translates to:
+  /// **'Restore Data'**
+  String get restoreData;
+
+  /// Backup created message
+  ///
+  /// In en, this message translates to:
+  /// **'Backup created successfully'**
+  String get backupCreated;
+
+  /// Backup failed message
+  ///
+  /// In en, this message translates to:
+  /// **'Backup failed'**
+  String get backupFailed;
+
+  /// Restore success message
+  ///
+  /// In en, this message translates to:
+  /// **'Data restored successfully'**
+  String get restoreSuccess;
+
+  /// Restore failed message
+  ///
+  /// In en, this message translates to:
+  /// **'Restore failed'**
+  String get restoreFailed;
+
+  /// Backup warning message
+  ///
+  /// In en, this message translates to:
+  /// **'Restoring will overwrite all current data. This action cannot be undone.'**
+  String get backupWarning;
+
+  /// Last backup label
+  ///
+  /// In en, this message translates to:
+  /// **'Last Backup'**
+  String get lastBackup;
+
+  /// No backup file message
+  ///
+  /// In en, this message translates to:
+  /// **'No backup file found'**
+  String get noBackupFound;
+
+  /// Delete account dialog title
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Account'**
+  String get deleteAccountTitle;
+
+  /// Type delete confirmation
+  ///
+  /// In en, this message translates to:
+  /// **'Type DELETE to confirm'**
+  String get typeDelete;
+
+  /// Understand warning checkbox
+  ///
+  /// In en, this message translates to:
+  /// **'I understand this action cannot be undone'**
+  String get understandWarning;
+
+  /// Account deleted message
+  ///
+  /// In en, this message translates to:
+  /// **'Account deleted successfully'**
+  String get accountDeleted;
+
+  /// Offline status
+  ///
+  /// In en, this message translates to:
+  /// **'Offline'**
+  String get offline;
+
+  /// Offline banner message
+  ///
+  /// In en, this message translates to:
+  /// **'You are offline - Some features may be limited'**
+  String get youAreOffline;
+
+  /// Sync pending status
+  ///
+  /// In en, this message translates to:
+  /// **'Sync pending'**
+  String get syncPending;
+
+  /// Connection restored toast
+  ///
+  /// In en, this message translates to:
+  /// **'Connection restored - Syncing...'**
+  String get connectionRestored;
+
+  /// Action failed due to offline status
+  ///
+  /// In en, this message translates to:
+  /// **'Action failed - Please try again when online'**
+  String get actionFailedOffline;
+
+  /// Morning greeting on home page
+  ///
+  /// In en, this message translates to:
+  /// **'Good morning'**
+  String get homeGreetingMorning;
+
+  /// Afternoon greeting on home page
+  ///
+  /// In en, this message translates to:
+  /// **'Good afternoon'**
+  String get homeGreetingAfternoon;
+
+  /// Evening greeting on home page
+  ///
+  /// In en, this message translates to:
+  /// **'Good evening'**
+  String get homeGreetingEvening;
+
+  /// Last sync time - just now
+  ///
+  /// In en, this message translates to:
+  /// **'Synced just now'**
+  String get homeSyncedJustNow;
+
+  /// Last sync time - minutes ago
+  ///
+  /// In en, this message translates to:
+  /// **'Synced {minutes} min ago'**
+  String homeSyncedMinutes(int minutes);
+
+  /// Last sync time - hours ago
+  ///
+  /// In en, this message translates to:
+  /// **'Synced {hours}h ago'**
+  String homeSyncedHours(int hours);
+
+  /// Net worth label on home page
+  ///
+  /// In en, this message translates to:
+  /// **'Net Worth'**
+  String get homeNetWorth;
+
+  /// This month label
+  ///
+  /// In en, this message translates to:
+  /// **'This month'**
+  String get homeThisMonth;
+
+  /// Pending reviews label on home page
+  ///
+  /// In en, this message translates to:
+  /// **'Pending Reviews'**
+  String get homePendingReviews;
+
+  /// No pending items message
+  ///
+  /// In en, this message translates to:
+  /// **'No pending items'**
+  String get homeNoPending;
+
+  /// FIRE progress label on home page
+  ///
+  /// In en, this message translates to:
+  /// **'FIRE Progress'**
+  String get homeFireProgress;
+
+  /// Set goal button text
+  ///
+  /// In en, this message translates to:
+  /// **'Set Goal'**
+  String get homeSetGoal;
+
+  /// Years to FIRE label
+  ///
+  /// In en, this message translates to:
+  /// **'Years to FIRE'**
+  String get homeYearsToFire;
+
+  /// Years to FIRE value
+  ///
+  /// In en, this message translates to:
+  /// **'{years} years'**
+  String homeYearsToFireValue(String years);
+
+  /// Savings rate label on home page
+  ///
+  /// In en, this message translates to:
+  /// **'Savings Rate'**
+  String get homeSavingsRate;
+
+  /// Quick actions section title
+  ///
+  /// In en, this message translates to:
+  /// **'Quick Actions'**
+  String get homeQuickActions;
+
+  /// Add expense button
+  ///
+  /// In en, this message translates to:
+  /// **'Add Expense'**
+  String get homeAddExpense;
+
+  /// Bill import button
+  ///
+  /// In en, this message translates to:
+  /// **'Bill Import'**
+  String get homeBillImport;
+
+  /// Review pending button
+  ///
+  /// In en, this message translates to:
+  /// **'Review'**
+  String get homeReviewPending;
+
+  /// Shortcuts section title
+  ///
+  /// In en, this message translates to:
+  /// **'Shortcuts'**
+  String get homeShortcuts;
+
+  /// Assets shortcut label
+  ///
+  /// In en, this message translates to:
+  /// **'Assets'**
+  String get homeAssets;
+
+  /// FIRE Journey shortcut label
+  ///
+  /// In en, this message translates to:
+  /// **'FIRE Journey'**
+  String get homeFireJourney;
+
+  /// Settings shortcut label
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get homeSettings;
+
+  /// Review center shortcut label
+  ///
+  /// In en, this message translates to:
+  /// **'Review'**
+  String get homeReviewCenter;
+
+  /// Savings rate label in spending insights
+  ///
+  /// In en, this message translates to:
+  /// **'Savings Rate'**
+  String get homeSavingsRateLabel;
+
+  /// Excellent savings rate label (>=60%)
+  ///
+  /// In en, this message translates to:
+  /// **'Excellent'**
+  String get homeSavingsRateExcellent;
+
+  /// Good savings rate label (>=40%)
+  ///
+  /// In en, this message translates to:
+  /// **'Good'**
+  String get homeSavingsRateGood;
+
+  /// Fair savings rate label (>=20%)
+  ///
+  /// In en, this message translates to:
+  /// **'Fair'**
+  String get homeSavingsRateFair;
+
+  /// Needs work savings rate label (<20%)
+  ///
+  /// In en, this message translates to:
+  /// **'Needs Work'**
+  String get homeSavingsRateNeedsWork;
+
+  /// Spending insights card title
+  ///
+  /// In en, this message translates to:
+  /// **'Spending Insights'**
+  String get homeSpendingInsights;
+
+  /// Income this month label
+  ///
+  /// In en, this message translates to:
+  /// **'Income'**
+  String get homeIncomeThisMonth;
+
+  /// Expense this month label
+  ///
+  /// In en, this message translates to:
+  /// **'Expense'**
+  String get homeExpenseThisMonth;
+
+  /// Net savings label
+  ///
+  /// In en, this message translates to:
+  /// **'Net Savings'**
+  String get homeNetSavings;
+
+  /// Warning message when overspending
+  ///
+  /// In en, this message translates to:
+  /// **'Spending exceeds income this month'**
+  String get homeOverspendingWarning;
+
+  /// Recommendations section title
+  ///
+  /// In en, this message translates to:
+  /// **'Recommendations'**
+  String get homeRecommendations;
+
+  /// Recommendation to set FIRE goal
+  ///
+  /// In en, this message translates to:
+  /// **'Set your FIRE goal'**
+  String get homeRecSetFireGoal;
+
+  /// Description for set FIRE goal recommendation
+  ///
+  /// In en, this message translates to:
+  /// **'Track your journey to financial independence'**
+  String get homeRecSetFireGoalDesc;
+
+  /// Recommendation to review pending transactions
+  ///
+  /// In en, this message translates to:
+  /// **'Review {count} pending transactions'**
+  String homeRecReviewPending(int count);
+
+  /// Description for review pending recommendation
+  ///
+  /// In en, this message translates to:
+  /// **'Keep your finances organized and up to date'**
+  String get homeRecReviewPendingDesc;
+
+  /// Recommendation to increase savings
+  ///
+  /// In en, this message translates to:
+  /// **'Increase your savings rate'**
+  String get homeRecIncreaseSavings;
+
+  /// Description for increase savings recommendation
+  ///
+  /// In en, this message translates to:
+  /// **'Aim for 20%+ to reach FIRE faster'**
+  String get homeRecIncreaseSavingsDesc;
+
+  /// Recommendation to reduce FIRE timeline
+  ///
+  /// In en, this message translates to:
+  /// **'Reduce your FIRE timeline'**
+  String get homeRecReduceTimeline;
+
+  /// Description for reduce timeline recommendation
+  ///
+  /// In en, this message translates to:
+  /// **'Consider increasing monthly contributions'**
+  String get homeRecReduceTimelineDesc;
+
+  /// Recommendation to reduce spending
+  ///
+  /// In en, this message translates to:
+  /// **'Reduce overspending'**
+  String get homeRecReduceSpending;
+
+  /// Description for reduce spending recommendation
+  ///
+  /// In en, this message translates to:
+  /// **'Your expenses exceed income this month'**
+  String get homeRecReduceSpendingDesc;
+
+  /// Please login prompt
+  ///
+  /// In en, this message translates to:
+  /// **'Please login first'**
+  String get pleaseLogin;
+
+  /// Expense entry success message
+  ///
+  /// In en, this message translates to:
+  /// **'Expense saved successfully'**
+  String get expenseEntrySuccess;
+}
+
+class _AppLocalizationsDelegate
+    extends LocalizationsDelegate<AppLocalizations> {
+  const _AppLocalizationsDelegate();
+
+  @override
+  Future<AppLocalizations> load(Locale locale) {
+    return SynchronousFuture<AppLocalizations>(lookupAppLocalizations(locale));
+  }
+
+  @override
+  bool isSupported(Locale locale) =>
+      <String>['en', 'zh'].contains(locale.languageCode);
+
+  @override
+  bool shouldReload(_AppLocalizationsDelegate old) => false;
+}
+
+AppLocalizations lookupAppLocalizations(Locale locale) {
+  // Lookup logic when language+country codes are specified.
+  switch (locale.languageCode) {
+    case 'zh':
+      {
+        switch (locale.countryCode) {
+          case 'CN':
+            return AppLocalizationsZhCn();
+          case 'TW':
+            return AppLocalizationsZhTw();
+        }
+        break;
+      }
+  }
+
+  // Lookup logic when only language code is specified.
+  switch (locale.languageCode) {
+    case 'en':
+      return AppLocalizationsEn();
+    case 'zh':
+      return AppLocalizationsZh();
+  }
+
+  throw FlutterError(
+      'AppLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
+      'an issue with the localizations generation tool. Please file an issue '
+      'on GitHub with a reproducible sample app and the gen-l10n configuration '
+      'that was used.');
+}

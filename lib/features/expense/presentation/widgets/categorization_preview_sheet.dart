@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:firela_app/generated/l10n/app_localizations.dart';
 import '../../../review_center/domain/models/confidence_level.dart';
 import '../../../review_center/presentation/widgets/confidence_indicator.dart';
 

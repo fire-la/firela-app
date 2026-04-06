@@ -28,6 +28,9 @@ const List<String> _skipTypes = ['其他'];
 /// Alipay Web CSV parser implementation.
 class AlipayWebParser extends Parser<RawTransaction<AlipayCustomFields>> {
   @override
+  String get name => 'alipay-web';
+
+  @override
   bool identify(String filename, Uint8List content) {
     try {
       final text = decodeContent(content);

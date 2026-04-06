@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:signals_flutter/signals_flutter.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:firela_app/generated/l10n/app_localizations.dart';
 import '../../../review_center/presentation/signals/review_center_signal.dart';
 import '../../../../shared/widgets/loading_indicator.dart';
 

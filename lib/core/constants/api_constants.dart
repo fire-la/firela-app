@@ -14,10 +14,12 @@ class ApiConstants {
   ApiConstants._();
 
   /// API 基础路径 (已包含 /api 前缀)
-  static const String ignBaseUrl = String.fromEnvironment(
-    'API_BASE_URL',
-    defaultValue: 'https://api-s.firela.io/api',
-  );
+  // static const String ignBaseUrl = String.fromEnvironment(
+  //   'API_BASE_URL',
+  //   defaultValue: 'https://api-s.firela.io/api',
+  // );
+  // static const String ignBaseUrl = 'https://vlt-s.firela.io/api';
+  static const String ignBaseUrl = 'https://ign-dev.firela.io/api'; // 测试环境
 
   /// API 超时时间
   static const Duration timeout = Duration(seconds: 30);
@@ -55,6 +57,11 @@ class ApiConstants {
   /// 交易 CRUD
   static const String transactionEndpoint = '/bean/transactions';
 
+  /// 批量创建交易 POST
+  /// 请求格式: {'transactions': [...]}
+  /// 每批最多 50 条
+  static const String transactionBatchEndpoint = '/bean/transactions/batch';
+
   /// 收款方/付款方
   static const String payeeEndpoint = '/bean/payees';
 
@@ -72,8 +79,9 @@ class ApiConstants {
   /// 导入器配置
   static const String importerConfigEndpoint = '/bean/import/config';
 
-  // ============ Dashboard 仪表盘端点 ============
+  // ============ Dashboard 仪表盘端点 (地域前缀端点) ============
   /// 净资产概览 GET
+  /// ApiClient._buildUrl() 会自动添加 /v1/{region} 前缀
   static const String netWorthEndpoint = '/dashboard/net-worth';
 
   /// 净资产历史数据 GET (query: months)
@@ -107,10 +115,10 @@ class ApiConstants {
   static const String platformEndpoint = '/bean/platforms';
 
   // ============ Cloudflare Turnstile 防护配置 ============
-  /// 是否启用 Turnstile（默认开启，自托管可通过 --dart-define=ENABLE_TURNSTILE=false 关闭）
+  /// 是否启用 Turnstile（默认关闭以提升开发体验，生产环境可通过 --dart-define=ENABLE_TURNSTILE=true 开启）
   static const bool enableTurnstile = bool.fromEnvironment(
     'ENABLE_TURNSTILE',
-    defaultValue: true,
+    defaultValue: false,
   );
 
   /// Turnstile Site Key（自托管可通过 --dart-define=TURNSTILE_SITE_KEY=xxx 覆盖）

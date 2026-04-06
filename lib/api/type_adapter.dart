@@ -1,6 +1,7 @@
-import 'generated/openapi.dart';
+import 'package:firela_api/firela_api.dart';
 import '../features/review_center/data/models/pending_transaction_model.dart';
 import '../features/review_center/domain/models/confidence_level.dart';
+import '../core/utils/logger.dart';
 
 /// Adapter for converting generated API types to domain models and vice versa.
 ///
@@ -11,7 +12,6 @@ import '../features/review_center/domain/models/confidence_level.dart';
 /// Usage:
 /// ```dart
 /// final transaction = TypeAdapter.toPendingTransaction(apiResponse);
-/// final request = TypeAdapter.toCreateTransactionRequest(domainModel);
 /// ```
 class TypeAdapter {
   TypeAdapter._();
@@ -42,21 +42,23 @@ class TypeAdapter {
     final accountName = firstPosting?.accountName ?? '';
 
     // Get merchant name (prefer payee, fallback to narration)
-    final merchantName = dto.payee ?? dto.narration ?? '';
+    final merchantName = dto.payee ?? dto.narration;
 
-    // Parse transaction time
-    final transactionTime = _parseDate(dto.date);
+    // Parse transaction time from Date object
+    final transactionTime = DateTime(
+      dto.date.year,
+      dto.date.month,
+      dto.date.day,
+    );
 
     // Infer confidence level from source type or status
-    // In Review Center context, pending transactions come from various sources
-    // with different confidence levels
     final confidenceLevel = _inferConfidenceLevel(dto.sourceType, dto.sourcePlatform);
 
     // Calculate confidence score (0-100)
     final confidenceScore = _calculateConfidenceScore(dto.sourceType, dto.sourcePlatform);
 
-    // Parse created time
-    final createdAt = _parseDateTime(dto.createdAt);
+    // Parse created time (createdAt is already DateTime? in generated type)
+    final createdAt = dto.createdAt ?? DateTime.now();
 
     return PendingTransactionModel(
       id: dto.id,
@@ -79,30 +81,126 @@ class TypeAdapter {
   }
 
   // ============================================
-  // PendingTransactionModel -> CreateTransactionRequest
+  // Review Center API Item -> PendingTransactionModel
+  // (Direct JSON parsing for Review Center API)
   // ============================================
 
-  /// Convert domain model to API create request
+  /// Convert Review Center API item (JSON map) to PendingTransactionModel
   ///
-  /// Note: This creates a minimal transaction with the available data.
-  /// Some fields may need to be populated by the caller.
-  static CreateTransactionRequest toCreateTransactionRequest(
-    PendingTransactionModel model, {
-    String? accountId,
-  }) {
-    return CreateTransactionRequest(
-      date: _formatDate(model.transactionTime),
-      flag: TransactionFlag.complete,
-      payee: model.merchantName,
-      narration: 'Imported transaction',
-      postings: [
-        CreatePostingRequest(
-          account: accountId ?? model.accountName,
-          units: model.amount.toStringAsFixed(2),
-          currency: model.currency,
-        ),
-      ],
+  /// The API returns:
+  /// {
+  ///   "id": "...",
+  ///   "type": "ACCOUNT_VALIDATION",
+  ///   "confidenceLevel": "LOW",
+  ///   "merchantName": "脆皮油条",
+  ///   "amount": 0,  // Often 0 in review items
+  ///   "currency": "CNY",
+  ///   "transactionTime": "2025-09-26",
+  ///   "transaction": {
+  ///     "postings": [{"units": "-3.5", "currency": "CNY"}, ...],
+  ///     ...
+  ///   }
+  /// }
+  static PendingTransactionModel toPendingTransactionFromRaw(Map<String, dynamic> json) {
+    // Log full JSON to see all available fields
+    logger.d('[TypeAdapter] Full JSON for ${json['id']}: $json');
+
+    // Get transaction nested object if present
+    final tx = json['transaction'] as Map<String, dynamic>?;
+    final txPostings = tx?['postings'];
+
+    logger.d('[TypeAdapter] Parsing item: id=${json['id']}, tx=${tx != null}, postings=${txPostings != null}');
+    logger.d('[TypeAdapter] Top-level amount: ${json['amount']}, tx amount: ${tx?['amount']}');
+
+    // Parse amount - prefer postings[0].units over top-level amount
+    // The top-level amount is often 0 in review items, real amount is in postings
+    double amount = 0.0;
+    final postings = txPostings as List<dynamic>?;
+    if (postings != null && postings.isNotEmpty) {
+      final firstPosting = postings.first;
+      logger.d('[TypeAdapter] First posting type: ${firstPosting.runtimeType}, value: $firstPosting');
+      if (firstPosting is Map<String, dynamic>) {
+        final units = firstPosting['units'];
+        logger.d('[TypeAdapter] units from posting: $units (type: ${units.runtimeType})');
+        if (units != null) {
+          amount = _parseAmountValue(units);
+          // Take absolute value since amount should be positive
+          amount = amount.abs();
+          logger.d('[TypeAdapter] Parsed amount from postings: $amount');
+        }
+      }
+    } else {
+      logger.d('[TypeAdapter] No postings found, tx=$tx, postings=$postings');
+    }
+    // Fallback to top-level amount if postings didn't have valid amount
+    if (amount == 0.0 && json['amount'] != null) {
+      amount = _parseAmountValue(json['amount']);
+      logger.d('[TypeAdapter] Fallback to top-level amount: $amount');
+    }
+
+    // Get currency
+    final currency = json['currency'] as String? ?? tx?['currency'] as String? ?? 'CNY';
+
+    // Get merchant name - check multiple possible fields
+    final merchantName = json['merchantName'] as String?
+        ?? json['summary'] as String?
+        ?? tx?['payee'] as String?
+        ?? tx?['narration'] as String?
+        ?? '';
+
+    // Get account name from matchReasons
+    String accountName = '';
+    final matchReasons = json['matchReasons'] as List<dynamic>?;
+    if (matchReasons != null && matchReasons.isNotEmpty) {
+      // Try to extract account name from first match reason
+      final firstReason = matchReasons.first;
+      if (firstReason is String) {
+        // Look for account name pattern like 'Assets:WeChat:Balance'
+        final accountPattern = RegExp(r"'([^']+)'");
+        final match = accountPattern.firstMatch(firstReason);
+        if (match != null) {
+          accountName = match.group(1) ?? '';
+        }
+      }
+    }
+
+    // Parse transaction time
+    final transactionTime = _parseDateTimeValue(
+      json['transactionTime'] ?? tx?['date'] ?? json['date']
     );
+
+    // Parse confidence level
+    final confidenceLevel = _parseConfidenceLevelValue(
+      json['confidenceLevel'] ?? json['confidence_level']
+    );
+
+    // Parse confidence score
+    final confidenceScore = _parseAmountValue(json['confidence'] ?? json['confidenceScore']);
+
+    // Parse created at
+    final createdAt = _parseDateTimeValue(json['createdAt'] ?? json['created_at']);
+
+    logger.i('[TypeAdapter] Final model: id=${json['id']}, merchantName=$merchantName, amount=$amount, currency=$currency');
+
+    return PendingTransactionModel(
+      id: json['id'] as String? ?? '',
+      accountName: accountName,
+      merchantName: merchantName,
+      amount: amount,
+      currency: currency,
+      transactionTime: transactionTime,
+      confidenceLevel: confidenceLevel,
+      confidenceScore: confidenceScore,
+      createdAt: createdAt,
+    );
+  }
+
+  /// Convert list of Review Center items (JSON maps) to PendingTransactionModel list
+  static List<PendingTransactionModel> toPendingTransactionListFromRaw(List<dynamic> items) {
+    return items
+        .whereType<Map<String, dynamic>>()
+        .map(toPendingTransactionFromRaw)
+        .toList();
   }
 
   // ============================================
@@ -115,24 +213,54 @@ class TypeAdapter {
     return double.tryParse(value) ?? 0.0;
   }
 
-  /// Parse date string (YYYY-MM-DD format)
-  static DateTime _parseDate(String? value) {
-    if (value == null || value.isEmpty) return DateTime.now();
-    return DateTime.tryParse(value) ?? DateTime.now();
+  /// Parse amount from various formats (num, String)
+  static double _parseAmountValue(dynamic value) {
+    if (value == null) return 0.0;
+    if (value is num) return value.toDouble();
+    if (value is String) return double.tryParse(value) ?? 0.0;
+    return 0.0;
   }
 
-  /// Parse datetime string (ISO 8601 format)
-  static DateTime _parseDateTime(String? value) {
-    if (value == null || value.isEmpty) return DateTime.now();
-    return DateTime.tryParse(value) ?? DateTime.now();
+  /// Parse DateTime from various formats
+  static DateTime _parseDateTimeValue(dynamic value) {
+    if (value == null) return DateTime.now();
+    if (value is DateTime) return value;
+    if (value is String) {
+      // Handle date-only format: "2025-09-26"
+      if (value.length == 10 && value.contains('-')) {
+        final parts = value.split('-');
+        return DateTime(
+          int.parse(parts[0]),
+          int.parse(parts[1]),
+          int.parse(parts[2]),
+        );
+      }
+      return DateTime.tryParse(value) ?? DateTime.now();
+    }
+    if (value is int) return DateTime.fromMillisecondsSinceEpoch(value);
+    return DateTime.now();
   }
 
-  /// Format date to ISO format (YYYY-MM-DD)
-  static String _formatDate(DateTime date) {
-    return date.toIso8601String().split('T').first;
+  /// Parse ConfidenceLevel from string value
+  static ConfidenceLevel _parseConfidenceLevelValue(dynamic value) {
+    if (value == null) return ConfidenceLevel.low;
+    if (value is ConfidenceLevel) return value;
+    if (value is String) {
+      switch (value.toUpperCase()) {
+        case 'HIGH':
+          return ConfidenceLevel.high;
+        case 'MEDIUM':
+          return ConfidenceLevel.medium;
+        case 'LOW':
+          return ConfidenceLevel.low;
+        default:
+          return ConfidenceLevel.low;
+      }
+    }
+    return ConfidenceLevel.low;
   }
 
-  /// Infer confidence level from source type/platform
+  /// Infer confidence level from source type or status
   ///
   /// This maps the API source types to the Review Center confidence levels:
   /// - HIGH: OCR/Imported from reliable sources
@@ -144,7 +272,6 @@ class TypeAdapter {
     switch (sourceType.toUpperCase()) {
       case 'OCR':
       case 'IMPORT':
-      case 'API':
         return ConfidenceLevel.high;
       case 'NLP':
       case 'RULE_MATCH':
@@ -176,21 +303,18 @@ class TypeAdapter {
   // Account Type Helpers
   // ============================================
 
-  /// Parse account type from API string
-  static AccountType toAccountType(String? value) {
-    if (value == null) return AccountType.assets;
-    return AccountType.fromString(value);
+  /// Parse account type from API enum
+  static String accountTypeToString(AccountType type) {
+    return type.name.toUpperCase();
   }
 
-  /// Parse account status from API string
-  static AccountStatus toAccountStatus(String? value) {
-    if (value == null) return AccountStatus.open;
-    return AccountStatus.fromString(value);
+  /// Parse account status from API enum
+  static String accountStatusToString(AccountStatus status) {
+    return status.name.toUpperCase();
   }
 
-  /// Parse transaction status from API string
-  static TxnStatus toTxnStatus(String? value) {
-    if (value == null) return TxnStatus.active;
-    return TxnStatus.fromString(value);
+  /// Parse transaction status from API enum
+  static String txnStatusToString(TxnStatus status) {
+    return status.name.toUpperCase();
   }
 }
