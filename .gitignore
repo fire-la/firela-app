@@ -81,8 +81,12 @@ lib/generated_plugin_registrant.dart
 # Hindsight local config
 .hindsight.json
 
+# Claude Code
+CLAUDE.md
+
 # System Files
 .DS_Store
 **/.DS_Store
 Thumbs.db
 **/Thumbs.db
+CLAUDE.md
