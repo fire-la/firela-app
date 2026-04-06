@@ -31,6 +31,7 @@ dev_dependencies:
   openapi_generator: ^5.0.0
   json_serializable: ^6.7.0
   built_value_generator: ^8.9.0
+  lints: ^3.0.0
 
 flutter:
   uses-material-design: true
