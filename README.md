@@ -89,7 +89,7 @@ Beancount pioneered a different approach:
 FIREla brings Beancount's data sovereignty philosophy to mobile:
 
 - **Native mobile experience** without sacrificing data ownership
-- **Sync with any Beancount backend** - you're never locked in
+- **Sync with any Beancount vault** - you're never locked in
 - **Local-first architecture** - your data lives on your device first
 - **Open source** - the code is transparent, just like your ledger
 
