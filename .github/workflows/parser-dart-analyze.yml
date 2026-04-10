@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - 'lib/parser/**'
+      - 'lib/sanitizer/**'
 
 permissions:
   contents: read
@@ -26,3 +27,6 @@ jobs:
 
       - name: Analyze parser code
         run: dart analyze lib/parser/
+
+      - name: Analyze sanitizer code
+        run: dart analyze lib/sanitizer/
