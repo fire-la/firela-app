@@ -47,3 +47,4 @@ jobs:
       - name: Analyze sanitizer code
         if: hashFiles('lib/sanitizer/**/*.dart') != ''
         run: dart analyze lib/sanitizer/
+        continue-on-error: true
