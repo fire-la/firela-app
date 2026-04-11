@@ -1,4 +1,4 @@
-name: Parser Dart Analyze
+name: Parser & Sanitizer Analyze
 
 on:
   pull_request:
@@ -17,13 +17,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Dart SDK
-        uses: dart-lang/setup-dart@v1
+      - name: Setup Flutter SDK
+        uses: subosito/flutter-action@v2
         with:
-          sdk: '3.2.0'
+          flutter-version: '3.16.0'
 
       - name: Install dependencies
-        run: dart pub get
+        run: flutter pub get
 
       - name: Analyze parser code
         run: dart analyze lib/parser/
