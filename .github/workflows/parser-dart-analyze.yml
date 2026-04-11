@@ -29,4 +29,5 @@ jobs:
         run: dart analyze lib/parser/
 
       - name: Analyze sanitizer code
+        if: hashFiles('lib/sanitizer/**/*.dart') != ''
         run: dart analyze lib/sanitizer/
