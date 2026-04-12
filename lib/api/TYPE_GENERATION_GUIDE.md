@@ -19,7 +19,7 @@ The firela Flutter app uses **manual Dio HTTP wrappers** to communicate with the
          │
          ▼
 ┌─────────────────────────────────────────┐
-│   IGN Backend (NestJS)                  │
+│   firela-vlt Backend (NestJS)            │
 │   OpenAPI spec: libs/api-types/openapi.yaml │
 │   npm package: @firela/api-types         │
 └─────────────────────────────────────────┘
@@ -49,7 +49,7 @@ flutter run --dart-define=API_URL=https://api.firela.com/api/v1
 
 ## Adding New API Endpoints
 
-1. Add the route to the IGN backend OpenAPI spec (`libs/api-types/openapi.yaml`)
+1. Add the route to the firela-vlt backend OpenAPI spec (`libs/api-types/openapi.yaml`)
 2. Rebuild `@firela/api-types` npm package (`npm run build` in `libs/api-types/`)
 3. Manually add the corresponding Dart method in `api.dart`
 4. Define any new Dart types in `src/region_types.dart` or create a new types file in `src/`
