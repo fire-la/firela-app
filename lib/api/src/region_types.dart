@@ -1,4 +1,4 @@
-/// Region types for IGN API
+/// Region types for Firela API
 ///
 /// Defines user-facing regions, region metadata, and related types.
 /// Mirrors the backend's USER_FACING_REGIONS and RegionInfo types.

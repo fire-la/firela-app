@@ -2,7 +2,7 @@
 
 ## Overview
 
-The firela Flutter app uses **manual Dio HTTP wrappers** to communicate with the IGN backend API. API types are defined manually in Dart.
+The firela Flutter app uses **manual Dio HTTP wrappers** to communicate with the firela-vlt backend API. API types are defined manually in Dart.
 
 ## Current Architecture
 

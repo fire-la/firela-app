@@ -1,6 +1,6 @@
-/// IGN API Service - simple wrapper
+/// Firela API Service - simple wrapper
 ///
-/// This service provides a type-safe interface to the IGN backend API
+/// This service provides a type-safe interface to the firela-vlt backend API
 /// using the existing Dio setup.
 library;
 
@@ -9,7 +9,7 @@ import 'src/api_client.dart';
 import 'src/region_types.dart';
 
 /// API Error type alias
-typedef IgnApiException = DioException;
+typedef FirelaApiException = DioException;
 
 /// Transaction API Service
 class TransactionApi {
@@ -165,13 +165,13 @@ class RegionApi {
   }
 }
 
-/// IGN API Service
+/// Firela API Service
 ///
-/// Provides type-safe access to all IGN backend APIs.
+/// Provides type-safe access to all firela-vlt backend APIs.
 /// Uses the existing ApiClient singleton.
-class IgnApi {
-  static final IgnApi _instance = IgnApi._internal();
-  factory IgnApi() => _instance;
+class FirelaApi {
+  static final FirelaApi _instance = FirelaApi._internal();
+  factory FirelaApi() => _instance;
 
   final ApiClient _client = ApiClient();
 
