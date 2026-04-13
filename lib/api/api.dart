@@ -48,6 +48,42 @@ class TransactionApi {
       data: {'transactions': transactions},
     );
   }
+
+  /// Sync parsed bill transactions through the Provider Sync pipeline
+  ///
+  /// Sends client-parsed bill data through the full ingestion pipeline
+  /// (dedup + rule matching + review center branching) via EntryMode.BATCH.
+  ///
+  /// [region] - Region code (e.g., 'us', 'cn', 'de')
+  /// [sourceAccount] - Source account for the first posting (e.g., 'Assets:Bank:Chase')
+  /// [defaultCurrency] - Default currency code (e.g., 'USD', 'CNY')
+  /// [defaultExpenseAccount] - Default expense account (e.g., 'Expenses:Unknown')
+  /// [defaultIncomeAccount] - Default income account (e.g., 'Income:Unknown')
+  /// [transactions] - List of raw transaction maps in ParsedBillRawTransaction format
+  ///
+  /// Returns response with ProviderSyncResult:
+  /// { imported, skipped, pendingReview, failed, importedTransactionIds?, reviewItemIds? }
+  Future<Response> syncParsedBillTransactions(
+    String region, {
+    required String sourceAccount,
+    required String defaultCurrency,
+    required String defaultExpenseAccount,
+    required String defaultIncomeAccount,
+    required List<Map<String, dynamic>> transactions,
+  }) async {
+    return await _dio.post(
+      '/$region/bean/import/provider/parsed-bill/sync',
+      data: {
+        'config': {
+          'sourceAccount': sourceAccount,
+          'defaultCurrency': defaultCurrency,
+          'defaultExpenseAccount': defaultExpenseAccount,
+          'defaultIncomeAccount': defaultIncomeAccount,
+        },
+        'transactions': transactions,
+      },
+    );
+  }
 }
 
 /// Account API Service
