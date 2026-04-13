@@ -6,6 +6,8 @@
 /// from OpenAPI spec before using this client.
 library;
 
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 
 /// API Client Configuration
@@ -41,7 +43,7 @@ class ApiClient {
       onError: (error, handler) {
         if (error.response?.statusCode == 401) {
           // Handle unauthorized - redirect to login
-          print('[API] Unauthorized - redirecting to login');
+          log('[API] Unauthorized - redirecting to login', name: 'ApiClient');
         }
         return handler.next(error);
       },

@@ -1,12 +1,13 @@
-/// Firela API Service - simple wrapper
+/// Firela API Service - type-safe interface to firela-vlt backend
 ///
-/// This service provides a type-safe interface to the firela-vlt backend API
-/// using the existing Dio setup.
+/// Provides typed access to all backend API endpoints.
+/// Response models are defined in src/responses.dart.
 library;
 
 import 'package:dio/dio.dart';
 import 'src/api_client.dart';
 import 'src/region_types.dart';
+import 'src/responses.dart';
 
 /// API Error type alias
 typedef FirelaApiException = DioException;
@@ -18,35 +19,38 @@ class TransactionApi {
   TransactionApi(this._dio);
 
   /// List transactions for a region
-  Future<Response> listTransactions(
+  Future<TransactionListResponse> listTransactions(
     String region, {
     int? limit,
     String? cursor,
     String? dateStart,
     String? dateEnd,
   }) async {
-    return await _dio.get('/$region/bean/transactions', queryParameters: {
+    final response = await _dio.get('/$region/bean/transactions', queryParameters: {
       'limit': limit,
       'cursor': cursor,
       'date_start': dateStart,
       'date_end': dateEnd,
     });
+    return TransactionListResponse.fromJson(response.data as Map<String, dynamic>);
   }
 
   /// Get a single transaction
-  Future<Response> getTransaction(String region, String id) async {
-    return await _dio.get('/$region/bean/transactions/$id');
+  Future<TransactionDetail> getTransaction(String region, String id) async {
+    final response = await _dio.get('/$region/bean/transactions/$id');
+    return TransactionDetail.fromJson(response.data as Map<String, dynamic>);
   }
 
   /// Batch create transactions
-  Future<Response> batchCreateTransactions(
+  Future<BatchTransactionResponse> batchCreateTransactions(
     String region, {
     required List<Map<String, dynamic>> transactions,
   }) async {
-    return await _dio.post(
+    final response = await _dio.post(
       '/$region/bean/transactions/batch',
       data: {'transactions': transactions},
     );
+    return BatchTransactionResponse.fromJson(response.data as Map<String, dynamic>);
   }
 
   /// Sync parsed bill transactions through the Provider Sync pipeline
@@ -60,10 +64,7 @@ class TransactionApi {
   /// [defaultExpenseAccount] - Default expense account (e.g., 'Expenses:Unknown')
   /// [defaultIncomeAccount] - Default income account (e.g., 'Income:Unknown')
   /// [transactions] - List of raw transaction maps in ParsedBillRawTransaction format
-  ///
-  /// Returns response with ProviderSyncResult:
-  /// { imported, skipped, pendingReview, failed, importedTransactionIds?, reviewItemIds? }
-  Future<Response> syncParsedBillTransactions(
+  Future<ProviderSyncResult> syncParsedBillTransactions(
     String region, {
     required String sourceAccount,
     required String defaultCurrency,
@@ -71,7 +72,7 @@ class TransactionApi {
     required String defaultIncomeAccount,
     required List<Map<String, dynamic>> transactions,
   }) async {
-    return await _dio.post(
+    final response = await _dio.post(
       '/$region/bean/import/provider/parsed-bill/sync',
       data: {
         'config': {
@@ -83,6 +84,7 @@ class TransactionApi {
         'transactions': transactions,
       },
     );
+    return ProviderSyncResult.fromJson(response.data as Map<String, dynamic>);
   }
 }
 
@@ -93,13 +95,15 @@ class AccountApi {
   AccountApi(this._dio);
 
   /// List all accounts for a region
-  Future<Response> listAccounts(String region) async {
-    return await _dio.get('/$region/bean/accounts');
+  Future<AccountListResponse> listAccounts(String region) async {
+    final response = await _dio.get('/$region/bean/accounts');
+    return AccountListResponse.fromJson(response.data as Map<String, dynamic>);
   }
 
   /// Get a single account
-  Future<Response> getAccount(String region, String id) async {
-    return await _dio.get('/$region/bean/accounts/$id');
+  Future<AccountDetail> getAccount(String region, String id) async {
+    final response = await _dio.get('/$region/bean/accounts/$id');
+    return AccountDetail.fromJson(response.data as Map<String, dynamic>);
   }
 }
 
@@ -110,8 +114,9 @@ class CommodityApi {
   CommodityApi(this._dio);
 
   /// List all commodities for a region
-  Future<Response> listCommodities(String region) async {
-    return await _dio.get('/$region/bean/commodities');
+  Future<CommodityListResponse> listCommodities(String region) async {
+    final response = await _dio.get('/$region/bean/commodities');
+    return CommodityListResponse.fromJson(response.data as Map<String, dynamic>);
   }
 }
 
@@ -122,15 +127,16 @@ class PriceApi {
   PriceApi(this._dio);
 
   /// List all prices for a region
-  Future<Response> listPrices(
+  Future<PriceListResponse> listPrices(
     String region, {
     String? baseCurrency,
     String? quoteCurrency,
   }) async {
-    return await _dio.get('/$region/bean/prices', queryParameters: {
+    final response = await _dio.get('/$region/bean/prices', queryParameters: {
       'base_currency': baseCurrency,
       'quote_currency': quoteCurrency,
     });
+    return PriceListResponse.fromJson(response.data as Map<String, dynamic>);
   }
 }
 
@@ -140,20 +146,24 @@ class BalanceApi {
 
   BalanceApi(this._dio);
 
-  /// Get balance for a region
-  Future<Response> getBalances(
+  /// Get balances for a region
+  ///
+  /// Returns either a [BatchBalanceResponse] or a list of [BalanceEntry] /
+  /// [MultiCurrencyBalance] depending on query parameters.
+  Future<BatchBalanceResponse> getBalances(
     String region, {
     String? date,
     List<String>? account,
   }) async {
-    return await _dio.get('/$region/bean/balances', queryParameters: {
+    final response = await _dio.get('/$region/bean/balances', queryParameters: {
       'date': date,
       'account': account,
     });
+    return BatchBalanceResponse.fromJson(response.data as Map<String, dynamic>);
   }
 }
 
-/// Health API Service
+/// Health API Service (infrastructure endpoint, returns raw Response)
 class HealthApi {
   final Dio _dio;
 
@@ -179,18 +189,6 @@ class RegionApi {
   /// Returns structured region info including hierarchy chains
   /// so the frontend can understand inheritance without exposing
   /// internal-only regions (like 'eu-core') as selectable options.
-  ///
-  /// Example response:
-  /// ```json
-  /// {
-  ///   "regions": [
-  ///     { "code": "cn", "displayName": "China", "chain": ["cn"], ... },
-  ///     { "code": "us", "displayName": "United States", "chain": ["us"], ... },
-  ///     { "code": "de", "displayName": "Germany", "parent": "eu-core",
-  ///       "chain": ["eu-core", "de"], ... }
-  ///   ]
-  /// }
-  /// ```
   Future<List<RegionInfo>> getRegions(String region) async {
     final response = await _dio.get('/$region/bean/account-standards/regions');
     final data = response.data as Map<String, dynamic>;
