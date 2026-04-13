@@ -211,7 +211,7 @@ class FirelaApi {
 
   final ApiClient _client = ApiClient();
 
-  IgnApi._internal();
+  FirelaApi._internal();
 
   /// Get the base URL
   String get baseUrl => _client.dio.options.baseUrl;
