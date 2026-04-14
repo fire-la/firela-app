@@ -47,8 +47,25 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
+      # openapi_generator_cli doesn't always bundle the JAR — download it explicitly
+      - name: Download OpenAPI Generator CLI JAR
+        run: |
+          CLI_DIR="$(pub cache list 2>/dev/null | grep 'openapi_generator_cli' | head -1 | awk '{print $2}')"
+          if [ -z "$CLI_DIR" ]; then
+            CLI_DIR="$(find ~/.pub-cache -path '*/openapi_generator_cli-*/lib' -type d 2>/dev/null | head -1)"
+          fi
+          if [ -n "$CLI_DIR" ] && [ ! -f "$CLI_DIR/openapi-generator.jar" ]; then
+            echo "Downloading openapi-generator-cli JAR to $CLI_DIR"
+            curl -sL -o "$CLI_DIR/openapi-generator.jar" \
+              "https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.2.0/openapi-generator-cli-7.2.0.jar"
+          else
+            echo "JAR already exists or CLI dir not found, skipping"
+            ls -la "$CLI_DIR/" 2>/dev/null || true
+          fi
+
+      # Use --build-filter to avoid SEVERE errors from parser/sanitizer files
       - name: Generate types
-        run: dart run build_runner build --delete-conflicting-outputs
+        run: dart run build_runner build --delete-conflicting-outputs --build-filter="lib/api/**"
 
       - name: Verify generated output
         run: |
