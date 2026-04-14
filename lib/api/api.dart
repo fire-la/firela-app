@@ -41,18 +41,6 @@ class TransactionApi {
     return TransactionDetail.fromJson(response.data as Map<String, dynamic>);
   }
 
-  /// Batch create transactions
-  Future<BatchTransactionResponse> batchCreateTransactions(
-    String region, {
-    required List<Map<String, dynamic>> transactions,
-  }) async {
-    final response = await _dio.post(
-      '/$region/bean/transactions/batch',
-      data: {'transactions': transactions},
-    );
-    return BatchTransactionResponse.fromJson(response.data as Map<String, dynamic>);
-  }
-
   /// Sync parsed bill transactions through the Provider Sync pipeline
   ///
   /// Sends client-parsed bill data through the full ingestion pipeline
