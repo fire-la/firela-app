@@ -1,7 +1,10 @@
 /// Typed response models for Firela API
 ///
-/// Mirrors the backend NestJS response DTOs for compile-time type safety.
-/// Each class provides a `fromJson` factory for Dio response deserialization.
+/// DEPRECATED: These models are superseded by the generated `firela_api` package.
+/// Use `import 'package:firela_api/firela_api.dart'` instead.
+/// The generated models use `built_value` and are auto-maintained from the OpenAPI spec.
+///
+/// This file is kept for reference only and will be removed in a future cleanup.
 library;
 
 // =============================================================================

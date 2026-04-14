@@ -17,6 +17,8 @@ dependencies:
   openapi_generator_annotations: ^5.0.0
   built_value: ^8.9.0
   built_collection: ^5.1.1
+  firela_api:
+    path: lib/api/generated
 
   # Parser dependencies (Phase 33.2-02)
   decimal: ^2.3.3      # Precise decimal arithmetic for financial calculations
