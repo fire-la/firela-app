@@ -1,14 +1,8 @@
 # OpenAPI Generator Configuration
-global_options:
-  # Exclude parser directory from build_runner (has pre-existing syntax errors)
-  # Only generate types for lib/api/
-  build_runner:
-    exclude:
-      - "lib/parser/**"
-
 targets:
   $default:
     sources:
+      # Only include lib/api/ to avoid processing broken parser files
       include:
         - lib/api/**
         - lib/api/spec/**
