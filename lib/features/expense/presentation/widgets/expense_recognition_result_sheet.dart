@@ -82,7 +82,7 @@ class ExpenseRecognitionResultSheet extends HookWidget {
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
                         color: theme.colorScheme.surface,
-                        borderRadius: BorderRadius.circular(12) // Design: 12px,
+                        borderRadius: BorderRadius.circular(12), // Design: 12px
                       ),
                       child: const Icon(Icons.auto_awesome, size: 20),
                     ),
@@ -177,7 +177,7 @@ class ExpenseRecognitionResultSheet extends HookWidget {
                     foregroundColor: const Color(0xFFFFFFFF),
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12) // Design: 12px,
+                      borderRadius: BorderRadius.circular(12), // Design: 12px
                     ),
                     elevation: 0,
                   ),
@@ -325,7 +325,7 @@ class ExpenseRecognitionResultSheet extends HookWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         decoration: BoxDecoration(
           color: theme.colorScheme.surface,
-          borderRadius: BorderRadius.circular(12) // Design: 12px,
+          borderRadius: BorderRadius.circular(12), // Design: 12px
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -399,7 +399,7 @@ class ExpenseRecognitionResultSheet extends HookWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         decoration: BoxDecoration(
           color: theme.colorScheme.surface,
-          borderRadius: BorderRadius.circular(12) // Design: 12px,
+          borderRadius: BorderRadius.circular(12), // Design: 12px
           border: isMissing
               ? Border.all(color: const Color(0xFFFF9800), width: 1)
               : null,
@@ -464,7 +464,7 @@ class ExpenseRecognitionResultSheet extends HookWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       decoration: BoxDecoration(
         color: theme.colorScheme.surface,
-        borderRadius: BorderRadius.circular(12) // Design: 12px,
+        borderRadius: BorderRadius.circular(12), // Design: 12px
         border: isMissing
             ? Border.all(color: const Color(0xFFFF9800), width: 1)
             : null,

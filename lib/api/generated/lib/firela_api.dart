@@ -155,3 +155,12 @@ export 'package:firela_api/src/model/update_user_setting_dto.dart';
 export 'package:firela_api/src/model/validate_rule_dto.dart';
 export 'package:firela_api/src/model/validate_rule_response_dto.dart';
 export 'package:firela_api/src/model/versioned_config_dto.dart';
+
+// Legacy types (still used by app code, not exported by spec regeneration)
+export 'package:firela_api/src/model/transaction_detail.dart';
+export 'package:firela_api/src/model/transaction_flag.dart';
+export 'package:firela_api/src/model/transaction_list_response.dart';
+export 'package:firela_api/src/model/posting.dart';
+export 'package:firela_api/src/model/account_type.dart';
+export 'package:firela_api/src/model/account_status.dart';
+export 'package:firela_api/src/model/txn_status.dart';

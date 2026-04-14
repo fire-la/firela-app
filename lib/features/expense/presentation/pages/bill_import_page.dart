@@ -948,7 +948,7 @@ class BillImportPage extends HookWidget {
       // 使用 ParserRegistry 检测并解析
       parseProgress.value = 0.4;
       final registry = ParserRegistry();
-      logger.i('[BillImport] 可用解析器: ${registry.all.map((p) => p.name).join(", ")}');
+      logger.i('[BillImport] 可用解析器: ${registry.availableParsers.join(", ")}');
 
       final parser = registry.detect(filename, content);
 

@@ -11,10 +11,10 @@
 import 'dart:convert';
 
 import 'package:csv/csv.dart' show parseCsv;
-import 'package:firela/parser/src/csv_parser_base.dart' show RowTransformResult;
-import 'package:firela/parser/src/result.dart';
-import 'package:firela/parser/src/types.dart' show RawTransaction, ParseResult, ParseSuccess, ParseWarning, ParseError, DetectionResult, Parser, createParseFailure;
-import 'package:firela/parser/src/utils/encoding.dart' show convertEncoding;
+import 'package:firela_app/parser/src/csv_parser_base.dart' show RowTransformResult;
+import 'package:firela_app/parser/src/result.dart';
+import 'package:firela_app/parser/src/types.dart' show RawTransaction, ParseResult, ParseSuccess, ParseWarning, ParseError, DetectionResult, Parser, createParseFailure;
+import 'package:firela_app/parser/src/utils/encoding.dart' show convertEncoding;
 
 abstract class ChineseCsvParser extends Parser<T> {
   late final String institutionId;

@@ -6,7 +6,7 @@
 // ignore_for_file: avoid_redundant_argument_values
 // ignore_for_file: avoid_unused_element
 
-import 'package:firela/parser/src/types.dart' show RawTransaction;
+import 'package:firela_app/parser/src/types.dart' show RawTransaction;
 
 import './patterns/index.dart' show loadPatterns;
 import './rules/index.dart' show loadRuleSet;

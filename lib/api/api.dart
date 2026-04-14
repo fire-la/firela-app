@@ -5,6 +5,7 @@
 library;
 
 import 'package:dio/dio.dart';
+import '../core/network/auth_manager.dart';
 import 'src/api_client.dart';
 import 'src/region_types.dart';
 import 'src/responses.dart';
@@ -195,7 +196,7 @@ class FirelaApi {
   static final FirelaApi _instance = FirelaApi._internal();
   factory FirelaApi() => _instance;
 
-  final ApiClient _client = ApiClient();
+  final ApiClientWrapper _client = ApiClientWrapper.instance;
 
   FirelaApi._internal();
 
@@ -204,12 +205,12 @@ class FirelaApi {
 
   /// Update auth token (sets Bearer token)
   void setAuthToken(String token) {
-    _client.setAuthToken(token);
+    AuthManager.instance.setAuthToken(token);
   }
 
   /// Clear auth token
   void clearAuthToken() {
-    _client.clearAuthToken();
+    AuthManager.instance.clearAuthToken();
   }
 
   // === API instances ===
