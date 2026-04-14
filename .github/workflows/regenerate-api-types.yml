@@ -65,7 +65,7 @@ jobs:
           sed -i 's|https://raw.githubusercontent.com/fire-la/api-specs/main/openapi.yaml|https://raw.githubusercontent.com/fire-la/firela-app/main/lib/api/spec/openapi.yaml|g' build.yaml
 
       - name: Generate types
-        run: dart run build_runner build --delete-conflicting-outputs
+        run: dart run build_runner build --delete-conflicting-outputs --build-filter="lib/api/**"
 
       - name: Verify compilation
         run: dart analyze lib/api/generated/

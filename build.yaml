@@ -1,11 +1,6 @@
 # OpenAPI Generator Configuration
 targets:
   $default:
-    sources:
-      # Only include lib/api/ to avoid processing broken parser files
-      include:
-        - lib/api/**
-        - lib/api/spec/**
     builders:
       openapi_generator:
         options:
