@@ -1,3 +1,4 @@
+// Openapi Generator last run: : 2026-04-14T03:12:40.117360
 /// OpenAPI Generator entry point.
 ///
 /// This class triggers code generation via `build_runner`.
