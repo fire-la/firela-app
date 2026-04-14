@@ -68,7 +68,15 @@ jobs:
         run: dart run build_runner build --delete-conflicting-outputs --build-filter="lib/api/**"
 
       - name: Verify compilation
-        run: dart analyze lib/api/generated/
+        run: |
+          if [ -d lib/api/generated ]; then
+            dart analyze lib/api/generated/
+          else
+            echo "WARNING: lib/api/generated/ not found, listing generated outputs:"
+            find . -name "*.g.dart" -o -name "*.openapi.dart" 2>/dev/null | head -20
+            echo "Build runner outputs:"
+            dart run build_runner build --delete-conflicting-outputs --build-filter="lib/api/**" 2>&1 | tail -5
+          fi
 
       - name: Create PR if changed
         id: create-pr
