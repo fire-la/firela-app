@@ -47,35 +47,19 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      # Use local spec file if available (push trigger), otherwise download from main
-      - name: Prepare spec file
-        run: |
-          if [ -f lib/api/spec/openapi.yaml ]; then
-            echo "Using local spec file (push trigger)"
-            cp lib/api/spec/openapi.yaml openapi.yaml
-          else
-            echo "Downloading spec from main branch (dispatch trigger)"
-            curl -sL -o openapi.yaml \
-              https://raw.githubusercontent.com/fire-la/firela-app/main/lib/api/spec/openapi.yaml
-          fi
-
-      # Update build.yaml to eliminate deprecated api-specs fallback URL
-      - name: Update build.yaml URL
-        run: |
-          sed -i 's|https://raw.githubusercontent.com/fire-la/api-specs/main/openapi.yaml|https://raw.githubusercontent.com/fire-la/firela-app/main/lib/api/spec/openapi.yaml|g' build.yaml
-
       - name: Generate types
-        run: dart run build_runner build --delete-conflicting-outputs --build-filter="lib/api/**"
+        run: dart run build_runner build --delete-conflicting-outputs
 
-      - name: Verify compilation
+      - name: Verify generated output
         run: |
-          if [ -d lib/api/generated ]; then
-            dart analyze lib/api/generated/
+          if [ -d lib/api/generated ] && [ "$(ls -A lib/api/generated)" ]; then
+            echo "Generated files found:"
+            find lib/api/generated -type f | head -30
           else
-            echo "WARNING: lib/api/generated/ not found, listing generated outputs:"
-            find . -name "*.g.dart" -o -name "*.openapi.dart" 2>/dev/null | head -20
-            echo "Build runner outputs:"
-            dart run build_runner build --delete-conflicting-outputs --build-filter="lib/api/**" 2>&1 | tail -5
+            echo "ERROR: No generated files in lib/api/generated/"
+            echo "Searching for any openapi output:"
+            find . -path ./node_modules -prune -o -name "*.openapi.dart" -print 2>/dev/null | head -20
+            exit 1
           fi
 
       - name: Create PR if changed
@@ -85,12 +69,12 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: sync/api-types
           title: "chore: regenerate Dart API types from OpenAPI spec"
-          commit-message: "chore: regenerate Dart API types from OpenAPI spec + update build.yaml URL"
+          commit-message: "chore: regenerate Dart API types from OpenAPI spec"
           labels: automated, api-types
           body: |
             Auto-regenerated Dart API types from OpenAPI spec.
 
-            **Trigger:** ign@${{ github.event.client_payload.sha }}
+            **Trigger:** ign@${{ github.event.client_payload.sha || github.sha }}
 
       - name: Enable auto-merge
         if: steps.create-pr.outputs.pull-request-operation == 'created' || steps.create-pr.outputs.pull-request-operation == 'updated'
@@ -104,8 +88,8 @@ jobs:
         with:
           script: |
             github.rest.issues.create({
-              owner: 'fire-la',
-              repo: 'firela-app',
+              owner: context.repo.owner,
+              repo: context.repo.repo,
               title: `API type regeneration failed: ${context.sha}`,
               body: `Regeneration triggered by ign@${{ github.event.client_payload.sha || github.sha }}.\n\n[View run](${{ github.serverUrl }}/${{ github.repository }}/actions/runs/${{ github.runId }})`,
               labels: ['api-types-failure']
