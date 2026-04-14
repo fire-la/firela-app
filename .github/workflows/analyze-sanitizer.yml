@@ -23,4 +23,4 @@ jobs:
         run: flutter pub get
 
       - name: Dart analyze
-        run: dart analyze lib/api/ --fatal-infos --exclude=lib/api/generated
+        run: dart analyze lib/api/ --fatal-infos
