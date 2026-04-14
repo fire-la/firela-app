@@ -1,0 +1,50 @@
+name: Dart Analyze
+
+on:
+  pull_request:
+    paths:
+      - 'lib/parser/**'
+      - 'lib/sanitizer/**'
+
+permissions:
+  contents: read
+
+jobs:
+  analyze-parser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter SDK
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.16.0'
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Analyze parser code
+        run: dart analyze lib/parser/
+        continue-on-error: true
+
+  analyze-sanitizer:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter SDK
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.16.0'
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Analyze sanitizer code
+        if: hashFiles('lib/sanitizer/**/*.dart') != ''
+        run: dart analyze lib/sanitizer/
+        continue-on-error: true

@@ -1,10 +1,10 @@
-# beanclaw
+# FIREla
 
 > **Beancount account management for mobile - Data sovereignty for your financial data**
 
 ## Data Sovereignty First
 
-beanclaw is built on the same core principle as **Beancount**: **your financial data belongs to you**.
+FIREla is built on the same core principle as **Beancount**: **your financial data belongs to you**.
 
 ```
 Traditional finance apps:
@@ -21,43 +21,39 @@ Beancount was designed from the ground up as a **data sovereignty** tool:
 - **Transparent** - Every transaction is visible, no hidden algorithms
 - **Future-proof** - Plain text files last forever
 
-beanclaw extends this philosophy to mobile: **manage your Beancount accounts on your phone while keeping full control of your data**.
+FIREla extends this philosophy to mobile: **manage your Beancount accounts on your phone while keeping full control of your data**.
 
-## Features
+## Current Features
 
-- **Account Management**: View and manage your Beancount account paths
-- **Transaction Visualization**: See your transactions in a beautiful mobile interface
-- **Account Path Confirmation**: Validate and confirm account hierarchies
-- **Real-time Sync**: Stay synchronized with the beancount SaaS backend
-- **Offline Support**: Works offline, syncs when connection is restored
+- **Bank Statement Parsing**: Parse bank statements from multiple regions into structured data
+  - China: Alipay (mobile/web/yuebao), CCB debit, CMBC credit
+  - Europe: Deutsche Bank, Degiro, Interactive Brokers
+  - Hong Kong: HSBC
+- **API Client**: Dio-based HTTP client with environment-based URL configuration
+- **OpenAPI Type Generation**: Configured infrastructure for generating Dart types from OpenAPI spec
+- **Region Types**: Region-specific configuration and data types
 
 ## Ecosystem Context
 
-beanclaw is part of the fire-zu open source ecosystem, all built on the principle of **data sovereignty**:
+FIREla is part of the firela open source ecosystem, all built on the principle of **data sovereignty**:
 
 ```
-┌─────────────────┐      ┌─────────────────┐
-│   billclaw      │ ───▶ │   beanclaw      │
-│   Data Import   │      │   Account Mgmt  │
-│   (OpenClaw)    │      │   (Flutter)     │
-└────────┬────────┘      └────────┬────────┘
-         │  You hold the        │  You hold the
-         │  access tokens       │  account keys
-         │                       │
-         └───────────┬───────────┘
-                     ▼
-         ┌─────────────────────┐
-         │ Beancount SaaS      │
-         │     Backend         │
-         │                     │
-         │  Your data,         │
-         │  your control       │
-         └─────────────────────┘
+┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐
+│  firela-connect │  │   FIREla        │  │   firela-vlt    │  │   firela-relay  │
+│  Data Import    │  │   Account Mgmt  │  │   Beancount     │  │   Open Banking  │
+│  (billclaw)     │  │   (Flutter)     │  │   Ledger Store  │  │   Relay Service │
+└────────┬────────┘  └────────┬────────┘  └────────┬────────┘  └────────┬────────┘
+         │  You hold the          │                    │                    │
+         │  access tokens         │                    │                    │
+         └───────────┬────────────┘                    │                    │
+                     ▼                                 ▼                    ▼
+                     ─────────────── Your data, your control ───────────────
 ```
 
-- **billclaw**: Import your financial data (Plaid, Gmail) - **you hold the API keys**
-- **beanclaw**: Manage accounts on mobile - **you hold the account credentials**
-- **Beancount SaaS**: Backend for data processing - **your data remains yours**
+- **firela-connect** (billclaw): Import your financial data - **you hold the API keys**
+- **FIREla**: Manage accounts on mobile - **you hold the account credentials**
+- **firela-vlt**: Beancount ledger store for transaction data - **your ledger, your rules**
+- **firela-relay**: Open banking relay service - **your connections, your control**
 
 ## Why Data Sovereignty Matters
 
@@ -88,60 +84,91 @@ Beancount pioneered a different approach:
 - **You control the storage** - Local files, Git, or your own cloud
 - **You enable auditing** - Every change is traceable
 
-### How beanclaw Extends This
+### How FIREla Extends This
 
-beanclaw brings Beancount's data sovereignty philosophy to mobile:
+FIREla brings Beancount's data sovereignty philosophy to mobile:
 
 - **Native mobile experience** without sacrificing data ownership
-- **Sync with any Beancount backend** - you're never locked in
+- **Sync with any Beancount vault** - you're never locked in
 - **Local-first architecture** - your data lives on your device first
 - **Open source** - the code is transparent, just like your ledger
 
 ## Tech Stack
 
 - **Framework**: Flutter (iOS/Android)
-- **State Management**: Riverpod / Bloc
-- **API**: REST + WebSocket to beancount backend
-- **Local Storage**: Hive / SQLite
-- **Language**: Dart
+- **Language**: Dart (>=3.2.0 <4.0.0)
+- **HTTP Client**: Dio 5.x
+- **Financial Arithmetic**: decimal (precise decimal calculations)
+- **Data Parsing**: csv, charset (with GBK support)
+- **API Types**: OpenAPI generator (configured, manual wrappers currently in use)
+- **Serialization**: json_annotation, built_value
+
+## Project Structure
+
+```
+lib/
+├── api/
+│   ├── api_client.dart       # Dio HTTP client with env-based config
+│   ├── ign_api.dart          # API service methods
+│   ├── ign_api_example.dart  # Usage example
+│   └── region_types.dart     # Region configuration types
+└── parser/
+    ├── parser.dart            # Library exports
+    └── src/
+        ├── cn/                # Chinese bank parsers
+        ├── eu/                # European bank parsers
+        ├── hk/                # Hong Kong bank parsers
+        └── utils/             # Shared parsing utilities
+```
 
 ## Project Status
 
-🚧 **Under Active Development** - Early planning phase
+🚧 **Under Active Development** - Early phase
 
-This project is currently in the planning stage. Check out the [issues](https://github.com/fire-zu/beanclaw/issues) for progress.
+This project currently provides bank statement parsers and an API client layer. Mobile app features are in development.
 
 ## Installation
 
 ### Prerequisites
 
-- Flutter SDK 3.24.0 or higher
-- Dart 3.5 or higher
+- Flutter SDK (Dart >=3.2.0)
 - Android Studio / Xcode (for mobile development)
-- Beancount SaaS account
+- FIREla server account
 
 ### Setup
 
 ```bash
 # Clone the repository
-git clone https://github.com/fire-zu/beanclaw.git
-cd beanclaw
+git clone https://github.com/fire-la/firela-app.git
+cd firela-app
 
 # Install dependencies
 flutter pub get
+```
 
-# Run the app
+### Running
+
+```bash
+# Development (default API URL: http://localhost:3334/api/v1)
 flutter run
+
+# With custom API URL
+flutter run --dart-define=API_URL=http://localhost:3334/api/v1
+
+# Production
+flutter run --dart-define=API_URL=https://api.firela.com/api/v1
 ```
 
 ## Configuration
 
-Configure your beancount SaaS backend connection:
+API endpoint is configured via `--dart-define` at build time (see `lib/api/api_client.dart`):
 
 ```dart
-// lib/config/app_config.dart
-const String saasBaseUrl = 'https://your-beancount-saas.com';
-const String apiKey = 'your-api-key';
+// Default value used when API_URL is not specified
+baseUrl: const String.fromEnvironment(
+  'API_URL',
+  defaultValue: 'http://localhost:3334/api/v1',
+),
 ```
 
 ## Development
@@ -150,11 +177,11 @@ const String apiKey = 'your-api-key';
 # Run tests
 flutter test
 
-# Build for iOS
-flutter build ios
+# Run Dart analysis
+dart analyze
 
-# Build for Android
-flutter build apk
+# Generate OpenAPI types (when ready to enable code generation)
+flutter pub run build_runner build --delete-conflicting-outputs
 ```
 
 ## Contributing
@@ -163,17 +190,17 @@ Contributions are welcome! Please read our contributing guidelines before submit
 
 ## License
 
-MIT License - see [LICENSE](LICENSE) for details.
+AGPL-3.0 License - see [LICENSE](LICENSE) for details.
 
 ## Links
 
-- GitHub: https://github.com/fire-zu/beanclaw
-- billclaw: https://github.com/fire-zu/billclaw
+- GitHub: https://github.com/fire-la/firela-app
+- billclaw: https://github.com/fire-la/billclaw
 - Beancount: http://furius.ca/beancount/
-- fire-zu: https://github.com/fire-zu
+- firela: https://github.com/fire-la
 
 ## Acknowledgments
 
-Built for the Beancount community and the fire-zu ecosystem.
+Built for the Beancount community and the firela ecosystem.
 
 **Data sovereignty isn't a feature—it's a foundation.**

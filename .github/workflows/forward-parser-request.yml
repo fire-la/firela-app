@@ -32,12 +32,12 @@ jobs:
           curl -X POST \
             -H "Authorization: token $IGN_DISPATCH_TOKEN" \
             -H "Accept: application/vnd.github.v3+json" \
-            https://api.github.com/repos/fire-zu/ign/dispatches \
+            https://api.github.com/repos/fire-zu/firela-vlt/dispatches \
             -d '{
               "event_type": "external_parser_request",
               "client_payload": {
                 "issue_number": "'$ISSUE_NUMBER'",
-                "source_repo": "fire-la/firela",
+                "source_repo": "fire-la/firela-app",
                 "issue_body_b64": "'$ISSUE_BODY_B64'"
               }
             }'
@@ -59,4 +59,4 @@ jobs:
 
           You will receive updates on this issue within 24 hours.
 
-          Track progress: [IGN Actions](https://github.com/fire-zu/ign/actions)"
+          Track progress: [IGN Actions](https://github.com/fire-zu/firela-vlt/actions)"

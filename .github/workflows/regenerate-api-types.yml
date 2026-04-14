@@ -1,0 +1,113 @@
+name: Regenerate API Types
+
+on:
+  # Triggered when spec-publish-sync.yml's PR auto-merges to main
+  push:
+    branches: [main]
+    paths:
+      - 'lib/api/spec/openapi.yaml'
+  repository_dispatch:
+    types: [api-types-updated]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  regenerate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout firela-app
+        uses: actions/checkout@v4
+
+      # Java required by openapi_generator (JAR-based tool)
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Setup Flutter SDK
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.24.0'
+          channel: 'stable'
+
+      - name: Cache pub packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.pub-cache
+          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pub-
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      # openapi_generator_cli doesn't always bundle the JAR — download it explicitly
+      - name: Download OpenAPI Generator CLI JAR
+        run: |
+          CLI_DIR="$(pub cache list 2>/dev/null | grep 'openapi_generator_cli' | head -1 | awk '{print $2}')"
+          if [ -z "$CLI_DIR" ]; then
+            CLI_DIR="$(find ~/.pub-cache -path '*/openapi_generator_cli-*/lib' -type d 2>/dev/null | head -1)"
+          fi
+          if [ -n "$CLI_DIR" ] && [ ! -f "$CLI_DIR/openapi-generator.jar" ]; then
+            echo "Downloading openapi-generator-cli JAR to $CLI_DIR"
+            curl -sL -o "$CLI_DIR/openapi-generator.jar" \
+              "https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.2.0/openapi-generator-cli-7.2.0.jar"
+          else
+            echo "JAR already exists or CLI dir not found, skipping"
+            ls -la "$CLI_DIR/" 2>/dev/null || true
+          fi
+
+      # Use --build-filter to avoid SEVERE errors from parser/sanitizer files
+      - name: Generate types
+        run: dart run build_runner build --delete-conflicting-outputs --build-filter="lib/api/**"
+
+      - name: Verify generated output
+        run: |
+          if [ -d lib/api/generated ] && [ "$(ls -A lib/api/generated)" ]; then
+            echo "Generated files found:"
+            find lib/api/generated -type f | head -30
+          else
+            echo "ERROR: No generated files in lib/api/generated/"
+            echo "Searching for any openapi output:"
+            find . -path ./node_modules -prune -o -name "*.openapi.dart" -print 2>/dev/null | head -20
+            exit 1
+          fi
+
+      - name: Create PR if changed
+        id: create-pr
+        uses: peter-evans/create-pull-request@v8
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: sync/api-types
+          title: "chore: regenerate Dart API types from OpenAPI spec"
+          commit-message: "chore: regenerate Dart API types from OpenAPI spec"
+          labels: automated, api-types
+          body: |
+            Auto-regenerated Dart API types from OpenAPI spec.
+
+            **Trigger:** ign@${{ github.event.client_payload.sha || github.sha }}
+
+      - name: Enable auto-merge
+        if: steps.create-pr.outputs.pull-request-operation == 'created' || steps.create-pr.outputs.pull-request-operation == 'updated'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh pr merge --auto --squash "${{ steps.create-pr.outputs.pull-request-url }}"
+
+      - name: Report failure
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `API type regeneration failed: ${context.sha}`,
+              body: `Regeneration triggered by ign@${{ github.event.client_payload.sha || github.sha }}.\n\n[View run](${{ github.serverUrl }}/${{ github.repository }}/actions/runs/${{ github.runId }})`,
+              labels: ['api-types-failure']
+            })

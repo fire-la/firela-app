@@ -29,11 +29,11 @@ build/
 .env.local
 .env.*.local
 
-# Generated files
+# Generated files (build_runner caches)
 *.g.dart
 *.freezed.dart
 *.mocks.dart
-lib/api/generated/
+# Note: lib/api/generated/ is NOT ignored — generated OpenAPI types are committed via CI
 
 # Hindsight local config
 .hindsight.json

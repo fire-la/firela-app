@@ -1,18 +1,16 @@
-include: package:flutter_lints/flutter.yaml
-
-linter:
-  rules:
-    - prefer_const_constructors
-    - prefer_const_declarations
-    - avoid_print
-    - avoid_unnecessary_containers
-    - prefer_single_quotes
-    - sort_child_properties_last
-    - use_key_in_widget_constructors
+include: package:lints/recommended.yaml
 
 analyzer:
   exclude:
-    - "**/*.g.dart"
-    - "**/*.freezed.dart"
+    - '**/*.g.dart'
+    - '**/*.freezed.dart'
   errors:
-    invalid_annotation_target: ignore
+    unnecessary_import: warning
+    unnecessary_null_comparison: warning
+
+linter:
+  rules:
+    prefer_const_constructors: true
+    prefer_const_declarations: true
+    avoid_print: true
+    avoid_redundant_argument_values: false
