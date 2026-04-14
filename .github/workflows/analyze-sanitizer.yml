@@ -8,7 +8,7 @@ on:
 jobs:
   analyze:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 10
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -21,6 +21,9 @@ jobs:
 
       - name: Install dependencies
         run: flutter pub get
+
+      - name: Generate built_value files
+        run: dart run build_runner build --delete-conflicting-outputs
 
       - name: Dart analyze
         run: dart analyze lib/api/ --fatal-infos
