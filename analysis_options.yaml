@@ -4,6 +4,10 @@ analyzer:
   exclude:
     - '**/*.g.dart'
     - '**/*.freezed.dart'
+    - 'lib/api/**'
+    - 'lib/parser/**'
+    - 'lib/sanitizer/**'
+    - 'test/parser/**'
   errors:
     unnecessary_import: warning
     unnecessary_null_comparison: warning

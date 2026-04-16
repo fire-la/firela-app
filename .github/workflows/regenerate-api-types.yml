@@ -67,6 +67,18 @@ jobs:
       - name: Generate types
         run: dart run build_runner build --delete-conflicting-outputs --build-filter="lib/api/**"
 
+      # dart-dio generator uses JsonObject but doesn't always add the import
+      - name: Patch missing JsonObject imports
+        run: |
+          IMPORT_LINE="import 'package:built_value/json_object.dart';"
+          for f in $(grep -rl 'JsonObject' lib/api/generated/ --include='*.dart'); do
+            if ! grep -q "json_object" "$f"; then
+              # Insert after the last existing import line
+              sed -i '' "s|^import 'package:built_value/serializer.dart';|import 'package:built_value/json_object.dart';\nimport 'package:built_value/serializer.dart';|" "$f"
+              echo "Patched: $f"
+            fi
+          done
+
       - name: Verify generated output
         run: |
           if [ -d lib/api/generated ] && [ "$(ls -A lib/api/generated)" ]; then
