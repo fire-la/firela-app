@@ -1,7 +1,7 @@
 import 'package:firela_api/firela_api.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:dio/dio.dart';
-import '../../../../api/api_client.dart';
+import '../../../../api/src/api_client.dart';
 import '../../../../core/utils/logger.dart';
 import '../../domain/models/confidence_level.dart';
 import '../models/pending_transaction_model.dart';
@@ -14,7 +14,7 @@ import '../models/pending_transaction_model.dart';
 /// - API docs: https://api-s.firela.io/api/docs-json
 class ReviewCenterRemoteDatasource {
   ReviewCenterRemoteDatasource._() {
-    _dio = ApiClientWrapper.instance.dio;
+    _dio = ApiClient().dio;
   }
   static final ReviewCenterRemoteDatasource instance = ReviewCenterRemoteDatasource._();
 
@@ -35,75 +35,70 @@ class ReviewCenterRemoteDatasource {
     throw Exception(e.message ?? 'Network error');
   }
 
-  /// Parse Date from JSON (format: YYYY-MM-DD or Map with year/month/day)
-  Date _parseDate(dynamic value) {
-    if (value == null) return Date(1970, 1, 1);
-    if (value is Date) return value;
-    if (value is String) {
-      final parts = value.split('-');
-      return Date(
-        int.parse(parts[0]),
-        parts.length > 1 ? int.parse(parts[1]) : 1,
-        parts.length > 2 ? int.parse(parts[2]) : 1,
-      );
-    }
-    if (value is Map) {
-      return Date(
-        value['year'] as int? ?? 1970,
-        value['month'] as int? ?? 1,
-        value['day'] as int? ?? 1,
-      );
-    }
-    return Date(1970, 1, 1);
-  }
-
   /// Parse TxnStatus from JSON string
-  TxnStatus _parseStatus(String? value) {
-    if (value == null) return TxnStatus.ACTIVE;
+  TransactionDetailDtoStatusEnum _parseStatus(String? value) {
+    if (value == null) return TransactionDetailDtoStatusEnum.ACTIVE;
     switch (value.toUpperCase()) {
       case 'VOIDED':
-        return TxnStatus.VOIDED;
+        return TransactionDetailDtoStatusEnum.VOIDED;
       case 'SUPERSEDED':
-        return TxnStatus.SUPERSEDED;
+        return TransactionDetailDtoStatusEnum.SUPERSEDED;
       default:
-        return TxnStatus.ACTIVE;
+        return TransactionDetailDtoStatusEnum.ACTIVE;
+    }
+  }
+
+  /// Parse SourceType from JSON string
+  TransactionDetailDtoSourceTypeEnum? _parseSourceType(String? value) {
+    if (value == null) return null;
+    switch (value.toUpperCase()) {
+      case 'NLP':
+        return TransactionDetailDtoSourceTypeEnum.NLP;
+      case 'CSV':
+        return TransactionDetailDtoSourceTypeEnum.CSV;
+      case 'OCR':
+        return TransactionDetailDtoSourceTypeEnum.OCR;
+      case 'API':
+        return TransactionDetailDtoSourceTypeEnum.API;
+      default:
+        return TransactionDetailDtoSourceTypeEnum.API;
     }
   }
 
   /// Parse TransactionFlag from JSON string
-  TransactionFlag? _parseFlag(String? value) {
+  TransactionDetailDtoFlagEnum? _parseFlag(String? value) {
     if (value == null) return null;
     switch (value) {
       case '*':
-        return TransactionFlag.star;
+        return TransactionDetailDtoFlagEnum.CLEARED;
       case '!':
-        return TransactionFlag.exclamation;
+        return TransactionDetailDtoFlagEnum.PENDING;
       default:
         return null;
     }
   }
 
   /// Parse Posting from JSON map
-  Posting _parsePosting(Map<String, dynamic> json) {
-    return Posting((b) => b
+  PostingDetailDto _parsePosting(Map<String, dynamic> json) {
+    return PostingDetailDto((b) => b
       ..accountName = json['accountName'] as String? ?? json['account_name'] as String? ?? ''
       ..units = json['units'] as String? ?? '0'
       ..currency = json['currency'] as String? ?? 'CNY'
-      ..accountId = json['accountId'] as String?
-      ..id = json['id'] as String?
+      ..accountId = json['accountId'] as String? ?? ''
+      ..id = json['id'] as String? ?? ''
       ..costAmount = json['costAmount'] as String?
       ..costCurrency = json['costCurrency'] as String?
-      ..costDate = json['costDate'] != null ? _parseDate(json['costDate']) : null
+      ..costDate = json['costDate']?.toString()
       ..priceAmount = json['priceAmount'] as String?
       ..priceCurrency = json['priceCurrency'] as String?
       ..flag = json['flag'] as String?
     );
   }
 
-  /// Parse TransactionDetail from JSON map
-  TransactionDetail _parseTransactionDetail(Map<String, dynamic> json) {
-    // Parse date
-    final date = _parseDate(json['date']);
+  /// Parse TransactionDetailDto from JSON map
+  TransactionDetailDto _parseTransactionDetail(Map<String, dynamic> json) {
+    // Parse date as string
+    final date = json['date']?.toString() ?? '';
 
     // Parse status
     final status = _parseStatus(json['status'] as String?);
@@ -112,7 +107,7 @@ class ReviewCenterRemoteDatasource {
     final flag = _parseFlag(json['flag'] as String?);
 
     // Parse postings
-    final postings = <Posting>[];
+    final postings = <PostingDetailDto>[];
     final postingsJson = json['postings'] as List<dynamic>?;
     if (postingsJson != null) {
       for (final p in postingsJson) {
@@ -140,23 +135,7 @@ class ReviewCenterRemoteDatasource {
       }
     }
 
-    // Parse createdAt
-    DateTime? createdAt;
-    if (json['createdAt'] is String) {
-      createdAt = DateTime.tryParse(json['createdAt'] as String);
-    } else if (json['createdAt'] is DateTime) {
-      createdAt = json['createdAt'] as DateTime;
-    }
-
-    // Parse voidedAt
-    DateTime? voidedAt;
-    if (json['voidedAt'] is String) {
-      voidedAt = DateTime.tryParse(json['voidedAt'] as String);
-    } else if (json['voidedAt'] is DateTime) {
-      voidedAt = json['voidedAt'] as DateTime;
-    }
-
-    return TransactionDetail((b) => b
+    return TransactionDetailDto((b) => b
       ..id = json['id'] as String? ?? ''
       ..date = date
       ..narration = json['narration'] as String? ?? ''
@@ -167,10 +146,10 @@ class ReviewCenterRemoteDatasource {
       ..payee = json['payee'] as String?
       ..tags.replace(tags)
       ..links.replace(links)
-      ..sourceType = json['sourceType'] as String? ?? json['source_type'] as String?
+      ..sourceType = _parseSourceType(json['sourceType'] as String? ?? json['source_type'] as String?)
       ..sourcePlatform = json['sourcePlatform'] as String? ?? json['source_platform'] as String?
-      ..createdAt = createdAt
-      ..voidedAt = voidedAt
+      ..createdAt = json['createdAt']?.toString() ?? ''
+      ..voidedAt = json['voidedAt']?.toString()
       ..voidedBy = json['voidedBy'] as String? ?? json['voided_by'] as String?
       ..correctionReason = json['correctionReason'] as String? ?? json['correction_reason'] as String?
     );
@@ -181,8 +160,8 @@ class ReviewCenterRemoteDatasource {
   /// Query params: type, confidenceLevel, sortBy, page, limit
   /// If [level] is null, returns all transactions (for "全部" tab)
   ///
-  /// Returns typed [TransactionListResponse] for type-safe access.
-  Future<TransactionListResponse> getPendingTransactionsTyped({
+  /// Returns typed [TransactionListResponseDto] for type-safe access.
+  Future<TransactionListResponseDto> getPendingTransactionsTyped({
     ConfidenceLevel? level,
     int page = 1,
     int limit = 20,
@@ -208,8 +187,8 @@ class ReviewCenterRemoteDatasource {
 
       if (response.data == null) {
         logger.w('[ReviewCenter] Response data is null');
-        return TransactionListResponse((b) => b
-          ..data = ListBuilder<TransactionDetail>()
+        return TransactionListResponseDto((b) => b
+          ..data = ListBuilder<TransactionDetailDto>()
           ..total = 0);
       }
 
@@ -241,13 +220,13 @@ class ReviewCenterRemoteDatasource {
         logger.i('[ReviewCenter] Parsed list response: ${items.length} items');
       } else {
         logger.w('[ReviewCenter] Unexpected response format: ${response.data.runtimeType}');
-        return TransactionListResponse((b) => b
-          ..data = ListBuilder<TransactionDetail>()
+        return TransactionListResponseDto((b) => b
+          ..data = ListBuilder<TransactionDetailDto>()
           ..total = 0);
       }
 
       // Parse each transaction detail
-      final details = <TransactionDetail>[];
+      final details = <TransactionDetailDto>[];
       for (final item in items) {
         if (item is Map<String, dynamic>) {
           try {
@@ -261,8 +240,8 @@ class ReviewCenterRemoteDatasource {
 
       logger.i('[ReviewCenter] Successfully parsed ${details.length} transactions');
 
-      return TransactionListResponse((b) => b
-        ..data = ListBuilder<TransactionDetail>(details)
+      return TransactionListResponseDto((b) => b
+        ..data = ListBuilder<TransactionDetailDto>(details)
         ..total = total);
     } on DioException catch (e) {
       logger.e('[ReviewCenter] Failed to fetch pending transactions: ${e.message}');
@@ -346,7 +325,7 @@ class ReviewCenterRemoteDatasource {
     // Convert built_value to JSON map for backward compatibility
     return {
       'data': typedResponse.data.map((t) =>
-        standardSerializers.serializeWith(TransactionDetail.serializer, t)
+        standardSerializers.serializeWith(TransactionDetailDto.serializer, t)
       ).toList(),
       'total': typedResponse.total,
       'limit': typedResponse.limit,
@@ -356,7 +335,7 @@ class ReviewCenterRemoteDatasource {
 
   /// Get single pending transaction detail by ID (typed)
   /// API: GET /api/v1/{region}/bean/reviews/:id
-  Future<TransactionDetail> getPendingTransactionDetailTyped(String id) async {
+  Future<TransactionDetailDto> getPendingTransactionDetailTyped(String id) async {
     logger.i('[ReviewCenter] Fetching transaction detail: $id');
 
     try {
@@ -375,7 +354,7 @@ class ReviewCenterRemoteDatasource {
   Future<dynamic> getPendingTransactionDetail(String id) async {
     final typed = await getPendingTransactionDetailTyped(id);
     return standardSerializers.serializeWith(
-      TransactionDetail.serializer,
+      TransactionDetailDto.serializer,
       typed,
     );
   }

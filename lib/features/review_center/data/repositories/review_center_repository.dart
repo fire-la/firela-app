@@ -3,7 +3,7 @@ import '../../domain/repositories/review_center_repository_interface.dart';
 import '../datasources/review_center_remote_datasource.dart';
 import '../../domain/models/confidence_level.dart';
 import '../../../../core/utils/logger.dart';
-import '../../../../api/type_adapter.dart';
+import '../models/pending_transaction_model.dart';
 
 /// Repository implementation for Review Center
 class ReviewCenterRepository implements ReviewCenterRepositoryInterface {
@@ -26,9 +26,12 @@ class ReviewCenterRepository implements ReviewCenterRepositoryInterface {
         limit: pageSize,
       );
 
-      // Parse items array using TypeAdapter for correct field mapping
+      // Parse items array
       final items = response['items'] as List<dynamic>? ?? [];
-      final models = TypeAdapter.toPendingTransactionListFromRaw(items);
+      final models = items
+          .whereType<Map<String, dynamic>>()
+          .map((json) => PendingTransactionModel.fromJson(json))
+          .toList();
       return models.map((model) => model as PendingTransaction).toList();
     } catch (e) {
       logger.e('[ReviewCenterRepository] Failed to get pending transactions: $e');
@@ -41,7 +44,7 @@ class ReviewCenterRepository implements ReviewCenterRepositoryInterface {
     try {
       // Use raw API response for correct field mapping
       final response = await _datasource.getRawPendingTransactionDetail(id);
-      return TypeAdapter.toPendingTransactionFromRaw(response);
+      return PendingTransactionModel.fromJson(response);
     } catch (e) {
       logger.e('[ReviewCenterRepository] Failed to get transaction detail: $e');
       rethrow;

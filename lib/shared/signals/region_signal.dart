@@ -1,7 +1,6 @@
 import 'package:signals_flutter/signals_flutter.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import '../../core/network/api_client.dart';
-import '../../api/api_client.dart';
 import '../../core/constants/storage_keys.dart';
 import '../../core/utils/logger.dart';
 
@@ -100,10 +99,9 @@ Future<void> setRegion(RegionCode region) async {
   await _persistRegion(region);
 }
 
-/// Sync region to both old ApiClient and new ApiClientWrapper
+/// Sync region to ApiClient
 void _syncRegionToClients(RegionCode region) {
   ApiClient.instance.setRegion(region);
-  ApiClientWrapper.instance.setRegion(region);
 }
 
 /// Persist region to storage
