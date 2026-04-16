@@ -11,8 +11,8 @@
 import 'dart:convert';
 
 import 'package:decimal/decimal.dart' show Decimal;
-import 'package:firela/parser/src/result.dart';
-import 'package:firela/parser/src/types.dart' show Parser, DetectionResult, RawTransaction, ParseResult, ParseWarning, ParseError;
+import 'package:firela_app/parser/src/result.dart';
+import 'package:firela_app/parser/src/types.dart' show Parser, DetectionResult, RawTransaction, ParseResult, ParseWarning, ParseError;
 
 import '../../types/bank.dart' show IcbcCreditCustomFields;
 // TODO: unmapped import: cheerio

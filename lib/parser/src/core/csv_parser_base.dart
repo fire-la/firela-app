@@ -11,7 +11,7 @@
 import 'dart:convert';
 
 import 'package:csv/csv.dart' show parseCsv;
-import 'package:firela/parser/src/result.dart';
+import 'package:firela_app/parser/src/result.dart';
 
 import './csv-reader.dart' show detectDelimiter;
 import './encoding.dart' show detectEncoding, convertEncoding;

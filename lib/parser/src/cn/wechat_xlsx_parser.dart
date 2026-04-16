@@ -9,8 +9,8 @@
 // ignore_for_file: unused_local_variable
 
 import 'package:decimal/decimal.dart' show Decimal;
-import 'package:firela/parser/src/result.dart';
-import 'package:firela/parser/src/types.dart' show Parser, DetectionResult, RawTransaction, WeChatCustomFields, ParseResult, ParseError, ParseWarning, createParseFailure;
+import 'package:firela_app/parser/src/result.dart';
+import 'package:firela_app/parser/src/types.dart' show Parser, DetectionResult, RawTransaction, WeChatCustomFields, ParseResult, ParseError, ParseWarning, createParseFailure;
 
 import '../types/wechat.dart' show WechatCsvRow, categorizeWechatStatus, isValidWechatFlowType;
 // TODO: unmapped import: XLSX

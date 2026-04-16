@@ -85,7 +85,7 @@ Future<Result<PdfTextExtraction, PdfTableError>> extractPdfText(dynamic buffer) 
   if (!('str' in item)) {
   continue;
   }
-  final textItem = (item as { str: string; transform: number[]; width: number; height: number });
+  final textItem = item as dynamic; // ts2dart: was `(item as { str: string; transform: number[]; width: number; height: number })`
   final text = textItem.str.trim();
   if (text.isEmpty) {
   continue;

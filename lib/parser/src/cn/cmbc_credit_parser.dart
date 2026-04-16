@@ -12,8 +12,8 @@ import 'dart:convert';
 
 import 'package:csv/csv.dart' show parse;
 import 'package:decimal/decimal.dart' show Decimal;
-import 'package:firela/parser/src/result.dart';
-import 'package:firela/parser/src/types.dart' show Parser, DetectionResult, RawTransaction, ParseResult, ParseError, ParseWarning, createParseFailure;
+import 'package:firela_app/parser/src/result.dart';
+import 'package:firela_app/parser/src/types.dart' show Parser, DetectionResult, RawTransaction, ParseResult, ParseError, ParseWarning, createParseFailure;
 
 abstract class CmbcCreditCustomFields {
   String get cardNumber;

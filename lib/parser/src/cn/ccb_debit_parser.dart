@@ -9,12 +9,12 @@
 // ignore_for_file: unused_local_variable
 
 import 'package:decimal/decimal.dart' show Decimal;
-import 'package:firela/parser/src/csv_parser_base.dart' show RowTransformResult;
-import 'package:firela/parser/src/result.dart';
-import 'package:firela/parser/src/types.dart' show ParseResult, createParseFailure;
-import 'package:firela/parser/src/types.dart' show RawTransaction;
+import 'package:firela_app/parser/src/csv_parser_base.dart' show RowTransformResult;
+import 'package:firela_app/parser/src/result.dart';
+import 'package:firela_app/parser/src/types.dart' show ParseResult, createParseFailure;
+import 'package:firela_app/parser/src/types.dart' show RawTransaction;
 
-import '../../chinese-csv-parser.dart' show ChineseCsvParser;
+import 'chinese_csv_parser.dart' show ChineseCsvParser;
 
 abstract class CcbCustomFields {
   String get cardNumber;

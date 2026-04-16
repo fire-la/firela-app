@@ -10,7 +10,7 @@
 
 import 'dart:math';
 
-import 'package:firela/parser/src/result.dart';
+import 'package:firela_app/parser/src/result.dart';
 
 import './types.dart' show Parser, ParseResult, RawTransaction;
 // TODO: unmapped import: fs

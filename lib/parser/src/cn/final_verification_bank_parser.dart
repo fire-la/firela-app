@@ -11,7 +11,7 @@ import 'dart:convert' show iconv;
 
 import 'package:csv/csv.dart' show parse;
 import 'package:decimal/decimal.dart' show Decimal;
-import 'package:firela/parser/src/types.dart' show Parser, RawTransaction, ParseResult, ParseErrorType, ParseWarning;
+import 'package:firela_app/parser/src/types.dart' show Parser, RawTransaction, ParseResult, ParseErrorType, ParseWarning;
 
 final createError = (ParseErrorType type, String message) => ({'success': false, 'errors': [{'type': type, 'message': message}]});
 

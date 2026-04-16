@@ -9,9 +9,9 @@
 // ignore_for_file: unused_local_variable
 
 import 'package:decimal/decimal.dart' show Decimal;
-import 'package:firela/parser/src/csv_parser_base.dart' show CsvParser, CsvParserConfig, RowTransformResult;
-import 'package:firela/parser/src/result.dart';
-import 'package:firela/parser/src/utils/date_parser.dart' show parseDate;
+import 'package:firela_app/parser/src/csv_parser_base.dart' show CsvParser, CsvParserConfig, RowTransformResult;
+import 'package:firela_app/parser/src/result.dart';
+import 'package:firela_app/parser/src/utils/date_parser.dart' show parseDate;
 
 import './types.dart' show DegiroRawTransaction, DegiroCustomFields;
 

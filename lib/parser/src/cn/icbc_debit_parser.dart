@@ -11,8 +11,8 @@
 import 'dart:convert';
 
 import 'package:decimal/decimal.dart' show Decimal;
-import 'package:firela/parser/src/result.dart';
-import 'package:firela/parser/src/types.dart' show Parser, DetectionResult, RawTransaction, ParseResult, ParseWarning;
+import 'package:firela_app/parser/src/result.dart';
+import 'package:firela_app/parser/src/types.dart' show Parser, DetectionResult, RawTransaction, ParseResult, ParseWarning;
 
 import '../../types/bank.dart' show IcbcDebitCustomFields;
 // TODO: unmapped import: readPdfTable, PdfTableReadResult

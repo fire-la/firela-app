@@ -12,14 +12,21 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:decimal/decimal.dart' show Decimal;
-import 'package:firela/parser/src/result.dart';
-import 'package:firela/parser/src/types.dart' show Parser, DetectionResult, RawTransaction, ParseResult, ParseWarning;
+import 'package:firela_app/parser/src/result.dart';
+import 'package:firela_app/parser/src/types.dart' show Parser, DetectionResult, RawTransaction, ParseResult, ParseWarning;
 
 import '../../types/bank.dart' show CmbcDebitCustomFields;
 // TODO: unmapped import: extractPdfText
 // TODO: unmapped import: PdfTextItem
 
 typedef CmbcDebitRawTransaction = RawTransaction<CmbcDebitCustomFields>;
+
+/// Dart replacement for TS anonymous type `{ content: string; colIndex: number }`
+class ColCell {
+  final String content;
+  final int colIndex;
+  const ColCell({required this.content, required this.colIndex});
+}
 
 final List<String> CMBC_DEBIT_KEYWORDS = ['\u6c11\u751f\u94f6\u884c', '\u4e2a\u4eba\u8d26\u6237\u5bf9\u8d26\u5355'];
 
@@ -94,7 +101,7 @@ class CmbcDebitParser extends Parser<CmbcDebitRawTransaction> {
     return filtered;
   }
   
-  List<List<{ content: string; colIndex: number }>> groupIntoRows(List<PdfTextItem> items) {
+  List<List<ColCell>> groupIntoRows(List<PdfTextItem> items) {
     if (items.isEmpty) {
     return [];
     }
@@ -103,19 +110,19 @@ class CmbcDebitParser extends Parser<CmbcDebitRawTransaction> {
     return yDiff;
     }
     return a.x - b.x; });
-    List<List<{ content: string; colIndex: number }>> rows = [];
-    List<{ content: string; colIndex: number }> currentRow = [];
+    List<List<ColCell>> rows = [];
+    List<ColCell> currentRow = [];
     var currentY = sorted[0].y;
     for (final item in sorted) {
     if (abs(item.y - currentY) <= Y_TOLERANCE) {
     final colIndex = this.findColumnIndex(item.x);
-    currentRow.add({'content': item.str});
+    currentRow.add(ColCell(content: item.str, colIndex: colIndex));
     } else {
     if (currentRow.isNotEmpty) {
     rows.add(currentRow);
     }
     final colIndex = this.findColumnIndex(item.x);
-    currentRow = [{'content': item.str}];
+    currentRow = [ColCell(content: item.str, colIndex: colIndex)];
     currentY = item.y;
     }
     }
@@ -134,7 +141,7 @@ class CmbcDebitParser extends Parser<CmbcDebitRawTransaction> {
     return 0;
   }
   
-  List<String> rowToArray(List<{ content: string; colIndex: number }> row) {
+  List<String> rowToArray(List<ColCell> row) {
     final maxCols = COLUMN_OFFSETS.length;
     List<String> cells = Array(maxCols).fill('');
     for (final cell in row) {
@@ -157,7 +164,7 @@ class CmbcDebitParser extends Parser<CmbcDebitRawTransaction> {
     return match ? match[1]!.substring(-4) : null;
   }
   
-  dynamic transformRow(List<{ content: string; colIndex: number }> row, num _lineNum, String? cardNumber) {
+  dynamic transformRow(List<ColCell> row, num _lineNum, String? cardNumber) {
     final cells = this.rowToArray(row);
     final transactionTime = cells[2];
     if (transactionTime == null || transactionTime.trim().isEmpty) {
