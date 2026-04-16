@@ -1,0 +1,225 @@
+name: Daily Integration Tests
+
+on:
+  schedule:
+    # Run daily at 2 AM UTC
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+    # Allow manual trigger
+    inputs:
+      platform:
+        description: 'Platform to test (android, ios, all)'
+        required: false
+        default: 'all'
+
+env:
+  FLUTTER_VERSION: '3.24.0'
+
+jobs:
+  # Android Integration Tests
+  android-test:
+    if: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.platform == 'android' || github.event.inputs.platform == 'all' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: 'stable'
+          cache: true
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            gradle-${{ runner.os }}-
+
+      - name: Enable KVM group perms
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      - name: Run Android Integration Tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          arch: x86_64
+          profile: pixel_6
+          script: flutter test integration_test --timeout 5m
+          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-test-results
+          path: |
+            test-results/
+            *.xml
+          retention-days: 30
+
+  # iOS Integration Tests
+  ios-test:
+    if: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.platform == 'ios' || github.event.inputs.platform == 'all' }}
+    runs-on: macos-latest
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: 'stable'
+          cache: true
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Start iOS Simulator
+        run: |
+          # List available simulators
+          xcrun simctl list devices available
+
+          # Boot iPhone 15 simulator
+          SIMULATOR_ID=$(xcrun simctl list devices available | grep "iPhone 15" | head -1 | grep -oE '[0-9A-F-]{36}')
+          if [ -z "$SIMULATOR_ID" ]; then
+            echo "Creating iPhone 15 simulator..."
+            SIMULATOR_ID=$(xcrun simctl create "iPhone 15" "iPhone 15" "com.apple.CoreSimulator.SimRuntime.iOS-17-2")
+          fi
+
+          echo "Booting simulator: $SIMULATOR_ID"
+          xcrun simctl boot "$SIMULATOR_ID"
+          open -a Simulator
+
+          # Wait for simulator to boot
+          sleep 30
+
+      - name: Build iOS for testing
+        run: |
+          flutter build ios --simulator --debug
+
+      - name: Run iOS Integration Tests
+        run: |
+          # Find the booted simulator
+          DEVICE_ID=$(xcrun simctl list devices booted | grep -oE '[0-9A-F-]{36}' | head -1)
+          flutter test integration_test -d "$DEVICE_ID" --timeout 5m
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-test-results
+          path: |
+            test-results/
+            *.xml
+          retention-days: 30
+
+  # Generate combined report
+  generate-report:
+    needs: [android-test, ios-test]
+    if: always()
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download Android results
+        if: needs.android-test.result != 'skipped'
+        uses: actions/download-artifact@v4
+        with:
+          name: android-test-results
+          path: results/android
+
+      - name: Download iOS results
+        if: needs.ios-test.result != 'skipped'
+        uses: actions/download-artifact@v4
+        with:
+          name: ios-test-results
+          path: results/ios
+
+      - name: Generate HTML Report
+        run: |
+          mkdir -p reports
+
+          # Create summary report
+          cat > reports/test-report.html << 'EOF'
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <title>FIREla Daily Test Report - $(date)</title>
+            <style>
+              body { font-family: Arial, sans-serif; margin: 20px; }
+              .header { background: #1a1a1a; color: white; padding: 20px; }
+              .section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; }
+              .pass { color: green; }
+              .fail { color: red; }
+              .skip { color: orange; }
+              table { width: 100%; border-collapse: collapse; }
+              th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+              th { background: #f5f5f5; }
+            </style>
+          </head>
+          <body>
+            <div class="header">
+              <h1>FIREla Daily Test Report</h1>
+              <p>Generated: $(date -u +"%Y-%m-%d %H:%M:%S UTC")</p>
+            </div>
+            <div class="section">
+              <h2>Test Summary</h2>
+              <table>
+                <tr>
+                  <th>Platform</th>
+                  <th>Status</th>
+                </tr>
+                <tr>
+                  <td>Android</td>
+                  <td class="${{ needs.android-test.result }}">${{ needs.android-test.result }}</td>
+                </tr>
+                <tr>
+                  <td>iOS</td>
+                  <td class="${{ needs.ios-test.result }}">${{ needs.ios-test.result }}</td>
+                </tr>
+              </table>
+            </div>
+          </body>
+          </html>
+          EOF
+
+      - name: Upload Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: daily-test-report
+          path: reports/
+          retention-days: 30
+
+      - name: Post summary
+        run: |
+          echo "## Daily Test Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Platform | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|----------|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Android | ${{ needs.android-test.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| iOS | ${{ needs.ios-test.result }} |" >> $GITHUB_STEP_SUMMARY

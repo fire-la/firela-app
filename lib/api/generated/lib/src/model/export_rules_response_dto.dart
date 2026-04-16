@@ -136,7 +136,7 @@ class _$ExportRulesResponseDtoSerializer
             value,
             specifiedType: const FullType(BuiltList),
           ) as BuiltList;
-          result.rules = valueDes;
+          result.rules.replace(valueDes);
           break;
         default:
           unhandled.add(key);
