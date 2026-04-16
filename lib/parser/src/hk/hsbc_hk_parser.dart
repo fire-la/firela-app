@@ -11,8 +11,8 @@ import 'dart:convert';
 
 import 'package:csv/csv.dart' show parseCsv;
 import 'package:decimal/decimal.dart' show Decimal;
-import 'package:firela_app/parser/src/types.dart' show Parser, RawTransaction, ParseResult, ParseFailure, ParseError, ParseWarning;
-import 'package:firela_app/parser/src/utils/date_parser.dart' show parseDate;
+import 'package:firela/parser/src/types.dart' show Parser, RawTransaction, ParseResult, ParseFailure, ParseError, ParseWarning;
+import 'package:firela/parser/src/utils/date_parser.dart' show parseDate;
 
 abstract class HsbcHkCustomFields implements Map<String, dynamic> {
   dynamic get paymentMethod;

@@ -1,4 +1,4 @@
-import 'src/api_client.dart';
+import 'api_client.dart';
 
 /// Base class for API services using generated types
 abstract class ApiService {

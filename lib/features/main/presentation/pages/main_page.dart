@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:firela_app/generated/l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 import '../../../../core/services/analytics_service.dart';
 import '../../../../core/services/analytics_events.dart';
 import '../../../../core/services/auth_service.dart';
 import '../../../../core/services/ign_api_service.dart';
+import '../../../../core/services/local_ocr_service.dart';
+import '../../../../core/services/receipt_text_parser.dart';
 import '../../../../core/network/auth_manager.dart';
 import '../../../../core/network/api_client.dart';
 import '../../../../core/router/route_names.dart';
@@ -15,6 +18,7 @@ import '../../../assets/presentation/pages/assets_tabs_page.dart';
 import '../../../settings/presentation/pages/settings_page.dart';
 import '../../../expense/presentation/widgets/expense_entry_bottom_sheet.dart';
 import '../../../expense/presentation/widgets/nlp_result_bottom_sheet.dart';
+import '../../../expense/presentation/widgets/ocr_result_debug_sheet.dart';
 import '../../../../shared/signals/connectivity_signal.dart';
 
 /// Main page with bottom navigation
@@ -159,6 +163,10 @@ class MainPage extends HookWidget {
             },
             onBillImport: () {
               _handleBillImport(context);
+            },
+            onPhotoRecognition: () {
+              Navigator.of(ctx).pop(); // close the entry sheet first
+              _showImageSourceAndProcessOcr(context, nlpSessionId);
             },
           ),
         );
@@ -577,5 +585,180 @@ class MainPage extends HookWidget {
   /// 处理账单导入 - 跳转到账单导入页面
   void _handleBillImport(BuildContext context) {
     context.push(RouteNames.billImport);
+  }
+
+  /// 选择图片来源并执行 OCR 识别
+  void _showImageSourceAndProcessOcr(BuildContext context, ValueNotifier<String> nlpSessionId) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (ctx) => Container(
+        decoration: BoxDecoration(
+          color: Theme.of(ctx).colorScheme.surface,
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+        ),
+        child: SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                margin: const EdgeInsets.only(top: 8),
+                width: 40, height: 4,
+                decoration: BoxDecoration(
+                  color: Theme.of(ctx).colorScheme.outline.withValues(alpha: 0.3),
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: Text('选择图片来源', style: Theme.of(ctx).textTheme.titleMedium),
+              ),
+              ListTile(
+                leading: const Icon(Icons.camera_alt),
+                title: const Text('拍照识别'),
+                onTap: () {
+                  Navigator.pop(ctx);
+                  _processOcrFromSource(context, ImageSource.camera, nlpSessionId);
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.photo_library),
+                title: const Text('从相册选择'),
+                onTap: () {
+                  Navigator.pop(ctx);
+                  _processOcrFromSource(context, ImageSource.gallery, nlpSessionId);
+                },
+              ),
+              const SizedBox(height: 8),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  /// 执行 OCR 识别流程
+  Future<void> _processOcrFromSource(
+    BuildContext context,
+    ImageSource source,
+    ValueNotifier<String> nlpSessionId,
+  ) async {
+    final picker = ImagePicker();
+    final image = await picker.pickImage(
+      source: source,
+      maxWidth: 1920,
+      maxHeight: 1920,
+      imageQuality: 85,
+    );
+
+    if (image == null) return; // User cancelled
+    if (!context.mounted) return;
+
+    // Show loading
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => const Center(child: CircularProgressIndicator()),
+    );
+
+    try {
+      // Local OCR (Google ML Kit)
+      final stopwatch = Stopwatch()..start();
+      final localResult = await LocalOcrService.instance.processImage(image.path);
+      stopwatch.stop();
+
+      final receipt = ReceiptTextParser.instance.parse(
+        localResult.fullText,
+        rawLines: localResult.blocks.expand((b) => b.lines).toList(),
+      );
+
+      if (!context.mounted) return;
+      Navigator.pop(context); // Close loading
+
+      // Show OCR result debug sheet
+      showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        builder: (ctx) => OcrResultDebugSheet(
+          receipt: receipt,
+          ocrSource: 'local',
+          processingTime: stopwatch.elapsed,
+          onConfirm: () {
+            // Convert OCR result to NLP text and submit
+            final parts = <String>[];
+            if (receipt.merchant.isNotEmpty) parts.add(receipt.merchant);
+            if (receipt.totalAmount > 0) parts.add('${receipt.totalAmount}元');
+            final text = parts.join(' ');
+            if (text.isNotEmpty) {
+              _handleNlpSubmit(context, text, nlpSessionId);
+            }
+          },
+          onRetry: () {
+            // Retry with cloud OCR
+            _processCloudOcr(context, image.path, nlpSessionId);
+          },
+        ),
+      );
+    } catch (e) {
+      logger.e('[MainPage] OCR 识别失败: $e');
+      if (context.mounted) {
+        Navigator.pop(context); // Close loading
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('识别失败: $e'), duration: const Duration(seconds: 3)),
+        );
+      }
+    }
+  }
+
+  /// 云端 OCR 兜底
+  Future<void> _processCloudOcr(
+    BuildContext context,
+    String imagePath,
+    ValueNotifier<String> nlpSessionId,
+  ) async {
+    if (!context.mounted) return;
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => const Center(child: CircularProgressIndicator()),
+    );
+
+    try {
+      final result = await IgnApiService.instance.ocrReceiptImage(imagePath);
+      final success = result['success'] ?? false;
+
+      if (!context.mounted) return;
+      Navigator.pop(context); // Close loading
+
+      if (success) {
+        final data = result['data'] as Map<String, dynamic>?;
+        if (data != null) {
+          // Convert cloud OCR data to NLP text and submit
+          final parts = <String>[];
+          final merchant = data['merchant'] as String?;
+          final amount = data['amount'];
+          if (merchant != null && merchant.isNotEmpty) parts.add(merchant);
+          if (amount != null) parts.add('${amount}元');
+          final text = parts.join(' ');
+          if (text.isNotEmpty) {
+            _handleNlpSubmit(context, text, nlpSessionId);
+          }
+        }
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('云端识别失败: ${result['error'] ?? "未知错误"}')),
+        );
+      }
+    } catch (e) {
+      logger.e('[MainPage] 云端 OCR 失败: $e');
+      if (context.mounted) {
+        Navigator.pop(context);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('云端识别失败: $e'), duration: const Duration(seconds: 3)),
+        );
+      }
+    }
   }
 }

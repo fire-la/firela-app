@@ -11,7 +11,7 @@ import 'dart:convert';
 
 import 'package:csv/csv.dart' show parseCsv;
 import 'package:decimal/decimal.dart' show Decimal;
-import 'package:firela_app/parser/src/types.dart' show Parser, ParseResult, ParseFailure, ParseError, ParseWarning;
+import 'package:firela/parser/src/types.dart' show Parser, ParseResult, ParseFailure, ParseError, ParseWarning;
 
 import './types.dart' show IBRawTransaction, IBCustomFields, IBSectionType, IB_KEYWORDS, IB_SECTION_PATTERNS, IB_TRADES_COLUMNS, IB_CASH_COLUMNS;
 

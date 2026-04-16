@@ -12,8 +12,8 @@ import 'dart:convert';
 import 'package:csv/csv.dart' show parseCsv;
 import 'package:csv/csv.dart' show detectDelimiter;
 import 'package:decimal/decimal.dart' show Decimal;
-import 'package:firela_app/parser/src/types.dart' show Parser, ParseResult, ParseFailure, ParseError, ParseWarning;
-import 'package:firela_app/parser/src/utils/date_parser.dart' show parseDate;
+import 'package:firela/parser/src/types.dart' show Parser, ParseResult, ParseFailure, ParseError, ParseWarning;
+import 'package:firela/parser/src/utils/date_parser.dart' show parseDate;
 
 import './types.dart' show DeutscheBankRawTransaction, DeutscheBankCustomFields, DB_COLUMNS_EN, DB_COLUMNS_DE, DB_COLUMN_INDICES, ColumnMap, DetectedFormat;
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:firela_app/generated/l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:signals_flutter/signals_flutter.dart';
 import '../../../../core/router/route_names.dart';
 import '../../../../core/network/auth_manager.dart';
@@ -9,9 +10,12 @@ import '../../../../core/services/auth_service.dart';
 import '../../../../core/services/analytics_service.dart';
 import '../../../../core/services/analytics_events.dart';
 import '../../../../core/services/ign_api_service.dart';
+import '../../../../core/services/local_ocr_service.dart';
+import '../../../../core/services/receipt_text_parser.dart';
 import '../../../../core/utils/logger.dart';
 import '../../../expense/presentation/widgets/expense_entry_bottom_sheet.dart';
 import '../../../expense/presentation/widgets/nlp_result_bottom_sheet.dart';
+import '../../../expense/presentation/widgets/ocr_result_debug_sheet.dart';
 import '../../../review_center/presentation/signals/review_center_signal.dart';
 
 /// Quick actions section with expense entry, bill import, and review buttons
@@ -115,6 +119,10 @@ class QuickActionsSection extends HookWidget {
           },
           onBillImport: () {
             context.push(RouteNames.billImport);
+          },
+          onPhotoRecognition: () {
+            Navigator.of(context).pop();
+            _showImageSourceAndProcessOcr(context, nlpSessionId);
           },
         ),
       ),
@@ -352,6 +360,140 @@ class QuickActionsSection extends HookWidget {
   String _mapCategoryToAccount(String? category) {
     // Default to Uncategorized as per existing pattern
     return 'Expenses:Uncategorized';
+  }
+
+  /// Show image source picker and process OCR
+  void _showImageSourceAndProcessOcr(BuildContext context, ValueNotifier<String> nlpSessionId) {
+    showModalBottomSheet(
+      context: context,
+      builder: (ctx) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: const Icon(Icons.camera_alt),
+              title: const Text('拍照'),
+              onTap: () {
+                Navigator.pop(ctx);
+                _processLocalOcr(context, ImageSource.camera, nlpSessionId);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.photo_library),
+              title: const Text('从相册选择'),
+              onTap: () {
+                Navigator.pop(ctx);
+                _processLocalOcr(context, ImageSource.gallery, nlpSessionId);
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  /// Local OCR processing: pick image → ML Kit → parse → show result
+  Future<void> _processLocalOcr(
+    BuildContext context,
+    ImageSource source,
+    ValueNotifier<String> nlpSessionId,
+  ) async {
+    final picker = ImagePicker();
+    final image = await picker.pickImage(
+      source: source,
+      maxWidth: 1920,
+      maxHeight: 1080,
+      imageQuality: 85,
+    );
+
+    if (image == null) return;
+    if (!context.mounted) return;
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => const Center(child: CircularProgressIndicator()),
+    );
+
+    try {
+      final localResult = await LocalOcrService.instance.processImage(image.path);
+      final receipt = ReceiptTextParser.instance.parse(
+        localResult.fullText,
+        rawLines: localResult.blocks.expand((b) => b.lines).toList(),
+      );
+
+      logger.i('[OCR] Parsed: merchant="${receipt.merchant}", '
+          'amount=${receipt.totalAmount}, confidence=${receipt.confidence.toStringAsFixed(1)}%');
+
+      if (!context.mounted) return;
+      Navigator.pop(context); // close loading
+
+      showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        builder: (_) => OcrResultDebugSheet(
+          receipt: receipt,
+          ocrSource: 'local',
+          processingTime: localResult.processingTime,
+          onConfirm: receipt.isValid
+              ? () {
+                  final description = '${receipt.merchant} ${receipt.totalAmount.toStringAsFixed(2)}元';
+                  _handleNlpSubmit(context, description, nlpSessionId);
+                }
+              : null,
+          onRetry: () {
+            _processCloudOcr(context, image.path, nlpSessionId);
+          },
+        ),
+      );
+    } catch (e) {
+      logger.e('[OCR] Local OCR failed: $e');
+      if (context.mounted) {
+        Navigator.pop(context);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('本地识别失败: $e')),
+        );
+      }
+    }
+  }
+
+  /// Cloud OCR fallback
+  Future<void> _processCloudOcr(
+    BuildContext context,
+    String imagePath,
+    ValueNotifier<String> nlpSessionId,
+  ) async {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => const Center(child: CircularProgressIndicator()),
+    );
+
+    try {
+      final result = await IgnApiService.instance.ocrReceiptImage(imagePath);
+      if (!context.mounted) return;
+      Navigator.pop(context);
+
+      final success = result['success'] ?? false;
+      final data = result['data'] as Map<String, dynamic>?;
+
+      if (success && data != null) {
+        final description = '${data['merchant'] ?? ''} ${(data['amount'] ?? 0)}元';
+        _handleNlpSubmit(context, description, nlpSessionId);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(result['error'] ?? '云端识别也失败了')),
+        );
+      }
+    } catch (e) {
+      if (context.mounted) {
+        Navigator.pop(context);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('云端识别失败: $e')),
+        );
+      }
+    }
   }
 }
 

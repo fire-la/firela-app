@@ -957,7 +957,7 @@ class BillImportPage extends HookWidget {
         throw Exception('不支持的文件格式，请使用支付宝或微信账单');
       }
 
-      logger.i('[BillImport] 检测到解析器: ${parser.name}');
+      logger.i('[BillImport] 检测到解析器');
 
       // 解析文件
       parseProgress.value = 0.6;
@@ -973,7 +973,7 @@ class BillImportPage extends HookWidget {
           logger.i('[BillImport] 解析成功: ${result.data.length} 条交易');
 
           // 处理警告
-          if (result.hasWarnings) {
+          if (result.warnings != null && result.warnings!.isNotEmpty) {
             for (final warning in result.warnings!) {
               logger.w('[BillImport] 解析警告: ${warning.message}');
             }
@@ -982,9 +982,9 @@ class BillImportPage extends HookWidget {
           // 转换为 CategorizationItem
           final items = result.data.map((txn) {
             return CategorizationItem(
-              id: txn.metadata?['orderNo'] ?? txn.dateStr + txn.amount.toString(),
+              id: txn.metadata?['orderNo'] ?? '${txn.date.toIso8601String()}_${txn.amount}',
               merchant: txn.payee ?? txn.description,
-              amount: txn.absAmount,
+              amount: txn.amount.abs().toDouble(),
               date: txn.date,
               suggestedCategory: _inferCategory(txn.description, txn.payee),
               confidence: _calculateConfidence(txn),

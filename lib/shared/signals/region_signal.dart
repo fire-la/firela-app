@@ -1,7 +1,7 @@
 import 'package:signals_flutter/signals_flutter.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import '../../core/network/api_client.dart';
-import '../../api/src/api_client.dart';
+import '../../api/api_client.dart';
 import '../../core/constants/storage_keys.dart';
 import '../../core/utils/logger.dart';
 

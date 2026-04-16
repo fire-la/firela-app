@@ -1,7 +1,7 @@
 import 'package:firela_api/firela_api.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:dio/dio.dart';
-import '../../../../api/src/api_client.dart';
+import '../../../../api/api_client.dart';
 import '../../../../core/utils/logger.dart';
 import '../../domain/models/confidence_level.dart';
 import '../models/pending_transaction_model.dart';

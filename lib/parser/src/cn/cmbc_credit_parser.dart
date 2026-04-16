@@ -11,7 +11,7 @@ import 'dart:convert';
 
 import 'package:csv/csv.dart' show parseCsv;
 import 'package:decimal/decimal.dart' show Decimal;
-import 'package:firela_app/parser/src/types.dart' show Parser, RawTransaction, ParseResult, ParseFailure, ParseError, ParseWarning;
+import 'package:firela/parser/src/types.dart' show Parser, RawTransaction, ParseResult, ParseFailure, ParseError, ParseWarning;
 
 abstract class CmbcCreditCustomFields implements Map<String, dynamic> {
   String get cardNumber;
