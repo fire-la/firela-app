@@ -190,3 +190,16 @@ abstract class Parser<T extends RawTransaction> {
   /// Returns ParseResult with transactions or errors
   ParseResult<T> parse(Uint8List content);
 }
+
+// ============================================================================
+// Helper Functions
+// ============================================================================
+
+/// Create a ParseFailure with a single error.
+ParseFailure<T> createParseFailure<T>(
+  ParseErrorType type,
+  String message, [
+  Map<String, dynamic>? context,
+]) {
+  return ParseFailure<T>(errors: [ParseError(type: type, message: message, context: context)]);
+}
