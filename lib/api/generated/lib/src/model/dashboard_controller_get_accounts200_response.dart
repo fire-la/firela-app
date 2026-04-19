@@ -3,10 +3,7 @@
 //
 
 // ignore_for_file: unused_element
-import 'package:built_collection/built_collection.dart';
 import 'package:firela_api/src/model/accounts_response_dto.dart';
-import 'package:firela_api/src/model/asset_class_group_dto.dart';
-import 'package:firela_api/src/model/asset_class_summary_dto.dart';
 import 'package:firela_api/src/model/asset_class_accounts_response_dto.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
