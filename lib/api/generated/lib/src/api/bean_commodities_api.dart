@@ -8,7 +8,6 @@ import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
 
 import 'package:firela_api/src/api_util.dart';
-import 'package:firela_api/src/model/api_problem_response_dto.dart';
 import 'package:firela_api/src/model/commodity_list_response_dto.dart';
 import 'package:firela_api/src/model/commodity_response_dto.dart';
 
