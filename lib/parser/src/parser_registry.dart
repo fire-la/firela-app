@@ -8,6 +8,16 @@ library;
 
 import 'dart:typed_data';
 import 'types.dart';
+import 'cn/alipay_mobile_parser.dart';
+import 'cn/alipay_web_parser.dart';
+import 'cn/alipay_yuebao_parser.dart';
+import 'cn/ccb_debit_parser.dart';
+import 'cn/cmbc_credit_parser.dart';
+import 'cn/final_verification_bank_parser.dart';
+import 'cn/wechat_parser.dart';
+import 'eu/degiro_parser.dart';
+import 'hk/hsbc_hk_credit_parser.dart';
+import 'hk/hsbc_hk_debit_parser.dart';
 
 /// Registry for all available parsers.
 ///
@@ -19,6 +29,16 @@ class ParserRegistry {
 
   /// Creates a new registry and registers all built-in parsers.
   ParserRegistry() {
+    _parsers.add(AlipayMobileParser());
+    _parsers.add(AlipayWebParser());
+    _parsers.add(AlipayYuebaoParser());
+    _parsers.add(CcbDebitParser());
+    _parsers.add(CmbcCreditParser());
+    _parsers.add(FinalVerificationBankParser());
+    _parsers.add(WechatParser());
+    _parsers.add(DegiroParser());
+    _parsers.add(HsbcHkCreditParser());
+    _parsers.add(HsbcHkDebitParser());
   }
 
   /// Detect the appropriate parser for the given file.
