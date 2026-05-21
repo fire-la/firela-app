@@ -45,7 +45,7 @@ class FireJourneyPage extends HookWidget {
           'IGN',
           style: TokenTypography.h4(
             fontWeight: FontWeight.bold,
-            fontStyle: FontStyle.italic,
+
           ),
         ),
         centerTitle: false,
@@ -209,7 +209,6 @@ class FireJourneyPage extends HookWidget {
     AppLocalizations l10n,
     FireProgressResult fireProgress,
   ) {
-    final theme = Theme.of(context);
 
     // Scenario state
     final scenarioModel = useState(const ScenarioModel(
@@ -379,7 +378,6 @@ class FireJourneyPage extends HookWidget {
     AppLocalizations l10n,
     FireProgressResult fireProgress,
   ) {
-    final theme = Theme.of(context);
 
     return Container(
       margin: const EdgeInsets.fromLTRB(TokenSpacing.xl, 8, TokenSpacing.xl, 0),

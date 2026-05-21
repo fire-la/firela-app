@@ -63,7 +63,6 @@ class ScenarioSelector extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final theme = Theme.of(context);
 
     // Slider values
     final savingsDelta = useState(initialScenario.monthlySavingsDelta);
@@ -207,7 +206,6 @@ class ScenarioSelector extends HookWidget {
     required String subtitle,
     required void Function(double) onChanged,
   }) {
-    final theme = Theme.of(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

@@ -56,7 +56,6 @@ class FireTypeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final theme = Theme.of(context);
 
     // Calculate FIRE number for this type
     final fireNumber = FireCalculationService.instance.calculateFireNumber(
