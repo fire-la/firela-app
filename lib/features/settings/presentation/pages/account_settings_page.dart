@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:firela_app/generated/l10n/app_localizations.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import '../../../../core/constants/storage_keys.dart';
+import '../../../../core/design_tokens/design_tokens.dart';
 import '../../../../core/network/auth_manager.dart';
 import '../../../../core/services/auth_service.dart';
 import '../dialogs/delete_account_dialog.dart';
@@ -279,7 +280,7 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
                               ? Icons.key
                               : Icons.key_off_outlined,
                           color: auth.hasUserAccessToken
-                              ? const Color(0xFF4CAF50)
+                              ? TokenColors.success
                               : theme.colorScheme.error,
                         ),
                         const SizedBox(width: 12),
@@ -298,7 +299,7 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
                                     : 'No token saved',
                                 style: theme.textTheme.bodySmall?.copyWith(
                                   color: auth.hasUserAccessToken
-                                      ? const Color(0xFF4CAF50)
+                                      ? TokenColors.success
                                       : theme.colorScheme.error,
                                 ),
                               ),

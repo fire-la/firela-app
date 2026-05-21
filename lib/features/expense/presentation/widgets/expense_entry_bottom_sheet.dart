@@ -217,7 +217,7 @@ class _ExpenseEntryBottomSheetState extends State<ExpenseEntryBottomSheet> {
                             decoration: BoxDecoration(
                               color: _hasText
                                   ? TokenColors.textPrimary
-                                  : const Color(0xFFBDBDBD),
+                                  : TokenColors.neutral400,
                               shape: BoxShape.circle,
                             ),
                             child: const Icon(

@@ -227,9 +227,9 @@ class AssetsLiabilitiesPage extends StatelessWidget {
             final colors = [
               TokenColors.textPrimary,
               TokenColors.neutral700,
-              const Color(0xFF666666),
-              const Color(0xFF888888),
-              const Color(0xFFAAAAAA),
+              TokenColors.neutral700,
+              TokenColors.neutral400,
+              TokenColors.neutral400,
               TokenColors.neutral200,
             ];
             return PieChartSectionData(

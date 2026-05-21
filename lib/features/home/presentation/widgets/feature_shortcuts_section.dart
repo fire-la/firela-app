@@ -41,7 +41,7 @@ class FeatureShortcutsSection extends HookWidget {
               onTap: () => context.go(RouteNames.accounts),
               gradientColors: const [
                 TokenColors.success,
-                Color(0xFF2E7D32),
+                TokenColors.chartGreen,
               ],
             ),
             Watch((context) {
@@ -53,7 +53,7 @@ class FeatureShortcutsSection extends HookWidget {
                 onTap: () => context.push(RouteNames.reviewCenter),
                 gradientColors: const [
                   TokenColors.primary,
-                  Color(0xFFF57C00),
+                  TokenColors.textAccent,
                 ],
               );
             }),
@@ -66,7 +66,7 @@ class FeatureShortcutsSection extends HookWidget {
               },
               gradientColors: const [
                 TokenColors.textAccent,
-                Color(0xFFC2185B),
+                TokenColors.error,
               ],
             ),
             _ShortcutCard(
@@ -75,7 +75,7 @@ class FeatureShortcutsSection extends HookWidget {
               onTap: () => context.go(RouteNames.home),
               gradientColors: const [
                 TokenColors.neutral700,
-                Color(0xFF455A64),
+                TokenColors.neutral900,
               ],
             ),
           ],

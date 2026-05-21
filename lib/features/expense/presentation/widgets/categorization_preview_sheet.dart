@@ -97,7 +97,7 @@ class _CategorizationPreviewSheetState extends State<CategorizationPreviewSheet>
             height: TokenSpacing.xs,
             decoration: BoxDecoration(
               color: TokenColors.textTertiary.withValues(alpha: 0.3),
-              borderRadius: BorderRadius.circular(2),
+              borderRadius: TokenRadius.borderSm,
             ),
           ),
         ),

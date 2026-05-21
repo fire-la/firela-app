@@ -63,6 +63,7 @@ class ScenarioSelector extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final theme = Theme.of(context);
 
     // Slider values
     final savingsDelta = useState(initialScenario.monthlySavingsDelta);
@@ -233,7 +234,7 @@ class ScenarioSelector extends HookWidget {
               padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.sm, vertical: TokenSpacing.xs),
               decoration: BoxDecoration(
                 color: TokenColors.bgCard,
-                borderRadius: BorderRadius.circular(4),
+                borderRadius: TokenRadius.borderSm,
               ),
               child: Text(
                 displayValue,

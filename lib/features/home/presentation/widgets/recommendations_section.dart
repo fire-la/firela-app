@@ -190,7 +190,7 @@ class _RecommendationCard extends StatelessWidget {
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                 color: iconBackgroundColor,
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: TokenRadius.borderSm,
               ),
               child: Icon(
                 icon,

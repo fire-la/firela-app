@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:firela_app/generated/l10n/app_localizations.dart';
+import '../../../../core/design_tokens/design_tokens.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:signals_flutter/signals_flutter.dart';
 import '../../../../shared/signals/theme_signal.dart';
 import '../../../../shared/signals/locale_signal.dart';
 import '../../../../shared/signals/region_signal.dart';
-import '../../../../shared/signals/preferences_signal.dart';
 import '../../../../core/network/auth_manager.dart';
 import '../../../../core/services/auth_service.dart';
 import 'about_page.dart';
 import 'help_center_page.dart';
 import 'account_settings_page.dart';
-import '../widgets/sync_status_widget.dart';
 import '../dialogs/backup_dialog.dart';
 
 /// Settings page (Mine)
@@ -51,18 +50,6 @@ class SettingsPageState extends State<SettingsPage> {
             // User profile
             _buildUserProfile(context, l10n),
 
-            const SizedBox(height: 16),
-
-            // Sync status widget (only show when logged in)
-            if (AuthManager.instance.isLoggedIn)
-              const SyncStatusWidget(),
-
-            if (AuthManager.instance.isLoggedIn)
-              const SizedBox(height: 16),
-            
-            // Membership card
-            _buildMembershipCard(context, l10n),
-            
             const SizedBox(height: 24),
             
             // Settings items
@@ -70,7 +57,7 @@ class SettingsPageState extends State<SettingsPage> {
               margin: const EdgeInsets.symmetric(horizontal: 16),
               decoration: BoxDecoration(
                 color: theme.colorScheme.surfaceContainerHighest,
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: TokenRadius.borderSm,
               ),
               child: Column(
                 children: [
@@ -120,11 +107,6 @@ class SettingsPageState extends State<SettingsPage> {
 
             const SizedBox(height: 24),
 
-            // Preferences section
-            _buildPreferencesSection(context, l10n),
-
-            const SizedBox(height: 24),
-
             // Theme and language settings
             _buildQuickSettings(context, l10n),
             
@@ -145,7 +127,7 @@ class SettingsPageState extends State<SettingsPage> {
                             width: 1,
                           ),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
+                            borderRadius: TokenRadius.borderSm,
                           ),
                         ),
                         child: Text(
@@ -159,7 +141,7 @@ class SettingsPageState extends State<SettingsPage> {
                         style: FilledButton.styleFrom(
                           padding: const EdgeInsets.symmetric(vertical: 14),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
+                            borderRadius: TokenRadius.borderSm,
                           ),
                         ),
                         label: Text(l10n.loginNow),
@@ -186,12 +168,12 @@ class SettingsPageState extends State<SettingsPage> {
         CircleAvatar(
           radius: 36,
           backgroundColor: isLoggedIn
-              ? const Color(0xFF1A1A1A)
-              : const Color(0xFFE0E0E0),
+              ? TokenColors.neutral900
+              : TokenColors.neutral400,
           child: Icon(
             isLoggedIn ? Icons.person : Icons.person_outline,
             size: 40,
-            color: isLoggedIn ? Colors.white : const Color(0xFF757575),
+            color: isLoggedIn ? TokenColors.white : TokenColors.neutral700,
           ),
         ),
         const SizedBox(width: 16),
@@ -228,19 +210,18 @@ class SettingsPageState extends State<SettingsPage> {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             decoration: BoxDecoration(
-              color: const Color(0xFF4CAF50).withValues(alpha: 0.1),
-              borderRadius: BorderRadius.circular(12),
+              color: TokenColors.success.withValues(alpha: 0.1),
+              borderRadius: TokenRadius.borderMd,
             ),
-            child: const Row(
+            child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(Icons.check_circle, size: 14, color: Color(0xFF4CAF50)),
-                SizedBox(width: 4),
+                Icon(Icons.check_circle, size: 14, color: TokenColors.success),
+                const SizedBox(width: 4),
                 Text(
                   '已登录',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Color(0xFF4CAF50),
+                  style: TokenTypography.caption(
+                    color: TokenColors.success,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -263,89 +244,14 @@ class SettingsPageState extends State<SettingsPage> {
                 context,
                 MaterialPageRoute(builder: (_) => const AccountSettingsPage()),
               ),
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: TokenRadius.borderSm,
               child: profileRow,
             )
           : InkWell(
               onTap: () => _handleLogin(context),
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: TokenRadius.borderSm,
               child: profileRow,
             ),
-    );
-  }
-
-  Widget _buildMembershipCard(BuildContext context, AppLocalizations l10n) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          colors: [
-            Color(0xFF4A4A4A),
-            Color(0xFF2A2A2A),
-          ],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Row(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: const Color.fromRGBO(255, 255, 255, 0.15),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: const Icon(
-              Icons.diamond_outlined,
-              color: Colors.white,
-              size: 28,
-            ),
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  l10n.becomeMember,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  l10n.memberBenefit,
-                  style: const TextStyle(
-                    color: Color.fromRGBO(255, 255, 255, 0.8),
-                    fontSize: 12,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(width: 12),
-          ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFFFFFFFF),
-                foregroundColor: const Color(0xFF000000),
-                elevation: 0,
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-              ),
-              child: Text(
-                l10n.activateNow,
-                style: const TextStyle(fontSize: 13),
-              ),
-            ),
-        ],
-      ),
     );
   }
 
@@ -366,11 +272,11 @@ class SettingsPageState extends State<SettingsPage> {
                   child: Container(
                     decoration: BoxDecoration(
                       color: theme.colorScheme.surfaceContainerHighest,
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: TokenRadius.borderSm,
                     ),
                     child: InkWell(
                       onTap: toggleTheme,
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: TokenRadius.borderSm,
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 20),
                         child: Column(
@@ -398,11 +304,11 @@ class SettingsPageState extends State<SettingsPage> {
                   child: Container(
                     decoration: BoxDecoration(
                       color: theme.colorScheme.surfaceContainerHighest,
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: TokenRadius.borderSm,
                     ),
                     child: InkWell(
                       onTap: () => _showLanguageDialog(context, l10n),
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: TokenRadius.borderSm,
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 20),
                         child: Column(
@@ -430,11 +336,11 @@ class SettingsPageState extends State<SettingsPage> {
             Container(
               decoration: BoxDecoration(
                 color: theme.colorScheme.surfaceContainerHighest,
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: TokenRadius.borderSm,
               ),
               child: InkWell(
                 onTap: () => _showRegionDialog(context, l10n),
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: TokenRadius.borderSm,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
                   child: Row(
@@ -835,146 +741,4 @@ Sample,2026-03-05,0.00,CNY,Export,"This is a sample export. Connect to your acco
     }
   }
 
-  /// Build preferences section with toggles
-  Widget _buildPreferencesSection(BuildContext context, AppLocalizations l10n) {
-    final theme = Theme.of(context);
-
-    return Watch((context) {
-      final preferences = preferencesSignal.value;
-
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Section header
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Text(
-              l10n.preferences,
-              style: theme.textTheme.titleSmall?.copyWith(
-                color: theme.colorScheme.outline,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-          const SizedBox(height: 8),
-
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 16),
-            decoration: BoxDecoration(
-              color: theme.colorScheme.surfaceContainerHighest,
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Column(
-              children: [
-                // Auto sync toggle
-                SwitchListTile(
-                  secondary: Icon(
-                    Icons.sync,
-                    color: theme.colorScheme.outline,
-                  ),
-                  title: Text(l10n.autoSync),
-                  subtitle: Text(
-                    l10n.autoSyncDesc,
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: theme.colorScheme.outline,
-                    ),
-                  ),
-                  value: preferences.autoSync,
-                  onChanged: (value) => setAutoSync(value),
-                ),
-                Divider(height: 1, color: theme.colorScheme.outline.withValues(alpha: 0.1)),
-
-                // Notifications toggle
-                SwitchListTile(
-                  secondary: Icon(
-                    Icons.notifications_outlined,
-                    color: theme.colorScheme.outline,
-                  ),
-                  title: Text(l10n.notifications),
-                  subtitle: Text(
-                    l10n.notificationsDesc,
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: theme.colorScheme.outline,
-                    ),
-                  ),
-                  value: preferences.showNotifications,
-                  onChanged: (value) => setShowNotifications(value),
-                ),
-                Divider(height: 1, color: theme.colorScheme.outline.withValues(alpha: 0.1)),
-
-                // Decimal precision selector
-                InkWell(
-                  onTap: () => _showDecimalPrecisionDialog(context, l10n, preferences.decimalPrecision),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.calculate_outlined,
-                          color: theme.colorScheme.outline,
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(l10n.decimalPrecision),
-                              const SizedBox(height: 2),
-                              Text(
-                                '${preferences.decimalPrecision} decimal places',
-                                style: theme.textTheme.bodySmall?.copyWith(
-                                  color: theme.colorScheme.outline,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Icon(
-                          Icons.chevron_right,
-                          size: 20,
-                          color: theme.colorScheme.outline,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      );
-    });
-  }
-
-  /// Show decimal precision selection dialog
-  void _showDecimalPrecisionDialog(BuildContext context, AppLocalizations l10n, int currentValue) {
-    showDialog(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: Text(l10n.decimalPrecision),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: List.generate(5, (index) {
-            return RadioListTile<int>(
-              title: Text('$index decimal places'),
-              value: index,
-              groupValue: currentValue,
-              onChanged: (value) {
-                if (value != null) {
-                  setDecimalPrecision(value);
-                  Navigator.pop(ctx);
-                }
-              },
-            );
-          }),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx),
-            child: Text(l10n.cancel),
-          ),
-        ],
-      ),
-    );
-  }
 }

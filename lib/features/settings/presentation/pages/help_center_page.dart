@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firela_app/generated/l10n/app_localizations.dart';
+import '../../../../core/design_tokens/design_tokens.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// Help center page with FAQ accordion and contact support
@@ -69,7 +70,7 @@ class _HelpCenterPageState extends State<HelpCenterPage> {
               margin: const EdgeInsets.symmetric(horizontal: 16),
               decoration: BoxDecoration(
                 color: theme.colorScheme.surfaceContainerHighest,
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: TokenRadius.borderSm,
               ),
               child: Column(
                 children: List.generate(faqItems.length, (index) {
@@ -169,7 +170,7 @@ class _HelpCenterPageState extends State<HelpCenterPage> {
                   style: FilledButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 14),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: TokenRadius.borderSm,
                     ),
                   ),
                 ),

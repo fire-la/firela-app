@@ -190,7 +190,7 @@ class SpendingInsightsCard extends HookWidget {
               width: double.infinity,
               decoration: BoxDecoration(
                 color: TokenColors.neutral200,
-                borderRadius: BorderRadius.circular(4),
+                borderRadius: TokenRadius.borderSm,
               ),
             ),
             FractionallySizedBox(
@@ -199,7 +199,7 @@ class SpendingInsightsCard extends HookWidget {
                 height: 8,
                 decoration: BoxDecoration(
                   color: color,
-                  borderRadius: BorderRadius.circular(4),
+                  borderRadius: TokenRadius.borderSm,
                 ),
               ),
             ),

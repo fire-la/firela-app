@@ -242,7 +242,7 @@ class _ImportProgressIndicatorState extends State<ImportProgressIndicator>
           height: TokenSpacing.sm,
           decoration: BoxDecoration(
             color: theme.colorScheme.surfaceContainerHighest,
-            borderRadius: BorderRadius.circular(3),
+            borderRadius: TokenRadius.borderSm,
           ),
           child: FractionallySizedBox(
             alignment: Alignment.centerLeft,
@@ -254,7 +254,7 @@ class _ImportProgressIndicatorState extends State<ImportProgressIndicator>
                     : isComplete
                         ? TokenColors.success
                         : TokenColors.textAccent,
-                borderRadius: BorderRadius.circular(3),
+                borderRadius: TokenRadius.borderSm,
               ),
             ),
           ),
@@ -407,7 +407,7 @@ class _StepConnector extends StatelessWidget {
         color: isActive
             ? TokenColors.textAccent
             : theme.colorScheme.surfaceContainerHighest,
-        borderRadius: BorderRadius.circular(1),
+        borderRadius: TokenRadius.borderSm,
       ),
     );
   }

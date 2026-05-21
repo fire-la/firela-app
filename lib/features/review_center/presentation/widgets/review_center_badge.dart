@@ -26,7 +26,7 @@ class ReviewCenterBadge extends HookWidget {
 
       return InkWell(
         onTap: () => _handleTap(context),
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(TokenRadius.pill),
         child: Padding(
           padding: const EdgeInsets.all(TokenSpacing.sm),
           child: Stack(
@@ -47,7 +47,7 @@ class ReviewCenterBadge extends HookWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
                     decoration: BoxDecoration(
                       color: TokenColors.error,
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(TokenRadius.sm),
                       boxShadow: [
                         BoxShadow(
                           color: TokenColors.textPrimary.withValues(alpha: 0.2),
