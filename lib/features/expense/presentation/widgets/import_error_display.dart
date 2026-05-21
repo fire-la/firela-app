@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firela_app/generated/l10n/app_localizations.dart';
+import '../../../../core/design_tokens/design_tokens.dart';
 
 /// Enum representing different import error types
 enum ImportErrorType {
@@ -109,12 +110,12 @@ class _ImportErrorDisplayState extends State<ImportErrorDisplay> {
     final theme = Theme.of(context);
 
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(TokenSpacing.xl),
       decoration: BoxDecoration(
-        color: Colors.red.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(12),
+        color: TokenColors.error.withValues(alpha: 0.1),
+        borderRadius: TokenRadius.borderMd,
         border: Border.all(
-          color: Colors.red.withValues(alpha: 0.3),
+          color: TokenColors.error.withValues(alpha: 0.3),
         ),
       ),
       child: Column(
@@ -128,20 +129,20 @@ class _ImportErrorDisplayState extends State<ImportErrorDisplay> {
                 width: 40,
                 height: 40,
                 decoration: BoxDecoration(
-                  color: Colors.red.withValues(alpha: 0.1),
+                  color: TokenColors.error.withValues(alpha: 0.1),
                   shape: BoxShape.circle,
                 ),
                 child: Icon(
                   _errorType.icon,
-                  color: Colors.red,
+                  color: TokenColors.error,
                   size: 24,
                 ),
               ),
-              const SizedBox(width: 12),
+              const SizedBox(width: TokenSpacing.lg),
               Expanded(
                 child: Text(
                   _getUserFriendlyMessage(l10n),
-                  style: theme.textTheme.bodyMedium?.copyWith(
+                  style: TokenTypography.body(
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -149,19 +150,19 @@ class _ImportErrorDisplayState extends State<ImportErrorDisplay> {
             ],
           ),
 
-          const SizedBox(height: 12),
+          const SizedBox(height: TokenSpacing.lg),
 
           // Suggested next steps
           Text(
             _getSuggestedAction(l10n),
-            style: theme.textTheme.bodySmall?.copyWith(
-              color: theme.colorScheme.outline,
+            style: TokenTypography.caption(
+              color: TokenColors.textTertiary,
             ),
           ),
 
           // View details expansion
           if (widget.technicalDetails != null) ...[
-            const SizedBox(height: 8),
+            const SizedBox(height: TokenSpacing.sm),
             InkWell(
               onTap: () {
                 setState(() {
@@ -175,13 +176,13 @@ class _ImportErrorDisplayState extends State<ImportErrorDisplay> {
                         ? Icons.keyboard_arrow_up
                         : Icons.keyboard_arrow_down,
                     size: 18,
-                    color: theme.colorScheme.primary,
+                    color: TokenColors.textAccent,
                   ),
-                  const SizedBox(width: 4),
+                  const SizedBox(width: TokenSpacing.xs),
                   Text(
                     l10n.importErrorViewDetails,
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: theme.colorScheme.primary,
+                    style: TokenTypography.caption(
+                      color: TokenColors.textAccent,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -189,27 +190,26 @@ class _ImportErrorDisplayState extends State<ImportErrorDisplay> {
               ),
             ),
             if (_showDetails) ...[
-              const SizedBox(height: 8),
+              const SizedBox(height: TokenSpacing.sm),
               Container(
                 width: double.infinity,
-                padding: const EdgeInsets.all(12),
+                padding: const EdgeInsets.all(TokenSpacing.lg),
                 decoration: BoxDecoration(
                   color: theme.colorScheme.surfaceContainerHighest,
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: TokenRadius.borderSm,
                 ),
                 child: SelectableText(
                   widget.technicalDetails!,
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    fontFamily: 'monospace',
-                    color: theme.colorScheme.outline,
-                  ),
+                  style: TokenTypography.caption(
+                    color: TokenColors.textTertiary,
+                  ).copyWith(fontFamily: 'monospace'),
                 ),
               ),
             ],
           ],
 
           // Action buttons
-          const SizedBox(height: 16),
+          const SizedBox(height: TokenSpacing.xl),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
@@ -219,13 +219,13 @@ class _ImportErrorDisplayState extends State<ImportErrorDisplay> {
                   child: Text(l10n.cancel),
                 ),
               if (_errorType.isRetryable && widget.onRetry != null) ...[
-                const SizedBox(width: 8),
+                const SizedBox(width: TokenSpacing.sm),
                 FilledButton.icon(
                   onPressed: widget.onRetry,
                   icon: const Icon(Icons.refresh, size: 18),
                   label: Text(l10n.importErrorRetryButton),
                   style: FilledButton.styleFrom(
-                    backgroundColor: theme.colorScheme.primary,
+                    backgroundColor: TokenColors.textAccent,
                   ),
                 ),
               ],

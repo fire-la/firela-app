@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../core/design_tokens/design_tokens.dart';
 import '../../domain/models/confidence_level.dart';
 
 /// Visual indicator for confidence level
@@ -19,11 +20,11 @@ class ConfidenceIndicator extends StatelessWidget {
   Color get _color {
     switch (level) {
       case ConfidenceLevel.high:
-        return Colors.green;
+        return TokenColors.success;
       case ConfidenceLevel.medium:
-        return Colors.orange;
+        return TokenColors.primary;
       case ConfidenceLevel.low:
-        return Colors.red;
+        return TokenColors.error;
     }
   }
 
@@ -31,24 +32,22 @@ class ConfidenceIndicator extends StatelessWidget {
   Color get _backgroundColor {
     switch (level) {
       case ConfidenceLevel.high:
-        return Colors.green.withValues(alpha: 0.1);
+        return TokenColors.success.withValues(alpha: 0.1);
       case ConfidenceLevel.medium:
-        return Colors.orange.withValues(alpha: 0.1);
+        return TokenColors.primary.withValues(alpha: 0.1);
       case ConfidenceLevel.low:
-        return Colors.red.withValues(alpha: 0.1);
+        return TokenColors.error.withValues(alpha: 0.1);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     if (showLabel) {
       return Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         decoration: BoxDecoration(
           color: _backgroundColor,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: TokenRadius.borderMd,
           border: Border.all(color: _color.withValues(alpha: 0.3)),
         ),
         child: Row(
@@ -62,10 +61,10 @@ class ConfidenceIndicator extends StatelessWidget {
                 shape: BoxShape.circle,
               ),
             ),
-            const SizedBox(width: 6),
+            const SizedBox(width: TokenSpacing.sm),
             Text(
               level.displayName,
-              style: theme.textTheme.bodySmall?.copyWith(
+              style: TokenTypography.caption(
                 color: _color,
                 fontWeight: FontWeight.w500,
               ),

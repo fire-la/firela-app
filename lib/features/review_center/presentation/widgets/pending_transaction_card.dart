@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import '../../../../core/design_tokens/design_tokens.dart';
 import '../../domain/entities/pending_transaction.dart';
 import 'confidence_indicator.dart';
 
@@ -49,19 +50,19 @@ class PendingTransactionCard extends StatelessWidget {
     final isExpense = transaction.amount < 0;
 
     return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+      margin: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl, vertical: TokenSpacing.sm),
       elevation: 0,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: TokenRadius.borderMd,
         side: BorderSide(
-          color: theme.colorScheme.outline.withValues(alpha: 0.2),
+          color: TokenColors.textTertiary.withValues(alpha: 0.2),
         ),
       ),
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: TokenRadius.borderMd,
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(TokenSpacing.xl),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -71,7 +72,7 @@ class PendingTransactionCard extends StatelessWidget {
                   Expanded(
                     child: Text(
                       transaction.merchantName,
-                      style: theme.textTheme.titleMedium?.copyWith(
+                      style: TokenTypography.h4(
                         fontWeight: FontWeight.w600,
                       ),
                       maxLines: 1,
@@ -85,39 +86,39 @@ class PendingTransactionCard extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: TokenSpacing.sm),
 
               // Account name
               Text(
                 transaction.accountName,
-                style: theme.textTheme.bodySmall?.copyWith(
+                style: TokenTypography.caption(
                   color: theme.colorScheme.onSurfaceVariant,
                 ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: TokenSpacing.lg),
 
               // Amount and time
               Row(
                 children: [
                   Text(
                     _formatAmount(),
-                    style: theme.textTheme.titleLarge?.copyWith(
-                      color: isExpense ? theme.colorScheme.error : Colors.green,
+                    style: TokenTypography.h2(
+                      color: isExpense ? TokenColors.error : TokenColors.success,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(width: 12),
+                  const SizedBox(width: TokenSpacing.lg),
                   Text(
                     _formatTime(),
-                    style: theme.textTheme.bodySmall?.copyWith(
+                    style: TokenTypography.caption(
                       color: theme.colorScheme.onSurfaceVariant,
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: TokenSpacing.xl),
 
               // Action buttons
               Row(
@@ -127,17 +128,17 @@ class PendingTransactionCard extends StatelessWidget {
                   TextButton(
                     onPressed: onDelete,
                     style: TextButton.styleFrom(
-                      foregroundColor: theme.colorScheme.error,
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      foregroundColor: TokenColors.error,
+                      padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
                     ),
                     child: const Text('删除'),
                   ),
-                  const SizedBox(width: 8),
+                  const SizedBox(width: TokenSpacing.sm),
                   // Confirm button
                   FilledButton(
                     onPressed: onConfirm,
                     style: FilledButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
                     ),
                     child: const Text('保留这笔'),
                   ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firela_app/generated/l10n/app_localizations.dart';
+import '../../../../core/design_tokens/design_tokens.dart';
 
 /// Expense entry bottom sheet with AI/Manual toggle
 /// 键盘弹出时内容自动上移（通过父级 showModalBottomSheet 的 isScrollControlled: true 实现）
@@ -67,7 +68,7 @@ class _ExpenseEntryBottomSheetState extends State<ExpenseEntryBottomSheet> {
       child: Container(
         decoration: BoxDecoration(
           color: theme.colorScheme.surfaceContainerHighest,
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(TokenSpacing.xl)),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -75,11 +76,11 @@ class _ExpenseEntryBottomSheetState extends State<ExpenseEntryBottomSheet> {
             // 拖拽指示器
             Center(
               child: Container(
-                margin: const EdgeInsets.only(top: 8),
+                margin: const EdgeInsets.only(top: TokenSpacing.sm),
                 width: 40,
-                height: 4,
+                height: TokenSpacing.xs,
                 decoration: BoxDecoration(
-                  color: theme.colorScheme.outline.withValues(alpha: 0.3),
+                  color: TokenColors.textTertiary.withValues(alpha: 0.3),
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
@@ -87,7 +88,7 @@ class _ExpenseEntryBottomSheetState extends State<ExpenseEntryBottomSheet> {
 
             // Header
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl, vertical: TokenSpacing.lg),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -96,12 +97,12 @@ class _ExpenseEntryBottomSheetState extends State<ExpenseEntryBottomSheet> {
                     onTap: () => setState(() => _isAiMode = !_isAiMode),
                     child: Container(
                       padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 6,
+                        horizontal: TokenSpacing.lg,
+                        vertical: TokenSpacing.sm,
                       ),
                       decoration: BoxDecoration(
                         color: theme.colorScheme.surface,
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: BorderRadius.circular(TokenSpacing.xl),
                       ),
                       child: Row(
                         children: [
@@ -110,7 +111,7 @@ class _ExpenseEntryBottomSheetState extends State<ExpenseEntryBottomSheet> {
                             style: TextStyle(
                               color: _isAiMode
                                   ? theme.colorScheme.onSurface
-                                  : theme.colorScheme.outline,
+                                  : TokenColors.textTertiary,
                               fontWeight: _isAiMode
                                   ? FontWeight.w600
                                   : FontWeight.normal,
@@ -119,7 +120,7 @@ class _ExpenseEntryBottomSheetState extends State<ExpenseEntryBottomSheet> {
                           Text(
                             ' | ',
                             style: TextStyle(
-                              color: theme.colorScheme.outline,
+                              color: TokenColors.textTertiary,
                             ),
                           ),
                           Text(
@@ -127,7 +128,7 @@ class _ExpenseEntryBottomSheetState extends State<ExpenseEntryBottomSheet> {
                             style: TextStyle(
                               color: !_isAiMode
                                   ? theme.colorScheme.onSurface
-                                  : theme.colorScheme.outline,
+                                  : TokenColors.textTertiary,
                               fontWeight: !_isAiMode
                                   ? FontWeight.w600
                                   : FontWeight.normal,
@@ -148,7 +149,7 @@ class _ExpenseEntryBottomSheetState extends State<ExpenseEntryBottomSheet> {
 
             // Input field
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
               child: TextField(
                 controller: _textController,
                 focusNode: _focusNode,
@@ -158,18 +159,18 @@ class _ExpenseEntryBottomSheetState extends State<ExpenseEntryBottomSheet> {
                       ? '描述您的支出，如：午餐花了35元'
                       : l10n.enterExpenseDescription,
                   hintStyle: TextStyle(
-                    color: theme.colorScheme.outline,
+                    color: TokenColors.textTertiary,
                   ),
                   filled: true,
                   fillColor: theme.colorScheme.surface,
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12), // Design: 12px
+                    borderRadius: TokenRadius.borderMd,
                     borderSide: BorderSide.none,
                   ),
-                  contentPadding: const EdgeInsets.all(16),
+                  contentPadding: const EdgeInsets.all(TokenSpacing.xl),
                 ),
                 maxLines: 3,
-                style: theme.textTheme.bodyLarge,
+                style: TokenTypography.body(),
                 textInputAction: TextInputAction.send,
                 onSubmitted: (value) {
                   if (value.trim().isNotEmpty) {
@@ -179,11 +180,11 @@ class _ExpenseEntryBottomSheetState extends State<ExpenseEntryBottomSheet> {
               ),
             ),
 
-            const SizedBox(height: 16),
+            const SizedBox(height: TokenSpacing.xl),
 
             // Action buttons + Submit button 同行
             Padding(
-              padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+              padding: const EdgeInsets.fromLTRB(TokenSpacing.xl, 0, TokenSpacing.xl, TokenSpacing.xl),
               child: Row(
                 children: [
                   _ActionButton(
@@ -193,7 +194,7 @@ class _ExpenseEntryBottomSheetState extends State<ExpenseEntryBottomSheet> {
                       widget.onPhotoRecognition?.call();
                     },
                   ),
-                  const SizedBox(width: 12),
+                  const SizedBox(width: TokenSpacing.lg),
                   _ActionButton(
                     icon: Icons.insert_drive_file_outlined,
                     label: l10n.billImport,
@@ -215,13 +216,13 @@ class _ExpenseEntryBottomSheetState extends State<ExpenseEntryBottomSheet> {
                             height: 36,
                             decoration: BoxDecoration(
                               color: _hasText
-                                  ? const Color(0xFF000000)
+                                  ? TokenColors.textPrimary
                                   : const Color(0xFFBDBDBD),
                               shape: BoxShape.circle,
                             ),
                             child: const Icon(
                               Icons.check,
-                              color: Color(0xFFFFFFFF),
+                              color: TokenColors.white,
                               size: 20,
                             ),
                           ),
@@ -254,14 +255,14 @@ class _ActionButton extends StatelessWidget {
 
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(20),
+      borderRadius: BorderRadius.circular(TokenSpacing.xxl),
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 14),
+        padding: const EdgeInsets.symmetric(vertical: TokenSpacing.sm, horizontal: 14),
         decoration: BoxDecoration(
           color: theme.colorScheme.surface,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(TokenSpacing.xxl),
           border: Border.all(
-            color: theme.colorScheme.outline.withValues(alpha: 0.2),
+            color: TokenColors.textTertiary.withValues(alpha: 0.2),
           ),
         ),
         child: Row(
@@ -272,10 +273,10 @@ class _ActionButton extends StatelessWidget {
               size: 16,
               color: theme.colorScheme.onSurface,
             ),
-            const SizedBox(width: 6),
+            const SizedBox(width: TokenSpacing.sm),
             Text(
               label,
-              style: theme.textTheme.bodySmall,
+              style: TokenTypography.caption(),
             ),
           ],
         ),

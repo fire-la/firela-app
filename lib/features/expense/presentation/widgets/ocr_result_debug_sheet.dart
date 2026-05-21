@@ -1,13 +1,41 @@
 import 'package:flutter/material.dart';
+import '../../../../core/design_tokens/design_tokens.dart';
 import '../../../../core/services/receipt_text_parser.dart';
+import '../../../../core/services/ocr/line_reconstructor.dart';
+
+/// Editable line item for user modification
+class _EditableItem {
+  String name;
+  double price;
+  /// Whether this item looks suspicious (name is likely not a real product name)
+  final bool isLowConfidence;
+
+  _EditableItem({required this.name, required this.price, this.isLowConfidence = false});
+}
+
+/// Heuristic: does this look like a real product name?
+/// Low confidence if name is mostly digits, single char, or looks like a code.
+bool _isSuspectName(String name) {
+  final trimmed = name.trim();
+  if (trimmed.isEmpty) return true;
+  // All digits (e.g. "150g" without product name)
+  if (RegExp(r'^[\d.]+g?s?$').hasMatch(trimmed)) return true;
+  // Very short and all digits
+  if (trimmed.length <= 2 && RegExp(r'^\d+$').hasMatch(trimmed)) return true;
+  // Looks like a barcode / product code
+  if (RegExp(r'^\d{5,}$').hasMatch(trimmed)) return true;
+  return false;
+}
 
 /// Debug sheet showing OCR recognition results for accuracy verification
-class OcrResultDebugSheet extends StatelessWidget {
+class OcrResultDebugSheet extends StatefulWidget {
   final ParsedReceipt receipt;
   final String ocrSource;
   final Duration processingTime;
-  final VoidCallback? onConfirm;
-  final VoidCallback? onRetry;
+  final void Function(OcrConfirmResult)? onConfirm;
+
+  /// Reconstructed lines from coordinate clustering (for debug display)
+  final List<ReconstructedLine> reconstructedLines;
 
   const OcrResultDebugSheet({
     super.key,
@@ -15,12 +43,40 @@ class OcrResultDebugSheet extends StatelessWidget {
     required this.ocrSource,
     required this.processingTime,
     this.onConfirm,
-    this.onRetry,
+    this.reconstructedLines = const [],
   });
+
+  @override
+  State<OcrResultDebugSheet> createState() => _OcrResultDebugSheetState();
+}
+
+class _OcrResultDebugSheetState extends State<OcrResultDebugSheet> {
+  late List<_EditableItem> _editedItems;
+  late String _merchantName;
+  late DateTime _selectedDate;
+  TransactionMode _mode = TransactionMode.single;
+
+  @override
+  void initState() {
+    super.initState();
+    _merchantName = widget.receipt.merchant;
+    _selectedDate = widget.receipt.date ?? DateTime.now();
+    _editedItems = widget.receipt.lineItems
+        .map((item) => _EditableItem(
+              name: item.name,
+              price: item.totalPrice,
+              isLowConfidence: _isSuspectName(item.name) || item.totalPrice <= 0,
+            ))
+        .toList();
+  }
+
+  /// Live sum of edited line item prices
+  double get _lineItemsTotal => _editedItems.fold<double>(0, (sum, item) => sum + item.price);
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final receipt = widget.receipt;
     final isValid = receipt.isValid && receipt.confidence >= 30;
 
     return DraggableScrollableSheet(
@@ -31,38 +87,38 @@ class OcrResultDebugSheet extends StatelessWidget {
       builder: (context, scrollController) => Container(
         decoration: BoxDecoration(
           color: theme.colorScheme.surface,
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(TokenSpacing.xxl)),
         ),
         child: Column(
           children: [
             // Handle
             Container(
-              margin: const EdgeInsets.only(top: 8),
-              width: 40, height: 4,
+              margin: const EdgeInsets.only(top: TokenSpacing.sm),
+              width: 40, height: TokenSpacing.xs,
               decoration: BoxDecoration(
-                color: theme.colorScheme.outline.withValues(alpha: 0.3),
+                color: TokenColors.textTertiary.withValues(alpha: 0.3),
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
             // Header
             Padding(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(TokenSpacing.xl),
               child: Row(
                 children: [
                   Icon(
                     isValid ? Icons.check_circle : Icons.warning,
-                    color: isValid ? Colors.green : Colors.orange,
+                    color: isValid ? TokenColors.success : TokenColors.primary,
                   ),
-                  const SizedBox(width: 8),
+                  const SizedBox(width: TokenSpacing.sm),
                   Expanded(
                     child: Text(
                       isValid ? 'OCR 识别结果' : 'OCR 识别结果（低置信度）',
-                      style: theme.textTheme.titleMedium?.copyWith(
+                      style: TokenTypography.h4(
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
-                  _buildBadge(theme, ocrSource, processingTime),
+                  _buildBadge(theme, widget.ocrSource, widget.processingTime),
                 ],
               ),
             ),
@@ -70,50 +126,33 @@ class OcrResultDebugSheet extends StatelessWidget {
             Expanded(
               child: ListView(
                 controller: scrollController,
-                padding: const EdgeInsets.symmetric(horizontal: 16),
+                padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
                 children: [
                   // Parsed fields
                   _buildSection(theme, '解析结果', [
-                    _buildFieldRow(theme, '商家', receipt.merchant.isNotEmpty ? receipt.merchant : '(未识别)', receipt.merchant.isNotEmpty),
-                    _buildFieldRow(theme, '金额', receipt.totalAmount > 0 ? '¥${receipt.totalAmount.toStringAsFixed(2)}' : '(未识别)', receipt.totalAmount > 0),
-                    _buildFieldRow(theme, '日期', receipt.date != null ? _formatDate(receipt.date!) : '(未识别)', receipt.date != null),
+                    _buildMerchantField(theme),
+                    _buildAmountRow(theme),
+                    _buildDateField(theme),
                     _buildFieldRow(theme, '置信度', '${receipt.confidence.toStringAsFixed(1)}%', receipt.confidence >= 50),
                     _buildFieldRow(theme, '明细数', '${receipt.lineItems.length} 项', receipt.lineItems.isNotEmpty),
                   ]),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: TokenSpacing.xl),
 
                   // Confidence bar
                   _buildConfidenceBar(theme, receipt.confidence),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: TokenSpacing.xl),
 
-                  // Debug matches
-                  if (receipt.debugMatches.isNotEmpty) ...[
-                    _buildSection(theme, '匹配调试', [
-                      for (final entry in receipt.debugMatches.entries)
-                        _buildFieldRow(theme, entry.key, entry.value, true),
-                    ]),
-                    const SizedBox(height: 16),
-                  ],
+                  // Mode toggle
+                  _buildModeToggle(theme),
+                  const SizedBox(height: TokenSpacing.xl),
 
-                  // Line items
-                  if (receipt.lineItems.isNotEmpty) ...[
-                    _buildSection(theme, '明细项目', [
-                      for (final item in receipt.lineItems)
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 4),
-                          child: Row(
-                            children: [
-                              Expanded(child: Text(item.name, style: theme.textTheme.bodySmall)),
-                              Text('¥${item.totalPrice.toStringAsFixed(2)}', style: theme.textTheme.bodySmall),
-                            ],
-                          ),
-                        ),
-                    ]),
-                    const SizedBox(height: 16),
-                  ],
+                  // Editable line items
+                  _buildEditableLineItems(theme),
+                  const SizedBox(height: TokenSpacing.xl),
 
-                  // Raw OCR text (collapsible)
-                  _buildRawTextSection(theme),
+                  // Order total from line items
+                  if (_editedItems.isNotEmpty)
+                    _buildLineItemsTotal(theme),
                   const SizedBox(height: 24),
                 ],
               ),
@@ -121,33 +160,16 @@ class OcrResultDebugSheet extends StatelessWidget {
             // Action buttons
             SafeArea(
               child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: OutlinedButton.icon(
-                        onPressed: () {
-                          Navigator.pop(context);
-                          onRetry?.call();
-                        },
-                        icon: const Icon(Icons.cloud),
-                        label: const Text('用云端识别'),
-                      ),
-                    ),
-                    if (onConfirm != null) ...[
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: FilledButton.icon(
-                          onPressed: () {
-                            Navigator.pop(context);
-                            onConfirm?.call();
-                          },
+                padding: const EdgeInsets.all(TokenSpacing.xl),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: widget.onConfirm != null
+                      ? FilledButton.icon(
+                          onPressed: _onConfirm,
                           icon: const Icon(Icons.check),
                           label: const Text('确认结果'),
-                        ),
-                      ),
-                    ],
-                  ],
+                        )
+                      : const SizedBox.shrink(),
                 ),
               ),
             ),
@@ -157,17 +179,398 @@ class OcrResultDebugSheet extends StatelessWidget {
     );
   }
 
-  Widget _buildBadge(ThemeData theme, String source, Duration time) {
-    final color = source == 'local' ? Colors.blue : Colors.purple;
+  void _onConfirm() {
+    // Build edited line items list
+    final editedItems = _editedItems
+        .where((item) => item.name.isNotEmpty && item.price > 0)
+        .map((item) => ParsedLineItem(name: item.name, totalPrice: item.price))
+        .toList();
+
+    final total = editedItems.fold<double>(0, (sum, item) => sum + item.totalPrice);
+
+    Navigator.pop(context);
+    widget.onConfirm?.call(OcrConfirmResult(
+      mode: _mode,
+      editedLineItems: editedItems,
+      totalAmount: total,
+      merchant: _merchantName,
+      selectedDate: _selectedDate,
+    ));
+  }
+
+  // ─── Date field (tappable to pick date) ───
+
+  Widget _buildDateField(ThemeData theme) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: TokenSpacing.xs),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(
+            width: 60,
+            child: Text('日期', style: TokenTypography.caption(
+              color: TokenColors.textTertiary,
+            )),
+          ),
+          Expanded(
+            child: SizedBox(
+              height: 32,
+              child: GestureDetector(
+                onTap: () async {
+                  final picked = await showDatePicker(
+                    context: context,
+                    initialDate: _selectedDate,
+                    firstDate: DateTime(2000),
+                    lastDate: DateTime.now().add(const Duration(days: 1)),
+                    locale: Localizations.localeOf(context),
+                  );
+                  if (picked != null) {
+                    setState(() => _selectedDate = picked);
+                  }
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: TokenColors.textAccent.withValues(alpha: 0.5),
+                    ),
+                    borderRadius: BorderRadius.circular(TokenSpacing.sm),
+                  ),
+                  padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.sm, vertical: TokenSpacing.sm),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          _formatDate(_selectedDate),
+                          style: TokenTypography.body(
+                            color: theme.colorScheme.onSurface,
+                          ),
+                        ),
+                      ),
+                      Icon(
+                        Icons.calendar_today,
+                        size: 14,
+                        color: TokenColors.textAccent,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(width: TokenSpacing.xs),
+          Icon(
+            Icons.edit_calendar,
+            size: 16,
+            color: TokenColors.textAccent,
+          ),
+        ],
+      ),
+    );
+  }
+
+  // ─── Merchant field (editable) ───
+
+  Widget _buildMerchantField(ThemeData theme) {
+    final hasName = _merchantName.isNotEmpty;
+    return Padding(
+      padding: const EdgeInsets.only(bottom: TokenSpacing.xs),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(
+            width: 60,
+            child: Text('商家', style: TokenTypography.caption(
+              color: TokenColors.textTertiary,
+            )),
+          ),
+          Expanded(
+            child: SizedBox(
+              height: 32,
+              child: TextFormField(
+                initialValue: _merchantName,
+                key: ValueKey('merchant_$_merchantName'),
+                decoration: InputDecoration(
+                  isDense: true,
+                  contentPadding: const EdgeInsets.symmetric(horizontal: TokenSpacing.sm, vertical: TokenSpacing.sm),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(TokenSpacing.sm),
+                  ),
+                  hintText: '输入商家名',
+                  hintStyle: TokenTypography.caption(
+                    color: TokenColors.textTertiary,
+                  ),
+                ),
+                style: TokenTypography.body(
+                  color: hasName ? theme.colorScheme.onSurface : TokenColors.error,
+                ),
+                onChanged: (value) {
+                  _merchantName = value;
+                },
+              ),
+            ),
+          ),
+          const SizedBox(width: TokenSpacing.xs),
+          Icon(
+            hasName ? Icons.check_circle_outline : Icons.error_outline,
+            size: 16,
+            color: hasName ? TokenColors.success : TokenColors.error,
+          ),
+        ],
+      ),
+    );
+  }
+
+  // ─── Amount row (live line items total) ───
+
+  Widget _buildAmountRow(ThemeData theme) {
+    final total = _lineItemsTotal;
+    final hasAmount = total > 0;
+    return Padding(
+      padding: const EdgeInsets.only(bottom: TokenSpacing.xs),
+      child: Row(
+        children: [
+          SizedBox(
+            width: 60,
+            child: Text('金额', style: TokenTypography.caption(
+              color: TokenColors.textTertiary,
+            )),
+          ),
+          Expanded(
+            child: Text(
+              hasAmount ? '¥${total.toStringAsFixed(2)}' : '(未识别)',
+              style: TokenTypography.body(
+                color: hasAmount ? theme.colorScheme.onSurface : TokenColors.error,
+              ),
+            ),
+          ),
+          Icon(
+            hasAmount ? Icons.check_circle_outline : Icons.error_outline,
+            size: 16,
+            color: hasAmount ? TokenColors.success : TokenColors.error,
+          ),
+        ],
+      ),
+    );
+  }
+
+  // ─── Mode toggle ───
+
+  Widget _buildModeToggle(ThemeData theme) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('记账模式', style: TokenTypography.caption(
+          fontWeight: FontWeight.bold,
+          color: TokenColors.textAccent,
+        )),
+        const SizedBox(height: TokenSpacing.sm),
+        SizedBox(
+          width: double.infinity,
+          child: SegmentedButton<TransactionMode>(
+            segments: const [
+              ButtonSegment(
+                value: TransactionMode.single,
+                label: Text('整单记账'),
+                icon: Icon(Icons.receipt),
+              ),
+              ButtonSegment(
+                value: TransactionMode.multiple,
+                label: Text('逐笔记账'),
+                icon: Icon(Icons.list_alt),
+              ),
+            ],
+            selected: {_mode},
+            onSelectionChanged: (selection) {
+              setState(() => _mode = selection.first);
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  // ─── Editable line items ───
+
+  Widget _buildEditableLineItems(ThemeData theme) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('明细项目', style: TokenTypography.caption(
+          fontWeight: FontWeight.bold,
+          color: TokenColors.textAccent,
+        )),
+        const SizedBox(height: TokenSpacing.sm),
+        if (_editedItems.isEmpty)
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: TokenSpacing.xl),
+            child: Text('无明细项目', style: TokenTypography.body(
+              color: TokenColors.textTertiary,
+            )),
+          ),
+        for (int i = 0; i < _editedItems.length; i++)
+          _buildEditableItemRow(theme, i),
+        TextButton.icon(
+          onPressed: _addItem,
+          icon: const Icon(Icons.add, size: 18),
+          label: const Text('添加项目'),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildEditableItemRow(ThemeData theme, int index) {
+    final item = _editedItems[index];
+    final isLow = item.isLowConfidence;
+
+    final borderColor = isLow ? TokenColors.primary : TokenColors.textTertiary.withValues(alpha: 0.3);
+    final bgColor = isLow ? TokenColors.primary.withValues(alpha: 0.04) : Colors.transparent;
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: TokenSpacing.sm),
+      child: Container(
+        padding: const EdgeInsets.all(TokenSpacing.sm),
+        decoration: BoxDecoration(
+          color: bgColor,
+          borderRadius: TokenRadius.borderSm,
+          border: isLow ? Border.all(color: borderColor, width: 1.5) : null,
+        ),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  flex: 3,
+                  child: TextFormField(
+                    initialValue: item.name,
+                    decoration: InputDecoration(
+                      isDense: true,
+                      contentPadding: const EdgeInsets.symmetric(horizontal: TokenSpacing.sm, vertical: TokenSpacing.sm),
+                      border: OutlineInputBorder(
+                        borderRadius: TokenRadius.borderSm,
+                      ),
+                      hintText: '商品名',
+                    ),
+                    style: TokenTypography.body(),
+                    onChanged: (value) {
+                      _editedItems[index].name = value;
+                    },
+                  ),
+                ),
+                const SizedBox(width: TokenSpacing.sm),
+                Expanded(
+                  flex: 2,
+                  child: TextFormField(
+                    initialValue: item.price > 0 ? item.price.toStringAsFixed(2) : '',
+                    keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                    decoration: InputDecoration(
+                      isDense: true,
+                      contentPadding: const EdgeInsets.symmetric(horizontal: TokenSpacing.sm, vertical: TokenSpacing.sm),
+                      border: OutlineInputBorder(
+                        borderRadius: TokenRadius.borderSm,
+                      ),
+                      prefixText: '¥ ',
+                      prefixStyle: TokenTypography.body(
+                        color: TokenColors.textAccent,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      hintText: '0.00',
+                    ),
+                    style: TokenTypography.body(
+                      color: TokenColors.textAccent,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    onChanged: (value) {
+                      _editedItems[index].price = double.tryParse(value) ?? 0;
+                      setState(() {});
+                    },
+                  ),
+                ),
+                const SizedBox(width: TokenSpacing.xs),
+                IconButton(
+                  icon: Icon(Icons.close, size: 18, color: TokenColors.error),
+                  onPressed: () => _removeItem(index),
+                  padding: EdgeInsets.zero,
+                  constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
+                ),
+              ],
+            ),
+            if (isLow)
+              Padding(
+                padding: const EdgeInsets.only(top: 2, left: TokenSpacing.xs),
+                child: Row(
+                  children: [
+                    Icon(Icons.info_outline, size: 12, color: TokenColors.primary),
+                    const SizedBox(width: TokenSpacing.xs),
+                    Text(
+                      item.name.trim().isEmpty
+                          ? '商品名为空，请补充'
+                          : item.price <= 0
+                              ? '价格缺失，请补充'
+                              : '商品名疑似识别有误，请核对',
+                      style: TokenTypography.micro(
+                        color: TokenColors.primary,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _addItem() {
+    setState(() {
+      _editedItems.add(_EditableItem(name: '', price: 0));
+    });
+  }
+
+  void _removeItem(int index) {
+    setState(() {
+      _editedItems.removeAt(index);
+    });
+  }
+
+  // ─── Line items total ───
+
+  Widget _buildLineItemsTotal(ThemeData theme) {
+    final total = _lineItemsTotal;
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.lg, vertical: 10),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.primaryContainer.withValues(alpha: 0.3),
+        borderRadius: TokenRadius.borderSm,
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text('明细合计', style: TokenTypography.body(
+            fontWeight: FontWeight.w500,
+          )),
+          Text('¥${total.toStringAsFixed(2)}', style: TokenTypography.h4(
+            fontWeight: FontWeight.bold,
+            color: TokenColors.textAccent,
+          )),
+        ],
+      ),
+    );
+  }
+
+  // ─── Helpers ───
+
+  Widget _buildBadge(ThemeData theme, String source, Duration time) {
+    final color = source == 'local' || source == 'ML Kit' ? TokenColors.info : Colors.purple;
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.sm, vertical: TokenSpacing.xs),
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: TokenRadius.borderMd,
       ),
       child: Text(
         '$source · ${time.inMilliseconds}ms',
-        style: theme.textTheme.labelSmall?.copyWith(color: color),
+        style: TokenTypography.micro(color: color),
       ),
     );
   }
@@ -176,11 +579,11 @@ class OcrResultDebugSheet extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(title, style: theme.textTheme.titleSmall?.copyWith(
+        Text(title, style: TokenTypography.caption(
           fontWeight: FontWeight.bold,
-          color: theme.colorScheme.primary,
+          color: TokenColors.textAccent,
         )),
-        const SizedBox(height: 8),
+        const SizedBox(height: TokenSpacing.sm),
         ...children,
       ],
     );
@@ -188,25 +591,25 @@ class OcrResultDebugSheet extends StatelessWidget {
 
   Widget _buildFieldRow(ThemeData theme, String label, String value, bool isGood) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 4),
+      padding: const EdgeInsets.only(bottom: TokenSpacing.xs),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
             width: 60,
-            child: Text(label, style: theme.textTheme.bodySmall?.copyWith(
-              color: theme.colorScheme.outline,
+            child: Text(label, style: TokenTypography.caption(
+              color: TokenColors.textTertiary,
             )),
           ),
           Expanded(
-            child: Text(value, style: theme.textTheme.bodyMedium?.copyWith(
-              color: isGood ? theme.colorScheme.onSurface : theme.colorScheme.error,
+            child: Text(value, style: TokenTypography.body(
+              color: isGood ? theme.colorScheme.onSurface : TokenColors.error,
             )),
           ),
           Icon(
             isGood ? Icons.check_circle_outline : Icons.error_outline,
             size: 16,
-            color: isGood ? Colors.green : Colors.red,
+            color: isGood ? TokenColors.success : TokenColors.error,
           ),
         ],
       ),
@@ -215,56 +618,25 @@ class OcrResultDebugSheet extends StatelessWidget {
 
   Widget _buildConfidenceBar(ThemeData theme, double confidence) {
     final color = confidence >= 70
-        ? Colors.green
+        ? TokenColors.success
         : confidence >= 40
-            ? Colors.orange
-            : Colors.red;
+            ? TokenColors.primary
+            : TokenColors.error;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('置信度', style: theme.textTheme.bodySmall?.copyWith(
-          color: theme.colorScheme.outline,
+        Text('置信度', style: TokenTypography.caption(
+          color: TokenColors.textTertiary,
         )),
-        const SizedBox(height: 4),
+        const SizedBox(height: TokenSpacing.xs),
         ClipRRect(
-          borderRadius: BorderRadius.circular(4),
+          borderRadius: BorderRadius.circular(TokenSpacing.xs),
           child: LinearProgressIndicator(
             value: confidence / 100,
             backgroundColor: color.withValues(alpha: 0.2),
             valueColor: AlwaysStoppedAnimation(color),
-            minHeight: 8,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildRawTextSection(ThemeData theme) {
-    return ExpansionTile(
-      initiallyExpanded: true,
-      tilePadding: EdgeInsets.zero,
-      title: Text('原始 OCR 文本', style: theme.textTheme.titleSmall?.copyWith(
-        fontWeight: FontWeight.bold,
-        color: theme.colorScheme.primary,
-      )),
-      children: [
-        Container(
-          width: double.infinity,
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            color: theme.colorScheme.surfaceContainerHighest,
-            borderRadius: BorderRadius.circular(8),
-          ),
-          constraints: const BoxConstraints(maxHeight: 250),
-          child: SingleChildScrollView(
-            child: Text(
-              receipt.rawText,
-              style: theme.textTheme.bodySmall?.copyWith(
-                fontFamily: 'monospace',
-                height: 1.5,
-              ),
-            ),
+            minHeight: TokenSpacing.sm,
           ),
         ),
       ],

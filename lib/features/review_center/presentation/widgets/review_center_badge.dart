@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:signals_flutter/signals_flutter.dart';
+import '../../../../core/design_tokens/design_tokens.dart';
 import '../signals/review_center_signal.dart';
 
 /// Badge widget for Review Center entry point
@@ -27,7 +28,7 @@ class ReviewCenterBadge extends HookWidget {
         onTap: () => _handleTap(context),
         borderRadius: BorderRadius.circular(24),
         child: Padding(
-          padding: const EdgeInsets.all(8),
+          padding: const EdgeInsets.all(TokenSpacing.sm),
           child: Stack(
             clipBehavior: Clip.none,
             children: [
@@ -45,11 +46,11 @@ class ReviewCenterBadge extends HookWidget {
                   child: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
                     decoration: BoxDecoration(
-                      color: Colors.red,
+                      color: TokenColors.error,
                       borderRadius: BorderRadius.circular(10),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.2),
+                          color: TokenColors.textPrimary.withValues(alpha: 0.2),
                           blurRadius: 2,
                           offset: const Offset(0, 1),
                         ),
@@ -58,9 +59,8 @@ class ReviewCenterBadge extends HookWidget {
                     constraints: const BoxConstraints(minWidth: 18),
                     child: Text(
                       isLoading ? '...' : _formatCount(count),
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 11,
+                      style: TokenTypography.micro(
+                        color: TokenColors.white,
                         fontWeight: FontWeight.bold,
                       ),
                       textAlign: TextAlign.center,

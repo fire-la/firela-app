@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firela_app/generated/l10n/app_localizations.dart';
+import '../../../../core/design_tokens/design_tokens.dart';
 
 /// Enum representing the import progress steps
 enum ImportStep {
@@ -132,17 +133,17 @@ class _ImportProgressIndicatorState extends State<ImportProgressIndicator>
         // Step indicators row
         _buildStepIndicators(context, l10n, theme),
 
-        const SizedBox(height: 16),
+        const SizedBox(height: TokenSpacing.xl),
 
         // Current step label with progress
         _buildCurrentStepLabel(context, l10n, theme),
 
-        const SizedBox(height: 8),
+        const SizedBox(height: TokenSpacing.sm),
 
         // Animated progress bar
         _buildProgressBar(context, theme),
 
-        const SizedBox(height: 8),
+        const SizedBox(height: TokenSpacing.sm),
 
         // Progress details (percentage and item count)
         _buildProgressDetails(context, l10n, theme),
@@ -203,24 +204,24 @@ class _ImportProgressIndicatorState extends State<ImportProgressIndicator>
             key: ValueKey(widget.currentStep),
             size: 20,
             color: isError
-                ? Colors.red
+                ? TokenColors.error
                 : isComplete
-                    ? Colors.green
-                    : theme.colorScheme.primary,
+                    ? TokenColors.success
+                    : TokenColors.textAccent,
           ),
         ),
-        const SizedBox(width: 8),
+        const SizedBox(width: TokenSpacing.sm),
         AnimatedSwitcher(
           duration: const Duration(milliseconds: 300),
           child: Text(
             widget.currentStep.label(l10n),
             key: ValueKey(widget.currentStep),
-            style: theme.textTheme.titleMedium?.copyWith(
+            style: TokenTypography.h4(
               fontWeight: FontWeight.w600,
               color: isError
-                  ? Colors.red
+                  ? TokenColors.error
                   : isComplete
-                      ? Colors.green
+                      ? TokenColors.success
                       : theme.colorScheme.onSurface,
             ),
           ),
@@ -238,7 +239,7 @@ class _ImportProgressIndicatorState extends State<ImportProgressIndicator>
         final isComplete = widget.currentStep == ImportStep.complete;
 
         return Container(
-          height: 6,
+          height: TokenSpacing.sm,
           decoration: BoxDecoration(
             color: theme.colorScheme.surfaceContainerHighest,
             borderRadius: BorderRadius.circular(3),
@@ -249,10 +250,10 @@ class _ImportProgressIndicatorState extends State<ImportProgressIndicator>
             child: Container(
               decoration: BoxDecoration(
                 color: isError
-                    ? Colors.red
+                    ? TokenColors.error
                     : isComplete
-                        ? Colors.green
-                        : theme.colorScheme.primary,
+                        ? TokenColors.success
+                        : TokenColors.textAccent,
                 borderRadius: BorderRadius.circular(3),
               ),
             ),
@@ -280,8 +281,8 @@ class _ImportProgressIndicatorState extends State<ImportProgressIndicator>
             final percentage = (_progressAnimation.value * 100).toInt();
             return Text(
               '$percentage%',
-              style: theme.textTheme.bodySmall?.copyWith(
-                color: theme.colorScheme.outline,
+              style: TokenTypography.caption(
+                color: TokenColors.textTertiary,
               ),
             );
           },
@@ -290,22 +291,22 @@ class _ImportProgressIndicatorState extends State<ImportProgressIndicator>
         if (widget.itemCount != null && widget.processedCount != null)
           Text(
             '${widget.processedCount}/${widget.itemCount} ${l10n.items}',
-            style: theme.textTheme.bodySmall?.copyWith(
-              color: theme.colorScheme.outline,
+            style: TokenTypography.caption(
+              color: TokenColors.textTertiary,
             ),
           )
         else if (isComplete && widget.itemCount != null)
           Text(
             '${widget.itemCount} ${l10n.items}',
-            style: theme.textTheme.bodySmall?.copyWith(
-              color: Colors.green,
+            style: TokenTypography.caption(
+              color: TokenColors.success,
             ),
           )
         else if (isError)
           Text(
             l10n.importErrorRetry,
-            style: theme.textTheme.bodySmall?.copyWith(
-              color: Colors.red,
+            style: TokenTypography.caption(
+              color: TokenColors.error,
             ),
           ),
       ],
@@ -342,14 +343,14 @@ class _StepDot extends StatelessWidget {
           height: 28,
           decoration: BoxDecoration(
             color: _isError && _isCurrent
-                ? Colors.red
+                ? TokenColors.error
                 : _isCompleted || _isCurrent
-                    ? theme.colorScheme.primary
+                    ? TokenColors.textAccent
                     : theme.colorScheme.surfaceContainerHighest,
             shape: BoxShape.circle,
             border: _isCurrent
                 ? Border.all(
-                    color: theme.colorScheme.primary,
+                    color: TokenColors.textAccent,
                     width: 2,
                   )
                 : null,
@@ -358,27 +359,26 @@ class _StepDot extends StatelessWidget {
             child: _isCompleted
                 ? const Icon(
                     Icons.check,
-                    color: Colors.white,
+                    color: TokenColors.white,
                     size: 16,
                   )
                 : Text(
                     step.stepIndex.toString(),
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: _isCurrent ? theme.colorScheme.primary : theme.colorScheme.outline,
+                    style: TokenTypography.caption(
+                      color: _isCurrent ? TokenColors.textAccent : TokenColors.textTertiary,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
           ),
         ),
-        const SizedBox(height: 4),
+        const SizedBox(height: TokenSpacing.xs),
         Text(
           label,
-          style: theme.textTheme.bodySmall?.copyWith(
+          style: TokenTypography.micro(
             color: _isCurrent
                 ? theme.colorScheme.onSurface
-                : theme.colorScheme.outline,
+                : TokenColors.textTertiary,
             fontWeight: _isCurrent ? FontWeight.w600 : FontWeight.normal,
-            fontSize: 10,
           ),
           textAlign: TextAlign.center,
           maxLines: 1,
@@ -405,7 +405,7 @@ class _StepConnector extends StatelessWidget {
       height: 2,
       decoration: BoxDecoration(
         color: isActive
-            ? theme.colorScheme.primary
+            ? TokenColors.textAccent
             : theme.colorScheme.surfaceContainerHighest,
         borderRadius: BorderRadius.circular(1),
       ),

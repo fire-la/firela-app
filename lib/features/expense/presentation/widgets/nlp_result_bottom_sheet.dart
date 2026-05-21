@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import '../../../../core/design_tokens/design_tokens.dart';
 
 /// NLP 记账结果弹窗
 /// 参考 IGN 项目 uv-i-nlp-form-popup 组件
@@ -69,7 +70,7 @@ class NlpResultBottomSheet extends HookWidget {
     return Container(
       decoration: BoxDecoration(
         color: theme.colorScheme.surfaceContainerHighest,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(TokenSpacing.xl)),
       ),
       child: SingleChildScrollView(
         child: Padding(
@@ -82,11 +83,11 @@ class NlpResultBottomSheet extends HookWidget {
               // 拖拽指示器
               Center(
                 child: Container(
-                  margin: const EdgeInsets.only(top: 8),
+                  margin: const EdgeInsets.only(top: TokenSpacing.sm),
                   width: 40,
-                  height: 4,
+                  height: TokenSpacing.xs,
                   decoration: BoxDecoration(
-                    color: theme.colorScheme.outline.withValues(alpha: 0.3),
+                    color: TokenColors.textTertiary.withValues(alpha: 0.3),
                     borderRadius: BorderRadius.circular(2),
                   ),
                 ),
@@ -96,19 +97,19 @@ class NlpResultBottomSheet extends HookWidget {
               if (message != null && message!.isNotEmpty && !message!.contains('类似交易'))
                 Container(
                   width: double.infinity,
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl, vertical: TokenSpacing.lg),
                   decoration: BoxDecoration(
-                    color: const Color(0xFFFF9800).withValues(alpha: 0.1),
+                    color: TokenColors.primary.withValues(alpha: 0.1),
                   ),
                   child: Row(
                     children: [
-                      const Icon(Icons.auto_awesome, size: 20, color: Color(0xFFFF9800)),
-                      const SizedBox(width: 8),
+                      const Icon(Icons.auto_awesome, size: 20, color: TokenColors.primary),
+                      const SizedBox(width: TokenSpacing.sm),
                       Expanded(
                         child: Text(
                           message!,
-                          style: theme.textTheme.bodyMedium?.copyWith(
-                            color: const Color(0xFFFF9800),
+                          style: TokenTypography.body(
+                            color: TokenColors.primary,
                           ),
                         ),
                       ),
@@ -120,21 +121,24 @@ class NlpResultBottomSheet extends HookWidget {
               if (message != null && message!.contains('类似交易'))
                 Container(
                   width: double.infinity,
-                  margin: const EdgeInsets.all(16),
-                  padding: const EdgeInsets.all(12),
+                  margin: const EdgeInsets.all(TokenSpacing.xl),
+                  padding: const EdgeInsets.all(TokenSpacing.lg),
                   decoration: BoxDecoration(
-                    color: Colors.orange.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(12), // Design: 12px
-                    border: Border.all(color: Colors.orange.withValues(alpha: 0.3)),
+                    color: TokenColors.primary.withValues(alpha: 0.1),
+                    borderRadius: TokenRadius.borderMd,
+                    border: Border.all(color: TokenColors.primary.withValues(alpha: 0.3)),
                   ),
                   child: Row(
                     children: [
-                      const Icon(Icons.warning_amber, size: 20, color: Colors.orange),
-                      const SizedBox(width: 8),
+                      const Icon(Icons.warning_amber, size: 20, color: TokenColors.primary),
+                      const SizedBox(width: TokenSpacing.sm),
                       Expanded(
                         child: Text(
                           message!,
-                          style: theme.textTheme.bodySmall?.copyWith(color: Colors.orange[800]),
+                          style: TokenTypography.caption(
+                            color: TokenColors.primary,
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
                       ),
                     ],
@@ -143,24 +147,24 @@ class NlpResultBottomSheet extends HookWidget {
 
               // Title
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl, vertical: TokenSpacing.lg),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Row(
                       children: [
                         Container(
-                          padding: const EdgeInsets.all(8),
+                          padding: const EdgeInsets.all(TokenSpacing.sm),
                           decoration: BoxDecoration(
                             color: theme.colorScheme.surface,
-                            borderRadius: BorderRadius.circular(12) // Design: 12px,
+                            borderRadius: TokenRadius.borderMd,
                           ),
                           child: const Icon(Icons.auto_awesome, size: 20),
                         ),
-                        const SizedBox(width: 8),
+                        const SizedBox(width: TokenSpacing.sm),
                         Text(
                           mode == 'ask' ? '请补充信息' : 'AI 解析结果',
-                          style: theme.textTheme.titleMedium?.copyWith(
+                          style: TokenTypography.h4(
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -183,7 +187,7 @@ class NlpResultBottomSheet extends HookWidget {
               // ask 模式：显示输入框让用户补充缺失字段
               if (mode == 'ask' && askController != null)
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+                  padding: const EdgeInsets.fromLTRB(TokenSpacing.xl, TokenSpacing.sm, TokenSpacing.xl, 0),
                   child: TextField(
                     controller: askController,
                     decoration: InputDecoration(
@@ -210,7 +214,7 @@ class NlpResultBottomSheet extends HookWidget {
 
               // 操作按钮
               Padding(
-                padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                padding: const EdgeInsets.fromLTRB(TokenSpacing.xl, 0, TokenSpacing.xl, TokenSpacing.xl),
                 child: SizedBox(
                   width: double.infinity,
                   child: FilledButton(
@@ -227,11 +231,11 @@ class NlpResultBottomSheet extends HookWidget {
                       Navigator.of(context).pop();
                     },
                     style: FilledButton.styleFrom(
-                      backgroundColor: const Color(0xFF000000),
-                      foregroundColor: const Color(0xFFFFFFFF),
-                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      backgroundColor: TokenColors.textPrimary,
+                      foregroundColor: TokenColors.white,
+                      padding: const EdgeInsets.symmetric(vertical: TokenSpacing.xl),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12) // Design: 12px,
+                        borderRadius: TokenRadius.borderMd,
                       ),
                     ),
                     child: Text(mode == 'ask' ? '提交' : '确认记账'),
@@ -285,43 +289,48 @@ class NlpResultBottomSheet extends HookWidget {
 
     if (fields.isEmpty) {
       fields.add(Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(TokenSpacing.xl),
         child: Text(
           '暂无解析数据',
-          style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.outline),
+          style: TokenTypography.body(
+            color: TokenColors.textTertiary,
+          ),
         ),
       ));
     }
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
       child: Column(children: fields),
     );
   }
 
   Widget _buildFieldRow(ThemeData theme, String label, String value, {bool isHighlight = false}) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-      margin: const EdgeInsets.only(bottom: 8),
+      padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl, vertical: 14),
+      margin: const EdgeInsets.only(bottom: TokenSpacing.sm),
       decoration: BoxDecoration(
         color: theme.colorScheme.surface,
-        borderRadius: BorderRadius.circular(12) // Design: 12px,
+        borderRadius: TokenRadius.borderMd,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
             label,
-            style: theme.textTheme.bodySmall?.copyWith(
-              color: theme.colorScheme.outline,
+            style: TokenTypography.caption(
+              color: TokenColors.textTertiary,
             ),
           ),
           Text(
             value,
-            style: theme.textTheme.bodyMedium?.copyWith(
-              fontWeight: isHighlight ? FontWeight.bold : FontWeight.normal,
-              fontSize: isHighlight ? 18 : null,
-            ),
+            style: isHighlight
+                ? TokenTypography.h3(
+                    fontWeight: isHighlight ? FontWeight.bold : FontWeight.normal,
+                  )
+                : TokenTypography.body(
+                    fontWeight: isHighlight ? FontWeight.bold : FontWeight.normal,
+                  ),
           ),
         ],
       ),
@@ -332,47 +341,47 @@ class NlpResultBottomSheet extends HookWidget {
     return Container(
       decoration: BoxDecoration(
         color: theme.colorScheme.surfaceContainerHighest,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(TokenSpacing.xl)),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           const SizedBox(height: 32),
-          const Icon(Icons.check_circle, size: 64, color: Colors.green),
-          const SizedBox(height: 16),
+          const Icon(Icons.check_circle, size: 64, color: TokenColors.success),
+          const SizedBox(height: TokenSpacing.xl),
           Text(
             '记账成功',
-            style: theme.textTheme.titleLarge?.copyWith(
+            style: TokenTypography.h4(
               fontWeight: FontWeight.bold,
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: TokenSpacing.sm),
 
           // 展示记账详情
           if (parsedData['amount'] != null)
             Text(
               '¥${parsedData['amount']}',
-              style: theme.textTheme.headlineMedium?.copyWith(
+              style: TokenTypography.h3(
                 fontWeight: FontWeight.w500,
               ),
             ),
 
           if (parsedData['payee'] != null || parsedData['category'] != null)
             Padding(
-              padding: const EdgeInsets.only(top: 4),
+              padding: const EdgeInsets.only(top: TokenSpacing.xs),
               child: Text(
                 [parsedData['payee'], parsedData['category']]
                     .where((e) => e != null)
                     .join(' · '),
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  color: theme.colorScheme.outline,
+                style: TokenTypography.body(
+                  color: TokenColors.textTertiary,
                 ),
               ),
             ),
 
           const SizedBox(height: 24),
           Padding(
-            padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+            padding: const EdgeInsets.fromLTRB(TokenSpacing.xl, 0, TokenSpacing.xl, TokenSpacing.xl),
             child: SizedBox(
               width: double.infinity,
               child: FilledButton(
@@ -381,11 +390,11 @@ class NlpResultBottomSheet extends HookWidget {
                   Navigator.of(context).pop();
                 },
                 style: FilledButton.styleFrom(
-                  backgroundColor: const Color(0xFF000000),
-                  foregroundColor: const Color(0xFFFFFFFF),
-                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  backgroundColor: TokenColors.textPrimary,
+                  foregroundColor: TokenColors.white,
+                  padding: const EdgeInsets.symmetric(vertical: TokenSpacing.xl),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12) // Design: 12px,
+                    borderRadius: TokenRadius.borderMd,
                   ),
                 ),
                 child: const Text('完成'),

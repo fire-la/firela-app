@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firela_app/generated/l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../core/design_tokens/design_tokens.dart';
 import '../../../review_center/domain/models/confidence_level.dart';
 
 /// Summary of a batch import operation
@@ -85,12 +86,12 @@ class BatchImportSummary extends StatelessWidget {
     }
 
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(TokenSpacing.xxl),
       decoration: BoxDecoration(
         color: result.isSuccess
-            ? Colors.green.withValues(alpha: 0.1)
-            : Colors.orange.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(16),
+            ? TokenColors.success.withValues(alpha: 0.1)
+            : TokenColors.primary.withValues(alpha: 0.1),
+        borderRadius: TokenRadius.borderLg,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -108,37 +109,37 @@ class BatchImportSummary extends StatelessWidget {
                   height: 64,
                   decoration: BoxDecoration(
                     color: result.isSuccess
-                        ? Colors.green.withValues(alpha: 0.2)
-                        : Colors.orange.withValues(alpha: 0.2),
+                        ? TokenColors.success.withValues(alpha: 0.2)
+                        : TokenColors.primary.withValues(alpha: 0.2),
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
                     result.isSuccess ? Icons.check_circle : Icons.info_outline,
                     size: 40,
-                    color: result.isSuccess ? Colors.green : Colors.orange,
+                    color: result.isSuccess ? TokenColors.success : TokenColors.primary,
                   ),
                 ),
               );
             },
           ),
 
-          const SizedBox(height: 16),
+          const SizedBox(height: TokenSpacing.xl),
 
           // Title
           Text(
             l10n.batchImportSummaryTitle,
-            style: theme.textTheme.titleLarge?.copyWith(
+            style: TokenTypography.h4(
               fontWeight: FontWeight.bold,
             ),
           ),
 
-          const SizedBox(height: 8),
+          const SizedBox(height: TokenSpacing.sm),
 
           // Summary message
           Text(
             l10n.batchImportItemsImported(result.successfullyImported),
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: theme.colorScheme.outline,
+            style: TokenTypography.body(
+              color: TokenColors.textTertiary,
             ),
             textAlign: TextAlign.center,
           ),
@@ -154,7 +155,7 @@ class BatchImportSummary extends StatelessWidget {
                   theme,
                   l10n.batchImportSuccessfullyImported,
                   result.successfullyImported.toString(),
-                  Colors.green,
+                  TokenColors.success,
                   Icons.check_circle_outline,
                 ),
               if (result.hasDuplicates)
@@ -162,7 +163,7 @@ class BatchImportSummary extends StatelessWidget {
                   theme,
                   l10n.batchImportDuplicatesSkipped,
                   result.duplicatesSkipped.toString(),
-                  Colors.orange,
+                  TokenColors.primary,
                   Icons.content_copy,
                 ),
               if (result.hasReviewItems)
@@ -170,7 +171,7 @@ class BatchImportSummary extends StatelessWidget {
                   theme,
                   l10n.batchImportRequiresReview,
                   result.requiresReview.toString(),
-                  Colors.blue,
+                  TokenColors.info,
                   Icons.rate_review_outlined,
                 ),
             ],
@@ -194,14 +195,14 @@ class BatchImportSummary extends StatelessWidget {
                 icon: const Icon(Icons.rate_review_outlined, size: 18),
                 label: Text(l10n.batchImportReviewLowConfidence),
                 style: FilledButton.styleFrom(
-                  backgroundColor: Colors.blue,
-                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  backgroundColor: TokenColors.info,
+                  padding: const EdgeInsets.symmetric(vertical: TokenSpacing.lg),
                 ),
               ),
             ),
 
           if (result.hasSuccess && result.hasReviewItems)
-            const SizedBox(height: 8),
+            const SizedBox(height: TokenSpacing.sm),
 
           if (result.hasSuccess)
             SizedBox(
@@ -218,12 +219,12 @@ class BatchImportSummary extends StatelessWidget {
                 icon: const Icon(Icons.receipt_long_outlined, size: 18),
                 label: Text(l10n.batchImportViewImported),
                 style: OutlinedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  padding: const EdgeInsets.symmetric(vertical: TokenSpacing.lg),
                 ),
               ),
             ),
 
-          const SizedBox(height: 16),
+          const SizedBox(height: TokenSpacing.xl),
 
           // Bottom action row
           Row(
@@ -238,7 +239,7 @@ class BatchImportSummary extends StatelessWidget {
                   child: Text(l10n.batchImportContinueImport),
                 ),
               ),
-              const SizedBox(width: 12),
+              const SizedBox(width: TokenSpacing.lg),
               Expanded(
                 child: FilledButton(
                   onPressed: onDone ??
@@ -278,19 +279,19 @@ class BatchImportSummary extends StatelessWidget {
             size: 24,
           ),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: TokenSpacing.sm),
         Text(
           value,
-          style: theme.textTheme.headlineSmall?.copyWith(
+          style: TokenTypography.h3(
             fontWeight: FontWeight.bold,
             color: color,
           ),
         ),
-        const SizedBox(height: 4),
+        const SizedBox(height: TokenSpacing.xs),
         Text(
           label,
-          style: theme.textTheme.bodySmall?.copyWith(
-            color: theme.colorScheme.outline,
+          style: TokenTypography.caption(
+            color: TokenColors.textTertiary,
           ),
           textAlign: TextAlign.center,
           maxLines: 2,

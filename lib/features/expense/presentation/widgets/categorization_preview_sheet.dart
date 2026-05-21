@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firela_app/generated/l10n/app_localizations.dart';
+import '../../../../core/design_tokens/design_tokens.dart';
 import '../../../review_center/domain/models/confidence_level.dart';
 import '../../../review_center/presentation/widgets/confidence_indicator.dart';
 
@@ -83,19 +84,19 @@ class _CategorizationPreviewSheetState extends State<CategorizationPreviewSheet>
     ),
     decoration: BoxDecoration(
       color: theme.colorScheme.surface,
-      borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+      borderRadius: const BorderRadius.vertical(top: Radius.circular(TokenSpacing.xl)),
     ),
     child: Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         // Handle bar
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 12),
+          padding: const EdgeInsets.symmetric(vertical: TokenSpacing.lg),
           child: Container(
             width: 40,
-            height: 4,
+            height: TokenSpacing.xs,
             decoration: BoxDecoration(
-              color: theme.colorScheme.outline.withValues(alpha: 0.3),
+              color: TokenColors.textTertiary.withValues(alpha: 0.3),
               borderRadius: BorderRadius.circular(2),
             ),
           ),
@@ -103,37 +104,37 @@ class _CategorizationPreviewSheetState extends State<CategorizationPreviewSheet>
 
         // Header
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 l10n.categorizationPreviewTitle,
-                style: theme.textTheme.titleLarge?.copyWith(
+                style: TokenTypography.h4(
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: TokenSpacing.sm),
               Row(
                 children: [
                   Text(
                     '${widget.items.length} ${l10n.items}',
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      color: theme.colorScheme.outline,
+                    style: TokenTypography.body(
+                      color: TokenColors.textTertiary,
                     ),
                   ),
-                  const SizedBox(width: 16),
+                  const SizedBox(width: TokenSpacing.xl),
                   if (_needsReviewCount > 0)
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                      padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.sm, vertical: 2),
                       decoration: BoxDecoration(
-                        color: Colors.orange.withValues(alpha: 0.1),
-                        borderRadius: BorderRadius.circular(8),
+                        color: TokenColors.primary.withValues(alpha: 0.1),
+                        borderRadius: TokenRadius.borderSm,
                       ),
                       child: Text(
                         '$_needsReviewCount ${l10n.needsReview}',
-                        style: theme.textTheme.bodySmall?.copyWith(
-                          color: Colors.orange,
+                        style: TokenTypography.caption(
+                          color: TokenColors.primary,
                         ),
                       ),
                     ),
@@ -143,12 +144,12 @@ class _CategorizationPreviewSheetState extends State<CategorizationPreviewSheet>
           ),
         ),
 
-        const SizedBox(height: 16),
+        const SizedBox(height: TokenSpacing.xl),
 
         // Items list
         Expanded(
           child: ListView.builder(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
             itemCount: widget.items.length,
             itemBuilder: (context, index) => _buildItemCard(context, l10n, theme, index),
           ),
@@ -156,11 +157,11 @@ class _CategorizationPreviewSheetState extends State<CategorizationPreviewSheet>
 
         // Footer actions
         Container(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(TokenSpacing.xl),
           decoration: BoxDecoration(
             color: theme.colorScheme.surface,
             border: Border(
-              top: BorderSide(color: theme.colorScheme.outline.withValues(alpha: 0.1)),
+              top: BorderSide(color: TokenColors.textTertiary.withValues(alpha: 0.1)),
             ),
           ),
           child: SafeArea(
@@ -172,7 +173,7 @@ class _CategorizationPreviewSheetState extends State<CategorizationPreviewSheet>
                     child: Text(l10n.cancel),
                   ),
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: TokenSpacing.lg),
                 Expanded(
                   flex: 2,
                   child: FilledButton(
@@ -200,13 +201,13 @@ class _CategorizationPreviewSheetState extends State<CategorizationPreviewSheet>
     final wasEdited = selectedCategory != item.suggestedCategory;
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(12),
+      margin: const EdgeInsets.only(bottom: TokenSpacing.lg),
+      padding: const EdgeInsets.all(TokenSpacing.lg),
       decoration: BoxDecoration(
         color: theme.colorScheme.surfaceContainerHighest,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: TokenRadius.borderMd,
         border: wasEdited
-            ? Border.all(color: theme.colorScheme.primary.withValues(alpha: 0.3))
+            ? Border.all(color: TokenColors.textAccent.withValues(alpha: 0.3))
             : null,
       ),
       child: Column(
@@ -218,30 +219,30 @@ class _CategorizationPreviewSheetState extends State<CategorizationPreviewSheet>
               Expanded(
                 child: Text(
                   item.merchant,
-                  style: theme.textTheme.bodyMedium?.copyWith(
+                  style: TokenTypography.body(
                     fontWeight: FontWeight.w500,
                   ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-              const SizedBox(width: 8),
+              const SizedBox(width: TokenSpacing.sm),
               ConfidenceIndicator(
                 level: item.confidenceLevel,
                 showLabel: false,
                 size: 8,
               ),
-              const SizedBox(width: 8),
+              const SizedBox(width: TokenSpacing.sm),
               Text(
                 '¥${item.amount.toStringAsFixed(1)}',
-                style: theme.textTheme.bodyMedium?.copyWith(
+                style: TokenTypography.body(
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ],
           ),
 
-          const SizedBox(height: 8),
+          const SizedBox(height: TokenSpacing.sm),
 
           // Category dropdown
           Row(
@@ -249,9 +250,9 @@ class _CategorizationPreviewSheetState extends State<CategorizationPreviewSheet>
               Icon(
                 Icons.category_outlined,
                 size: 16,
-                color: theme.colorScheme.outline,
+                color: TokenColors.textTertiary,
               ),
-              const SizedBox(width: 8),
+              const SizedBox(width: TokenSpacing.sm),
               Expanded(
             child: DropdownButtonFormField<String>(
               value: selectedCategory,
@@ -261,13 +262,13 @@ class _CategorizationPreviewSheetState extends State<CategorizationPreviewSheet>
                 border: InputBorder.none,
                 hintText: l10n.pleaseSelect,
               ),
-              style: theme.textTheme.bodySmall,
+              style: TokenTypography.caption(),
               items: widget.availableCategories.map((category) {
                 return DropdownMenuItem<String>(
                   value: category,
                   child: Text(
                     category,
-                    style: theme.textTheme.bodySmall,
+                    style: TokenTypography.caption(),
                   ),
                 );
               }).toList(),
@@ -284,23 +285,23 @@ class _CategorizationPreviewSheetState extends State<CategorizationPreviewSheet>
           ),
           if (wasEdited)
             Padding(
-              padding: const EdgeInsets.only(left: 8),
+              padding: const EdgeInsets.only(left: TokenSpacing.sm),
               child: Icon(
                 Icons.edit,
                 size: 14,
-                color: theme.colorScheme.primary,
+                color: TokenColors.textAccent,
               ),
             ),
         ],
       ),
 
-      const SizedBox(height: 4),
+      const SizedBox(height: TokenSpacing.xs),
 
       // Date
       Text(
         '${item.date.year}-${item.date.month.toString().padLeft(2, '0')}-${item.date.day.toString().padLeft(2, '0')}',
-        style: theme.textTheme.bodySmall?.copyWith(
-          color: theme.colorScheme.outline,
+        style: TokenTypography.caption(
+          color: TokenColors.textTertiary,
         ),
       ),
     ],

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import '../../../../core/design_tokens/design_tokens.dart';
 import '../../../../core/services/analytics_service.dart';
 import '../../../../core/services/analytics_events.dart';
 import '../../domain/entities/pending_transaction.dart';
@@ -77,7 +78,7 @@ class ReviewDetailPage extends HookWidget {
             FilledButton(
               onPressed: () => Navigator.pop(context, true),
               style: FilledButton.styleFrom(
-                backgroundColor: theme.colorScheme.error,
+                backgroundColor: TokenColors.error,
               ),
               child: const Text('删除'),
             ),
@@ -92,7 +93,7 @@ class ReviewDetailPage extends HookWidget {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(message),
-          backgroundColor: isError ? theme.colorScheme.error : null,
+          backgroundColor: isError ? TokenColors.error : null,
           duration: const Duration(seconds: 2),
         ),
       );
@@ -224,10 +225,10 @@ class ReviewDetailPage extends HookWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.error_outline, size: 64, color: theme.colorScheme.error),
-              const SizedBox(height: 16),
+              Icon(Icons.error_outline, size: 64, color: TokenColors.error),
+              const SizedBox(height: TokenSpacing.xl),
               Text(error.value ?? '加载失败'),
-              const SizedBox(height: 16),
+              const SizedBox(height: TokenSpacing.xl),
               FilledButton(
                 onPressed: () => context.pop(),
                 child: const Text('返回'),
@@ -252,30 +253,30 @@ class ReviewDetailPage extends HookWidget {
         ],
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(TokenSpacing.xl),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Confidence indicator
             Container(
-              padding: const EdgeInsets.all(12),
+              padding: const EdgeInsets.all(TokenSpacing.lg),
               decoration: BoxDecoration(
                 color: theme.colorScheme.surfaceContainerHighest,
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: TokenRadius.borderMd,
               ),
               child: Row(
                 children: [
                   const Icon(Icons.info_outline, size: 20),
-                  const SizedBox(width: 12),
+                  const SizedBox(width: TokenSpacing.lg),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           'AI 识别置信度',
-                          style: theme.textTheme.bodySmall,
+                          style: TokenTypography.caption(),
                         ),
-                        const SizedBox(height: 4),
+                        const SizedBox(height: TokenSpacing.xs),
                         ConfidenceIndicator(
                           level: tx.confidenceLevel,
                           showLabel: true,
@@ -286,7 +287,7 @@ class ReviewDetailPage extends HookWidget {
                   ),
                   Text(
                     '${tx.confidenceScore.toStringAsFixed(0)}%',
-                    style: theme.textTheme.titleMedium?.copyWith(
+                    style: TokenTypography.h4(
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -301,7 +302,7 @@ class ReviewDetailPage extends HookWidget {
               controller: accountController,
               prefixIcon: Icons.account_balance_wallet,
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: TokenSpacing.xl),
 
             // Merchant field
             _FormTextField(
@@ -309,7 +310,7 @@ class ReviewDetailPage extends HookWidget {
               controller: merchantController,
               prefixIcon: Icons.store,
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: TokenSpacing.xl),
 
             // Amount field
             _FormTextField(
@@ -320,7 +321,7 @@ class ReviewDetailPage extends HookWidget {
               prefixText: '${tx.currency} ',
               suffixText: isExpense ? '(支出)' : '(收入)',
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: TokenSpacing.xl),
 
             // Date field
             _FormField(
@@ -328,17 +329,17 @@ class ReviewDetailPage extends HookWidget {
               prefixIcon: Icons.calendar_today,
               child: InkWell(
                 onTap: pickDate,
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: TokenRadius.borderMd,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  padding: const EdgeInsets.symmetric(vertical: TokenSpacing.lg),
                   child: Text(
                     DateFormat('yyyy-MM-dd HH:mm').format(selectedDate.value),
-                    style: theme.textTheme.bodyLarge,
+                    style: TokenTypography.body(),
                   ),
                 ),
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: TokenSpacing.xl),
 
             // Notes field
             _FormTextField(
@@ -356,14 +357,14 @@ class ReviewDetailPage extends HookWidget {
                   child: OutlinedButton(
                     onPressed: isSaving.value ? null : handleDelete,
                     style: OutlinedButton.styleFrom(
-                      foregroundColor: theme.colorScheme.error,
-                      side: BorderSide(color: theme.colorScheme.error),
+                      foregroundColor: TokenColors.error,
+                      side: BorderSide(color: TokenColors.error),
                       padding: const EdgeInsets.symmetric(vertical: 14),
                     ),
                     child: const Text('删除'),
                   ),
                 ),
-                const SizedBox(width: 16),
+                const SizedBox(width: TokenSpacing.xl),
                 Expanded(
                   child: FilledButton(
                     onPressed: isSaving.value ? null : handleSave,
@@ -376,7 +377,7 @@ class ReviewDetailPage extends HookWidget {
                             height: 20,
                             child: CircularProgressIndicator(
                               strokeWidth: 2,
-                              color: Colors.white,
+                              color: TokenColors.white,
                             ),
                           )
                         : const Text('保存'),
@@ -409,8 +410,8 @@ class _FormField extends StatelessWidget {
       decoration: InputDecoration(
         labelText: label,
         prefixIcon: Icon(prefixIcon),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+        border: OutlineInputBorder(borderRadius: TokenRadius.borderMd),
+        contentPadding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl, vertical: 4),
       ),
       child: child,
     );
@@ -448,7 +449,7 @@ class _FormTextField extends StatelessWidget {
         prefixIcon: Icon(prefixIcon),
         prefixText: prefixText,
         suffixText: suffixText,
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+        border: OutlineInputBorder(borderRadius: TokenRadius.borderMd),
       ),
     );
   }

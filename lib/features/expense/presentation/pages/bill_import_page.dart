@@ -1,21 +1,26 @@
 import 'dart:io';
-import 'dart:convert';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:firela_app/generated/l10n/app_localizations.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:image_picker/image_picker.dart';
+import '../../../../core/design_tokens/design_tokens.dart';
 import '../../../../core/services/ign_api_service.dart';
+import '../../../../core/services/document_scanner_service.dart';
 import '../../../../core/network/auth_manager.dart';
 import '../../../../core/services/auth_service.dart';
 import '../../../../core/services/analytics_service.dart';
 import '../../../../core/services/analytics_events.dart';
 import '../../../../core/utils/logger.dart';
 import '../../../../parser/parser.dart';
+import '../../../../parser/src/utils/encoding.dart' as encoding;
 import '../widgets/batch_import_summary.dart';
 import '../widgets/categorization_preview_sheet.dart';
 import '../widgets/import_error_display.dart';
 import '../widgets/import_progress_indicator.dart';
+import '../../../../shared/signals/asset_refresh_signal.dart';
+import '../../../review_center/presentation/signals/review_center_signal.dart';
 
 /// Bill import page
 class BillImportPage extends HookWidget {
@@ -49,7 +54,7 @@ class BillImportPage extends HookWidget {
 
             // Stepped progress indicator
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
               child: ImportProgressIndicator(
                 currentStep: currentStep.value,
                 progress: parseProgress.value,
@@ -63,10 +68,10 @@ class BillImportPage extends HookWidget {
 
             // Title
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
               child: Text(
                 l10n.pleaseImportAlipayBill,
-                style: theme.textTheme.titleLarge?.copyWith(
+                style: TokenTypography.h4(
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -105,23 +110,23 @@ class BillImportPage extends HookWidget {
 
             // How to get bill section
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     l10n.howToGetBill,
-                    style: theme.textTheme.titleMedium?.copyWith(
+                    style: TokenTypography.h4(
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: TokenSpacing.xl),
                   _buildStepCard(context, theme, '支持 CSV、Excel (.xlsx, .xls) 格式的账单文件'),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: TokenSpacing.sm),
                   _buildStepCard(context, theme, '文件大小不超过 10MB'),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: TokenSpacing.sm),
                   _buildStepCard(context, theme, '账单需包含日期、金额等基本信息'),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: TokenSpacing.sm),
                   _buildStepCard(context, theme, '支持支付宝、微信、银行账单格式'),
                 ],
               ),
@@ -151,7 +156,7 @@ class BillImportPage extends HookWidget {
     ValueNotifier<String?> errorDetails,
   ) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
       child: Column(
         children: [
           // Scan Receipt Button
@@ -174,31 +179,31 @@ class BillImportPage extends HookWidget {
               icon: const Icon(Icons.camera_alt_outlined),
               label: Text(l10n.scanReceipt),
               style: OutlinedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 16),
+                padding: const EdgeInsets.symmetric(vertical: TokenSpacing.xl),
               ),
             ),
           ),
 
-          const SizedBox(height: 16),
+          const SizedBox(height: TokenSpacing.xl),
 
           // Divider
           Row(
             children: [
-              Expanded(child: Divider(color: theme.colorScheme.outline.withValues(alpha: 0.3))),
+              Expanded(child: Divider(color: TokenColors.textTertiary.withValues(alpha: 0.3))),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
+                padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
                 child: Text(
                   'OR',
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: theme.colorScheme.outline,
+                  style: TokenTypography.caption(
+                    color: TokenColors.textTertiary,
                   ),
                 ),
               ),
-              Expanded(child: Divider(color: theme.colorScheme.outline.withValues(alpha: 0.3))),
+              Expanded(child: Divider(color: TokenColors.textTertiary.withValues(alpha: 0.3))),
             ],
           ),
 
-          const SizedBox(height: 16),
+          const SizedBox(height: TokenSpacing.xl),
 
           // File Upload Area
           InkWell(
@@ -251,9 +256,9 @@ class BillImportPage extends HookWidget {
               height: 160,
               decoration: BoxDecoration(
                 color: theme.colorScheme.surfaceContainerHighest,
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: TokenRadius.borderSm,
                 border: Border.all(
-                  color: theme.colorScheme.outline.withValues(alpha: 0.2),
+                  color: TokenColors.textTertiary.withValues(alpha: 0.2),
                   style: BorderStyle.solid,
                 ),
               ),
@@ -263,18 +268,18 @@ class BillImportPage extends HookWidget {
                   Icon(
                     Icons.insert_drive_file_outlined,
                     size: 48,
-                    color: theme.colorScheme.outline,
+                    color: TokenColors.textTertiary,
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: TokenSpacing.xl),
                   Text(
                     l10n.addFile,
-                    style: theme.textTheme.titleMedium,
+                    style: TokenTypography.h4(),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: TokenSpacing.sm),
                   Text(
                     l10n.supportedFormats,
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: theme.colorScheme.outline,
+                    style: TokenTypography.caption(
+                      color: TokenColors.textTertiary,
                     ),
                   ),
                 ],
@@ -377,15 +382,23 @@ class BillImportPage extends HookWidget {
       return;
     }
 
-    final ImagePicker picker = ImagePicker();
-    final XFile? image = await picker.pickImage(
-      source: source,
-      maxWidth: 1920,
-      maxHeight: 1080,
-      imageQuality: 85,
-    );
+    String? imagePath;
 
-    if (image == null) return;
+    if (source == ImageSource.camera) {
+      // Use document scanner for camera source
+      imagePath = await DocumentScannerService.instance.scanDocument();
+    } else {
+      final ImagePicker picker = ImagePicker();
+      final XFile? image = await picker.pickImage(
+        source: source,
+        maxWidth: 1920,
+        maxHeight: 1080,
+        imageQuality: 85,
+      );
+      imagePath = image?.path;
+    }
+
+    if (imagePath == null) return;
 
     // Track image selected
     await AnalyticsService().trackOcr(
@@ -409,7 +422,7 @@ class BillImportPage extends HookWidget {
 
       parseProgress.value = 0.6;
       currentStep.value = ImportStep.categorizing;
-      final result = await IgnApiService.instance.ocrReceiptImage(image.path);
+      final result = await IgnApiService.instance.ocrReceiptImage(imagePath);
 
       parseProgress.value = 1.0;
       currentStep.value = ImportStep.reviewing;
@@ -498,12 +511,12 @@ class BillImportPage extends HookWidget {
     ValueNotifier<PlatformFile?> selectedFile,
   ) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
       child: Container(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(TokenSpacing.xl),
         decoration: BoxDecoration(
           color: theme.colorScheme.surfaceContainerHighest,
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: TokenRadius.borderSm,
         ),
         child: Row(
           children: [
@@ -512,11 +525,11 @@ class BillImportPage extends HookWidget {
               size: 32,
               color: theme.colorScheme.onSurface,
             ),
-            const SizedBox(width: 12),
+            const SizedBox(width: TokenSpacing.lg),
             Expanded(
               child: Text(
                 selectedFile.value?.name ?? '',
-                style: theme.textTheme.bodyMedium,
+                style: TokenTypography.body(),
               ),
             ),
           ],
@@ -542,7 +555,7 @@ class BillImportPage extends HookWidget {
     ValueNotifier<PlatformFile?> selectedFile,
   ) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
       child: Column(
         children: [
           ImportErrorDisplay(
@@ -590,14 +603,14 @@ class BillImportPage extends HookWidget {
     ValueNotifier<ImportStep> currentStep,
   ) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
       child: Column(
         children: [
           Container(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(TokenSpacing.xl),
             decoration: BoxDecoration(
               color: theme.colorScheme.surfaceContainerHighest,
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: TokenRadius.borderSm,
             ),
             child: Row(
               children: [
@@ -606,21 +619,21 @@ class BillImportPage extends HookWidget {
                   height: 32,
                   child: CircularProgressIndicator(strokeWidth: 2),
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: TokenSpacing.lg),
                 Expanded(
                   child: Text(
                     selectedFile.value?.name ?? l10n.parsingBill,
-                    style: theme.textTheme.bodyMedium,
+                    style: TokenTypography.body(),
                   ),
                 ),
               ],
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: TokenSpacing.xl),
           Text(
             l10n.parsingBill,
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: theme.colorScheme.outline,
+            style: TokenTypography.body(
+              color: TokenColors.textTertiary,
             ),
           ),
         ],
@@ -648,7 +661,7 @@ class BillImportPage extends HookWidget {
     }
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
       child: BatchImportSummary(
         result: batchResult,
         onViewImported: () {
@@ -776,11 +789,6 @@ class BillImportPage extends HookWidget {
     );
 
     // Convert CategorizationItems to API request format and upload
-    // 参考 parser-usage-guide.md 5.2 节的请求格式
-    // 注意: beancount 要求交易必须平衡 (sum of postings = 0)
-    // 支出交易需要两个 posting:
-    // 1. 费用账户 (Expenses:xxx) - 正数表示费用增加
-    // 2. 资产账户 (Assets:xxx) - 负数表示资产减少
     final transactions = items.map((item) {
       final expenseAccount = _categoryToAccount(item.selectedCategory);
       final isIncome = item.selectedCategory == '收入';
@@ -799,10 +807,8 @@ class BillImportPage extends HookWidget {
             'currency': 'CNY',
           },
           {
-            // 来源/去处账户: 支出时资产减少, 收入时资产增加
-            // 使用 Assets:Unknown (后端 account standards 中定义的账户)
             'account': 'Assets:Unknown',
-            'units': (-amount).toStringAsFixed(2), // 与支出金额相反
+            'units': (-amount).toStringAsFixed(2),
             'currency': 'CNY',
           },
         ],
@@ -812,7 +818,7 @@ class BillImportPage extends HookWidget {
           'confidence': item.confidence,
         },
         'idempotencyKey': 'import-${item.id}',
-        'autoCreateAccounts': true, // 自动创建不存在的账户
+        'autoCreateAccounts': true,
       };
     }).toList();
 
@@ -845,11 +851,15 @@ class BillImportPage extends HookWidget {
         final failed = result['failed'] as int;
         final skipped = result['skipped'] as int;
 
+        // Refresh asset data after successful import
+        refreshAssetData();
+        fetchPendingCount();
+
         // 显示简短提示
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('已导入 $imported 笔记账${skipped > 0 ? '，跳过 $skipped 笔重复' : ''}'),
-            backgroundColor: failed > 0 ? Colors.orange : null,
+            backgroundColor: failed > 0 ? TokenColors.primary : null,
           ),
         );
       } else if (error != null) {
@@ -857,7 +867,7 @@ class BillImportPage extends HookWidget {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('导入失败: $error'),
-            backgroundColor: Colors.red,
+            backgroundColor: TokenColors.error,
           ),
         );
       }
@@ -865,33 +875,29 @@ class BillImportPage extends HookWidget {
   }
 
   /// Convert category to beancount account path
-  /// Note: 后端目前只支持 Expenses:Uncategorized，分类信息保存在 meta 中
-  /// 用户可以在应用内后续重新分类
   String _categoryToAccount(String category) {
     if (category == '收入') {
       return 'Income:Uncategorized';
     }
-    // 所有支出类型统一使用 Expenses:Uncategorized
-    // 分类信息保存在 meta.category 中，用户可后续重新分类
     return 'Expenses:Uncategorized';
   }
 
   Widget _buildStepCard(BuildContext context, ThemeData theme, String text) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(TokenSpacing.lg),
       decoration: BoxDecoration(
         color: theme.colorScheme.surfaceContainerHighest,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: TokenRadius.borderSm,
       ),
       child: Row(
         children: [
-          Icon(Icons.info_outline, size: 16, color: theme.colorScheme.outline),
-          const SizedBox(width: 8),
+          Icon(Icons.info_outline, size: 16, color: TokenColors.textTertiary),
+          const SizedBox(width: TokenSpacing.sm),
           Expanded(
             child: Text(
               text,
-              style: theme.textTheme.bodyMedium,
+              style: TokenTypography.body(),
             ),
           ),
         ],
@@ -939,10 +945,12 @@ class BillImportPage extends HookWidget {
 
       // 输出文件内容的前 500 字节用于调试
       try {
-        final preview = utf8.decode(content.take(500).toList());
+        final preview = encoding.decodeContent(
+          Uint8List.fromList(content.take(500).toList()),
+        );
         logger.i('[BillImport] 文件内容预览:\n$preview');
       } catch (e) {
-        logger.w('[BillImport] 无法用 UTF-8 解码预览: $e');
+        logger.w('[BillImport] 无法解码预览: $e');
       }
 
       // 使用 ParserRegistry 检测并解析
@@ -1055,7 +1063,6 @@ class BillImportPage extends HookWidget {
   String _inferCategory(String description, String? payee) {
     final text = '$description ${payee ?? ''}'.toLowerCase();
 
-    // 简单的分类规则
     if (text.contains('餐') || text.contains('食') || text.contains('外卖') ||
         text.contains('coffee') || text.contains('咖啡')) {
       return '餐饮';

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:signals_flutter/signals_flutter.dart';
+import '../../../../core/design_tokens/design_tokens.dart';
 import '../../../../core/services/analytics_service.dart';
 import '../../../../core/services/analytics_events.dart';
 import '../../domain/models/confidence_level.dart';
@@ -74,7 +75,7 @@ class ReviewCenterPage extends HookWidget {
             FilledButton(
               onPressed: () => Navigator.pop(context, true),
               style: FilledButton.styleFrom(
-                backgroundColor: theme.colorScheme.error,
+                backgroundColor: TokenColors.error,
               ),
               child: const Text('删除'),
             ),
@@ -89,7 +90,7 @@ class ReviewCenterPage extends HookWidget {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(message),
-          backgroundColor: isError ? theme.colorScheme.error : null,
+          backgroundColor: isError ? TokenColors.error : null,
           duration: const Duration(seconds: 2),
         ),
       );
@@ -139,7 +140,7 @@ class ReviewCenterPage extends HookWidget {
         bottom: TabBar(
           controller: tabController,
           isScrollable: false,
-          labelStyle: theme.textTheme.bodyMedium?.copyWith(
+          labelStyle: TokenTypography.body(
             fontWeight: FontWeight.w500,
           ),
           tabs: [
@@ -176,11 +177,11 @@ class ReviewCenterPage extends HookWidget {
                     Icon(
                       Icons.error_outline,
                       size: 64,
-                      color: theme.colorScheme.error,
+                      color: TokenColors.error,
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: TokenSpacing.xl),
                     Text(error),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: TokenSpacing.xl),
                     FilledButton(
                       onPressed: () => state.loadTransactions(refresh: true),
                       child: const Text('重试'),
@@ -199,12 +200,12 @@ class ReviewCenterPage extends HookWidget {
                     Icon(
                       Icons.check_circle_outline,
                       size: 64,
-                      color: theme.colorScheme.primary.withValues(alpha: 0.5),
+                      color: TokenColors.textAccent.withValues(alpha: 0.5),
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: TokenSpacing.xl),
                     Text(
                       '暂无待审核交易',
-                      style: theme.textTheme.bodyLarge?.copyWith(
+                      style: TokenTypography.body(
                         color: theme.colorScheme.onSurfaceVariant,
                       ),
                     ),
@@ -224,7 +225,7 @@ class ReviewCenterPage extends HookWidget {
                   // Loading indicator at bottom
                   if (index == transactions.length) {
                     return const Padding(
-                      padding: EdgeInsets.all(16),
+                      padding: EdgeInsets.all(TokenSpacing.xl),
                       child: Center(child: CircularProgressIndicator()),
                     );
                   }
