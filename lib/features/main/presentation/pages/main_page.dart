@@ -3,12 +3,14 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:firela_app/generated/l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+import '../../../../core/design_tokens/design_tokens.dart';
 import '../../../../core/services/analytics_service.dart';
 import '../../../../core/services/analytics_events.dart';
 import '../../../../core/services/auth_service.dart';
+import '../../../../core/services/document_scanner_service.dart';
 import '../../../../core/services/ign_api_service.dart';
-import '../../../../core/services/local_ocr_service.dart';
-import '../../../../core/services/receipt_text_parser.dart';
+import '../../../../core/services/ocr/ocr_engine_factory.dart';
+import '../../../../core/services/ocr/ocr_pipeline.dart';
 import '../../../../core/network/auth_manager.dart';
 import '../../../../core/network/api_client.dart';
 import '../../../../core/router/route_names.dart';
@@ -18,8 +20,12 @@ import '../../../assets/presentation/pages/assets_tabs_page.dart';
 import '../../../settings/presentation/pages/settings_page.dart';
 import '../../../expense/presentation/widgets/expense_entry_bottom_sheet.dart';
 import '../../../expense/presentation/widgets/nlp_result_bottom_sheet.dart';
+import '../../../../core/services/receipt_text_parser.dart';
 import '../../../expense/presentation/widgets/ocr_result_debug_sheet.dart';
+import '../../../expense/presentation/widgets/categorization_preview_sheet.dart';
 import '../../../../shared/signals/connectivity_signal.dart';
+import '../../../review_center/presentation/signals/review_center_signal.dart';
+import '../../../../shared/signals/asset_refresh_signal.dart';
 
 /// Main page with bottom navigation
 class MainPage extends HookWidget {
@@ -72,10 +78,10 @@ class MainPage extends HookWidget {
       // FAB 悬浮记账按钮（仅在资产页面显示）
       floatingActionButton: currentIndex.value == 1
           ? Padding(
-              padding: const EdgeInsets.only(bottom: 16),
+              padding: const EdgeInsets.only(bottom: TokenSpacing.xl),
               child: FloatingActionButton(
                 onPressed: () => _onFloatingAddTap(context, nlpSessionId),
-                backgroundColor: const Color(0xFF1A1A1A),
+                backgroundColor: TokenColors.neutral900,
                 foregroundColor: Colors.white,
                 elevation: 4,
                 shape: const CircleBorder(),
@@ -92,8 +98,8 @@ class MainPage extends HookWidget {
           }
         },
         type: BottomNavigationBarType.fixed,
-        selectedItemColor: Theme.of(context).colorScheme.primary,
-        unselectedItemColor: Theme.of(context).colorScheme.outline,
+        selectedItemColor: TokenColors.textAccent,
+        unselectedItemColor: TokenColors.textTertiary,
         showSelectedLabels: false,
         showUnselectedLabels: false,
         items: [
@@ -398,6 +404,7 @@ class MainPage extends HookWidget {
     try {
       await IgnApiService.instance.createTransaction(transaction);
       nlpSessionId.value = '';
+      refreshAssetData();
 
       if (context.mounted) {
         Navigator.pop(context); // 关闭 loading
@@ -441,6 +448,7 @@ class MainPage extends HookWidget {
           try {
             await IgnApiService.instance.createTransaction(currentTransaction);
             nlpSessionId.value = '';
+            refreshAssetData();
 
             if (context.mounted) {
               Navigator.pop(context); // 关闭 loading
@@ -595,23 +603,23 @@ class MainPage extends HookWidget {
       builder: (ctx) => Container(
         decoration: BoxDecoration(
           color: Theme.of(ctx).colorScheme.surface,
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(TokenRadius.lg)),
         ),
         child: SafeArea(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Container(
-                margin: const EdgeInsets.only(top: 8),
+                margin: const EdgeInsets.only(top: TokenSpacing.sm),
                 width: 40, height: 4,
                 decoration: BoxDecoration(
-                  color: Theme.of(ctx).colorScheme.outline.withValues(alpha: 0.3),
+                  color: TokenColors.textTertiary.withValues(alpha: 0.3),
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(16),
-                child: Text('选择图片来源', style: Theme.of(ctx).textTheme.titleMedium),
+                padding: const EdgeInsets.all(TokenSpacing.xl),
+                child: Text('选择图片来源', style: TokenTypography.body(fontWeight: FontWeight.w500)),
               ),
               ListTile(
                 leading: const Icon(Icons.camera_alt),
@@ -629,7 +637,7 @@ class MainPage extends HookWidget {
                   _processOcrFromSource(context, ImageSource.gallery, nlpSessionId);
                 },
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: TokenSpacing.sm),
             ],
           ),
         ),
@@ -643,15 +651,24 @@ class MainPage extends HookWidget {
     ImageSource source,
     ValueNotifier<String> nlpSessionId,
   ) async {
-    final picker = ImagePicker();
-    final image = await picker.pickImage(
-      source: source,
-      maxWidth: 1920,
-      maxHeight: 1920,
-      imageQuality: 85,
-    );
+    String? imagePath;
 
-    if (image == null) return; // User cancelled
+    if (source == ImageSource.camera) {
+      // Use document scanner for camera source (auto edge detection + perspective correction)
+      imagePath = await DocumentScannerService.instance.scanDocument();
+    } else {
+      // Use image picker for gallery source
+      final picker = ImagePicker();
+      final image = await picker.pickImage(
+        source: source,
+        maxWidth: 1920,
+        maxHeight: 1920,
+        imageQuality: 85,
+      );
+      imagePath = image?.path;
+    }
+
+    if (imagePath == null) return; // User cancelled
     if (!context.mounted) return;
 
     // Show loading
@@ -662,15 +679,12 @@ class MainPage extends HookWidget {
     );
 
     try {
-      // Local OCR (Google ML Kit)
-      final stopwatch = Stopwatch()..start();
-      final localResult = await LocalOcrService.instance.processImage(image.path);
-      stopwatch.stop();
+      // Use enhanced OCR pipeline
+      final engine = OcrEngineFactory.create();
+      final pipeline = OcrPipeline();
+      final result = await pipeline.process(engine, imagePath);
 
-      final receipt = ReceiptTextParser.instance.parse(
-        localResult.fullText,
-        rawLines: localResult.blocks.expand((b) => b.lines).toList(),
-      );
+      final receipt = result.receipt;
 
       if (!context.mounted) return;
       Navigator.pop(context); // Close loading
@@ -679,24 +693,15 @@ class MainPage extends HookWidget {
       showModalBottomSheet(
         context: context,
         isScrollControlled: true,
+        enableDrag: false,
         backgroundColor: Colors.transparent,
         builder: (ctx) => OcrResultDebugSheet(
           receipt: receipt,
-          ocrSource: 'local',
-          processingTime: stopwatch.elapsed,
-          onConfirm: () {
-            // Convert OCR result to NLP text and submit
-            final parts = <String>[];
-            if (receipt.merchant.isNotEmpty) parts.add(receipt.merchant);
-            if (receipt.totalAmount > 0) parts.add('${receipt.totalAmount}元');
-            final text = parts.join(' ');
-            if (text.isNotEmpty) {
-              _handleNlpSubmit(context, text, nlpSessionId);
-            }
-          },
-          onRetry: () {
-            // Retry with cloud OCR
-            _processCloudOcr(context, image.path, nlpSessionId);
+          ocrSource: result.engineName,
+          processingTime: result.processingTime,
+          reconstructedLines: result.reconstructedLines,
+          onConfirm: (OcrConfirmResult confirmResult) {
+            _confirmOcrReceipt(context, receipt, confirmResult, result.engineName);
           },
         ),
       );
@@ -711,54 +716,149 @@ class MainPage extends HookWidget {
     }
   }
 
-  /// 云端 OCR 兜底
-  Future<void> _processCloudOcr(
+  /// 确认 OCR 小票：转为 CategorizationItem → 分类预览 → 上传
+  Future<void> _confirmOcrReceipt(
     BuildContext context,
-    String imagePath,
-    ValueNotifier<String> nlpSessionId,
+    dynamic receipt,
+    OcrConfirmResult confirmResult,
+    String engineName,
   ) async {
-    if (!context.mounted) return;
+    final now = DateTime.now().millisecondsSinceEpoch;
+    final items = <CategorizationItem>[];
 
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (_) => const Center(child: CircularProgressIndicator()),
-    );
-
-    try {
-      final result = await IgnApiService.instance.ocrReceiptImage(imagePath);
-      final success = result['success'] ?? false;
-
-      if (!context.mounted) return;
-      Navigator.pop(context); // Close loading
-
-      if (success) {
-        final data = result['data'] as Map<String, dynamic>?;
-        if (data != null) {
-          // Convert cloud OCR data to NLP text and submit
-          final parts = <String>[];
-          final merchant = data['merchant'] as String?;
-          final amount = data['amount'];
-          if (merchant != null && merchant.isNotEmpty) parts.add(merchant);
-          if (amount != null) parts.add('${amount}元');
-          final text = parts.join(' ');
-          if (text.isNotEmpty) {
-            _handleNlpSubmit(context, text, nlpSessionId);
-          }
-        }
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('云端识别失败: ${result['error'] ?? "未知错误"}')),
-        );
-      }
-    } catch (e) {
-      logger.e('[MainPage] 云端 OCR 失败: $e');
-      if (context.mounted) {
-        Navigator.pop(context);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('云端识别失败: $e'), duration: const Duration(seconds: 3)),
-        );
+    if (confirmResult.mode == TransactionMode.single) {
+      // Single mode: one transaction for the whole receipt
+      // Use line items total (user-edited) rather than regex-parsed total
+      final merchantName = confirmResult.merchant.isNotEmpty
+          ? confirmResult.merchant
+          : (receipt.merchant.isNotEmpty ? receipt.merchant : '未知商家');
+      items.add(CategorizationItem(
+        id: 'ocr-$now',
+        merchant: merchantName,
+        amount: confirmResult.totalAmount > 0 ? confirmResult.totalAmount : receipt.totalAmount,
+        date: confirmResult.selectedDate,
+        suggestedCategory: '其他',
+        confidence: receipt.confidence,
+        selectedCategory: '其他',
+      ));
+    } else {
+      // Multiple mode: one transaction per edited line item
+      for (int i = 0; i < confirmResult.editedLineItems.length; i++) {
+        final lineItem = confirmResult.editedLineItems[i];
+        items.add(CategorizationItem(
+          id: 'ocr-${now}_$i',
+          merchant: lineItem.name.isNotEmpty ? lineItem.name : '商品',
+          amount: lineItem.totalPrice,
+          date: confirmResult.selectedDate,
+          suggestedCategory: '其他',
+          confidence: receipt.confidence,
+          selectedCategory: '其他',
+        ));
       }
     }
+
+    final availableCategories = ['餐饮', '交通', '购物', '娱乐', '医疗', '教育', '居住', '通讯', '其他'];
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (ctx) => CategorizationPreviewSheet(
+        items: items,
+        availableCategories: availableCategories,
+        onConfirm: () async {
+          Navigator.pop(ctx); // close preview sheet
+
+          final transactions = _buildOcrTransactions(
+            items, receipt, confirmResult, engineName,
+          );
+
+          if (!context.mounted) return;
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (_) => const Center(child: CircularProgressIndicator()),
+          );
+
+          try {
+            final result = await IgnApiService.instance.uploadParsedTransactions(transactions);
+            if (!context.mounted) return;
+            Navigator.pop(context); // close loading
+
+            final imported = result['imported'] as int? ?? 0;
+            if (imported > 0) {
+              fetchPendingCount();
+              refreshAssetData();
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('记账成功')),
+              );
+            } else {
+              final errors = result['errors'] as List? ?? [];
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(errors.isNotEmpty ? '导入失败: ${errors.first}' : '导入失败，请重试'),
+                  duration: const Duration(seconds: 3),
+                ),
+              );
+            }
+          } catch (e) {
+            logger.e('[MainPage] OCR upload failed: $e');
+            if (context.mounted) {
+              Navigator.pop(context); // close loading
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('提交失败: $e'), duration: const Duration(seconds: 3)),
+              );
+            }
+          }
+        },
+        onCancel: () {
+          Navigator.pop(ctx);
+        },
+      ),
+    );
+  }
+
+  /// 构建 OCR Beancount 交易格式（支持 single/multiple 模式）
+  List<Map<String, dynamic>> _buildOcrTransactions(
+    List<CategorizationItem> items,
+    dynamic receipt,
+    OcrConfirmResult confirmResult,
+    String engineName,
+  ) {
+    final lineItemsMeta = confirmResult.editedLineItems.map((i) => {
+      'name': i.name,
+      'quantity': i.quantity,
+      'totalPrice': i.totalPrice,
+    }).toList();
+
+    return items.map((item) {
+      return {
+        'date': '${item.date.year}-${item.date.month.toString().padLeft(2, '0')}-${item.date.day.toString().padLeft(2, '0')}',
+        'narration': item.merchant,
+        'payee': item.merchant,
+        'postings': [
+          {
+            'account': 'Expenses:Uncategorized',
+            'units': item.amount.toStringAsFixed(2),
+            'currency': 'CNY',
+          },
+          {
+            'account': 'Assets:Unknown',
+            'units': (-item.amount).toStringAsFixed(2),
+            'currency': 'CNY',
+          },
+        ],
+        'meta': {
+          'source': 'ocr-receipt',
+          'confidence': receipt.confidence,
+          'ocrEngine': engineName,
+          'mode': confirmResult.mode == TransactionMode.single ? 'single' : 'multiple',
+          if (confirmResult.mode == TransactionMode.single && lineItemsMeta.isNotEmpty)
+            'lineItems': lineItemsMeta,
+        },
+        'idempotencyKey': item.id,
+        'autoCreateAccounts': true,
+      };
+    }).toList();
   }
 }

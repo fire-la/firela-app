@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../core/design_tokens/design_tokens.dart';
 
 /// Placeholder page for asset details and statistics
 /// This will be replaced with actual implementation in future phases
@@ -13,7 +14,6 @@ class AssetDetailPlaceholderPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -30,19 +30,17 @@ class AssetDetailPlaceholderPage extends StatelessWidget {
             Icon(
               Icons.construction,
               size: 64,
-              color: theme.colorScheme.outline,
+              color: TokenColors.textTertiary,
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: TokenSpacing.xl),
             Text(
               '$title Coming Soon',
-              style: theme.textTheme.headlineSmall,
+              style: TokenTypography.h3(fontWeight: FontWeight.w400),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: TokenSpacing.sm),
             Text(
               'This feature is under development',
-              style: theme.textTheme.bodyMedium?.copyWith(
-                color: theme.colorScheme.outline,
-              ),
+              style: TokenTypography.body(color: TokenColors.textTertiary),
             ),
           ],
         ),

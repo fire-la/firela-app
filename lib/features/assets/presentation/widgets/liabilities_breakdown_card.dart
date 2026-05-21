@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:firela_app/generated/l10n/app_localizations.dart';
+import '../../../../core/design_tokens/design_tokens.dart';
 import '../../domain/models/liability_breakdown.dart';
 
 /// Liabilities breakdown card widget displaying categorized liabilities
@@ -33,11 +34,11 @@ class LiabilitiesBreakdownCard extends HookWidget {
 
     if (isLoading) {
       return Container(
-        margin: const EdgeInsets.symmetric(horizontal: 16),
-        padding: const EdgeInsets.all(20),
+        margin: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
+        padding: const EdgeInsets.all(TokenSpacing.xxl),
         decoration: BoxDecoration(
           color: theme.colorScheme.surfaceContainerHighest,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: TokenRadius.borderLg,
         ),
         child: const Center(
           child: SizedBox(
@@ -49,41 +50,37 @@ class LiabilitiesBreakdownCard extends HookWidget {
     }
 
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16),
+      margin: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
       decoration: BoxDecoration(
         color: theme.colorScheme.surfaceContainerHighest,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: TokenRadius.borderLg,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Header with total
           Padding(
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.all(TokenSpacing.xxl),
             child: Row(
               children: [
                 Icon(
                   Icons.trending_down,
                   size: 24,
-                  color: theme.colorScheme.error,
+                  color: TokenColors.error,
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: TokenSpacing.lg),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         l10n.liabilitiesByType,
-                        style: theme.textTheme.bodyMedium?.copyWith(
-                          color: theme.colorScheme.outline,
-                        ),
+                        style: TokenTypography.body(color: TokenColors.textTertiary),
                       ),
-                      const SizedBox(height: 4),
+                      const SizedBox(height: TokenSpacing.xs),
                       Text(
                         _formatCurrency(totalLiabilities),
-                        style: theme.textTheme.titleLarge?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: TokenTypography.h4(fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
@@ -98,7 +95,7 @@ class LiabilitiesBreakdownCard extends HookWidget {
               height: 120,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.symmetric(horizontal: 12),
+                padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.lg),
                 itemCount: breakdowns.length,
                 itemBuilder: (context, index) {
                   final breakdown = breakdowns[index];
@@ -120,7 +117,7 @@ class LiabilitiesBreakdownCard extends HookWidget {
               ),
             ),
 
-          const SizedBox(height: 16),
+          const SizedBox(height: TokenSpacing.xl),
         ],
       ),
     );
@@ -168,16 +165,16 @@ class _LiabilityTypeCard extends StatelessWidget {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         width: isExpanded ? 160 : 120,
-        margin: const EdgeInsets.symmetric(horizontal: 4),
-        padding: const EdgeInsets.all(12),
+        margin: const EdgeInsets.symmetric(horizontal: TokenSpacing.xs),
+        padding: const EdgeInsets.all(TokenSpacing.lg),
         decoration: BoxDecoration(
           color: isExpanded
               ? theme.colorScheme.surfaceContainerHigh
               : theme.colorScheme.surface,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: TokenRadius.borderMd,
           border: Border.all(
             color: isExpanded
-                ? theme.colorScheme.outline.withValues(alpha: 0.3)
+                ? TokenColors.textTertiary.withValues(alpha: 0.3)
                 : Colors.transparent,
           ),
         ),
@@ -190,35 +187,27 @@ class _LiabilityTypeCard extends StatelessWidget {
               size: 20,
               color: _getLiabilityColor(breakdown.type, theme),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: TokenSpacing.sm),
             Text(
               _getLocalizedTypeName(breakdown.type, l10n),
-              style: theme.textTheme.bodySmall?.copyWith(
-                fontWeight: FontWeight.w500,
-              ),
+              style: TokenTypography.caption(fontWeight: FontWeight.w500),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
-            const SizedBox(height: 4),
+            const SizedBox(height: TokenSpacing.xs),
             Text(
               _formatAmount(breakdown.amount),
-              style: theme.textTheme.titleSmall?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
+              style: TokenTypography.caption(fontWeight: FontWeight.bold),
             ),
             if (isExpanded) ...[
-              const SizedBox(height: 4),
+              const SizedBox(height: TokenSpacing.xs),
               Text(
                 '${breakdown.percentage.toStringAsFixed(1)}%',
-                style: theme.textTheme.bodySmall?.copyWith(
-                  color: theme.colorScheme.outline,
-                ),
+                style: TokenTypography.caption(color: TokenColors.textTertiary),
               ),
               Text(
                 '${breakdown.count} ${l10n.items}',
-                style: theme.textTheme.bodySmall?.copyWith(
-                  color: theme.colorScheme.outline,
-                ),
+                style: TokenTypography.caption(color: TokenColors.textTertiary),
               ),
             ],
           ],
@@ -245,13 +234,13 @@ class _LiabilityTypeCard extends StatelessWidget {
     switch (type.toLowerCase()) {
       case 'credit_card':
       case 'creditcard':
-        return Colors.orange;
+        return TokenColors.primary;
       case 'loan':
-        return Colors.red.shade400;
+        return TokenColors.error;
       case 'mortgage':
-        return Colors.deepOrange;
+        return TokenColors.error;
       default:
-        return theme.colorScheme.outline;
+        return TokenColors.textTertiary;
     }
   }
 

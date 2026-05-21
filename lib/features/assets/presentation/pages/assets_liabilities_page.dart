@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firela_app/generated/l10n/app_localizations.dart';
 import 'package:fl_chart/fl_chart.dart';
+import '../../../../core/design_tokens/design_tokens.dart';
 import '../../../../shared/widgets/section_header.dart';
 import '../../domain/models/net_worth_history_point.dart';
 import 'assets_tabs_page.dart';
@@ -48,15 +49,15 @@ class AssetsLiabilitiesPage extends StatelessWidget {
           physics: const AlwaysScrollableScrollPhysics(),
           child: Column(
             children: [
-              const SizedBox(height: 16),
+              const SizedBox(height: TokenSpacing.xl),
 
               // 净资产卡片
               Container(
-                margin: const EdgeInsets.fromLTRB(16, 8, 16, 16),
-                padding: const EdgeInsets.all(20),
+                margin: const EdgeInsets.fromLTRB(TokenSpacing.xl, TokenSpacing.sm, TokenSpacing.xl, TokenSpacing.xl),
+                padding: const EdgeInsets.all(TokenSpacing.xxl),
                 decoration: BoxDecoration(
                   color: theme.colorScheme.surfaceContainerHighest,
-                  borderRadius: BorderRadius.circular(16),
+                  borderRadius: TokenRadius.borderLg,
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -66,14 +67,12 @@ class AssetsLiabilitiesPage extends StatelessWidget {
                       children: [
                         Text(
                           l10n.totalAssets,
-                          style: theme.textTheme.bodyMedium?.copyWith(
-                            color: theme.colorScheme.outline,
-                          ),
+                          style: TokenTypography.body(color: TokenColors.textTertiary),
                         ),
                         const Icon(Icons.visibility_outlined, size: 20),
                       ],
                     ),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: TokenSpacing.lg),
                     isLoading
                         ? const SizedBox(
                             height: 36,
@@ -81,33 +80,27 @@ class AssetsLiabilitiesPage extends StatelessWidget {
                           )
                         : Text(
                             netWorth,
-                            style: theme.textTheme.displaySmall?.copyWith(
-                              fontWeight: FontWeight.bold,
-                            ),
+                            style: TokenTypography.h2(fontWeight: FontWeight.bold),
                           ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: TokenSpacing.sm),
                     Row(
                       children: [
                         Text(
                           '${l10n.assets} ',
-                          style: theme.textTheme.bodySmall,
+                          style: TokenTypography.caption(),
                         ),
                         Text(
                           totalAssets,
-                          style: theme.textTheme.bodySmall?.copyWith(
-                            fontWeight: FontWeight.w500,
-                          ),
+                          style: TokenTypography.caption(fontWeight: FontWeight.w500),
                         ),
-                        const SizedBox(width: 24),
+                        const SizedBox(width: TokenSpacing.xxl),
                         Text(
                           '${l10n.liabilities} ',
-                          style: theme.textTheme.bodySmall,
+                          style: TokenTypography.caption(),
                         ),
                         Text(
                           totalLiabilities == '0.00' ? '0.00' : '-$totalLiabilities',
-                          style: theme.textTheme.bodySmall?.copyWith(
-                            fontWeight: FontWeight.w500,
-                          ),
+                          style: TokenTypography.caption(fontWeight: FontWeight.w500),
                         ),
                         const Spacer(),
                         TextButton(
@@ -122,17 +115,17 @@ class AssetsLiabilitiesPage extends StatelessWidget {
 
               // 账户列表
               if (accounts.isNotEmpty) ...[
-                const SizedBox(height: 8),
+                const SizedBox(height: TokenSpacing.sm),
                 SectionHeader(
                   title: '账户列表',
                   trailing: '${accounts.length}个',
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: TokenSpacing.sm),
                 ...accounts.map((account) => _buildAccountItem(context, account)),
-                const SizedBox(height: 16),
+                const SizedBox(height: TokenSpacing.xl),
               ],
 
-              const SizedBox(height: 8),
+              const SizedBox(height: TokenSpacing.sm),
 
               // 资产分布
               SectionHeader(
@@ -140,10 +133,10 @@ class AssetsLiabilitiesPage extends StatelessWidget {
                 trailing: l10n.statistics,
                 onTrailingTap: onStatisticsTap,
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: TokenSpacing.sm),
               _buildAssetDistribution(context, l10n),
 
-              const SizedBox(height: 24),
+              const SizedBox(height: TokenSpacing.xxl),
 
               // 资产变动趋势
               SectionHeader(
@@ -151,10 +144,10 @@ class AssetsLiabilitiesPage extends StatelessWidget {
                 trailing: l10n.statistics,
                 onTrailingTap: onStatisticsTap,
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: TokenSpacing.sm),
               _buildAssetChart(context, l10n),
 
-              const SizedBox(height: 24),
+              const SizedBox(height: TokenSpacing.xxl),
             ],
           ),
         ),
@@ -166,7 +159,7 @@ class AssetsLiabilitiesPage extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      margin: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl, vertical: TokenSpacing.xs),
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: theme.colorScheme.surfaceContainerHighest,
@@ -179,7 +172,7 @@ class AssetsLiabilitiesPage extends StatelessWidget {
             height: 36,
             decoration: BoxDecoration(
               color: theme.colorScheme.surface,
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: TokenRadius.borderSm,
             ),
             child: Icon(
               _getPlatformIcon(account.platform),
@@ -187,32 +180,26 @@ class AssetsLiabilitiesPage extends StatelessWidget {
               color: theme.colorScheme.onSurface,
             ),
           ),
-          const SizedBox(width: 12),
+          const SizedBox(width: TokenSpacing.lg),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   account.displayName,
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    fontWeight: FontWeight.w500,
-                  ),
+                  style: TokenTypography.body(fontWeight: FontWeight.w500),
                 ),
                 if (account.platform.isNotEmpty)
                   Text(
                     account.platform,
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: theme.colorScheme.outline,
-                    ),
+                    style: TokenTypography.caption(color: TokenColors.textTertiary),
                   ),
               ],
             ),
           ),
           Text(
             '${account.balance >= 0 ? '' : '-'}${account.balance.abs().toStringAsFixed(2)} ${account.currency}',
-            style: theme.textTheme.bodyMedium?.copyWith(
-              fontWeight: FontWeight.w600,
-            ),
+            style: TokenTypography.body(fontWeight: FontWeight.w600),
           ),
         ],
       ),
@@ -238,12 +225,12 @@ class AssetsLiabilitiesPage extends StatelessWidget {
     final sections = hasData
         ? accounts.asMap().entries.map((entry) {
             final colors = [
-              const Color(0xFF000000),
-              const Color(0xFF444444),
+              TokenColors.textPrimary,
+              TokenColors.neutral700,
               const Color(0xFF666666),
               const Color(0xFF888888),
               const Color(0xFFAAAAAA),
-              const Color(0xFFBDBDBD),
+              TokenColors.neutral200,
             ];
             return PieChartSectionData(
               value: entry.value.balance.abs(),
@@ -253,16 +240,16 @@ class AssetsLiabilitiesPage extends StatelessWidget {
             );
           }).toList()
         : [
-            PieChartSectionData(value: 1, title: '', color: const Color(0xFFBDBDBD), radius: 50),
+            PieChartSectionData(value: 1, title: '', color: TokenColors.neutral200, radius: 50),
           ];
 
     return Container(
       height: 180,
-      margin: const EdgeInsets.symmetric(horizontal: 16),
-      padding: const EdgeInsets.all(16),
+      margin: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
+      padding: const EdgeInsets.all(TokenSpacing.xl),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surfaceContainerHighest,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: TokenRadius.borderSm,
       ),
       child: Row(
         children: [
@@ -286,12 +273,12 @@ class AssetsLiabilitiesPage extends StatelessWidget {
                         padding: const EdgeInsets.only(bottom: 10),
                         child: Text(
                           a.displayName,
-                          style: Theme.of(context).textTheme.bodySmall,
+                          style: TokenTypography.caption(),
                           overflow: TextOverflow.ellipsis,
                         ),
                       )).toList()
                   : [
-                      Text('暂无数据', style: Theme.of(context).textTheme.bodySmall),
+                      Text('暂无数据', style: TokenTypography.caption()),
                     ],
             ),
           ),
@@ -309,18 +296,18 @@ class AssetsLiabilitiesPage extends StatelessWidget {
 
     return Container(
       height: 220,
-      margin: const EdgeInsets.symmetric(horizontal: 16),
-      padding: const EdgeInsets.all(16),
+      margin: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
+      padding: const EdgeInsets.all(TokenSpacing.xl),
       decoration: BoxDecoration(
         color: theme.colorScheme.surfaceContainerHighest,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: TokenRadius.borderSm,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Period selector
           _buildPeriodSelector(context, l10n),
-          const SizedBox(height: 16),
+          const SizedBox(height: TokenSpacing.xl),
           // Chart or empty/loading state
           Expanded(
             child: isLoading
@@ -335,7 +322,7 @@ class AssetsLiabilitiesPage extends StatelessWidget {
                             LineChartBarData(
                               spots: spots,
                               isCurved: true,
-                              color: const Color(0xFF000000),
+                              color: TokenColors.textPrimary,
                               barWidth: 2,
                               dotData: const FlDotData(show: false),
                               belowBarData: BarAreaData(show: false),
@@ -346,9 +333,7 @@ class AssetsLiabilitiesPage extends StatelessWidget {
                     : Center(
                         child: Text(
                           l10n.loading,
-                          style: theme.textTheme.bodySmall?.copyWith(
-                            color: theme.colorScheme.outline,
-                          ),
+                          style: TokenTypography.caption(color: TokenColors.textTertiary),
                         ),
                       ),
           ),
@@ -373,22 +358,22 @@ class AssetsLiabilitiesPage extends StatelessWidget {
         children: periods.map((period) {
           final isSelected = selectedPeriodMonths == period.$1;
           return Padding(
-            padding: const EdgeInsets.only(right: 8),
+            padding: const EdgeInsets.only(right: TokenSpacing.sm),
             child: GestureDetector(
               onTap: () => onPeriodChanged?.call(period.$1),
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.lg, vertical: TokenSpacing.xs),
                 decoration: BoxDecoration(
-                  color: isSelected ? const Color(0xFF000000) : Colors.transparent,
-                  borderRadius: BorderRadius.circular(16),
+                  color: isSelected ? TokenColors.textPrimary : Colors.transparent,
+                  borderRadius: TokenRadius.borderLg,
                   border: Border.all(
-                    color: isSelected ? const Color(0xFF000000) : theme.colorScheme.outline,
+                    color: isSelected ? TokenColors.textPrimary : TokenColors.textTertiary,
                   ),
                 ),
                 child: Text(
                   period.$2,
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: isSelected ? const Color(0xFFFFFFFF) : theme.colorScheme.onSurface,
+                  style: TokenTypography.caption(
+                    color: isSelected ? TokenColors.white : theme.colorScheme.onSurface,
                     fontWeight: FontWeight.w500,
                   ),
                 ),

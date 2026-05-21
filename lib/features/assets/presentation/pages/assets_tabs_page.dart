@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:signals_flutter/signals_flutter.dart';
 import 'package:firela_app/generated/l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter/services.dart';
+import '../../../../core/design_tokens/design_tokens.dart';
 import '../../../../core/services/ign_api_service.dart';
 import '../../../../core/network/auth_manager.dart';
 import '../../../../core/utils/logger.dart';
+import '../../../../shared/signals/asset_refresh_signal.dart';
 import '../../../review_center/presentation/widgets/review_center_badge.dart';
 import '../../data/services/dashboard_aggregation_service.dart';
 import '../../domain/models/net_worth_history_point.dart';
@@ -28,27 +31,23 @@ class _SegmentedTabBar extends StatelessWidget {
     final theme = Theme.of(context);
     
     return Container(
-      padding: const EdgeInsets.all(4),
+      padding: const EdgeInsets.all(TokenSpacing.xs),
       decoration: BoxDecoration(
         color: theme.colorScheme.surfaceContainerHighest,
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: TokenRadius.borderPill,
       ),
       child: TabBar(
         controller: controller,
         indicator: BoxDecoration(
-          color: const Color(0xFF000000),
-          borderRadius: BorderRadius.circular(20),
+          color: TokenColors.textPrimary,
+          borderRadius: TokenRadius.borderPill,
         ),
         indicatorSize: TabBarIndicatorSize.tab,
         dividerColor: Colors.transparent,
-        labelColor: const Color(0xFFFFFFFF),
-        unselectedLabelColor: const Color(0xFF000000),
-        labelStyle: theme.textTheme.bodyMedium?.copyWith(
-          fontWeight: FontWeight.w500,
-        ),
-        unselectedLabelStyle: theme.textTheme.bodyMedium?.copyWith(
-          fontWeight: FontWeight.w500,
-        ),
+        labelColor: TokenColors.white,
+        unselectedLabelColor: TokenColors.textPrimary,
+        labelStyle: TokenTypography.body(fontWeight: FontWeight.w500),
+        unselectedLabelStyle: TokenTypography.body(fontWeight: FontWeight.w500),
         tabs: tabs.map((tab) => Tab(text: tab)).toList(),
       ),
     );
@@ -138,6 +137,25 @@ class AssetsTabsPage extends HookWidget {
       return null;
     }, const []);
 
+    // 监听全局资产刷新信号（使用 signal effect 自动订阅）
+    useEffect(() {
+      return effect(() {
+        if (assetRefreshSignal.value > 0) {
+          Future.microtask(() => _fetchData(
+            isLoading: isLoading,
+            netWorth: netWorth,
+            totalAssets: totalAssets,
+            totalLiabilities: totalLiabilities,
+            accounts: accounts,
+            monthlyIncome: monthlyIncome,
+            monthlyExpense: monthlyExpense,
+            currency: currency,
+            errorMsg: errorMsg,
+          ));
+        }
+      });
+    }, const []);
+
     // 加载历史数据
     useEffect(() {
       Future.microtask(() => _fetchHistoryData(
@@ -184,7 +202,7 @@ class AssetsTabsPage extends HookWidget {
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(60),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl, vertical: TokenSpacing.sm),
             child: _SegmentedTabBar(
               controller: tabController,
               tabs: [

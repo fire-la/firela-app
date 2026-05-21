@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firela_app/generated/l10n/app_localizations.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import '../../../../core/design_tokens/design_tokens.dart';
 import '../../../../shared/widgets/section_header.dart';
 import '../../../../shared/widgets/expense_details_list.dart';
 
@@ -36,15 +37,15 @@ class IncomeExpensePage extends StatelessWidget {
           physics: const AlwaysScrollableScrollPhysics(),
           child: Column(
             children: [
-              const SizedBox(height: 16),
+              const SizedBox(height: TokenSpacing.xl),
 
               // 月度支出卡片
               Container(
-                margin: const EdgeInsets.fromLTRB(16, 8, 16, 16),
-                padding: const EdgeInsets.all(20),
+                margin: const EdgeInsets.fromLTRB(TokenSpacing.xl, TokenSpacing.sm, TokenSpacing.xl, TokenSpacing.xl),
+                padding: const EdgeInsets.all(TokenSpacing.xxl),
                 decoration: BoxDecoration(
                   color: theme.colorScheme.surfaceContainerHighest,
-                  borderRadius: BorderRadius.circular(16),
+                  borderRadius: TokenRadius.borderLg,
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -54,14 +55,12 @@ class IncomeExpensePage extends StatelessWidget {
                       children: [
                         Text(
                           l10n.monthlyExpense,
-                          style: theme.textTheme.bodyMedium?.copyWith(
-                            color: theme.colorScheme.outline,
-                          ),
+                          style: TokenTypography.body(color: TokenColors.textTertiary),
                         ),
                         const Icon(Icons.visibility_outlined, size: 20),
                       ],
                     ),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: TokenSpacing.lg),
                     isLoading
                         ? const SizedBox(
                             height: 36,
@@ -69,22 +68,18 @@ class IncomeExpensePage extends StatelessWidget {
                           )
                         : Text(
                             '-$monthlyExpense',
-                            style: theme.textTheme.displaySmall?.copyWith(
-                              fontWeight: FontWeight.bold,
-                            ),
+                            style: TokenTypography.h2(fontWeight: FontWeight.bold),
                           ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: TokenSpacing.sm),
                     Row(
                       children: [
                         Text(
                           '${l10n.income} ',
-                          style: theme.textTheme.bodySmall,
+                          style: TokenTypography.caption(),
                         ),
                         Text(
                           monthlyIncome,
-                          style: theme.textTheme.bodySmall?.copyWith(
-                            fontWeight: FontWeight.w500,
-                          ),
+                          style: TokenTypography.caption(fontWeight: FontWeight.w500),
                         ),
                       ],
                     ),
@@ -92,11 +87,11 @@ class IncomeExpensePage extends StatelessWidget {
                 ),
               ),
 
-              const SizedBox(height: 16),
+              const SizedBox(height: TokenSpacing.xl),
 
               // 预算管理和趋势
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
+                padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
                 child: Row(
                   children: [
                     Expanded(
@@ -115,27 +110,27 @@ class IncomeExpensePage extends StatelessWidget {
                 ),
               ),
 
-              const SizedBox(height: 8),
+              const SizedBox(height: TokenSpacing.sm),
 
               // 预算进度
               _buildBudgetProgress(context, l10n),
 
-              const SizedBox(height: 16),
+              const SizedBox(height: TokenSpacing.xl),
 
               // 支出趋势图
               _buildExpenseChart(context, l10n),
 
-              const SizedBox(height: 24),
+              const SizedBox(height: TokenSpacing.xxl),
 
               // 支出明细
               SectionHeader(title: l10n.expenseDetails),
 
-              const SizedBox(height: 8),
+              const SizedBox(height: TokenSpacing.sm),
 
               // 交易列表（目前展示汇总数据）
               _buildTransactionSummary(context, l10n),
 
-              const SizedBox(height: 24),
+              const SizedBox(height: TokenSpacing.xxl),
             ],
           ),
         ),
@@ -144,7 +139,6 @@ class IncomeExpensePage extends StatelessWidget {
   }
 
   Widget _buildTransactionSummary(BuildContext context, AppLocalizations l10n) {
-    final theme = Theme.of(context);
     final now = DateTime.now();
     final period = '${now.year}-${now.month.toString().padLeft(2, '0')}';
 
@@ -154,13 +148,11 @@ class IncomeExpensePage extends StatelessWidget {
         child: Center(
           child: Column(
             children: [
-              Icon(Icons.receipt_long_outlined, size: 48, color: theme.colorScheme.outline),
-              const SizedBox(height: 12),
+              Icon(Icons.receipt_long_outlined, size: 48, color: TokenColors.textTertiary),
+              const SizedBox(height: TokenSpacing.lg),
               Text(
                 '暂无交易记录',
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  color: theme.colorScheme.outline,
-                ),
+                style: TokenTypography.body(color: TokenColors.textTertiary),
               ),
             ],
           ),
@@ -209,11 +201,11 @@ class IncomeExpensePage extends StatelessWidget {
     final remaining = (budgetTotal - expense).toStringAsFixed(0);
 
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16),
-      padding: const EdgeInsets.all(16),
+      margin: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
+      padding: const EdgeInsets.all(TokenSpacing.xl),
       decoration: BoxDecoration(
         color: theme.colorScheme.surfaceContainerHighest,
-        borderRadius: BorderRadius.circular(12) // Design: 12px,
+        borderRadius: TokenRadius.borderMd,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -223,25 +215,21 @@ class IncomeExpensePage extends StatelessWidget {
             children: [
               Text(
                 l10n.used((percent * 100).round()),
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  fontWeight: FontWeight.w500,
-                ),
+                style: TokenTypography.body(fontWeight: FontWeight.w500),
               ),
               Text(
                 l10n.remaining(remaining),
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  color: theme.colorScheme.outline,
-                ),
+                style: TokenTypography.body(color: TokenColors.textTertiary),
               ),
             ],
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: TokenSpacing.lg),
           LinearPercentIndicator(
             padding: EdgeInsets.zero,
             lineHeight: 6,
             percent: percent,
-            progressColor: const Color(0xFF000000),
-            backgroundColor: const Color(0xFFE0E0E0),
+            progressColor: TokenColors.textPrimary,
+            backgroundColor: TokenColors.neutral200,
             barRadius: const Radius.circular(3),
           ),
         ],
@@ -254,11 +242,11 @@ class IncomeExpensePage extends StatelessWidget {
 
     return Container(
       height: 140,
-      margin: const EdgeInsets.symmetric(horizontal: 16),
-      padding: const EdgeInsets.all(16),
+      margin: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
+      padding: const EdgeInsets.all(TokenSpacing.xl),
       decoration: BoxDecoration(
         color: theme.colorScheme.surfaceContainerHighest,
-        borderRadius: BorderRadius.circular(12) // Design: 12px,
+        borderRadius: TokenRadius.borderMd,
       ),
       child: LineChart(
         LineChartData(
@@ -266,7 +254,7 @@ class IncomeExpensePage extends StatelessWidget {
             show: true,
             drawVerticalLine: false,
             getDrawingHorizontalLine: (value) => FlLine(
-              color: Colors.grey.shade300,
+              color: TokenColors.neutral200,
               strokeWidth: 1,
             ),
           ),
@@ -278,9 +266,7 @@ class IncomeExpensePage extends StatelessWidget {
                 getTitlesWidget: (value, meta) {
                   return Text(
                     value.toInt().toString(),
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: theme.colorScheme.outline,
-                    ),
+                    style: TokenTypography.caption(color: TokenColors.textTertiary),
                   );
                 },
               ),
@@ -299,9 +285,7 @@ class IncomeExpensePage extends StatelessWidget {
                   if (value.toInt() < labels.length) {
                     return Text(
                       labels[value.toInt()],
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        color: theme.colorScheme.outline,
-                      ),
+                      style: TokenTypography.caption(color: TokenColors.textTertiary),
                     );
                   }
                   return const Text('');
@@ -321,14 +305,14 @@ class IncomeExpensePage extends StatelessWidget {
                 FlSpot(3, 1100),
               ],
               isCurved: true,
-              color: const Color(0xFF000000),
+              color: TokenColors.textPrimary,
               barWidth: 2,
               dotData: FlDotData(
                 show: true,
                 getDotPainter: (spot, percent, barData, index) {
                   return FlDotCirclePainter(
                     radius: 3,
-                    color: const Color(0xFF000000),
+                    color: TokenColors.textPrimary,
                     strokeWidth: 0,
                   );
                 },

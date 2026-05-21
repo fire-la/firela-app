@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firela_app/generated/l10n/app_localizations.dart';
 import 'package:fl_chart/fl_chart.dart';
+import '../../../../core/design_tokens/design_tokens.dart';
 import '../../domain/models/net_worth_history_point.dart';
 
 /// Liabilities trend mini-chart widget
@@ -31,11 +32,11 @@ class LiabilitiesTrendChart extends StatelessWidget {
       onTap: onTap,
       child: Container(
         height: 80,
-        margin: const EdgeInsets.symmetric(horizontal: 16),
-        padding: const EdgeInsets.all(16),
+        margin: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
+        padding: const EdgeInsets.all(TokenSpacing.xl),
         decoration: BoxDecoration(
           color: theme.colorScheme.surfaceContainerHighest,
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: TokenRadius.borderSm,
         ),
         child: Row(
           children: [
@@ -48,11 +49,9 @@ class LiabilitiesTrendChart extends StatelessWidget {
                 children: [
                   Text(
                     l10n.liabilities,
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: theme.colorScheme.outline,
-                    ),
+                    style: TokenTypography.caption(color: TokenColors.textTertiary),
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: TokenSpacing.xs),
                   if (isLoading)
                     const SizedBox(
                       height: 16,
@@ -64,11 +63,9 @@ class LiabilitiesTrendChart extends StatelessWidget {
                       children: [
                         Text(
                           _formatCurrency(_getCurrentLiabilities()),
-                          style: theme.textTheme.titleMedium?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style: TokenTypography.body(fontWeight: FontWeight.bold),
                         ),
-                        const SizedBox(width: 8),
+                        const SizedBox(width: TokenSpacing.sm),
                         _buildTrendIndicator(theme),
                       ],
                     ),
@@ -96,13 +93,13 @@ class LiabilitiesTrendChart extends StatelessWidget {
 
     final trend = _calculateTrend();
     final isIncreasing = trend > 0;
-    final trendColor = isIncreasing ? Colors.red : Colors.green;
+    final trendColor = isIncreasing ? TokenColors.error : TokenColors.success;
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
       decoration: BoxDecoration(
         color: trendColor.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(4),
+        borderRadius: BorderRadius.circular(TokenSpacing.xs),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -115,7 +112,7 @@ class LiabilitiesTrendChart extends StatelessWidget {
           const SizedBox(width: 2),
           Text(
             '${trend.abs().toStringAsFixed(1)}%',
-            style: theme.textTheme.labelSmall?.copyWith(
+            style: TokenTypography.micro(
               color: trendColor,
               fontWeight: FontWeight.w500,
             ),
@@ -129,9 +126,7 @@ class LiabilitiesTrendChart extends StatelessWidget {
     return Center(
       child: Text(
         '--',
-        style: theme.textTheme.bodySmall?.copyWith(
-          color: theme.colorScheme.outline,
-        ),
+        style: TokenTypography.caption(color: TokenColors.textTertiary),
       ),
     );
   }
@@ -152,12 +147,12 @@ class LiabilitiesTrendChart extends StatelessWidget {
           LineChartBarData(
             spots: spots,
             isCurved: true,
-            color: Colors.orange.shade400,
+            color: TokenColors.primary,
             barWidth: 2,
             dotData: const FlDotData(show: false),
             belowBarData: BarAreaData(
               show: true,
-              color: Colors.orange.withValues(alpha: 0.1),
+              color: TokenColors.primary.withValues(alpha: 0.1),
             ),
           ),
         ],
