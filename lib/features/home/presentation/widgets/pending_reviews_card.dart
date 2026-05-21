@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:signals_flutter/signals_flutter.dart';
 import 'package:firela_app/generated/l10n/app_localizations.dart';
+import 'package:signals_flutter/signals_flutter.dart';
+import '../../../../core/design_tokens/design_tokens.dart';
 import '../../../review_center/presentation/signals/review_center_signal.dart';
 import '../../../../shared/widgets/loading_indicator.dart';
 
@@ -17,7 +18,6 @@ class PendingReviewsCard extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final theme = Theme.of(context);
 
     return Watch((context) {
       final counts = pendingCountByLevelSignal.value;
@@ -30,17 +30,11 @@ class PendingReviewsCard extends HookWidget {
       return GestureDetector(
         onTap: onTap,
         child: Container(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(TokenSpacing.xl),
           decoration: BoxDecoration(
-            color: theme.cardColor,
-            borderRadius: BorderRadius.circular(16),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: 0.1),
-                blurRadius: 8,
-                offset: const Offset(2, 2),
-              ),
-            ],
+            color: TokenColors.bgCard,
+            borderRadius: TokenRadius.borderLg,
+            boxShadow: TokenShadows.cardList,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -50,9 +44,7 @@ class PendingReviewsCard extends HookWidget {
                 children: [
                   Text(
                     l10n.homePendingReviews,
-                    style: theme.textTheme.titleSmall?.copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
+                    style: TokenTypography.h4(fontWeight: FontWeight.w600),
                   ),
                   if (isLoading)
                   const SizedBox(
@@ -62,49 +54,48 @@ class PendingReviewsCard extends HookWidget {
                   )
                 else
                   Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.sm, vertical: TokenSpacing.xs),
                         decoration: BoxDecoration(
                           color: total > 1
-                              ? theme.colorScheme.error
-                              : theme.colorScheme.outline,
-                          borderRadius: BorderRadius.circular(12),
+                              ? TokenColors.error
+                              : TokenColors.textTertiary,
+                          borderRadius: TokenRadius.borderMd,
                         ),
                         child: Text(
                           '$total',
-                          style: const TextStyle(
-                            color: Colors.white,
+                          style: TokenTypography.caption(
+                            color: TokenColors.white,
                             fontWeight: FontWeight.bold,
-                            fontSize: 12
                           ),
                         ),
                       ),
                 ],
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: TokenSpacing.lg),
               if (total > 0) ...[
                 Wrap(
                   children: [
-                    _buildCountChip(context, 'H:$highCount', Colors.green),
+                    _buildCountChip(context, 'H:$highCount', TokenColors.success),
                     const SizedBox(width: 6),
-                    _buildCountChip(context, 'M:$mediumCount', Colors.orange),
+                    _buildCountChip(context, 'M:$mediumCount', TokenColors.primary),
                     const SizedBox(width: 6),
-                    _buildCountChip(context, 'L:$lowCount', Colors.red),
+                    _buildCountChip(context, 'L:$lowCount', TokenColors.error),
                   ],
                 ),
               ] else
                 Text(
                   l10n.homeNoPending,
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: theme.colorScheme.outline,
+                  style: TokenTypography.caption(
+                    color: TokenColors.textTertiary,
                   ),
                 ),
-              const SizedBox(height: 8),
+              const SizedBox(height: TokenSpacing.sm),
               Align(
                 alignment: Alignment.centerRight,
                 child: Icon(
                   Icons.arrow_forward_ios,
                   size: 16,
-                  color: theme.colorScheme.outline,
+                  color: TokenColors.textTertiary,
                 ),
               ),
             ],
@@ -119,15 +110,15 @@ class PendingReviewsCard extends HookWidget {
       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.15),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: TokenRadius.borderSm,
       ),
       child: Text(
         label,
-        style: Theme.of(context).textTheme.labelSmall?.copyWith(
+        style: TokenTypography.micro(
           color: color,
-          fontWeight: FontWeight.w500
-        )
-      )
+          fontWeight: FontWeight.w500,
+        ),
+      ),
     );
   }
 }

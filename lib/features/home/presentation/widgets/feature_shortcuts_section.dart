@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:firela_app/generated/l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:signals_flutter/signals_flutter.dart';
+import '../../../../core/design_tokens/design_tokens.dart';
 import '../../../../core/router/route_names.dart';
 import '../../../review_center/presentation/signals/review_center_signal.dart';
 
@@ -21,19 +22,17 @@ class FeatureShortcutsSection extends HookWidget {
         // Section header
         Text(
           l10n.homeShortcuts,
-          style: theme.textTheme.titleSmall?.copyWith(
-            fontWeight: FontWeight.w600,
-          ),
+          style: TokenTypography.h4(fontWeight: FontWeight.w600),
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: TokenSpacing.lg),
 
         // Grid of shortcut cards (2x2)
         GridView.count(
           crossAxisCount: 2,
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          mainAxisSpacing: 12,
-          crossAxisSpacing: 12,
+          mainAxisSpacing: TokenSpacing.lg,
+          crossAxisSpacing: TokenSpacing.lg,
           childAspectRatio: 1.5,
           children: [
             _ShortcutCard(
@@ -41,7 +40,7 @@ class FeatureShortcutsSection extends HookWidget {
               label: l10n.homeAssets,
               onTap: () => context.go(RouteNames.accounts),
               gradientColors: const [
-                Color(0xFF4CAF50),
+                TokenColors.success,
                 Color(0xFF2E7D32),
               ],
             ),
@@ -53,7 +52,7 @@ class FeatureShortcutsSection extends HookWidget {
                 badge: pendingCount > 0 ? '$pendingCount' : null,
                 onTap: () => context.push(RouteNames.reviewCenter),
                 gradientColors: const [
-                  Color(0xFFFF9800),
+                  TokenColors.primary,
                   Color(0xFFF57C00),
                 ],
               );
@@ -66,7 +65,7 @@ class FeatureShortcutsSection extends HookWidget {
                 context.go(RouteNames.home);
               },
               gradientColors: const [
-                Color(0xFFE91E63),
+                TokenColors.textAccent,
                 Color(0xFFC2185B),
               ],
             ),
@@ -75,7 +74,7 @@ class FeatureShortcutsSection extends HookWidget {
               label: l10n.homeSettings,
               onTap: () => context.go(RouteNames.home),
               gradientColors: const [
-                Color(0xFF607D8B),
+                TokenColors.neutral700,
                 Color(0xFF455A64),
               ],
             ),
@@ -115,19 +114,13 @@ class _ShortcutCard extends StatelessWidget {
             end: Alignment.bottomRight,
             colors: gradientColors,
           ),
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: [
-            BoxShadow(
-              color: gradientColors[1].withValues(alpha: 0.3),
-              blurRadius: 8,
-              offset: const Offset(2, 2),
-            ),
-          ],
+          borderRadius: TokenRadius.borderLg,
+          boxShadow: TokenShadows.cardList,
         ),
         child: Stack(
           children: [
             Padding(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(TokenSpacing.xl),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -135,13 +128,13 @@ class _ShortcutCard extends StatelessWidget {
                   Icon(
                     icon,
                     size: 28,
-                    color: Colors.white,
+                    color: TokenColors.white,
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: TokenSpacing.sm),
                   Text(
                     label,
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      color: Colors.white,
+                    style: TokenTypography.body(
+                      color: TokenColors.white,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -151,32 +144,31 @@ class _ShortcutCard extends StatelessWidget {
             // Badge for pending count
             if (badge != null)
               Positioned(
-                right: 12,
-                top: 12,
+                right: TokenSpacing.lg,
+                top: TokenSpacing.lg,
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.sm, vertical: TokenSpacing.xs),
                   decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.9),
-                    borderRadius: BorderRadius.circular(12),
+                    color: TokenColors.white.withValues(alpha: 0.9),
+                    borderRadius: TokenRadius.borderMd,
                   ),
                   child: Text(
                     badge!,
-                    style: TextStyle(
+                    style: TokenTypography.caption(
                       color: gradientColors[1],
                       fontWeight: FontWeight.bold,
-                      fontSize: 12,
                     ),
                   ),
                 ),
               ),
             // Arrow indicator
             Positioned(
-              right: 12,
-              bottom: 12,
+              right: TokenSpacing.lg,
+              bottom: TokenSpacing.lg,
               child: Icon(
                 Icons.arrow_forward_ios,
                 size: 14,
-                color: Colors.white.withValues(alpha: 0.7),
+                color: TokenColors.white.withValues(alpha: 0.7),
               ),
             ),
           ],

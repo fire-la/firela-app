@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:firela_app/generated/l10n/app_localizations.dart';
 import 'package:signals_flutter/signals_flutter.dart';
+import '../../../../core/design_tokens/design_tokens.dart';
 import '../providers/use_home_data.dart';
 
 /// Spending insights card showing income vs expense comparison
@@ -11,7 +12,6 @@ class SpendingInsightsCard extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final theme = Theme.of(context);
     final homeData = useHomeData();
 
     return Watch((context) {
@@ -22,26 +22,20 @@ class SpendingInsightsCard extends HookWidget {
       final savingsRate = monthlyIncome > 0 ? (netSavings / monthlyIncome * 100) : 0.0;
 
       if (isLoading) {
-        return _buildLoadingCard(theme);
+        return _buildLoadingCard();
       }
 
       // Determine spending status
       final bool isOverspending = netSavings < 0;
-      final Color statusColor = isOverspending ? Colors.red : Colors.green;
+      final Color statusColor = isOverspending ? TokenColors.error : TokenColors.success;
       final IconData statusIcon = isOverspending ? Icons.warning_amber : Icons.check_circle_outline;
 
       return Container(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(TokenSpacing.xl),
         decoration: BoxDecoration(
-          color: theme.cardColor,
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.05),
-              blurRadius: 8,
-              offset: const Offset(2, 2),
-            ),
-          ],
+          color: TokenColors.bgCard,
+          borderRadius: TokenRadius.borderLg,
+          boxShadow: TokenShadows.cardList,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -52,9 +46,7 @@ class SpendingInsightsCard extends HookWidget {
               children: [
                 Text(
                   l10n.homeSpendingInsights,
-                  style: theme.textTheme.titleSmall?.copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
+                  style: TokenTypography.h4(fontWeight: FontWeight.w600),
                 ),
                 Icon(
                   statusIcon,
@@ -63,30 +55,28 @@ class SpendingInsightsCard extends HookWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: TokenSpacing.xl),
 
             // Income vs Expense bars
             _buildComparisonBar(
-              theme: theme,
               label: l10n.homeIncomeThisMonth,
               amount: monthlyIncome,
               maxAmount: monthlyIncome > monthlyExpense ? monthlyIncome : monthlyExpense,
-              color: Colors.green,
+              color: TokenColors.success,
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: TokenSpacing.lg),
 
             _buildComparisonBar(
-              theme: theme,
               label: l10n.homeExpenseThisMonth,
               amount: monthlyExpense,
               maxAmount: monthlyIncome > monthlyExpense ? monthlyIncome : monthlyExpense,
-              color: Colors.red,
+              color: TokenColors.error,
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: TokenSpacing.xl),
 
             // Divider
-            Divider(color: theme.colorScheme.outline.withValues(alpha: 0.2)),
-            const SizedBox(height: 16),
+            Divider(color: TokenColors.textTertiary.withValues(alpha: 0.2)),
+            const SizedBox(height: TokenSpacing.xl),
 
             // Net savings summary
             Row(
@@ -94,20 +84,20 @@ class SpendingInsightsCard extends HookWidget {
               children: [
                 Text(
                   l10n.homeNetSavings,
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    color: theme.colorScheme.outline,
+                  style: TokenTypography.body(
+                    color: TokenColors.textTertiary,
                   ),
                 ),
                 Text(
                   _formatCurrency(netSavings),
-                  style: theme.textTheme.titleMedium?.copyWith(
+                  style: TokenTypography.h4(
                     fontWeight: FontWeight.bold,
                     color: statusColor,
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: TokenSpacing.sm),
 
             // Savings rate summary
             Row(
@@ -115,13 +105,13 @@ class SpendingInsightsCard extends HookWidget {
               children: [
                 Text(
                   l10n.homeSavingsRateLabel,
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    color: theme.colorScheme.outline,
+                  style: TokenTypography.body(
+                    color: TokenColors.textTertiary,
                   ),
                 ),
                 Text(
                   '${savingsRate.toStringAsFixed(1)}%',
-                  style: theme.textTheme.titleSmall?.copyWith(
+                  style: TokenTypography.h4(
                     fontWeight: FontWeight.w600,
                     color: statusColor,
                   ),
@@ -131,26 +121,26 @@ class SpendingInsightsCard extends HookWidget {
 
             // Warning message if overspending
             if (isOverspending) ...[
-              const SizedBox(height: 12),
+              const SizedBox(height: TokenSpacing.lg),
               Container(
-                padding: const EdgeInsets.all(12),
+                padding: const EdgeInsets.all(TokenSpacing.lg),
                 decoration: BoxDecoration(
-                  color: Colors.red.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(8),
+                  color: TokenColors.error.withValues(alpha: 0.1),
+                  borderRadius: TokenRadius.borderSm,
                 ),
                 child: Row(
                   children: [
                     const Icon(
                       Icons.info_outline,
                       size: 16,
-                      color: Colors.red,
+                      color: TokenColors.error,
                     ),
-                    const SizedBox(width: 8),
+                    const SizedBox(width: TokenSpacing.sm),
                     Expanded(
                       child: Text(
                         l10n.homeOverspendingWarning,
-                        style: theme.textTheme.bodySmall?.copyWith(
-                          color: Colors.red,
+                        style: TokenTypography.caption(
+                          color: TokenColors.error,
                         ),
                       ),
                     ),
@@ -165,7 +155,6 @@ class SpendingInsightsCard extends HookWidget {
   }
 
   Widget _buildComparisonBar({
-    required ThemeData theme,
     required String label,
     required double amount,
     required double maxAmount,
@@ -181,26 +170,26 @@ class SpendingInsightsCard extends HookWidget {
           children: [
             Text(
               label,
-              style: theme.textTheme.bodySmall?.copyWith(
-                color: theme.colorScheme.outline,
+              style: TokenTypography.caption(
+                color: TokenColors.textTertiary,
               ),
             ),
             Text(
               '¥${_formatCurrency(amount)}',
-              style: theme.textTheme.bodySmall?.copyWith(
+              style: TokenTypography.caption(
                 fontWeight: FontWeight.w600,
               ),
             ),
           ],
         ),
-        const SizedBox(height: 4),
+        const SizedBox(height: TokenSpacing.xs),
         Stack(
           children: [
             Container(
               height: 8,
               width: double.infinity,
               decoration: BoxDecoration(
-                color: theme.colorScheme.surfaceContainerHighest,
+                color: TokenColors.neutral200,
                 borderRadius: BorderRadius.circular(4),
               ),
             ),
@@ -220,12 +209,12 @@ class SpendingInsightsCard extends HookWidget {
     );
   }
 
-  Widget _buildLoadingCard(ThemeData theme) {
+  Widget _buildLoadingCard() {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(TokenSpacing.xl),
       decoration: BoxDecoration(
-        color: theme.cardColor,
-        borderRadius: BorderRadius.circular(16),
+        color: TokenColors.bgCard,
+        borderRadius: TokenRadius.borderLg,
       ),
       child: const Center(
         child: SizedBox(

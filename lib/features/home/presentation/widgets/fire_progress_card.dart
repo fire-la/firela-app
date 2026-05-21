@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:firela_app/generated/l10n/app_localizations.dart';
 import 'package:signals_flutter/signals_flutter.dart';
+import '../../../../core/design_tokens/design_tokens.dart';
 import '../../../fire_journey/presentation/providers/use_fire_progress.dart';
 import '../../../../shared/widgets/loading_indicator.dart';
 
@@ -17,23 +18,16 @@ class FireProgressCard extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final theme = Theme.of(context);
     final fireProgress = useFireProgress();
 
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(TokenSpacing.xl),
         decoration: BoxDecoration(
-          color: theme.cardColor,
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.1),
-              blurRadius: 8,
-              offset: const Offset(2, 2),
-            ),
-          ],
+          color: TokenColors.bgCard,
+          borderRadius: TokenRadius.borderLg,
+          boxShadow: TokenShadows.cardList,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -43,17 +37,15 @@ class FireProgressCard extends HookWidget {
               children: [
                 Text(
                   l10n.homeFireProgress,
-                  style: theme.textTheme.titleSmall?.copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
+                  style: TokenTypography.h4(fontWeight: FontWeight.w600),
                 ),
                 if (fireProgress.isLoading)
                   const LoadingIndicator()
                 else
-                  Icon(Icons.local_fire_department, size: 18, color: theme.colorScheme.outline),
+                  Icon(Icons.local_fire_department, size: 18, color: TokenColors.textTertiary),
               ],
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: TokenSpacing.lg),
             Watch((context) {
               final hasNoGoal = fireProgress.hasNoGoal;
               final progressData = fireProgress.progress;
@@ -68,25 +60,25 @@ class FireProgressCard extends HookWidget {
               if (hasNoGoal) {
                 // No goal state
                 return Container(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  padding: const EdgeInsets.symmetric(vertical: TokenSpacing.sm),
                   child: Column(
                     children: [
                       Icon(
                         Icons.flag_outlined,
                         size: 32,
-                        color: theme.colorScheme.outline,
+                        color: TokenColors.textTertiary,
                       ),
-                      const SizedBox(height: 8),
+                      const SizedBox(height: TokenSpacing.sm),
                       Text(
                         l10n.homeSetGoal,
-                        style: theme.textTheme.bodyMedium,
+                        style: TokenTypography.body(),
                         textAlign: TextAlign.center,
                       ),
-                      const SizedBox(height: 8),
+                      const SizedBox(height: TokenSpacing.sm),
                       TextButton(
                         onPressed: onTap,
                         style: TextButton.styleFrom(
-                          foregroundColor: theme.colorScheme.primary,
+                          foregroundColor: TokenColors.textAccent,
                           textStyle: const TextStyle(
                             fontWeight: FontWeight.w600,
                           ),
@@ -107,11 +99,11 @@ class FireProgressCard extends HookWidget {
                     children: [
                       Text(
                         '${progressValue.toStringAsFixed(1)}%',
-                        style: theme.textTheme.headlineSmall?.copyWith(
+                        style: TokenTypography.h2(
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const SizedBox(width: 4),
+                      const SizedBox(width: TokenSpacing.xs),
                       Icon(
                         progressValue >= 100
                             ? Icons.check_circle
@@ -120,14 +112,14 @@ class FireProgressCard extends HookWidget {
                                 : Icons.trending_down,
                         size: 18,
                         color: progressValue >= 100
-                            ? theme.colorScheme.primary
+                            ? TokenColors.textAccent
                             : progressValue > 0
-                                ? Colors.green
-                                : Colors.red,
+                                ? TokenColors.success
+                                : TokenColors.error,
                       ),
                     ],
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: TokenSpacing.lg),
 
                   // Years to FIRE
                   Row(
@@ -138,8 +130,8 @@ class FireProgressCard extends HookWidget {
                         children: [
                           Text(
                             l10n.homeYearsToFire,
-                            style: theme.textTheme.bodySmall?.copyWith(
-                              color: theme.colorScheme.outline,
+                            style: TokenTypography.caption(
+                              color: TokenColors.textTertiary,
                             ),
                           ),
                           const SizedBox(height: 2),
@@ -147,7 +139,7 @@ class FireProgressCard extends HookWidget {
                             yearsToFire != null
                               ? l10n.homeYearsToFireValue(yearsToFire.toStringAsFixed(1))
                               : '--',
-                            style: theme.textTheme.titleMedium?.copyWith(
+                            style: TokenTypography.h4(
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -157,22 +149,22 @@ class FireProgressCard extends HookWidget {
                   ),
 
                   // Savings rate
-                  const SizedBox(height: 12),
+                  const SizedBox(height: TokenSpacing.lg),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
                         l10n.homeSavingsRate,
-                        style: theme.textTheme.bodySmall?.copyWith(
-                          color: theme.colorScheme.outline,
+                        style: TokenTypography.caption(
+                          color: TokenColors.textTertiary,
                         ),
                       ),
                       Text(
                         '${savingsRate.toStringAsFixed(1)}%',
-                        style: theme.textTheme.titleSmall?.copyWith(
+                        style: TokenTypography.h4(
                           color: savingsRate > 50
-                            ? Colors.green
-                            : Colors.orange,
+                            ? TokenColors.success
+                            : TokenColors.primary,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -185,7 +177,7 @@ class FireProgressCard extends HookWidget {
                     child: Icon(
                       Icons.arrow_forward_ios,
                       size: 16,
-                      color: theme.colorScheme.outline,
+                      color: TokenColors.textTertiary,
                     ),
                   ),
                 ],

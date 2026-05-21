@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:firela_app/generated/l10n/app_localizations.dart';
 import 'package:signals_flutter/signals_flutter.dart';
+import '../../../../core/design_tokens/design_tokens.dart';
 import '../../../fire_journey/presentation/providers/use_fire_progress.dart';
 
 /// Savings rate indicator with color-coded visual feedback
@@ -11,7 +12,6 @@ class SavingsRateIndicator extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final theme = Theme.of(context);
     final fireProgress = useFireProgress();
 
     return Watch((context) {
@@ -20,11 +20,11 @@ class SavingsRateIndicator extends HookWidget {
       final savingsRate = fireProgress.progress?.savingsRate ?? 0.0;
 
       if (isLoading) {
-        return _buildLoadingCard(theme);
+        return _buildLoadingCard();
       }
 
       if (hasNoGoal) {
-        return _buildNoGoalCard(context, l10n, theme);
+        return _buildNoGoalCard(context, l10n);
       }
 
       // Determine color based on savings rate
@@ -34,39 +34,33 @@ class SavingsRateIndicator extends HookWidget {
       final IconData rateIcon;
 
       if (savingsRate >= 60) {
-        rateColor = Colors.green;
-        backgroundColor = Colors.green.withValues(alpha: 0.1);
+        rateColor = TokenColors.success;
+        backgroundColor = TokenColors.success.withValues(alpha: 0.1);
         rateLabel = l10n.homeSavingsRateExcellent;
         rateIcon = Icons.trending_up;
       } else if (savingsRate >= 40) {
-        rateColor = Colors.lightGreen;
-        backgroundColor = Colors.lightGreen.withValues(alpha: 0.1);
+        rateColor = TokenColors.success;
+        backgroundColor = TokenColors.success.withValues(alpha: 0.1);
         rateLabel = l10n.homeSavingsRateGood;
         rateIcon = Icons.trending_up;
       } else if (savingsRate >= 20) {
-        rateColor = Colors.orange;
-        backgroundColor = Colors.orange.withValues(alpha: 0.1);
+        rateColor = TokenColors.primary;
+        backgroundColor = TokenColors.primary.withValues(alpha: 0.1);
         rateLabel = l10n.homeSavingsRateFair;
         rateIcon = Icons.trending_flat;
       } else {
-        rateColor = Colors.red;
-        backgroundColor = Colors.red.withValues(alpha: 0.1);
+        rateColor = TokenColors.error;
+        backgroundColor = TokenColors.error.withValues(alpha: 0.1);
         rateLabel = l10n.homeSavingsRateNeedsWork;
         rateIcon = Icons.trending_down;
       }
 
       return Container(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(TokenSpacing.xl),
         decoration: BoxDecoration(
-          color: theme.cardColor,
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.05),
-              blurRadius: 8,
-              offset: const Offset(2, 2),
-            ),
-          ],
+          color: TokenColors.bgCard,
+          borderRadius: TokenRadius.borderLg,
+          boxShadow: TokenShadows.cardList,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -77,9 +71,7 @@ class SavingsRateIndicator extends HookWidget {
               children: [
                 Text(
                   l10n.homeSavingsRate,
-                  style: theme.textTheme.titleSmall?.copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
+                  style: TokenTypography.h4(fontWeight: FontWeight.w600),
                 ),
                 Icon(
                   rateIcon,
@@ -88,7 +80,7 @@ class SavingsRateIndicator extends HookWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: TokenSpacing.xl),
 
             // Rate display
             Row(
@@ -96,23 +88,23 @@ class SavingsRateIndicator extends HookWidget {
               children: [
                 Text(
                   '${savingsRate.toStringAsFixed(1)}%',
-                  style: theme.textTheme.headlineMedium?.copyWith(
+                  style: TokenTypography.h3(
                     fontWeight: FontWeight.bold,
                     color: rateColor,
                   ),
                 ),
-                const SizedBox(width: 8),
+                const SizedBox(width: TokenSpacing.sm),
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 6),
+                  padding: const EdgeInsets.only(bottom: TokenSpacing.sm),
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.sm, vertical: TokenSpacing.xs),
                     decoration: BoxDecoration(
                       color: backgroundColor,
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: TokenRadius.borderSm,
                     ),
                     child: Text(
                       rateLabel,
-                      style: theme.textTheme.bodySmall?.copyWith(
+                      style: TokenTypography.caption(
                         color: rateColor,
                         fontWeight: FontWeight.w500,
                       ),
@@ -121,19 +113,19 @@ class SavingsRateIndicator extends HookWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: TokenSpacing.xl),
 
             // Progress bar
             ClipRRect(
-              borderRadius: BorderRadius.circular(4),
+              borderRadius: BorderRadius.circular(TokenSpacing.xs),
               child: LinearProgressIndicator(
                 value: (savingsRate / 100).clamp(0.0, 1.0),
-                backgroundColor: theme.colorScheme.surfaceContainerHighest,
+                backgroundColor: TokenColors.neutral200,
                 valueColor: AlwaysStoppedAnimation<Color>(rateColor),
                 minHeight: 8,
               ),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: TokenSpacing.sm),
 
             // Scale labels
             Row(
@@ -141,20 +133,20 @@ class SavingsRateIndicator extends HookWidget {
               children: [
                 Text(
                   '0%',
-                  style: theme.textTheme.labelSmall?.copyWith(
-                    color: theme.colorScheme.outline,
+                  style: TokenTypography.micro(
+                    color: TokenColors.textTertiary,
                   ),
                 ),
                 Text(
                   '50%',
-                  style: theme.textTheme.labelSmall?.copyWith(
-                    color: theme.colorScheme.outline,
+                  style: TokenTypography.micro(
+                    color: TokenColors.textTertiary,
                   ),
                 ),
                 Text(
                   '100%',
-                  style: theme.textTheme.labelSmall?.copyWith(
-                    color: theme.colorScheme.outline,
+                  style: TokenTypography.micro(
+                    color: TokenColors.textTertiary,
                   ),
                 ),
               ],
@@ -165,12 +157,12 @@ class SavingsRateIndicator extends HookWidget {
     });
   }
 
-  Widget _buildLoadingCard(ThemeData theme) {
+  Widget _buildLoadingCard() {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(TokenSpacing.xl),
       decoration: BoxDecoration(
-        color: theme.cardColor,
-        borderRadius: BorderRadius.circular(16),
+        color: TokenColors.bgCard,
+        borderRadius: TokenRadius.borderLg,
       ),
       child: const Center(
         child: SizedBox(
@@ -182,24 +174,24 @@ class SavingsRateIndicator extends HookWidget {
     );
   }
 
-  Widget _buildNoGoalCard(BuildContext context, AppLocalizations l10n, ThemeData theme) {
+  Widget _buildNoGoalCard(BuildContext context, AppLocalizations l10n) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(TokenSpacing.xl),
       decoration: BoxDecoration(
-        color: theme.cardColor,
-        borderRadius: BorderRadius.circular(16),
+        color: TokenColors.bgCard,
+        borderRadius: TokenRadius.borderLg,
       ),
       child: Column(
         children: [
           Icon(
             Icons.flag_outlined,
             size: 32,
-            color: theme.colorScheme.outline,
+            color: TokenColors.textTertiary,
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: TokenSpacing.sm),
           Text(
             l10n.homeSetGoal,
-            style: theme.textTheme.bodyMedium,
+            style: TokenTypography.body(),
           ),
         ],
       ),

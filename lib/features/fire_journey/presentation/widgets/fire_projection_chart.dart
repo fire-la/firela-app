@@ -2,6 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firela_app/generated/l10n/app_localizations.dart';
+import '../../../../core/design_tokens/design_tokens.dart';
 
 /// Data class for a projection scenario
 class ProjectionScenario {
@@ -9,7 +10,7 @@ class ProjectionScenario {
     required this.name,
     required this.monthlySavings,
     required this.annualReturn,
-    this.color = Colors.black,
+    this.color = TokenColors.textPrimary,
   });
 
   final String name;
@@ -75,22 +76,22 @@ class _FireProjectionChartState extends State<FireProjectionChart> {
     final theme = Theme.of(context);
 
     if (widget.isLoading) {
-      return _buildLoadingState(theme);
+      return _buildLoadingState();
     }
 
     if (widget.scenarios.isEmpty) {
-      return _buildEmptyState(theme, l10n);
+      return _buildEmptyState(l10n);
     }
 
     final projectionData = _calculateProjections();
     final targetLineY = widget.fireNumber;
 
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16),
-      padding: const EdgeInsets.all(16),
+      margin: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
+      padding: const EdgeInsets.all(TokenSpacing.xl),
       decoration: BoxDecoration(
-        color: theme.colorScheme.surfaceContainerHighest,
-        borderRadius: BorderRadius.circular(8),
+        color: TokenColors.neutral200,
+        borderRadius: TokenRadius.borderSm,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -101,27 +102,25 @@ class _FireProjectionChartState extends State<FireProjectionChart> {
             children: [
               Text(
                 l10n.fireProjectionTitle,
-                style: theme.textTheme.titleSmall?.copyWith(
-                  fontWeight: FontWeight.w600,
-                ),
+                style: TokenTypography.h4(fontWeight: FontWeight.w600),
               ),
               if (widget.targetYears != null)
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.sm, vertical: TokenSpacing.xs),
                   decoration: BoxDecoration(
-                    color: Colors.black.withValues(alpha: 0.1),
+                    color: TokenColors.textPrimary.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(4),
                   ),
                   child: Text(
                     l10n.yearsToFireValue(widget.targetYears!.toStringAsFixed(1)),
-                    style: theme.textTheme.labelSmall?.copyWith(
+                    style: TokenTypography.micro(
                       fontWeight: FontWeight.w500,
                     ),
                   ),
                 ),
             ],
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: TokenSpacing.xl),
 
           // Chart
           SizedBox(
@@ -137,28 +136,28 @@ class _FireProjectionChartState extends State<FireProjectionChart> {
           ),
 
           // Legend
-          const SizedBox(height: 12),
-          _buildLegend(theme, l10n),
+          const SizedBox(height: TokenSpacing.lg),
+          _buildLegend(l10n),
 
           // Tooltip for hovered data
           if (_hoveredMonth != null && _hoveredValue != null)
             Padding(
-              padding: const EdgeInsets.only(top: 8),
-              child: _buildTooltip(theme, l10n),
+              padding: const EdgeInsets.only(top: TokenSpacing.sm),
+              child: _buildTooltip(l10n),
             ),
         ],
       ),
     );
   }
 
-  Widget _buildLoadingState(ThemeData theme) {
+  Widget _buildLoadingState() {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16),
-      padding: const EdgeInsets.all(16),
+      margin: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
+      padding: const EdgeInsets.all(TokenSpacing.xl),
       height: 280,
       decoration: BoxDecoration(
-        color: theme.colorScheme.surfaceContainerHighest,
-        borderRadius: BorderRadius.circular(8),
+        color: TokenColors.neutral200,
+        borderRadius: TokenRadius.borderSm,
       ),
       child: const Center(
         child: CircularProgressIndicator(),
@@ -166,20 +165,20 @@ class _FireProjectionChartState extends State<FireProjectionChart> {
     );
   }
 
-  Widget _buildEmptyState(ThemeData theme, AppLocalizations l10n) {
+  Widget _buildEmptyState(AppLocalizations l10n) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16),
-      padding: const EdgeInsets.all(16),
+      margin: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
+      padding: const EdgeInsets.all(TokenSpacing.xl),
       height: 280,
       decoration: BoxDecoration(
-        color: theme.colorScheme.surfaceContainerHighest,
-        borderRadius: BorderRadius.circular(8),
+        color: TokenColors.neutral200,
+        borderRadius: TokenRadius.borderSm,
       ),
       child: Center(
         child: Text(
           l10n.fireGoal,
-          style: theme.textTheme.bodyMedium?.copyWith(
-            color: theme.colorScheme.outline,
+          style: TokenTypography.body(
+            color: TokenColors.textTertiary,
           ),
         ),
       ),
@@ -264,7 +263,7 @@ class _FireProjectionChartState extends State<FireProjectionChart> {
         horizontalInterval: maxY / 5,
         getDrawingHorizontalLine: (value) {
           return FlLine(
-            color: theme.colorScheme.outline.withValues(alpha: 0.2),
+            color: TokenColors.textTertiary.withValues(alpha: 0.2),
             strokeWidth: 1,
           );
         },
@@ -283,8 +282,8 @@ class _FireProjectionChartState extends State<FireProjectionChart> {
               if (value % 12 == 0 && year <= 5) {
                 return Text(
                   '${year}Y',
-                  style: theme.textTheme.labelSmall?.copyWith(
-                    color: theme.colorScheme.outline,
+                  style: TokenTypography.micro(
+                    color: TokenColors.textTertiary,
                   ),
                 );
               }
@@ -300,8 +299,8 @@ class _FireProjectionChartState extends State<FireProjectionChart> {
             getTitlesWidget: (value, meta) {
               return Text(
                 _formatCompactCurrency(value),
-                style: theme.textTheme.labelSmall?.copyWith(
-                  color: theme.colorScheme.outline,
+                style: TokenTypography.micro(
+                  color: TokenColors.textTertiary,
                 ),
               );
             },
@@ -319,17 +318,17 @@ class _FireProjectionChartState extends State<FireProjectionChart> {
           // Target FIRE line
           HorizontalLine(
             y: targetLineY,
-            color: Colors.green.withValues(alpha: 0.8),
+            color: TokenColors.success.withValues(alpha: 0.8),
             strokeWidth: 2,
             dashArray: [5, 5],
             label: HorizontalLineLabel(
               show: true,
               alignment: Alignment.topRight,
-              padding: const EdgeInsets.only(right: 8, bottom: 4),
-              style: theme.textTheme.labelSmall?.copyWith(
-                color: Colors.green,
+              padding: const EdgeInsets.only(right: TokenSpacing.sm, bottom: TokenSpacing.xs),
+              style: TokenTypography.micro(
+                color: TokenColors.success,
                 fontWeight: FontWeight.bold,
-              ) ?? const TextStyle(),
+              ),
               labelResolver: (line) => 'FIRE',
             ),
           ),
@@ -338,24 +337,22 @@ class _FireProjectionChartState extends State<FireProjectionChart> {
       lineTouchData: LineTouchData(
         enabled: true,
         touchTooltipData: LineTouchTooltipData(
-          getTooltipColor: (_) => Colors.black87,
+          getTooltipColor: (_) => TokenColors.textPrimary.withValues(alpha: 0.87),
           getTooltipItems: (touchedSpots) {
             return touchedSpots.map((spot) {
               final scenarioIndex = spot.barIndex;
               final scenario = widget.scenarios[scenarioIndex];
               return LineTooltipItem(
                 '${scenario.name}\n',
-                TextStyle(
+                TokenTypography.caption(
                   color: scenario.color,
                   fontWeight: FontWeight.bold,
-                  fontSize: 12,
                 ),
                 children: [
                   TextSpan(
                     text: _formatCurrency(spot.y),
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 11,
+                    style: TokenTypography.micro(
+                      color: TokenColors.white,
                     ),
                   ),
                 ],
@@ -381,27 +378,27 @@ class _FireProjectionChartState extends State<FireProjectionChart> {
     );
   }
 
-  Widget _buildLegend(ThemeData theme, AppLocalizations l10n) {
+  Widget _buildLegend(AppLocalizations l10n) {
     return Wrap(
-      spacing: 16,
-      runSpacing: 8,
+      spacing: TokenSpacing.xl,
+      runSpacing: TokenSpacing.sm,
       children: widget.scenarios.map((scenario) {
         return Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             Container(
-              width: 12,
+              width: TokenSpacing.lg,
               height: 3,
               decoration: BoxDecoration(
                 color: scenario.color,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
-            const SizedBox(width: 4),
+            const SizedBox(width: TokenSpacing.xs),
             Text(
               scenario.name,
-              style: theme.textTheme.labelSmall?.copyWith(
-                color: theme.colorScheme.outline,
+              style: TokenTypography.micro(
+                color: TokenColors.textTertiary,
               ),
             ),
           ],
@@ -410,7 +407,7 @@ class _FireProjectionChartState extends State<FireProjectionChart> {
     );
   }
 
-  Widget _buildTooltip(ThemeData theme, AppLocalizations l10n) {
+  Widget _buildTooltip(AppLocalizations l10n) {
     if (_hoveredMonth == null || _hoveredValue == null) {
       return const SizedBox.shrink();
     }
@@ -418,11 +415,11 @@ class _FireProjectionChartState extends State<FireProjectionChart> {
     final years = (_hoveredMonth! / 12).toStringAsFixed(1);
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.lg, vertical: TokenSpacing.sm),
       decoration: BoxDecoration(
-        color: theme.colorScheme.surface,
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: theme.colorScheme.outline.withValues(alpha: 0.3)),
+        color: TokenColors.bgCard,
+        borderRadius: TokenRadius.borderSm,
+        border: Border.all(color: TokenColors.textTertiary.withValues(alpha: 0.3)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -430,23 +427,23 @@ class _FireProjectionChartState extends State<FireProjectionChart> {
           Icon(
             Icons.calendar_today,
             size: 14,
-            color: theme.colorScheme.outline,
+            color: TokenColors.textTertiary,
           ),
           const SizedBox(width: 6),
           Text(
             l10n.projectionYearValue(years),
-            style: theme.textTheme.labelSmall,
+            style: TokenTypography.micro(),
           ),
-          const SizedBox(width: 12),
+          const SizedBox(width: TokenSpacing.lg),
           Icon(
             Icons.account_balance_wallet,
             size: 14,
-            color: theme.colorScheme.outline,
+            color: TokenColors.textTertiary,
           ),
           const SizedBox(width: 6),
           Text(
             _formatCurrency(_hoveredValue!),
-            style: theme.textTheme.labelSmall?.copyWith(
+            style: TokenTypography.micro(
               fontWeight: FontWeight.w500,
             ),
           ),

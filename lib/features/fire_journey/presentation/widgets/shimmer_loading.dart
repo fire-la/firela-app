@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../core/design_tokens/design_tokens.dart';
 
 /// Shimmer loading effect widget
 class ShimmerLoading extends StatefulWidget {
@@ -42,9 +43,8 @@ class _ShimmerLoadingState extends State<ShimmerLoading>
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final baseColor = widget.baseColor ?? theme.colorScheme.surfaceContainerHighest;
-    final highlightColor = widget.highlightColor ?? theme.colorScheme.surface;
+    final baseColor = widget.baseColor ?? TokenColors.neutral200;
+    final highlightColor = widget.highlightColor ?? TokenColors.bgCard;
 
     return AnimatedBuilder(
       animation: _animation,
@@ -90,7 +90,7 @@ class ShimmerContainer extends StatelessWidget {
     super.key,
     this.width,
     this.height,
-    this.borderRadius = 8.0,
+    this.borderRadius = TokenRadius.sm,
   });
 
   final double? width;
@@ -99,12 +99,11 @@ class ShimmerContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return Container(
       width: width,
       height: height,
       decoration: BoxDecoration(
-        color: theme.colorScheme.surfaceContainerHighest,
+        color: TokenColors.neutral200,
         borderRadius: BorderRadius.circular(borderRadius),
       ),
     );

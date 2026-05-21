@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:firela_app/generated/l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:signals_flutter/signals_flutter.dart';
+import '../../../../core/design_tokens/design_tokens.dart';
 import '../../../../core/router/route_names.dart';
 import '../widgets/net_worth_card.dart';
 import '../widgets/pending_reviews_card.dart';
@@ -28,29 +29,29 @@ class HomePage extends HookWidget {
     }
 
     return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      backgroundColor: TokenColors.bgPage,
       body: RefreshIndicator(
         onRefresh: onRefresh,
         child: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
-          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+          padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl, vertical: TokenSpacing.lg),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Header with greeting
               _buildHeader(context, l10n, homeData),
-              const SizedBox(height: 20),
+              const SizedBox(height: TokenSpacing.xxl),
 
               // Net Worth Card
               NetWorthCard(
                 homeData: homeData,
                 onTap: () => context.go(RouteNames.accounts),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: TokenSpacing.xl),
 
               // Quick Actions Section
                     const QuickActionsSection(),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: TokenSpacing.xl),
 
                     // Pending Reviews and FIRE Progress Cards (side by side)
                     Row(
@@ -61,7 +62,7 @@ class HomePage extends HookWidget {
                             onTap: () => context.go(RouteNames.reviewCenter),
                           ),
                         ),
-                        const SizedBox(width: 12),
+                        const SizedBox(width: TokenSpacing.lg),
                         Expanded(
                           child: FireProgressCard(
                             onTap: () {
@@ -72,11 +73,11 @@ class HomePage extends HookWidget {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: TokenSpacing.xl),
 
                     // Feature Shortcuts Section
                     const FeatureShortcutsSection(),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: TokenSpacing.xl),
 
                     // Insights Section - Savings Rate and Spending Insights
                     const Row(
@@ -85,17 +86,17 @@ class HomePage extends HookWidget {
                         Expanded(
                           child: SavingsRateIndicator(),
                         ),
-                        SizedBox(width: 12),
+                        SizedBox(width: TokenSpacing.lg),
                         Expanded(
                           child: SpendingInsightsCard(),
                         ),
                       ],
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: TokenSpacing.xl),
 
                     // Recommendations Section
                     const RecommendationsSection(),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: TokenSpacing.xl),
 
                     // Add padding at bottom for scroll
                     const SizedBox(height: 24),
@@ -122,11 +123,11 @@ class HomePage extends HookWidget {
       children: [
         Text(
           greeting,
-          style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
+          style: TokenTypography.h2(
+            fontWeight: FontWeight.bold,
+          ),
         ),
-        const SizedBox(height: 4),
+        const SizedBox(height: TokenSpacing.xs),
         Watch((context) {
           final lastSync = homeData.lastSyncTime;
           if (lastSync != null) {
@@ -141,9 +142,9 @@ class HomePage extends HookWidget {
             }
             return Text(
               syncText,
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: Theme.of(context).colorScheme.outline,
-                  ),
+              style: TokenTypography.caption(
+                color: TokenColors.textTertiary,
+              ),
             );
           }
           return const SizedBox.shrink();

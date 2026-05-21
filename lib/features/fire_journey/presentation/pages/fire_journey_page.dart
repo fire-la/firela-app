@@ -4,6 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:firela_app/generated/l10n/app_localizations.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
+import '../../../../core/design_tokens/design_tokens.dart';
 import '../providers/use_fire_progress.dart';
 import '../widgets/milestone_badge.dart';
 import '../widgets/shimmer_loading.dart';
@@ -19,7 +20,6 @@ class FireJourneyPage extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final theme = Theme.of(context);
     final fireProgress = useFireProgress();
 
     // Show celebration dialog for newly achieved milestones
@@ -39,11 +39,11 @@ class FireJourneyPage extends HookWidget {
     }, [fireProgress.newlyAchievedMilestones.length]);
 
     return Scaffold(
-      backgroundColor: theme.colorScheme.surface,
+      backgroundColor: TokenColors.bgPage,
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           'IGN',
-          style: TextStyle(
+          style: TokenTypography.h4(
             fontWeight: FontWeight.bold,
             fontStyle: FontStyle.italic,
           ),
@@ -70,8 +70,8 @@ class FireJourneyPage extends HookWidget {
       builder: (context) => AlertDialog(
         title: Row(
           children: [
-            const Icon(Icons.celebration, color: Colors.black),
-            const SizedBox(width: 8),
+            const Icon(Icons.celebration, color: TokenColors.textPrimary),
+            const SizedBox(width: TokenSpacing.sm),
             Text(l10n.milestoneAchieved),
           ],
         ),
@@ -80,11 +80,11 @@ class FireJourneyPage extends HookWidget {
           children: [
             Text(
               l10n.celebrateProgress,
-              style: Theme.of(context).textTheme.bodyMedium,
+              style: TokenTypography.body(),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: TokenSpacing.xl),
             ...milestones.map((m) => Padding(
-              padding: const EdgeInsets.symmetric(vertical: 4),
+              padding: const EdgeInsets.symmetric(vertical: TokenSpacing.xs),
               child: MilestoneBadge(milestone: m),
             )),
           ],
@@ -104,7 +104,7 @@ class FireJourneyPage extends HookWidget {
 
   Widget _buildShimmerLoadingState(BuildContext context, AppLocalizations l10n) {
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(TokenSpacing.xl),
       child: Column(
         children: [
           // Shimmer journey card
@@ -112,24 +112,24 @@ class FireJourneyPage extends HookWidget {
             child: Container(
               height: 100,
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surfaceContainerHighest,
-                borderRadius: BorderRadius.circular(8),
+                color: TokenColors.neutral200,
+                borderRadius: TokenRadius.borderSm,
               ),
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: TokenSpacing.xl),
 
           // Shimmer fire map
           ShimmerLoading(
             child: Container(
               height: 280,
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surfaceContainerHighest,
-                borderRadius: BorderRadius.circular(8),
+                color: TokenColors.neutral200,
+                borderRadius: TokenRadius.borderSm,
               ),
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: TokenSpacing.xl),
 
           // Shimmer net assets and daily income
           Row(
@@ -139,20 +139,20 @@ class FireJourneyPage extends HookWidget {
                   child: Container(
                     height: 80,
                     decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.surfaceContainerHighest,
-                      borderRadius: BorderRadius.circular(8),
+                      color: TokenColors.neutral200,
+                      borderRadius: TokenRadius.borderSm,
                     ),
                   ),
                 ),
               ),
-              const SizedBox(width: 12),
+              const SizedBox(width: TokenSpacing.lg),
               Expanded(
                 child: ShimmerLoading(
                   child: Container(
                     height: 80,
                     decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.surfaceContainerHighest,
-                      borderRadius: BorderRadius.circular(8),
+                      color: TokenColors.neutral200,
+                      borderRadius: TokenRadius.borderSm,
                     ),
                   ),
                 ),
@@ -165,8 +165,6 @@ class FireJourneyPage extends HookWidget {
   }
 
   Widget _buildEmptyState(BuildContext context, AppLocalizations l10n) {
-    final theme = Theme.of(context);
-
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(32),
@@ -176,18 +174,18 @@ class FireJourneyPage extends HookWidget {
             Icon(
               Icons.flag_outlined,
               size: 64,
-              color: theme.colorScheme.outline,
+              color: TokenColors.textTertiary,
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: TokenSpacing.xl),
             Text(
               l10n.fireGoal,
-              style: theme.textTheme.titleLarge,
+              style: TokenTypography.h4(),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: TokenSpacing.sm),
             Text(
               l10n.watchFirePlan,
-              style: theme.textTheme.bodyMedium?.copyWith(
-                color: theme.colorScheme.outline,
+              style: TokenTypography.body(
+                color: TokenColors.textTertiary,
               ),
               textAlign: TextAlign.center,
             ),
@@ -238,13 +236,13 @@ class FireJourneyPage extends HookWidget {
         name: l10n.baselineScenario,
         monthlySavings: baseMonthlySavings,
         annualReturn: 0.07, // 7% default
-        color: Colors.black,
+        color: TokenColors.textPrimary,
       ),
       ProjectionScenario(
         name: l10n.aggressiveScenario,
         monthlySavings: adjustedSavings,
         annualReturn: adjustedReturn,
-        color: Colors.green,
+        color: TokenColors.success,
       ),
     ];
 
@@ -262,12 +260,12 @@ class FireJourneyPage extends HookWidget {
             // Journey progress card
             _buildJourneyCard(context, l10n, fireProgress),
 
-            const SizedBox(height: 16),
+            const SizedBox(height: TokenSpacing.xl),
 
             // FIRE journey map
             _buildFireMap(context, l10n, fireProgress),
 
-            const SizedBox(height: 16),
+            const SizedBox(height: TokenSpacing.xl),
 
             // FIRE Projection Chart
             FireProjectionChart(
@@ -278,7 +276,7 @@ class FireJourneyPage extends HookWidget {
               isLoading: false,
             ),
 
-            const SizedBox(height: 16),
+            const SizedBox(height: TokenSpacing.xl),
 
             // Scenario Modeling Controls
             ScenarioSelector(
@@ -289,7 +287,7 @@ class FireJourneyPage extends HookWidget {
               },
             ),
 
-            const SizedBox(height: 16),
+            const SizedBox(height: TokenSpacing.xl),
 
             // FIRE Types Carousel
             FireTypesCarousel(
@@ -303,33 +301,33 @@ class FireJourneyPage extends HookWidget {
               },
             ),
 
-            const SizedBox(height: 16),
+            const SizedBox(height: TokenSpacing.xl),
 
             // Net assets and daily income
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
               child: Row(
                 children: [
                   Expanded(
                     child: Container(
-                      padding: const EdgeInsets.all(16),
+                      padding: const EdgeInsets.all(TokenSpacing.xl),
                       decoration: BoxDecoration(
-                        color: theme.colorScheme.surfaceContainerHighest,
-                        borderRadius: BorderRadius.circular(8),
+                        color: TokenColors.neutral200,
+                        borderRadius: TokenRadius.borderSm,
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             l10n.netAssets,
-                            style: theme.textTheme.bodySmall?.copyWith(
-                              color: theme.colorScheme.outline,
+                            style: TokenTypography.caption(
+                              color: TokenColors.textTertiary,
                             ),
                           ),
-                          const SizedBox(height: 8),
+                          const SizedBox(height: TokenSpacing.sm),
                           AnimatedNumber(
                             value: fireProgress.progress?.currentNetWorth ?? 0,
-                            style: theme.textTheme.headlineMedium?.copyWith(
+                            style: TokenTypography.h2(
                               fontWeight: FontWeight.w500,
                             ),
                           ),
@@ -337,27 +335,27 @@ class FireJourneyPage extends HookWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(width: 12),
+                  const SizedBox(width: TokenSpacing.lg),
                   Expanded(
                     child: Container(
-                      padding: const EdgeInsets.all(16),
+                      padding: const EdgeInsets.all(TokenSpacing.xl),
                       decoration: BoxDecoration(
-                        color: theme.colorScheme.surfaceContainerHighest,
-                        borderRadius: BorderRadius.circular(8),
+                        color: TokenColors.neutral200,
+                        borderRadius: TokenRadius.borderSm,
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             l10n.dailyIncome,
-                            style: theme.textTheme.bodySmall?.copyWith(
-                              color: theme.colorScheme.outline,
+                            style: TokenTypography.caption(
+                              color: TokenColors.textTertiary,
                             ),
                           ),
-                          const SizedBox(height: 8),
+                          const SizedBox(height: TokenSpacing.sm),
                           AnimatedNumber(
                             value: (fireProgress.progress?.monthlySavings ?? 0) / 30,
-                            style: theme.textTheme.headlineMedium?.copyWith(
+                            style: TokenTypography.h2(
                               fontWeight: FontWeight.w500,
                             ),
                           ),
@@ -384,22 +382,22 @@ class FireJourneyPage extends HookWidget {
     final theme = Theme.of(context);
 
     return Container(
-      margin: const EdgeInsets.fromLTRB(16, 8, 16, 0),
-      padding: const EdgeInsets.all(16),
+      margin: const EdgeInsets.fromLTRB(TokenSpacing.xl, 8, TokenSpacing.xl, 0),
+      padding: const EdgeInsets.all(TokenSpacing.xl),
       decoration: BoxDecoration(
-        color: theme.colorScheme.surfaceContainerHighest,
-        borderRadius: BorderRadius.circular(8),
+        color: TokenColors.neutral200,
+        borderRadius: TokenRadius.borderSm,
       ),
       child: Row(
         children: [
           // Avatar
           const CircleAvatar(
             radius: 28,
-            backgroundColor: Color(0xFFE0E0E0),
-            child: Icon(Icons.person, size: 32, color: Color(0xFF757575)),
+            backgroundColor: TokenColors.neutral200,
+            child: Icon(Icons.person, size: 32, color: TokenColors.neutral700),
           ),
 
-          const SizedBox(width: 16),
+          const SizedBox(width: TokenSpacing.xl),
 
           // Days info
           Expanded(
@@ -408,15 +406,15 @@ class FireJourneyPage extends HookWidget {
               children: [
                 Text(
                   l10n.fireJourneyDays(fireProgress.journeyDays),
-                  style: theme.textTheme.titleMedium?.copyWith(
+                  style: TokenTypography.h4(
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: TokenSpacing.xs),
                 Text(
                   l10n.watchFirePlan,
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: theme.colorScheme.outline,
+                  style: TokenTypography.caption(
+                    color: TokenColors.textTertiary,
                   ),
                 ),
               ],
@@ -432,10 +430,10 @@ class FireJourneyPage extends HookWidget {
                 percent: fireProgress.progressPercent,
                 center: Text(
                   l10n.progress,
-                  style: theme.textTheme.bodySmall,
+                  style: TokenTypography.caption(),
                 ),
-                progressColor: const Color(0xFF000000),
-                backgroundColor: const Color(0xFFE0E0E0),
+                progressColor: TokenColors.textPrimary,
+                backgroundColor: TokenColors.neutral200,
                 circularStrokeCap: CircularStrokeCap.round,
                 animation: true,
                 animationDuration: 500,
@@ -443,7 +441,7 @@ class FireJourneyPage extends HookWidget {
             ],
           ),
 
-          const SizedBox(width: 12),
+          const SizedBox(width: TokenSpacing.lg),
 
           Column(
             children: [
@@ -453,10 +451,10 @@ class FireJourneyPage extends HookWidget {
                 percent: fireProgress.safetyPercent,
                 center: Text(
                   l10n.safety,
-                  style: theme.textTheme.bodySmall,
+                  style: TokenTypography.caption(),
                 ),
-                progressColor: const Color(0xFF000000),
-                backgroundColor: const Color(0xFFE0E0E0),
+                progressColor: TokenColors.textPrimary,
+                backgroundColor: TokenColors.neutral200,
                 circularStrokeCap: CircularStrokeCap.round,
                 animation: true,
                 animationDuration: 500,
@@ -473,7 +471,6 @@ class FireJourneyPage extends HookWidget {
     AppLocalizations l10n,
     FireProgressResult fireProgress,
   ) {
-    final theme = Theme.of(context);
     final currentNetWorth = fireProgress.progress?.currentNetWorth ?? 0;
     final milestones = fireProgress.milestones;
 
@@ -483,11 +480,11 @@ class FireJourneyPage extends HookWidget {
 
     return Container(
       height: 280,
-      margin: const EdgeInsets.symmetric(horizontal: 16),
-      padding: const EdgeInsets.all(20),
+      margin: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
+      padding: const EdgeInsets.all(TokenSpacing.xxl),
       decoration: BoxDecoration(
-        color: theme.colorScheme.surfaceContainerHighest,
-        borderRadius: BorderRadius.circular(8),
+        color: TokenColors.neutral200,
+        borderRadius: TokenRadius.borderSm,
       ),
       child: Stack(
         children: [
@@ -549,17 +546,16 @@ class FireJourneyPage extends HookWidget {
             top: 20,
             left: 20,
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl, vertical: TokenSpacing.sm),
               decoration: BoxDecoration(
-                color: Colors.black87,
-                borderRadius: BorderRadius.circular(20),
+                color: TokenColors.textPrimary.withValues(alpha: 0.87),
+                borderRadius: BorderRadius.circular(TokenRadius.pill),
               ),
               child: Text(
                 fireProgress.targetAmountFormatted,
-                style: const TextStyle(
-                  color: Colors.white,
+                style: TokenTypography.h4(
+                  color: TokenColors.white,
                   fontWeight: FontWeight.bold,
-                  fontSize: 16,
                 ),
               ),
             ),
@@ -574,14 +570,14 @@ class FireJourneyPage extends HookWidget {
                 Icon(
                   Icons.access_time,
                   size: 20,
-                  color: theme.colorScheme.outline,
+                  color: TokenColors.textTertiary,
                 ),
-                const SizedBox(width: 4),
+                const SizedBox(width: TokenSpacing.xs),
                 Text(
                   fireProgress.progress?.yearsToFire != null
                       ? '${fireProgress.progress!.yearsToFire!.toStringAsFixed(1)}${l10n.period1Year}'
                       : l10n.fireGoal,
-                  style: theme.textTheme.bodySmall,
+                  style: TokenTypography.caption(),
                 ),
               ],
             ),
@@ -601,15 +597,14 @@ class FireJourneyPage extends HookWidget {
       children: [
         Icon(
           achieved ? Icons.check_circle : Icons.radio_button_unchecked,
-          color: achieved ? const Color(0xFF000000) : const Color(0xFFBDBDBD),
+          color: achieved ? TokenColors.textPrimary : TokenColors.textTertiary,
           size: 18,
         ),
         const SizedBox(width: 6),
         Text(
           label,
-          style: TextStyle(
-            fontSize: 12,
-            color: achieved ? const Color(0xFF000000) : const Color(0xFF757575),
+          style: TokenTypography.caption(
+            color: achieved ? TokenColors.textPrimary : TokenColors.neutral700,
           ),
         ),
       ],
@@ -622,7 +617,7 @@ class _MapBackgroundPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = Colors.grey.shade200
+      ..color = TokenColors.neutral200
       ..strokeWidth = 2
       ..style = PaintingStyle.stroke;
 

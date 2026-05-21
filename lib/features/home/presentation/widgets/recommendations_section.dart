@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:firela_app/generated/l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:signals_flutter/signals_flutter.dart';
+import '../../../../core/design_tokens/design_tokens.dart';
 import '../../../../core/router/route_names.dart';
 import '../../../fire_journey/presentation/providers/use_fire_progress.dart';
 import '../../../review_center/presentation/signals/review_center_signal.dart';
@@ -15,7 +16,6 @@ class RecommendationsSection extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final theme = Theme.of(context);
     final homeData = useHomeData();
     final fireProgress = useFireProgress();
 
@@ -37,15 +37,13 @@ class RecommendationsSection extends HookWidget {
           // Section header
           Text(
             l10n.homeRecommendations,
-            style: theme.textTheme.titleSmall?.copyWith(
-              fontWeight: FontWeight.w600,
-            ),
+            style: TokenTypography.h4(fontWeight: FontWeight.w600),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: TokenSpacing.lg),
 
           // Recommendation cards
           ...recommendations.map((rec) => Padding(
-                padding: const EdgeInsets.only(bottom: 8),
+                padding: const EdgeInsets.only(bottom: TokenSpacing.sm),
                 child: _RecommendationCard(
                   icon: rec.icon,
                   title: rec.title,
@@ -74,8 +72,8 @@ class RecommendationsSection extends HookWidget {
         icon: Icons.flag_outlined,
         title: l10n.homeRecSetFireGoal,
         description: l10n.homeRecSetFireGoalDesc,
-        iconColor: Colors.deepPurple,
-        iconBackgroundColor: Colors.deepPurple.withValues(alpha: 0.1),
+        iconColor: TokenColors.textAccent,
+        iconBackgroundColor: TokenColors.textAccent.withValues(alpha: 0.1),
         onTap: () => context.go(RouteNames.home),
       ));
     }
@@ -87,8 +85,8 @@ class RecommendationsSection extends HookWidget {
         icon: Icons.fact_check_outlined,
         title: l10n.homeRecReviewPending(pendingCount),
         description: l10n.homeRecReviewPendingDesc,
-        iconColor: Colors.orange,
-        iconBackgroundColor: Colors.orange.withValues(alpha: 0.1),
+        iconColor: TokenColors.primary,
+        iconBackgroundColor: TokenColors.primary.withValues(alpha: 0.1),
         onTap: () => context.push(RouteNames.reviewCenter),
       ));
     }
@@ -100,8 +98,8 @@ class RecommendationsSection extends HookWidget {
         icon: Icons.savings_outlined,
         title: l10n.homeRecIncreaseSavings,
         description: l10n.homeRecIncreaseSavingsDesc,
-        iconColor: Colors.red,
-        iconBackgroundColor: Colors.red.withValues(alpha: 0.1),
+        iconColor: TokenColors.error,
+        iconBackgroundColor: TokenColors.error.withValues(alpha: 0.1),
         onTap: () => context.go(RouteNames.accounts),
       ));
     }
@@ -113,8 +111,8 @@ class RecommendationsSection extends HookWidget {
         icon: Icons.timeline_outlined,
         title: l10n.homeRecReduceTimeline,
         description: l10n.homeRecReduceTimelineDesc,
-        iconColor: Colors.blue,
-        iconBackgroundColor: Colors.blue.withValues(alpha: 0.1),
+        iconColor: TokenColors.info,
+        iconBackgroundColor: TokenColors.info.withValues(alpha: 0.1),
         onTap: () => context.go(RouteNames.home),
       ));
     }
@@ -126,8 +124,8 @@ class RecommendationsSection extends HookWidget {
         icon: Icons.warning_amber_outlined,
         title: l10n.homeRecReduceSpending,
         description: l10n.homeRecReduceSpendingDesc,
-        iconColor: Colors.red,
-        iconBackgroundColor: Colors.red.withValues(alpha: 0.1),
+        iconColor: TokenColors.error,
+        iconBackgroundColor: TokenColors.error.withValues(alpha: 0.1),
         onTap: () => context.go(RouteNames.accounts),
       ));
     }
@@ -176,22 +174,14 @@ class _RecommendationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.all(12),
+        padding: const EdgeInsets.all(TokenSpacing.lg),
         decoration: BoxDecoration(
-          color: theme.cardColor,
-          borderRadius: BorderRadius.circular(12),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.03),
-              blurRadius: 4,
-              offset: const Offset(1, 1),
-            ),
-          ],
+          color: TokenColors.bgCard,
+          borderRadius: TokenRadius.borderMd,
+          boxShadow: TokenShadows.cardList,
         ),
         child: Row(
           children: [
@@ -208,7 +198,7 @@ class _RecommendationCard extends StatelessWidget {
                 color: iconColor,
               ),
             ),
-            const SizedBox(width: 12),
+            const SizedBox(width: TokenSpacing.lg),
 
             // Text content
             Expanded(
@@ -217,15 +207,15 @@ class _RecommendationCard extends StatelessWidget {
                 children: [
                   Text(
                     title,
-                    style: theme.textTheme.bodyMedium?.copyWith(
+                    style: TokenTypography.body(
                       fontWeight: FontWeight.w600,
                     ),
                   ),
                   const SizedBox(height: 2),
                   Text(
                     description,
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: theme.colorScheme.outline,
+                    style: TokenTypography.caption(
+                      color: TokenColors.textTertiary,
                     ),
                   ),
                 ],
@@ -236,7 +226,7 @@ class _RecommendationCard extends StatelessWidget {
             Icon(
               Icons.chevron_right,
               size: 20,
-              color: theme.colorScheme.outline,
+              color: TokenColors.textTertiary,
             ),
           ],
         ),

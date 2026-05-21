@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+import '../../../../core/design_tokens/design_tokens.dart';
 import '../../../../core/utils/logger.dart';
 import '../../domain/models/fire_milestone.dart';
 
@@ -21,12 +22,12 @@ class MilestoneBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.lg, vertical: 6),
       decoration: BoxDecoration(
-        color: milestone.achieved ? const Color(0xFFFFFFFF) : const Color(0xFFE0E0E0),
-        borderRadius: BorderRadius.circular(12),
+        color: milestone.achieved ? TokenColors.white : TokenColors.neutral200,
+        borderRadius: TokenRadius.borderMd,
         border: Border.all(
-          color: milestone.achieved ? const Color(0xFF000000) : const Color(0xFF999999),
+          color: milestone.achieved ? TokenColors.textPrimary : TokenColors.textTertiary,
           width: 1.5,
         ),
       ),
@@ -36,15 +37,14 @@ class MilestoneBadge extends StatelessWidget {
           Icon(
             milestone.achieved ? Icons.check : Icons.lock_outline,
             size: 14,
-            color: milestone.achieved ? const Color(0xFF000000) : const Color(0xFF666666),
+            color: milestone.achieved ? TokenColors.textPrimary : TokenColors.neutral700,
           ),
-          const SizedBox(width: 4),
+          const SizedBox(width: TokenSpacing.xs),
           Text(
             milestone.name,
-            style: TextStyle(
-              fontSize: 11,
+            style: TokenTypography.micro(
               fontWeight: FontWeight.w500,
-              color: milestone.achieved ? const Color(0xFF000000) : const Color(0xFF666666),
+              color: milestone.achieved ? TokenColors.textPrimary : TokenColors.neutral700,
             ),
           ),
         ],

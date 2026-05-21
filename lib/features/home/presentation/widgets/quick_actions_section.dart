@@ -1,22 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:firela_app/generated/l10n/app_localizations.dart';
+import '../../../../core/services/receipt_text_parser.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:signals_flutter/signals_flutter.dart';
+import '../../../../core/design_tokens/design_tokens.dart';
 import '../../../../core/router/route_names.dart';
 import '../../../../core/network/auth_manager.dart';
 import '../../../../core/services/auth_service.dart';
 import '../../../../core/services/analytics_service.dart';
 import '../../../../core/services/analytics_events.dart';
+import '../../../../core/services/document_scanner_service.dart';
 import '../../../../core/services/ign_api_service.dart';
-import '../../../../core/services/local_ocr_service.dart';
-import '../../../../core/services/receipt_text_parser.dart';
+import '../../../../core/services/ocr/ocr_engine_factory.dart';
+import '../../../../core/services/ocr/ocr_pipeline.dart';
 import '../../../../core/utils/logger.dart';
 import '../../../expense/presentation/widgets/expense_entry_bottom_sheet.dart';
 import '../../../expense/presentation/widgets/nlp_result_bottom_sheet.dart';
+import '../../../expense/presentation/widgets/categorization_preview_sheet.dart';
 import '../../../expense/presentation/widgets/ocr_result_debug_sheet.dart';
 import '../../../review_center/presentation/signals/review_center_signal.dart';
+import '../../../../shared/signals/asset_refresh_signal.dart';
 
 /// Quick actions section with expense entry, bill import, and review buttons
 class QuickActionsSection extends HookWidget {
@@ -38,11 +43,9 @@ class QuickActionsSection extends HookWidget {
           // Section header
           Text(
             l10n.homeQuickActions,
-            style: theme.textTheme.titleSmall?.copyWith(
-              fontWeight: FontWeight.w600,
-            ),
+            style: TokenTypography.h4(fontWeight: FontWeight.w600),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: TokenSpacing.lg),
 
           // Action buttons row
           Row(
@@ -56,7 +59,7 @@ class QuickActionsSection extends HookWidget {
                   isPrimary: true,
                 ),
               ),
-              const SizedBox(width: 12),
+              const SizedBox(width: TokenSpacing.lg),
               // Bill Import button
               Expanded(
                 child: _QuickActionButton(
@@ -67,7 +70,7 @@ class QuickActionsSection extends HookWidget {
               ),
               // Review Pending button (only show if there are pending items)
               if (totalCount > 0) ...[
-                const SizedBox(width: 12),
+                const SizedBox(width: TokenSpacing.lg),
                 Expanded(
                   child: _QuickActionButton(
                     icon: Icons.fact_check_outlined,
@@ -250,6 +253,7 @@ class QuickActionsSection extends HookWidget {
             if (mode == 'success') {
               // Success mode, just complete
               nlpSessionId.value = '';
+              refreshAssetData();
               if (context.mounted) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text(AppLocalizations.of(context)!.expenseEntrySuccess)),
@@ -305,6 +309,7 @@ class QuickActionsSection extends HookWidget {
     try {
       await IgnApiService.instance.createTransaction(transaction);
       nlpSessionId.value = '';
+      refreshAssetData();
 
       if (context.mounted) {
         Navigator.pop(context);
@@ -392,21 +397,29 @@ class QuickActionsSection extends HookWidget {
     );
   }
 
-  /// Local OCR processing: pick image → ML Kit → parse → show result
+  /// Local OCR processing: pick image → OCR pipeline → show result
   Future<void> _processLocalOcr(
     BuildContext context,
     ImageSource source,
     ValueNotifier<String> nlpSessionId,
   ) async {
-    final picker = ImagePicker();
-    final image = await picker.pickImage(
-      source: source,
-      maxWidth: 1920,
-      maxHeight: 1080,
-      imageQuality: 85,
-    );
+    String? imagePath;
 
-    if (image == null) return;
+    if (source == ImageSource.camera) {
+      // Use document scanner for camera source
+      imagePath = await DocumentScannerService.instance.scanDocument();
+    } else {
+      final picker = ImagePicker();
+      final image = await picker.pickImage(
+        source: source,
+        maxWidth: 1920,
+        maxHeight: 1080,
+        imageQuality: 85,
+      );
+      imagePath = image?.path;
+    }
+
+    if (imagePath == null) return;
     if (!context.mounted) return;
 
     showDialog(
@@ -416,11 +429,11 @@ class QuickActionsSection extends HookWidget {
     );
 
     try {
-      final localResult = await LocalOcrService.instance.processImage(image.path);
-      final receipt = ReceiptTextParser.instance.parse(
-        localResult.fullText,
-        rawLines: localResult.blocks.expand((b) => b.lines).toList(),
-      );
+      final engine = OcrEngineFactory.create();
+      final pipeline = OcrPipeline();
+      final result = await pipeline.process(engine, imagePath);
+
+      final receipt = result.receipt;
 
       logger.i('[OCR] Parsed: merchant="${receipt.merchant}", '
           'amount=${receipt.totalAmount}, confidence=${receipt.confidence.toStringAsFixed(1)}%');
@@ -431,20 +444,18 @@ class QuickActionsSection extends HookWidget {
       showModalBottomSheet(
         context: context,
         isScrollControlled: true,
+        enableDrag: false,
         backgroundColor: Colors.transparent,
         builder: (_) => OcrResultDebugSheet(
           receipt: receipt,
-          ocrSource: 'local',
-          processingTime: localResult.processingTime,
+          ocrSource: result.engineName,
+          processingTime: result.processingTime,
+          reconstructedLines: result.reconstructedLines,
           onConfirm: receipt.isValid
-              ? () {
-                  final description = '${receipt.merchant} ${receipt.totalAmount.toStringAsFixed(2)}元';
-                  _handleNlpSubmit(context, description, nlpSessionId);
+              ? (OcrConfirmResult confirmResult) {
+                  _confirmOcrReceipt(context, receipt, confirmResult, result.engineName);
                 }
               : null,
-          onRetry: () {
-            _processCloudOcr(context, image.path, nlpSessionId);
-          },
         ),
       );
     } catch (e) {
@@ -458,42 +469,153 @@ class QuickActionsSection extends HookWidget {
     }
   }
 
-  /// Cloud OCR fallback
-  Future<void> _processCloudOcr(
+  /// Confirm OCR receipt: convert to CategorizationItem → show preview → upload
+  Future<void> _confirmOcrReceipt(
     BuildContext context,
-    String imagePath,
-    ValueNotifier<String> nlpSessionId,
+    dynamic receipt,
+    OcrConfirmResult confirmResult,
+    String engineName,
   ) async {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (_) => const Center(child: CircularProgressIndicator()),
-    );
+    final now = DateTime.now().millisecondsSinceEpoch;
+    final items = <CategorizationItem>[];
 
-    try {
-      final result = await IgnApiService.instance.ocrReceiptImage(imagePath);
-      if (!context.mounted) return;
-      Navigator.pop(context);
-
-      final success = result['success'] ?? false;
-      final data = result['data'] as Map<String, dynamic>?;
-
-      if (success && data != null) {
-        final description = '${data['merchant'] ?? ''} ${(data['amount'] ?? 0)}元';
-        _handleNlpSubmit(context, description, nlpSessionId);
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(result['error'] ?? '云端识别也失败了')),
-        );
-      }
-    } catch (e) {
-      if (context.mounted) {
-        Navigator.pop(context);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('云端识别失败: $e')),
-        );
+    if (confirmResult.mode == TransactionMode.single) {
+      // Single mode: one transaction for the whole receipt
+      // Use line items total (user-edited) rather than regex-parsed total
+      final merchantName = confirmResult.merchant.isNotEmpty
+          ? confirmResult.merchant
+          : (receipt.merchant.isNotEmpty ? receipt.merchant : '未知商家');
+      items.add(CategorizationItem(
+        id: 'ocr-$now',
+        merchant: merchantName,
+        amount: confirmResult.totalAmount > 0 ? confirmResult.totalAmount : receipt.totalAmount,
+        date: confirmResult.selectedDate,
+        suggestedCategory: '其他',
+        confidence: receipt.confidence,
+        selectedCategory: '其他',
+      ));
+    } else {
+      // Multiple mode: one transaction per edited line item
+      for (int i = 0; i < confirmResult.editedLineItems.length; i++) {
+        final lineItem = confirmResult.editedLineItems[i];
+        items.add(CategorizationItem(
+          id: 'ocr-${now}_$i',
+          merchant: lineItem.name.isNotEmpty ? lineItem.name : '商品',
+          amount: lineItem.totalPrice,
+          date: confirmResult.selectedDate,
+          suggestedCategory: '其他',
+          confidence: receipt.confidence,
+          selectedCategory: '其他',
+        ));
       }
     }
+
+    final availableCategories = ['餐饮', '交通', '购物', '娱乐', '医疗', '教育', '居住', '通讯', '其他'];
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (ctx) => CategorizationPreviewSheet(
+        items: items,
+        availableCategories: availableCategories,
+        onConfirm: () async {
+          Navigator.pop(ctx); // close preview sheet
+
+          // Build transactions based on mode
+          final transactions = _buildOcrTransactions(
+            items, receipt, confirmResult, engineName,
+          );
+
+          // Show loading
+          if (!context.mounted) return;
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (_) => const Center(child: CircularProgressIndicator()),
+          );
+
+          try {
+            final result = await IgnApiService.instance.uploadParsedTransactions(transactions);
+            if (!context.mounted) return;
+            Navigator.pop(context); // close loading
+
+            final imported = result['imported'] as int? ?? 0;
+            if (imported > 0) {
+              // Refresh review center count and asset data
+              fetchPendingCount();
+              refreshAssetData();
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(AppLocalizations.of(context)!.expenseEntrySuccess)),
+              );
+            } else {
+              final errors = result['errors'] as List? ?? [];
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(errors.isNotEmpty ? '导入失败: ${errors.first}' : '导入失败，请重试'),
+                  duration: const Duration(seconds: 3),
+                ),
+              );
+            }
+          } catch (e) {
+            logger.e('[QuickActionsSection] OCR upload failed: $e');
+            if (context.mounted) {
+              Navigator.pop(context); // close loading
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('提交失败: $e'), duration: const Duration(seconds: 3)),
+              );
+            }
+          }
+        },
+        onCancel: () {
+          Navigator.pop(ctx);
+        },
+      ),
+    );
+  }
+
+  /// Build Beancount transactions from OCR receipt based on mode
+  List<Map<String, dynamic>> _buildOcrTransactions(
+    List<CategorizationItem> items,
+    dynamic receipt,
+    OcrConfirmResult confirmResult,
+    String engineName,
+  ) {
+    final lineItemsMeta = confirmResult.editedLineItems.map((i) => {
+      'name': i.name,
+      'quantity': i.quantity,
+      'totalPrice': i.totalPrice,
+    }).toList();
+
+    return items.map((item) {
+      return {
+        'date': '${item.date.year}-${item.date.month.toString().padLeft(2, '0')}-${item.date.day.toString().padLeft(2, '0')}',
+        'narration': item.merchant,
+        'payee': item.merchant,
+        'postings': [
+          {
+            'account': 'Expenses:Uncategorized',
+            'units': item.amount.toStringAsFixed(2),
+            'currency': 'CNY',
+          },
+          {
+            'account': 'Assets:Unknown',
+            'units': (-item.amount).toStringAsFixed(2),
+            'currency': 'CNY',
+          },
+        ],
+        'meta': {
+          'source': 'ocr-receipt',
+          'confidence': receipt.confidence,
+          'ocrEngine': engineName,
+          'mode': confirmResult.mode == TransactionMode.single ? 'single' : 'multiple',
+          if (confirmResult.mode == TransactionMode.single && lineItemsMeta.isNotEmpty)
+            'lineItems': lineItemsMeta,
+        },
+        'idempotencyKey': item.id,
+        'autoCreateAccounts': true,
+      };
+    }).toList();
   }
 }
 
@@ -520,21 +642,21 @@ class _QuickActionButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+        padding: const EdgeInsets.symmetric(vertical: TokenSpacing.lg, horizontal: TokenSpacing.lg),
         decoration: BoxDecoration(
           color: isPrimary
-              ? theme.colorScheme.primary
+              ? TokenColors.textAccent
               : theme.colorScheme.surfaceContainerHighest,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: TokenRadius.borderMd,
           border: isPrimary
               ? null
               : Border.all(
-                  color: theme.colorScheme.outline.withValues(alpha: 0.2),
+                  color: TokenColors.textTertiary.withValues(alpha: 0.2),
                 ),
           boxShadow: isPrimary
               ? [
                   BoxShadow(
-                    color: theme.colorScheme.primary.withValues(alpha: 0.3),
+                    color: TokenColors.textAccent.withValues(alpha: 0.3),
                     blurRadius: 8,
                     offset: const Offset(0, 2),
                   ),
@@ -551,7 +673,7 @@ class _QuickActionButton extends StatelessWidget {
                   icon,
                   size: 20,
                   color: isPrimary
-                      ? theme.colorScheme.onPrimary
+                      ? TokenColors.white
                       : theme.colorScheme.onSurface,
                 ),
                 if (badge != null)
@@ -559,16 +681,15 @@ class _QuickActionButton extends StatelessWidget {
                     right: -8,
                     top: -6,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
+                      padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xs, vertical: 1),
                       decoration: BoxDecoration(
-                        color: theme.colorScheme.error,
-                        borderRadius: BorderRadius.circular(8),
+                        color: TokenColors.error,
+                        borderRadius: TokenRadius.borderSm,
                       ),
                       child: Text(
                         badge!,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 10,
+                        style: TokenTypography.micro(
+                          color: TokenColors.white,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -576,13 +697,13 @@ class _QuickActionButton extends StatelessWidget {
                   ),
               ],
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width: TokenSpacing.sm),
             Flexible(
               child: Text(
                 label,
-                style: theme.textTheme.bodySmall?.copyWith(
+                style: TokenTypography.caption(
                   color: isPrimary
-                      ? theme.colorScheme.onPrimary
+                      ? TokenColors.white
                       : theme.colorScheme.onSurface,
                   fontWeight: FontWeight.w500,
                 ),

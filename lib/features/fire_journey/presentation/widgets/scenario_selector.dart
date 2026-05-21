@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:firela_app/generated/l10n/app_localizations.dart';
+import '../../../../core/design_tokens/design_tokens.dart';
 
 /// Result of scenario modeling changes
 class ScenarioModel {
@@ -84,11 +85,11 @@ class ScenarioSelector extends HookWidget {
     }, [savingsDelta.value, expectedReturn.value, retirementSpending.value]);
 
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16),
-      padding: const EdgeInsets.all(16),
+      margin: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
+      padding: const EdgeInsets.all(TokenSpacing.xl),
       decoration: BoxDecoration(
-        color: theme.colorScheme.surfaceContainerHighest,
-        borderRadius: BorderRadius.circular(8),
+        color: TokenColors.neutral200,
+        borderRadius: TokenRadius.borderSm,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -99,9 +100,7 @@ class ScenarioSelector extends HookWidget {
             children: [
               Text(
                 l10n.scenarioModeling,
-                style: theme.textTheme.titleSmall?.copyWith(
-                  fontWeight: FontWeight.w600,
-                ),
+                style: TokenTypography.h4(fontWeight: FontWeight.w600),
               ),
               TextButton(
                 onPressed: () {
@@ -112,12 +111,12 @@ class ScenarioSelector extends HookWidget {
                 },
                 child: Text(
                   l10n.reset,
-                  style: theme.textTheme.labelSmall,
+                  style: TokenTypography.micro(fontWeight: FontWeight.w500),
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: TokenSpacing.xl),
 
           // Monthly Savings slider
           _buildSliderTile(
@@ -139,7 +138,7 @@ class ScenarioSelector extends HookWidget {
             },
           ),
 
-          const SizedBox(height: 12),
+          const SizedBox(height: TokenSpacing.lg),
 
           // Expected Return slider
           _buildSliderTile(
@@ -159,7 +158,7 @@ class ScenarioSelector extends HookWidget {
             },
           ),
 
-          const SizedBox(height: 12),
+          const SizedBox(height: TokenSpacing.lg),
 
           // Retirement Spending slider
           _buildSliderTile(
@@ -179,7 +178,7 @@ class ScenarioSelector extends HookWidget {
             },
           ),
 
-          const SizedBox(height: 16),
+          const SizedBox(height: TokenSpacing.xl),
 
           // Impact summary
           _buildImpactSummary(
@@ -221,33 +220,33 @@ class ScenarioSelector extends HookWidget {
                 Icon(
                   icon,
                   size: 18,
-                  color: theme.colorScheme.outline,
+                  color: TokenColors.textTertiary,
                 ),
-                const SizedBox(width: 8),
+                const SizedBox(width: TokenSpacing.sm),
                 Text(
                   label,
-                  style: theme.textTheme.bodyMedium?.copyWith(
+                  style: TokenTypography.body(
                     fontWeight: FontWeight.w500,
                   ),
                 ),
               ],
             ),
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.sm, vertical: TokenSpacing.xs),
               decoration: BoxDecoration(
-                color: theme.colorScheme.surface,
+                color: TokenColors.bgCard,
                 borderRadius: BorderRadius.circular(4),
               ),
               child: Text(
                 displayValue,
-                style: theme.textTheme.labelMedium?.copyWith(
+                style: TokenTypography.micro(
                   fontWeight: FontWeight.w600,
                 ),
               ),
             ),
           ],
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: TokenSpacing.sm),
         SliderTheme(
           data: SliderTheme.of(context).copyWith(
             trackHeight: 4,
@@ -264,8 +263,8 @@ class ScenarioSelector extends HookWidget {
         ),
         Text(
           subtitle,
-          style: theme.textTheme.labelSmall?.copyWith(
-            color: theme.colorScheme.outline,
+          style: TokenTypography.micro(
+            color: TokenColors.textTertiary,
           ),
         ),
       ],
@@ -284,16 +283,16 @@ class ScenarioSelector extends HookWidget {
     final isImproved = savingsDelta > 0 || expectedReturn > baseAnnualReturn;
 
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(TokenSpacing.lg),
       decoration: BoxDecoration(
         color: isImproved
-            ? Colors.green.withValues(alpha: 0.1)
-            : theme.colorScheme.surface.withValues(alpha: 0.5),
-        borderRadius: BorderRadius.circular(8),
+            ? TokenColors.success.withValues(alpha: 0.1)
+            : TokenColors.bgCard.withValues(alpha: 0.5),
+        borderRadius: TokenRadius.borderSm,
         border: Border.all(
           color: isImproved
-              ? Colors.green.withValues(alpha: 0.3)
-              : theme.colorScheme.outline.withValues(alpha: 0.2),
+              ? TokenColors.success.withValues(alpha: 0.3)
+              : TokenColors.textTertiary.withValues(alpha: 0.2),
         ),
       ),
       child: Row(
@@ -301,16 +300,16 @@ class ScenarioSelector extends HookWidget {
           Icon(
             isImproved ? Icons.lightbulb : Icons.info_outline,
             size: 20,
-            color: isImproved ? Colors.green : theme.colorScheme.outline,
+            color: isImproved ? TokenColors.success : TokenColors.textTertiary,
           ),
-          const SizedBox(width: 12),
+          const SizedBox(width: TokenSpacing.lg),
           Expanded(
             child: Text(
               isImproved
                   ? l10n.scenarioImpactPositive
                   : l10n.scenarioImpactNeutral,
-              style: theme.textTheme.bodySmall?.copyWith(
-                color: isImproved ? Colors.green : theme.colorScheme.outline,
+              style: TokenTypography.caption(
+                color: isImproved ? TokenColors.success : TokenColors.textTertiary,
               ),
             ),
           ),

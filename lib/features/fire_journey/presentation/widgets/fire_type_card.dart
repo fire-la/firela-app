@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firela_app/generated/l10n/app_localizations.dart';
+import '../../../../core/design_tokens/design_tokens.dart';
 
 import '../../data/services/fire_calculation_service.dart';
 
@@ -91,17 +92,17 @@ class FireTypeCard extends StatelessWidget {
       },
       child: Container(
         width: 160,
-        margin: const EdgeInsets.only(right: 12),
-        padding: const EdgeInsets.all(16),
+        margin: const EdgeInsets.only(right: TokenSpacing.lg),
+        padding: const EdgeInsets.all(TokenSpacing.xl),
         decoration: BoxDecoration(
           color: isSelected
               ? fireTypeInfo.color.withValues(alpha: 0.1)
-              : theme.colorScheme.surfaceContainerHighest,
-          borderRadius: BorderRadius.circular(12),
+              : TokenColors.neutral200,
+          borderRadius: TokenRadius.borderMd,
           border: Border.all(
             color: isSelected
                 ? fireTypeInfo.color
-                : theme.colorScheme.outline.withValues(alpha: 0.2),
+                : TokenColors.textTertiary.withValues(alpha: 0.2),
             width: isSelected ? 2 : 1,
           ),
         ),
@@ -113,10 +114,10 @@ class FireTypeCard extends StatelessWidget {
             Row(
               children: [
                 Container(
-                  padding: const EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(TokenSpacing.sm),
                   decoration: BoxDecoration(
                     color: fireTypeInfo.color.withValues(alpha: 0.15),
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: TokenRadius.borderSm,
                   ),
                   child: Icon(
                     fireTypeInfo.icon,
@@ -124,11 +125,11 @@ class FireTypeCard extends StatelessWidget {
                     color: fireTypeInfo.color,
                   ),
                 ),
-                const SizedBox(width: 8),
+                const SizedBox(width: TokenSpacing.sm),
                 Expanded(
                   child: Text(
                     fireTypeInfo.name,
-                    style: theme.textTheme.titleSmall?.copyWith(
+                    style: TokenTypography.h4(
                       fontWeight: FontWeight.w600,
                       color: isSelected ? fireTypeInfo.color : null,
                     ),
@@ -136,22 +137,21 @@ class FireTypeCard extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: TokenSpacing.lg),
 
             // Description
             Text(
               fireTypeInfo.description,
-              style: theme.textTheme.labelSmall?.copyWith(
-                color: theme.colorScheme.outline,
+              style: TokenTypography.micro(
+                color: TokenColors.textTertiary,
               ),
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: TokenSpacing.lg),
 
             // Target amount
             _buildInfoRow(
-              theme,
               l10n.targetAmount,
               _formatCompactCurrency(fireNumber),
             ),
@@ -159,27 +159,24 @@ class FireTypeCard extends StatelessWidget {
 
             // Progress
             _buildInfoRow(
-              theme,
               l10n.currentProgress,
               '${progress.toStringAsFixed(1)}%',
-              valueColor: progress >= 100 ? Colors.green : null,
+              valueColor: progress >= 100 ? TokenColors.success : null,
             ),
             const SizedBox(height: 6),
 
             // Time to reach
             _buildInfoRow(
-              theme,
               l10n.timeToReach,
               yearsToFire != null
                   ? l10n.yearsValue(yearsToFire.toStringAsFixed(1))
                   : l10n.alreadyAchieved,
-              valueColor: yearsToFire == null ? Colors.green : null,
+              valueColor: yearsToFire == null ? TokenColors.success : null,
             ),
             const SizedBox(height: 6),
 
             // Monthly needed
             _buildInfoRow(
-              theme,
               l10n.monthlyNeeded,
               _formatCompactCurrency(monthlyNeeded),
             ),
@@ -190,7 +187,6 @@ class FireTypeCard extends StatelessWidget {
   }
 
   Widget _buildInfoRow(
-    ThemeData theme,
     String label,
     String value, {
     Color? valueColor,
@@ -200,13 +196,13 @@ class FireTypeCard extends StatelessWidget {
       children: [
         Text(
           label,
-          style: theme.textTheme.labelSmall?.copyWith(
-            color: theme.colorScheme.outline,
+          style: TokenTypography.micro(
+            color: TokenColors.textTertiary,
           ),
         ),
         Text(
           value,
-          style: theme.textTheme.labelSmall?.copyWith(
+          style: TokenTypography.micro(
             fontWeight: FontWeight.w600,
             color: valueColor,
           ),
@@ -255,7 +251,7 @@ class FireTypesCarousel extends StatelessWidget {
         description: l10n.fullFireDescription,
         multiplier: 1.0,
         icon: Icons.flag,
-        color: Colors.blue,
+        color: TokenColors.info,
       ),
       FireTypeInfo(
         type: FireType.coast,
@@ -263,7 +259,7 @@ class FireTypesCarousel extends StatelessWidget {
         description: l10n.coastFireDescription,
         multiplier: 0.7,
         icon: Icons.sailing,
-        color: Colors.teal,
+        color: TokenColors.primary,
       ),
       FireTypeInfo(
         type: FireType.barista,
@@ -271,7 +267,7 @@ class FireTypesCarousel extends StatelessWidget {
         description: l10n.baristaFireDescription,
         multiplier: 0.5,
         icon: Icons.coffee,
-        color: Colors.brown,
+        color: TokenColors.chartAmber,
       ),
       FireTypeInfo(
         type: FireType.lean,
@@ -279,7 +275,7 @@ class FireTypesCarousel extends StatelessWidget {
         description: l10n.leanFireDescription,
         multiplier: 0.6,
         icon: Icons.minimize,
-        color: Colors.orange,
+        color: TokenColors.primary,
       ),
     ];
   }
@@ -287,7 +283,6 @@ class FireTypesCarousel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final theme = Theme.of(context);
     final fireTypes = _getFireTypes(l10n);
 
     return Column(
@@ -295,22 +290,20 @@ class FireTypesCarousel extends StatelessWidget {
       children: [
         // Header
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
           child: Text(
             l10n.fireTypes,
-            style: theme.textTheme.titleSmall?.copyWith(
-              fontWeight: FontWeight.w600,
-            ),
+            style: TokenTypography.h4(fontWeight: FontWeight.w600),
           ),
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: TokenSpacing.lg),
 
         // Horizontal scroll
         SizedBox(
           height: 220,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
             itemCount: fireTypes.length,
             itemBuilder: (context, index) {
               final fireType = fireTypes[index];
