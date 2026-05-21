@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../core/design_tokens/design_tokens.dart';
 
-/// Reusable section header widget
 class SectionHeader extends StatelessWidget {
   const SectionHeader({
     super.key,
@@ -15,17 +15,19 @@ class SectionHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      padding: const EdgeInsets.symmetric(
+        horizontal: TokenSpacing.xs,
+        vertical: TokenSpacing.xs,
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
             title,
-            style: theme.textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.bold,
+            style: TokenTypography.h4(
+              fontWeight: FontWeight.w700,
+              color: TokenColors.textPrimary,
             ),
           ),
           if (trailing != null)
@@ -35,15 +37,13 @@ class SectionHeader extends StatelessWidget {
                 children: [
                   Text(
                     trailing!,
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      color: theme.colorScheme.outline,
-                    ),
+                    style: TokenTypography.body(color: TokenColors.textTertiary),
                   ),
-                  const SizedBox(width: 4),
+                  SizedBox(width: TokenSpacing.xs),
                   Icon(
                     Icons.chevron_right,
                     size: 20,
-                    color: theme.colorScheme.outline,
+                    color: TokenColors.textTertiary,
                   ),
                 ],
               ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../core/design_tokens/design_tokens.dart';
 
-/// Common loading indicator widget
 class LoadingIndicator extends StatelessWidget {
   const LoadingIndicator({
     super.key,
@@ -23,10 +23,10 @@ class LoadingIndicator extends StatelessWidget {
             child: const CircularProgressIndicator(),
           ),
           if (message != null) ...[
-            const SizedBox(height: 16),
+            SizedBox(height: TokenSpacing.xl),
             Text(
               message!,
-              style: Theme.of(context).textTheme.bodyMedium,
+              style: TokenTypography.body(color: TokenColors.textSecondary),
               textAlign: TextAlign.center,
             ),
           ],

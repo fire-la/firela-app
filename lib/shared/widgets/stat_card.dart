@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import '../../core/design_tokens/design_tokens.dart';
+import '../../core/components/surfaces/design_card.dart';
 
-/// Reusable statistics card widget
 class StatCard extends StatelessWidget {
   const StatCard({
     super.key,
@@ -21,49 +22,38 @@ class StatCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return Card(
+    return DesignCard(
       color: backgroundColor,
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(12),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+      onTap: onTap,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    title,
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      color: theme.colorScheme.outline,
-                    ),
-                  ),
-                  if (trailing != null) trailing!,
-                ],
-              ),
-              const SizedBox(height: 8),
               Text(
-                value,
-                style: theme.textTheme.headlineSmall?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+                title,
+                style: TokenTypography.caption(color: TokenColors.textSecondary),
               ),
-              if (subtitle != null) ...[
-                const SizedBox(height: 4),
-                Text(
-                  subtitle!,
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: theme.colorScheme.outline,
-                  ),
-                ),
-              ],
+              if (trailing != null) trailing!,
             ],
           ),
-        ),
+          SizedBox(height: TokenSpacing.sm),
+          Text(
+            value,
+            style: TokenTypography.display(
+              fontWeight: FontWeight.w700,
+              color: TokenColors.textPrimary,
+            ),
+          ),
+          if (subtitle != null) ...[
+            SizedBox(height: TokenSpacing.xs),
+            Text(
+              subtitle!,
+              style: TokenTypography.caption(color: TokenColors.textTertiary),
+            ),
+          ],
+        ],
       ),
     );
   }

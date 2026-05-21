@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firela_app/generated/l10n/app_localizations.dart';
 import 'package:signals_flutter/signals_flutter.dart';
+import '../../core/design_tokens/design_tokens.dart';
 import '../signals/connectivity_signal.dart';
 
-/// Offline indicator widget
-/// Shows a banner at the top of the screen when offline
-/// Auto-hides when online
 class OfflineIndicator extends StatelessWidget {
   const OfflineIndicator({super.key});
 
@@ -16,7 +14,6 @@ class OfflineIndicator extends StatelessWidget {
     return Watch((context) {
       final connectivityState = connectivitySignal.value;
 
-      // Don't show anything when online
       if (connectivityState.isOnline) {
         return const SizedBox.shrink();
       }
@@ -25,15 +22,18 @@ class OfflineIndicator extends StatelessWidget {
         color: Colors.transparent,
         child: Container(
           width: double.infinity,
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          padding: const EdgeInsets.symmetric(
+            horizontal: TokenSpacing.xl,
+            vertical: TokenSpacing.sm,
+          ),
           decoration: BoxDecoration(
-            color: _getBackgroundColor(context),
+            color: TokenColors.accentPeach,
             borderRadius: const BorderRadius.vertical(
-              bottom: Radius.circular(8),
+              bottom: Radius.circular(TokenRadius.sm),
             ),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.1),
+                color: TokenColors.textPrimary.withValues(alpha: 0.1),
                 blurRadius: 4,
                 offset: const Offset(0, 2),
               ),
@@ -47,16 +47,15 @@ class OfflineIndicator extends StatelessWidget {
                 Icon(
                   Icons.cloud_off_rounded,
                   size: 16,
-                  color: _getTextColor(context),
+                  color: TokenColors.textAccent,
                 ),
-                const SizedBox(width: 8),
+                SizedBox(width: TokenSpacing.sm),
                 Flexible(
                   child: Text(
                     l10n.youAreOffline,
-                    style: TextStyle(
-                      color: _getTextColor(context),
-                      fontSize: 13,
+                    style: TokenTypography.caption(
                       fontWeight: FontWeight.w500,
+                      color: TokenColors.textAccent,
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -68,23 +67,8 @@ class OfflineIndicator extends StatelessWidget {
       );
     });
   }
-
-  Color _getBackgroundColor(BuildContext context) {
-    // Use amber/orange warning color
-    return Theme.of(context).brightness == Brightness.dark
-        ? Colors.orange.shade900.withValues(alpha: 0.9)
-        : Colors.orange.shade100;
-  }
-
-  Color _getTextColor(BuildContext context) {
-    return Theme.of(context).brightness == Brightness.dark
-        ? Colors.orange.shade100
-        : Colors.orange.shade900;
-  }
 }
 
-/// Offline aware toast helper
-/// Shows a toast when an action fails due to being offline
 class OfflineToast {
   static void showActionFailedOffline(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
@@ -92,12 +76,12 @@ class OfflineToast {
       SnackBar(
         content: Row(
           children: [
-            const Icon(Icons.cloud_off_rounded, color: Colors.white, size: 20),
-            const SizedBox(width: 12),
+            Icon(Icons.cloud_off_rounded, color: TokenColors.white, size: 20),
+            SizedBox(width: TokenSpacing.lg),
             Expanded(child: Text(l10n.actionFailedOffline)),
           ],
         ),
-        backgroundColor: Colors.orange.shade700,
+        backgroundColor: TokenColors.textAccent,
         behavior: SnackBarBehavior.floating,
         duration: const Duration(seconds: 3),
       ),
@@ -110,12 +94,12 @@ class OfflineToast {
       SnackBar(
         content: Row(
           children: [
-            const Icon(Icons.cloud_done_rounded, color: Colors.white, size: 20),
-            const SizedBox(width: 12),
+            Icon(Icons.cloud_done_rounded, color: TokenColors.white, size: 20),
+            SizedBox(width: TokenSpacing.lg),
             Expanded(child: Text(l10n.connectionRestored)),
           ],
         ),
-        backgroundColor: Colors.green.shade700,
+        backgroundColor: TokenColors.success,
         behavior: SnackBarBehavior.floating,
         duration: const Duration(seconds: 2),
       ),

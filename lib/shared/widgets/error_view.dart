@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../core/design_tokens/design_tokens.dart';
 
-/// Common error view widget
 class ErrorView extends StatelessWidget {
   const ErrorView({
     super.key,
@@ -15,32 +15,50 @@ class ErrorView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(24),
+        padding: const EdgeInsets.all(TokenSpacing.xxl + TokenSpacing.xs),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
               Icons.error_outline,
               size: 64,
-              color: Theme.of(context).colorScheme.error,
+              color: TokenColors.error,
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: TokenSpacing.xl),
             Text(
               'Error',
-              style: Theme.of(context).textTheme.headlineSmall,
+              style: TokenTypography.h3(
+                fontWeight: FontWeight.w600,
+                color: TokenColors.textPrimary,
+              ),
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: TokenSpacing.sm),
             Text(
               message,
-              style: Theme.of(context).textTheme.bodyMedium,
+              style: TokenTypography.body(color: TokenColors.textSecondary),
               textAlign: TextAlign.center,
             ),
             if (onRetry != null) ...[
-              const SizedBox(height: 24),
-              ElevatedButton.icon(
-                onPressed: onRetry,
-                icon: const Icon(Icons.refresh),
-                label: const Text('Retry'),
+              SizedBox(height: TokenSpacing.xxl + TokenSpacing.xs),
+              SizedBox(
+                height: 50,
+                width: double.infinity,
+                child: ElevatedButton.icon(
+                  onPressed: onRetry,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: TokenColors.textAccent,
+                    foregroundColor: TokenColors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(TokenRadius.pill),
+                    ),
+                    elevation: 0,
+                  ),
+                  icon: const Icon(Icons.refresh),
+                  label: Text(
+                    'Retry',
+                    style: TokenTypography.h4(color: TokenColors.white),
+                  ),
+                ),
               ),
             ],
           ],

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../core/design_tokens/design_tokens.dart';
 
-/// Gradient card widget for highlights
 class GradientCard extends StatelessWidget {
   const GradientCard({
     super.key,
@@ -17,28 +17,25 @@ class GradientCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final defaultGradient = LinearGradient(
       colors: [
-        Colors.grey.shade700,
-        Colors.grey.shade800,
+        TokenColors.neutral700,
+        TokenColors.neutral900,
       ],
       begin: Alignment.topLeft,
       end: Alignment.bottomRight,
     );
 
-    return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      child: Ink(
-        decoration: BoxDecoration(
-          gradient: gradient ?? defaultGradient,
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: InkWell(
-          onTap: onTap,
-          borderRadius: BorderRadius.circular(12),
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: child,
-          ),
-        ),
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(TokenSpacing.xl),
+      decoration: BoxDecoration(
+        gradient: gradient ?? defaultGradient,
+        borderRadius: TokenRadius.borderLg,
+        border: Border.all(color: TokenColors.borderCard, width: 0.5),
+        boxShadow: TokenShadows.cardList,
+      ),
+      child: GestureDetector(
+        onTap: onTap,
+        child: child,
       ),
     );
   }
