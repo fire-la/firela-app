@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import '../../../../core/design_tokens/design_tokens.dart';
+import '../../../../core/components/surfaces/design_card.dart';
 import '../../../../core/utils/formatters.dart';
 import '../../domain/entities/account.dart';
 
-/// Account card widget
 class AccountCard extends StatelessWidget {
   const AccountCard({
     super.key,
@@ -15,84 +16,77 @@ class AccountCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.only(bottom: 12),
-      child: InkWell(
+    return Padding(
+      padding: const EdgeInsets.only(bottom: TokenSpacing.lg),
+      child: DesignCard(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(12),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Row(
-            children: [
-              Container(
-                width: 48,
-                height: 48,
-                decoration: BoxDecoration(
-                  color: _getAccountTypeColor(context, account.type),
-                  borderRadius: BorderRadius.circular(12) // Design: 12px,
-                ),
-                child: Icon(
-                  _getAccountTypeIcon(account.type),
-                  color: Colors.white,
-                ),
+        child: Row(
+          children: [
+            Container(
+              width: 48,
+              height: 48,
+              decoration: BoxDecoration(
+                color: _getAccountTypeColor(account.type),
+                borderRadius: TokenRadius.borderMd,
               ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      account.name,
-                      style: Theme.of(context).textTheme.titleMedium,
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      _getAccountTypeName(account.type),
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: Theme.of(context).colorScheme.outline,
-                          ),
-                    ),
-                  ],
-                ),
+              child: Icon(
+                _getAccountTypeIcon(account.type),
+                color: TokenColors.white,
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
+            ),
+            SizedBox(width: TokenSpacing.xl),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    Formatters.formatCurrency(
-                      account.balance,
-                      symbol: _getCurrencySymbol(account.currency),
-                    ),
-                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+                    account.name,
+                    style: TokenTypography.h4(color: TokenColors.textPrimary),
                   ),
-                  const SizedBox(height: 4),
+                  SizedBox(height: TokenSpacing.xs),
                   Text(
-                    account.currency,
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: Theme.of(context).colorScheme.outline,
-                        ),
+                    _getAccountTypeName(account.type),
+                    style: TokenTypography.caption(color: TokenColors.textTertiary),
                   ),
                 ],
               ),
-            ],
-          ),
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  Formatters.formatCurrency(
+                    account.balance,
+                    symbol: _getCurrencySymbol(account.currency),
+                  ),
+                  style: TokenTypography.h4(
+                    fontWeight: FontWeight.w700,
+                    color: TokenColors.textPrimary,
+                  ),
+                ),
+                SizedBox(height: TokenSpacing.xs),
+                Text(
+                  account.currency,
+                  style: TokenTypography.caption(color: TokenColors.textTertiary),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );
   }
 
-  Color _getAccountTypeColor(BuildContext context, AccountType type) {
+  Color _getAccountTypeColor(AccountType type) {
     switch (type) {
       case AccountType.checking:
-        return Colors.blue;
+        return TokenColors.info;
       case AccountType.savings:
-        return Colors.green;
+        return TokenColors.success;
       case AccountType.investment:
-        return Colors.purple;
+        return TokenColors.textAccent;
       case AccountType.credit:
-        return Colors.orange;
+        return TokenColors.primary;
     }
   }
 

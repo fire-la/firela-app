@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firela_app/generated/l10n/app_localizations.dart';
 import 'package:signals_flutter/signals_flutter.dart';
+import '../../../../core/design_tokens/design_tokens.dart';
 import '../../../../core/services/sync_service.dart';
 import '../../../../core/network/auth_manager.dart';
 
-/// Sync status widget showing last sync time and sync button
 class SyncStatusWidget extends StatefulWidget {
   const SyncStatusWidget({super.key});
 
@@ -17,7 +17,6 @@ class _SyncStatusWidgetState extends State<SyncStatusWidget> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final theme = Theme.of(context);
     final syncService = SyncService.instance;
 
     return Watch((context) {
@@ -26,18 +25,17 @@ class _SyncStatusWidgetState extends State<SyncStatusWidget> {
       final lastSyncRelative = syncService.getLastSyncRelativeString();
 
       return Container(
-        margin: const EdgeInsets.symmetric(horizontal: 16),
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        margin: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
+        padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.lg, vertical: TokenSpacing.sm),
         decoration: BoxDecoration(
-          color: theme.colorScheme.surfaceContainerHighest,
-          borderRadius: BorderRadius.circular(8),
+          color: TokenColors.bgCard,
+          borderRadius: TokenRadius.borderSm,
+          border: Border.all(color: TokenColors.borderCard, width: 0.5),
         ),
         child: Row(
           children: [
-            // Status icon
-            _buildStatusIcon(theme, syncStatus),
-            const SizedBox(width: 8),
-            // Last sync time
+            _buildStatusIcon(syncStatus),
+            SizedBox(width: TokenSpacing.sm),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -45,21 +43,18 @@ class _SyncStatusWidgetState extends State<SyncStatusWidget> {
                 children: [
                   Text(
                     l10n.lastSynced,
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: theme.colorScheme.outline,
-                    ),
+                    style: TokenTypography.caption(color: TokenColors.textTertiary),
                   ),
                   Text(
                     lastSyncRelative == 'never' ? l10n.never : lastSyncRelative,
-                    style: theme.textTheme.bodyMedium,
+                    style: TokenTypography.body(color: TokenColors.textPrimary),
                   ),
                 ],
               ),
             ),
-            // Sync button
             if (isLoggedIn) ...[
-              const SizedBox(width: 8),
-              _buildSyncButton(context, l10n, theme, syncStatus, syncService),
+              SizedBox(width: TokenSpacing.sm),
+              _buildSyncButton(context, l10n, syncStatus, syncService),
             ],
           ],
         ),
@@ -67,7 +62,7 @@ class _SyncStatusWidgetState extends State<SyncStatusWidget> {
     });
   }
 
-  Widget _buildStatusIcon(ThemeData theme, SyncStatus status) {
+  Widget _buildStatusIcon(SyncStatus status) {
     switch (status) {
       case SyncStatus.syncing:
         return SizedBox(
@@ -75,34 +70,21 @@ class _SyncStatusWidgetState extends State<SyncStatusWidget> {
           height: 20,
           child: CircularProgressIndicator(
             strokeWidth: 2,
-            color: theme.colorScheme.primary,
+            color: TokenColors.textAccent,
           ),
         );
       case SyncStatus.success:
-        return const Icon(
-          Icons.check_circle,
-          size: 20,
-          color: Color(0xFF4CAF50),
-        );
+        return Icon(Icons.check_circle, size: 20, color: TokenColors.success);
       case SyncStatus.error:
-        return Icon(
-          Icons.error_outline,
-          size: 20,
-          color: theme.colorScheme.error,
-        );
+        return Icon(Icons.error_outline, size: 20, color: TokenColors.error);
       case SyncStatus.idle:
-        return Icon(
-          Icons.sync,
-          size: 20,
-          color: theme.colorScheme.outline,
-        );
+        return Icon(Icons.sync, size: 20, color: TokenColors.textTertiary);
     }
   }
 
   Widget _buildSyncButton(
     BuildContext context,
     AppLocalizations l10n,
-    ThemeData theme,
     SyncStatus status,
     SyncService syncService,
   ) {
@@ -117,14 +99,12 @@ class _SyncStatusWidgetState extends State<SyncStatusWidget> {
                 HapticFeedback.lightImpact();
                 await syncService.syncAll();
               },
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: TokenRadius.borderSm,
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+          padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.lg, vertical: TokenSpacing.sm),
           decoration: BoxDecoration(
-            color: isSyncing
-                ? theme.colorScheme.surfaceContainerHighest
-                : theme.colorScheme.primary.withValues(alpha: 0.1),
-            borderRadius: BorderRadius.circular(8),
+            color: isSyncing ? TokenColors.neutral100 : TokenColors.textAccent.withValues(alpha: 0.1),
+            borderRadius: TokenRadius.borderSm,
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
@@ -133,22 +113,16 @@ class _SyncStatusWidgetState extends State<SyncStatusWidget> {
                 const SizedBox(
                   width: 14,
                   height: 14,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2,
-                  ),
+                  child: CircularProgressIndicator(strokeWidth: 2),
                 )
               else
-                Icon(
-                  Icons.sync,
-                  size: 14,
-                  color: theme.colorScheme.primary,
-                ),
-              const SizedBox(width: 4),
+                Icon(Icons.sync, size: 14, color: TokenColors.textAccent),
+              SizedBox(width: TokenSpacing.xs),
               Text(
                 isSyncing ? l10n.syncing : l10n.syncNow,
-                style: theme.textTheme.bodySmall?.copyWith(
-                  color: theme.colorScheme.primary,
+                style: TokenTypography.caption(
                   fontWeight: FontWeight.w500,
+                  color: TokenColors.textAccent,
                 ),
               ),
             ],

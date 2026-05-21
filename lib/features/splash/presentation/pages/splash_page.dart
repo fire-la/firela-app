@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import '../../../../core/design_tokens/design_tokens.dart';
 import '../../../../core/network/auth_manager.dart';
 import '../../../../core/services/analytics_service.dart';
 import '../../../../core/services/backup_service.dart';
@@ -142,11 +143,6 @@ class _SplashLogoState extends State<_SplashLogo>
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final isDark = colorScheme.brightness == Brightness.dark;
-    // Logo background adapts to theme
-    final logoBgColor = isDark ? const Color(0xFF2A2A2A) : const Color(0xFF1A1A1A);
-    // Text uses theme's onSurface color for proper contrast
-    final textColor = colorScheme.onSurface;
-    final taglineColor = isDark ? Colors.grey[400] : Colors.grey[500];
 
     return FadeTransition(
       opacity: _opacity,
@@ -155,42 +151,35 @@ class _SplashLogoState extends State<_SplashLogo>
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            // Logo icon
             Container(
               width: 80,
               height: 80,
               decoration: BoxDecoration(
-                color: logoBgColor,
-                borderRadius: BorderRadius.circular(20),
+                color: isDark ? TokenColors.neutral900 : TokenColors.textPrimary,
+                borderRadius: BorderRadius.circular(TokenSpacing.xxl),
               ),
               child: Center(
                 child: Icon(
                   Icons.local_fire_department,
                   size: 44,
-                  color: const Color(0xFFFF6B35), // Brand orange stays consistent
+                  color: TokenColors.textAccent,
                 ),
               ),
             ),
-            const SizedBox(height: 16),
-            // App name
+            SizedBox(height: TokenSpacing.xl),
             Text(
               'FIREla',
-              style: TextStyle(
-                fontSize: 32,
+              style: TokenTypography.display(
                 fontWeight: FontWeight.w700,
-                color: textColor,
-                letterSpacing: 1.2,
-              ),
+                color: colorScheme.onSurface,
+              ).copyWith(letterSpacing: 1.2),
             ),
-            const SizedBox(height: 6),
-            // Tagline
+            SizedBox(height: TokenSpacing.sm),
             Text(
               'Your FIRE Companion',
-              style: TextStyle(
-                fontSize: 14,
-                color: taglineColor,
-                letterSpacing: 0.5,
-              ),
+              style: TokenTypography.body(
+                color: TokenColors.textTertiary,
+              ).copyWith(letterSpacing: 0.5),
             ),
           ],
         ),
