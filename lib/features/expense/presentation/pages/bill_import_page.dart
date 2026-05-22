@@ -50,7 +50,7 @@ class BillImportPage extends HookWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const SizedBox(height: 24),
+            const SizedBox(height: TokenSpacing.xl),
 
             // Stepped progress indicator
             Padding(
@@ -64,7 +64,7 @@ class BillImportPage extends HookWidget {
               ),
             ),
 
-            const SizedBox(height: 40),
+            const SizedBox(height: TokenSpacing.xl),
 
             // Title
             Padding(
@@ -77,7 +77,7 @@ class BillImportPage extends HookWidget {
               ),
             ),
 
-            const SizedBox(height: 24),
+            const SizedBox(height: TokenSpacing.xl),
 
             // File upload area or selected file
             if (errorMessage.value != null)
@@ -106,7 +106,7 @@ class BillImportPage extends HookWidget {
             else
               _buildFileUploadArea(context, l10n, theme, selectedFile, isParsing, parseProgress, importResult, categorizationItems, editedCount, importSource, currentStep, lastImportPath, errorMessage, errorDetails),
 
-            const SizedBox(height: 40),
+            const SizedBox(height: TokenSpacing.xl),
 
             // How to get bill section
             Padding(
@@ -132,7 +132,7 @@ class BillImportPage extends HookWidget {
               ),
             ),
 
-            const SizedBox(height: 40),
+            const SizedBox(height: TokenSpacing.xl),
           ],
         ),
       ),

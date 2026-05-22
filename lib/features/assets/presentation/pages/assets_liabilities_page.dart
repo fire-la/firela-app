@@ -136,7 +136,7 @@ class AssetsLiabilitiesPage extends StatelessWidget {
               const SizedBox(height: TokenSpacing.sm),
               _buildAssetDistribution(context, l10n),
 
-              const SizedBox(height: TokenSpacing.xxl),
+              const SizedBox(height: TokenSpacing.xl),
 
               // 资产变动趋势
               SectionHeader(

@@ -43,18 +43,17 @@ class SettingsPageState extends State<SettingsPage> {
         centerTitle: false,
       ),
       body: SingleChildScrollView(
+        padding: const EdgeInsets.all(TokenSpacing.xl),
         child: Column(
           children: [
-            const SizedBox(height: 16),
-            
             // User profile
             _buildUserProfile(context, l10n),
 
-            const SizedBox(height: 24),
-            
+            const SizedBox(height: TokenSpacing.xl),
+
             // Settings items
             Container(
-              margin: const EdgeInsets.symmetric(horizontal: 16),
+              margin: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
               decoration: BoxDecoration(
                 color: theme.colorScheme.surfaceContainerHighest,
                 borderRadius: TokenRadius.borderSm,
@@ -105,16 +104,16 @@ class SettingsPageState extends State<SettingsPage> {
               ),
             ),
 
-            const SizedBox(height: 24),
+            const SizedBox(height: TokenSpacing.xl),
 
             // Theme and language settings
             _buildQuickSettings(context, l10n),
-            
-            const SizedBox(height: 24),
-            
+
+            const SizedBox(height: TokenSpacing.xl),
+
             // Login / Logout button
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
               child: SizedBox(
                 width: double.infinity,
                 child: AuthManager.instance.isLoggedIn
@@ -149,7 +148,7 @@ class SettingsPageState extends State<SettingsPage> {
               ),
             ),
             
-            const SizedBox(height: 40),
+            const SizedBox(height: TokenSpacing.xl),
           ],
         ),
       ),
@@ -176,7 +175,7 @@ class SettingsPageState extends State<SettingsPage> {
             color: isLoggedIn ? TokenColors.white : TokenColors.neutral700,
           ),
         ),
-        const SizedBox(width: 16),
+        const SizedBox(width: TokenSpacing.xl),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -237,7 +236,7 @@ class SettingsPageState extends State<SettingsPage> {
     );
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+      padding: const EdgeInsets.fromLTRB(TokenSpacing.xl, TokenSpacing.sm, TokenSpacing.xl, TokenSpacing.xl),
       child: isLoggedIn
           ? InkWell(
               onTap: () => Navigator.push(
@@ -262,7 +261,7 @@ class SettingsPageState extends State<SettingsPage> {
       final theme = Theme.of(context);
 
       return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
         child: Column(
           children: [
             // First row: Theme and Language
@@ -397,7 +396,7 @@ class SettingsPageState extends State<SettingsPage> {
     return InkWell(
       onTap: onTap,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        padding: const EdgeInsets.all(TokenSpacing.xl),
         child: Row(
           children: [
             Icon(icon, size: 22, color: theme.colorScheme.outline),

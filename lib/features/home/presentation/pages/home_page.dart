@@ -34,13 +34,13 @@ class HomePage extends HookWidget {
         onRefresh: onRefresh,
         child: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
-          padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl, vertical: TokenSpacing.lg),
+          padding: const EdgeInsets.all(TokenSpacing.xl),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Header with greeting
               _buildHeader(context, l10n, homeData),
-              const SizedBox(height: TokenSpacing.xxl),
+              const SizedBox(height: TokenSpacing.xl),
 
               // Net Worth Card
               NetWorthCard(
@@ -99,7 +99,7 @@ class HomePage extends HookWidget {
                     const SizedBox(height: TokenSpacing.xl),
 
                     // Add padding at bottom for scroll
-                    const SizedBox(height: 24),
+                    const SizedBox(height: TokenSpacing.xl),
                   ],
                 ),
               ),

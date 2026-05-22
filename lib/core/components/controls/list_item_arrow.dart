@@ -6,6 +6,8 @@ class ListItemArrow extends StatelessWidget {
   final String label;
   final String? trailingText;
   final VoidCallback? onTap;
+  final BorderRadius? borderRadius;
+  final BoxBorder? border;
 
   const ListItemArrow({
     super.key,
@@ -13,7 +15,18 @@ class ListItemArrow extends StatelessWidget {
     required this.label,
     this.trailingText,
     this.onTap,
+    this.borderRadius,
+    this.border,
   });
+
+  ListItemArrow.card({
+    super.key,
+    required this.icon,
+    required this.label,
+    this.trailingText,
+    this.onTap,
+  })  : borderRadius = TokenRadius.borderLg,
+        border = Border.all(color: TokenColors.borderCard, width: 0.5);
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +34,11 @@ class ListItemArrow extends StatelessWidget {
       onTap: onTap,
       child: Container(
         height: 56,
-        color: TokenColors.bgCard,
+        decoration: BoxDecoration(
+          color: TokenColors.bgCard,
+          borderRadius: borderRadius,
+          border: border,
+        ),
         padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
         child: Row(
           children: [

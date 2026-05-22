@@ -167,7 +167,7 @@ class FireJourneyPage extends HookWidget {
   Widget _buildEmptyState(BuildContext context, AppLocalizations l10n) {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(32),
+        padding: const EdgeInsets.all(TokenSpacing.xl),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -189,7 +189,7 @@ class FireJourneyPage extends HookWidget {
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: TokenSpacing.xl),
             FilledButton.icon(
               onPressed: () {
                 HapticFeedback.mediumImpact();
@@ -366,7 +366,7 @@ class FireJourneyPage extends HookWidget {
               ),
             ),
 
-            const SizedBox(height: 24),
+            const SizedBox(height: TokenSpacing.xl),
           ],
         ),
       ),
