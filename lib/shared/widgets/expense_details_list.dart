@@ -40,22 +40,29 @@ class ExpenseDetailsList extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
 
-    return Column(
-      children: expenses.map((day) {
-        return Column(
-          children: [
-            _DayHeader(date: day.date, total: day.total, l10n: l10n),
-            ...day.items.map((item) {
-              return _ExpenseItem(
-                category: item.category,
-                description: item.description,
-                amount: item.amount,
-                icon: item.icon,
-              );
-            }),
-          ],
-        );
-      }).toList(),
+    return Container(
+      padding: const EdgeInsets.all(TokenSpacing.xl),
+      decoration: BoxDecoration(
+        color: TokenColors.bgCard,
+        borderRadius: TokenRadius.borderMd,
+      ),
+      child: Column(
+        children: expenses.map((day) {
+          return Column(
+            children: [
+              _DayHeader(date: day.date, total: day.total, l10n: l10n),
+              ...day.items.map((item) {
+                return _ExpenseItem(
+                  category: item.category,
+                  description: item.description,
+                  amount: item.amount,
+                  icon: item.icon,
+                );
+              }),
+            ],
+          );
+        }).toList(),
+      ),
     );
   }
 }
