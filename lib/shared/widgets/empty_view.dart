@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import '../../core/design_tokens/design_tokens.dart';
 
+/// .pen spec: inbox icon 48px $text.tertiary, h3 title w600, body subtitle, pill button h=44
 class EmptyView extends StatelessWidget {
   const EmptyView({
     super.key,
+    this.title,
     required this.message,
     this.icon = Icons.inbox_outlined,
     this.actionLabel,
     this.onAction,
   });
 
+  final String? title;
   final String message;
   final IconData icon;
   final String? actionLabel;
@@ -25,10 +28,18 @@ class EmptyView extends StatelessWidget {
           children: [
             Icon(
               icon,
-              size: 64,
+              size: 48,
               color: TokenColors.textTertiary,
             ),
-            SizedBox(height: TokenSpacing.xl),
+            const SizedBox(height: TokenSpacing.xl),
+            Text(
+              title ?? '暂无数据',
+              style: TokenTypography.h3(
+                fontWeight: FontWeight.w600,
+                color: TokenColors.textPrimary,
+              ),
+            ),
+            const SizedBox(height: TokenSpacing.sm),
             Text(
               message,
               style: TokenTypography.body(
@@ -37,10 +48,9 @@ class EmptyView extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             if (actionLabel != null && onAction != null) ...[
-              SizedBox(height: TokenSpacing.xxl + TokenSpacing.xs),
+              const SizedBox(height: TokenSpacing.xl),
               SizedBox(
-                height: 50,
-                width: double.infinity,
+                height: 44,
                 child: ElevatedButton(
                   onPressed: onAction,
                   style: ElevatedButton.styleFrom(
@@ -50,10 +60,14 @@ class EmptyView extends StatelessWidget {
                       borderRadius: BorderRadius.circular(TokenRadius.pill),
                     ),
                     elevation: 0,
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
                   ),
                   child: Text(
                     actionLabel!,
-                    style: TokenTypography.h4(color: TokenColors.white),
+                    style: TokenTypography.body(
+                      fontWeight: FontWeight.w500,
+                      color: TokenColors.white,
+                    ),
                   ),
                 ),
               ),

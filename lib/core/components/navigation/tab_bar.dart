@@ -17,8 +17,8 @@ class DesignTabBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(
-        top: TokenSpacing.xxl,
-        left: 7,
+        left: TokenSpacing.xxl,
+        top: 0,
         bottom: 7,
       ),
       child: Row(
@@ -40,7 +40,7 @@ class DesignTabBar extends StatelessWidget {
                           : TokenColors.textTab,
                     ),
                   ),
-                  SizedBox(height: TokenSpacing.sm),
+                  const SizedBox(height: TokenSpacing.sm),
                   Container(
                     width: isActive ? 64 : 32,
                     height: 2,

@@ -23,6 +23,7 @@ export 'navigation/top_bar.dart';
 export 'surfaces/asset_bar.dart';
 export 'surfaces/badge.dart';
 export 'surfaces/design_card.dart';
+export 'surfaces/net_worth_display.dart';
 export 'surfaces/tag.dart';
 export 'surfaces/toast.dart';
 export 'surfaces/transaction_row.dart';

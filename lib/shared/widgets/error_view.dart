@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
 import '../../core/design_tokens/design_tokens.dart';
 
+/// .pen spec: error icon 48px $color.error, h3 title w600, body subtitle, button
 class ErrorView extends StatelessWidget {
   const ErrorView({
     super.key,
+    this.title,
     required this.message,
     this.onRetry,
+    this.actionLabel,
   });
 
+  final String? title;
   final String message;
   final VoidCallback? onRetry;
+  final String? actionLabel;
 
   @override
   Widget build(BuildContext context) {
@@ -21,29 +26,28 @@ class ErrorView extends StatelessWidget {
           children: [
             Icon(
               Icons.error_outline,
-              size: 64,
+              size: 48,
               color: TokenColors.error,
             ),
-            SizedBox(height: TokenSpacing.xl),
+            const SizedBox(height: TokenSpacing.xl),
             Text(
-              'Error',
+              title ?? 'Error',
               style: TokenTypography.h3(
                 fontWeight: FontWeight.w600,
                 color: TokenColors.textPrimary,
               ),
             ),
-            SizedBox(height: TokenSpacing.sm),
+            const SizedBox(height: TokenSpacing.sm),
             Text(
               message,
               style: TokenTypography.body(color: TokenColors.textSecondary),
               textAlign: TextAlign.center,
             ),
             if (onRetry != null) ...[
-              SizedBox(height: TokenSpacing.xxl + TokenSpacing.xs),
+              const SizedBox(height: TokenSpacing.xxl + TokenSpacing.xs),
               SizedBox(
-                height: 50,
                 width: double.infinity,
-                child: ElevatedButton.icon(
+                child: ElevatedButton(
                   onPressed: onRetry,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: TokenColors.textAccent,
@@ -53,10 +57,12 @@ class ErrorView extends StatelessWidget {
                     ),
                     elevation: 0,
                   ),
-                  icon: const Icon(Icons.refresh),
-                  label: Text(
-                    'Retry',
-                    style: TokenTypography.h4(color: TokenColors.white),
+                  child: Text(
+                    actionLabel ?? 'Retry',
+                    style: TokenTypography.body(
+                      fontWeight: FontWeight.w500,
+                      color: TokenColors.white,
+                    ),
                   ),
                 ),
               ),
