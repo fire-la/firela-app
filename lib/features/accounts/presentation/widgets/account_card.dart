@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../../../core/design_tokens/design_tokens.dart';
-import '../../../../core/components/surfaces/design_card.dart';
 import '../../../../core/utils/formatters.dart';
 import '../../domain/entities/account.dart';
 
@@ -16,58 +15,88 @@ class AccountCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: TokenSpacing.lg),
-      child: DesignCard(
-        onTap: onTap,
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(
+          vertical: TokenSpacing.xl,
+          horizontal: TokenSpacing.xxl,
+        ),
+        decoration: BoxDecoration(
+          color: TokenColors.bgCard,
+          borderRadius: TokenRadius.borderLg,
+          border: Border.all(color: TokenColors.borderCard, width: 0.5),
+          boxShadow: const [
+            BoxShadow(
+              color: Color(0x0D000000),
+              blurRadius: 18,
+              offset: Offset(0, 2),
+              spreadRadius: 2,
+            ),
+          ],
+        ),
         child: Row(
           children: [
+            // Icon: 24x24 circle
             Container(
-              width: 48,
-              height: 48,
+              width: 24,
+              height: 24,
               decoration: BoxDecoration(
                 color: _getAccountTypeColor(account.type),
-                borderRadius: TokenRadius.borderMd,
-              ),
-              child: Icon(
-                _getAccountTypeIcon(account.type),
-                color: TokenColors.white,
+                shape: BoxShape.circle,
               ),
             ),
-            SizedBox(width: TokenSpacing.xl),
+            const SizedBox(width: 10),
+            // Account info: name + balance
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     account.name,
-                    style: TokenTypography.h4(color: TokenColors.textPrimary),
-                  ),
-                  SizedBox(height: TokenSpacing.xs),
-                  Text(
-                    _getAccountTypeName(account.type),
                     style: TokenTypography.caption(color: TokenColors.textTertiary),
+                  ),
+                  const SizedBox(height: TokenSpacing.xs),
+                  Text(
+                    Formatters.formatCurrency(
+                      account.balance,
+                      symbol: _getCurrencySymbol(account.currency),
+                    ),
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700,
+                      color: TokenColors.textPrimary,
+                    ),
                   ),
                 ],
               ),
             ),
+            // Right: tag + rate
             Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Text(
-                  Formatters.formatCurrency(
-                    account.balance,
-                    symbol: _getCurrencySymbol(account.currency),
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: TokenSpacing.lg,
+                    vertical: TokenSpacing.xs,
                   ),
-                  style: TokenTypography.h4(
-                    fontWeight: FontWeight.w700,
-                    color: TokenColors.textPrimary,
+                  decoration: BoxDecoration(
+                    color: TokenColors.bgCard,
+                    borderRadius: BorderRadius.circular(11),
+                    border: Border.all(color: TokenColors.borderTag, width: 0.5),
+                  ),
+                  child: Text(
+                    _getAccountTypeName(account.type),
+                    style: TokenTypography.caption(color: TokenColors.textPrimary),
                   ),
                 ),
-                SizedBox(height: TokenSpacing.xs),
+                const SizedBox(height: TokenSpacing.sm),
                 Text(
-                  account.currency,
-                  style: TokenTypography.caption(color: TokenColors.textTertiary),
+                  _getRateText(account.type),
+                  style: TokenTypography.caption(
+                    fontWeight: FontWeight.w600,
+                    color: TokenColors.textAccent,
+                  ),
                 ),
               ],
             ),
@@ -80,26 +109,13 @@ class AccountCard extends StatelessWidget {
   Color _getAccountTypeColor(AccountType type) {
     switch (type) {
       case AccountType.checking:
-        return TokenColors.info;
+        return TokenColors.chartBlue;
       case AccountType.savings:
-        return TokenColors.success;
+        return TokenColors.chartGreen;
       case AccountType.investment:
-        return TokenColors.textAccent;
+        return TokenColors.chartAmber;
       case AccountType.credit:
-        return TokenColors.primary;
-    }
-  }
-
-  IconData _getAccountTypeIcon(AccountType type) {
-    switch (type) {
-      case AccountType.checking:
-        return Icons.account_balance;
-      case AccountType.savings:
-        return Icons.savings;
-      case AccountType.investment:
-        return Icons.trending_up;
-      case AccountType.credit:
-        return Icons.credit_card;
+        return TokenColors.chartGrey;
     }
   }
 
@@ -113,6 +129,17 @@ class AccountCard extends StatelessWidget {
         return 'Investment';
       case AccountType.credit:
         return 'Credit';
+    }
+  }
+
+  String _getRateText(AccountType type) {
+    switch (type) {
+      case AccountType.savings:
+        return '年化1.5%';
+      case AccountType.investment:
+        return '年化5.2%';
+      default:
+        return '';
     }
   }
 

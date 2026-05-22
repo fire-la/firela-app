@@ -20,18 +20,18 @@ class DesignBottomNav extends StatelessWidget {
     return Container(
       height: 66,
       padding: const EdgeInsets.symmetric(vertical: 5, horizontal: TokenSpacing.lg),
-      child: Stack(
-        alignment: Alignment.center,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // Nav bar background
+          // Nav bar
           Container(
             width: 260,
             height: 56,
             decoration: BoxDecoration(
               color: TokenColors.bgCard,
               borderRadius: BorderRadius.circular(28),
-              boxShadow: [
-                const BoxShadow(
+              boxShadow: const [
+                BoxShadow(
                   color: Color(0x0D000000),
                   blurRadius: 8,
                   offset: Offset(0, 2),
@@ -47,7 +47,7 @@ class DesignBottomNav extends StatelessWidget {
                   onTap: () => onTap(index),
                   behavior: HitTestBehavior.opaque,
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xxl),
                     child: Icon(
                       isSelected ? item.activeIcon : item.icon,
                       size: 24,
@@ -60,30 +60,29 @@ class DesignBottomNav extends StatelessWidget {
               }),
             ),
           ),
+          const SizedBox(width: TokenSpacing.lg),
           // FAB
           if (onFabTap != null)
-            Positioned(
-              child: GestureDetector(
-                onTap: onFabTap,
-                child: Container(
-                  width: 56,
-                  height: 56,
-                  decoration: BoxDecoration(
-                    color: TokenColors.textPrimary,
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                      const BoxShadow(
-                        color: Color(0x26000000),
-                        blurRadius: 12,
-                        offset: Offset(0, 4),
-                      ),
-                    ],
-                  ),
-                  child: Icon(
-                    Icons.add,
-                    size: 24,
-                    color: TokenColors.white,
-                  ),
+            GestureDetector(
+              onTap: onFabTap,
+              child: Container(
+                width: 56,
+                height: 56,
+                decoration: BoxDecoration(
+                  color: TokenColors.textPrimary,
+                  shape: BoxShape.circle,
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Color(0x26000000),
+                      blurRadius: 12,
+                      offset: Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: Icon(
+                  Icons.add,
+                  size: 24,
+                  color: TokenColors.white,
                 ),
               ),
             ),

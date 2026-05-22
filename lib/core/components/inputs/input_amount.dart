@@ -8,6 +8,8 @@ class InputAmount extends StatelessWidget {
   final ValueChanged<String>? onChanged;
   final String? placeholder;
 
+  static const _amountFont = 'DIN Alternate';
+
   const InputAmount({
     super.key,
     this.label,
@@ -29,7 +31,6 @@ class InputAmount extends StatelessWidget {
         color: TokenColors.bgCard,
         borderRadius: TokenRadius.borderLg,
         border: Border.all(color: TokenColors.borderCard, width: 0.5),
-        boxShadow: TokenShadows.cardList,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -41,31 +42,39 @@ class InputAmount extends StatelessWidget {
               style: TokenTypography.caption(color: TokenColors.textSecondary),
             ),
           if (label != null)
-            SizedBox(height: TokenSpacing.xs),
+            const SizedBox(height: TokenSpacing.xs),
           Row(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
                 currencySymbol,
-                style: TokenTypography.h2(
+                style: TextStyle(
+                  fontFamily: _amountFont,
+                  fontSize: 24,
                   fontWeight: FontWeight.w700,
                   color: TokenColors.textPrimary,
                 ),
               ),
-              SizedBox(width: TokenSpacing.xs),
+              const SizedBox(width: TokenSpacing.xs),
               Expanded(
                 child: TextField(
                   controller: controller,
                   onChanged: onChanged,
                   keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                  style: TokenTypography.display(
+                  style: TextStyle(
+                    fontFamily: _amountFont,
+                    fontSize: 32,
                     fontWeight: FontWeight.w700,
+                    letterSpacing: 0.64,
                     color: TokenColors.textPrimary,
                   ),
                   decoration: InputDecoration(
                     hintText: placeholder ?? '0.00',
-                    hintStyle: TokenTypography.display(
+                    hintStyle: TextStyle(
+                      fontFamily: _amountFont,
+                      fontSize: 32,
                       fontWeight: FontWeight.w700,
+                      letterSpacing: 0.64,
                       color: TokenColors.textTertiary,
                     ),
                     border: InputBorder.none,
@@ -77,6 +86,12 @@ class InputAmount extends StatelessWidget {
                 ),
               ),
             ],
+          ),
+          // Divider
+          Container(
+            height: 0.5,
+            color: TokenColors.borderCard,
+            margin: const EdgeInsets.only(top: TokenSpacing.xs),
           ),
         ],
       ),

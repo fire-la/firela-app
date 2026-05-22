@@ -16,17 +16,14 @@ class SectionHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: TokenSpacing.xs,
-        vertical: TokenSpacing.xs,
-      ),
+      padding: const EdgeInsets.symmetric(vertical: TokenSpacing.xs),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
             title,
-            style: TokenTypography.h4(
-              fontWeight: FontWeight.w700,
+            style: TokenTypography.h3(
+              fontWeight: FontWeight.w600,
               color: TokenColors.textPrimary,
             ),
           ),
@@ -37,7 +34,10 @@ class SectionHeader extends StatelessWidget {
                 children: [
                   Text(
                     trailing!,
-                    style: TokenTypography.body(color: TokenColors.textTertiary),
+                    style: TokenTypography.body(
+                      fontWeight: FontWeight.w500,
+                      color: TokenColors.textAccent,
+                    ),
                   ),
                   SizedBox(width: TokenSpacing.xs),
                   Icon(
