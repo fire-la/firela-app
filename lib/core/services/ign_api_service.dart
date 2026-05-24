@@ -287,6 +287,37 @@ class IgnApiService {
     return Map<String, dynamic>.from(result as Map);
   }
 
+  // ============ Transaction Detail ============
+
+  Future<Map<String, dynamic>> getTransactionDetail(String id) async {
+    final result = await _client.get('${ApiConstants.transactionEndpoint}/$id');
+    return Map<String, dynamic>.from(result as Map);
+  }
+
+  Future<Map<String, dynamic>> updateTransaction(String id, Map<String, dynamic> data) async {
+    final result = await _client.patch('${ApiConstants.transactionEndpoint}/$id', body: data);
+    return Map<String, dynamic>.from(result as Map);
+  }
+
+  Future<void> deleteTransaction(String id) async {
+    await _client.delete('${ApiConstants.transactionEndpoint}/$id');
+  }
+
+  // ============ Recurring Rules ============
+
+  Future<void> createRecurringRuleFromTransaction(String transactionId) async {
+    await _client.post('${ApiConstants.recurringRulesEndpoint}/from-transaction/$transactionId', body: {});
+  }
+
+  Future<Map<String, dynamic>> createRecurringRule(Map<String, dynamic> data) async {
+    final result = await _client.post(ApiConstants.recurringRulesEndpoint, body: data);
+    return Map<String, dynamic>.from(result as Map);
+  }
+
+  Future<dynamic> getRecurringRules({Map<String, String>? params}) async {
+    return await _client.get(ApiConstants.recurringRulesEndpoint, queryParams: params);
+  }
+
   // ============ 账户管理 ============
 
   /// 删除用户账户

@@ -78,6 +78,11 @@ class ApiClient {
     return _request('PUT', path, body: body);
   }
 
+  /// PATCH 请求
+  Future<dynamic> patch(String path, {dynamic body}) async {
+    return _request('PATCH', path, body: body);
+  }
+
   /// DELETE 请求
   Future<dynamic> delete(String path, {Map<String, String>? queryParams}) async {
     return _request('DELETE', path, queryParams: queryParams);

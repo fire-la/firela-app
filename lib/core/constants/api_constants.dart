@@ -101,6 +101,9 @@ class ApiConstants {
   /// FIRE 目标 GET/POST
   static const String fireGoalEndpoint = '/bean/fire-goal';
 
+  // ============ Recurring Rules 端点 (地域前缀端点) ============
+  static const String recurringRulesEndpoint = '/bean/recurring-rules';
+
   // ============ Bean 余额/商品/价格 (地域前缀端点) ============
   /// 余额查询
   static const String balanceEndpoint = '/bean/balances';

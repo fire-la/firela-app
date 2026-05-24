@@ -14,6 +14,15 @@ class RouteNames {
   /// Transactions route
   static const String transactions = '/transactions';
 
+  /// Transaction detail/edit route
+  static const String transactionDetail = '/transactions/:id';
+
+  /// Recurring transaction dialog route
+  static const String recurringDialog = '/recurring/dialog';
+
+  /// Recurring transaction setup route
+  static const String recurringSetup = '/recurring/setup';
+
   /// Settings route
   static const String settings = '/settings';
 

@@ -6,6 +6,10 @@ import '../../features/expense/presentation/pages/bill_import_page.dart';
 import '../../features/review_center/presentation/pages/review_center_page.dart';
 import '../../features/review_center/presentation/pages/review_detail_page.dart';
 import '../../features/assets/presentation/pages/asset_detail_placeholder_page.dart';
+import '../../features/transactions/presentation/pages/transaction_list_page.dart';
+import '../../features/transactions/presentation/pages/transaction_detail_edit_page.dart';
+import '../../features/recurring/presentation/pages/recurring_transaction_dialog_page.dart';
+import '../../features/recurring/presentation/pages/recurring_transaction_setup_page.dart';
 import 'route_names.dart';
 
 /// Application router configuration
@@ -49,6 +53,41 @@ final appRouter = GoRouter(
       path: RouteNames.assetsStatistics,
       name: 'assets_statistics',
       builder: (context, state) => const AssetDetailPlaceholderPage(title: 'Statistics'),
+    ),
+    GoRoute(
+      path: RouteNames.transactions,
+      name: 'transactions',
+      builder: (context, state) => const TransactionListPage(),
+    ),
+    GoRoute(
+      path: RouteNames.transactionDetail,
+      name: 'transaction_detail',
+      builder: (context, state) {
+        final id = state.pathParameters['id'] ?? '';
+        return TransactionDetailEditPage(id: id);
+      },
+    ),
+    GoRoute(
+      path: RouteNames.recurringDialog,
+      name: 'recurring_dialog',
+      builder: (context, state) {
+        final txId = state.uri.queryParameters['transactionId'] ?? '';
+        final matchedDate = state.uri.queryParameters['matchedDate'] ?? '';
+        final amount = state.uri.queryParameters['amount'] ?? '';
+        return RecurringTransactionDialogPage(
+          transactionId: txId,
+          matchedDate: matchedDate,
+          amount: amount,
+        );
+      },
+    ),
+    GoRoute(
+      path: RouteNames.recurringSetup,
+      name: 'recurring_setup',
+      builder: (context, state) {
+        final txId = state.uri.queryParameters['transactionId'];
+        return RecurringTransactionSetupPage(transactionId: txId);
+      },
     ),
   ],
   errorBuilder: (context, state) => Scaffold(
