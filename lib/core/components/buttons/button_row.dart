@@ -1,0 +1,246 @@
+import 'package:flutter/material.dart';
+import '../../design_tokens/design_tokens.dart';
+
+/// ButtonRow per .pen spec (XxtvF / hMROF):
+///
+/// Variant A (two full-width buttons, pill shape h=50):
+///   Secondary(fill=$bg.card, stroke=$text.accent 0.5, text 16px w600 $text.accent)
+///   + Primary(fill=$text.accent, text 16px w600 $color.white)
+///
+/// Variant B (icon buttons, r=12 pad=12):
+///   1× Primary(fill=$color.primary, icon+text 12px w500 #FFF)
+///   + N× Secondary(fill=$bg.page, stroke=$border.card 0.5, icon+text 12px w500 $text.primary)
+class ButtonRow extends StatelessWidget {
+  const ButtonRow({
+    super.key,
+    required this.primaryLabel,
+    this.primaryIcon,
+    this.primaryOnTap,
+    this.secondaryLabel,
+    this.secondaryOnTap,
+    this.tertiaryLabel,
+    this.tertiaryIcon,
+    this.tertiaryOnTap,
+    this.variant = ButtonRowVariant.twoButton,
+  });
+
+  final String primaryLabel;
+  final IconData? primaryIcon;
+  final VoidCallback? primaryOnTap;
+
+  final String? secondaryLabel;
+  final VoidCallback? secondaryOnTap;
+
+  final String? tertiaryLabel;
+  final IconData? tertiaryIcon;
+  final VoidCallback? tertiaryOnTap;
+
+  final ButtonRowVariant variant;
+
+  @override
+  Widget build(BuildContext context) {
+    switch (variant) {
+      case ButtonRowVariant.twoButton:
+        return _TwoButtonRow(
+          primaryLabel: primaryLabel,
+          primaryOnTap: primaryOnTap,
+          secondaryLabel: secondaryLabel ?? '',
+          secondaryOnTap: secondaryOnTap,
+        );
+      case ButtonRowVariant.iconButton:
+        return _IconButtonRow(
+          primaryLabel: primaryLabel,
+          primaryIcon: primaryIcon,
+          primaryOnTap: primaryOnTap,
+          secondaryLabel: secondaryLabel,
+          secondaryIcon: tertiaryIcon,
+          secondaryOnTap: secondaryOnTap,
+          tertiaryLabel: tertiaryLabel,
+          tertiaryIcon: tertiaryIcon,
+          tertiaryOnTap: tertiaryOnTap,
+        );
+    }
+  }
+}
+
+enum ButtonRowVariant { twoButton, iconButton }
+
+class _TwoButtonRow extends StatelessWidget {
+  const _TwoButtonRow({
+    required this.primaryLabel,
+    this.primaryOnTap,
+    required this.secondaryLabel,
+    this.secondaryOnTap,
+  });
+
+  final String primaryLabel;
+  final VoidCallback? primaryOnTap;
+  final String secondaryLabel;
+  final VoidCallback? secondaryOnTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: GestureDetector(
+            onTap: secondaryOnTap,
+            child: Container(
+              height: 50,
+              decoration: BoxDecoration(
+                color: TokenColors.bgCard,
+                borderRadius: TokenRadius.borderPill,
+                border: Border.all(
+                  color: TokenColors.textAccent,
+                  width: 0.5,
+                ),
+              ),
+              alignment: Alignment.center,
+              child: Text(
+                secondaryLabel,
+                style: TokenTypography.body(
+                  fontWeight: FontWeight.w600,
+                  color: TokenColors.textAccent,
+                ),
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(width: TokenSpacing.xl),
+        Expanded(
+          child: GestureDetector(
+            onTap: primaryOnTap,
+            child: Container(
+              height: 50,
+              decoration: BoxDecoration(
+                color: TokenColors.textAccent,
+                borderRadius: TokenRadius.borderPill,
+              ),
+              alignment: Alignment.center,
+              child: Text(
+                primaryLabel,
+                style: TokenTypography.body(
+                  fontWeight: FontWeight.w600,
+                  color: TokenColors.white,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _IconButtonRow extends StatelessWidget {
+  const _IconButtonRow({
+    required this.primaryLabel,
+    this.primaryIcon,
+    this.primaryOnTap,
+    this.secondaryLabel,
+    this.secondaryIcon,
+    this.secondaryOnTap,
+    this.tertiaryLabel,
+    this.tertiaryIcon,
+    this.tertiaryOnTap,
+  });
+
+  final String primaryLabel;
+  final IconData? primaryIcon;
+  final VoidCallback? primaryOnTap;
+  final String? secondaryLabel;
+  final IconData? secondaryIcon;
+  final VoidCallback? secondaryOnTap;
+  final String? tertiaryLabel;
+  final IconData? tertiaryIcon;
+  final VoidCallback? tertiaryOnTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: _IconButtonItem(
+            label: primaryLabel,
+            icon: primaryIcon,
+            onTap: primaryOnTap,
+            isPrimary: true,
+          ),
+        ),
+        if (secondaryLabel != null) ...[
+          const SizedBox(width: TokenSpacing.xl),
+          Expanded(
+            child: _IconButtonItem(
+              label: secondaryLabel!,
+              icon: secondaryIcon,
+              onTap: secondaryOnTap,
+              isPrimary: false,
+            ),
+          ),
+        ],
+        if (tertiaryLabel != null) ...[
+          const SizedBox(width: TokenSpacing.xl),
+          Expanded(
+            child: _IconButtonItem(
+              label: tertiaryLabel!,
+              icon: tertiaryIcon,
+              onTap: tertiaryOnTap,
+              isPrimary: false,
+            ),
+          ),
+        ],
+      ],
+    );
+  }
+}
+
+class _IconButtonItem extends StatelessWidget {
+  const _IconButtonItem({
+    required this.label,
+    this.icon,
+    this.onTap,
+    required this.isPrimary,
+  });
+
+  final String label;
+  final IconData? icon;
+  final VoidCallback? onTap;
+  final bool isPrimary;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: isPrimary ? TokenColors.primary : TokenColors.bgPage,
+          borderRadius: BorderRadius.circular(12),
+          border: isPrimary
+              ? null
+              : Border.all(color: TokenColors.borderCard, width: 0.5),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            if (icon != null) ...[
+              Icon(
+                icon,
+                size: 20,
+                color: isPrimary ? TokenColors.white : TokenColors.textPrimary,
+              ),
+              const SizedBox(width: TokenSpacing.sm),
+            ],
+            Text(
+              label,
+              style: TokenTypography.caption(
+                fontWeight: FontWeight.w500,
+                color: isPrimary ? TokenColors.white : TokenColors.textPrimary,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
