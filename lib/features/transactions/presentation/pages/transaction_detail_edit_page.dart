@@ -49,7 +49,7 @@ class TransactionDetailEditPage extends HookWidget {
                   SegmentControl(
                     segments: const ['Income', 'Expense', 'Transfer'],
                     selectedIndex: state.selectedSegment,
-                    onChanged: (_) {},
+                    onChanged: (_) {}, // TODO: wire to selectedSegment state
                   ),
                   const SizedBox(height: TokenSpacing.xl),
                   ListItemArrow.card(

@@ -56,7 +56,8 @@ TransactionListState useTransactionList() {
   Map<String, List<Map<String, dynamic>>> groupByDate(List<Map<String, dynamic>> items) {
     final groups = <String, List<Map<String, dynamic>>>{};
     for (final tx in items) {
-      final date = (tx['date'] as String?)?.substring(0, 10) ?? 'Unknown';
+      final dateStr = tx['date'] as String? ?? '';
+      final date = dateStr.length >= 10 ? dateStr.substring(0, 10) : dateStr;
       groups.putIfAbsent(date, () => []).add(tx);
     }
     final sorted = groups.keys.toList()..sort((a, b) => b.compareTo(a));
@@ -101,7 +102,7 @@ TransactionListState useTransactionList() {
       final result = await IgnApiService.instance.getTransactions(params: params);
       final data = result['data'] as List<dynamic>? ?? [];
       final t = (result['total'] as num?)?.toInt() ?? 0;
-      final newItems = data.cast<Map<String, dynamic>>();
+      final newItems = data.map((e) => Map<String, dynamic>.from(e as Map)).toList();
 
       transactions.value = [...transactions.value, ...newItems];
       total.value = t;

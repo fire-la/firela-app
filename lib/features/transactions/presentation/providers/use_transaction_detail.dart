@@ -57,11 +57,11 @@ TransactionDetailState useTransactionDetail(String id) {
     narrationController.text = data['narration'] as String? ?? '';
     selectedDate.value = data['date'] as String? ?? '';
     payee.value = data['payee'] as String? ?? '';
-    tagsState.value = (data['tags'] as List<dynamic>?)?.cast<String>() ?? [];
+    tagsState.value = (data['tags'] as List<dynamic>?)?.map((e) => e.toString()).toList() ?? [];
 
     final postings = data['postings'] as List<dynamic>? ?? [];
     if (postings.isNotEmpty) {
-      final p = postings[0] as Map<String, dynamic>;
+      final p = Map<String, dynamic>.from(postings[0] as Map);
       final units = p['units']?.toString() ?? '0';
       amountController.text = units.replaceAll('-', '');
       firstAccount.value = p['accountName'] as String? ?? p['account'] as String? ?? '';
@@ -86,7 +86,7 @@ TransactionDetailState useTransactionDetail(String id) {
   useEffect(() {
     loadDetail();
     return null;
-  }, []);
+  }, [id]);
 
   Future<bool> save() async {
     isSaving.value = true;

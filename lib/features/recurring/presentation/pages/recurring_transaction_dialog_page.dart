@@ -33,13 +33,12 @@ class RecurringTransactionDialogPage extends HookWidget {
               height: 18,
               decoration: BoxDecoration(
                 color: TokenColors.textAccent,
-                borderRadius: BorderRadius.circular(9),
+                borderRadius: TokenRadius.borderSm,
               ),
               alignment: Alignment.center,
               child: Text(
                 '1',
-                style: TextStyle(
-                  fontSize: 10,
+                style: TokenTypography.micro(
                   fontWeight: FontWeight.w600,
                   color: TokenColors.white,
                 ),

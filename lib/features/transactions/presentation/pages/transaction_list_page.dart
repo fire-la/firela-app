@@ -108,7 +108,7 @@ class TransactionListPage extends HookWidget {
           TransactionDateGroup(
             date: entry.key,
             transactions: entry.value,
-            onTransactionTap: (id) => context.push('/transactions/$id'),
+            onTransactionTap: (id) => context.push('${RouteNames.transactions}/$id'),
           ),
 
         // Load more
