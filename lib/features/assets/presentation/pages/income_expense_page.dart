@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firela_app/generated/l10n/app_localizations.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:percent_indicator/linear_percent_indicator.dart';
+import '../../../../core/components/components.dart';
 import '../../../../core/design_tokens/design_tokens.dart';
 import '../../../../shared/widgets/section_header.dart';
-import '../../../../shared/widgets/expense_details_list.dart';
 
-/// Income and Expense page
 class IncomeExpensePage extends StatelessWidget {
   const IncomeExpensePage({
     super.key,
@@ -28,7 +26,6 @@ class IncomeExpensePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final theme = Theme.of(context);
 
     return Scaffold(
       body: RefreshIndicator(
@@ -39,98 +36,78 @@ class IncomeExpensePage extends StatelessWidget {
             children: [
               const SizedBox(height: TokenSpacing.xl),
 
-              // 月度支出卡片
-              Container(
-                margin: const EdgeInsets.fromLTRB(TokenSpacing.xl, TokenSpacing.sm, TokenSpacing.xl, TokenSpacing.xl),
-                padding: const EdgeInsets.all(TokenSpacing.xxl),
-                decoration: BoxDecoration(
-                  color: theme.colorScheme.surfaceContainerHighest,
-                  borderRadius: TokenRadius.borderLg,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          l10n.monthlyExpense,
-                          style: TokenTypography.body(color: TokenColors.textTertiary),
-                        ),
-                        const Icon(Icons.visibility_outlined, size: 20),
-                      ],
-                    ),
-                    const SizedBox(height: TokenSpacing.lg),
-                    isLoading
-                        ? const SizedBox(
-                            height: 36,
-                            child: Center(child: CircularProgressIndicator(strokeWidth: 2)),
-                          )
-                        : Text(
-                            '-$monthlyExpense',
-                            style: TokenTypography.h2(fontWeight: FontWeight.bold),
-                          ),
-                    const SizedBox(height: TokenSpacing.sm),
-                    Row(
-                      children: [
-                        Text(
-                          '${l10n.income} ',
-                          style: TokenTypography.caption(),
-                        ),
-                        Text(
-                          monthlyIncome,
-                          style: TokenTypography.caption(fontWeight: FontWeight.w500),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+              // NetWorthDisplay: expense + income
+              NetWorthDisplay(
+                leftLabel: '本月实际支出(元)',
+                leftValue: isLoading ? '—' : '-$monthlyExpense',
+                rightLabel: '收入(元)',
+                rightValue: isLoading ? '—' : '+$monthlyIncome',
               ),
-
               const SizedBox(height: TokenSpacing.xl),
 
-              // 预算管理和趋势
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: TextButton(
-                        onPressed: () {},
-                        child: Text(l10n.budgetManagement),
-                      ),
+              // DonutChartCard + ChartCard row
+              Row(
+                children: [
+                  Expanded(
+                    child: DonutChartCard(
+                      title: '支出分类',
+                      centerText: isLoading ? '—' : monthlyExpense,
+                      sections: _buildDonutSections(),
+                      legends: _buildDonutLegends(),
                     ),
-                    Expanded(
-                      child: TextButton(
-                        onPressed: () {},
-                        child: Text(l10n.expenseTrend),
-                      ),
+                  ),
+                  const SizedBox(width: TokenSpacing.xl),
+                  Expanded(
+                    child: ChartCard(
+                      title: '支出变化趋势',
+                      chartWidget: _buildLineChart(),
+                      bottomLeftLabel: _getCurrentMonth(),
+                      bottomRightLabel: isLoading
+                          ? null
+                          : '-$monthlyExpense',
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-
-              const SizedBox(height: TokenSpacing.sm),
-
-              // 预算进度
-              _buildBudgetProgress(context, l10n),
-
               const SizedBox(height: TokenSpacing.xl),
 
-              // 支出趋势图
-              _buildExpenseChart(context, l10n),
+              // Section header
+              SectionHeader(
+                title: l10n.expenseDetails,
+                trailing: '查看全部',
+              ),
+              const SizedBox(height: TokenSpacing.xl),
 
-              const SizedBox(height: TokenSpacing.xxl),
-
-              // 支出明细
-              SectionHeader(title: l10n.expenseDetails),
-
-              const SizedBox(height: TokenSpacing.sm),
-
-              // 交易列表（目前展示汇总数据）
-              _buildTransactionSummary(context, l10n),
-
-              const SizedBox(height: TokenSpacing.xxl),
+              // Transaction list using ListTileCards
+              if (monthlyIncome == '0.00' && monthlyExpense == '0.00' && !isLoading)
+                Padding(
+                  padding: const EdgeInsets.all(TokenSpacing.xxl),
+                  child: Column(
+                    children: [
+                      Icon(Icons.receipt_long_outlined, size: 48, color: TokenColors.textTertiary),
+                      const SizedBox(height: TokenSpacing.lg),
+                      Text(
+                        '暂无交易记录',
+                        style: TokenTypography.body(color: TokenColors.textTertiary),
+                      ),
+                    ],
+                  ),
+                )
+              else ...[
+                ListTileCard(
+                  leadingIcon: Icons.arrow_downward,
+                  title: '支出',
+                  subtitle: '${_getCurrentPeriod()} 支出汇总',
+                  onTap: () {},
+                ),
+                const SizedBox(height: TokenSpacing.sm),
+                ListTileCard(
+                  leadingIcon: Icons.arrow_upward,
+                  title: '收入',
+                  subtitle: '${_getCurrentPeriod()} 收入汇总',
+                  onTap: () {},
+                ),
+              ],
             ],
           ),
         ),
@@ -138,189 +115,58 @@ class IncomeExpensePage extends StatelessWidget {
     );
   }
 
-  Widget _buildTransactionSummary(BuildContext context, AppLocalizations l10n) {
+  String _getCurrentPeriod() {
     final now = DateTime.now();
-    final period = '${now.year}-${now.month.toString().padLeft(2, '0')}';
-
-    if (monthlyIncome == '0.00' && monthlyExpense == '0.00' && !isLoading) {
-      return Padding(
-        padding: const EdgeInsets.all(32),
-        child: Center(
-          child: Column(
-            children: [
-              Icon(Icons.receipt_long_outlined, size: 48, color: TokenColors.textTertiary),
-              const SizedBox(height: TokenSpacing.lg),
-              Text(
-                '暂无交易记录',
-                style: TokenTypography.body(color: TokenColors.textTertiary),
-              ),
-            ],
-          ),
-        ),
-      );
-    }
-
-    final items = <ExpenseDayData>[];
-    final dayItems = <ExpenseItemData>[];
-
-    if (monthlyIncome != '0.00') {
-      dayItems.add(ExpenseItemData(
-        category: '收入',
-        description: '$period 收入汇总',
-        amount: (double.tryParse(monthlyIncome.replaceAll(',', '')) ?? 0).round(),
-        icon: Icons.arrow_upward,
-      ));
-    }
-    if (monthlyExpense != '0.00') {
-      dayItems.add(ExpenseItemData(
-        category: '支出',
-        description: '$period 支出汇总',
-        amount: -(double.tryParse(monthlyExpense.replaceAll(',', '')) ?? 0).round(),
-        icon: Icons.arrow_downward,
-      ));
-    }
-
-    if (dayItems.isNotEmpty) {
-      items.add(ExpenseDayData(
-        date: '$period 汇总',
-        total: dayItems.fold(0, (sum, item) => sum + item.amount),
-        items: dayItems,
-      ));
-    }
-
-    return ExpenseDetailsList(expenses: items);
+    return '${now.year}-${now.month.toString().padLeft(2, '0')}';
   }
 
-  Widget _buildBudgetProgress(BuildContext context, AppLocalizations l10n) {
-    final theme = Theme.of(context);
+  String _getCurrentMonth() {
+    final now = DateTime.now();
+    return '${now.month}月';
+  }
 
-    // 基于实际支出数据计算预算进度
-    final expense = double.tryParse(monthlyExpense.replaceAll(',', '')) ?? 0;
-    final budgetTotal = expense > 0 ? expense * 1.5 : 10000; // 假设预算为支出的1.5倍
-    final percent = expense > 0 ? (expense / budgetTotal).clamp(0.0, 1.0) : 0.0;
-    final remaining = (budgetTotal - expense).toStringAsFixed(0);
+  List<PieChartSectionData> _buildDonutSections() {
+    if (isLoading) {
+      return [
+        PieChartSectionData(value: 1, color: TokenColors.neutral200, radius: 30, title: ''),
+      ];
+    }
+    return [
+      PieChartSectionData(value: 40, color: TokenColors.chartAmber, radius: 30, title: ''),
+      PieChartSectionData(value: 30, color: TokenColors.chartBlue, radius: 30, title: ''),
+      PieChartSectionData(value: 30, color: TokenColors.chartGreen, radius: 30, title: ''),
+    ];
+  }
 
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
-      padding: const EdgeInsets.all(TokenSpacing.xl),
-      decoration: BoxDecoration(
-        color: theme.colorScheme.surfaceContainerHighest,
-        borderRadius: TokenRadius.borderMd,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                l10n.used((percent * 100).round()),
-                style: TokenTypography.body(fontWeight: FontWeight.w500),
-              ),
-              Text(
-                l10n.remaining(remaining),
-                style: TokenTypography.body(color: TokenColors.textTertiary),
-              ),
+  List<DonutLegendItem> _buildDonutLegends() {
+    return [
+      DonutLegendItem(label: '进阶', color: TokenColors.chartAmber),
+      DonutLegendItem(label: '稳健', color: TokenColors.chartBlue),
+      DonutLegendItem(label: '活期', color: TokenColors.chartGreen),
+    ];
+  }
+
+  Widget _buildLineChart() {
+    return LineChart(
+      LineChartData(
+        gridData: const FlGridData(show: false),
+        titlesData: const FlTitlesData(show: false),
+        borderData: FlBorderData(show: false),
+        lineBarsData: [
+          LineChartBarData(
+            spots: const [
+              FlSpot(0, 800),
+              FlSpot(1, 1000),
+              FlSpot(2, 950),
+              FlSpot(3, 1100),
             ],
-          ),
-          const SizedBox(height: TokenSpacing.lg),
-          LinearPercentIndicator(
-            padding: EdgeInsets.zero,
-            lineHeight: 6,
-            percent: percent,
-            progressColor: TokenColors.textPrimary,
-            backgroundColor: TokenColors.neutral200,
-            barRadius: const Radius.circular(3),
+            isCurved: true,
+            color: TokenColors.textAccent,
+            barWidth: 2,
+            dotData: const FlDotData(show: false),
+            belowBarData: BarAreaData(show: false),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildExpenseChart(BuildContext context, AppLocalizations l10n) {
-    final theme = Theme.of(context);
-
-    return Container(
-      height: 140,
-      margin: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
-      padding: const EdgeInsets.all(TokenSpacing.xl),
-      decoration: BoxDecoration(
-        color: theme.colorScheme.surfaceContainerHighest,
-        borderRadius: TokenRadius.borderMd,
-      ),
-      child: LineChart(
-        LineChartData(
-          gridData: FlGridData(
-            show: true,
-            drawVerticalLine: false,
-            getDrawingHorizontalLine: (value) => FlLine(
-              color: TokenColors.neutral200,
-              strokeWidth: 1,
-            ),
-          ),
-          titlesData: FlTitlesData(
-            leftTitles: AxisTitles(
-              sideTitles: SideTitles(
-                showTitles: true,
-                reservedSize: 40,
-                getTitlesWidget: (value, meta) {
-                  return Text(
-                    value.toInt().toString(),
-                    style: TokenTypography.caption(color: TokenColors.textTertiary),
-                  );
-                },
-              ),
-            ),
-            bottomTitles: AxisTitles(
-              sideTitles: SideTitles(
-                showTitles: true,
-                getTitlesWidget: (value, meta) {
-                  final now = DateTime.now();
-                  final labels = [
-                    '${now.month}/1',
-                    '${now.month}/10',
-                    '${now.month}/15',
-                    '${now.month}/20',
-                  ];
-                  if (value.toInt() < labels.length) {
-                    return Text(
-                      labels[value.toInt()],
-                      style: TokenTypography.caption(color: TokenColors.textTertiary),
-                    );
-                  }
-                  return const Text('');
-                },
-              ),
-            ),
-            topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-            rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-          ),
-          borderData: FlBorderData(show: false),
-          lineBarsData: [
-            LineChartBarData(
-              spots: const [
-                FlSpot(0, 800),
-                FlSpot(1, 1000),
-                FlSpot(2, 950),
-                FlSpot(3, 1100),
-              ],
-              isCurved: true,
-              color: TokenColors.textPrimary,
-              barWidth: 2,
-              dotData: FlDotData(
-                show: true,
-                getDotPainter: (spot, percent, barData, index) {
-                  return FlDotCirclePainter(
-                    radius: 3,
-                    color: TokenColors.textPrimary,
-                    strokeWidth: 0,
-                  );
-                },
-              ),
-              belowBarData: BarAreaData(show: false),
-            ),
-          ],
-        ),
       ),
     );
   }

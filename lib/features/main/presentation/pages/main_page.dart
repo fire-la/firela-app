@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:firela_app/generated/l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+import '../../../../core/components/components.dart';
 import '../../../../core/design_tokens/design_tokens.dart';
 import '../../../../core/services/analytics_service.dart';
 import '../../../../core/services/analytics_events.dart';
@@ -75,21 +76,8 @@ class MainPage extends HookWidget {
             ),
         ],
       ),
-      // FAB 悬浮记账按钮（仅在资产页面显示）
-      floatingActionButton: currentIndex.value == 1
-          ? Padding(
-              padding: const EdgeInsets.only(bottom: TokenSpacing.xl),
-              child: FloatingActionButton(
-                onPressed: () => _onFloatingAddTap(context, nlpSessionId),
-                backgroundColor: TokenColors.neutral900,
-                foregroundColor: Colors.white,
-                elevation: 4,
-                shape: const CircleBorder(),
-                child: const Icon(Icons.add, size: 28),
-              ),
-            )
-          : null,
-      bottomNavigationBar: BottomNavigationBar(
+      floatingActionButton: null,
+      bottomNavigationBar: DesignBottomNav(
         currentIndex: currentIndex.value,
         onTap: (index) {
           currentIndex.value = index;
@@ -97,25 +85,24 @@ class MainPage extends HookWidget {
             settingsKey.currentState?.refresh();
           }
         },
-        type: BottomNavigationBarType.fixed,
-        selectedItemColor: TokenColors.textAccent,
-        unselectedItemColor: TokenColors.textTertiary,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
         items: [
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.route),
+          BottomNavItem(
+            icon: Icons.route,
+            activeIcon: Icons.route,
             label: l10n.tabFireJourney,
           ),
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.bar_chart),
+          BottomNavItem(
+            icon: Icons.bar_chart,
+            activeIcon: Icons.bar_chart,
             label: l10n.tabAssets,
           ),
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.person),
+          BottomNavItem(
+            icon: Icons.person,
+            activeIcon: Icons.person,
             label: l10n.tabMine,
           ),
         ],
+        onFabTap: () => _onFloatingAddTap(context, nlpSessionId),
       ),
     );
   }

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import '../../../../core/components/components.dart';
 import '../../../../core/design_tokens/design_tokens.dart';
 import '../../domain/entities/pending_transaction.dart';
 import 'confidence_indicator.dart';
 
-/// Card widget for displaying a pending transaction
 class PendingTransactionCard extends StatelessWidget {
   const PendingTransactionCard({
     super.key,
@@ -19,7 +19,6 @@ class PendingTransactionCard extends StatelessWidget {
   final VoidCallback onConfirm;
   final VoidCallback onTap;
 
-  /// Format amount with currency
   String _formatAmount() {
     final isNegative = transaction.amount < 0;
     final absAmount = transaction.amount.abs();
@@ -29,7 +28,6 @@ class PendingTransactionCard extends StatelessWidget {
     return '$sign${transaction.currency} $formatted';
   }
 
-  /// Format transaction time
   String _formatTime() {
     final now = DateTime.now();
     final time = transaction.transactionTime;
@@ -46,106 +44,96 @@ class PendingTransactionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final isExpense = transaction.amount < 0;
 
-    return Card(
-      margin: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl, vertical: TokenSpacing.sm),
-      elevation: 0,
-      shape: RoundedRectangleBorder(
-        borderRadius: TokenRadius.borderMd,
-        side: BorderSide(
-          color: TokenColors.textTertiary.withValues(alpha: 0.2),
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl, vertical: TokenSpacing.sm),
+        padding: const EdgeInsets.all(TokenSpacing.xl),
+        decoration: BoxDecoration(
+          color: TokenColors.bgCard,
+          borderRadius: TokenRadius.borderLg,
+          border: Border.all(color: TokenColors.borderCard, width: 0.5),
+          boxShadow: const [
+            BoxShadow(
+              color: Color(0x0D000000),
+              blurRadius: 18,
+              offset: Offset(0, 2),
+              spreadRadius: 2,
+            ),
+          ],
         ),
-      ),
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: TokenRadius.borderMd,
-        child: Padding(
-          padding: const EdgeInsets.all(TokenSpacing.xl),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Top row: Merchant and confidence
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      transaction.merchantName,
-                      style: TokenTypography.h4(
-                        fontWeight: FontWeight.w600,
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    transaction.merchantName,
+                    style: TokenTypography.h4(
+                      fontWeight: FontWeight.w600,
+                      color: TokenColors.textPrimary,
                     ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                  ConfidenceIndicator(
-                    level: transaction.confidenceLevel,
-                    showLabel: true,
-                    size: 8,
-                  ),
-                ],
-              ),
-              const SizedBox(height: TokenSpacing.sm),
-
-              // Account name
-              Text(
-                transaction.accountName,
-                style: TokenTypography.caption(
-                  color: theme.colorScheme.onSurfaceVariant,
                 ),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
+                ConfidenceIndicator(
+                  level: transaction.confidenceLevel,
+                  showLabel: true,
+                  size: 8,
+                ),
+              ],
+            ),
+            const SizedBox(height: TokenSpacing.sm),
+            Text(
+              transaction.accountName,
+              style: TokenTypography.caption(
+                color: TokenColors.textSecondary,
               ),
-              const SizedBox(height: TokenSpacing.lg),
-
-              // Amount and time
-              Row(
-                children: [
-                  Text(
-                    _formatAmount(),
-                    style: TokenTypography.h2(
-                      color: isExpense ? TokenColors.error : TokenColors.success,
-                      fontWeight: FontWeight.bold,
-                    ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+            const SizedBox(height: TokenSpacing.lg),
+            Row(
+              children: [
+                Text(
+                  _formatAmount(),
+                  style: TokenTypography.h4(
+                    color: isExpense ? TokenColors.error : TokenColors.success,
+                    fontWeight: FontWeight.w700,
                   ),
-                  const SizedBox(width: TokenSpacing.lg),
-                  Text(
-                    _formatTime(),
-                    style: TokenTypography.caption(
-                      color: theme.colorScheme.onSurfaceVariant,
-                    ),
+                ),
+                const SizedBox(width: TokenSpacing.lg),
+                Text(
+                  _formatTime(),
+                  style: TokenTypography.caption(
+                    color: TokenColors.textSecondary,
                   ),
-                ],
-              ),
-              const SizedBox(height: TokenSpacing.xl),
-
-              // Action buttons
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  // Delete button
-                  TextButton(
+                ),
+              ],
+            ),
+            const SizedBox(height: TokenSpacing.xl),
+            Row(
+              children: [
+                Expanded(
+                  child: ButtonSecondary(
+                    label: '删除',
                     onPressed: onDelete,
-                    style: TextButton.styleFrom(
-                      foregroundColor: TokenColors.error,
-                      padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
-                    ),
-                    child: const Text('删除'),
                   ),
-                  const SizedBox(width: TokenSpacing.sm),
-                  // Confirm button
-                  FilledButton(
+                ),
+                const SizedBox(width: TokenSpacing.xl),
+                Expanded(
+                  child: ButtonPrimary(
+                    label: '保留',
                     onPressed: onConfirm,
-                    style: FilledButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
-                    ),
-                    child: const Text('保留这笔'),
                   ),
-                ],
-              ),
-            ],
-          ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );
