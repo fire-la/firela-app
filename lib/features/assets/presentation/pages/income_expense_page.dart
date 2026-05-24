@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firela_app/generated/l10n/app_localizations.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:go_router/go_router.dart';
 import '../../../../core/components/components.dart';
 import '../../../../core/design_tokens/design_tokens.dart';
+import '../../../../core/router/route_names.dart';
 import '../../../../shared/widgets/section_header.dart';
 
 class IncomeExpensePage extends StatelessWidget {
@@ -75,6 +77,7 @@ class IncomeExpensePage extends StatelessWidget {
               SectionHeader(
                 title: l10n.expenseDetails,
                 trailing: '查看全部',
+                onTrailingTap: () => context.push(RouteNames.transactions),
               ),
               const SizedBox(height: TokenSpacing.xl),
 
