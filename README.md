@@ -17,7 +17,6 @@ Beancount philosophy:
 Beancount was designed from the ground up as a **data sovereignty** tool:
 - **Plain text format** - Your ledger is human-readable and editable
 - **No vendor lock-in** - Your data isn't trapped in proprietary formats
-- **Version control friendly** - Track changes with Git, never lose history
 - **Transparent** - Every transaction is visible, no hidden algorithms
 - **Future-proof** - Plain text files last forever
 
@@ -194,10 +193,8 @@ AGPL-3.0 License - see [LICENSE](LICENSE) for details.
 
 ## Links
 
-- GitHub: https://github.com/fire-la/firela-app
-- billclaw: https://github.com/fire-la/billclaw
+- firela-bot: https://github.com/fire-la/firela-bot
 - Beancount: http://furius.ca/beancount/
-- firela: https://github.com/fire-la
 
 ## Acknowledgments
 
