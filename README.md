@@ -2,7 +2,7 @@
 
 > **Beancount account management for mobile - Data sovereignty for your financial data**
 
-<a href="https://apps.apple.com/app/xxx"><img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us.svg" alt="App Store" height="40"></a> <a href="https://play.google.com/store/apps/details?id=xxx"><img src="https://raw.githubusercontent.com/steverichey/google-play-badge-svg/master/img/en_get.svg" alt="Google Play" height="40"></a>
+<a href="https://apps.apple.com/app/xxx"><img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us.svg" alt="App Store" height="40"></a> <a href="https://play.google.com/store/apps/details?id=xxx"><img src="https://raw.githubusercontent.com/steverichey/google-play-badge-svg/master/img/en_get.svg" alt="Google Play" height="55"></a>
 
 *Coming soon*
 
