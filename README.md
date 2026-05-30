@@ -1,4 +1,4 @@
-# FIREla
+# firela-app
 
 > **Beancount account management for mobile - Data sovereignty for your financial data**
 
@@ -35,11 +35,11 @@ FIREla extends this philosophy to mobile: **manage your Beancount accounts on yo
 
 ## Ecosystem Context
 
-FIREla is part of the firela open source ecosystem, all built on the principle of **data sovereignty**:
+app & bot both are part of the FIREla open source ecosystem, all built on the principle of **data sovereignty**:
 
 ```
 ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐
-│  firela-connect │  │   FIREla        │  │   firela-vlt    │  │   firela-relay  │
+│  firela-bot     │  │   firela-app    │  │   firela-vlt    │  │   firela-relay  │
 │  Data Import    │  │   Account Mgmt  │  │   Beancount     │  │   Open Banking  │
 │  (billclaw)     │  │   (Flutter)     │  │   Ledger Store  │  │   Relay Service │
 └────────┬────────┘  └────────┬────────┘  └────────┬────────┘  └────────┬────────┘
@@ -50,8 +50,8 @@ FIREla is part of the firela open source ecosystem, all built on the principle o
                      ─────────────── Your data, your control ───────────────
 ```
 
-- **firela-connect** (billclaw): Import your financial data - **you hold the API keys**
-- **FIREla**: Manage accounts on mobile - **you hold the account credentials**
+- **firela-bot** (billclaw): Import your financial data - **you hold the API keys**
+- **firela-app**: Manage accounts on mobile - **you hold the account credentials**
 - **firela-vlt**: Beancount ledger store for transaction data - **your ledger, your rules**
 - **firela-relay**: Open banking relay service - **your connections, your control**
 
