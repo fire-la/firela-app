@@ -2,6 +2,11 @@
 
 > **Beancount account management for mobile - Data sovereignty for your financial data**
 
+[![App Store](https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us.svg)](https://apps.apple.com/app/xxx)
+[![Google Play](https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png)](https://play.google.com/store/apps/details?id=xxx)
+
+*Coming soon*
+
 ## Data Sovereignty First
 
 FIREla is built on the same core principle as **Beancount**: **your financial data belongs to you**.
