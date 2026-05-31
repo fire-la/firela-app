@@ -148,7 +148,7 @@ class _$NlpRuleConfirmationDataDtoSerializer
             value,
             specifiedType: const FullType(BuiltList),
           ) as BuiltList;
-          result.alternatives.replace(valueDes);
+          result.alternatives = valueDes;
           break;
         case r'reasons':
           final valueDes = serializers.deserialize(

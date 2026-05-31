@@ -122,7 +122,7 @@ class _$ProviderSyncDtoSerializer
             value,
             specifiedType: const FullType(BuiltList),
           ) as BuiltList;
-          result.transactions.replace(valueDes);
+          result.transactions = valueDes;
           break;
         case r'provider':
           final valueDes = serializers.deserialize(

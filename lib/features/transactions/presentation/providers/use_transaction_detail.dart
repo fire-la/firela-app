@@ -19,6 +19,7 @@ class TransactionDetailState {
   final VoidCallback loadDetail;
   final Future<bool> Function() save;
   final Future<bool> Function() delete;
+  final void Function(int) setSelectedSegment;
 
   const TransactionDetailState({
     required this.isLoading,
@@ -35,6 +36,7 @@ class TransactionDetailState {
     required this.loadDetail,
     required this.save,
     required this.delete,
+    required this.setSelectedSegment,
   });
 }
 
@@ -135,5 +137,6 @@ TransactionDetailState useTransactionDetail(String id) {
     loadDetail: loadDetail,
     save: save,
     delete: deleteTx,
+    setSelectedSegment: (index) => selectedSegment.value = index,
   );
 }

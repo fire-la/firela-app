@@ -16,7 +16,12 @@ class TopBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: TokenSpacing.lg),
+      padding: EdgeInsets.only(
+        top: MediaQuery.of(context).padding.top + TokenSpacing.lg,
+        left: TokenSpacing.xl,
+        right: TokenSpacing.xl,
+        bottom: TokenSpacing.lg,
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

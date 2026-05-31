@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firela_app/generated/l10n/app_localizations.dart';
 import '../../../../core/design_tokens/design_tokens.dart';
+import '../../../../core/components/components.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:signals_flutter/signals_flutter.dart';
@@ -31,21 +32,14 @@ class SettingsPageState extends State<SettingsPage> {
     final theme = Theme.of(context);
 
     return Scaffold(
-      backgroundColor: theme.colorScheme.surface,
-      appBar: AppBar(
-        title: const Text(
-          'IGN',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontStyle: FontStyle.italic,
-          ),
-        ),
-        centerTitle: false,
-      ),
+      backgroundColor: TokenColors.bgPage,
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(TokenSpacing.xl),
         child: Column(
           children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
+              child: const PageHeader(title: 'IGN'),
+            ),
             // User profile
             _buildUserProfile(context, l10n),
 

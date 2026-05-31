@@ -17,9 +17,11 @@ class DesignBottomNav extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 66,
-      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: TokenSpacing.lg),
+    return Padding(
+      padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
+      child: Container(
+        height: 66,
+        padding: const EdgeInsets.symmetric(vertical: 5, horizontal: TokenSpacing.lg),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -88,6 +90,7 @@ class DesignBottomNav extends StatelessWidget {
             ),
         ],
       ),
+    ),
     );
   }
 }

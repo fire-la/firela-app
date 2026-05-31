@@ -15,23 +15,20 @@ class PageHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 56,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
-        child: Row(
-          children: [
-            Text(
-              title,
-              style: TokenTypography.h1(
-                fontWeight: FontWeight.w700,
-                color: TokenColors.textPrimary,
-              ),
-            ),
-            if (trailing != null) ...[
-              SizedBox(width: TokenSpacing.lg),
-              trailing!,
-            ],
+      child: Row(
+        children: [
+          Text(
+            title,
+            style: TokenTypography.h1(
+              fontWeight: FontWeight.w700,
+              color: TokenColors.textPrimary,
+            ).copyWith(fontStyle: FontStyle.italic),
+          ),
+          if (trailing != null) ...[
+            const Spacer(),
+            trailing!,
           ],
-        ),
+        ],
       ),
     );
   }

@@ -16,8 +16,8 @@ import '../../../../core/network/auth_manager.dart';
 import '../../../../core/network/api_client.dart';
 import '../../../../core/router/route_names.dart';
 import '../../../../core/utils/logger.dart';
-import '../../../fire_journey/presentation/pages/fire_journey_page.dart';
-import '../../../assets/presentation/pages/assets_tabs_page.dart';
+import '../../../assets/presentation/pages/assets_page.dart';
+import '../../../expense/presentation/pages/expense_tab_page.dart';
 import '../../../settings/presentation/pages/settings_page.dart';
 import '../../../expense/presentation/widgets/expense_entry_bottom_sheet.dart';
 import '../../../expense/presentation/widgets/nlp_result_bottom_sheet.dart';
@@ -53,7 +53,10 @@ class MainPage extends HookWidget {
 
     // Lazy-load tab pages: only build once visited, then keep alive.
     // This avoids building all 3 tabs + their data fetches on startup.
-    final visitedTabs = useState<Set<int>>({0}); // Start with first tab loaded
+    final visitedTabs = useState<Set<int>>({0});
+
+    // SafeArea wrapping
+    final topPadding = MediaQuery.of(context).padding.top;
 
     useEffect(() {
       // Mark current tab as visited whenever it changes
@@ -62,7 +65,9 @@ class MainPage extends HookWidget {
     }, [currentIndex.value]);
 
     return Scaffold(
-      body: Stack(
+      body: Padding(
+        padding: EdgeInsets.only(top: topPadding),
+      child: Stack(
         children: [
           for (int i = 0; i < 3; i++)
             Offstage(
@@ -76,6 +81,7 @@ class MainPage extends HookWidget {
             ),
         ],
       ),
+      ),
       floatingActionButton: null,
       bottomNavigationBar: DesignBottomNav(
         currentIndex: currentIndex.value,
@@ -87,19 +93,19 @@ class MainPage extends HookWidget {
         },
         items: [
           BottomNavItem(
-            icon: Icons.route,
-            activeIcon: Icons.route,
-            label: l10n.tabFireJourney,
-          ),
-          BottomNavItem(
-            icon: Icons.bar_chart,
+            icon: Icons.bar_chart_outlined,
             activeIcon: Icons.bar_chart,
-            label: l10n.tabAssets,
+            label: '资产',
           ),
           BottomNavItem(
-            icon: Icons.person,
+            icon: Icons.receipt_long_outlined,
+            activeIcon: Icons.receipt_long,
+            label: '收支',
+          ),
+          BottomNavItem(
+            icon: Icons.person_outline,
             activeIcon: Icons.person,
-            label: l10n.tabMine,
+            label: '我的',
           ),
         ],
         onFabTap: () => _onFloatingAddTap(context, nlpSessionId),
@@ -111,9 +117,9 @@ class MainPage extends HookWidget {
   Widget _buildPage(int index, GlobalKey<SettingsPageState> settingsKey) {
     switch (index) {
       case 0:
-        return const FireJourneyPage();
+        return const AssetsPage();
       case 1:
-        return const AssetsTabsPage();
+        return const ExpenseTabPage();
       case 2:
         return SettingsPage(key: settingsKey);
       default:
