@@ -190,3 +190,102 @@ abstract class Parser<T extends RawTransaction> {
   /// Returns ParseResult with transactions or errors
   ParseResult<T> parse(Uint8List content);
 }
+
+// ============================================================================
+// Custom Fields
+// ============================================================================
+
+/// Alipay transaction custom fields.
+class AlipayCustomFields {
+  final String status;
+  final String? category;
+  final String? orderNo;
+  final String? merchantOrderNo;
+
+  const AlipayCustomFields({
+    required this.status,
+    this.category,
+    this.orderNo,
+    this.merchantOrderNo,
+  });
+}
+
+/// WeChat transaction custom fields.
+class WeChatCustomFields {
+  final String status;
+  final String? transactionType;
+  final String? orderNo;
+
+  const WeChatCustomFields({
+    required this.status,
+    this.transactionType,
+    this.orderNo,
+  });
+}
+
+// ============================================================================
+// Detection Result
+// ============================================================================
+
+/// Result of parser detection (replaces boolean identify() return).
+///
+/// Confidence levels:
+/// - 0: No match - parser cannot handle this file
+/// - 50: Partial match - some indicators present but not conclusive
+/// - 100: Exact match - all unique identifiers present
+class DetectionResult {
+  /// Match confidence level (0, 50, or 100)
+  final int confidence;
+
+  /// Detected format version (e.g., 'v1', 'english', 'german')
+  final String? formatVersion;
+
+  /// Institution identifier (e.g., 'ccb-debit', 'degiro', 'hsbc-hk-credit')
+  final String institutionId;
+
+  const DetectionResult({
+    required this.confidence,
+    this.formatVersion,
+    required this.institutionId,
+  });
+}
+
+/// Structural fingerprint for telemetry and format detection.
+///
+/// Contains only structural metadata - no file content or personal data.
+class StructuralFingerprint {
+  /// Number of columns in the header row
+  final int columns;
+
+  /// Detected delimiter character
+  final String delimiter;
+
+  /// Detected encoding name
+  final String encoding;
+
+  /// SHA-256 hash of the header line (column names only, no data)
+  final String headerHash;
+
+  const StructuralFingerprint({
+    required this.columns,
+    required this.delimiter,
+    required this.encoding,
+    required this.headerHash,
+  });
+}
+
+// ============================================================================
+// Helper Functions
+// ============================================================================
+
+/// Create a ParseFailure with a single error.
+ParseFailure<T> createParseFailure<T>(
+  ParseErrorType type,
+  String message, [
+  Map<String, dynamic>? context,
+]) {
+  return ParseFailure<T>(errors: [ParseError(type: type, message: message, context: context)]);
+}
+
+// Auto-generated supplementary types (managed by ts2dart CI pipeline)
+// export 'types_generated.dart';

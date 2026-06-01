@@ -20,6 +20,8 @@ class TransactionDetailState {
   final Future<bool> Function() save;
   final Future<bool> Function() delete;
   final void Function(int) setSelectedSegment;
+  final void Function(String) setDate;
+  final void Function(String) setPayee;
 
   const TransactionDetailState({
     required this.isLoading,
@@ -37,6 +39,8 @@ class TransactionDetailState {
     required this.save,
     required this.delete,
     required this.setSelectedSegment,
+    required this.setDate,
+    required this.setPayee,
   });
 }
 
@@ -97,6 +101,7 @@ TransactionDetailState useTransactionDetail(String id) {
         'narration': narrationController.text,
         'payee': payee.value,
         'tags': tagsState.value,
+        'date': selectedDate.value,
       };
       await IgnApiService.instance.updateTransaction(id, data);
       refreshTransactionData();
@@ -138,5 +143,7 @@ TransactionDetailState useTransactionDetail(String id) {
     save: save,
     delete: deleteTx,
     setSelectedSegment: (index) => selectedSegment.value = index,
+    setDate: (date) => selectedDate.value = date,
+    setPayee: (name) => payee.value = name,
   );
 }

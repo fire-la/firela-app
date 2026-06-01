@@ -44,16 +44,20 @@ class ListItemArrow extends StatelessWidget {
           children: [
             Icon(icon, size: 20, color: TokenColors.textAccent),
             SizedBox(width: TokenSpacing.lg),
-            Expanded(
-              child: Text(
-                label,
-                style: TokenTypography.body(color: TokenColors.textPrimary),
-              ),
+            Text(
+              label,
+              style: TokenTypography.body(color: TokenColors.textPrimary),
             ),
+            Spacer(),
             if (trailingText != null) ...[
-              Text(
-                trailingText!,
-                style: TokenTypography.body(color: TokenColors.textTertiary),
+              Flexible(
+                child: Text(
+                  trailingText!,
+                  style: TokenTypography.body(color: TokenColors.textTertiary),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                  textAlign: TextAlign.right,
+                ),
               ),
               SizedBox(width: TokenSpacing.sm),
             ],

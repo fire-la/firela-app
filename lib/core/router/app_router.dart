@@ -6,6 +6,7 @@ import '../../features/expense/presentation/pages/bill_import_page.dart';
 import '../../features/review_center/presentation/pages/review_center_page.dart';
 import '../../features/review_center/presentation/pages/review_detail_page.dart';
 import '../../features/assets/presentation/pages/asset_detail_placeholder_page.dart';
+import '../../features/assets/presentation/pages/accounts_list_page.dart';
 import '../../features/transactions/presentation/pages/transaction_list_page.dart';
 import '../../features/transactions/presentation/pages/transaction_detail_edit_page.dart';
 import '../../features/recurring/presentation/pages/recurring_transaction_dialog_page.dart';
@@ -47,7 +48,7 @@ final appRouter = GoRouter(
     GoRoute(
       path: RouteNames.assetsDetails,
       name: 'assets_details',
-      builder: (context, state) => const AssetDetailPlaceholderPage(title: 'Details'),
+      builder: (context, state) => const AccountsListPage(),
     ),
     GoRoute(
       path: RouteNames.assetsStatistics,
@@ -57,7 +58,14 @@ final appRouter = GoRouter(
     GoRoute(
       path: RouteNames.transactions,
       name: 'transactions',
-      builder: (context, state) => const TransactionListPage(),
+      builder: (context, state) {
+        final accountId = state.uri.queryParameters['accountId'];
+        final accountName = state.uri.queryParameters['accountName'];
+        return TransactionListPage(
+          initialAccountId: accountId,
+          initialAccountName: accountName,
+        );
+      },
     ),
     GoRoute(
       path: RouteNames.transactionDetail,

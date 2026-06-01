@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:firela_app/generated/l10n/app_localizations.dart';
 import '../../../../core/design_tokens/design_tokens.dart';
 import '../../../review_center/domain/models/confidence_level.dart';
-import '../../../review_center/presentation/widgets/confidence_indicator.dart';
 
 /// Categorization item from parsed bill/OCR
 class CategorizationItem {
@@ -227,10 +226,13 @@ class _CategorizationPreviewSheetState extends State<CategorizationPreviewSheet>
                 ),
               ),
               const SizedBox(width: TokenSpacing.sm),
-              ConfidenceIndicator(
-                level: item.confidenceLevel,
-                showLabel: false,
-                size: 8,
+              Container(
+                width: 8,
+                height: 8,
+                decoration: BoxDecoration(
+                  color: _confidenceColor(item.confidenceLevel),
+                  shape: BoxShape.circle,
+                ),
               ),
               const SizedBox(width: TokenSpacing.sm),
               Text(
@@ -307,5 +309,16 @@ class _CategorizationPreviewSheetState extends State<CategorizationPreviewSheet>
     ],
   ),
   );
+  }
+
+  Color _confidenceColor(ConfidenceLevel level) {
+    switch (level) {
+      case ConfidenceLevel.high:
+        return TokenColors.success;
+      case ConfidenceLevel.medium:
+        return TokenColors.primary;
+      case ConfidenceLevel.low:
+        return TokenColors.error;
+    }
   }
 }

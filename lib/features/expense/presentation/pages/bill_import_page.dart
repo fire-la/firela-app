@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:typed_data';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:firela_app/generated/l10n/app_localizations.dart';
@@ -13,6 +14,7 @@ import '../../../../core/services/auth_service.dart';
 import '../../../../core/services/analytics_service.dart';
 import '../../../../core/services/analytics_events.dart';
 import '../../../../core/utils/logger.dart';
+import 'package:excel/excel.dart' show Excel;
 import '../../../../parser/parser.dart';
 import '../../../../parser/src/utils/encoding.dart' as encoding;
 import '../widgets/batch_import_summary.dart';
@@ -687,6 +689,35 @@ class BillImportPage extends HookWidget {
     );
   }
 
+  /// Show result dialog after API-side import
+  void _showApiImportResult(
+    BuildContext context,
+    AppLocalizations l10n,
+    int imported,
+    int failed,
+    int pendingReviews,
+  ) {
+    final theme = Theme.of(context);
+    final totalMsg = StringBuffer();
+    if (imported > 0) totalMsg.write('成功导入 $imported 条');
+    if (pendingReviews > 0) {
+      if (totalMsg.isNotEmpty) totalMsg.write('，');
+      totalMsg.write('$pendingReviews 条待审核');
+    }
+    if (failed > 0) {
+      if (totalMsg.isNotEmpty) totalMsg.write('，');
+      totalMsg.write('$failed 条失败');
+    }
+    if (totalMsg.isEmpty) totalMsg.write('未找到有效交易记录');
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(totalMsg.toString()),
+        duration: const Duration(seconds: 3),
+      ),
+    );
+  }
+
   /// Show categorization preview bottom sheet
   void _showCategorizationPreview(
     BuildContext context,
@@ -943,10 +974,32 @@ class BillImportPage extends HookWidget {
       logger.i('[BillImport] 文件名: $filename');
       logger.i('[BillImport] 文件大小: ${content.length} bytes');
 
+      // XLSX/XLS conversion: convert Excel to tab-separated text
+      Uint8List parseContent = content;
+      final ext = filename.toLowerCase().split('.').last;
+      if (ext == 'xlsx' || ext == 'xls') {
+        logger.i('[BillImport] 检测到 Excel 文件，转换为文本格式');
+        try {
+          final excelData = Excel.decodeBytes(content);
+          final buffer = StringBuffer();
+          for (final table in excelData.tables.keys) {
+            final sheet = excelData.tables[table]!;
+            for (final row in sheet.rows) {
+              final cells = row.map((cell) => cell?.value?.toString() ?? '').join('\t');
+              buffer.writeln(cells);
+            }
+          }
+          parseContent = Uint8List.fromList(utf8.encode(buffer.toString()));
+          logger.i('[BillImport] Excel 转换完成，${parseContent.length} bytes');
+        } catch (e) {
+          logger.w('[BillImport] Excel 解析失败: $e');
+        }
+      }
+
       // 输出文件内容的前 500 字节用于调试
       try {
         final preview = encoding.decodeContent(
-          Uint8List.fromList(content.take(500).toList()),
+          Uint8List.fromList(parseContent.take(500).toList()),
         );
         logger.i('[BillImport] 文件内容预览:\n$preview');
       } catch (e) {
@@ -958,11 +1011,37 @@ class BillImportPage extends HookWidget {
       final registry = ParserRegistry();
       logger.i('[BillImport] 可用解析器: ${registry.availableParsers.join(", ")}');
 
-      final parser = registry.detect(filename, content);
+      final parser = registry.detect(filename, parseContent);
 
       if (parser == null) {
-        logger.e('[BillImport] 无法识别文件格式');
-        throw Exception('不支持的文件格式，请使用支付宝或微信账单');
+        // Local parser not available, fall back to backend API import
+        logger.i('[BillImport] 本地无匹配解析器，尝试后端 API 导入');
+        currentStep.value = ImportStep.categorizing;
+        try {
+          final apiResult = await IgnApiService.instance.importBillFile(filePath);
+          final imported = apiResult['imported'] as int? ?? 0;
+          final failed = apiResult['failed'] as int? ?? 0;
+          final pendingReviews = apiResult['pendingReviews'] as int? ?? 0;
+          logger.i('[BillImport] API导入完成: imported=$imported, failed=$failed, pending=$pendingReviews');
+
+          parseProgress.value = 1.0;
+          isParsing.value = false;
+          importResult.value = apiResult;
+
+          if (imported > 0 || pendingReviews > 0) {
+            refreshAssetData();
+            fetchPendingCount();
+          }
+
+          if (context.mounted) {
+            final l10n = AppLocalizations.of(context)!;
+            _showApiImportResult(context, l10n, imported, failed, pendingReviews);
+          }
+          return;
+        } catch (apiError) {
+          logger.e('[BillImport] API导入也失败: $apiError');
+          throw Exception('无法识别文件格式，请使用支付宝或微信账单');
+        }
       }
 
       logger.i('[BillImport] 检测到解析器');
@@ -970,7 +1049,7 @@ class BillImportPage extends HookWidget {
       // 解析文件
       parseProgress.value = 0.6;
       currentStep.value = ImportStep.categorizing;
-      final result = parser.parse(content);
+      final result = parser.parse(parseContent);
 
       // 处理解析结果
       parseProgress.value = 0.8;

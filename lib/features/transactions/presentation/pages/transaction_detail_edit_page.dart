@@ -52,16 +52,24 @@ class TransactionDetailEditPage extends HookWidget {
                     onChanged: state.setSelectedSegment,
                   ),
                   const SizedBox(height: TokenSpacing.xl),
-                  ListItemArrow.card(
-                    icon: Icons.calendar_today,
-                    label: 'Date',
-                    trailingText: state.selectedDate,
+                  // Date - tappable to open date picker
+                  GestureDetector(
+                    onTap: () => _pickDate(context, state),
+                    child: ListItemArrow.card(
+                      icon: Icons.calendar_today,
+                      label: 'Date',
+                      trailingText: state.selectedDate,
+                    ),
                   ),
                   const SizedBox(height: TokenSpacing.sm),
-                  ListItemArrow.card(
-                    icon: Icons.person_outline,
-                    label: 'Payee',
-                    trailingText: state.payee.isEmpty ? '—' : state.payee,
+                  // Payee - tappable to edit
+                  GestureDetector(
+                    onTap: () => _editPayee(context, state),
+                    child: ListItemArrow.card(
+                      icon: Icons.person_outline,
+                      label: 'Payee',
+                      trailingText: state.payee.isEmpty ? '—' : state.payee,
+                    ),
                   ),
                   const SizedBox(height: TokenSpacing.sm),
                   ListItemArrow.card(
@@ -119,6 +127,52 @@ class TransactionDetailEditPage extends HookWidget {
       ),
     );
   }
+
+  Future<void> _pickDate(BuildContext context, TransactionDetailState state) async {
+    DateTime? initial;
+    if (state.selectedDate.isNotEmpty) {
+      initial = DateTime.tryParse(state.selectedDate);
+    }
+
+    final picked = await showDatePicker(
+      context: context,
+      initialDate: initial ?? DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
+    );
+
+    if (picked != null) {
+      state.setDate(picked.toIso8601String().split('T').first);
+    }
+  }
+
+  Future<void> _editPayee(BuildContext context, TransactionDetailState state) async {
+    final controller = TextEditingController(text: state.payee);
+    final result = await showDialog<String>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('交易对方'),
+        content: TextField(
+          controller: controller,
+          autofocus: true,
+          decoration: const InputDecoration(hintText: '输入交易对方名称'),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('取消'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(ctx, controller.text),
+            child: const Text('确定'),
+          ),
+        ],
+      ),
+    );
+    if (result != null) {
+      state.setPayee(result);
+    }
+  }
 }
 
 class _MetaSection extends StatelessWidget {
@@ -153,7 +207,10 @@ class _MetaSection extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(label, style: TokenTypography.micro(color: TokenColors.textTertiary)),
-          Text(value, style: TokenTypography.micro(color: TokenColors.textSecondary)),
+          Flexible(
+            child: Text(value, style: TokenTypography.micro(color: TokenColors.textSecondary),
+              overflow: TextOverflow.ellipsis, maxLines: 1),
+          ),
         ],
       ),
     );

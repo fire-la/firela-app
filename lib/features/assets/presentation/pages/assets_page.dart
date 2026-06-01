@@ -186,7 +186,7 @@ class AssetsPage extends HookWidget {
                 SectionHeader(
                   title: '账户',
                   trailing: '查看全部',
-                  onTrailingTap: () => context.go(RouteNames.assetsDetails),
+                  onTrailingTap: () => context.push(RouteNames.assetsDetails),
                 ),
                 const SizedBox(height: TokenSpacing.lg),
                 ..._buildGroupedAccounts(context, accounts.value),
