@@ -50,11 +50,14 @@ class ListItemArrow extends StatelessWidget {
             ),
             Spacer(),
             if (trailingText != null)
-              Text(
-                trailingText!,
-                style: TokenTypography.body(color: TokenColors.textTertiary),
-                overflow: TextOverflow.ellipsis,
-                maxLines: 1,
+              Flexible(
+                child: Text(
+                  trailingText!,
+                  style: TokenTypography.body(color: TokenColors.textTertiary),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                  softWrap: false,
+                ),
               ),
             SizedBox(width: TokenSpacing.sm),
             Icon(
