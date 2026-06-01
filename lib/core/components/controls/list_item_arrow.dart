@@ -48,17 +48,17 @@ class ListItemArrow extends StatelessWidget {
               label,
               style: TokenTypography.body(color: TokenColors.textPrimary),
             ),
-            Spacer(),
-            if (trailingText != null)
-              Flexible(
-                child: Text(
-                  trailingText!,
-                  style: TokenTypography.body(color: TokenColors.textTertiary),
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
-                  softWrap: false,
-                ),
-              ),
+            Expanded(
+              child: trailingText != null
+                  ? Text(
+                      trailingText!,
+                      style: TokenTypography.body(color: TokenColors.textTertiary),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                      textAlign: TextAlign.right,
+                    )
+                  : const SizedBox.shrink(),
+            ),
             SizedBox(width: TokenSpacing.sm),
             Icon(
               Icons.chevron_right,
