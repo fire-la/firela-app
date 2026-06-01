@@ -49,7 +49,7 @@ class ListItemArrow extends StatelessWidget {
               style: TokenTypography.body(color: TokenColors.textPrimary),
             ),
             Spacer(),
-            if (trailingText != null) ...[
+            if (trailingText != null)
               Flexible(
                 child: Text(
                   trailingText!,
@@ -59,8 +59,7 @@ class ListItemArrow extends StatelessWidget {
                   textAlign: TextAlign.right,
                 ),
               ),
-              SizedBox(width: TokenSpacing.sm),
-            ],
+            SizedBox(width: TokenSpacing.sm),
             Icon(
               Icons.chevron_right,
               size: 16,

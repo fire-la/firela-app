@@ -182,7 +182,9 @@ class AssetsPage extends HookWidget {
               const SizedBox(height: TokenSpacing.xl),
 
               // Section header + grouped account list
-              if (accounts.value.isNotEmpty) ...[
+              if (isLoading.value && accounts.value.isEmpty)
+                ..._buildSkeleton()
+              else if (accounts.value.isNotEmpty) ...[
                 SectionHeader(
                   title: '账户',
                   trailing: '查看全部',
@@ -368,6 +370,50 @@ class AssetsPage extends HookWidget {
       case 'investment': return Icons.trending_up;
       default: return Icons.account_balance;
     }
+  }
+
+  // --- Skeleton ---
+
+  List<Widget> _buildSkeleton() {
+    return [
+      const SectionHeader(title: '账户'),
+      const SizedBox(height: TokenSpacing.lg),
+      for (int i = 0; i < 3; i++) Padding(
+        padding: const EdgeInsets.only(bottom: TokenSpacing.lg),
+        child: Container(
+          height: 72,
+          padding: const EdgeInsets.all(TokenSpacing.xl),
+          decoration: BoxDecoration(
+            color: TokenColors.bgCard,
+            borderRadius: TokenRadius.borderLg,
+            border: Border.all(color: TokenColors.borderCard, width: 0.5),
+          ),
+          child: Row(
+            children: [
+              Container(
+                width: 24, height: 24,
+                decoration: BoxDecoration(
+                  color: TokenColors.neutral200,
+                  shape: BoxShape.circle,
+                ),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(width: 80, height: 12, decoration: BoxDecoration(color: TokenColors.neutral200, borderRadius: TokenRadius.borderSm)),
+                    const SizedBox(height: 8),
+                    Container(width: 120, height: 16, decoration: BoxDecoration(color: TokenColors.neutral200, borderRadius: TokenRadius.borderSm)),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    ];
   }
 
   // --- Helpers ---

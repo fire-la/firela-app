@@ -144,7 +144,9 @@ class ExpenseTabPage extends HookWidget {
                 SectionHeader(title: '收支明细'),
                 const SizedBox(height: TokenSpacing.xl),
 
-                if (categories.value.isEmpty && !isLoading.value)
+                if (isLoading.value && categories.value.isEmpty)
+                  ..._buildSkeleton()
+                else if (categories.value.isEmpty)
                   Center(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: TokenSpacing.xxl * 2),
@@ -168,6 +170,30 @@ class ExpenseTabPage extends HookWidget {
           ),
         ),
     );
+  }
+
+  List<Widget> _buildSkeleton() {
+    return List.generate(4, (_) => Padding(
+      padding: const EdgeInsets.only(bottom: TokenSpacing.lg),
+      child: Container(
+        height: 72,
+        padding: const EdgeInsets.all(TokenSpacing.xl),
+        decoration: BoxDecoration(
+          color: TokenColors.bgCard,
+          borderRadius: TokenRadius.borderLg,
+          border: Border.all(color: TokenColors.borderCard, width: 0.5),
+        ),
+        child: Row(
+          children: [
+            Container(width: 36, height: 36, decoration: BoxDecoration(color: TokenColors.neutral200, borderRadius: BorderRadius.circular(10))),
+            const SizedBox(width: TokenSpacing.lg),
+            Container(width: 80, height: 14, decoration: BoxDecoration(color: TokenColors.neutral200, borderRadius: TokenRadius.borderSm)),
+            const Spacer(),
+            Container(width: 60, height: 14, decoration: BoxDecoration(color: TokenColors.neutral200, borderRadius: TokenRadius.borderSm)),
+          ],
+        ),
+      ),
+    ));
   }
 
   Widget _buildCategoryItem(BuildContext context, _CategorySummary cat) {
