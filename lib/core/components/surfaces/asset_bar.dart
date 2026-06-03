@@ -20,6 +20,7 @@ class AssetBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = ThemeTokens.of(context);
     return Container(
       padding: const EdgeInsets.symmetric(vertical: TokenSpacing.lg, horizontal: TokenSpacing.xxl),
       decoration: BoxDecoration(
@@ -29,34 +30,34 @@ class AssetBar extends StatelessWidget {
       child: Row(
         children: [
           // Left column
-          _buildColumn(leftLabel, leftValue),
+          _buildColumn(leftLabel, leftValue, tokens),
           // Divider
           Container(
             width: 1,
             height: 20,
-            color: TokenColors.borderCard,
+            color: tokens.borderCard,
           ),
           // Right column
-          _buildColumn(rightLabel, rightValue),
+          _buildColumn(rightLabel, rightValue, tokens),
         ],
       ),
     );
   }
 
-  Widget _buildColumn(String label, String value) {
+  Widget _buildColumn(String label, String value, ThemeTokens tokens) {
     return Expanded(
       child: Row(
         children: [
           Text(
             label,
-            style: TokenTypography.caption(color: TokenColors.textSecondary),
+            style: TokenTypography.caption(color: tokens.textSecondary),
           ),
           const SizedBox(width: TokenSpacing.lg),
           Text(
             value,
             style: TokenTypography.body(
               fontWeight: FontWeight.w700,
-              color: TokenColors.textPrimary,
+              color: tokens.textPrimary,
             ),
           ),
         ],

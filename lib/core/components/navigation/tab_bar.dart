@@ -15,6 +15,7 @@ class DesignTabBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = ThemeTokens.of(context);
     return Padding(
       padding: const EdgeInsets.only(
         left: TokenSpacing.xxl,
@@ -36,8 +37,8 @@ class DesignTabBar extends StatelessWidget {
                     style: TokenTypography.h4(
                       fontWeight: FontWeight.w600,
                       color: isActive
-                          ? TokenColors.textPrimary
-                          : TokenColors.textTab,
+                          ? tokens.textPrimary
+                          : tokens.textTab,
                     ),
                   ),
                   const SizedBox(height: TokenSpacing.sm),
@@ -46,8 +47,8 @@ class DesignTabBar extends StatelessWidget {
                     height: 2,
                     decoration: BoxDecoration(
                       color: isActive
-                          ? TokenColors.textPrimary
-                          : TokenColors.textTertiary,
+                          ? tokens.textPrimary
+                          : tokens.textTertiary,
                       borderRadius: BorderRadius.circular(1),
                     ),
                   ),

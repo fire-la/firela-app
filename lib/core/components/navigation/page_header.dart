@@ -13,6 +13,7 @@ class PageHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = ThemeTokens.of(context);
     return SizedBox(
       height: 56,
       child: Row(
@@ -21,7 +22,7 @@ class PageHeader extends StatelessWidget {
             title,
             style: TokenTypography.h1(
               fontWeight: FontWeight.w700,
-              color: TokenColors.textPrimary,
+              color: tokens.textPrimary,
             ).copyWith(fontStyle: FontStyle.italic),
           ),
           if (trailing != null) ...[

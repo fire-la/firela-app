@@ -59,13 +59,18 @@ class AssetsPage extends HookWidget {
         }
 
         // 2. Accounts: merge bean/accounts (UUIDs) + dashboard/accounts (balances)
-        final balanceMap = <String, double>{};
-        final groups = dashboardData['groups'] as List<dynamic>? ?? [];
-        for (final group in groups) {
+        // Build lookup by id (most reliable), then fallback to name
+        final balanceById = <String, double>{};
+        final balanceByName = <String, double>{};
+        final dashGroups = dashboardData['groups'] as List<dynamic>? ?? [];
+        for (final group in dashGroups) {
           final accts = group['accounts'] as List<dynamic>? ?? [];
           for (final acct in accts) {
+            final id = acct['id'] as String? ?? '';
             final name = acct['name'] as String? ?? '';
-            balanceMap[name] = _parseDouble(acct['balance']);
+            final bal = _parseDouble(acct['balance']);
+            if (id.isNotEmpty) balanceById[id] = bal;
+            if (name.isNotEmpty) balanceByName[name] = bal;
           }
         }
 
@@ -73,17 +78,20 @@ class AssetsPage extends HookWidget {
         final accountList = <AccountData>[];
         for (final item in items) {
           final path = item['path'] as String? ?? '';
+          final id = item['id'] as String? ?? '';
           final displayName = path.contains(':') ? path.split(':').last : path;
           final parts = path.split(':');
           final institution = parts.length >= 3 ? parts[2] : (parts.length >= 2 ? parts[1] : '');
+          // Match by id first, then by path name
+          final balance = balanceById[id] ?? balanceByName[path] ?? 0.0;
           accountList.add(AccountData(
             name: path,
             displayName: displayName,
-            balance: balanceMap[path] ?? 0.0,
+            balance: balance,
             currency: 'CNY',
             platform: _inferPlatform(path),
             institutionName: institution,
-            accountId: item['id'] as String? ?? '',
+            accountId: id,
           ));
         }
         accounts.value = accountList;
@@ -119,7 +127,7 @@ class AssetsPage extends HookWidget {
     }, []);
 
     return Scaffold(
-      backgroundColor: TokenColors.bgPage,
+      backgroundColor: ThemeTokens.of(context).bgPage,
       body: RefreshIndicator(
         onRefresh: fetchData,
         child: SingleChildScrollView(
@@ -154,7 +162,6 @@ class AssetsPage extends HookWidget {
                         centerText: isLoading.value ? '—' : '${accounts.value.length}',
                         sections: _buildDonutSections(accounts.value),
                         legends: _buildDonutLegends(accounts.value),
-                        onTap: () => context.go(RouteNames.assetsStatistics),
                       ),
                     ),
                     const SizedBox(width: TokenSpacing.lg),
@@ -164,7 +171,6 @@ class AssetsPage extends HookWidget {
                         chartWidget: _buildLineChart(netWorthHistory.value),
                         bottomLeftLabel: _getPeriodLabel(),
                         bottomRightLabel: isLoading.value ? null : _getChangePercent(netWorthHistory.value),
-                        onTap: () => context.go(RouteNames.assetsStatistics),
                       ),
                     ),
                   ],
@@ -292,6 +298,7 @@ class AssetsPage extends HookWidget {
   }
 
   Widget _buildAccountItem(BuildContext context, AccountData account) {
+    final tokens = ThemeTokens.of(context);
     return GestureDetector(
       onTap: () {
         if (account.accountId.isNotEmpty) {
@@ -301,11 +308,11 @@ class AssetsPage extends HookWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: TokenSpacing.xl, horizontal: TokenSpacing.xxl),
         decoration: BoxDecoration(
-          color: TokenColors.bgCard,
+          color: tokens.bgCard,
           borderRadius: TokenRadius.borderLg,
-          border: Border.all(color: TokenColors.borderCard, width: 0.5),
-          boxShadow: const [
-            BoxShadow(color: Color(0x0D000000), blurRadius: 18, offset: Offset(0, 2), spreadRadius: 2),
+          border: Border.all(color: tokens.borderCard, width: 0.5),
+          boxShadow: [
+            BoxShadow(color: tokens.shadow, blurRadius: 18, offset: const Offset(0, 2), spreadRadius: 2),
           ],
         ),
         child: Row(
@@ -330,14 +337,14 @@ class AssetsPage extends HookWidget {
                 children: [
                   Text(
                     account.displayName,
-                    style: TokenTypography.caption(color: TokenColors.textTertiary),
+                    style: TokenTypography.caption(color: tokens.textTertiary),
                   ),
                   Text(
                     '${account.balance.abs().toStringAsFixed(2)} ${account.currency}',
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w700,
-                      color: TokenColors.textPrimary,
+                      color: tokens.textPrimary,
                     ),
                   ),
                 ],
@@ -347,13 +354,13 @@ class AssetsPage extends HookWidget {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                 decoration: BoxDecoration(
-                  color: TokenColors.bgCard,
+                  color: tokens.bgCard,
                   borderRadius: BorderRadius.circular(11),
                   border: Border.all(color: TokenColors.borderTag, width: 0.5),
                 ),
                 child: Text(
                   account.platform,
-                  style: TokenTypography.micro(color: TokenColors.textTertiary),
+                  style: TokenTypography.micro(color: tokens.textTertiary),
                 ),
               ),
           ],

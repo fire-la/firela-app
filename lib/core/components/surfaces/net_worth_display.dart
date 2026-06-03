@@ -21,6 +21,7 @@ class NetWorthDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = ThemeTokens.of(context);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -30,15 +31,15 @@ class NetWorthDisplay extends StatelessWidget {
           children: [
             Text(
               leftLabel,
-              style: TokenTypography.caption(color: TokenColors.textSecondary),
+              style: TokenTypography.caption(color: tokens.textSecondary),
             ),
             const SizedBox(height: TokenSpacing.xs),
             Text(
               leftValue,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 32,
                 fontWeight: FontWeight.w700,
-                color: TokenColors.textPrimary,
+                color: tokens.textPrimary,
               ),
             ),
           ],
@@ -51,15 +52,15 @@ class NetWorthDisplay extends StatelessWidget {
             children: [
               Text(
                 rightLabel,
-                style: TokenTypography.caption(color: TokenColors.textSecondary),
+                style: TokenTypography.caption(color: tokens.textSecondary),
               ),
               const SizedBox(height: TokenSpacing.xs),
               Text(
                 rightValue,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.w700,
-                  color: TokenColors.textPrimary,
+                  color: tokens.textPrimary,
                 ),
               ),
             ],

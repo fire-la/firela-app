@@ -17,6 +17,8 @@ class TransactionListState {
   final String? filterDateTo;
   final String? filterStatus;
   final String? filterSearch;
+  final String? filterAccountId;
+  final String? accountDisplayName;
   final VoidCallback loadMore;
   final VoidCallback refresh;
   final void Function(String? dateFrom, String? dateTo, String? status, String? search) applyFilters;
@@ -34,6 +36,8 @@ class TransactionListState {
     this.filterDateTo,
     this.filterStatus,
     this.filterSearch,
+    this.filterAccountId,
+    this.accountDisplayName,
     required this.loadMore,
     required this.refresh,
     required this.applyFilters,
@@ -41,7 +45,10 @@ class TransactionListState {
   });
 }
 
-TransactionListState useTransactionList() {
+TransactionListState useTransactionList({
+  String? initialAccountId,
+  String? initialAccountName,
+}) {
   final isLoading = useState<bool>(true);
   final error = useState<String?>(null);
   final transactions = useState<List<Map<String, dynamic>>>([]);
@@ -52,6 +59,8 @@ TransactionListState useTransactionList() {
   final filterDateTo = useState<String?>(null);
   final filterStatus = useState<String?>(null);
   final filterSearch = useState<String?>(null);
+  final filterAccountId = useState<String?>(initialAccountId);
+  final accountDisplayName = useState<String?>(initialAccountName);
 
   Map<String, List<Map<String, dynamic>>> groupByDate(List<Map<String, dynamic>> items) {
     final groups = <String, List<Map<String, dynamic>>>{};
@@ -98,6 +107,7 @@ TransactionListState useTransactionList() {
       if (filterDateTo.value != null) params['dateTo'] = filterDateTo.value!;
       if (filterStatus.value != null) params['status'] = filterStatus.value!;
       if (filterSearch.value != null) params['search'] = filterSearch.value!;
+      if (filterAccountId.value != null) params['accountId'] = filterAccountId.value!;
 
       final result = await IgnApiService.instance.getTransactions(params: params);
       final data = result['data'] as List<dynamic>? ?? [];
@@ -141,6 +151,8 @@ TransactionListState useTransactionList() {
     filterDateTo: filterDateTo.value,
     filterStatus: filterStatus.value,
     filterSearch: filterSearch.value,
+    filterAccountId: filterAccountId.value,
+    accountDisplayName: accountDisplayName.value,
     loadMore: () => fetchData(),
     refresh: () => fetchData(reset: true),
     applyFilters: (dateFrom, dateTo, status, search) {
@@ -155,6 +167,8 @@ TransactionListState useTransactionList() {
       filterDateTo.value = null;
       filterStatus.value = null;
       filterSearch.value = null;
+      filterAccountId.value = null;
+      accountDisplayName.value = null;
       fetchData(reset: true);
     },
   );

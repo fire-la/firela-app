@@ -15,6 +15,7 @@ class TopBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = ThemeTokens.of(context);
     return Padding(
       padding: EdgeInsets.only(
         top: MediaQuery.of(context).padding.top + TokenSpacing.lg,
@@ -32,14 +33,14 @@ class TopBar extends StatelessWidget {
                 Icon(
                   Icons.arrow_back,
                   size: 24,
-                  color: TokenColors.textPrimary,
+                  color: tokens.textPrimary,
                 ),
                 SizedBox(width: 8),
                 Text(
                   title,
                   style: TokenTypography.h3(
                     fontWeight: FontWeight.w600,
-                    color: TokenColors.textPrimary,
+                    color: tokens.textPrimary,
                   ),
                 ),
               ],

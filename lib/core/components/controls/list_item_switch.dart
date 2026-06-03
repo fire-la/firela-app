@@ -18,9 +18,10 @@ class ListItemSwitch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = ThemeTokens.of(context);
     return Container(
       height: 56,
-      color: TokenColors.bgCard,
+      color: tokens.bgCard,
       padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
       child: Row(
         children: [
@@ -29,7 +30,7 @@ class ListItemSwitch extends StatelessWidget {
           Expanded(
             child: Text(
               label,
-              style: TokenTypography.body(color: TokenColors.textPrimary),
+              style: TokenTypography.body(color: tokens.textPrimary),
             ),
           ),
           DesignSwitch(

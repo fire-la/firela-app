@@ -13,6 +13,7 @@ import '../../../../core/services/analytics_service.dart';
 import '../../../../core/services/analytics_events.dart';
 import '../../../../core/services/document_scanner_service.dart';
 import '../../../../core/services/ign_api_service.dart';
+import '../../../../core/network/api_client.dart';
 import '../../../../core/services/ocr/ocr_engine_factory.dart';
 import '../../../../core/services/ocr/ocr_pipeline.dart';
 import '../../../../core/utils/logger.dart';
@@ -211,10 +212,21 @@ class QuickActionsSection extends HookWidget {
       if (context.mounted) {
         Navigator.pop(context); // Close loading
 
+        String errorMsg = '分析失败，请重试';
+        if (e is ApiException) {
+          if (e.statusCode == 500) {
+            errorMsg = '服务暂时不可用，请稍后重试';
+          } else if (e.statusCode == 422) {
+            errorMsg = '分类未识别，请尝试更具体的描述方式';
+          } else if (e.statusCode == 400) {
+            errorMsg = '输入信息有误';
+          }
+        }
+
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Analysis failed, please retry'),
-            duration: Duration(seconds: 3),
+          SnackBar(
+            content: Text(errorMsg),
+            duration: const Duration(seconds: 3),
           ),
         );
       }

@@ -44,10 +44,11 @@ class NlpResultBottomSheet extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final tokens = ThemeTokens.of(context);
 
     // success 模式直接显示成功
     if (mode == 'success') {
-      return _buildSuccessView(context, theme);
+      return _buildSuccessView(context, theme, tokens);
     }
 
     // ask 模式使用输入框
@@ -87,7 +88,7 @@ class NlpResultBottomSheet extends HookWidget {
                   width: 40,
                   height: TokenSpacing.xs,
                   decoration: BoxDecoration(
-                    color: TokenColors.textTertiary.withValues(alpha: 0.3),
+                    color: tokens.textTertiary.withValues(alpha: 0.3),
                     borderRadius: BorderRadius.circular(2),
                   ),
                 ),
@@ -182,7 +183,7 @@ class NlpResultBottomSheet extends HookWidget {
               ),
 
               // 解析结果字段展示
-              _buildParsedFields(context, theme),
+              _buildParsedFields(context, theme, tokens),
 
               // ask 模式：显示输入框让用户补充缺失字段
               if (mode == 'ask' && askController != null)
@@ -231,7 +232,7 @@ class NlpResultBottomSheet extends HookWidget {
                       Navigator.of(context).pop();
                     },
                     style: FilledButton.styleFrom(
-                      backgroundColor: TokenColors.textPrimary,
+                      backgroundColor: tokens.textPrimary,
                       foregroundColor: TokenColors.white,
                       padding: const EdgeInsets.symmetric(vertical: TokenSpacing.xl),
                       shape: RoundedRectangleBorder(
@@ -249,22 +250,22 @@ class NlpResultBottomSheet extends HookWidget {
     );
   }
 
-  Widget _buildParsedFields(BuildContext context, ThemeData theme) {
+  Widget _buildParsedFields(BuildContext context, ThemeData theme, ThemeTokens tokens) {
     final fields = <Widget>[];
 
     // 日期
     if (parsedData['date'] != null) {
-      fields.add(_buildFieldRow(theme, '日期', parsedData['date'].toString()));
+      fields.add(_buildFieldRow(theme, '日期', parsedData['date'].toString(), tokens: tokens));
     }
 
     // 收款方/付款方
     if (parsedData['payee'] != null) {
-      fields.add(_buildFieldRow(theme, '对象', parsedData['payee'].toString()));
+      fields.add(_buildFieldRow(theme, '对象', parsedData['payee'].toString(), tokens: tokens));
     }
 
     // 分类
     if (parsedData['category'] != null) {
-      fields.add(_buildFieldRow(theme, '分类', parsedData['category'].toString()));
+      fields.add(_buildFieldRow(theme, '分类', parsedData['category'].toString(), tokens: tokens));
     }
 
     // 金额
@@ -274,17 +275,18 @@ class NlpResultBottomSheet extends HookWidget {
         '金额',
         '¥${parsedData['amount']}',
         isHighlight: true,
+        tokens: tokens,
       ));
     }
 
     // 备注
     if (parsedData['narration'] != null) {
-      fields.add(_buildFieldRow(theme, '备注', parsedData['narration'].toString()));
+      fields.add(_buildFieldRow(theme, '备注', parsedData['narration'].toString(), tokens: tokens));
     }
 
     // 账户
     if (parsedData['account'] != null) {
-      fields.add(_buildFieldRow(theme, '账户', parsedData['account'].toString()));
+      fields.add(_buildFieldRow(theme, '账户', parsedData['account'].toString(), tokens: tokens));
     }
 
     if (fields.isEmpty) {
@@ -293,7 +295,7 @@ class NlpResultBottomSheet extends HookWidget {
         child: Text(
           '暂无解析数据',
           style: TokenTypography.body(
-            color: TokenColors.textTertiary,
+            color: tokens.textTertiary,
           ),
         ),
       ));
@@ -305,7 +307,7 @@ class NlpResultBottomSheet extends HookWidget {
     );
   }
 
-  Widget _buildFieldRow(ThemeData theme, String label, String value, {bool isHighlight = false}) {
+  Widget _buildFieldRow(ThemeData theme, String label, String value, {bool isHighlight = false, ThemeTokens? tokens}) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl, vertical: 14),
       margin: const EdgeInsets.only(bottom: TokenSpacing.sm),
@@ -319,7 +321,7 @@ class NlpResultBottomSheet extends HookWidget {
           Text(
             label,
             style: TokenTypography.caption(
-              color: TokenColors.textTertiary,
+              color: tokens!.textTertiary,
             ),
           ),
           Text(
@@ -337,7 +339,7 @@ class NlpResultBottomSheet extends HookWidget {
     );
   }
 
-  Widget _buildSuccessView(BuildContext context, ThemeData theme) {
+  Widget _buildSuccessView(BuildContext context, ThemeData theme, ThemeTokens tokens) {
     return Container(
       decoration: BoxDecoration(
         color: theme.colorScheme.surfaceContainerHighest,
@@ -374,7 +376,7 @@ class NlpResultBottomSheet extends HookWidget {
                     .where((e) => e != null)
                     .join(' · '),
                 style: TokenTypography.body(
-                  color: TokenColors.textTertiary,
+                  color: tokens.textTertiary,
                 ),
               ),
             ),
@@ -390,7 +392,7 @@ class NlpResultBottomSheet extends HookWidget {
                   Navigator.of(context).pop();
                 },
                 style: FilledButton.styleFrom(
-                  backgroundColor: TokenColors.textPrimary,
+                  backgroundColor: tokens.textPrimary,
                   foregroundColor: TokenColors.white,
                   padding: const EdgeInsets.symmetric(vertical: TokenSpacing.xl),
                   shape: RoundedRectangleBorder(

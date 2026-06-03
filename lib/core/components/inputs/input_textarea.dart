@@ -21,6 +21,7 @@ class InputTextarea extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = ThemeTokens.of(context);
     final textarea = Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -31,24 +32,24 @@ class InputTextarea extends StatelessWidget {
             onChanged: onChanged,
             maxLength: maxLength,
             maxLines: maxLines,
-            style: TokenTypography.body(color: TokenColors.textPrimary),
+            style: TokenTypography.body(color: tokens.textPrimary),
             buildCounter: (_, {required currentLength, required isFocused, required maxLength}) => null,
             decoration: InputDecoration(
               hintText: placeholder,
-              hintStyle: TokenTypography.body(color: TokenColors.textTertiary),
+              hintStyle: TokenTypography.body(color: tokens.textTertiary),
               filled: true,
-              fillColor: TokenColors.bgCard,
+              fillColor: tokens.bgCard,
               contentPadding: const EdgeInsets.symmetric(
                 vertical: TokenSpacing.lg,
                 horizontal: TokenSpacing.xl,
               ),
               border: OutlineInputBorder(
                 borderRadius: TokenRadius.borderMd,
-                borderSide: BorderSide(color: TokenColors.borderCard, width: 0.5),
+                borderSide: BorderSide(color: tokens.borderCard, width: 0.5),
               ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: TokenRadius.borderMd,
-                borderSide: BorderSide(color: TokenColors.borderCard, width: 0.5),
+                borderSide: BorderSide(color: tokens.borderCard, width: 0.5),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: TokenRadius.borderMd,
@@ -61,7 +62,7 @@ class InputTextarea extends StatelessWidget {
           alignment: Alignment.centerRight,
           child: Text(
             '${controller?.text.length ?? 0}/$maxLength',
-            style: TokenTypography.micro(color: TokenColors.textTertiary),
+            style: TokenTypography.micro(color: tokens.textTertiary),
           ),
         ),
       ],
@@ -75,7 +76,7 @@ class InputTextarea extends StatelessWidget {
       children: [
         Text(
           label!,
-          style: TokenTypography.caption(color: TokenColors.textSecondary),
+          style: TokenTypography.caption(color: tokens.textSecondary),
         ),
         SizedBox(height: TokenSpacing.sm),
         textarea,

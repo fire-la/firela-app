@@ -29,7 +29,7 @@ class HomePage extends HookWidget {
     }
 
     return Scaffold(
-      backgroundColor: TokenColors.bgPage,
+      backgroundColor: ThemeTokens.of(context).bgPage,
       body: RefreshIndicator(
         onRefresh: onRefresh,
         child: SingleChildScrollView(

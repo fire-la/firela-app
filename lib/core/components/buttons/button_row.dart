@@ -80,6 +80,7 @@ class _TwoButtonRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = ThemeTokens.of(context);
     return Row(
       children: [
         Expanded(
@@ -88,7 +89,7 @@ class _TwoButtonRow extends StatelessWidget {
             child: Container(
               height: 50,
               decoration: BoxDecoration(
-                color: TokenColors.bgCard,
+                color: tokens.bgCard,
                 borderRadius: TokenRadius.borderPill,
                 border: Border.all(
                   color: TokenColors.textAccent,
@@ -209,16 +210,17 @@ class _IconButtonItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = ThemeTokens.of(context);
     return GestureDetector(
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: isPrimary ? TokenColors.primary : TokenColors.bgPage,
+          color: isPrimary ? TokenColors.primary : tokens.bgPage,
           borderRadius: BorderRadius.circular(12),
           border: isPrimary
               ? null
-              : Border.all(color: TokenColors.borderCard, width: 0.5),
+              : Border.all(color: tokens.borderCard, width: 0.5),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -227,7 +229,7 @@ class _IconButtonItem extends StatelessWidget {
               Icon(
                 icon,
                 size: 20,
-                color: isPrimary ? TokenColors.white : TokenColors.textPrimary,
+                color: isPrimary ? TokenColors.white : tokens.textPrimary,
               ),
               const SizedBox(width: TokenSpacing.sm),
             ],
@@ -235,7 +237,7 @@ class _IconButtonItem extends StatelessWidget {
               label,
               style: TokenTypography.caption(
                 fontWeight: FontWeight.w500,
-                color: isPrimary ? TokenColors.white : TokenColors.textPrimary,
+                color: isPrimary ? TokenColors.white : tokens.textPrimary,
               ),
             ),
           ],

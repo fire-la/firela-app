@@ -21,27 +21,28 @@ class InputWithIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = ThemeTokens.of(context);
     final inputBox = SizedBox(
       height: 48,
       child: TextField(
         controller: controller,
         onChanged: onChanged,
         keyboardType: keyboardType,
-        style: TokenTypography.body(color: TokenColors.textPrimary),
+        style: TokenTypography.body(color: tokens.textPrimary),
         decoration: InputDecoration(
           hintText: placeholder,
-          hintStyle: TokenTypography.body(color: TokenColors.textTertiary),
+          hintStyle: TokenTypography.body(color: tokens.textTertiary),
           prefixIcon: Icon(icon, size: 18, color: TokenColors.textAccent),
           filled: true,
-          fillColor: TokenColors.bgCard,
+          fillColor: tokens.bgCard,
           contentPadding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
           border: OutlineInputBorder(
             borderRadius: TokenRadius.borderMd,
-            borderSide: BorderSide(color: TokenColors.borderCard, width: 0.5),
+            borderSide: BorderSide(color: tokens.borderCard, width: 0.5),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: TokenRadius.borderMd,
-            borderSide: BorderSide(color: TokenColors.borderCard, width: 0.5),
+            borderSide: BorderSide(color: tokens.borderCard, width: 0.5),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: TokenRadius.borderMd,
@@ -59,7 +60,7 @@ class InputWithIcon extends StatelessWidget {
       children: [
         Text(
           label!,
-          style: TokenTypography.caption(color: TokenColors.textSecondary),
+          style: TokenTypography.caption(color: tokens.textSecondary),
         ),
         SizedBox(height: TokenSpacing.sm),
         inputBox,

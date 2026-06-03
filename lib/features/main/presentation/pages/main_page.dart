@@ -288,7 +288,7 @@ class MainPage extends HookWidget {
           } else if (e.statusCode == 400) {
             errorMsg = '输入信息有误';
           } else if (e.statusCode == 500) {
-            errorMsg = '服务端错误: ${e.message}';
+            errorMsg = '服务暂时不可用，请稍后重试';
           } else {
             errorMsg = '请求失败 (${e.statusCode}): ${e.message}';
           }

@@ -38,13 +38,18 @@ class AccountsListPage extends HookWidget {
         totalLiabilities.value = liab.abs();
 
         // Merge bean/accounts + dashboard/accounts
-        final balanceMap = <String, double>{};
+        // Build lookup by id (most reliable), then fallback to name
+        final balanceById = <String, double>{};
+        final balanceByName = <String, double>{};
         final dashGroups = results[2]['groups'] as List<dynamic>? ?? [];
         for (final group in dashGroups) {
           final accts = group['accounts'] as List<dynamic>? ?? [];
           for (final acct in accts) {
+            final id = acct['id'] as String? ?? '';
             final name = acct['name'] as String? ?? '';
-            balanceMap[name] = _parseDouble(acct['balance']);
+            final bal = _parseDouble(acct['balance']);
+            if (id.isNotEmpty) balanceById[id] = bal;
+            if (name.isNotEmpty) balanceByName[name] = bal;
           }
         }
 
@@ -52,17 +57,20 @@ class AccountsListPage extends HookWidget {
         final accountList = <AccountItem>[];
         for (final item in items) {
           final path = item['path'] as String? ?? '';
+          final id = item['id'] as String? ?? '';
           final displayName = path.contains(':') ? path.split(':').last : path;
           final parts = path.split(':');
           final institution = parts.length >= 3 ? parts[2] : (parts.length >= 2 ? parts[1] : '');
+          // Match by id first, then by path name
+          final balance = balanceById[id] ?? balanceByName[path] ?? 0.0;
           accountList.add(AccountItem(
             name: path,
             displayName: displayName,
-            balance: balanceMap[path] ?? 0.0,
+            balance: balance,
             currency: 'CNY',
             platform: _inferPlatform(path),
             institutionName: institution,
-            accountId: item['id'] as String? ?? '',
+            accountId: id,
           ));
         }
 
@@ -100,7 +108,7 @@ class AccountsListPage extends HookWidget {
     }, []);
 
     return Scaffold(
-      backgroundColor: TokenColors.bgPage,
+      backgroundColor: ThemeTokens.of(context).bgPage,
       body: Column(
         children: [
           const TopBar(title: '账户列表'),

@@ -24,6 +24,7 @@ class TransactionRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = ThemeTokens.of(context);
     return GestureDetector(
       onTap: onTap,
       behavior: HitTestBehavior.opaque,
@@ -36,11 +37,11 @@ class TransactionRow extends StatelessWidget {
               width: 36,
               height: 36,
               decoration: BoxDecoration(
-                color: TokenColors.accentCream,
+                color: tokens.accentCream,
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Center(
-                child: Icon(icon, size: 18, color: TokenColors.textAccent),
+                child: Icon(icon, size: 18, color: tokens.textAccent),
               ),
             ),
             const SizedBox(width: 10),
@@ -53,13 +54,13 @@ class TransactionRow extends StatelessWidget {
                     title,
                     style: TokenTypography.body(
                       fontWeight: FontWeight.w500,
-                      color: TokenColors.textPrimary,
+                      color: tokens.textPrimary,
                     ),
                   ),
                   if (subtitle != null)
                     Text(
                       subtitle!,
-                      style: TokenTypography.micro(color: TokenColors.textTertiary),
+                      style: TokenTypography.micro(color: tokens.textTertiary),
                     ),
                 ],
               ),
@@ -69,7 +70,7 @@ class TransactionRow extends StatelessWidget {
               amount,
               style: TokenTypography.body(
                 fontWeight: FontWeight.w700,
-                color: amountColor ?? TokenColors.error,
+                color: amountColor ?? tokens.textPrimary,
               ),
             ),
           ],

@@ -39,7 +39,7 @@ class FireJourneyPage extends HookWidget {
     }, [fireProgress.newlyAchievedMilestones.length]);
 
     return Scaffold(
-      backgroundColor: TokenColors.bgPage,
+      backgroundColor: ThemeTokens.of(context).bgPage,
       appBar: AppBar(
         title: Text(
           'IGN',

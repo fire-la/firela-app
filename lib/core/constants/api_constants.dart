@@ -57,6 +57,9 @@ class ApiConstants {
   /// 交易 CRUD
   static const String transactionEndpoint = '/bean/transactions';
 
+  /// Bean 账户 CRUD GET
+  static const String beanAccountsEndpoint = '/bean/accounts';
+
   /// 批量创建交易 POST
   /// 请求格式: {'transactions': [...]}
   /// 每批最多 50 条
@@ -84,8 +87,9 @@ class ApiConstants {
   /// ApiClient._buildUrl() 会自动添加 /v1/{region} 前缀
   static const String netWorthEndpoint = '/dashboard/net-worth';
 
-  /// 净资产历史数据 GET (query: months)
-  static const String netWorthHistoryEndpoint = '/dashboard/net-worth/history';
+  /// 净资产历史数据 GET (query: period, granularity)
+  /// 后端实现: /reporting/portfolio/trends
+  static const String netWorthHistoryEndpoint = '/reporting/portfolio/trends';
 
   /// 现金流汇总 GET
   static const String cashFlowEndpoint = '/dashboard/cash-flow';

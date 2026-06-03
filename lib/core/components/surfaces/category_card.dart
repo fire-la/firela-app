@@ -19,6 +19,7 @@ class CategoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = ThemeTokens.of(context);
     return GestureDetector(
       onTap: onTap,
       child: Padding(
@@ -31,13 +32,13 @@ class CategoryCard extends StatelessWidget {
               width: 40,
               height: 40,
               decoration: BoxDecoration(
-                color: TokenColors.accentCream,
+                color: tokens.accentCream,
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Icon(
                 icon ?? Icons.category_outlined,
                 size: 22,
-                color: TokenColors.textSecondary,
+                color: tokens.textSecondary,
               ),
             ),
             const SizedBox(height: 10),
@@ -49,14 +50,14 @@ class CategoryCard extends StatelessWidget {
                   name,
                   style: TokenTypography.h4(
                     fontWeight: FontWeight.w600,
-                    color: TokenColors.textPrimary,
+                    color: tokens.textPrimary,
                   ),
                 ),
                 const SizedBox(width: TokenSpacing.xs),
                 Icon(
                   Icons.chevron_right,
                   size: 16,
-                  color: TokenColors.textTertiary,
+                  color: tokens.textTertiary,
                 ),
               ],
             ),

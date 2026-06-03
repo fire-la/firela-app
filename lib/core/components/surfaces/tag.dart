@@ -15,19 +15,20 @@ class Tag extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = ThemeTokens.of(context);
     return Container(
       padding: const EdgeInsets.symmetric(
         vertical: TokenSpacing.xs,
         horizontal: TokenSpacing.lg,
       ),
       decoration: BoxDecoration(
-        color: backgroundColor ?? TokenColors.bgCard,
+        color: backgroundColor ?? tokens.bgCard,
         borderRadius: BorderRadius.circular(11),
-        border: Border.all(color: TokenColors.borderTag, width: 0.5),
+        border: Border.all(color: tokens.borderTag, width: 0.5),
       ),
       child: Text(
         label,
-        style: TokenTypography.caption(color: textColor ?? TokenColors.textPrimary),
+        style: TokenTypography.caption(color: textColor ?? tokens.textPrimary),
       ),
     );
   }

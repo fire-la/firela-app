@@ -26,33 +26,35 @@ class ListItemArrow extends StatelessWidget {
     this.trailingText,
     this.onTap,
   })  : borderRadius = TokenRadius.borderLg,
-        border = Border.all(color: TokenColors.borderCard, width: 0.5);
+        border = null;
 
   @override
   Widget build(BuildContext context) {
+    final tokens = ThemeTokens.of(context);
+    final effectiveBorder = border ?? Border.all(color: tokens.borderCard, width: 0.5);
     return GestureDetector(
       onTap: onTap,
       child: Container(
         height: 56,
         decoration: BoxDecoration(
-          color: TokenColors.bgCard,
+          color: tokens.bgCard,
           borderRadius: borderRadius,
-          border: border,
+          border: effectiveBorder,
         ),
         padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
         child: Row(
           children: [
-            Icon(icon, size: 20, color: TokenColors.textAccent),
+            Icon(icon, size: 20, color: tokens.textAccent),
             SizedBox(width: TokenSpacing.lg),
             Text(
               label,
-              style: TokenTypography.body(color: TokenColors.textPrimary),
+              style: TokenTypography.body(color: tokens.textPrimary),
             ),
             Expanded(
               child: trailingText != null
                   ? Text(
                       trailingText!,
-                      style: TokenTypography.body(color: TokenColors.textTertiary),
+                      style: TokenTypography.body(color: tokens.textTertiary),
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
                       textAlign: TextAlign.right,
@@ -63,7 +65,7 @@ class ListItemArrow extends StatelessWidget {
             Icon(
               Icons.chevron_right,
               size: 16,
-              color: TokenColors.textTertiary,
+              color: tokens.textTertiary,
             ),
           ],
         ),

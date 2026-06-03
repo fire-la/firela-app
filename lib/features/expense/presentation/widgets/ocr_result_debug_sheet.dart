@@ -647,3 +647,23 @@ class _OcrResultDebugSheetState extends State<OcrResultDebugSheet> {
     return '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
   }
 }
+
+/// Transaction input mode
+enum TransactionMode { single, multiple }
+
+/// Result of OCR confirmation
+class OcrConfirmResult {
+  final TransactionMode mode;
+  final List<dynamic> editedLineItems;
+  final double totalAmount;
+  final String merchant;
+  final DateTime selectedDate;
+
+  OcrConfirmResult({
+    required this.mode,
+    required this.editedLineItems,
+    required this.totalAmount,
+    required this.merchant,
+    DateTime? selectedDate,
+  }) : selectedDate = selectedDate ?? DateTime.now();
+}

@@ -17,13 +17,14 @@ class DesignCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = ThemeTokens.of(context);
     final container = Container(
       width: double.infinity,
       padding: padding ?? const EdgeInsets.all(TokenSpacing.xl),
       decoration: BoxDecoration(
-        color: color ?? TokenColors.bgCard,
+        color: color ?? tokens.bgCard,
         borderRadius: TokenRadius.borderLg,
-        border: Border.all(color: TokenColors.borderCard, width: 0.5),
+        border: Border.all(color: tokens.borderCard, width: 0.5),
         boxShadow: TokenShadows.cardList,
       ),
       child: child,

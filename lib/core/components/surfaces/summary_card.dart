@@ -19,20 +19,21 @@ class SummaryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = ThemeTokens.of(context);
     return GestureDetector(
       onTap: onTap,
       child: Container(
         width: double.infinity,
         padding: const EdgeInsets.all(TokenSpacing.xl),
         decoration: BoxDecoration(
-          color: TokenColors.bgCard,
+          color: tokens.bgCard,
           borderRadius: TokenRadius.borderLg,
-          border: Border.all(color: TokenColors.borderCard, width: 0.5),
-          boxShadow: const [
+          border: Border.all(color: tokens.borderCard, width: 0.5),
+          boxShadow: [
             BoxShadow(
-              color: Color(0x0D000000),
+              color: tokens.shadow,
               blurRadius: 18,
-              offset: Offset(0, 2),
+              offset: const Offset(0, 2),
               spreadRadius: 2,
             ),
           ],
@@ -42,14 +43,14 @@ class SummaryCard extends StatelessWidget {
           children: [
             Text(
               label,
-              style: TokenTypography.caption(color: TokenColors.textSecondary),
+              style: TokenTypography.caption(color: tokens.textSecondary),
             ),
             const SizedBox(height: TokenSpacing.lg),
             Text(
               value,
               style: TokenTypography.h2(
                 fontWeight: FontWeight.w700,
-                color: TokenColors.textPrimary,
+                color: tokens.textPrimary,
               ),
             ),
           ],

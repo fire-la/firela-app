@@ -32,7 +32,7 @@ class SettingsPageState extends State<SettingsPage> {
     final theme = Theme.of(context);
 
     return Scaffold(
-      backgroundColor: TokenColors.bgPage,
+      backgroundColor: ThemeTokens.of(context).bgPage,
       body: SingleChildScrollView(
         child: Column(
           children: [

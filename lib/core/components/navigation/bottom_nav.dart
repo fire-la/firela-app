@@ -17,6 +17,7 @@ class DesignBottomNav extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = ThemeTokens.of(context);
     return Padding(
       padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
       child: Container(
@@ -30,13 +31,13 @@ class DesignBottomNav extends StatelessWidget {
             width: 260,
             height: 56,
             decoration: BoxDecoration(
-              color: TokenColors.bgCard,
+              color: tokens.bgCard,
               borderRadius: BorderRadius.circular(28),
-              boxShadow: const [
+              boxShadow: [
                 BoxShadow(
-                  color: Color(0x0D000000),
+                  color: tokens.shadow,
                   blurRadius: 8,
-                  offset: Offset(0, 2),
+                  offset: const Offset(0, 2),
                 ),
               ],
             ),
@@ -54,8 +55,8 @@ class DesignBottomNav extends StatelessWidget {
                       isSelected ? item.activeIcon : item.icon,
                       size: 24,
                       color: isSelected
-                          ? TokenColors.textAccent
-                          : TokenColors.textTertiary,
+                          ? tokens.textAccent
+                          : tokens.textTertiary,
                     ),
                   ),
                 );
@@ -63,7 +64,7 @@ class DesignBottomNav extends StatelessWidget {
             ),
           ),
           const SizedBox(width: TokenSpacing.lg),
-          // FAB
+          // FAB — accent color for contrast with dark tab bar
           if (onFabTap != null)
             GestureDetector(
               onTap: onFabTap,
@@ -71,13 +72,13 @@ class DesignBottomNav extends StatelessWidget {
                 width: 56,
                 height: 56,
                 decoration: BoxDecoration(
-                  color: TokenColors.textPrimary,
+                  color: TokenColors.textAccent,
                   shape: BoxShape.circle,
-                  boxShadow: const [
+                  boxShadow: [
                     BoxShadow(
-                      color: Color(0x26000000),
+                      color: tokens.shadow,
                       blurRadius: 12,
-                      offset: Offset(0, 4),
+                      offset: const Offset(0, 4),
                     ),
                   ],
                 ),

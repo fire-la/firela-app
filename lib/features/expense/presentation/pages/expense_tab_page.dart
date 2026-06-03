@@ -94,7 +94,7 @@ class ExpenseTabPage extends HookWidget {
     }, []);
 
     return Scaffold(
-      backgroundColor: TokenColors.bgPage,
+      backgroundColor: ThemeTokens.of(context).bgPage,
       body: RefreshIndicator(
         onRefresh: fetchData,
         child: SingleChildScrollView(

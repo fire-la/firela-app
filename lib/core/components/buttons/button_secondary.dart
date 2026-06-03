@@ -15,16 +15,17 @@ class ButtonSecondary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = ThemeTokens.of(context);
     return SizedBox(
       height: 50,
       width: double.infinity,
       child: OutlinedButton(
         onPressed: onPressed,
         style: OutlinedButton.styleFrom(
-          backgroundColor: TokenColors.white,
-          foregroundColor: TokenColors.textAccent,
+          backgroundColor: tokens.bgCard,
+          foregroundColor: tokens.textAccent,
           side: BorderSide(
-            color: TokenColors.textAccent,
+            color: tokens.textAccent,
             width: 0.5,
           ),
           shape: RoundedRectangleBorder(
@@ -41,7 +42,7 @@ class ButtonSecondary extends StatelessWidget {
             ],
             Text(
               label,
-              style: TokenTypography.h4(color: TokenColors.textAccent),
+              style: TokenTypography.h4(color: tokens.textAccent),
             ),
           ],
         ),

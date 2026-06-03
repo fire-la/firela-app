@@ -62,6 +62,7 @@ class _ExpenseEntryBottomSheetState extends State<ExpenseEntryBottomSheet> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
+    final tokens = ThemeTokens.of(context);
 
     return Material(
       color: Colors.transparent,
@@ -80,7 +81,7 @@ class _ExpenseEntryBottomSheetState extends State<ExpenseEntryBottomSheet> {
                 width: 40,
                 height: TokenSpacing.xs,
                 decoration: BoxDecoration(
-                  color: TokenColors.textTertiary.withValues(alpha: 0.3),
+                  color: tokens.textTertiary.withValues(alpha: 0.3),
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
@@ -111,7 +112,7 @@ class _ExpenseEntryBottomSheetState extends State<ExpenseEntryBottomSheet> {
                             style: TextStyle(
                               color: _isAiMode
                                   ? theme.colorScheme.onSurface
-                                  : TokenColors.textTertiary,
+                                  : tokens.textTertiary,
                               fontWeight: _isAiMode
                                   ? FontWeight.w600
                                   : FontWeight.normal,
@@ -120,7 +121,7 @@ class _ExpenseEntryBottomSheetState extends State<ExpenseEntryBottomSheet> {
                           Text(
                             ' | ',
                             style: TextStyle(
-                              color: TokenColors.textTertiary,
+                              color: tokens.textTertiary,
                             ),
                           ),
                           Text(
@@ -128,7 +129,7 @@ class _ExpenseEntryBottomSheetState extends State<ExpenseEntryBottomSheet> {
                             style: TextStyle(
                               color: !_isAiMode
                                   ? theme.colorScheme.onSurface
-                                  : TokenColors.textTertiary,
+                                  : tokens.textTertiary,
                               fontWeight: !_isAiMode
                                   ? FontWeight.w600
                                   : FontWeight.normal,
@@ -159,7 +160,7 @@ class _ExpenseEntryBottomSheetState extends State<ExpenseEntryBottomSheet> {
                       ? '描述您的支出，如：午餐花了35元'
                       : l10n.enterExpenseDescription,
                   hintStyle: TextStyle(
-                    color: TokenColors.textTertiary,
+                    color: tokens.textTertiary,
                   ),
                   filled: true,
                   fillColor: theme.colorScheme.surface,
@@ -216,7 +217,7 @@ class _ExpenseEntryBottomSheetState extends State<ExpenseEntryBottomSheet> {
                             height: 36,
                             decoration: BoxDecoration(
                               color: _hasText
-                                  ? TokenColors.textPrimary
+                                  ? tokens.textPrimary
                                   : TokenColors.neutral400,
                               shape: BoxShape.circle,
                             ),
@@ -252,6 +253,7 @@ class _ActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final tokens = ThemeTokens.of(context);
 
     return InkWell(
       onTap: onTap,
@@ -262,7 +264,7 @@ class _ActionButton extends StatelessWidget {
           color: theme.colorScheme.surface,
           borderRadius: BorderRadius.circular(TokenSpacing.xxl),
           border: Border.all(
-            color: TokenColors.textTertiary.withValues(alpha: 0.2),
+            color: tokens.textTertiary.withValues(alpha: 0.2),
           ),
         ),
         child: Row(

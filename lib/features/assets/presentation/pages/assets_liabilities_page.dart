@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firela_app/generated/l10n/app_localizations.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:go_router/go_router.dart';
 import '../../../../core/components/components.dart';
 import '../../../../core/design_tokens/design_tokens.dart';
+import '../../../../core/router/route_names.dart';
 import '../../../../shared/widgets/section_header.dart';
 import '../../domain/models/net_worth_history_point.dart';
 import 'assets_tabs_page.dart';
@@ -94,7 +96,7 @@ class AssetsLiabilitiesPage extends StatelessWidget {
               ),
               const SizedBox(height: TokenSpacing.xl),
 
-              // Section header + account list
+              // Section header + account list (grouped by institution)
               if (accounts.isNotEmpty) ...[
                 SectionHeader(
                   title: '账户',
@@ -102,10 +104,7 @@ class AssetsLiabilitiesPage extends StatelessWidget {
                   onTrailingTap: onDetailsTap,
                 ),
                 const SizedBox(height: TokenSpacing.xl),
-                ...accounts.map((account) => Padding(
-                  padding: const EdgeInsets.only(bottom: TokenSpacing.xl),
-                  child: _buildAccountItem(context, account),
-                )),
+                ..._buildGroupedAccountItems(context),
               ],
             ],
           ),
@@ -233,7 +232,13 @@ class AssetsLiabilitiesPage extends StatelessWidget {
   }
 
   Widget _buildAccountItem(BuildContext context, AccountData account) {
-    return Container(
+    return GestureDetector(
+      onTap: () {
+        if (account.accountId.isNotEmpty) {
+          context.push('${RouteNames.transactions}?accountId=${Uri.encodeComponent(account.accountId)}&accountName=${Uri.encodeComponent(account.displayName)}');
+        }
+      },
+      child: Container(
       padding: const EdgeInsets.symmetric(vertical: TokenSpacing.xl, horizontal: TokenSpacing.xxl),
       decoration: BoxDecoration(
         color: TokenColors.bgCard,
@@ -303,6 +308,29 @@ class AssetsLiabilitiesPage extends StatelessWidget {
           ),
         ],
       ),
+      ),
     );
+  }
+
+  /// Group accounts by institution and build widgets
+  List<Widget> _buildGroupedAccountItems(BuildContext context) {
+    final grouped = <String, List<AccountData>>{};
+    for (final a in accounts) {
+      final key = a.institutionName.isNotEmpty ? a.institutionName : '其他';
+      grouped.putIfAbsent(key, () => []).add(a);
+    }
+    return grouped.entries.expand((entry) => [
+      Padding(
+        padding: const EdgeInsets.only(bottom: TokenSpacing.sm),
+        child: Text(
+          entry.key,
+          style: TokenTypography.caption(color: TokenColors.textTertiary),
+        ),
+      ),
+      ...entry.value.map((account) => Padding(
+        padding: const EdgeInsets.only(bottom: TokenSpacing.xl),
+        child: _buildAccountItem(context, account),
+      )),
+    ]).toList();
   }
 }

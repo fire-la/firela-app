@@ -17,31 +17,32 @@ class SearchInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = ThemeTokens.of(context);
     return SizedBox(
       height: 48,
       child: TextField(
         controller: controller,
         onChanged: onChanged,
         onTap: onTap,
-        style: TokenTypography.body(color: TokenColors.textPrimary),
+        style: TokenTypography.body(color: tokens.textPrimary),
         decoration: InputDecoration(
           hintText: placeholder ?? '搜索...',
-          hintStyle: TokenTypography.body(color: TokenColors.textTertiary),
+          hintStyle: TokenTypography.body(color: tokens.textTertiary),
           prefixIcon: Icon(
             Icons.search,
             size: 18,
-            color: TokenColors.textTertiary,
+            color: tokens.textTertiary,
           ),
           filled: true,
-          fillColor: TokenColors.bgCard,
+          fillColor: tokens.bgCard,
           contentPadding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
           border: OutlineInputBorder(
             borderRadius: TokenRadius.borderMd,
-            borderSide: BorderSide(color: TokenColors.borderCard, width: 0.5),
+            borderSide: BorderSide(color: tokens.borderCard, width: 0.5),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: TokenRadius.borderMd,
-            borderSide: BorderSide(color: TokenColors.borderCard, width: 0.5),
+            borderSide: BorderSide(color: tokens.borderCard, width: 0.5),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: TokenRadius.borderMd,

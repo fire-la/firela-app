@@ -27,6 +27,7 @@ class DialogOverlay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = ThemeTokens.of(context);
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
@@ -38,13 +39,13 @@ class DialogOverlay extends StatelessWidget {
           width: 275,
           padding: const EdgeInsets.only(top: 24, left: 20, right: 20, bottom: 20),
           decoration: BoxDecoration(
-            color: TokenColors.bgCard,
+            color: tokens.bgCard,
             borderRadius: TokenRadius.borderLg,
-            boxShadow: const [
+            boxShadow: [
               BoxShadow(
-                color: Color(0x1A000000),
+                color: tokens.shadow,
                 blurRadius: 20,
-                offset: Offset(0, 4),
+                offset: const Offset(0, 4),
               ),
             ],
           ),
@@ -56,7 +57,7 @@ class DialogOverlay extends StatelessWidget {
                 title,
                 style: TokenTypography.h4(
                   fontWeight: FontWeight.w600,
-                  color: TokenColors.textPrimary,
+                  color: tokens.textPrimary,
                 ),
               ),
               if (subtitle != null) ...[
@@ -64,7 +65,7 @@ class DialogOverlay extends StatelessWidget {
                 Text(
                   subtitle!,
                   style: TokenTypography.caption(
-                    color: TokenColors.textSecondary,
+                    color: tokens.textSecondary,
                   ),
                 ),
               ],

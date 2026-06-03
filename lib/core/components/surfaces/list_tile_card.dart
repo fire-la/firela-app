@@ -23,13 +23,14 @@ class ListTileCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = ThemeTokens.of(context);
     return GestureDetector(
       onTap: onTap,
       child: Container(
         height: 60,
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: TokenColors.bgCard,
+          color: tokens.bgCard,
           borderRadius: TokenRadius.borderMd,
         ),
         child: Row(
@@ -45,7 +46,7 @@ class ListTileCard extends StatelessWidget {
               child: Icon(
                 leadingIcon ?? Icons.receipt_outlined,
                 size: 16,
-                color: leadingColor ?? TokenColors.textTertiary,
+                color: leadingColor ?? tokens.textTertiary,
               ),
             ),
             const SizedBox(width: TokenSpacing.lg),
@@ -59,14 +60,14 @@ class ListTileCard extends StatelessWidget {
                     Text(
                       title!,
                       style: TokenTypography.body(
-                        color: TokenColors.textPrimary,
+                        color: tokens.textPrimary,
                       ),
                     ),
                   if (subtitle != null)
                     Text(
                       subtitle!,
                       style: TokenTypography.caption(
-                        color: TokenColors.textTertiary,
+                        color: tokens.textTertiary,
                       ),
                     ),
                 ],
@@ -76,7 +77,7 @@ class ListTileCard extends StatelessWidget {
             Icon(
               Icons.chevron_right,
               size: 20,
-              color: TokenColors.textTertiary,
+              color: tokens.textTertiary,
             ),
           ],
         ),

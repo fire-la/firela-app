@@ -21,6 +21,7 @@ class InputAmount extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = ThemeTokens.of(context);
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(
@@ -28,9 +29,9 @@ class InputAmount extends StatelessWidget {
         horizontal: TokenSpacing.xxl,
       ),
       decoration: BoxDecoration(
-        color: TokenColors.bgCard,
+        color: tokens.bgCard,
         borderRadius: TokenRadius.borderLg,
-        border: Border.all(color: TokenColors.borderCard, width: 0.5),
+        border: Border.all(color: tokens.borderCard, width: 0.5),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -39,7 +40,7 @@ class InputAmount extends StatelessWidget {
           if (label != null)
             Text(
               label!,
-              style: TokenTypography.caption(color: TokenColors.textSecondary),
+              style: TokenTypography.caption(color: tokens.textSecondary),
             ),
           if (label != null)
             const SizedBox(height: TokenSpacing.xs),
@@ -52,7 +53,7 @@ class InputAmount extends StatelessWidget {
                   fontFamily: _amountFont,
                   fontSize: 24,
                   fontWeight: FontWeight.w700,
-                  color: TokenColors.textPrimary,
+                  color: tokens.textPrimary,
                 ),
               ),
               const SizedBox(width: TokenSpacing.xs),
@@ -66,7 +67,7 @@ class InputAmount extends StatelessWidget {
                     fontSize: 32,
                     fontWeight: FontWeight.w700,
                     letterSpacing: 0.64,
-                    color: TokenColors.textPrimary,
+                    color: tokens.textPrimary,
                   ),
                   decoration: InputDecoration(
                     hintText: placeholder ?? '0.00',
@@ -75,7 +76,7 @@ class InputAmount extends StatelessWidget {
                       fontSize: 32,
                       fontWeight: FontWeight.w700,
                       letterSpacing: 0.64,
-                      color: TokenColors.textTertiary,
+                      color: tokens.textTertiary,
                     ),
                     border: InputBorder.none,
                     enabledBorder: InputBorder.none,
@@ -90,7 +91,7 @@ class InputAmount extends StatelessWidget {
           // Divider
           Container(
             height: 0.5,
-            color: TokenColors.borderCard,
+            color: tokens.borderCard,
             margin: const EdgeInsets.only(top: TokenSpacing.xs),
           ),
         ],

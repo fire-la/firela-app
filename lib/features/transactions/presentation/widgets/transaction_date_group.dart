@@ -16,6 +16,7 @@ class TransactionDateGroup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = ThemeTokens.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -28,21 +29,23 @@ class TransactionDateGroup extends StatelessWidget {
             _formatDate(date),
             style: TokenTypography.body(
               fontWeight: FontWeight.w600,
-              color: TokenColors.textPrimary,
+              color: tokens.textPrimary,
             ),
           ),
         ),
-        ...transactions.map((tx) => _buildRow(tx)),
+        ...transactions.map((tx) => _buildRow(tx, tokens)),
       ],
     );
   }
 
-  Widget _buildRow(Map<String, dynamic> tx) {
+  Widget _buildRow(Map<String, dynamic> tx, ThemeTokens tokens) {
     final postings = tx['postings'] as List<dynamic>? ?? [];
     final firstPosting = postings.isNotEmpty ? postings[0] as Map<String, dynamic> : <String, dynamic>{};
     final units = firstPosting['units'];
     final amountStr = units != null ? units.toString() : '0';
-    final isExpense = amountStr.startsWith('-');
+
+    // Format: +/-X CNY (per .pen design spec — all amounts in black)
+    final amount = _formatAmount(amountStr);
 
     final sourceType = tx['sourceType'] as String? ?? '';
     final icon = _sourceIcon(sourceType);
@@ -53,11 +56,24 @@ class TransactionDateGroup extends StatelessWidget {
         icon: icon,
         title: tx['narration'] as String? ?? '',
         subtitle: tx['payee'] as String? ?? '',
-        amount: amountStr,
-        amountColor: isExpense ? TokenColors.error : TokenColors.success,
+        amount: amount,
+        amountColor: tokens.textPrimary,
         onTap: () => onTransactionTap(tx['id'] as String? ?? ''),
       ),
     );
+  }
+
+  /// Format amount per .pen spec: explicit +/- sign, CNY suffix.
+  /// e.g. "-2000" → "-2,000 CNY", "58" → "+58 CNY"
+  String _formatAmount(String raw) {
+    final value = double.tryParse(raw) ?? 0;
+    final abs = value.abs().toStringAsFixed(2).replaceAllMapped(
+      RegExp(r'\B(?=(\d{3})+(?!\d))'),
+      (m) => ',',
+    );
+    if (value < 0) return '-$abs CNY';
+    if (value > 0) return '+$abs CNY';
+    return '$abs CNY';
   }
 
   IconData _sourceIcon(String sourceType) {

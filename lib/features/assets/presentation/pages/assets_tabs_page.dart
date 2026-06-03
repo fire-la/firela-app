@@ -86,6 +86,8 @@ class AccountData {
   final double balance;
   final String currency;
   final String platform;
+  final String institutionName;
+  final String accountId;
 
   const AccountData({
     required this.name,
@@ -93,6 +95,8 @@ class AccountData {
     required this.balance,
     this.currency = 'CNY',
     this.platform = '',
+    this.institutionName = '',
+    this.accountId = '',
   });
 }
 
@@ -303,7 +307,7 @@ class AssetsTabsPage extends HookWidget {
 
       logger.i('[AssetsTabsPage] 开始加载资产数据...');
 
-      // 并行调用 3 个 API（与 IGN fetchData 一致）
+      // 并行调用 4 个 API
       final results = await Future.wait([
         IgnApiService.instance.getNetWorth().catchError((e) {
           logger.w('[AssetsTabsPage] getNetWorth 失败: $e');
@@ -313,6 +317,10 @@ class AssetsTabsPage extends HookWidget {
           logger.w('[AssetsTabsPage] getCashFlow 失败: $e');
           return <String, dynamic>{};
         }),
+        IgnApiService.instance.getBeanAccounts(type: 'Assets').catchError((e) {
+          logger.w('[AssetsTabsPage] getBeanAccounts 失败: $e');
+          return <String, dynamic>{'items': [], 'total': 0};
+        }),
         IgnApiService.instance.getDashboardAccounts().catchError((e) {
           logger.w('[AssetsTabsPage] getDashboardAccounts 失败: $e');
           return <String, dynamic>{'groups': [], 'summary': {}};
@@ -321,7 +329,8 @@ class AssetsTabsPage extends HookWidget {
 
       final netWorthData = results[0];
       final cashFlowData = results[1];
-      final dashboardData = results[2];
+      final beanAccountsData = results[2];
+      final dashboardData = results[3];
 
       logger.i('[AssetsTabsPage] API 响应: netWorth=$netWorthData');
       logger.i('[AssetsTabsPage] API 响应: cashFlow=$cashFlowData');
@@ -341,25 +350,35 @@ class AssetsTabsPage extends HookWidget {
         totalLiabilities.value = '0.00';
       }
 
-      // 2. 处理账户数据
+      // 2. 处理账户数据: merge bean/accounts (UUIDs) + dashboard/accounts (balances)
+      // Build balance map from dashboard data
+      final balanceMap = <String, double>{};
       final groups = dashboardData['groups'] as List<dynamic>? ?? [];
-      final accountList = <AccountData>[];
       for (final group in groups) {
-        final platform = group['platform'] as String? ?? '';
         final accts = group['accounts'] as List<dynamic>? ?? [];
         for (final acct in accts) {
-          final fullName = acct['name'] as String? ?? '';
-          final displayName = fullName.contains(':')
-              ? fullName.split(':').last
-              : fullName;
-          accountList.add(AccountData(
-            name: fullName,
-            displayName: displayName,
-            balance: _parseDouble(acct['balance']),
-            currency: acct['currency'] as String? ?? 'CNY',
-            platform: platform,
-          ));
+          final name = acct['name'] as String? ?? '';
+          balanceMap[name] = _parseDouble(acct['balance']);
         }
+      }
+
+      // Build account list from bean/accounts
+      final items = beanAccountsData['items'] as List<dynamic>? ?? [];
+      final accountList = <AccountData>[];
+      for (final item in items) {
+        final path = item['path'] as String? ?? '';
+        final displayName = path.contains(':') ? path.split(':').last : path;
+        final parts = path.split(':');
+        final institution = parts.length >= 3 ? parts[2] : (parts.length >= 2 ? parts[1] : '');
+        accountList.add(AccountData(
+          name: path,
+          displayName: displayName,
+          balance: balanceMap[path] ?? 0.0,
+          currency: 'CNY',
+          platform: _inferPlatform(path),
+          institutionName: institution,
+          accountId: item['id'] as String? ?? '',
+        ));
       }
       accounts.value = accountList;
 
@@ -386,6 +405,21 @@ class AssetsTabsPage extends HookWidget {
     if (value is num) return value.toDouble();
     if (value is String) return double.tryParse(value) ?? 0.0;
     return 0.0;
+  }
+
+  static String _inferPlatform(String path) {
+    final lower = path.toLowerCase();
+    if (lower.contains('alipay') || lower.contains('支付宝')) return 'Alipay';
+    if (lower.contains('wechat') || lower.contains('微信')) return 'WeChat';
+    if (lower.contains('cmb') || lower.contains('招商')) return 'Bank';
+    if (lower.contains('cmbc') || lower.contains('民生')) return 'Bank';
+    if (lower.contains('ccb') || lower.contains('建设')) return 'Bank';
+    if (lower.contains('icbc') || lower.contains('工商')) return 'Bank';
+    if (lower.contains('boc') || lower.contains('中国银行')) return 'Bank';
+    if (lower.contains('hsbc')) return 'Bank';
+    if (lower.contains('bank')) return 'Bank';
+    if (lower.contains('invest') || lower.contains('stock') || lower.contains('fund')) return 'Investment';
+    return 'Bank';
   }
 
   static String _formatCurrency(double value) {

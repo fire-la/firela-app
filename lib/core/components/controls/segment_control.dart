@@ -15,6 +15,7 @@ class SegmentControl extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = ThemeTokens.of(context);
     return Container(
       height: 40,
       width: double.infinity,
@@ -33,14 +34,14 @@ class SegmentControl extends StatelessWidget {
                 duration: const Duration(milliseconds: 200),
                 height: 36,
                 decoration: BoxDecoration(
-                  color: isActive ? TokenColors.bgCard : null,
+                  color: isActive ? tokens.bgCard : null,
                   borderRadius: TokenRadius.borderSm,
                   boxShadow: isActive
                       ? [
-                          const BoxShadow(
-                            color: Color(0x0A000000),
+                          BoxShadow(
+                            color: tokens.shadow,
                             blurRadius: 4,
-                            offset: Offset(0, 1),
+                            offset: const Offset(0, 1),
                           ),
                         ]
                       : null,
@@ -51,8 +52,8 @@ class SegmentControl extends StatelessWidget {
                     style: TokenTypography.body(
                       fontWeight: isActive ? FontWeight.w600 : FontWeight.w400,
                       color: isActive
-                          ? TokenColors.textPrimary
-                          : TokenColors.textTertiary,
+                          ? tokens.textPrimary
+                          : tokens.textTertiary,
                     ),
                   ),
                 ),

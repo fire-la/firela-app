@@ -23,20 +23,21 @@ class ChartCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = ThemeTokens.of(context);
     return GestureDetector(
       onTap: onTap,
       child: Container(
         width: 161,
         padding: const EdgeInsets.symmetric(vertical: 14, horizontal: TokenSpacing.xl),
         decoration: BoxDecoration(
-          color: TokenColors.bgCard,
+          color: tokens.bgCard,
           borderRadius: TokenRadius.borderLg,
-          border: Border.all(color: TokenColors.borderCard, width: 0.5),
-          boxShadow: const [
+          border: Border.all(color: tokens.borderCard, width: 0.5),
+          boxShadow: [
             BoxShadow(
-              color: Color(0x0D000000),
+              color: tokens.shadow,
               blurRadius: 18,
-              offset: Offset(0, 2),
+              offset: const Offset(0, 2),
               spreadRadius: 2,
             ),
           ],
@@ -50,9 +51,9 @@ class ChartCard extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: TokenTypography.caption(color: TokenColors.textSecondary),
+                  style: TokenTypography.caption(color: tokens.textSecondary),
                 ),
-                Icon(Icons.chevron_right, size: 16, color: TokenColors.textTertiary),
+                Icon(Icons.chevron_right, size: 16, color: tokens.textTertiary),
               ],
             ),
             const SizedBox(height: TokenSpacing.lg),
@@ -72,7 +73,7 @@ class ChartCard extends StatelessWidget {
                   children: [
                     Text(
                       bottomLeftLabel ?? '',
-                      style: TokenTypography.micro(color: TokenColors.textTertiary),
+                      style: TokenTypography.micro(color: tokens.textTertiary),
                     ),
                     if (bottomRightLabel != null)
                       Text(

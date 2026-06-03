@@ -8,11 +8,17 @@ import '../providers/use_transaction_list.dart';
 import '../widgets/transaction_date_group.dart';
 
 class TransactionListPage extends HookWidget {
-  const TransactionListPage({super.key});
+  final String? initialAccountId;
+  final String? initialAccountName;
+
+  const TransactionListPage({super.key, this.initialAccountId, this.initialAccountName});
 
   @override
   Widget build(BuildContext context) {
-    final state = useTransactionList();
+    final state = useTransactionList(
+      initialAccountId: initialAccountId,
+      initialAccountName: initialAccountName,
+    );
     final scrollController = useScrollController();
 
     useEffect(() {
@@ -29,7 +35,7 @@ class TransactionListPage extends HookWidget {
     return Scaffold(
       body: Column(
         children: [
-          const TopBar(title: '交易记录'),
+          TopBar(title: initialAccountName ?? '交易记录'),
           Expanded(
             child: RefreshIndicator(
               onRefresh: () async => state.refresh(),
@@ -67,7 +73,8 @@ class TransactionListPage extends HookWidget {
     final hasFilters = state.filterDateFrom != null ||
         state.filterDateTo != null ||
         state.filterStatus != null ||
-        state.filterSearch != null;
+        state.filterSearch != null ||
+        state.filterAccountId != null;
 
     return ListView(
       controller: controller,
@@ -79,7 +86,7 @@ class TransactionListPage extends HookWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
             child: FilterBar(
-              label: state.filterSearch ?? '已筛选',
+              label: state.accountDisplayName ?? state.filterAccountId ?? state.filterSearch ?? '已筛选',
               onClear: state.clearFilters,
             ),
           )
@@ -127,7 +134,6 @@ class TransactionListPage extends HookWidget {
   }
 
   void _showFilterSheet(BuildContext context, TransactionListState state) {
-    // Simple filter — can be expanded later
     showModalBottomSheet(
       context: context,
       builder: (ctx) => Container(

@@ -236,15 +236,51 @@ class IgnApiService {
     return Map<String, dynamic>.from(result as Map);
   }
 
+  /// 获取 Bean 账户列表（含 UUID）
+  /// [type] 可选筛选: 'Assets', 'Liabilities', 'Expenses', 'Income'
+  Future<Map<String, dynamic>> getBeanAccounts({
+    String? type,
+    String? status,
+    bool? isCustom,
+    String? search,
+    int? limit,
+    int? offset,
+  }) async {
+    final params = <String, String>{};
+    if (type != null) params['type'] = type;
+    if (status != null) params['status'] = status;
+    if (isCustom != null) params['isCustom'] = isCustom.toString();
+    if (search != null) params['search'] = search;
+    if (limit != null) params['limit'] = limit.toString();
+    if (offset != null) params['offset'] = offset.toString();
+    final result = await _client.get(ApiConstants.beanAccountsEndpoint, queryParams: params.isNotEmpty ? params : null);
+    return Map<String, dynamic>.from(result as Map);
+  }
+
   /// 获取净资产历史数据
   /// [months] 查询的月份数
-  /// 返回 [{date, netWorth, totalAssets, totalLiabilities}, ...]
+  /// 后端接口: /reporting/portfolio/trends?period=6m&granularity=month
+  /// 响应字段映射: series[].date → date, series[].netWorth → netWorth,
+  ///   series[].assets → totalAssets, series[].liabilities → totalLiabilities
   Future<List<Map<String, dynamic>>> getNetWorthHistory({required int months}) async {
+    final periodLabel = months >= 12 ? '${months ~/ 12}y' : '${months}m';
     final result = await _client.get(
       ApiConstants.netWorthHistoryEndpoint,
-      queryParams: {'months': months.toString()},
+      queryParams: {
+        'period': periodLabel,
+        'granularity': 'month',
+      },
     );
-    return (result as List).cast<Map<String, dynamic>>();
+    // 后端返回 { series: [...] }，需要映射字段名
+    final data = result as Map<String, dynamic>;
+    final series = (data['series'] as List<dynamic>?)
+            ?.cast<Map<String, dynamic>>() ?? [];
+    return series.map((item) => {
+      'date': item['date'],
+      'netWorth': item['netWorth'],
+      'totalAssets': item['assets'],
+      'totalLiabilities': item['liabilities'],
+    }).toList();
   }
 
   /// 获取负债按类型明细

@@ -17,6 +17,7 @@ class InputSelect extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = ThemeTokens.of(context);
     final selectBox = GestureDetector(
       onTap: onTap,
       child: Container(
@@ -24,9 +25,9 @@ class InputSelect extends StatelessWidget {
         width: double.infinity,
         padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
         decoration: BoxDecoration(
-          color: TokenColors.bgCard,
+          color: tokens.bgCard,
           borderRadius: TokenRadius.borderMd,
-          border: Border.all(color: TokenColors.borderCard, width: 0.5),
+          border: Border.all(color: tokens.borderCard, width: 0.5),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -35,14 +36,14 @@ class InputSelect extends StatelessWidget {
               value ?? placeholder ?? '',
               style: TokenTypography.body(
                 color: value != null
-                    ? TokenColors.textPrimary
-                    : TokenColors.textTertiary,
+                    ? tokens.textPrimary
+                    : tokens.textTertiary,
               ),
             ),
             Icon(
               Icons.keyboard_arrow_down,
               size: 18,
-              color: TokenColors.textTertiary,
+              color: tokens.textTertiary,
             ),
           ],
         ),
@@ -57,7 +58,7 @@ class InputSelect extends StatelessWidget {
       children: [
         Text(
           label!,
-          style: TokenTypography.caption(color: TokenColors.textSecondary),
+          style: TokenTypography.caption(color: tokens.textSecondary),
         ),
         SizedBox(height: TokenSpacing.sm),
         selectBox,

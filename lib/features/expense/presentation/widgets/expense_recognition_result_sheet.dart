@@ -39,6 +39,7 @@ class ExpenseRecognitionResultSheet extends HookWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
+    final tokens = ThemeTokens.of(context);
     final isExpense = useState(result.isExpense);
     final date = useState(result.date ?? DateTime.now());
     final expenseType = useState(result.expenseType);
@@ -174,7 +175,7 @@ class ExpenseRecognitionResultSheet extends HookWidget {
                         }
                       : null,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: TokenColors.textPrimary,
+                    backgroundColor: tokens.textPrimary,
                     foregroundColor: TokenColors.white,
                     padding: const EdgeInsets.symmetric(vertical: TokenSpacing.xl),
                     shape: RoundedRectangleBorder(
@@ -197,6 +198,7 @@ class ExpenseRecognitionResultSheet extends HookWidget {
     AppLocalizations l10n,
     ThemeData theme,
   ) {
+    final tokens = ThemeTokens.of(context);
     String message = '';
     if (result.expenseType == null && result.amount == null) {
       message = l10n.missingRequiredFields;
@@ -245,6 +247,7 @@ class ExpenseRecognitionResultSheet extends HookWidget {
     ThemeData theme,
     ValueNotifier<bool> isExpense,
   ) {
+    final tokens = ThemeTokens.of(context);
     return Container(
       height: 40,
       decoration: BoxDecoration(
@@ -259,7 +262,7 @@ class ExpenseRecognitionResultSheet extends HookWidget {
               child: Container(
                 decoration: BoxDecoration(
                   color: isExpense.value
-                      ? TokenColors.textPrimary
+                      ? tokens.textPrimary
                       : Colors.transparent,
                   borderRadius: BorderRadius.circular(TokenSpacing.xxl),
                 ),
@@ -282,7 +285,7 @@ class ExpenseRecognitionResultSheet extends HookWidget {
               child: Container(
                 decoration: BoxDecoration(
                   color: !isExpense.value
-                      ? TokenColors.textPrimary
+                      ? tokens.textPrimary
                       : Colors.transparent,
                   borderRadius: BorderRadius.circular(TokenSpacing.xxl),
                 ),
@@ -310,6 +313,7 @@ class ExpenseRecognitionResultSheet extends HookWidget {
     ThemeData theme,
     ValueNotifier<DateTime> date,
   ) {
+    final tokens = ThemeTokens.of(context);
     return InkWell(
       onTap: () async {
         final picked = await showDatePicker(
@@ -337,7 +341,7 @@ class ExpenseRecognitionResultSheet extends HookWidget {
                 Text(
                   l10n.date,
                   style: TokenTypography.caption(
-                    color: TokenColors.textTertiary,
+                    color: tokens.textTertiary,
                   ),
                 ),
                 const SizedBox(height: TokenSpacing.xs),
@@ -349,7 +353,7 @@ class ExpenseRecognitionResultSheet extends HookWidget {
             ),
             Icon(
               Icons.chevron_right,
-              color: TokenColors.textTertiary,
+              color: tokens.textTertiary,
             ),
           ],
         ),
@@ -364,6 +368,7 @@ class ExpenseRecognitionResultSheet extends HookWidget {
     ValueNotifier<String?> expenseType,
     bool isMissing,
   ) {
+    final tokens = ThemeTokens.of(context);
     return InkWell(
       onTap: () async {
         final selected = await showModalBottomSheet<String>(
@@ -414,7 +419,7 @@ class ExpenseRecognitionResultSheet extends HookWidget {
                 Text(
                   l10n.expenseType,
                   style: TokenTypography.caption(
-                    color: TokenColors.textTertiary,
+                    color: tokens.textTertiary,
                   ),
                 ),
                 const SizedBox(height: TokenSpacing.xs),
@@ -424,8 +429,8 @@ class ExpenseRecognitionResultSheet extends HookWidget {
                       Container(
                         width: 24,
                         height: 24,
-                        decoration: const BoxDecoration(
-                          color: TokenColors.neutral200,
+                        decoration: BoxDecoration(
+                          color: tokens.neutral200,
                           shape: BoxShape.circle,
                         ),
                       ),
@@ -435,7 +440,7 @@ class ExpenseRecognitionResultSheet extends HookWidget {
                       expenseType.value ?? l10n.pleaseSelect,
                       style: TokenTypography.body(
                         color: expenseType.value == null
-                            ? TokenColors.textTertiary
+                            ? tokens.textTertiary
                             : theme.colorScheme.onSurface,
                       ),
                     ),
@@ -445,7 +450,7 @@ class ExpenseRecognitionResultSheet extends HookWidget {
             ),
             Icon(
               Icons.chevron_right,
-              color: TokenColors.textTertiary,
+              color: tokens.textTertiary,
             ),
           ],
         ),
@@ -461,6 +466,7 @@ class ExpenseRecognitionResultSheet extends HookWidget {
     ValueNotifier<double?> amount,
     bool isMissing,
   ) {
+    final tokens = ThemeTokens.of(context);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl, vertical: TokenSpacing.xl),
       decoration: BoxDecoration(
@@ -476,7 +482,7 @@ class ExpenseRecognitionResultSheet extends HookWidget {
           Text(
             l10n.expenseAmount,
             style: TokenTypography.caption(
-              color: TokenColors.textTertiary,
+              color: tokens.textTertiary,
             ),
           ),
           const SizedBox(height: TokenSpacing.xs),
@@ -485,7 +491,7 @@ class ExpenseRecognitionResultSheet extends HookWidget {
             decoration: InputDecoration(
               hintText: l10n.enterAmount,
               hintStyle: TextStyle(
-                color: TokenColors.textTertiary,
+                color: tokens.textTertiary,
               ),
               border: InputBorder.none,
               isDense: true,
@@ -513,6 +519,7 @@ class ExpenseRecognitionResultSheet extends HookWidget {
     ThemeData theme,
     ValueNotifier<String> notes,
   ) {
+    final tokens = ThemeTokens.of(context);
     return Container(
       padding: const EdgeInsets.all(TokenSpacing.xl),
       decoration: BoxDecoration(
@@ -525,7 +532,7 @@ class ExpenseRecognitionResultSheet extends HookWidget {
           Text(
             l10n.notes,
             style: TokenTypography.caption(
-              color: TokenColors.textTertiary,
+              color: tokens.textTertiary,
             ),
           ),
           const SizedBox(height: TokenSpacing.xs),
