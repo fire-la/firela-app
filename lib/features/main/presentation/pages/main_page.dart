@@ -211,8 +211,14 @@ class MainPage extends HookWidget {
 
       switch (action) {
         case 'created':
-          // 高置信度 (≥75%)，直接成功
-          _showNlpResult(context, 'success', response, nlpSessionId);
+          // 高置信度 (≥75%)，直接成功 — 关闭入口弹窗，显示 SnackBar
+          nlpSessionId.value = '';
+          // 关闭 ExpenseEntryBottomSheet（入口弹窗）
+          Navigator.pop(context);
+          refreshAssetData();
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('记账成功')),
+          );
           break;
 
         case 'confirm':
@@ -313,6 +319,9 @@ class MainPage extends HookWidget {
     String? message,
     String? waitingFor,
   }) {
+    // 先关闭 ExpenseEntryBottomSheet（入口弹窗），避免叠加
+    Navigator.pop(context);
+
     final parsedData = response['parsedData'] as Map<String, dynamic>?
         ?? response['transaction'] as Map<String, dynamic>?
         ?? response['duplicateData']?['sourceTransaction'] as Map<String, dynamic>?
