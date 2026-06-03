@@ -63,7 +63,7 @@ class AlipayYuebaoParser extends ChineseCsvParser<AlipayYuebaoRawTransaction> {
     if (amountResult is Failure) {
     return RowTransformResult.err('Failed to parse amount: ${(amountResult as Failure).error.message}', {'input': amt, 'row': row});
     }
-    var amount = (amountResult as Success).value.number;
+    var amount = (amountResult as Success).value.toDouble();
     if (isExpense) {
     amount = -amount;
     }
