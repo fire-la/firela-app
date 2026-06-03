@@ -1,4 +1,3 @@
-// @dart=3.6
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 part of 'regions_metadata_response_dto.dart';

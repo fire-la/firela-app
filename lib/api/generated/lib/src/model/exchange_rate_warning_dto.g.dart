@@ -1,4 +1,3 @@
-// @dart=3.6
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 part of 'exchange_rate_warning_dto.dart';

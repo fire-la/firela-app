@@ -41,7 +41,7 @@ dynamic parseHsbcAmount(String amountStr) {
   }
   try {
   final amount = Decimal.parse((amountStr.trim()).toString());
-  if (amount == Decimal.zero) {
+  if (!amount.isFinite) {
   return err({'message': 'Invalid amount: $amountStr'});
   }
   return ok(amount);

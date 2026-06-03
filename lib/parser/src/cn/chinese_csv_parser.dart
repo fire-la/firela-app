@@ -1,8 +1,11 @@
 // Hand-written — do not auto-generate with ts2dart
 
+import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:csv/csv.dart';
 import 'package:firela_app/parser/src/core/csv_parser_base.dart' show RowTransformResult;
+import 'package:firela_app/parser/src/result.dart';
 import 'package:firela_app/parser/src/types.dart';
 import 'package:firela_app/parser/src/utils/encoding.dart' as encoding;
 
@@ -62,27 +65,29 @@ abstract class ChineseCsvParser<T extends RawTransaction> extends Parser<T> {
   }
 
   /// Decode buffer content to UTF-8 string.
-  /// Uses encoding utility that handles UTF-8 → GBK fallback automatically.
   String decodeContent(Uint8List content) {
-    return encoding.decodeContent(content);
+    final utf8Text = utf8.decode(content);
+    if (identifyKeywords.every((kw) => utf8Text.contains(kw))) {
+      return utf8Text;
+    }
+    if (gbkFallback) {
+      final convertResult = encoding.decodeContent(content);
+      if (convertResult is Success) {
+        return (convertResult as Success).value as String;
+      }
+    }
+    return utf8Text;
   }
 
   /// Parse CSV content and find data rows between header and separator.
   _RowsResult _parseRows(String content) {
     try {
-      // Split into lines and detect delimiter (Chinese CSVs are typically tab-separated)
-      final lines = content.split(RegExp(r'\r?\n'));
-      final delimiter = _detectDelimiter(lines);
+      final rawRows = CsvToListConverter(
+        shouldParseNumbers: false,
+        fieldDelimiter: '\n',
+      ).convert(content);
 
-      final allRows = <List<String>>[];
-      for (final line in lines) {
-        if (line.trim().isEmpty) continue;
-        if (delimiter == '\t') {
-          allRows.add(line.split('\t'));
-        } else {
-          allRows.add(line.split(delimiter));
-        }
-      }
+      final allRows = rawRows.map((r) => r.cast<String>()).toList();
 
       var headerFound = false;
       final dataRows = <List<String>>[];
@@ -111,20 +116,6 @@ abstract class ChineseCsvParser<T extends RawTransaction> extends Parser<T> {
       final msg = error is Exception ? error.toString() : error.toString();
       return _RowsResult.err('Failed to parse CSV: $msg');
     }
-  }
-
-  /// Detect the field delimiter from content lines.
-  /// Chinese CSV exports (Alipay, WeChat) are typically tab-separated.
-  static String _detectDelimiter(List<String> lines) {
-    var tabCount = 0;
-    var commaCount = 0;
-    for (final line in lines.take(20)) {
-      tabCount += '\t'.allMatches(line).length;
-      commaCount += ','.allMatches(line).length;
-    }
-    if (tabCount > commaCount) return '\t';
-    if (commaCount > 0) return ',';
-    return '\t';
   }
 
   /// Transform data rows into transactions with warning collection.

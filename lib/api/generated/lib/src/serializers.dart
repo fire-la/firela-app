@@ -1,5 +1,3 @@
-// @dart=3.6
-// @dart=3.6
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //

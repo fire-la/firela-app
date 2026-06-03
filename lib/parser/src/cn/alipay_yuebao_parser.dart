@@ -63,7 +63,7 @@ class AlipayYuebaoParser extends ChineseCsvParser<AlipayYuebaoRawTransaction> {
     if (amountResult is Failure) {
     return RowTransformResult.err('Failed to parse amount: ${(amountResult as Failure).error.message}', {'input': amt, 'row': row});
     }
-    var amount = (amountResult as Success).value;
+    var amount = (amountResult as Success).value.number;
     if (isExpense) {
     amount = -amount;
     }
@@ -72,7 +72,7 @@ class AlipayYuebaoParser extends ChineseCsvParser<AlipayYuebaoRawTransaction> {
     if (account != null) {
     metadata['account'] = account;
     }
-    final transaction = AlipayYuebaoRawTransaction(date: (dateResult as Success).value, amount: amount, currency: 'CNY', description: narration ?? '', metadata: metadata, customFields: customFields);
+    final transaction = AlipayYuebaoRawTransaction(date: (dateResult as Success).value, amount: amount, currency: (amountResult as Success).value.currency, description: narration ?? '', metadata: metadata, customFields: customFields);
     return RowTransformResult.ok(transaction);
   }
   

@@ -44,15 +44,10 @@ class ParserRegistry {
   /// Detect the appropriate parser for the given file.
   ///
   /// Returns the first parser that can identify the file, or null if no parser matches.
-  /// Catches errors from individual parsers so one broken parser doesn't block others.
   Parser? detect(String filename, Uint8List content) {
     for (final parser in _parsers) {
-      try {
-        if (parser.identify(filename, content)) {
-          return parser;
-        }
-      } catch (_) {
-        continue;
+      if (parser.identify(filename, content)) {
+        return parser;
       }
     }
     return null;

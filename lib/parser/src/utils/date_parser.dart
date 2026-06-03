@@ -111,26 +111,6 @@ Result<DateTime, ParseError> parseDate(String text) {
 
       return ok(DateTime(year, month, day));
     } catch (_) {
-      // Fall through to next pattern
-    }
-  }
-
-  // Pattern 6: Slash-separated with optional time (2025/9/24 3:39 or 2025/9/24)
-  final slashDate = RegExp(
-    r'^(\d{4})/(\d{1,2})/(\d{1,2})(?:\s+(\d{1,2}):(\d{1,2})(?::(\d{1,2}))?)?$',
-  );
-  match = slashDate.firstMatch(trimmed);
-  if (match != null) {
-    try {
-      final year = int.parse(match.group(1)!);
-      final month = int.parse(match.group(2)!);
-      final day = int.parse(match.group(3)!);
-      final hour = match.group(4) != null ? int.parse(match.group(4)!) : 0;
-      final minute = match.group(5) != null ? int.parse(match.group(5)!) : 0;
-      final second = match.group(6) != null ? int.parse(match.group(6)!) : 0;
-
-      return ok(DateTime(year, month, day, hour, minute, second));
-    } catch (_) {
       // Fall through to error
     }
   }

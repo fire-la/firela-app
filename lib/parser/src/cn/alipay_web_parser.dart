@@ -67,12 +67,12 @@ class AlipayWebParser extends ChineseCsvParser<AlipayWebRawTransaction> {
     if (amountResult is Failure) {
     return RowTransformResult.err('Failed to parse amount: ${(amountResult as Failure).error.message}', {'input': amt, 'row': row});
     }
-    var amount = (amountResult as Success).value;
+    var amount = (amountResult as Success).value.number;
     if (isExpense) {
     amount = -amount;
     }
     final customFields = AlipayCustomFields(status: normalizeStatus(status), orderNo: serial, merchantOrderNo: merchantSerial ?? null);
-    final transaction = AlipayWebRawTransaction(date: (dateResult as Success).value, amount: amount, currency: 'CNY', description: narration ?? '', payee: payee ?? null, customFields: customFields);
+    final transaction = AlipayWebRawTransaction(date: (dateResult as Success).value, amount: amount, currency: (amountResult as Success).value.currency, description: narration ?? '', payee: payee ?? null, customFields: customFields);
     return RowTransformResult.ok(transaction);
   }
   

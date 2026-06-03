@@ -77,7 +77,7 @@ class AlipayMobileParser extends ChineseCsvParser<AlipayMobileRawTransaction> {
     if (amountResult is Failure) {
     return RowTransformResult.err('Failed to parse amount: ${(amountResult as Failure).error.message}', {'input': amt, 'row': row});
     }
-    var amount = (amountResult as Success).value;
+    var amount = (amountResult as Success).value.number;
     if (isExpense) {
     amount = -amount;
     }
@@ -89,7 +89,7 @@ class AlipayMobileParser extends ChineseCsvParser<AlipayMobileRawTransaction> {
     if (remark != null) {
     txnMetadata['remark'] = remark;
     }
-    final transaction = AlipayMobileRawTransaction(date: (dateResult as Success).value, amount: amount, currency: 'CNY', description: narration ?? '', payee: payee ?? null, metadata: txnMetadata, customFields: customFields);
+    final transaction = AlipayMobileRawTransaction(date: (dateResult as Success).value, amount: amount, currency: (amountResult as Success).value.currency, description: narration ?? '', payee: payee ?? null, metadata: txnMetadata, customFields: customFields);
     return RowTransformResult.ok(transaction);
   }
   
