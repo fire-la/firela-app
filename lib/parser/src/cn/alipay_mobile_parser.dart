@@ -12,7 +12,7 @@ import 'package:firela/parser/src/cn/chinese_csv_parser.dart' show ChineseCsvPar
 import 'package:firela/parser/src/core/csv_parser_base.dart' show RowTransformResult;
 import 'package:firela/parser/src/result.dart';
 import 'package:firela/parser/src/types.dart' show RawTransaction;
-import 'package:firela/parser/src/utils/amount_parser.dart' show parseAmount;
+import 'package:firela/parser/src/utils/amount_parser.dart' show parseChineseAmount;
 import 'package:firela/parser/src/utils/date_parser.dart' show parseDate;
 import 'package:firela/parser/src/utils/parser_helpers.dart' show isValidAlipayDirection;
 
@@ -73,7 +73,7 @@ class AlipayMobileParser extends ChineseCsvParser<AlipayMobileRawTransaction> {
     if (!isExpense && !isIncome) {
     return RowTransformResult.err('Unsupported direction: $direction', {'direction': direction, 'row': row});
     }
-    final amountResult = parseAmount(amt);
+    final amountResult = parseChineseAmount(amt);
     if (amountResult is Failure) {
     return RowTransformResult.err('Failed to parse amount: ${(amountResult as Failure).error.message}', {'input': amt, 'row': row});
     }
