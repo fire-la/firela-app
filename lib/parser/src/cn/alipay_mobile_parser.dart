@@ -77,7 +77,7 @@ class AlipayMobileParser extends ChineseCsvParser<AlipayMobileRawTransaction> {
     if (amountResult is Failure) {
     return RowTransformResult.err('Failed to parse amount: ${(amountResult as Failure).error.message}', {'input': amt, 'row': row});
     }
-    var amount = (amountResult as Success).value.toDouble();
+    var amount = (amountResult as Success).value;
     if (isExpense) {
     amount = -amount;
     }
