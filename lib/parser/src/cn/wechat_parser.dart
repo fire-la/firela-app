@@ -187,8 +187,8 @@ class WechatParser extends ChineseCsvParser<WechatRawTransaction> {
     cleaned = cleaned.replaceAll(',', '');
 
     try {
-      final amount = Decimal.parse(cleaned);
-      if (!amount.isFinite) return null;
+      final amount = Decimal.tryParse(cleaned);
+      if (amount == null) return null;
 
       // Apply sign convention
       if (flowType == '支出') {

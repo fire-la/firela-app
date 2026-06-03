@@ -40,8 +40,8 @@ dynamic parseHsbcAmount(String amountStr) {
   return err({'message': 'Missing amount field'});
   }
   try {
-  final amount = Decimal.parse((amountStr.trim()).toString());
-  if (!amount.isFinite) {
+  final amount = Decimal.tryParse(amountStr.trim());
+  if (amount == null) {
   return err({'message': 'Invalid amount: $amountStr'});
   }
   return ok(amount);
