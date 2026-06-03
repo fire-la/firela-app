@@ -72,7 +72,7 @@ class AlipayWebParser extends ChineseCsvParser<AlipayWebRawTransaction> {
     amount = -amount;
     }
     final customFields = AlipayCustomFields(status: normalizeStatus(status), orderNo: serial, merchantOrderNo: merchantSerial ?? null);
-    final transaction = AlipayWebRawTransaction(date: (dateResult as Success).value, amount: amount, currency: (amountResult as Success).value.currency, description: narration ?? '', payee: payee ?? null, customFields: customFields);
+    final transaction = AlipayWebRawTransaction(date: (dateResult as Success).value, amount: amount, currency: 'CNY', description: narration ?? '', payee: payee ?? null, customFields: customFields);
     return RowTransformResult.ok(transaction);
   }
   

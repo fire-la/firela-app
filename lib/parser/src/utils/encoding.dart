@@ -34,6 +34,15 @@ String decodeContent(Uint8List content) {
   }
 }
 
+/// Check if content is binary (not text) by inspecting magic bytes.
+///
+/// ZIP-based formats (XLSX, DOCX, etc.) start with `PK` (0x50, 0x4B).
+bool isBinaryContent(Uint8List content) {
+  if (content.length < 4) return false;
+  // ZIP magic: PK\x03\x04
+  return content[0] == 0x50 && content[1] == 0x4B;
+}
+
 /// Check if string contains garbled characters.
 ///
 /// Garbled characters indicate that UTF-8 decoding was applied to GBK-encoded content.

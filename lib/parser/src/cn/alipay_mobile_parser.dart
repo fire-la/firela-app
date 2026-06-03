@@ -89,7 +89,7 @@ class AlipayMobileParser extends ChineseCsvParser<AlipayMobileRawTransaction> {
     if (remark != null) {
     txnMetadata['remark'] = remark;
     }
-    final transaction = AlipayMobileRawTransaction(date: (dateResult as Success).value, amount: amount, currency: (amountResult as Success).value.currency, description: narration ?? '', payee: payee ?? null, metadata: txnMetadata, customFields: customFields);
+    final transaction = AlipayMobileRawTransaction(date: (dateResult as Success).value, amount: amount, currency: 'CNY', description: narration ?? '', payee: payee ?? null, metadata: txnMetadata, customFields: customFields);
     return RowTransformResult.ok(transaction);
   }
   
