@@ -1,3 +1,4 @@
+// @dart=3.6
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 part of 'converted_cash_flow_dto.dart';

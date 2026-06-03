@@ -1,3 +1,4 @@
+// @dart=3.6
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
@@ -148,7 +149,7 @@ class _$NlpRuleConfirmationDataDtoSerializer
             value,
             specifiedType: const FullType(BuiltList),
           ) as BuiltList;
-          result.alternatives = valueDes;
+          result.alternatives.replace(valueDes);
           break;
         case r'reasons':
           final valueDes = serializers.deserialize(

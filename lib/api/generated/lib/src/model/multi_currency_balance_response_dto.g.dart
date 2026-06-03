@@ -1,3 +1,4 @@
+// @dart=3.6
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 part of 'multi_currency_balance_response_dto.dart';

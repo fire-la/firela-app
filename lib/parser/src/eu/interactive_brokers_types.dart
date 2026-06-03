@@ -7,7 +7,7 @@
 // ignore_for_file: avoid_redundant_argument_values, avoid_unused_element, unused_local_variable
 // ignore_for_file: unused_shown_name, non_constant_identifier_names, annotate_overrides, prefer_const_declarations
 
-import 'package:firela/parser/src/types.dart' show RawTransaction;
+import 'package:firela_app/parser/src/types.dart' show RawTransaction;
 
 typedef IBSectionType = String;
 

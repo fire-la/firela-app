@@ -1,3 +1,4 @@
+// @dart=3.6
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 part of 'dashboard_controller_get_accounts200_response.dart';

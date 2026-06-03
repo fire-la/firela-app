@@ -3,9 +3,9 @@
 import 'dart:typed_data';
 
 import 'package:decimal/decimal.dart';
-import 'package:firela/parser/src/cn/chinese_csv_parser.dart' show ChineseCsvParser;
-import 'package:firela/parser/src/core/csv_parser_base.dart' show RowTransformResult;
-import 'package:firela/parser/src/types.dart';
+import 'package:firela_app/parser/src/cn/chinese_csv_parser.dart' show ChineseCsvParser;
+import 'package:firela_app/parser/src/core/csv_parser_base.dart' show RowTransformResult;
+import 'package:firela_app/parser/src/types.dart';
 
 // ============================================================================
 // Types

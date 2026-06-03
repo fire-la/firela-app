@@ -1,3 +1,4 @@
+// @dart=3.6
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
@@ -122,7 +123,7 @@ class _$ProviderSyncDtoSerializer
             value,
             specifiedType: const FullType(BuiltList),
           ) as BuiltList;
-          result.transactions = valueDes;
+          result.transactions.replace(valueDes);
           break;
         case r'provider':
           final valueDes = serializers.deserialize(

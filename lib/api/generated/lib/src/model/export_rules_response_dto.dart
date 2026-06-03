@@ -1,3 +1,4 @@
+// @dart=3.6
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
@@ -136,7 +137,7 @@ class _$ExportRulesResponseDtoSerializer
             value,
             specifiedType: const FullType(BuiltList),
           ) as BuiltList;
-          result.rules = valueDes;
+          result.rules.replace(valueDes);
           break;
         default:
           unhandled.add(key);
