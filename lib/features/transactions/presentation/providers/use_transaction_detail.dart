@@ -22,6 +22,7 @@ class TransactionDetailState {
   final void Function(int) setSelectedSegment;
   final void Function(String) setDate;
   final void Function(String) setPayee;
+  final void Function(List<String>) setTags;
 
   const TransactionDetailState({
     required this.isLoading,
@@ -41,6 +42,7 @@ class TransactionDetailState {
     required this.setSelectedSegment,
     required this.setDate,
     required this.setPayee,
+    required this.setTags,
   });
 }
 
@@ -101,7 +103,6 @@ TransactionDetailState useTransactionDetail(String id) {
         'narration': narrationController.text,
         'payee': payee.value,
         'tags': tagsState.value,
-        'date': selectedDate.value,
       };
       await IgnApiService.instance.updateTransaction(id, data);
       refreshTransactionData();
@@ -145,5 +146,6 @@ TransactionDetailState useTransactionDetail(String id) {
     setSelectedSegment: (index) => selectedSegment.value = index,
     setDate: (date) => selectedDate.value = date,
     setPayee: (name) => payee.value = name,
+    setTags: (list) => tagsState.value = list,
   );
 }

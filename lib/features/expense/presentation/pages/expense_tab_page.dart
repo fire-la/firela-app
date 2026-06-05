@@ -197,6 +197,7 @@ class ExpenseTabPage extends HookWidget {
   }
 
   Widget _buildCategoryItem(BuildContext context, _CategorySummary cat) {
+    final tokens = ThemeTokens.of(context);
     final colors = [TokenColors.chartBlue, TokenColors.chartAmber, TokenColors.chartGreen, TokenColors.chartGrey];
     final color = colors[cat.path.hashCode.abs() % colors.length];
 
@@ -209,11 +210,11 @@ class ExpenseTabPage extends HookWidget {
       child: Container(
         padding: const EdgeInsets.all(TokenSpacing.xl),
         decoration: BoxDecoration(
-          color: TokenColors.bgCard,
+          color: tokens.bgCard,
           borderRadius: TokenRadius.borderLg,
-          border: Border.all(color: TokenColors.borderCard, width: 0.5),
+          border: Border.all(color: tokens.borderCard, width: 0.5),
           boxShadow: [
-            BoxShadow(color: TokenColors.neutral200, blurRadius: 18, offset: const Offset(0, 2), spreadRadius: 2),
+            BoxShadow(color: tokens.shadow, blurRadius: 18, offset: const Offset(0, 2), spreadRadius: 2),
           ],
         ),
         child: Row(

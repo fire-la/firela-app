@@ -37,32 +37,47 @@ class TransactionDetailEditPage extends HookWidget {
     return Scaffold(
       body: Column(
         children: [
-          TopBar(title: 'Edit'),
+          const TopBar(title: 'Edit'),
           Expanded(
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(TokenSpacing.xl),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  InputAmount(controller: state.amountController, label: 'Amount'),
-                  const SizedBox(height: TokenSpacing.xl),
-                  SegmentControl(
-                    segments: const ['Income', 'Expense', 'Transfer'],
-                    selectedIndex: state.selectedSegment,
-                    onChanged: state.setSelectedSegment,
-                  ),
-                  const SizedBox(height: TokenSpacing.xl),
-                  // Date - tappable to open date picker
-                  GestureDetector(
-                    onTap: () => _pickDate(context, state),
-                    child: ListItemArrow.card(
-                      icon: Icons.calendar_today,
-                      label: 'Date',
-                      trailingText: state.selectedDate,
-                    ),
+                  // Amount — read-only (postings cannot be modified)
+                  _ReadOnlyField(
+                    icon: Icons.payments_outlined,
+                    label: 'Amount',
+                    value: state.amountController.text.isEmpty
+                        ? '—'
+                        : state.amountController.text,
+                    valueColor: state.selectedSegment == 1
+                        ? TokenColors.error
+                        : TokenColors.success,
                   ),
                   const SizedBox(height: TokenSpacing.sm),
-                  // Payee - tappable to edit
+                  // Type — read-only
+                  _ReadOnlyField(
+                    icon: Icons.swap_horiz,
+                    label: 'Type',
+                    value: _segmentLabel(state.selectedSegment),
+                  ),
+                  const SizedBox(height: TokenSpacing.sm),
+                  // Date — read-only (date not supported by PATCH)
+                  _ReadOnlyField(
+                    icon: Icons.calendar_today,
+                    label: 'Date',
+                    value: state.selectedDate.isEmpty ? '—' : state.selectedDate,
+                  ),
+                  const SizedBox(height: TokenSpacing.sm),
+                  // Account — read-only (postings cannot be modified)
+                  _ReadOnlyField(
+                    icon: Icons.account_balance_outlined,
+                    label: 'Account',
+                    value: state.firstAccount.isEmpty ? '—' : state.firstAccount,
+                  ),
+                  const SizedBox(height: TokenSpacing.xl),
+                  // Payee — editable
                   GestureDetector(
                     onTap: () => _editPayee(context, state),
                     child: ListItemArrow.card(
@@ -72,16 +87,14 @@ class TransactionDetailEditPage extends HookWidget {
                     ),
                   ),
                   const SizedBox(height: TokenSpacing.sm),
-                  ListItemArrow.card(
-                    icon: Icons.label_outline,
-                    label: 'Tags',
-                    trailingText: state.tags.isEmpty ? '—' : state.tags.join(', '),
-                  ),
-                  const SizedBox(height: TokenSpacing.sm),
-                  ListItemArrow.card(
-                    icon: Icons.account_balance_outlined,
-                    label: 'Account',
-                    trailingText: state.firstAccount.isEmpty ? '—' : state.firstAccount,
+                  // Tags — editable
+                  GestureDetector(
+                    onTap: () => _editTags(context, state),
+                    child: ListItemArrow.card(
+                      icon: Icons.label_outline,
+                      label: 'Tags',
+                      trailingText: state.tags.isEmpty ? '—' : state.tags.join(', '),
+                    ),
                   ),
                   const SizedBox(height: TokenSpacing.xl),
                   InputField(
@@ -105,11 +118,11 @@ class TransactionDetailEditPage extends HookWidget {
                       final confirmed = await showDialog<bool>(
                         context: context,
                         builder: (_) => AlertDialog(
-                          title: const Text('确认删除'),
-                          content: const Text('此操作不可撤销'),
+                          title: const Text('确认作废'),
+                          content: const Text('此交易将被标记为已作废 (VOIDED)'),
                           actions: [
                             TextButton(onPressed: () => Navigator.pop(context, false), child: const Text('取消')),
-                            FilledButton(onPressed: () => Navigator.pop(context, true), child: const Text('删除')),
+                            FilledButton(onPressed: () => Navigator.pop(context, true), child: const Text('作废')),
                           ],
                         ),
                       );
@@ -128,21 +141,16 @@ class TransactionDetailEditPage extends HookWidget {
     );
   }
 
-  Future<void> _pickDate(BuildContext context, TransactionDetailState state) async {
-    DateTime? initial;
-    if (state.selectedDate.isNotEmpty) {
-      initial = DateTime.tryParse(state.selectedDate);
-    }
-
-    final picked = await showDatePicker(
-      context: context,
-      initialDate: initial ?? DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2100),
-    );
-
-    if (picked != null) {
-      state.setDate(picked.toIso8601String().split('T').first);
+  String _segmentLabel(int index) {
+    switch (index) {
+      case 0:
+        return 'Income';
+      case 1:
+        return 'Expense';
+      case 2:
+        return 'Transfer';
+      default:
+        return '—';
     }
   }
 
@@ -172,6 +180,81 @@ class TransactionDetailEditPage extends HookWidget {
     if (result != null) {
       state.setPayee(result);
     }
+  }
+
+  Future<void> _editTags(BuildContext context, TransactionDetailState state) async {
+    final controller = TextEditingController(text: state.tags.join(', '));
+    final result = await showDialog<String>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('标签'),
+        content: TextField(
+          controller: controller,
+          autofocus: true,
+          decoration: const InputDecoration(hintText: '输入标签，用逗号分隔'),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('取消'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(ctx, controller.text),
+            child: const Text('确定'),
+          ),
+        ],
+      ),
+    );
+    if (result != null) {
+      state.setTags(result
+          .split(',')
+          .map((s) => s.trim())
+          .where((s) => s.isNotEmpty)
+          .toList());
+    }
+  }
+}
+
+class _ReadOnlyField extends StatelessWidget {
+  const _ReadOnlyField({
+    required this.icon,
+    required this.label,
+    required this.value,
+    this.valueColor,
+  });
+
+  final IconData icon;
+  final String label;
+  final String value;
+  final Color? valueColor;
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = ThemeTokens.of(context);
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.lg, vertical: TokenSpacing.md),
+      decoration: BoxDecoration(
+        color: tokens.bgCard,
+        borderRadius: TokenRadius.borderMd,
+      ),
+      child: Row(
+        children: [
+          Icon(icon, size: 20, color: tokens.textTertiary),
+          const SizedBox(width: TokenSpacing.md),
+          Text(label, style: TokenTypography.body(color: tokens.textSecondary)),
+          const Spacer(),
+          Flexible(
+            child: Text(
+              value,
+              style: TokenTypography.body(color: valueColor ?? tokens.textPrimary),
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+              textAlign: TextAlign.right,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
 

@@ -70,5 +70,11 @@
 	<false/>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>我们需要访问您的相册以便您选择和上传账单截图</string>
+	<key>NSCameraUsageDescription</key>
+	<string>我们需要使用相机以便您拍摄账单照片</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>我们需要保存照片到您的相册</string>
 </dict>
 </plist>

@@ -256,7 +256,6 @@ class MainPage extends HookWidget {
     } catch (e) {
       logger.e('[MainPage] NLP 请求失败: $e');
 
-      // 详细调试信息
       if (e is ApiException) {
         logger.e('[MainPage] 状态码: ${e.statusCode}, 消息: ${e.message}');
         if (e.data != null) {
@@ -265,7 +264,7 @@ class MainPage extends HookWidget {
       }
 
       if (context.mounted) {
-        Navigator.pop(context); // 关闭 loading
+        Navigator.of(context).maybePop(); // 安全关闭 loading
 
         String errorMsg = '分析失败，请重试';
         if (e is ApiException) {
@@ -319,8 +318,8 @@ class MainPage extends HookWidget {
     String? message,
     String? waitingFor,
   }) {
-    // 先关闭 ExpenseEntryBottomSheet（入口弹窗），避免叠加
-    Navigator.pop(context);
+    // 不在这里关闭 ExpenseEntryBottomSheet，避免后续 Navigator.pop 链错乱
+    // 它会在 _handleNlpSubmit 成功时被关闭
 
     final parsedData = response['parsedData'] as Map<String, dynamic>?
         ?? response['transaction'] as Map<String, dynamic>?
@@ -342,8 +341,13 @@ class MainPage extends HookWidget {
           waitingFor: waitingFor,
           intent: response['intent'] ?? 'expense',
           onConfirm: (data) async {
+            // 先关闭 NlpResultBottomSheet，避免 navigator 嵌套导致 _debugLocked
+            Navigator.of(ctx).pop();
+
+            // 等待 navigator 完成当前帧后再进行后续导航
+            await Future.delayed(const Duration(milliseconds: 50));
+
             if (mode == 'success') {
-              // 成功模式，直接完成
               nlpSessionId.value = '';
               if (context.mounted) {
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -351,33 +355,29 @@ class MainPage extends HookWidget {
                 );
               }
             } else if (mode == 'ask' && data['_userInput'] != null) {
-              // ask 模式：发送用户补充的信息（带 sessionId 继续多轮对话）
               final userInput = data['_userInput'] as String;
               if (context.mounted) {
                 await _handleNlpSubmit(context, userInput, nlpSessionId);
               }
             } else if (nlpSessionId.value.isNotEmpty) {
-              // 有 sessionId，通过多轮对话确认（发送 '确认' + sessionId）
               if (context.mounted) {
                 await _handleNlpSubmit(context, '确认', nlpSessionId);
               }
             } else {
-              // 无 sessionId，直接调用 createTransaction 创建交易
-              // 先关闭 NlpResultBottomSheet，避免遮住后续的 loading/success 反馈
-              if (context.mounted) {
-                Navigator.pop(context);
-              }
               if (context.mounted) {
                 await _handleDirectConfirm(context, Map<String, dynamic>.from(parsedData), nlpSessionId);
               }
             }
           },
           onCancel: () {
-            // 清除会话
+            // 清除会话 + 关闭 ExpenseEntryBottomSheet
             if (nlpSessionId.value.isNotEmpty) {
               IgnApiService.instance.clearNlpSession(nlpSessionId.value).catchError((_) {});
             }
             nlpSessionId.value = '';
+            if (context.mounted) {
+              Navigator.pop(context); // 关闭 ExpenseEntryBottomSheet
+            }
           },
         ),
       ),

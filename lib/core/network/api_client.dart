@@ -212,6 +212,13 @@ class ApiClient {
             body: encodedBody,
           ).timeout(_timeout);
           break;
+        case 'PATCH':
+          response = await http.patch(
+            uri,
+            headers: headers,
+            body: encodedBody,
+          ).timeout(_timeout);
+          break;
         case 'DELETE':
           response = await http.delete(uri, headers: headers).timeout(_timeout);
           break;

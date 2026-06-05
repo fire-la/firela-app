@@ -259,7 +259,17 @@ class AssetsPage extends HookWidget {
 
   List<FlSpot> _convertHistoryToSpots(List<NetWorthHistoryPoint> history) {
     if (history.isEmpty) return [];
+    // 只有1个点时复制一份，确保 LineChart 能画出直线
     final sorted = List<NetWorthHistoryPoint>.from(history)..sort((a, b) => a.date.compareTo(b.date));
+    if (sorted.length == 1) {
+      final p = sorted[0];
+      sorted.add(NetWorthHistoryPoint(
+        date: p.date.subtract(const Duration(days: 1)),
+        netWorth: p.netWorth,
+        totalAssets: p.totalAssets,
+        totalLiabilities: p.totalLiabilities,
+      ));
+    }
     final values = sorted.map((h) => h.netWorth).toList();
     final minValue = values.reduce((a, b) => a < b ? a : b);
     final maxValue = values.reduce((a, b) => a > b ? a : b);

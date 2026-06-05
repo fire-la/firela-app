@@ -72,7 +72,9 @@ class DesignBottomNav extends StatelessWidget {
                 width: 56,
                 height: 56,
                 decoration: BoxDecoration(
-                  color: tokens.textPrimary,
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? TokenColors.textAccent
+                      : tokens.textPrimary,
                   shape: BoxShape.circle,
                   boxShadow: [
                     BoxShadow(
