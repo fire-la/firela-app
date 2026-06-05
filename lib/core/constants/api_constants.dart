@@ -44,7 +44,8 @@ class ApiConstants {
   static const String userInfoEndpoint = '/v1/users';
 
   /// 删除用户账户 DELETE (全局端点)
-  static const String deleteUserEndpoint = '/v1/users/me';
+  /// Body: { "accessToken": "..." } — DeleteOwnUserDto
+  static const String deleteUserEndpoint = '/v1/users';
 
   // ============ NLP 自然语言记账端点 (地域前缀端点) ============
   /// NLP 处理 POST

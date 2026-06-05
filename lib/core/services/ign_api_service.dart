@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../network/api_client.dart';
 import '../constants/api_constants.dart';
@@ -357,18 +358,22 @@ class IgnApiService {
   // ============ 账户管理 ============
 
   /// 删除用户账户
-  /// 调用 DELETE /api/v1/users/me
-  /// 返回 success/failure
+  /// 调用 DELETE /api/v1/users
+  /// Body: { "accessToken": "..." } (DeleteOwnUserDto)
   Future<bool> deleteAccount() async {
     try {
-      // Note: This is a global endpoint, we need to call it directly
       final uri = Uri.parse('${ApiConstants.ignBaseUrl}${ApiConstants.deleteUserEndpoint}');
+      final accessToken = AuthManager.instance.userAccessToken;
+      if (accessToken == null || accessToken.isEmpty) {
+        throw Exception('No access token found — please re-login');
+      }
       final response = await http.delete(
         uri,
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ${AuthManager.instance.authToken}',
         },
+        body: jsonEncode({'accessToken': accessToken}),
       ).timeout(ApiConstants.timeout);
 
       if (response.statusCode >= 200 && response.statusCode < 300) {

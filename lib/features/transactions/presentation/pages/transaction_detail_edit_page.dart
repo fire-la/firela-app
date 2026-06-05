@@ -240,10 +240,9 @@ class _ReadOnlyField extends StatelessWidget {
       child: Row(
         children: [
           Icon(icon, size: 20, color: tokens.textTertiary),
-          const SizedBox(width: TokenSpacing.md),
+          const SizedBox(width: TokenSpacing.lg),
           Text(label, style: TokenTypography.body(color: tokens.textSecondary)),
-          const Spacer(),
-          Flexible(
+          Expanded(
             child: Text(
               value,
               style: TokenTypography.body(color: valueColor ?? tokens.textPrimary),
