@@ -47,3 +47,7 @@ CLAUDE.md
 Thumbs.db
 **/Thumbs.db
 CLAUDE.md
+
+# Android signing
+android/key.properties
+*.jks
