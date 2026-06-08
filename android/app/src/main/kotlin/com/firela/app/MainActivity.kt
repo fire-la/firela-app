@@ -1,4 +1,4 @@
-package com.firela.firela
+package com.firela.app
 
 import io.flutter.embedding.android.FlutterActivity
 
