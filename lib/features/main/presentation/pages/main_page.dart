@@ -178,8 +178,9 @@ class MainPage extends HookWidget {
   Future<void> _handleNlpSubmit(
     BuildContext context,
     String text,
-    ValueNotifier<String> nlpSessionId,
-  ) async {
+    ValueNotifier<String> nlpSessionId, {
+    Map<String, dynamic>? parsedData,
+  }) async {
     logger.i('[MainPage] NLP submit: $text');
 
     // 显示 loading
@@ -194,6 +195,7 @@ class MainPage extends HookWidget {
       final response = await IgnApiService.instance.processNlp(
         text,
         sessionId: nlpSessionId.value.isEmpty ? null : nlpSessionId.value,
+        parsedData: parsedData,
       );
 
       // 更新 sessionId
@@ -211,47 +213,19 @@ class MainPage extends HookWidget {
 
       switch (action) {
         case 'created':
-          // 高置信度 (≥75%)，直接成功 — 关闭入口弹窗，显示 SnackBar
-          nlpSessionId.value = '';
-          // 关闭 ExpenseEntryBottomSheet（入口弹窗）
-          Navigator.pop(context);
-          refreshAssetData();
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('记账成功')),
-          );
-          break;
-
         case 'confirm':
         case 'confirm_payee':
-          // 低置信度 (<75%) 或收款方未匹配，需要用户确认
-          _showNlpResult(context, 'confirm', response, nlpSessionId,
-            message: action == 'confirm_payee'
-                ? (response['message'] ?? '收款方未匹配，请确认交易信息')
-                : null);
-          break;
-
-        case 'confirm_duplicate':
-          // 检测到可能重复的交易
-          _showNlpResult(context, 'confirm', response, nlpSessionId,
-            message: response['message'] ?? '检测到类似交易，请确认是否继续记录');
-          break;
-
         case 'ask':
-          // 缺少字段，需要补充
-          _showNlpResult(context, 'ask', response, nlpSessionId,
-            message: response['message'],
-            waitingFor: response['waitingFor']);
+        case 'confirm_duplicate':
+          _showNlpResult(context, action, response, nlpSessionId);
           break;
 
         case 'cancel':
-          // 用户取消
           nlpSessionId.value = '';
           break;
 
         default:
-          // 未知响应，显示确认表单
-          _showNlpResult(context, 'confirm', response, nlpSessionId,
-            message: response['message']);
+          _showNlpResult(context, 'confirm', response, nlpSessionId);
       }
     } catch (e) {
       logger.e('[MainPage] NLP 请求失败: $e');
@@ -312,20 +286,10 @@ class MainPage extends HookWidget {
   /// 显示 NLP 结果弹窗
   void _showNlpResult(
     BuildContext context,
-    String mode,
+    String action,
     Map<String, dynamic> response,
-    ValueNotifier<String> nlpSessionId, {
-    String? message,
-    String? waitingFor,
-  }) {
-    // 不在这里关闭 ExpenseEntryBottomSheet，避免后续 Navigator.pop 链错乱
-    // 它会在 _handleNlpSubmit 成功时被关闭
-
-    final parsedData = response['parsedData'] as Map<String, dynamic>?
-        ?? response['transaction'] as Map<String, dynamic>?
-        ?? response['duplicateData']?['sourceTransaction'] as Map<String, dynamic>?
-        ?? {};
-
+    ValueNotifier<String> nlpSessionId,
+  ) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -335,48 +299,54 @@ class MainPage extends HookWidget {
           bottom: MediaQuery.of(ctx).viewInsets.bottom,
         ),
         child: NlpResultBottomSheet(
-          mode: mode,
-          parsedData: Map<String, dynamic>.from(parsedData),
-          message: message,
-          waitingFor: waitingFor,
-          intent: response['intent'] ?? 'expense',
+          action: action,
+          response: response,
           onConfirm: (data) async {
-            // 先关闭 NlpResultBottomSheet，避免 navigator 嵌套导致 _debugLocked
             Navigator.of(ctx).pop();
-
-            // 等待 navigator 完成当前帧后再进行后续导航
             await Future.delayed(const Duration(milliseconds: 50));
 
-            if (mode == 'success') {
+            if (action == 'created') {
               nlpSessionId.value = '';
+              refreshAssetData();
               if (context.mounted) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('记账成功')),
+                  SnackBar(content: Text(AppLocalizations.of(context)!.expenseEntrySuccess)),
                 );
               }
-            } else if (mode == 'ask' && data['_userInput'] != null) {
-              final userInput = data['_userInput'] as String;
-              if (context.mounted) {
-                await _handleNlpSubmit(context, userInput, nlpSessionId);
-              }
-            } else if (nlpSessionId.value.isNotEmpty) {
-              if (context.mounted) {
-                await _handleNlpSubmit(context, '确认', nlpSessionId);
-              }
-            } else {
-              if (context.mounted) {
-                await _handleDirectConfirm(context, Map<String, dynamic>.from(parsedData), nlpSessionId);
-              }
+              return;
+            }
+
+            final message = _buildNlpMessage(data);
+            // IGN-266: Pass parsedData from previous response for session recovery
+            final lastParsedData = response['parsedData'] != null
+                ? Map<String, dynamic>.from(response['parsedData'] as Map)
+                : null;
+            if (context.mounted) {
+              await _handleNlpSubmit(context, message, nlpSessionId, parsedData: lastParsedData);
             }
           },
           onCancel: () {
-            // 清除会话 + 关闭 ExpenseEntryBottomSheet
+            Navigator.of(ctx).pop();
             if (nlpSessionId.value.isNotEmpty) {
               IgnApiService.instance.clearNlpSession(nlpSessionId.value).catchError((_) {});
             }
             nlpSessionId.value = '';
+          },
+          onDuplicateConfirm: () {
+            Navigator.of(ctx).pop();
+            nlpSessionId.value = '';
             if (context.mounted) {
-              Navigator.pop(context); // 关闭 ExpenseEntryBottomSheet
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(AppLocalizations.of(context)!.nlpDuplicateIgnored)),
+              );
+              Navigator.pop(context);
+            }
+          },
+          onDuplicateReject: () async {
+            Navigator.of(ctx).pop();
+            await Future.delayed(const Duration(milliseconds: 50));
+            if (context.mounted) {
+              await _handleNlpSubmit(context, '确认', nlpSessionId);
             }
           },
         ),
@@ -384,212 +354,17 @@ class MainPage extends HookWidget {
     );
   }
 
-  /// 直接确认创建交易（无 sessionId 时的兜底方案）
-  Future<void> _handleDirectConfirm(
-    BuildContext context,
-    Map<String, dynamic> parsedData,
-    ValueNotifier<String> nlpSessionId,
-  ) async {
-    logger.i('[MainPage] 无 sessionId，直接创建交易: $parsedData');
-
-    // 转换为 Beancount 交易格式
-    final transaction = _convertToBeancountFormat(parsedData);
-    logger.i('[MainPage] 转换后的交易格式: $transaction');
-
-    if (!context.mounted) return;
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (_) => const Center(child: CircularProgressIndicator()),
-    );
-
-    try {
-      await IgnApiService.instance.createTransaction(transaction);
-      nlpSessionId.value = '';
-      refreshAssetData();
-
-      if (context.mounted) {
-        Navigator.pop(context); // 关闭 loading
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('记账成功')),
-        );
-      }
-    } catch (e) {
-      logger.e('[MainPage] 直接创建交易失败: $e');
-
-      // 处理422账户验证错误，尝试使用API建议的账户重试（支持多轮重试）
-      if (e is ApiException && e.statusCode == 422 && e.data != null) {
-        Map<String, dynamic>? errorData = e.data as Map<String, dynamic>?;
-        var currentTransaction = transaction;
-        var retryCount = 0;
-        const maxRetries = 5; // 最多重试5次，避免无限循环
-
-        while (retryCount < maxRetries) {
-          // API 返回 similarAccounts 数组，取第一个作为建议账户
-          final similarAccounts = errorData?['similarAccounts'] as List<dynamic>?;
-          final suggestedAccount = similarAccounts?.isNotEmpty == true
-              ? similarAccounts![0]['name'] as String?
-              : null;
-          final invalidAccount = errorData?['invalidAccount'] as String?;
-
-          if (suggestedAccount == null || invalidAccount == null) {
-            break;
-          }
-
-          retryCount++;
-          logger.i('[MainPage] 账户验证失败，使用建议账户重试 ($retryCount): $invalidAccount -> $suggestedAccount');
-
-          // 替换无效账户为建议账户
-          currentTransaction = _replaceAccountInTransaction(
-            currentTransaction,
-            invalidAccount,
-            suggestedAccount,
-          );
-          logger.i('[MainPage] 修正后的交易格式: $currentTransaction');
-
-          try {
-            await IgnApiService.instance.createTransaction(currentTransaction);
-            nlpSessionId.value = '';
-            refreshAssetData();
-
-            if (context.mounted) {
-              Navigator.pop(context); // 关闭 loading
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('记账成功')),
-              );
-            }
-            return; // 成功，退出
-          } catch (retryError) {
-            if (retryError is ApiException && retryError.statusCode == 422 && retryError.data != null) {
-              // 继续重试下一个无效账户
-              final newData = retryError.data as Map<String, dynamic>?;
-              if (newData?['suggestedAccount'] != null && newData?['invalidAccount'] != null) {
-                // 更新 errorData 继续循环
-                errorData = newData;
-                logger.e('[MainPage] 重试仍然失败，继续尝试: ${newData?['invalidAccount']}');
-                continue;
-              }
-            }
-            logger.e('[MainPage] 重试失败: $retryError');
-            break; // 非账户验证错误，退出重试
-          }
-        }
-      }
-
-      if (context.mounted) {
-        Navigator.pop(context); // 关闭 loading
-
-        String errorMsg = '记账失败，请重试';
-        if (e is ApiException) {
-          if (e.statusCode == 422) {
-            final errorData = e.data as Map<String, dynamic>?;
-            // API 返回 similarAccounts 数组，取第一个作为建议账户
-            final similarAccounts = errorData?['similarAccounts'] as List<dynamic>?;
-            final suggested = similarAccounts?.isNotEmpty == true
-                ? similarAccounts![0]['name'] as String?
-                : null;
-            if (suggested != null) {
-              errorMsg = '账户不存在，建议使用: $suggested';
-            } else {
-              errorMsg = '交易处理失败: ${e.message}';
-            }
-          } else if (e.statusCode == 400) {
-            errorMsg = '交易格式错误: ${e.message}';
-          } else {
-            errorMsg = '请求失败 (${e.statusCode}): ${e.message}';
-          }
-        }
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(errorMsg), duration: const Duration(seconds: 5)),
-        );
-      }
+  /// Build NLP message from edited form data
+  String _buildNlpMessage(Map<String, dynamic> editedData) {
+    if (editedData['_userInput'] != null) {
+      return editedData['_userInput'] as String;
     }
-  }
-
-  /// 替换交易中的账户
-  Map<String, dynamic> _replaceAccountInTransaction(
-    Map<String, dynamic> transaction,
-    String oldAccount,
-    String newAccount,
-  ) {
-    final corrected = Map<String, dynamic>.from(transaction);
-    final postings = List<Map<String, dynamic>>.from(corrected['postings'] as List);
-
-    for (int i = 0; i < postings.length; i++) {
-      if (postings[i]['account'] == oldAccount) {
-        postings[i] = Map<String, dynamic>.from(postings[i]);
-        postings[i]['account'] = newAccount;
-      }
-    }
-
-    corrected['postings'] = postings;
-    return corrected;
-  }
-
-  /// 将 NLP 解析的数据转换为 Beancount 交易格式
-  /// 输入格式: {amount: 88, currency: CNY, date: 2026-02-25, narration: 餐饮, payee: 午餐费, category: food}
-  /// 输出格式: {date: ..., narration: ..., payee: ..., postings: [{account: ..., units: "88.0", currency: "CNY"}, ...]}
-  Map<String, dynamic> _convertToBeancountFormat(Map<String, dynamic> parsedData) {
-    final amount = (parsedData['amount'] as num?)?.toDouble() ?? 0.0;
-    final currency = parsedData['currency'] as String? ?? 'CNY';
-    final date = parsedData['date'] as String?;
-    final narration = parsedData['narration'] as String?;
-    final payee = parsedData['payee'] as String?;
-    final category = parsedData['category'] as String?;
-
-    // 根据 category 映射到 Beancount 账户
-    final expenseAccount = _mapCategoryToAccount(category);
-
-    // 构建 postings 数组（units 为字符串格式，currency 为直接字段）
-    final postings = <Map<String, dynamic>>[
-      {
-        'account': expenseAccount,
-        'units': amount.toString(),
-        'currency': currency,
-      },
-      // 负数表示资金流出（贷方）
-      {
-        'account': 'Assets:Unknown', // 默认资产账户，用户可能需要配置
-        'units': (-amount).toString(),
-        'currency': currency,
-      },
-    ];
-
-    return {
-      if (date != null) 'date': date,
-      if (narration != null) 'narration': narration,
-      if (payee != null) 'payee': payee,
-      'postings': postings,
-    };
-  }
-
-  /// 将 NLP 分类映射到 Beancount 账户
-  /// 注意：所有账户名必须符合后端账户标准，否则会返回 422 错误
-  /// 默认使用 Expenses:Uncategorized 作为兜底账户
-  String _mapCategoryToAccount(String? category) {
-    switch (category) {
-      case 'food':
-      case 'dining':
-        return 'Expenses:Uncategorized';  // 后端账户标准中没有 Expenses:Food
-      case 'transport':
-      case 'transportation':
-        return 'Expenses:Uncategorized';  // 后端账户标准中没有 Expenses:Transport
-      case 'shopping':
-        return 'Expenses:Uncategorized';  // 后端账户标准中没有 Expenses:Shopping
-      case 'entertainment':
-        return 'Expenses:Uncategorized';  // 后端账户标准中没有 Expenses:Entertainment
-      case 'health':
-      case 'medical':
-        return 'Expenses:Uncategorized';  // 后端账户标准中没有 Expenses:Health
-      case 'education':
-        return 'Expenses:Uncategorized';  // 后端账户标准中没有 Expenses:Education
-      case 'housing':
-        return 'Expenses:Uncategorized';  // 后端账户标准中没有 Expenses:Housing
-      case 'utilities':
-        return 'Expenses:Uncategorized';  // 后端账户标准中没有 Expenses:Utilities
-      default:
-        return 'Expenses:Uncategorized';
-    }
+    if (editedData['_modified'] != true) return '确认';
+    return [
+      editedData['payee'] ?? '',
+      editedData['amount'] != null ? '${editedData['amount']}元' : '',
+      editedData['category'] ?? '',
+    ].where((s) => (s as String).isNotEmpty).join(' ');
   }
 
   /// 处理账单导入 - 跳转到账单导入页面

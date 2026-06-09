@@ -137,8 +137,9 @@ class QuickActionsSection extends HookWidget {
   Future<void> _handleNlpSubmit(
     BuildContext context,
     String text,
-    ValueNotifier<String> nlpSessionId,
-  ) async {
+    ValueNotifier<String> nlpSessionId, {
+    Map<String, dynamic>? parsedData,
+  }) async {
     logger.i('[QuickActionsSection] NLP submit: $text');
 
     // Show loading
@@ -153,6 +154,7 @@ class QuickActionsSection extends HookWidget {
       final response = await IgnApiService.instance.processNlp(
         text,
         sessionId: nlpSessionId.value.isEmpty ? null : nlpSessionId.value,
+        parsedData: parsedData,
       );
 
       // Update sessionId
@@ -170,41 +172,28 @@ class QuickActionsSection extends HookWidget {
 
       switch (action) {
         case 'created':
-          // High confidence (>=75%), direct success
-          _showNlpResult(context, 'success', response, nlpSessionId);
+          _showNlpResult(context, 'created', response, nlpSessionId);
           break;
 
         case 'confirm':
         case 'confirm_payee':
-          // Low confidence (<75%) or payee not matched
-          _showNlpResult(context, 'confirm', response, nlpSessionId,
-            message: action == 'confirm_payee'
-                ? (response['message'] ?? 'Payee not matched, please confirm transaction')
-                : null);
+          _showNlpResult(context, action, response, nlpSessionId);
           break;
 
         case 'confirm_duplicate':
-          // Duplicate detected
-          _showNlpResult(context, 'confirm', response, nlpSessionId,
-            message: response['message'] ?? 'Duplicate transaction detected, please confirm');
+          _showNlpResult(context, 'confirm_duplicate', response, nlpSessionId);
           break;
 
         case 'ask':
-          // Missing fields
-          _showNlpResult(context, 'ask', response, nlpSessionId,
-            message: response['message'],
-            waitingFor: response['waitingFor']);
+          _showNlpResult(context, 'ask', response, nlpSessionId);
           break;
 
         case 'cancel':
-          // User cancelled
           nlpSessionId.value = '';
           break;
 
         default:
-          // Unknown response, show confirmation form
-          _showNlpResult(context, 'confirm', response, nlpSessionId,
-            message: response['message']);
+          _showNlpResult(context, 'confirm', response, nlpSessionId);
       }
     } catch (e) {
       logger.e('[QuickActionsSection] NLP request failed: $e');
@@ -236,17 +225,10 @@ class QuickActionsSection extends HookWidget {
   /// Show NLP result bottom sheet
   void _showNlpResult(
     BuildContext context,
-    String mode,
+    String action,
     Map<String, dynamic> response,
-    ValueNotifier<String> nlpSessionId, {
-    String? message,
-    String? waitingFor,
-  }) {
-    final parsedData = response['parsedData'] as Map<String, dynamic>?
-        ?? response['transaction'] as Map<String, dynamic>?
-        ?? response['duplicateData']?['sourceTransaction'] as Map<String, dynamic>?
-        ?? {};
-
+    ValueNotifier<String> nlpSessionId,
+  ) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -256,14 +238,13 @@ class QuickActionsSection extends HookWidget {
           bottom: MediaQuery.of(ctx).viewInsets.bottom,
         ),
         child: NlpResultBottomSheet(
-          mode: mode,
-          parsedData: Map<String, dynamic>.from(parsedData),
-          message: message,
-          waitingFor: waitingFor,
-          intent: response['intent'] ?? 'expense',
-          onConfirm: (data) async {
-            if (mode == 'success') {
-              // Success mode, just complete
+          action: action,
+          response: response,
+          onConfirm: (editedData) async {
+            Navigator.of(context).pop(); // Close NlpResultBottomSheet
+            await Future.delayed(const Duration(milliseconds: 50));
+
+            if (action == 'created') {
               nlpSessionId.value = '';
               refreshAssetData();
               if (context.mounted) {
@@ -271,112 +252,70 @@ class QuickActionsSection extends HookWidget {
                   SnackBar(content: Text(AppLocalizations.of(context)!.expenseEntrySuccess)),
                 );
               }
-            } else if (mode == 'ask' && data['_userInput'] != null) {
-              // Ask mode: send user input (with sessionId for multi-turn)
-              final userInput = data['_userInput'] as String;
+            } else if (action == 'ask') {
+              final message = _buildNlpMessage(editedData);
               if (context.mounted) {
-                await _handleNlpSubmit(context, userInput, nlpSessionId);
-              }
-            } else if (nlpSessionId.value.isNotEmpty) {
-              // Has sessionId, confirm via multi-turn dialog
-              if (context.mounted) {
-                await _handleNlpSubmit(context, 'Confirm', nlpSessionId);
+                await _handleNlpSubmit(context, message, nlpSessionId);
               }
             } else {
-              // No sessionId, create transaction directly
-              if (context.mounted) {
-                await _createTransactionDirectly(context, Map<String, dynamic>.from(parsedData), nlpSessionId);
+              if (nlpSessionId.value.isNotEmpty) {
+                final message = _buildNlpMessage(editedData);
+                // IGN-266: Pass parsedData from previous response for session recovery
+                final lastParsedData = response['parsedData'] != null
+                    ? Map<String, dynamic>.from(response['parsedData'] as Map)
+                    : null;
+                if (context.mounted) {
+                  await _handleNlpSubmit(context, message, nlpSessionId, parsedData: lastParsedData);
+                }
+              } else if (context.mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(AppLocalizations.of(context)!.nlpNoSessionError)),
+                );
               }
             }
           },
           onCancel: () {
-            // Clear session
+            Navigator.of(context).pop(); // Close NlpResultBottomSheet
             if (nlpSessionId.value.isNotEmpty) {
               IgnApiService.instance.clearNlpSession(nlpSessionId.value).catchError((_) {});
             }
             nlpSessionId.value = '';
+          },
+          onDuplicateConfirm: () {
+            Navigator.of(context).pop(); // Close NlpResultBottomSheet
+            if (nlpSessionId.value.isNotEmpty) {
+              IgnApiService.instance.clearNlpSession(nlpSessionId.value).catchError((_) {});
+            }
+            nlpSessionId.value = '';
+            if (context.mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(AppLocalizations.of(context)!.nlpDuplicateIgnored)),
+              );
+            }
+          },
+          onDuplicateReject: () async {
+            Navigator.of(context).pop(); // Close NlpResultBottomSheet
+            await Future.delayed(const Duration(milliseconds: 50));
+            if (nlpSessionId.value.isNotEmpty && context.mounted) {
+              await _handleNlpSubmit(context, '确认', nlpSessionId);
+            }
           },
         ),
       ),
     );
   }
 
-  /// Create transaction directly (fallback when no sessionId)
-  Future<void> _createTransactionDirectly(
-    BuildContext context,
-    Map<String, dynamic> parsedData,
-    ValueNotifier<String> nlpSessionId,
-  ) async {
-    logger.i('[QuickActionsSection] Creating transaction directly: $parsedData');
-
-    final transaction = _convertToBeancountFormat(parsedData);
-
-    if (!context.mounted) return;
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (_) => const Center(child: CircularProgressIndicator()),
-    );
-
-    try {
-      await IgnApiService.instance.createTransaction(transaction);
-      nlpSessionId.value = '';
-      refreshAssetData();
-
-      if (context.mounted) {
-        Navigator.pop(context);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(AppLocalizations.of(context)!.expenseEntrySuccess)),
-        );
-      }
-    } catch (e) {
-      logger.e('[QuickActionsSection] Failed to create transaction: $e');
-
-      if (context.mounted) {
-        Navigator.pop(context);
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Failed to save, please retry'), duration: Duration(seconds: 3)),
-        );
-      }
+  /// Build NLP message from edited form data
+  String _buildNlpMessage(Map<String, dynamic> editedData) {
+    if (editedData['_userInput'] != null) {
+      return editedData['_userInput'] as String;
     }
-  }
-
-  /// Convert parsed data to Beancount format
-  Map<String, dynamic> _convertToBeancountFormat(Map<String, dynamic> parsedData) {
-    final amount = (parsedData['amount'] as num?)?.toDouble() ?? 0.0;
-    final currency = parsedData['currency'] as String? ?? 'CNY';
-    final date = parsedData['date'] as String?;
-    final narration = parsedData['narration'] as String?;
-    final payee = parsedData['payee'] as String?;
-    final category = parsedData['category'] as String?;
-
-    final expenseAccount = _mapCategoryToAccount(category);
-
-    final postings = <Map<String, dynamic>>[
-      {
-        'account': expenseAccount,
-        'units': amount.toString(),
-        'currency': currency,
-      },
-      {
-        'account': 'Assets:Unknown',
-        'units': (-amount).toString(),
-        'currency': currency,
-      },
-    ];
-
-    return {
-      if (date != null) 'date': date,
-      if (narration != null) 'narration': narration,
-      if (payee != null) 'payee': payee,
-      'postings': postings,
-    };
-  }
-
-  /// Map NLP category to Beancount account
-  String _mapCategoryToAccount(String? category) {
-    // Default to Uncategorized as per existing pattern
-    return 'Expenses:Uncategorized';
+    if (editedData['_modified'] != true) return '确认';
+    return [
+      editedData['payee'] ?? '',
+      editedData['amount'] != null ? '${editedData['amount']}元' : '',
+      editedData['category'] ?? '',
+    ].where((s) => (s as String).isNotEmpty).join(' ');
   }
 
   /// Show image source picker and process OCR

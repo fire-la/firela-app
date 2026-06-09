@@ -18,6 +18,7 @@ class IgnApiService {
   /// 处理自然语言输入
   /// [message] 自然语言文本，最大 500 字符
   /// [sessionId] 会话ID（多轮对话时必传）
+  /// [parsedData] 上次 NLP 响应中的解析数据（用于会话丢失时恢复）
   ///
   /// 响应 action 类型:
   /// - created: 记账成功（高置信度 ≥75%，已自动创建交易）
@@ -25,12 +26,19 @@ class IgnApiService {
   /// - ask: 需要补充信息（缺少必需字段）
   /// - confirm_duplicate: 检测到可能重复的交易
   /// - cancel: 用户取消
-  Future<Map<String, dynamic>> processNlp(String message, {String? sessionId}) async {
+  Future<Map<String, dynamic>> processNlp(
+    String message, {
+    String? sessionId,
+    Map<String, dynamic>? parsedData,
+  }) async {
     final body = <String, dynamic>{
       'message': message,
     };
     if (sessionId != null && sessionId.isNotEmpty) {
       body['sessionId'] = sessionId;
+    }
+    if (parsedData != null && parsedData.isNotEmpty) {
+      body['parsedData'] = parsedData;
     }
     final result = await _client.post(ApiConstants.nlpProcessEndpoint, body: body);
     return Map<String, dynamic>.from(result as Map);
