@@ -367,7 +367,7 @@ class NlpResultBottomSheet extends HookWidget {
       NlpFieldRow(
         label: l10n.nlpFieldAmount,
         isMissing: isAmountMissing,
-        isAmount: true,
+        showChevron: false,
         valueChild: TextField(
           controller: amountController,
           decoration: InputDecoration(

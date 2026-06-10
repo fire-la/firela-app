@@ -3,8 +3,8 @@ import '../../design_tokens/design_tokens.dart';
 
 /// NetWorthDisplay: two-column layout per .pen spec.
 /// Left: label(12px $text.secondary) + value(32px w700 $text.primary), gap=4
-/// Right: label(12px $text.secondary) + value(24px w700 $text.primary), gap=4, h=66
-/// justifyContent: space_between
+/// Right: label(12px $text.secondary) + value(24px w700 $text.primary), gap=4
+/// columns: expanded 50/50
 class NetWorthDisplay extends StatelessWidget {
   const NetWorthDisplay({
     super.key,
@@ -23,30 +23,30 @@ class NetWorthDisplay extends StatelessWidget {
   Widget build(BuildContext context) {
     final tokens = ThemeTokens.of(context);
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         // Left column
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              leftLabel,
-              style: TokenTypography.caption(color: tokens.textSecondary),
-            ),
-            const SizedBox(height: TokenSpacing.xs),
-            Text(
-              leftValue,
-              style: TextStyle(
-                fontSize: 32,
-                fontWeight: FontWeight.w700,
-                color: tokens.textPrimary,
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                leftLabel,
+                style: TokenTypography.caption(color: tokens.textSecondary),
               ),
-            ),
-          ],
+              const SizedBox(height: TokenSpacing.xs),
+              Text(
+                leftValue,
+                style: TextStyle(
+                  fontSize: 32,
+                  fontWeight: FontWeight.w700,
+                  color: tokens.textPrimary,
+                ),
+              ),
+            ],
+          ),
         ),
         // Right column
-        SizedBox(
-          height: 66,
+        Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [

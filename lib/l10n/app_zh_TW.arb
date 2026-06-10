@@ -107,6 +107,29 @@
   "chooseFromGallery": "從相簿選擇",
   "scanReceiptTitle": "掃描收據識別",
   "processingOcr": "正在識別收據...",
+
+  "ocrResultTitle": "OCR 識別結果",
+  "ocrResultTitleLowConfidence": "OCR 識別結果（低置信度）",
+  "ocrParsedResult": "解析結果",
+  "ocrConfidence": "置信度",
+  "ocrLineItemCount": "明細數",
+  "ocrDate": "日期",
+  "ocrMerchant": "商家",
+  "ocrMerchantHint": "輸入商家名",
+  "ocrAmount": "金額",
+  "ocrUnrecognized": "(未識別)",
+  "ocrEntryMode": "記帳模式",
+  "ocrEntryModeWhole": "整單記帳",
+  "ocrEntryModeItemized": "逐筆記帳",
+  "ocrLineItems": "明細項目",
+  "ocrNoLineItems": "無明細項目",
+  "ocrAddItem": "添加項目",
+  "ocrProductName": "商品名",
+  "ocrErrorNameEmpty": "商品名為空，請補充",
+  "ocrErrorPriceMissing": "價格缺失，請補充",
+  "ocrErrorNameSuspect": "商品名疑似識別有誤，請核對",
+  "ocrLineItemsTotal": "明細合計",
+
   "categorizationPreviewTitle": "分類預覽",
   "items": "條目",
   "needsReview": "需確認",
@@ -354,5 +377,63 @@
   "reviewCenterSaveFailed": "儲存失敗，請重試",
   "reviewCenterEnterAccount": "請輸入帳戶名稱",
   "reviewCenterEnterMerchant": "請輸入商戶名稱",
-  "reviewCenterEnterValidAmount": "請輸入有效金額"
+  "reviewCenterEnterValidAmount": "請輸入有效金額",
+
+  "nlpTitleCreated": "AI 已為您填寫",
+  "nlpTitleConfirm": "AI 解析結果，請確認",
+  "nlpTitleAsk": "請補充資訊",
+  "nlpTitleDuplicate": "偵測到重複交易",
+  "nlpBtnConfirmEntry": "確認記帳",
+  "nlpBtnEditDetails": "修改詳情",
+  "nlpBtnNotDuplicate": "不是同一筆",
+  "nlpBtnIsDuplicate": "是同一筆",
+  "nlpBtnComplete": "完成",
+  "nlpConfidenceHigh": "很有把握",
+  "nlpConfidenceMedium": "基本確定",
+  "nlpConfidenceLow": "不太確定",
+  "nlpFieldAmount": "金額",
+  "nlpFieldDate": "日期",
+  "nlpFieldCategory": "分類",
+  "nlpFieldPayeeExpense": "商家",
+  "nlpFieldPayeeIncome": "來源",
+  "nlpFieldPayeeDefault": "對象",
+  "nlpFieldNarration": "備註",
+  "nlpMissingFieldWarning": "{fieldName}沒識別出來哦，請手動填寫",
+  "@nlpMissingFieldWarning": {
+    "placeholders": {
+      "fieldName": {
+        "type": "String"
+      }
+    }
+  },
+  "nlpPayeeNotMatched": "收款方未匹配，請確認交易資訊",
+  "nlpPayeeSuggested": "建議使用: {suggestedPayee}",
+  "@nlpPayeeSuggested": {
+    "placeholders": {
+      "suggestedPayee": {
+        "type": "String"
+      }
+    }
+  },
+  "nlpSelectAlternativePayee": "選擇其他收款方",
+  "nlpDuplicateNew": "新記錄",
+  "nlpDuplicateExisting": "已有記錄",
+  "nlpDuplicateIgnored": "已忽略重複交易",
+  "nlpEditTransaction": "編輯交易",
+  "nlpNoSessionError": "工作階段已過期，請重新輸入",
+  "nlpConfidenceHintHigh": "很有把握 — 請確認或修改以下資訊",
+  "nlpConfidenceHintMedium": "基本確定 — 請檢查以下資訊",
+  "nlpConfidenceHintLow": "不太確定 — 請仔細核對",
+  "nlpFieldRequired": "必填",
+  "nlpEnterAmount": "請輸入金額",
+  "nlpSelectCategory": "請選擇分類",
+
+  "categoryFood": "餐飲",
+  "categoryCafe": "咖啡",
+  "categoryTransport": "交通",
+  "categoryShopping": "購物",
+  "categoryEntertainment": "娛樂",
+  "categorySalary": "薪資",
+  "categoryBonus": "獎金",
+  "nlpNoParsedData": "暫無解析數據"
 }

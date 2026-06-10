@@ -434,6 +434,69 @@ class AppLocalizationsZh extends AppLocalizations {
   String get processingOcr => '正在识别收据...';
 
   @override
+  String get ocrResultTitle => 'OCR 识别结果';
+
+  @override
+  String get ocrResultTitleLowConfidence => 'OCR 识别结果（低置信度）';
+
+  @override
+  String get ocrParsedResult => '解析结果';
+
+  @override
+  String get ocrConfidence => '置信度';
+
+  @override
+  String get ocrLineItemCount => '明细数';
+
+  @override
+  String get ocrDate => '日期';
+
+  @override
+  String get ocrMerchant => '商家';
+
+  @override
+  String get ocrMerchantHint => '输入商家名';
+
+  @override
+  String get ocrAmount => '金额';
+
+  @override
+  String get ocrUnrecognized => '(未识别)';
+
+  @override
+  String get ocrEntryMode => '记账模式';
+
+  @override
+  String get ocrEntryModeWhole => '整单记账';
+
+  @override
+  String get ocrEntryModeItemized => '逐笔记账';
+
+  @override
+  String get ocrLineItems => '明细项目';
+
+  @override
+  String get ocrNoLineItems => '无明细项目';
+
+  @override
+  String get ocrAddItem => '添加项目';
+
+  @override
+  String get ocrProductName => '商品名';
+
+  @override
+  String get ocrErrorNameEmpty => '商品名为空，请补充';
+
+  @override
+  String get ocrErrorPriceMissing => '价格缺失，请补充';
+
+  @override
+  String get ocrErrorNameSuspect => '商品名疑似识别有误，请核对';
+
+  @override
+  String get ocrLineItemsTotal => '明细合计';
+
+  @override
   String get categorizationPreviewTitle => '分类预览';
 
   @override
@@ -1050,6 +1113,136 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get expenseEntrySuccess => '记账成功';
+
+  @override
+  String get nlpTitleCreated => 'AI 已为您填写';
+
+  @override
+  String get nlpTitleConfirm => 'AI 解析结果，请确认';
+
+  @override
+  String get nlpTitleAsk => '请补充信息';
+
+  @override
+  String get nlpTitleDuplicate => '检测到重复交易';
+
+  @override
+  String get nlpBtnConfirmEntry => '确认记账';
+
+  @override
+  String get nlpBtnEditDetails => '修改详情';
+
+  @override
+  String get nlpBtnNotDuplicate => '不是同一笔';
+
+  @override
+  String get nlpBtnIsDuplicate => '是同一笔';
+
+  @override
+  String get nlpBtnComplete => '完成';
+
+  @override
+  String get nlpConfidenceHigh => '很有把握';
+
+  @override
+  String get nlpConfidenceMedium => '基本确定';
+
+  @override
+  String get nlpConfidenceLow => '不太确定';
+
+  @override
+  String get nlpFieldAmount => '金额';
+
+  @override
+  String get nlpFieldDate => '日期';
+
+  @override
+  String get nlpFieldCategory => '分类';
+
+  @override
+  String get nlpFieldPayeeExpense => '商家';
+
+  @override
+  String get nlpFieldPayeeIncome => '来源';
+
+  @override
+  String get nlpFieldPayeeDefault => '对象';
+
+  @override
+  String get nlpFieldNarration => '备注';
+
+  @override
+  String nlpMissingFieldWarning(String fieldName) {
+    return '$fieldName没识别出来哦，请手动填写';
+  }
+
+  @override
+  String get nlpPayeeNotMatched => '收款方未匹配，请确认交易信息';
+
+  @override
+  String nlpPayeeSuggested(String suggestedPayee) {
+    return '建议使用: $suggestedPayee';
+  }
+
+  @override
+  String get nlpSelectAlternativePayee => '选择其他收款方';
+
+  @override
+  String get nlpDuplicateNew => '新记录';
+
+  @override
+  String get nlpDuplicateExisting => '已有记录';
+
+  @override
+  String get nlpDuplicateIgnored => '已忽略重复交易';
+
+  @override
+  String get nlpEditTransaction => '编辑交易';
+
+  @override
+  String get nlpNoSessionError => '会话已过期，请重新输入';
+
+  @override
+  String get nlpConfidenceHintHigh => '很有把握 — 请确认或修改以下信息';
+
+  @override
+  String get nlpConfidenceHintMedium => '基本确定 — 请检查以下信息';
+
+  @override
+  String get nlpConfidenceHintLow => '不太确定 — 请仔细核对';
+
+  @override
+  String get nlpFieldRequired => '必填';
+
+  @override
+  String get nlpEnterAmount => '请输入金额';
+
+  @override
+  String get nlpSelectCategory => '请选择分类';
+
+  @override
+  String get categoryFood => '餐饮';
+
+  @override
+  String get categoryCafe => '咖啡';
+
+  @override
+  String get categoryTransport => '交通';
+
+  @override
+  String get categoryShopping => '购物';
+
+  @override
+  String get categoryEntertainment => '娱乐';
+
+  @override
+  String get categorySalary => '工资';
+
+  @override
+  String get categoryBonus => '奖金';
+
+  @override
+  String get nlpNoParsedData => '暂无解析数据';
 }
 
 /// The translations for Chinese, as used in China (`zh_CN`).
@@ -1482,6 +1675,69 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get processingOcr => '正在识别收据...';
 
   @override
+  String get ocrResultTitle => 'OCR 识别结果';
+
+  @override
+  String get ocrResultTitleLowConfidence => 'OCR 识别结果（低置信度）';
+
+  @override
+  String get ocrParsedResult => '解析结果';
+
+  @override
+  String get ocrConfidence => '置信度';
+
+  @override
+  String get ocrLineItemCount => '明细数';
+
+  @override
+  String get ocrDate => '日期';
+
+  @override
+  String get ocrMerchant => '商家';
+
+  @override
+  String get ocrMerchantHint => '输入商家名';
+
+  @override
+  String get ocrAmount => '金额';
+
+  @override
+  String get ocrUnrecognized => '(未识别)';
+
+  @override
+  String get ocrEntryMode => '记账模式';
+
+  @override
+  String get ocrEntryModeWhole => '整单记账';
+
+  @override
+  String get ocrEntryModeItemized => '逐笔记账';
+
+  @override
+  String get ocrLineItems => '明细项目';
+
+  @override
+  String get ocrNoLineItems => '无明细项目';
+
+  @override
+  String get ocrAddItem => '添加项目';
+
+  @override
+  String get ocrProductName => '商品名';
+
+  @override
+  String get ocrErrorNameEmpty => '商品名为空，请补充';
+
+  @override
+  String get ocrErrorPriceMissing => '价格缺失，请补充';
+
+  @override
+  String get ocrErrorNameSuspect => '商品名疑似识别有误，请核对';
+
+  @override
+  String get ocrLineItemsTotal => '明细合计';
+
+  @override
   String get categorizationPreviewTitle => '分类预览';
 
   @override
@@ -2098,6 +2354,136 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
 
   @override
   String get expenseEntrySuccess => '记账成功';
+
+  @override
+  String get nlpTitleCreated => 'AI 已为您填写';
+
+  @override
+  String get nlpTitleConfirm => 'AI 解析结果，请确认';
+
+  @override
+  String get nlpTitleAsk => '请补充信息';
+
+  @override
+  String get nlpTitleDuplicate => '检测到重复交易';
+
+  @override
+  String get nlpBtnConfirmEntry => '确认记账';
+
+  @override
+  String get nlpBtnEditDetails => '修改详情';
+
+  @override
+  String get nlpBtnNotDuplicate => '不是同一笔';
+
+  @override
+  String get nlpBtnIsDuplicate => '是同一笔';
+
+  @override
+  String get nlpBtnComplete => '完成';
+
+  @override
+  String get nlpConfidenceHigh => '很有把握';
+
+  @override
+  String get nlpConfidenceMedium => '基本确定';
+
+  @override
+  String get nlpConfidenceLow => '不太确定';
+
+  @override
+  String get nlpFieldAmount => '金额';
+
+  @override
+  String get nlpFieldDate => '日期';
+
+  @override
+  String get nlpFieldCategory => '分类';
+
+  @override
+  String get nlpFieldPayeeExpense => '商家';
+
+  @override
+  String get nlpFieldPayeeIncome => '来源';
+
+  @override
+  String get nlpFieldPayeeDefault => '对象';
+
+  @override
+  String get nlpFieldNarration => '备注';
+
+  @override
+  String nlpMissingFieldWarning(String fieldName) {
+    return '$fieldName没识别出来哦，请手动填写';
+  }
+
+  @override
+  String get nlpPayeeNotMatched => '收款方未匹配，请确认交易信息';
+
+  @override
+  String nlpPayeeSuggested(String suggestedPayee) {
+    return '建议使用: $suggestedPayee';
+  }
+
+  @override
+  String get nlpSelectAlternativePayee => '选择其他收款方';
+
+  @override
+  String get nlpDuplicateNew => '新记录';
+
+  @override
+  String get nlpDuplicateExisting => '已有记录';
+
+  @override
+  String get nlpDuplicateIgnored => '已忽略重复交易';
+
+  @override
+  String get nlpEditTransaction => '编辑交易';
+
+  @override
+  String get nlpNoSessionError => '会话已过期，请重新输入';
+
+  @override
+  String get nlpConfidenceHintHigh => '很有把握 — 请确认或修改以下信息';
+
+  @override
+  String get nlpConfidenceHintMedium => '基本确定 — 请检查以下信息';
+
+  @override
+  String get nlpConfidenceHintLow => '不太确定 — 请仔细核对';
+
+  @override
+  String get nlpFieldRequired => '必填';
+
+  @override
+  String get nlpEnterAmount => '请输入金额';
+
+  @override
+  String get nlpSelectCategory => '请选择分类';
+
+  @override
+  String get categoryFood => '餐饮';
+
+  @override
+  String get categoryCafe => '咖啡';
+
+  @override
+  String get categoryTransport => '交通';
+
+  @override
+  String get categoryShopping => '购物';
+
+  @override
+  String get categoryEntertainment => '娱乐';
+
+  @override
+  String get categorySalary => '工资';
+
+  @override
+  String get categoryBonus => '奖金';
+
+  @override
+  String get nlpNoParsedData => '暂无解析数据';
 }
 
 /// The translations for Chinese, as used in Taiwan (`zh_TW`).
@@ -2528,6 +2914,69 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get processingOcr => '正在識別收據...';
+
+  @override
+  String get ocrResultTitle => 'OCR 識別結果';
+
+  @override
+  String get ocrResultTitleLowConfidence => 'OCR 識別結果（低置信度）';
+
+  @override
+  String get ocrParsedResult => '解析結果';
+
+  @override
+  String get ocrConfidence => '置信度';
+
+  @override
+  String get ocrLineItemCount => '明細數';
+
+  @override
+  String get ocrDate => '日期';
+
+  @override
+  String get ocrMerchant => '商家';
+
+  @override
+  String get ocrMerchantHint => '輸入商家名';
+
+  @override
+  String get ocrAmount => '金額';
+
+  @override
+  String get ocrUnrecognized => '(未識別)';
+
+  @override
+  String get ocrEntryMode => '記帳模式';
+
+  @override
+  String get ocrEntryModeWhole => '整單記帳';
+
+  @override
+  String get ocrEntryModeItemized => '逐筆記帳';
+
+  @override
+  String get ocrLineItems => '明細項目';
+
+  @override
+  String get ocrNoLineItems => '無明細項目';
+
+  @override
+  String get ocrAddItem => '添加項目';
+
+  @override
+  String get ocrProductName => '商品名';
+
+  @override
+  String get ocrErrorNameEmpty => '商品名為空，請補充';
+
+  @override
+  String get ocrErrorPriceMissing => '價格缺失，請補充';
+
+  @override
+  String get ocrErrorNameSuspect => '商品名疑似識別有誤，請核對';
+
+  @override
+  String get ocrLineItemsTotal => '明細合計';
 
   @override
   String get categorizationPreviewTitle => '分類預覽';
@@ -3146,4 +3595,134 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get expenseEntrySuccess => '記帳成功';
+
+  @override
+  String get nlpTitleCreated => 'AI 已為您填寫';
+
+  @override
+  String get nlpTitleConfirm => 'AI 解析結果，請確認';
+
+  @override
+  String get nlpTitleAsk => '請補充資訊';
+
+  @override
+  String get nlpTitleDuplicate => '偵測到重複交易';
+
+  @override
+  String get nlpBtnConfirmEntry => '確認記帳';
+
+  @override
+  String get nlpBtnEditDetails => '修改詳情';
+
+  @override
+  String get nlpBtnNotDuplicate => '不是同一筆';
+
+  @override
+  String get nlpBtnIsDuplicate => '是同一筆';
+
+  @override
+  String get nlpBtnComplete => '完成';
+
+  @override
+  String get nlpConfidenceHigh => '很有把握';
+
+  @override
+  String get nlpConfidenceMedium => '基本確定';
+
+  @override
+  String get nlpConfidenceLow => '不太確定';
+
+  @override
+  String get nlpFieldAmount => '金額';
+
+  @override
+  String get nlpFieldDate => '日期';
+
+  @override
+  String get nlpFieldCategory => '分類';
+
+  @override
+  String get nlpFieldPayeeExpense => '商家';
+
+  @override
+  String get nlpFieldPayeeIncome => '來源';
+
+  @override
+  String get nlpFieldPayeeDefault => '對象';
+
+  @override
+  String get nlpFieldNarration => '備註';
+
+  @override
+  String nlpMissingFieldWarning(String fieldName) {
+    return '$fieldName沒識別出來哦，請手動填寫';
+  }
+
+  @override
+  String get nlpPayeeNotMatched => '收款方未匹配，請確認交易資訊';
+
+  @override
+  String nlpPayeeSuggested(String suggestedPayee) {
+    return '建議使用: $suggestedPayee';
+  }
+
+  @override
+  String get nlpSelectAlternativePayee => '選擇其他收款方';
+
+  @override
+  String get nlpDuplicateNew => '新記錄';
+
+  @override
+  String get nlpDuplicateExisting => '已有記錄';
+
+  @override
+  String get nlpDuplicateIgnored => '已忽略重複交易';
+
+  @override
+  String get nlpEditTransaction => '編輯交易';
+
+  @override
+  String get nlpNoSessionError => '工作階段已過期，請重新輸入';
+
+  @override
+  String get nlpConfidenceHintHigh => '很有把握 — 請確認或修改以下資訊';
+
+  @override
+  String get nlpConfidenceHintMedium => '基本確定 — 請檢查以下資訊';
+
+  @override
+  String get nlpConfidenceHintLow => '不太確定 — 請仔細核對';
+
+  @override
+  String get nlpFieldRequired => '必填';
+
+  @override
+  String get nlpEnterAmount => '請輸入金額';
+
+  @override
+  String get nlpSelectCategory => '請選擇分類';
+
+  @override
+  String get categoryFood => '餐飲';
+
+  @override
+  String get categoryCafe => '咖啡';
+
+  @override
+  String get categoryTransport => '交通';
+
+  @override
+  String get categoryShopping => '購物';
+
+  @override
+  String get categoryEntertainment => '娛樂';
+
+  @override
+  String get categorySalary => '薪資';
+
+  @override
+  String get categoryBonus => '獎金';
+
+  @override
+  String get nlpNoParsedData => '暫無解析數據';
 }
