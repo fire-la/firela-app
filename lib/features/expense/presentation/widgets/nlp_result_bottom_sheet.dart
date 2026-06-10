@@ -731,13 +731,8 @@ class NlpResultBottomSheet extends HookWidget {
         .where((e) => e != null)
         .join(' · ');
 
-    return Container(
+    return DesignCard(
       padding: const EdgeInsets.all(TokenSpacing.lg),
-      decoration: BoxDecoration(
-        color: tokens.bgCard,
-        borderRadius: TokenRadius.borderLg,
-        boxShadow: TokenShadows.cardList,
-      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -770,7 +765,7 @@ class NlpResultBottomSheet extends HookWidget {
             Text(
               data['narration'].toString(),
               style: TokenTypography.caption(
-                color: isDimmed ? tokens.textTertiary : tokens.textTertiary,
+                color: tokens.textTertiary,
               ),
             ),
           ],
@@ -780,22 +775,10 @@ class NlpResultBottomSheet extends HookWidget {
   }
 
   Widget _buildReasonChip(ThemeTokens tokens, String label) {
-    return Container(
-      padding: const EdgeInsets.symmetric(
-        vertical: TokenSpacing.xs,
-        horizontal: TokenSpacing.sm,
-      ),
-      decoration: BoxDecoration(
-        color: tokens.neutral200,
-        borderRadius: BorderRadius.circular(TokenRadius.sm),
-      ),
-      child: Text(
-        label,
-        style: TokenTypography.caption(
-          color: tokens.textSecondary,
-          fontWeight: FontWeight.w400,
-        ),
-      ),
+    return Tag(
+      label: label,
+      backgroundColor: tokens.neutral200,
+      textColor: tokens.textSecondary,
     );
   }
 
