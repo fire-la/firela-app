@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:firela_app/generated/l10n/app_localizations.dart';
 import '../../../../core/design_tokens/design_tokens.dart';
+import '../../../../core/components/components.dart';
 
 /// Recognition result data model
 class RecognitionResult {
@@ -39,7 +40,6 @@ class ExpenseRecognitionResultSheet extends HookWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
-    final tokens = ThemeTokens.of(context);
     final isExpense = useState(result.isExpense);
     final date = useState(result.date ?? DateTime.now());
     final expenseType = useState(result.expenseType);
@@ -155,36 +155,24 @@ class ExpenseRecognitionResultSheet extends HookWidget {
           // Confirm button
           Padding(
             padding: const EdgeInsets.only(bottom: TokenSpacing.xl),
-            child: SizedBox(
-              width: double.infinity,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
-                child: ElevatedButton(
-                  onPressed: (expenseType.value != null && amount.value != null)
-                      ? () {
-                          final finalResult = RecognitionResult(
-                            confidence: result.confidence,
-                            date: date.value,
-                            expenseType: expenseType.value,
-                            amount: amount.value,
-                            notes: notes.value,
-                            isExpense: isExpense.value,
-                          );
-                          onConfirm?.call(finalResult);
-                          Navigator.of(context).pop();
-                        }
-                      : null,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: tokens.textPrimary,
-                    foregroundColor: TokenColors.white,
-                    padding: const EdgeInsets.symmetric(vertical: TokenSpacing.xl),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: TokenRadius.borderMd,
-                    ),
-                    elevation: 0,
-                  ),
-                  child: Text(l10n.confirm),
-                ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
+              child: ButtonPrimary(
+                label: l10n.confirm,
+                onPressed: (expenseType.value != null && amount.value != null)
+                    ? () {
+                        final finalResult = RecognitionResult(
+                          confidence: result.confidence,
+                          date: date.value,
+                          expenseType: expenseType.value,
+                          amount: amount.value,
+                          notes: notes.value,
+                          isExpense: isExpense.value,
+                        );
+                        onConfirm?.call(finalResult);
+                        Navigator.of(context).pop();
+                      }
+                    : null,
               ),
             ),
           ),
@@ -198,7 +186,6 @@ class ExpenseRecognitionResultSheet extends HookWidget {
     AppLocalizations l10n,
     ThemeData theme,
   ) {
-    final tokens = ThemeTokens.of(context);
     String message = '';
     if (result.expenseType == null && result.amount == null) {
       message = l10n.missingRequiredFields;

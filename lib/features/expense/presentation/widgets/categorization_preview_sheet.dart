@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firela_app/generated/l10n/app_localizations.dart';
 import '../../../../core/design_tokens/design_tokens.dart';
+import '../../../../core/components/components.dart';
 import '../../../review_center/domain/models/confidence_level.dart';
 
 /// Categorization item from parsed bill/OCR
@@ -164,23 +165,12 @@ class _CategorizationPreviewSheetState extends State<CategorizationPreviewSheet>
             ),
           ),
           child: SafeArea(
-            child: Row(
-              children: [
-                Expanded(
-                  child: OutlinedButton(
-                    onPressed: widget.onCancel,
-                    child: Text(l10n.cancel),
-                  ),
-                ),
-                const SizedBox(width: TokenSpacing.lg),
-                Expanded(
-                  flex: 2,
-                  child: FilledButton(
-                    onPressed: widget.onConfirm,
-                    child: Text(l10n.confirmImport),
-                  ),
-                ),
-              ],
+            child: ButtonRow(
+              variant: ButtonRowVariant.twoButton,
+              secondaryLabel: l10n.cancel,
+              secondaryOnTap: widget.onCancel,
+              primaryLabel: l10n.confirmImport,
+              primaryOnTap: widget.onConfirm,
             ),
           ),
         ),

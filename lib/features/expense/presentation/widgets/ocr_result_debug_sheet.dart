@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:firela_app/generated/l10n/app_localizations.dart';
 import '../../../../core/design_tokens/design_tokens.dart';
+import '../../../../core/components/components.dart';
 import '../../../../core/services/receipt_text_parser.dart';
 import '../../../../core/services/ocr/line_reconstructor.dart';
 
@@ -161,16 +163,13 @@ class _OcrResultDebugSheetState extends State<OcrResultDebugSheet> {
             SafeArea(
               child: Padding(
                 padding: const EdgeInsets.all(TokenSpacing.xl),
-                child: SizedBox(
-                  width: double.infinity,
-                  child: widget.onConfirm != null
-                      ? FilledButton.icon(
-                          onPressed: _onConfirm,
-                          icon: const Icon(Icons.check),
-                          label: const Text('确认结果'),
-                        )
-                      : const SizedBox.shrink(),
-                ),
+                child: widget.onConfirm != null
+                    ? ButtonPrimary(
+                        label: AppLocalizations.of(context)!.confirm,
+                        icon: const Icon(Icons.check, size: 20, color: TokenColors.white),
+                        onPressed: _onConfirm,
+                      )
+                    : const SizedBox.shrink(),
               ),
             ),
           ],
