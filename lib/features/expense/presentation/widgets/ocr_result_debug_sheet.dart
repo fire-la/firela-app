@@ -4,6 +4,7 @@ import '../../../../core/design_tokens/design_tokens.dart';
 import '../../../../core/components/components.dart';
 import '../../../../core/services/receipt_text_parser.dart';
 import '../../../../core/services/ocr/line_reconstructor.dart';
+import '../../../../core/utils/formatters.dart';
 
 /// Editable line item for user modification
 class _EditableItem {
@@ -78,6 +79,7 @@ class _OcrResultDebugSheetState extends State<OcrResultDebugSheet> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     final receipt = widget.receipt;
     final isValid = receipt.isValid && receipt.confidence >= 30;
 
@@ -114,7 +116,7 @@ class _OcrResultDebugSheetState extends State<OcrResultDebugSheet> {
                   const SizedBox(width: TokenSpacing.sm),
                   Expanded(
                     child: Text(
-                      isValid ? 'OCR 识别结果' : 'OCR 识别结果（低置信度）',
+                      isValid ? l10n.ocrResultTitle : l10n.ocrResultTitleLowConfidence,
                       style: TokenTypography.h4(
                         fontWeight: FontWeight.bold,
                       ),
@@ -131,30 +133,30 @@ class _OcrResultDebugSheetState extends State<OcrResultDebugSheet> {
                 padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
                 children: [
                   // Parsed fields
-                  _buildSection(theme, '解析结果', [
-                    _buildMerchantField(theme),
-                    _buildAmountRow(theme),
-                    _buildDateField(theme),
-                    _buildFieldRow(theme, '置信度', '${receipt.confidence.toStringAsFixed(1)}%', receipt.confidence >= 50),
-                    _buildFieldRow(theme, '明细数', '${receipt.lineItems.length} 项', receipt.lineItems.isNotEmpty),
+                  _buildSection(theme, l10n.ocrParsedResult, [
+                    _buildMerchantField(theme, l10n),
+                    _buildAmountRow(theme, l10n),
+                    _buildDateField(theme, l10n),
+                    _buildFieldRow(theme, l10n.ocrConfidence, '${receipt.confidence.toStringAsFixed(1)}%', receipt.confidence >= 50),
+                    _buildFieldRow(theme, l10n.ocrLineItemCount, '${receipt.lineItems.length} ${l10n.items}', receipt.lineItems.isNotEmpty),
                   ]),
                   const SizedBox(height: TokenSpacing.xl),
 
                   // Confidence bar
-                  _buildConfidenceBar(theme, receipt.confidence),
+                  _buildConfidenceBar(theme, l10n, receipt.confidence),
                   const SizedBox(height: TokenSpacing.xl),
 
                   // Mode toggle
-                  _buildModeToggle(theme),
+                  _buildModeToggle(theme, l10n),
                   const SizedBox(height: TokenSpacing.xl),
 
                   // Editable line items
-                  _buildEditableLineItems(theme),
+                  _buildEditableLineItems(theme, l10n),
                   const SizedBox(height: TokenSpacing.xl),
 
                   // Order total from line items
                   if (_editedItems.isNotEmpty)
-                    _buildLineItemsTotal(theme),
+                    _buildLineItemsTotal(theme, l10n),
                   const SizedBox(height: 24),
                 ],
               ),
@@ -165,7 +167,7 @@ class _OcrResultDebugSheetState extends State<OcrResultDebugSheet> {
                 padding: const EdgeInsets.all(TokenSpacing.xl),
                 child: widget.onConfirm != null
                     ? ButtonPrimary(
-                        label: AppLocalizations.of(context)!.confirm,
+                        label: l10n.confirm,
                         icon: const Icon(Icons.check, size: 20, color: TokenColors.white),
                         onPressed: _onConfirm,
                       )
@@ -199,7 +201,7 @@ class _OcrResultDebugSheetState extends State<OcrResultDebugSheet> {
 
   // ─── Date field (tappable to pick date) ───
 
-  Widget _buildDateField(ThemeData theme) {
+  Widget _buildDateField(ThemeData theme, AppLocalizations l10n) {
     return Padding(
       padding: const EdgeInsets.only(bottom: TokenSpacing.xs),
       child: Row(
@@ -207,7 +209,7 @@ class _OcrResultDebugSheetState extends State<OcrResultDebugSheet> {
         children: [
           SizedBox(
             width: 60,
-            child: Text('日期', style: TokenTypography.caption(
+            child: Text(l10n.ocrDate, style: TokenTypography.caption(
               color: TokenColors.textTertiary,
             )),
           ),
@@ -269,7 +271,7 @@ class _OcrResultDebugSheetState extends State<OcrResultDebugSheet> {
 
   // ─── Merchant field (editable) ───
 
-  Widget _buildMerchantField(ThemeData theme) {
+  Widget _buildMerchantField(ThemeData theme, AppLocalizations l10n) {
     final hasName = _merchantName.isNotEmpty;
     return Padding(
       padding: const EdgeInsets.only(bottom: TokenSpacing.xs),
@@ -278,7 +280,7 @@ class _OcrResultDebugSheetState extends State<OcrResultDebugSheet> {
         children: [
           SizedBox(
             width: 60,
-            child: Text('商家', style: TokenTypography.caption(
+            child: Text(l10n.ocrMerchant, style: TokenTypography.caption(
               color: TokenColors.textTertiary,
             )),
           ),
@@ -294,7 +296,7 @@ class _OcrResultDebugSheetState extends State<OcrResultDebugSheet> {
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(TokenSpacing.sm),
                   ),
-                  hintText: '输入商家名',
+                  hintText: l10n.ocrMerchantHint,
                   hintStyle: TokenTypography.caption(
                     color: TokenColors.textTertiary,
                   ),
@@ -321,7 +323,7 @@ class _OcrResultDebugSheetState extends State<OcrResultDebugSheet> {
 
   // ─── Amount row (live line items total) ───
 
-  Widget _buildAmountRow(ThemeData theme) {
+  Widget _buildAmountRow(ThemeData theme, AppLocalizations l10n) {
     final total = _lineItemsTotal;
     final hasAmount = total > 0;
     return Padding(
@@ -330,13 +332,13 @@ class _OcrResultDebugSheetState extends State<OcrResultDebugSheet> {
         children: [
           SizedBox(
             width: 60,
-            child: Text('金额', style: TokenTypography.caption(
+            child: Text(l10n.ocrAmount, style: TokenTypography.caption(
               color: TokenColors.textTertiary,
             )),
           ),
           Expanded(
             child: Text(
-              hasAmount ? '¥${total.toStringAsFixed(2)}' : '(未识别)',
+              hasAmount ? Formatters.formatCurrency(total, symbol: '¥') : l10n.ocrUnrecognized,
               style: TokenTypography.body(
                 color: hasAmount ? theme.colorScheme.onSurface : TokenColors.error,
               ),
@@ -354,11 +356,11 @@ class _OcrResultDebugSheetState extends State<OcrResultDebugSheet> {
 
   // ─── Mode toggle ───
 
-  Widget _buildModeToggle(ThemeData theme) {
+  Widget _buildModeToggle(ThemeData theme, AppLocalizations l10n) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('记账模式', style: TokenTypography.caption(
+        Text(l10n.ocrEntryMode, style: TokenTypography.caption(
           fontWeight: FontWeight.bold,
           color: TokenColors.textAccent,
         )),
@@ -366,16 +368,16 @@ class _OcrResultDebugSheetState extends State<OcrResultDebugSheet> {
         SizedBox(
           width: double.infinity,
           child: SegmentedButton<TransactionMode>(
-            segments: const [
+            segments: [
               ButtonSegment(
                 value: TransactionMode.single,
-                label: Text('整单记账'),
-                icon: Icon(Icons.receipt),
+                label: Text(l10n.ocrEntryModeWhole),
+                icon: const Icon(Icons.receipt),
               ),
               ButtonSegment(
                 value: TransactionMode.multiple,
-                label: Text('逐笔记账'),
-                icon: Icon(Icons.list_alt),
+                label: Text(l10n.ocrEntryModeItemized),
+                icon: const Icon(Icons.list_alt),
               ),
             ],
             selected: {_mode},
@@ -390,11 +392,11 @@ class _OcrResultDebugSheetState extends State<OcrResultDebugSheet> {
 
   // ─── Editable line items ───
 
-  Widget _buildEditableLineItems(ThemeData theme) {
+  Widget _buildEditableLineItems(ThemeData theme, AppLocalizations l10n) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('明细项目', style: TokenTypography.caption(
+        Text(l10n.ocrLineItems, style: TokenTypography.caption(
           fontWeight: FontWeight.bold,
           color: TokenColors.textAccent,
         )),
@@ -402,22 +404,22 @@ class _OcrResultDebugSheetState extends State<OcrResultDebugSheet> {
         if (_editedItems.isEmpty)
           Padding(
             padding: const EdgeInsets.symmetric(vertical: TokenSpacing.xl),
-            child: Text('无明细项目', style: TokenTypography.body(
+            child: Text(l10n.ocrNoLineItems, style: TokenTypography.body(
               color: TokenColors.textTertiary,
             )),
           ),
         for (int i = 0; i < _editedItems.length; i++)
-          _buildEditableItemRow(theme, i),
+          _buildEditableItemRow(theme, l10n, i),
         TextButton.icon(
           onPressed: _addItem,
           icon: const Icon(Icons.add, size: 18),
-          label: const Text('添加项目'),
+          label: Text(l10n.ocrAddItem),
         ),
       ],
     );
   }
 
-  Widget _buildEditableItemRow(ThemeData theme, int index) {
+  Widget _buildEditableItemRow(ThemeData theme, AppLocalizations l10n, int index) {
     final item = _editedItems[index];
     final isLow = item.isLowConfidence;
 
@@ -447,7 +449,7 @@ class _OcrResultDebugSheetState extends State<OcrResultDebugSheet> {
                       border: OutlineInputBorder(
                         borderRadius: TokenRadius.borderSm,
                       ),
-                      hintText: '商品名',
+                      hintText: l10n.ocrProductName,
                     ),
                     style: TokenTypography.body(),
                     onChanged: (value) {
@@ -502,10 +504,10 @@ class _OcrResultDebugSheetState extends State<OcrResultDebugSheet> {
                     const SizedBox(width: TokenSpacing.xs),
                     Text(
                       item.name.trim().isEmpty
-                          ? '商品名为空，请补充'
+                          ? l10n.ocrErrorNameEmpty
                           : item.price <= 0
-                              ? '价格缺失，请补充'
-                              : '商品名疑似识别有误，请核对',
+                              ? l10n.ocrErrorPriceMissing
+                              : l10n.ocrErrorNameSuspect,
                       style: TokenTypography.micro(
                         color: TokenColors.primary,
                       ),
@@ -533,7 +535,7 @@ class _OcrResultDebugSheetState extends State<OcrResultDebugSheet> {
 
   // ─── Line items total ───
 
-  Widget _buildLineItemsTotal(ThemeData theme) {
+  Widget _buildLineItemsTotal(ThemeData theme, AppLocalizations l10n) {
     final total = _lineItemsTotal;
     return Container(
       width: double.infinity,
@@ -545,10 +547,10 @@ class _OcrResultDebugSheetState extends State<OcrResultDebugSheet> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text('明细合计', style: TokenTypography.body(
+          Text(l10n.ocrLineItemsTotal, style: TokenTypography.body(
             fontWeight: FontWeight.w500,
           )),
-          Text('¥${total.toStringAsFixed(2)}', style: TokenTypography.h4(
+          Text(Formatters.formatCurrency(total, symbol: '¥'), style: TokenTypography.h4(
             fontWeight: FontWeight.bold,
             color: TokenColors.textAccent,
           )),
@@ -615,7 +617,7 @@ class _OcrResultDebugSheetState extends State<OcrResultDebugSheet> {
     );
   }
 
-  Widget _buildConfidenceBar(ThemeData theme, double confidence) {
+  Widget _buildConfidenceBar(ThemeData theme, AppLocalizations l10n, double confidence) {
     final color = confidence >= 70
         ? TokenColors.success
         : confidence >= 40
@@ -625,7 +627,7 @@ class _OcrResultDebugSheetState extends State<OcrResultDebugSheet> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('置信度', style: TokenTypography.caption(
+        Text(l10n.ocrConfidence, style: TokenTypography.caption(
           color: TokenColors.textTertiary,
         )),
         const SizedBox(height: TokenSpacing.xs),

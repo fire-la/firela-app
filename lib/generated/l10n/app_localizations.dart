@@ -2488,6 +2488,198 @@ abstract class AppLocalizations {
   /// **'Bonus'**
   String get categoryBonus;
 
+  /// Groceries category label
+  ///
+  /// In en, this message translates to:
+  /// **'Groceries'**
+  String get categoryGroceries;
+
+  /// Health category label
+  ///
+  /// In en, this message translates to:
+  /// **'Health'**
+  String get categoryHealth;
+
+  /// Car category label
+  ///
+  /// In en, this message translates to:
+  /// **'Car'**
+  String get categoryCar;
+
+  /// Clothing category label
+  ///
+  /// In en, this message translates to:
+  /// **'Clothing'**
+  String get categoryClothing;
+
+  /// Delivery category label
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery'**
+  String get categoryDelivery;
+
+  /// Travel category label
+  ///
+  /// In en, this message translates to:
+  /// **'Travel'**
+  String get categoryTravel;
+
+  /// Utilities category label
+  ///
+  /// In en, this message translates to:
+  /// **'Utilities'**
+  String get categoryUtilities;
+
+  /// Transfer category label
+  ///
+  /// In en, this message translates to:
+  /// **'Transfer'**
+  String get categoryTransfer;
+
+  /// Salary income category label
+  ///
+  /// In en, this message translates to:
+  /// **'Salary'**
+  String get categoryIncomeSalary;
+
+  /// Bonus income category label
+  ///
+  /// In en, this message translates to:
+  /// **'Bonus'**
+  String get categoryIncomeBonus;
+
+  /// Dividend income category label
+  ///
+  /// In en, this message translates to:
+  /// **'Dividend'**
+  String get categoryIncomeDividend;
+
+  /// Interest income category label
+  ///
+  /// In en, this message translates to:
+  /// **'Interest'**
+  String get categoryIncomeInterest;
+
+  /// Reimbursement income category label
+  ///
+  /// In en, this message translates to:
+  /// **'Reimbursement'**
+  String get categoryIncomeReimbursement;
+
+  /// Stock investment category label
+  ///
+  /// In en, this message translates to:
+  /// **'Stock'**
+  String get categoryInvestmentStock;
+
+  /// Fund investment category label
+  ///
+  /// In en, this message translates to:
+  /// **'Fund'**
+  String get categoryInvestmentFund;
+
+  /// Bond investment category label
+  ///
+  /// In en, this message translates to:
+  /// **'Bond'**
+  String get categoryInvestmentBond;
+
+  /// ETF investment category label
+  ///
+  /// In en, this message translates to:
+  /// **'ETF'**
+  String get categoryInvestmentEtf;
+
+  /// Fixed income investment category label
+  ///
+  /// In en, this message translates to:
+  /// **'Fixed Income'**
+  String get categoryInvestmentFixed;
+
+  /// Derivatives investment category label
+  ///
+  /// In en, this message translates to:
+  /// **'Derivatives'**
+  String get categoryInvestmentDerivatives;
+
+  /// Bank deposit category label
+  ///
+  /// In en, this message translates to:
+  /// **'Deposit'**
+  String get categoryBankingDeposit;
+
+  /// Bank withdrawal category label
+  ///
+  /// In en, this message translates to:
+  /// **'Withdrawal'**
+  String get categoryBankingWithdraw;
+
+  /// Bank savings category label
+  ///
+  /// In en, this message translates to:
+  /// **'Savings'**
+  String get categoryBankingSavings;
+
+  /// Fixed deposit category label
+  ///
+  /// In en, this message translates to:
+  /// **'Fixed Deposit'**
+  String get categoryBankingFixedDeposit;
+
+  /// Fixed deposit maturity category label
+  ///
+  /// In en, this message translates to:
+  /// **'Fixed Deposit Maturity'**
+  String get categoryBankingFixedMaturity;
+
+  /// Foreign exchange category label
+  ///
+  /// In en, this message translates to:
+  /// **'Foreign Exchange'**
+  String get categoryBankingForex;
+
+  /// Credit card payment transfer category label
+  ///
+  /// In en, this message translates to:
+  /// **'Credit Card Payment'**
+  String get categoryTransferCreditCard;
+
+  /// Loan payment transfer category label
+  ///
+  /// In en, this message translates to:
+  /// **'Loan Payment'**
+  String get categoryTransferLoan;
+
+  /// Repayment transfer category label
+  ///
+  /// In en, this message translates to:
+  /// **'Repayment'**
+  String get categoryTransferRepay;
+
+  /// Red packet transfer category label
+  ///
+  /// In en, this message translates to:
+  /// **'Red Packet'**
+  String get categoryTransferRedpacket;
+
+  /// Credit card expense category label
+  ///
+  /// In en, this message translates to:
+  /// **'Credit Card Expense'**
+  String get categoryExpenseCreditCard;
+
+  /// Huabei expense category label
+  ///
+  /// In en, this message translates to:
+  /// **'Huabei'**
+  String get categoryExpenseHuabei;
+
+  /// Baitiao expense category label
+  ///
+  /// In en, this message translates to:
+  /// **'Baitiao'**
+  String get categoryExpenseBaitiao;
+
   /// No parsed data available message
   ///
   /// In en, this message translates to:

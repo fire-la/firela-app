@@ -1242,6 +1242,102 @@ class AppLocalizationsZh extends AppLocalizations {
   String get categoryBonus => '奖金';
 
   @override
+  String get categoryGroceries => '生鲜日用';
+
+  @override
+  String get categoryHealth => '医疗健康';
+
+  @override
+  String get categoryCar => '汽车';
+
+  @override
+  String get categoryClothing => '服饰';
+
+  @override
+  String get categoryDelivery => '外卖配送';
+
+  @override
+  String get categoryTravel => '旅行';
+
+  @override
+  String get categoryUtilities => '水电缴费';
+
+  @override
+  String get categoryTransfer => '转账';
+
+  @override
+  String get categoryIncomeSalary => '工资';
+
+  @override
+  String get categoryIncomeBonus => '奖金';
+
+  @override
+  String get categoryIncomeDividend => '分红';
+
+  @override
+  String get categoryIncomeInterest => '利息';
+
+  @override
+  String get categoryIncomeReimbursement => '报销';
+
+  @override
+  String get categoryInvestmentStock => '股票';
+
+  @override
+  String get categoryInvestmentFund => '基金';
+
+  @override
+  String get categoryInvestmentBond => '债券';
+
+  @override
+  String get categoryInvestmentEtf => 'ETF';
+
+  @override
+  String get categoryInvestmentFixed => '定期理财';
+
+  @override
+  String get categoryInvestmentDerivatives => '衍生品';
+
+  @override
+  String get categoryBankingDeposit => '存款';
+
+  @override
+  String get categoryBankingWithdraw => '取款';
+
+  @override
+  String get categoryBankingSavings => '储蓄';
+
+  @override
+  String get categoryBankingFixedDeposit => '定期存款';
+
+  @override
+  String get categoryBankingFixedMaturity => '定存到期';
+
+  @override
+  String get categoryBankingForex => '外汇';
+
+  @override
+  String get categoryTransferCreditCard => '信用卡还款';
+
+  @override
+  String get categoryTransferLoan => '贷款还款';
+
+  @override
+  String get categoryTransferRepay => '还款';
+
+  @override
+  String get categoryTransferRedpacket => '红包';
+
+  @override
+  String get categoryExpenseCreditCard => '信用卡消费';
+
+  @override
+  String get categoryExpenseHuabei => '花呗';
+
+  @override
+  String get categoryExpenseBaitiao => '白条';
+
+  @override
   String get nlpNoParsedData => '暂无解析数据';
 }
 
@@ -2483,6 +2579,102 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get categoryBonus => '奖金';
 
   @override
+  String get categoryGroceries => '生鲜日用';
+
+  @override
+  String get categoryHealth => '医疗健康';
+
+  @override
+  String get categoryCar => '汽车';
+
+  @override
+  String get categoryClothing => '服饰';
+
+  @override
+  String get categoryDelivery => '外卖配送';
+
+  @override
+  String get categoryTravel => '旅行';
+
+  @override
+  String get categoryUtilities => '水电缴费';
+
+  @override
+  String get categoryTransfer => '转账';
+
+  @override
+  String get categoryIncomeSalary => '工资';
+
+  @override
+  String get categoryIncomeBonus => '奖金';
+
+  @override
+  String get categoryIncomeDividend => '分红';
+
+  @override
+  String get categoryIncomeInterest => '利息';
+
+  @override
+  String get categoryIncomeReimbursement => '报销';
+
+  @override
+  String get categoryInvestmentStock => '股票';
+
+  @override
+  String get categoryInvestmentFund => '基金';
+
+  @override
+  String get categoryInvestmentBond => '债券';
+
+  @override
+  String get categoryInvestmentEtf => 'ETF';
+
+  @override
+  String get categoryInvestmentFixed => '定期理财';
+
+  @override
+  String get categoryInvestmentDerivatives => '衍生品';
+
+  @override
+  String get categoryBankingDeposit => '存款';
+
+  @override
+  String get categoryBankingWithdraw => '取款';
+
+  @override
+  String get categoryBankingSavings => '储蓄';
+
+  @override
+  String get categoryBankingFixedDeposit => '定期存款';
+
+  @override
+  String get categoryBankingFixedMaturity => '定存到期';
+
+  @override
+  String get categoryBankingForex => '外汇';
+
+  @override
+  String get categoryTransferCreditCard => '信用卡还款';
+
+  @override
+  String get categoryTransferLoan => '贷款还款';
+
+  @override
+  String get categoryTransferRepay => '还款';
+
+  @override
+  String get categoryTransferRedpacket => '红包';
+
+  @override
+  String get categoryExpenseCreditCard => '信用卡消费';
+
+  @override
+  String get categoryExpenseHuabei => '花呗';
+
+  @override
+  String get categoryExpenseBaitiao => '白条';
+
+  @override
   String get nlpNoParsedData => '暂无解析数据';
 }
 
@@ -3722,6 +3914,102 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get categoryBonus => '獎金';
+
+  @override
+  String get categoryGroceries => '生鮮日用';
+
+  @override
+  String get categoryHealth => '醫療健康';
+
+  @override
+  String get categoryCar => '汽車';
+
+  @override
+  String get categoryClothing => '服飾';
+
+  @override
+  String get categoryDelivery => '外送配送';
+
+  @override
+  String get categoryTravel => '旅行';
+
+  @override
+  String get categoryUtilities => '水電繳費';
+
+  @override
+  String get categoryTransfer => '轉帳';
+
+  @override
+  String get categoryIncomeSalary => '薪資';
+
+  @override
+  String get categoryIncomeBonus => '獎金';
+
+  @override
+  String get categoryIncomeDividend => '分紅';
+
+  @override
+  String get categoryIncomeInterest => '利息';
+
+  @override
+  String get categoryIncomeReimbursement => '報銷';
+
+  @override
+  String get categoryInvestmentStock => '股票';
+
+  @override
+  String get categoryInvestmentFund => '基金';
+
+  @override
+  String get categoryInvestmentBond => '債券';
+
+  @override
+  String get categoryInvestmentEtf => 'ETF';
+
+  @override
+  String get categoryInvestmentFixed => '定期理財';
+
+  @override
+  String get categoryInvestmentDerivatives => '衍生品';
+
+  @override
+  String get categoryBankingDeposit => '存款';
+
+  @override
+  String get categoryBankingWithdraw => '提款';
+
+  @override
+  String get categoryBankingSavings => '儲蓄';
+
+  @override
+  String get categoryBankingFixedDeposit => '定期存款';
+
+  @override
+  String get categoryBankingFixedMaturity => '定存到期';
+
+  @override
+  String get categoryBankingForex => '外匯';
+
+  @override
+  String get categoryTransferCreditCard => '信用卡還款';
+
+  @override
+  String get categoryTransferLoan => '貸款還款';
+
+  @override
+  String get categoryTransferRepay => '還款';
+
+  @override
+  String get categoryTransferRedpacket => '紅包';
+
+  @override
+  String get categoryExpenseCreditCard => '信用卡消費';
+
+  @override
+  String get categoryExpenseHuabei => '花唄';
+
+  @override
+  String get categoryExpenseBaitiao => '白條';
 
   @override
   String get nlpNoParsedData => '暫無解析數據';

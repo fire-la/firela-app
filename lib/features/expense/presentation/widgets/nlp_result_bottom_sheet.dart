@@ -12,6 +12,38 @@ const _categoryIcons = {
   'entertainment': Icons.celebration,
   'salary': Icons.account_balance_wallet,
   'bonus': Icons.card_giftcard,
+  'groceries': Icons.local_grocery_store,
+  'health': Icons.local_hospital,
+  'car': Icons.directions_car,
+  'clothing': Icons.checkroom,
+  'delivery': Icons.delivery_dining,
+  'travel': Icons.flight,
+  'utilities': Icons.bolt,
+  'transfer': Icons.swap_horiz,
+  'income_salary': Icons.account_balance_wallet,
+  'income_bonus': Icons.card_giftcard,
+  'income_dividend': Icons.trending_up,
+  'income_interest': Icons.percent,
+  'income_reimbursement': Icons.receipt_long,
+  'investment_stock': Icons.show_chart,
+  'investment_fund': Icons.pie_chart,
+  'investment_bond': Icons.account_balance,
+  'investment_etf': Icons.insights,
+  'investment_fixed': Icons.lock,
+  'investment_derivatives': Icons.candlestick_chart,
+  'banking_deposit': Icons.savings,
+  'banking_withdraw': Icons.money_off,
+  'banking_savings': Icons.savings,
+  'banking_fixed_deposit': Icons.lock,
+  'banking_fixed_maturity': Icons.lock_clock,
+  'banking_forex': Icons.currency_exchange,
+  'transfer_credit_card': Icons.credit_card,
+  'transfer_loan': Icons.real_estate_agent,
+  'transfer_repay': Icons.payment,
+  'transfer_redpacket': Icons.card_giftcard,
+  'expense_credit_card': Icons.credit_card,
+  'expense_huabei': Icons.credit_card,
+  'expense_baitiao': Icons.credit_card,
 };
 
 const _categoryKeys = [
@@ -20,8 +52,40 @@ const _categoryKeys = [
   'transport',
   'shopping',
   'entertainment',
+  'groceries',
+  'health',
+  'car',
+  'clothing',
+  'delivery',
+  'travel',
+  'utilities',
   'salary',
   'bonus',
+  'income_salary',
+  'income_bonus',
+  'income_dividend',
+  'income_interest',
+  'income_reimbursement',
+  'transfer',
+  'transfer_credit_card',
+  'transfer_loan',
+  'transfer_repay',
+  'transfer_redpacket',
+  'investment_stock',
+  'investment_fund',
+  'investment_bond',
+  'investment_etf',
+  'investment_fixed',
+  'investment_derivatives',
+  'banking_deposit',
+  'banking_withdraw',
+  'banking_savings',
+  'banking_fixed_deposit',
+  'banking_fixed_maturity',
+  'banking_forex',
+  'expense_credit_card',
+  'expense_huabei',
+  'expense_baitiao',
 ];
 
 class NlpResultBottomSheet extends HookWidget {
@@ -860,6 +924,7 @@ class NlpResultBottomSheet extends HookWidget {
 
   String _getCategoryLabel(AppLocalizations l10n, String key) {
     switch (key) {
+      // Expenses
       case 'food':
         return l10n.categoryFood;
       case 'cafe':
@@ -870,10 +935,79 @@ class NlpResultBottomSheet extends HookWidget {
         return l10n.categoryShopping;
       case 'entertainment':
         return l10n.categoryEntertainment;
+      case 'groceries':
+        return l10n.categoryGroceries;
+      case 'health':
+        return l10n.categoryHealth;
+      case 'car':
+        return l10n.categoryCar;
+      case 'clothing':
+        return l10n.categoryClothing;
+      case 'delivery':
+        return l10n.categoryDelivery;
+      case 'travel':
+        return l10n.categoryTravel;
+      case 'utilities':
+        return l10n.categoryUtilities;
+      // Income
       case 'salary':
         return l10n.categorySalary;
       case 'bonus':
         return l10n.categoryBonus;
+      case 'income_salary':
+        return l10n.categoryIncomeSalary;
+      case 'income_bonus':
+        return l10n.categoryIncomeBonus;
+      case 'income_dividend':
+        return l10n.categoryIncomeDividend;
+      case 'income_interest':
+        return l10n.categoryIncomeInterest;
+      case 'income_reimbursement':
+        return l10n.categoryIncomeReimbursement;
+      // Investment
+      case 'investment_stock':
+        return l10n.categoryInvestmentStock;
+      case 'investment_fund':
+        return l10n.categoryInvestmentFund;
+      case 'investment_bond':
+        return l10n.categoryInvestmentBond;
+      case 'investment_etf':
+        return l10n.categoryInvestmentEtf;
+      case 'investment_fixed':
+        return l10n.categoryInvestmentFixed;
+      case 'investment_derivatives':
+        return l10n.categoryInvestmentDerivatives;
+      // Banking
+      case 'banking_deposit':
+        return l10n.categoryBankingDeposit;
+      case 'banking_withdraw':
+        return l10n.categoryBankingWithdraw;
+      case 'banking_savings':
+        return l10n.categoryBankingSavings;
+      case 'banking_fixed_deposit':
+        return l10n.categoryBankingFixedDeposit;
+      case 'banking_fixed_maturity':
+        return l10n.categoryBankingFixedMaturity;
+      case 'banking_forex':
+        return l10n.categoryBankingForex;
+      // Transfer
+      case 'transfer':
+        return l10n.categoryTransfer;
+      case 'transfer_credit_card':
+        return l10n.categoryTransferCreditCard;
+      case 'transfer_loan':
+        return l10n.categoryTransferLoan;
+      case 'transfer_repay':
+        return l10n.categoryTransferRepay;
+      case 'transfer_redpacket':
+        return l10n.categoryTransferRedpacket;
+      // Credit
+      case 'expense_credit_card':
+        return l10n.categoryExpenseCreditCard;
+      case 'expense_huabei':
+        return l10n.categoryExpenseHuabei;
+      case 'expense_baitiao':
+        return l10n.categoryExpenseBaitiao;
       default:
         return key;
     }

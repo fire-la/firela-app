@@ -2070,6 +2070,166 @@
     "description": "Bonus category label"
   },
 
+  "categoryGroceries": "Groceries",
+  "@categoryGroceries": {
+    "description": "Groceries category label"
+  },
+
+  "categoryHealth": "Health",
+  "@categoryHealth": {
+    "description": "Health category label"
+  },
+
+  "categoryCar": "Car",
+  "@categoryCar": {
+    "description": "Car category label"
+  },
+
+  "categoryClothing": "Clothing",
+  "@categoryClothing": {
+    "description": "Clothing category label"
+  },
+
+  "categoryDelivery": "Delivery",
+  "@categoryDelivery": {
+    "description": "Delivery category label"
+  },
+
+  "categoryTravel": "Travel",
+  "@categoryTravel": {
+    "description": "Travel category label"
+  },
+
+  "categoryUtilities": "Utilities",
+  "@categoryUtilities": {
+    "description": "Utilities category label"
+  },
+
+  "categoryTransfer": "Transfer",
+  "@categoryTransfer": {
+    "description": "Transfer category label"
+  },
+
+  "categoryIncomeSalary": "Salary",
+  "@categoryIncomeSalary": {
+    "description": "Salary income category label"
+  },
+
+  "categoryIncomeBonus": "Bonus",
+  "@categoryIncomeBonus": {
+    "description": "Bonus income category label"
+  },
+
+  "categoryIncomeDividend": "Dividend",
+  "@categoryIncomeDividend": {
+    "description": "Dividend income category label"
+  },
+
+  "categoryIncomeInterest": "Interest",
+  "@categoryIncomeInterest": {
+    "description": "Interest income category label"
+  },
+
+  "categoryIncomeReimbursement": "Reimbursement",
+  "@categoryIncomeReimbursement": {
+    "description": "Reimbursement income category label"
+  },
+
+  "categoryInvestmentStock": "Stock",
+  "@categoryInvestmentStock": {
+    "description": "Stock investment category label"
+  },
+
+  "categoryInvestmentFund": "Fund",
+  "@categoryInvestmentFund": {
+    "description": "Fund investment category label"
+  },
+
+  "categoryInvestmentBond": "Bond",
+  "@categoryInvestmentBond": {
+    "description": "Bond investment category label"
+  },
+
+  "categoryInvestmentEtf": "ETF",
+  "@categoryInvestmentEtf": {
+    "description": "ETF investment category label"
+  },
+
+  "categoryInvestmentFixed": "Fixed Income",
+  "@categoryInvestmentFixed": {
+    "description": "Fixed income investment category label"
+  },
+
+  "categoryInvestmentDerivatives": "Derivatives",
+  "@categoryInvestmentDerivatives": {
+    "description": "Derivatives investment category label"
+  },
+
+  "categoryBankingDeposit": "Deposit",
+  "@categoryBankingDeposit": {
+    "description": "Bank deposit category label"
+  },
+
+  "categoryBankingWithdraw": "Withdrawal",
+  "@categoryBankingWithdraw": {
+    "description": "Bank withdrawal category label"
+  },
+
+  "categoryBankingSavings": "Savings",
+  "@categoryBankingSavings": {
+    "description": "Bank savings category label"
+  },
+
+  "categoryBankingFixedDeposit": "Fixed Deposit",
+  "@categoryBankingFixedDeposit": {
+    "description": "Fixed deposit category label"
+  },
+
+  "categoryBankingFixedMaturity": "Fixed Deposit Maturity",
+  "@categoryBankingFixedMaturity": {
+    "description": "Fixed deposit maturity category label"
+  },
+
+  "categoryBankingForex": "Foreign Exchange",
+  "@categoryBankingForex": {
+    "description": "Foreign exchange category label"
+  },
+
+  "categoryTransferCreditCard": "Credit Card Payment",
+  "@categoryTransferCreditCard": {
+    "description": "Credit card payment transfer category label"
+  },
+
+  "categoryTransferLoan": "Loan Payment",
+  "@categoryTransferLoan": {
+    "description": "Loan payment transfer category label"
+  },
+
+  "categoryTransferRepay": "Repayment",
+  "@categoryTransferRepay": {
+    "description": "Repayment transfer category label"
+  },
+
+  "categoryTransferRedpacket": "Red Packet",
+  "@categoryTransferRedpacket": {
+    "description": "Red packet transfer category label"
+  },
+
+  "categoryExpenseCreditCard": "Credit Card Expense",
+  "@categoryExpenseCreditCard": {
+    "description": "Credit card expense category label"
+  },
+
+  "categoryExpenseHuabei": "Huabei",
+  "@categoryExpenseHuabei": {
+    "description": "Huabei expense category label"
+  },
+
+  "categoryExpenseBaitiao": "Baitiao",
+  "@categoryExpenseBaitiao": {
+    "description": "Baitiao expense category label"
+  },
+
   "nlpNoParsedData": "No parsed data",
   "@nlpNoParsedData": {
     "description": "No parsed data available message"

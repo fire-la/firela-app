@@ -1278,5 +1278,101 @@ class AppLocalizationsEn extends AppLocalizations {
   String get categoryBonus => 'Bonus';
 
   @override
+  String get categoryGroceries => 'Groceries';
+
+  @override
+  String get categoryHealth => 'Health';
+
+  @override
+  String get categoryCar => 'Car';
+
+  @override
+  String get categoryClothing => 'Clothing';
+
+  @override
+  String get categoryDelivery => 'Delivery';
+
+  @override
+  String get categoryTravel => 'Travel';
+
+  @override
+  String get categoryUtilities => 'Utilities';
+
+  @override
+  String get categoryTransfer => 'Transfer';
+
+  @override
+  String get categoryIncomeSalary => 'Salary';
+
+  @override
+  String get categoryIncomeBonus => 'Bonus';
+
+  @override
+  String get categoryIncomeDividend => 'Dividend';
+
+  @override
+  String get categoryIncomeInterest => 'Interest';
+
+  @override
+  String get categoryIncomeReimbursement => 'Reimbursement';
+
+  @override
+  String get categoryInvestmentStock => 'Stock';
+
+  @override
+  String get categoryInvestmentFund => 'Fund';
+
+  @override
+  String get categoryInvestmentBond => 'Bond';
+
+  @override
+  String get categoryInvestmentEtf => 'ETF';
+
+  @override
+  String get categoryInvestmentFixed => 'Fixed Income';
+
+  @override
+  String get categoryInvestmentDerivatives => 'Derivatives';
+
+  @override
+  String get categoryBankingDeposit => 'Deposit';
+
+  @override
+  String get categoryBankingWithdraw => 'Withdrawal';
+
+  @override
+  String get categoryBankingSavings => 'Savings';
+
+  @override
+  String get categoryBankingFixedDeposit => 'Fixed Deposit';
+
+  @override
+  String get categoryBankingFixedMaturity => 'Fixed Deposit Maturity';
+
+  @override
+  String get categoryBankingForex => 'Foreign Exchange';
+
+  @override
+  String get categoryTransferCreditCard => 'Credit Card Payment';
+
+  @override
+  String get categoryTransferLoan => 'Loan Payment';
+
+  @override
+  String get categoryTransferRepay => 'Repayment';
+
+  @override
+  String get categoryTransferRedpacket => 'Red Packet';
+
+  @override
+  String get categoryExpenseCreditCard => 'Credit Card Expense';
+
+  @override
+  String get categoryExpenseHuabei => 'Huabei';
+
+  @override
+  String get categoryExpenseBaitiao => 'Baitiao';
+
+  @override
   String get nlpNoParsedData => 'No parsed data';
 }
