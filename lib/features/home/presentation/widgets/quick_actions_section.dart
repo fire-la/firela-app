@@ -244,6 +244,14 @@ class QuickActionsSection extends HookWidget {
             Navigator.of(context).pop(); // Close NlpResultBottomSheet
             await Future.delayed(const Duration(milliseconds: 50));
 
+            if (editedData['_action'] == 'edit') {
+              final transactionId = editedData['transactionId']?.toString();
+              if (transactionId != null && transactionId.isNotEmpty && context.mounted) {
+                context.push('/transactions/$transactionId');
+              }
+              return;
+            }
+
             if (action == 'created') {
               nlpSessionId.value = '';
               refreshAssetData();

@@ -444,6 +444,70 @@ class AppLocalizationsEn extends AppLocalizations {
   String get processingOcr => 'Processing receipt...';
 
   @override
+  String get ocrResultTitle => 'OCR Result';
+
+  @override
+  String get ocrResultTitleLowConfidence => 'OCR Result (Low Confidence)';
+
+  @override
+  String get ocrParsedResult => 'Parsed Result';
+
+  @override
+  String get ocrConfidence => 'Confidence';
+
+  @override
+  String get ocrLineItemCount => 'Line Items';
+
+  @override
+  String get ocrDate => 'Date';
+
+  @override
+  String get ocrMerchant => 'Merchant';
+
+  @override
+  String get ocrMerchantHint => 'Enter merchant name';
+
+  @override
+  String get ocrAmount => 'Amount';
+
+  @override
+  String get ocrUnrecognized => '(Unrecognized)';
+
+  @override
+  String get ocrEntryMode => 'Entry Mode';
+
+  @override
+  String get ocrEntryModeWhole => 'Whole Receipt';
+
+  @override
+  String get ocrEntryModeItemized => 'Itemized';
+
+  @override
+  String get ocrLineItems => 'Line Items';
+
+  @override
+  String get ocrNoLineItems => 'No line items';
+
+  @override
+  String get ocrAddItem => 'Add Item';
+
+  @override
+  String get ocrProductName => 'Product Name';
+
+  @override
+  String get ocrErrorNameEmpty => 'Product name is empty, please fill in';
+
+  @override
+  String get ocrErrorPriceMissing => 'Price is missing, please fill in';
+
+  @override
+  String get ocrErrorNameSuspect =>
+      'Product name may be incorrect, please verify';
+
+  @override
+  String get ocrLineItemsTotal => 'Line Items Total';
+
+  @override
   String get categorizationPreviewTitle => 'Categorization Preview';
 
   @override
@@ -1084,4 +1148,135 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get expenseEntrySuccess => 'Expense saved successfully';
+
+  @override
+  String get nlpTitleCreated => 'AI has filled in for you';
+
+  @override
+  String get nlpTitleConfirm => 'AI parsed result, please confirm';
+
+  @override
+  String get nlpTitleAsk => 'Please complete info';
+
+  @override
+  String get nlpTitleDuplicate => 'Duplicate transaction detected';
+
+  @override
+  String get nlpBtnConfirmEntry => 'Confirm Entry';
+
+  @override
+  String get nlpBtnEditDetails => 'Edit Details';
+
+  @override
+  String get nlpBtnNotDuplicate => 'Not Duplicate';
+
+  @override
+  String get nlpBtnIsDuplicate => 'Is Duplicate';
+
+  @override
+  String get nlpBtnComplete => 'Complete';
+
+  @override
+  String get nlpConfidenceHigh => 'Very confident';
+
+  @override
+  String get nlpConfidenceMedium => 'Fairly sure';
+
+  @override
+  String get nlpConfidenceLow => 'Not sure';
+
+  @override
+  String get nlpFieldAmount => 'Amount';
+
+  @override
+  String get nlpFieldDate => 'Date';
+
+  @override
+  String get nlpFieldCategory => 'Category';
+
+  @override
+  String get nlpFieldPayeeExpense => 'Merchant';
+
+  @override
+  String get nlpFieldPayeeIncome => 'Source';
+
+  @override
+  String get nlpFieldPayeeDefault => 'Payee';
+
+  @override
+  String get nlpFieldNarration => 'Notes';
+
+  @override
+  String nlpMissingFieldWarning(String fieldName) {
+    return '$fieldName not recognized, please fill in manually';
+  }
+
+  @override
+  String get nlpPayeeNotMatched =>
+      'Payee not matched, please confirm transaction';
+
+  @override
+  String nlpPayeeSuggested(String suggestedPayee) {
+    return 'Suggested: $suggestedPayee';
+  }
+
+  @override
+  String get nlpSelectAlternativePayee => 'Select alternative payee';
+
+  @override
+  String get nlpDuplicateNew => 'New Entry';
+
+  @override
+  String get nlpDuplicateExisting => 'Existing Entry';
+
+  @override
+  String get nlpDuplicateIgnored => 'Duplicate transaction ignored';
+
+  @override
+  String get nlpEditTransaction => 'Edit Transaction';
+
+  @override
+  String get nlpNoSessionError => 'Session expired, please try again';
+
+  @override
+  String get nlpConfidenceHintHigh => 'Very confident — please confirm or edit';
+
+  @override
+  String get nlpConfidenceHintMedium => 'Fairly sure — please review';
+
+  @override
+  String get nlpConfidenceHintLow => 'Not sure — please verify carefully';
+
+  @override
+  String get nlpFieldRequired => 'Required';
+
+  @override
+  String get nlpEnterAmount => 'Enter amount';
+
+  @override
+  String get nlpSelectCategory => 'Select category';
+
+  @override
+  String get categoryFood => 'Food';
+
+  @override
+  String get categoryCafe => 'Cafe';
+
+  @override
+  String get categoryTransport => 'Transport';
+
+  @override
+  String get categoryShopping => 'Shopping';
+
+  @override
+  String get categoryEntertainment => 'Entertainment';
+
+  @override
+  String get categorySalary => 'Salary';
+
+  @override
+  String get categoryBonus => 'Bonus';
+
+  @override
+  String get nlpNoParsedData => 'No parsed data';
 }

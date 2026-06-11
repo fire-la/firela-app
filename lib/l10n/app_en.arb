@@ -726,6 +726,111 @@
 
   "processingOcr": "Processing receipt...",
 
+  "ocrResultTitle": "OCR Result",
+  "@ocrResultTitle": {
+    "description": "OCR result sheet title"
+  },
+
+  "ocrResultTitleLowConfidence": "OCR Result (Low Confidence)",
+  "@ocrResultTitleLowConfidence": {
+    "description": "OCR result sheet title when confidence is low"
+  },
+
+  "ocrParsedResult": "Parsed Result",
+  "@ocrParsedResult": {
+    "description": "Section title for parsed OCR fields"
+  },
+
+  "ocrConfidence": "Confidence",
+  "@ocrConfidence": {
+    "description": "OCR confidence label"
+  },
+
+  "ocrLineItemCount": "Line Items",
+  "@ocrLineItemCount": {
+    "description": "Label for number of line items"
+  },
+
+  "ocrDate": "Date",
+  "@ocrDate": {
+    "description": "Date label in OCR result"
+  },
+
+  "ocrMerchant": "Merchant",
+  "@ocrMerchant": {
+    "description": "Merchant label in OCR result"
+  },
+
+  "ocrMerchantHint": "Enter merchant name",
+  "@ocrMerchantHint": {
+    "description": "Hint text for merchant input field"
+  },
+
+  "ocrAmount": "Amount",
+  "@ocrAmount": {
+    "description": "Amount label in OCR result"
+  },
+
+  "ocrUnrecognized": "(Unrecognized)",
+  "@ocrUnrecognized": {
+    "description": "Fallback text when amount is not recognized"
+  },
+
+  "ocrEntryMode": "Entry Mode",
+  "@ocrEntryMode": {
+    "description": "Entry mode section title"
+  },
+
+  "ocrEntryModeWhole": "Whole Receipt",
+  "@ocrEntryModeWhole": {
+    "description": "Single transaction mode for entire receipt"
+  },
+
+  "ocrEntryModeItemized": "Itemized",
+  "@ocrEntryModeItemized": {
+    "description": "Multiple transactions mode, one per line item"
+  },
+
+  "ocrLineItems": "Line Items",
+  "@ocrLineItems": {
+    "description": "Line items section title"
+  },
+
+  "ocrNoLineItems": "No line items",
+  "@ocrNoLineItems": {
+    "description": "Empty state when no line items detected"
+  },
+
+  "ocrAddItem": "Add Item",
+  "@ocrAddItem": {
+    "description": "Button to add a new line item"
+  },
+
+  "ocrProductName": "Product Name",
+  "@ocrProductName": {
+    "description": "Hint text for product name input"
+  },
+
+  "ocrErrorNameEmpty": "Product name is empty, please fill in",
+  "@ocrErrorNameEmpty": {
+    "description": "Error when product name is empty"
+  },
+
+  "ocrErrorPriceMissing": "Price is missing, please fill in",
+  "@ocrErrorPriceMissing": {
+    "description": "Error when price is zero or missing"
+  },
+
+  "ocrErrorNameSuspect": "Product name may be incorrect, please verify",
+  "@ocrErrorNameSuspect": {
+    "description": "Warning when product name looks suspicious"
+  },
+
+  "ocrLineItemsTotal": "Line Items Total",
+  "@ocrLineItemsTotal": {
+    "description": "Label for line items total amount"
+  },
+
   "categorizationPreviewTitle": "Categorization Preview",
   "@categorizationPreviewTitle": {
     "description": "Categorization preview dialog title"
@@ -1749,5 +1854,224 @@
   "expenseEntrySuccess": "Expense saved successfully",
   "@expenseEntrySuccess": {
     "description": "Expense entry success message"
+  },
+
+  "nlpTitleCreated": "AI has filled in for you",
+  "@nlpTitleCreated": {
+    "description": "Title shown when NLP successfully creates a transaction"
+  },
+
+  "nlpTitleConfirm": "AI parsed result, please confirm",
+  "@nlpTitleConfirm": {
+    "description": "Title shown when NLP result needs user confirmation"
+  },
+
+  "nlpTitleAsk": "Please complete info",
+  "@nlpTitleAsk": {
+    "description": "Title shown when NLP needs additional information from user"
+  },
+
+  "nlpTitleDuplicate": "Duplicate transaction detected",
+  "@nlpTitleDuplicate": {
+    "description": "Title shown when a duplicate transaction is detected"
+  },
+
+  "nlpBtnConfirmEntry": "Confirm Entry",
+  "@nlpBtnConfirmEntry": {
+    "description": "Button to confirm and save the NLP-parsed transaction"
+  },
+
+  "nlpBtnEditDetails": "Edit Details",
+  "@nlpBtnEditDetails": {
+    "description": "Button to navigate to transaction edit page after NLP creation"
+  },
+
+  "nlpBtnNotDuplicate": "Not Duplicate",
+  "@nlpBtnNotDuplicate": {
+    "description": "Button to mark a detected duplicate as not a duplicate"
+  },
+
+  "nlpBtnIsDuplicate": "Is Duplicate",
+  "@nlpBtnIsDuplicate": {
+    "description": "Button to confirm a transaction is a duplicate"
+  },
+
+  "nlpBtnComplete": "Complete",
+  "@nlpBtnComplete": {
+    "description": "Button to complete the NLP dialogue flow"
+  },
+
+  "nlpConfidenceHigh": "Very confident",
+  "@nlpConfidenceHigh": {
+    "description": "High confidence level label for NLP parsing result"
+  },
+
+  "nlpConfidenceMedium": "Fairly sure",
+  "@nlpConfidenceMedium": {
+    "description": "Medium confidence level label for NLP parsing result"
+  },
+
+  "nlpConfidenceLow": "Not sure",
+  "@nlpConfidenceLow": {
+    "description": "Low confidence level label for NLP parsing result"
+  },
+
+  "nlpFieldAmount": "Amount",
+  "@nlpFieldAmount": {
+    "description": "Label for transaction amount field in NLP result"
+  },
+
+  "nlpFieldDate": "Date",
+  "@nlpFieldDate": {
+    "description": "Label for transaction date field in NLP result"
+  },
+
+  "nlpFieldCategory": "Category",
+  "@nlpFieldCategory": {
+    "description": "Label for transaction category field in NLP result"
+  },
+
+  "nlpFieldPayeeExpense": "Merchant",
+  "@nlpFieldPayeeExpense": {
+    "description": "Label for payee field in expense transactions (NLP result)"
+  },
+
+  "nlpFieldPayeeIncome": "Source",
+  "@nlpFieldPayeeIncome": {
+    "description": "Label for payee field in income transactions (NLP result)"
+  },
+
+  "nlpFieldPayeeDefault": "Payee",
+  "@nlpFieldPayeeDefault": {
+    "description": "Label for payee field when transaction type is unknown (NLP result)"
+  },
+
+  "nlpFieldNarration": "Notes",
+  "@nlpFieldNarration": {
+    "description": "Label for transaction narration/notes field in NLP result"
+  },
+
+  "nlpMissingFieldWarning": "{fieldName} not recognized, please fill in manually",
+  "@nlpMissingFieldWarning": {
+    "description": "Warning shown when NLP fails to parse a field",
+    "placeholders": {
+      "fieldName": {
+        "type": "String"
+      }
+    }
+  },
+
+  "nlpPayeeNotMatched": "Payee not matched, please confirm transaction",
+  "@nlpPayeeNotMatched": {
+    "description": "Message shown when NLP cannot match the payee to a known entity"
+  },
+
+  "nlpPayeeSuggested": "Suggested: {suggestedPayee}",
+  "@nlpPayeeSuggested": {
+    "description": "Suggested payee name from NLP matching",
+    "placeholders": {
+      "suggestedPayee": {
+        "type": "String"
+      }
+    }
+  },
+
+  "nlpSelectAlternativePayee": "Select alternative payee",
+  "@nlpSelectAlternativePayee": {
+    "description": "Prompt to select a different payee from suggestions"
+  },
+
+  "nlpDuplicateNew": "New Entry",
+  "@nlpDuplicateNew": {
+    "description": "Button to keep the new transaction in duplicate detection"
+  },
+
+  "nlpDuplicateExisting": "Existing Entry",
+  "@nlpDuplicateExisting": {
+    "description": "Button to use the existing transaction in duplicate detection"
+  },
+
+  "nlpDuplicateIgnored": "Duplicate transaction ignored",
+  "@nlpDuplicateIgnored": {
+    "description": "Message when duplicate transaction is skipped"
+  },
+
+  "nlpEditTransaction": "Edit Transaction",
+  "@nlpEditTransaction": {
+    "description": "Button or title for editing a transaction"
+  },
+
+  "nlpNoSessionError": "Session expired, please try again",
+  "@nlpNoSessionError": {
+    "description": "Error message when NLP session has expired"
+  },
+
+  "nlpConfidenceHintHigh": "Very confident — please confirm or edit",
+  "@nlpConfidenceHintHigh": {
+    "description": "Confidence hint text for high confidence NLP result"
+  },
+
+  "nlpConfidenceHintMedium": "Fairly sure — please review",
+  "@nlpConfidenceHintMedium": {
+    "description": "Confidence hint text for medium confidence NLP result"
+  },
+
+  "nlpConfidenceHintLow": "Not sure — please verify carefully",
+  "@nlpConfidenceHintLow": {
+    "description": "Confidence hint text for low confidence NLP result"
+  },
+
+  "nlpFieldRequired": "Required",
+  "@nlpFieldRequired": {
+    "description": "Label indicating a field is required in NLP form"
+  },
+
+  "nlpEnterAmount": "Enter amount",
+  "@nlpEnterAmount": {
+    "description": "Placeholder or prompt to enter transaction amount"
+  },
+  "nlpSelectCategory": "Select category",
+  "@nlpSelectCategory": {
+    "description": "Select category prompt"
+  },
+
+  "categoryFood": "Food",
+  "@categoryFood": {
+    "description": "Food category label"
+  },
+
+  "categoryCafe": "Cafe",
+  "@categoryCafe": {
+    "description": "Cafe category label"
+  },
+
+  "categoryTransport": "Transport",
+  "@categoryTransport": {
+    "description": "Transport category label"
+  },
+
+  "categoryShopping": "Shopping",
+  "@categoryShopping": {
+    "description": "Shopping category label"
+  },
+
+  "categoryEntertainment": "Entertainment",
+  "@categoryEntertainment": {
+    "description": "Entertainment category label"
+  },
+
+  "categorySalary": "Salary",
+  "@categorySalary": {
+    "description": "Salary category label"
+  },
+
+  "categoryBonus": "Bonus",
+  "@categoryBonus": {
+    "description": "Bonus category label"
+  },
+
+  "nlpNoParsedData": "No parsed data",
+  "@nlpNoParsedData": {
+    "description": "No parsed data available message"
   }
 }

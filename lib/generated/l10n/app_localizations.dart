@@ -922,6 +922,132 @@ abstract class AppLocalizations {
   /// **'Processing receipt...'**
   String get processingOcr;
 
+  /// OCR result sheet title
+  ///
+  /// In en, this message translates to:
+  /// **'OCR Result'**
+  String get ocrResultTitle;
+
+  /// OCR result sheet title when confidence is low
+  ///
+  /// In en, this message translates to:
+  /// **'OCR Result (Low Confidence)'**
+  String get ocrResultTitleLowConfidence;
+
+  /// Section title for parsed OCR fields
+  ///
+  /// In en, this message translates to:
+  /// **'Parsed Result'**
+  String get ocrParsedResult;
+
+  /// OCR confidence label
+  ///
+  /// In en, this message translates to:
+  /// **'Confidence'**
+  String get ocrConfidence;
+
+  /// Label for number of line items
+  ///
+  /// In en, this message translates to:
+  /// **'Line Items'**
+  String get ocrLineItemCount;
+
+  /// Date label in OCR result
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get ocrDate;
+
+  /// Merchant label in OCR result
+  ///
+  /// In en, this message translates to:
+  /// **'Merchant'**
+  String get ocrMerchant;
+
+  /// Hint text for merchant input field
+  ///
+  /// In en, this message translates to:
+  /// **'Enter merchant name'**
+  String get ocrMerchantHint;
+
+  /// Amount label in OCR result
+  ///
+  /// In en, this message translates to:
+  /// **'Amount'**
+  String get ocrAmount;
+
+  /// Fallback text when amount is not recognized
+  ///
+  /// In en, this message translates to:
+  /// **'(Unrecognized)'**
+  String get ocrUnrecognized;
+
+  /// Entry mode section title
+  ///
+  /// In en, this message translates to:
+  /// **'Entry Mode'**
+  String get ocrEntryMode;
+
+  /// Single transaction mode for entire receipt
+  ///
+  /// In en, this message translates to:
+  /// **'Whole Receipt'**
+  String get ocrEntryModeWhole;
+
+  /// Multiple transactions mode, one per line item
+  ///
+  /// In en, this message translates to:
+  /// **'Itemized'**
+  String get ocrEntryModeItemized;
+
+  /// Line items section title
+  ///
+  /// In en, this message translates to:
+  /// **'Line Items'**
+  String get ocrLineItems;
+
+  /// Empty state when no line items detected
+  ///
+  /// In en, this message translates to:
+  /// **'No line items'**
+  String get ocrNoLineItems;
+
+  /// Button to add a new line item
+  ///
+  /// In en, this message translates to:
+  /// **'Add Item'**
+  String get ocrAddItem;
+
+  /// Hint text for product name input
+  ///
+  /// In en, this message translates to:
+  /// **'Product Name'**
+  String get ocrProductName;
+
+  /// Error when product name is empty
+  ///
+  /// In en, this message translates to:
+  /// **'Product name is empty, please fill in'**
+  String get ocrErrorNameEmpty;
+
+  /// Error when price is zero or missing
+  ///
+  /// In en, this message translates to:
+  /// **'Price is missing, please fill in'**
+  String get ocrErrorPriceMissing;
+
+  /// Warning when product name looks suspicious
+  ///
+  /// In en, this message translates to:
+  /// **'Product name may be incorrect, please verify'**
+  String get ocrErrorNameSuspect;
+
+  /// Label for line items total amount
+  ///
+  /// In en, this message translates to:
+  /// **'Line Items Total'**
+  String get ocrLineItemsTotal;
+
   /// Categorization preview dialog title
   ///
   /// In en, this message translates to:
@@ -2115,6 +2241,258 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Expense saved successfully'**
   String get expenseEntrySuccess;
+
+  /// Title shown when NLP successfully creates a transaction
+  ///
+  /// In en, this message translates to:
+  /// **'AI has filled in for you'**
+  String get nlpTitleCreated;
+
+  /// Title shown when NLP result needs user confirmation
+  ///
+  /// In en, this message translates to:
+  /// **'AI parsed result, please confirm'**
+  String get nlpTitleConfirm;
+
+  /// Title shown when NLP needs additional information from user
+  ///
+  /// In en, this message translates to:
+  /// **'Please complete info'**
+  String get nlpTitleAsk;
+
+  /// Title shown when a duplicate transaction is detected
+  ///
+  /// In en, this message translates to:
+  /// **'Duplicate transaction detected'**
+  String get nlpTitleDuplicate;
+
+  /// Button to confirm and save the NLP-parsed transaction
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Entry'**
+  String get nlpBtnConfirmEntry;
+
+  /// Button to navigate to transaction edit page after NLP creation
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Details'**
+  String get nlpBtnEditDetails;
+
+  /// Button to mark a detected duplicate as not a duplicate
+  ///
+  /// In en, this message translates to:
+  /// **'Not Duplicate'**
+  String get nlpBtnNotDuplicate;
+
+  /// Button to confirm a transaction is a duplicate
+  ///
+  /// In en, this message translates to:
+  /// **'Is Duplicate'**
+  String get nlpBtnIsDuplicate;
+
+  /// Button to complete the NLP dialogue flow
+  ///
+  /// In en, this message translates to:
+  /// **'Complete'**
+  String get nlpBtnComplete;
+
+  /// High confidence level label for NLP parsing result
+  ///
+  /// In en, this message translates to:
+  /// **'Very confident'**
+  String get nlpConfidenceHigh;
+
+  /// Medium confidence level label for NLP parsing result
+  ///
+  /// In en, this message translates to:
+  /// **'Fairly sure'**
+  String get nlpConfidenceMedium;
+
+  /// Low confidence level label for NLP parsing result
+  ///
+  /// In en, this message translates to:
+  /// **'Not sure'**
+  String get nlpConfidenceLow;
+
+  /// Label for transaction amount field in NLP result
+  ///
+  /// In en, this message translates to:
+  /// **'Amount'**
+  String get nlpFieldAmount;
+
+  /// Label for transaction date field in NLP result
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get nlpFieldDate;
+
+  /// Label for transaction category field in NLP result
+  ///
+  /// In en, this message translates to:
+  /// **'Category'**
+  String get nlpFieldCategory;
+
+  /// Label for payee field in expense transactions (NLP result)
+  ///
+  /// In en, this message translates to:
+  /// **'Merchant'**
+  String get nlpFieldPayeeExpense;
+
+  /// Label for payee field in income transactions (NLP result)
+  ///
+  /// In en, this message translates to:
+  /// **'Source'**
+  String get nlpFieldPayeeIncome;
+
+  /// Label for payee field when transaction type is unknown (NLP result)
+  ///
+  /// In en, this message translates to:
+  /// **'Payee'**
+  String get nlpFieldPayeeDefault;
+
+  /// Label for transaction narration/notes field in NLP result
+  ///
+  /// In en, this message translates to:
+  /// **'Notes'**
+  String get nlpFieldNarration;
+
+  /// Warning shown when NLP fails to parse a field
+  ///
+  /// In en, this message translates to:
+  /// **'{fieldName} not recognized, please fill in manually'**
+  String nlpMissingFieldWarning(String fieldName);
+
+  /// Message shown when NLP cannot match the payee to a known entity
+  ///
+  /// In en, this message translates to:
+  /// **'Payee not matched, please confirm transaction'**
+  String get nlpPayeeNotMatched;
+
+  /// Suggested payee name from NLP matching
+  ///
+  /// In en, this message translates to:
+  /// **'Suggested: {suggestedPayee}'**
+  String nlpPayeeSuggested(String suggestedPayee);
+
+  /// Prompt to select a different payee from suggestions
+  ///
+  /// In en, this message translates to:
+  /// **'Select alternative payee'**
+  String get nlpSelectAlternativePayee;
+
+  /// Button to keep the new transaction in duplicate detection
+  ///
+  /// In en, this message translates to:
+  /// **'New Entry'**
+  String get nlpDuplicateNew;
+
+  /// Button to use the existing transaction in duplicate detection
+  ///
+  /// In en, this message translates to:
+  /// **'Existing Entry'**
+  String get nlpDuplicateExisting;
+
+  /// Message when duplicate transaction is skipped
+  ///
+  /// In en, this message translates to:
+  /// **'Duplicate transaction ignored'**
+  String get nlpDuplicateIgnored;
+
+  /// Button or title for editing a transaction
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Transaction'**
+  String get nlpEditTransaction;
+
+  /// Error message when NLP session has expired
+  ///
+  /// In en, this message translates to:
+  /// **'Session expired, please try again'**
+  String get nlpNoSessionError;
+
+  /// Confidence hint text for high confidence NLP result
+  ///
+  /// In en, this message translates to:
+  /// **'Very confident — please confirm or edit'**
+  String get nlpConfidenceHintHigh;
+
+  /// Confidence hint text for medium confidence NLP result
+  ///
+  /// In en, this message translates to:
+  /// **'Fairly sure — please review'**
+  String get nlpConfidenceHintMedium;
+
+  /// Confidence hint text for low confidence NLP result
+  ///
+  /// In en, this message translates to:
+  /// **'Not sure — please verify carefully'**
+  String get nlpConfidenceHintLow;
+
+  /// Label indicating a field is required in NLP form
+  ///
+  /// In en, this message translates to:
+  /// **'Required'**
+  String get nlpFieldRequired;
+
+  /// Placeholder or prompt to enter transaction amount
+  ///
+  /// In en, this message translates to:
+  /// **'Enter amount'**
+  String get nlpEnterAmount;
+
+  /// Select category prompt
+  ///
+  /// In en, this message translates to:
+  /// **'Select category'**
+  String get nlpSelectCategory;
+
+  /// Food category label
+  ///
+  /// In en, this message translates to:
+  /// **'Food'**
+  String get categoryFood;
+
+  /// Cafe category label
+  ///
+  /// In en, this message translates to:
+  /// **'Cafe'**
+  String get categoryCafe;
+
+  /// Transport category label
+  ///
+  /// In en, this message translates to:
+  /// **'Transport'**
+  String get categoryTransport;
+
+  /// Shopping category label
+  ///
+  /// In en, this message translates to:
+  /// **'Shopping'**
+  String get categoryShopping;
+
+  /// Entertainment category label
+  ///
+  /// In en, this message translates to:
+  /// **'Entertainment'**
+  String get categoryEntertainment;
+
+  /// Salary category label
+  ///
+  /// In en, this message translates to:
+  /// **'Salary'**
+  String get categorySalary;
+
+  /// Bonus category label
+  ///
+  /// In en, this message translates to:
+  /// **'Bonus'**
+  String get categoryBonus;
+
+  /// No parsed data available message
+  ///
+  /// In en, this message translates to:
+  /// **'No parsed data'**
+  String get nlpNoParsedData;
 }
 
 class _AppLocalizationsDelegate

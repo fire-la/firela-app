@@ -7,3 +7,22 @@ class TokenDimensions {
   /// width.screen — 375
   static const double screenWidth = 375.0;
 }
+
+class TokenSize {
+  TokenSize._();
+
+  /// icon.small — 16
+  static const double iconSmall = 16.0;
+
+  /// progress.height — 8
+  static const double progressHeight = 8.0;
+
+  /// button.height — 50
+  static const double buttonHeight = 50.0;
+
+  /// stroke.thin — 0.5
+  static const double strokeThin = 0.5;
+
+  /// stroke.normal — 1
+  static const double strokeNormal = 1.0;
+}

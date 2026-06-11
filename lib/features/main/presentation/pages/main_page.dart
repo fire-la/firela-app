@@ -305,6 +305,14 @@ class MainPage extends HookWidget {
             Navigator.of(ctx).pop();
             await Future.delayed(const Duration(milliseconds: 50));
 
+            if (data['_action'] == 'edit') {
+              final transactionId = data['transactionId']?.toString();
+              if (transactionId != null && transactionId.isNotEmpty && context.mounted) {
+                context.push('/transactions/$transactionId');
+              }
+              return;
+            }
+
             if (action == 'created') {
               nlpSessionId.value = '';
               refreshAssetData();
