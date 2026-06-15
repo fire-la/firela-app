@@ -2,7 +2,7 @@
 /// 参考 IGN 项目 ignRequest.js 的环境配置
 ///
 /// 地域路由说明 (参考 region-routing-integration.md):
-/// - baseUrl 为 https://api-s.firela.io/api (已包含 /api)
+/// - baseUrl 默认 http://localhost:3334/api（本地开发），可通过 --dart-define 切换
 /// - ApiClient._buildUrl() 会自动添加 /v1/{region} 前缀
 /// - 地域前缀端点: /bean/*, /reporting/*, /region/*
 /// - 全局端点: /auth/*, /symbol/*, /platforms/* (无需地域前缀)
@@ -13,13 +13,12 @@
 class ApiConstants {
   ApiConstants._();
 
-  /// API 基础路径 (已包含 /api 前缀)
-  // static const String ignBaseUrl = String.fromEnvironment(
-  //   'API_BASE_URL',
-  //   defaultValue: 'https://api-s.firela.io/api',
-  // );
-  // static const String ignBaseUrl = 'https://vlt-s.firela.io/api';
-  static const String ignBaseUrl = 'https://ign-dev.firela.io/api'; // 测试环境
+  /// API base URL (includes /api prefix)
+  /// Override via: flutter run -d chrome --dart-define=API_BASE_URL=<url>
+  static const String ignBaseUrl = String.fromEnvironment(
+    'API_BASE_URL',
+    defaultValue: 'http://localhost:3334/api',
+  );
 
   /// API 超时时间
   static const Duration timeout = Duration(seconds: 30);
