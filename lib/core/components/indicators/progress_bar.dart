@@ -9,7 +9,10 @@ class DesignProgressBar extends StatelessWidget {
     super.key,
     required this.progress,
     this.height = 8,
+    this.color,
   });
+
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +33,7 @@ class DesignProgressBar extends StatelessWidget {
               widthFactor: progress.clamp(0.0, 1.0),
               child: Container(
                 decoration: BoxDecoration(
-                  color: TokenColors.textAccent,
+                  color: color ?? TokenColors.textAccent,
                   borderRadius: BorderRadius.circular(TokenRadius.pill),
                 ),
               ),

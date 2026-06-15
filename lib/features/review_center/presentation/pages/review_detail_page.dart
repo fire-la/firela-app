@@ -20,8 +20,6 @@ class ReviewDetailPage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     // State
     final isLoading = useState(true);
     final isSaving = useState(false);
@@ -258,35 +256,20 @@ class ReviewDetailPage extends HookWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Confidence indicator
-            Container(
-              padding: const EdgeInsets.all(TokenSpacing.lg),
-              decoration: BoxDecoration(
-                color: theme.colorScheme.surfaceContainerHighest,
-                borderRadius: TokenRadius.borderMd,
-              ),
-              child: Row(
-                children: [
-                  const Icon(Icons.info_outline, size: 20),
-                  const SizedBox(width: TokenSpacing.lg),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'AI 识别置信度',
-                          style: TokenTypography.caption(),
-                        ),
-                        const SizedBox(height: TokenSpacing.xs),
-                        ConfidenceIndicator(
-                          confidence:
-                              ConfidenceLevel.normalize(tx.confidenceScore),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+            // Confidence indicator (bare meter — no card-in-card)
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'AI 识别置信度',
+                  style: TokenTypography.caption(),
+                ),
+                const SizedBox(height: TokenSpacing.sm),
+                ConfidenceMeter(
+                  confidence:
+                      ConfidenceLevel.normalize(tx.confidenceScore),
+                ),
+              ],
             ),
             const SizedBox(height: 24),
 

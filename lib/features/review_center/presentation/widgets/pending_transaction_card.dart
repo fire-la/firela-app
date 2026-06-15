@@ -92,7 +92,7 @@ class PendingTransactionCard extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
             ),
             const SizedBox(height: TokenSpacing.lg),
-            ConfidenceIndicator(
+            ConfidenceMeter(
               confidence:
                   ConfidenceLevel.normalize(transaction.confidenceScore),
             ),
