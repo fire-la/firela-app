@@ -96,5 +96,24 @@ void main() {
       expect(find.text('Delete'), findsOneWidget);
       expect(buttons(tester), findsNWidgets(3));
     });
+
+    testWidgets('does not reuse the tertiary icon for the secondary button',
+        (tester) async {
+      // Regression: the secondary button's icon slot was wired to
+      // tertiaryIcon, so the secondary button rendered the tertiary icon.
+      await tester.pumpWidget(_harness(const ButtonRow(
+        variant: ButtonRowVariant.iconButton,
+        primaryLabel: 'Add',
+        primaryIcon: Icons.add,
+        secondaryLabel: 'Edit',
+        tertiaryLabel: 'Delete',
+        tertiaryIcon: Icons.delete,
+      )));
+
+      // Each icon appears exactly once (primary=add, tertiary=delete).
+      // Before the fix, delete appeared twice (secondary + tertiary).
+      expect(find.byIcon(Icons.add), findsOneWidget);
+      expect(find.byIcon(Icons.delete), findsOneWidget);
+    });
   });
 }

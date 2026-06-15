@@ -56,7 +56,7 @@ class ButtonRow extends StatelessWidget {
           primaryIcon: primaryIcon,
           primaryOnTap: primaryOnTap,
           secondaryLabel: secondaryLabel,
-          secondaryIcon: tertiaryIcon,
+          secondaryIcon: null,
           secondaryOnTap: secondaryOnTap,
           tertiaryLabel: tertiaryLabel,
           tertiaryIcon: tertiaryIcon,
