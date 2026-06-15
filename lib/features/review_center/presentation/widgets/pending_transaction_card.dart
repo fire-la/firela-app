@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../../../../core/components/components.dart';
+import '../../../../core/components/components.dart' hide ConfidenceIndicator;
 import '../../../../core/design_tokens/design_tokens.dart';
 import '../../domain/entities/pending_transaction.dart';
 import 'confidence_indicator.dart';
