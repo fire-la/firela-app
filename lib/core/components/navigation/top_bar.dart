@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../../design_tokens/design_tokens.dart';
 
 class TopBar extends StatelessWidget {
@@ -27,7 +28,8 @@ class TopBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           GestureDetector(
-            onTap: onBack ?? () => Navigator.maybePop(context),
+            behavior: HitTestBehavior.opaque,
+            onTap: onBack ?? () => context.pop(),
             child: Row(
               children: [
                 Icon(
