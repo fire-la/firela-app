@@ -51,3 +51,6 @@ CLAUDE.md
 # Android signing
 android/key.properties
 *.jks
+
+# Playwright MCP (local browser-automation artifacts)
+.playwright-mcp/
