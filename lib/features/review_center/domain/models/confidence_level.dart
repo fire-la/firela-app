@@ -6,8 +6,7 @@ enum ConfidenceLevel {
 
   /// Parse confidence level from percentage value (0-100 or 0-1)
   static ConfidenceLevel fromPercentage(double percentage) {
-    // Handle both 0-100 and 0-1 ranges
-    final normalized = percentage > 1 ? percentage : percentage * 100;
+    final normalized = normalize(percentage) * 100;
 
     if (normalized >= 85) {
       return ConfidenceLevel.high;

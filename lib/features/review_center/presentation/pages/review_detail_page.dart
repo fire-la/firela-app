@@ -285,12 +285,6 @@ class ReviewDetailPage extends HookWidget {
                       ],
                     ),
                   ),
-                  Text(
-                    '${tx.confidenceScore.toStringAsFixed(0)}%',
-                    style: TokenTypography.h4(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
                 ],
               ),
             ),
