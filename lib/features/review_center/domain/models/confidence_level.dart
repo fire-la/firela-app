@@ -49,18 +49,6 @@ enum ConfidenceLevel {
   }
 
   /// Get percentage range description
-  double get defaultPercentage {
-    switch (this) {
-      case ConfidenceLevel.high:
-        return 85;
-      case ConfidenceLevel.medium:
-        return 70;
-      case ConfidenceLevel.low:
-        return 40;
-    }
-  }
-
-  /// Get percentage range description
   String get percentageRange {
     switch (this) {
       case ConfidenceLevel.high:
