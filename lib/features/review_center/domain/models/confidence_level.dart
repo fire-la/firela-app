@@ -18,6 +18,12 @@ enum ConfidenceLevel {
     }
   }
 
+  /// Normalize a raw confidence score to a 0..1 ratio (accepts 0-100 or 0-1).
+  static double normalize(double score) {
+    final ratio = score > 1 ? score / 100 : score;
+    return ratio.clamp(0.0, 1.0);
+  }
+
   /// Get display name for the confidence level
   String get displayName {
     switch (this) {

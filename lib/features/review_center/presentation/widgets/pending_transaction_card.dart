@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../../../../core/components/components.dart' hide ConfidenceIndicator;
+import '../../../../core/components/components.dart';
 import '../../../../core/design_tokens/design_tokens.dart';
 import '../../domain/entities/pending_transaction.dart';
-import 'confidence_indicator.dart';
+import '../../domain/models/confidence_level.dart';
 
 class PendingTransactionCard extends StatelessWidget {
   const PendingTransactionCard({
@@ -80,11 +80,6 @@ class PendingTransactionCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                ConfidenceIndicator(
-                  level: transaction.confidenceLevel,
-                  showLabel: true,
-                  size: 8,
-                ),
               ],
             ),
             const SizedBox(height: TokenSpacing.sm),
@@ -95,6 +90,11 @@ class PendingTransactionCard extends StatelessWidget {
               ),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
+            ),
+            const SizedBox(height: TokenSpacing.lg),
+            ConfidenceIndicator(
+              confidence:
+                  ConfidenceLevel.normalize(transaction.confidenceScore),
             ),
             const SizedBox(height: TokenSpacing.lg),
             Row(

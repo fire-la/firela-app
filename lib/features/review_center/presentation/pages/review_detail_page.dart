@@ -7,7 +7,8 @@ import '../../../../core/services/analytics_service.dart';
 import '../../../../core/services/analytics_events.dart';
 import '../../domain/entities/pending_transaction.dart';
 import '../../data/repositories/review_center_repository.dart';
-import '../widgets/confidence_indicator.dart';
+import '../../../../core/components/components.dart';
+import '../../domain/models/confidence_level.dart';
 import '../signals/review_center_signal.dart';
 import '../../../../core/utils/logger.dart';
 
@@ -278,9 +279,8 @@ class ReviewDetailPage extends HookWidget {
                         ),
                         const SizedBox(height: TokenSpacing.xs),
                         ConfidenceIndicator(
-                          level: tx.confidenceLevel,
-                          showLabel: true,
-                          size: 8,
+                          confidence:
+                              ConfidenceLevel.normalize(tx.confidenceScore),
                         ),
                       ],
                     ),
