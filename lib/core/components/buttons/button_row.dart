@@ -22,6 +22,7 @@ class ButtonRow extends StatelessWidget {
     this.tertiaryIcon,
     this.tertiaryOnTap,
     this.variant = ButtonRowVariant.twoButton,
+    this.gap = TokenSpacing.xl,
   });
 
   final String primaryLabel;
@@ -36,6 +37,7 @@ class ButtonRow extends StatelessWidget {
   final VoidCallback? tertiaryOnTap;
 
   final ButtonRowVariant variant;
+  final double gap;
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +48,7 @@ class ButtonRow extends StatelessWidget {
           primaryOnTap: primaryOnTap,
           secondaryLabel: secondaryLabel ?? '',
           secondaryOnTap: secondaryOnTap,
+          gap: gap,
         );
       case ButtonRowVariant.iconButton:
         return _IconButtonRow(
@@ -58,6 +61,7 @@ class ButtonRow extends StatelessWidget {
           tertiaryLabel: tertiaryLabel,
           tertiaryIcon: tertiaryIcon,
           tertiaryOnTap: tertiaryOnTap,
+          gap: gap,
         );
     }
   }
@@ -71,12 +75,14 @@ class _TwoButtonRow extends StatelessWidget {
     this.primaryOnTap,
     required this.secondaryLabel,
     this.secondaryOnTap,
+    this.gap = TokenSpacing.xl,
   });
 
   final String primaryLabel;
   final VoidCallback? primaryOnTap;
   final String secondaryLabel;
   final VoidCallback? secondaryOnTap;
+  final double gap;
 
   @override
   Widget build(BuildContext context) {
@@ -87,13 +93,13 @@ class _TwoButtonRow extends StatelessWidget {
           child: GestureDetector(
             onTap: secondaryOnTap,
             child: Container(
-              height: 50,
+              height: TokenSize.buttonHeight,
               decoration: BoxDecoration(
                 color: tokens.bgCard,
                 borderRadius: TokenRadius.borderPill,
                 border: Border.all(
                   color: TokenColors.textAccent,
-                  width: 0.5,
+                  width: TokenSize.strokeThin,
                 ),
               ),
               alignment: Alignment.center,
@@ -107,12 +113,12 @@ class _TwoButtonRow extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(width: TokenSpacing.xl),
+        SizedBox(width: gap),
         Expanded(
           child: GestureDetector(
             onTap: primaryOnTap,
             child: Container(
-              height: 50,
+              height: TokenSize.buttonHeight,
               decoration: BoxDecoration(
                 color: TokenColors.textAccent,
                 borderRadius: TokenRadius.borderPill,
@@ -144,6 +150,7 @@ class _IconButtonRow extends StatelessWidget {
     this.tertiaryLabel,
     this.tertiaryIcon,
     this.tertiaryOnTap,
+    this.gap = TokenSpacing.xl,
   });
 
   final String primaryLabel;
@@ -155,6 +162,7 @@ class _IconButtonRow extends StatelessWidget {
   final String? tertiaryLabel;
   final IconData? tertiaryIcon;
   final VoidCallback? tertiaryOnTap;
+  final double gap;
 
   @override
   Widget build(BuildContext context) {
@@ -169,7 +177,7 @@ class _IconButtonRow extends StatelessWidget {
           ),
         ),
         if (secondaryLabel != null) ...[
-          const SizedBox(width: TokenSpacing.xl),
+          SizedBox(width: gap),
           Expanded(
             child: _IconButtonItem(
               label: secondaryLabel!,
@@ -180,7 +188,7 @@ class _IconButtonRow extends StatelessWidget {
           ),
         ],
         if (tertiaryLabel != null) ...[
-          const SizedBox(width: TokenSpacing.xl),
+          SizedBox(width: gap),
           Expanded(
             child: _IconButtonItem(
               label: tertiaryLabel!,
@@ -220,7 +228,7 @@ class _IconButtonItem extends StatelessWidget {
           borderRadius: BorderRadius.circular(12),
           border: isPrimary
               ? null
-              : Border.all(color: tokens.borderCard, width: 0.5),
+              : Border.all(color: tokens.borderCard, width: TokenSize.strokeThin),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,

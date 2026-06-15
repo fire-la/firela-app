@@ -17,7 +17,7 @@ class ButtonSecondary extends StatelessWidget {
   Widget build(BuildContext context) {
     final tokens = ThemeTokens.of(context);
     return SizedBox(
-      height: 50,
+      height: TokenSize.buttonHeight,
       width: double.infinity,
       child: OutlinedButton(
         onPressed: onPressed,
@@ -26,7 +26,7 @@ class ButtonSecondary extends StatelessWidget {
           foregroundColor: tokens.textAccent,
           side: BorderSide(
             color: tokens.textAccent,
-            width: 0.5,
+            width: TokenSize.strokeThin,
           ),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(TokenRadius.pill),
