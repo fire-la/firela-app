@@ -46,7 +46,6 @@ CLAUDE.md
 **/.DS_Store
 Thumbs.db
 **/Thumbs.db
-CLAUDE.md
 
 # Android signing
 android/key.properties
