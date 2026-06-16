@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import '../../design_tokens/design_tokens.dart';
 import 'progress_bar.dart';
 
-/// ConfidenceMeter — bare confidence display (percentage + bar), no card.
-///
-/// Threshold-colored (>=0.85 success, >=0.60 textAccent, else error). Use this
-/// inside cards or sections to avoid a card-in-card; use [ConfidenceIndicator]
-/// for the standalone card treatment.
+/// ConfidenceMeter — confidence display (percentage + bar), threshold-colored
+/// (>=0.85 success, >=0.60 textAccent, else error). Use inside cards or
+/// sections.
 class ConfidenceMeter extends StatelessWidget {
   const ConfidenceMeter({super.key, required this.confidence})
       : assert(confidence >= 0 && confidence <= 1);

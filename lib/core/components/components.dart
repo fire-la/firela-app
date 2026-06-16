@@ -8,7 +8,6 @@ export 'controls/segment_control.dart';
 export 'controls/switch_toggle.dart';
 export 'indicators/checkbox.dart';
 export 'indicators/progress_bar.dart';
-export 'indicators/confidence_indicator.dart';
 export 'indicators/confidence_meter.dart';
 export 'indicators/radio.dart';
 export 'inputs/input_amount.dart';

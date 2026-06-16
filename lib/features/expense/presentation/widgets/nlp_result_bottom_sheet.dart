@@ -236,7 +236,7 @@ class NlpResultBottomSheet extends HookWidget {
     );
   }
 
-  // ─── Header with inline ConfidenceIndicator (created action) ───
+  // ─── Header with inline ConfidenceMeter (created action) ───
 
   Widget _buildHeaderWithConfidence(
     BuildContext context,
