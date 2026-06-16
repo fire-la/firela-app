@@ -269,7 +269,7 @@ class NlpResultBottomSheet extends HookWidget {
           ),
           const SizedBox(width: TokenSpacing.sm),
           Expanded(
-            child: ConfidenceIndicator(confidence: _confidence),
+            child: ConfidenceMeter(confidence: _confidence),
           ),
         ],
       ),
