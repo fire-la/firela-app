@@ -9,7 +9,7 @@ class AppTheme {
       useMaterial3: true,
       brightness: Brightness.light,
       scaffoldBackgroundColor: TokenColors.bgPage,
-      colorScheme: ColorScheme.light(
+      colorScheme: const ColorScheme.light(
         primary: TokenColors.textAccent,
         onPrimary: TokenColors.white,
         secondary: TokenColors.textSecondary,
@@ -21,13 +21,13 @@ class AppTheme {
         onError: TokenColors.white,
       ),
       textTheme: TokenTypography.textTheme,
-      appBarTheme: AppBarTheme(
+      appBarTheme: const AppBarTheme(
         centerTitle: false,
         elevation: 0,
         backgroundColor: TokenColors.bgPage,
         foregroundColor: TokenColors.textPrimary,
       ),
-      cardTheme: CardThemeData(
+      cardTheme: const CardThemeData(
         elevation: 0,
         margin: EdgeInsets.zero,
         color: TokenColors.bgCard,
@@ -47,7 +47,7 @@ class AppTheme {
           ),
         ),
       ),
-      bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
         backgroundColor: TokenColors.bgCard,
         selectedItemColor: TokenColors.textPrimary,
         unselectedItemColor: TokenColors.textTertiary,
@@ -62,28 +62,28 @@ class AppTheme {
       useMaterial3: true,
       brightness: Brightness.dark,
       scaffoldBackgroundColor: TokenColors.neutral900,
-      colorScheme: ColorScheme.dark(
+      colorScheme: const ColorScheme.dark(
         primary: TokenColors.textAccent,
         onPrimary: TokenColors.white,
         secondary: TokenColors.neutral700,
         surface: TokenColors.neutral900,
         onSurface: TokenColors.white,
-        surfaceContainerHighest: const Color(0xFF2A2A2A),
+        surfaceContainerHighest: Color(0xFF2A2A2A),
         outline: TokenColors.neutral700,
         error: TokenColors.error,
         onError: TokenColors.white,
       ),
       textTheme: TokenTypography.textTheme,
-      appBarTheme: AppBarTheme(
+      appBarTheme: const AppBarTheme(
         centerTitle: false,
         elevation: 0,
         backgroundColor: TokenColors.neutral900,
         foregroundColor: TokenColors.white,
       ),
-      cardTheme: CardThemeData(
+      cardTheme: const CardThemeData(
         elevation: 0,
         margin: EdgeInsets.zero,
-        color: const Color(0xFF2A2A2A),
+        color: Color(0xFF2A2A2A),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(TokenRadius.lg)),
         ),
@@ -100,8 +100,8 @@ class AppTheme {
           ),
         ),
       ),
-      bottomNavigationBarTheme: BottomNavigationBarThemeData(
-        backgroundColor: const Color(0xFF2A2A2A),
+      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+        backgroundColor: Color(0xFF2A2A2A),
         selectedItemColor: TokenColors.white,
         unselectedItemColor: TokenColors.neutral700,
         elevation: 0,

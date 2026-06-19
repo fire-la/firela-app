@@ -38,7 +38,7 @@ class StatCard extends StatelessWidget {
               if (trailing != null) trailing!,
             ],
           ),
-          SizedBox(height: TokenSpacing.sm),
+          const SizedBox(height: TokenSpacing.sm),
           Text(
             value,
             style: TokenTypography.display(
@@ -47,7 +47,7 @@ class StatCard extends StatelessWidget {
             ),
           ),
           if (subtitle != null) ...[
-            SizedBox(height: TokenSpacing.xs),
+            const SizedBox(height: TokenSpacing.xs),
             Text(
               subtitle!,
               style: TokenTypography.caption(color: TokenColors.textTertiary),

@@ -27,7 +27,7 @@ class AssetDetailPlaceholderPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
+            const Icon(
               Icons.construction,
               size: 64,
               color: TokenColors.textTertiary,

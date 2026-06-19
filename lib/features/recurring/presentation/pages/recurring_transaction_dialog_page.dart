@@ -25,7 +25,7 @@ class RecurringTransactionDialogPage extends HookWidget {
     return Scaffold(
       body: Column(
         children: [
-          TopBar(title: 'Recurring Transaction'),
+          const TopBar(title: 'Recurring Transaction'),
           Expanded(
             child: Center(
               child: DialogOverlay(

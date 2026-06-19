@@ -258,7 +258,7 @@ class AssetsLiabilitiesPage extends StatelessWidget {
           Container(
             width: 24,
             height: 24,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: TokenColors.chartBlue,
               shape: BoxShape.circle,
             ),

@@ -35,7 +35,7 @@ class _SyncStatusWidgetState extends State<SyncStatusWidget> {
         child: Row(
           children: [
             _buildStatusIcon(syncStatus),
-            SizedBox(width: TokenSpacing.sm),
+            const SizedBox(width: TokenSpacing.sm),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -53,7 +53,7 @@ class _SyncStatusWidgetState extends State<SyncStatusWidget> {
               ),
             ),
             if (isLoggedIn) ...[
-              SizedBox(width: TokenSpacing.sm),
+              const SizedBox(width: TokenSpacing.sm),
               _buildSyncButton(context, l10n, syncStatus, syncService),
             ],
           ],
@@ -65,7 +65,7 @@ class _SyncStatusWidgetState extends State<SyncStatusWidget> {
   Widget _buildStatusIcon(SyncStatus status) {
     switch (status) {
       case SyncStatus.syncing:
-        return SizedBox(
+        return const SizedBox(
           width: 20,
           height: 20,
           child: CircularProgressIndicator(
@@ -74,11 +74,11 @@ class _SyncStatusWidgetState extends State<SyncStatusWidget> {
           ),
         );
       case SyncStatus.success:
-        return Icon(Icons.check_circle, size: 20, color: TokenColors.success);
+        return const Icon(Icons.check_circle, size: 20, color: TokenColors.success);
       case SyncStatus.error:
-        return Icon(Icons.error_outline, size: 20, color: TokenColors.error);
+        return const Icon(Icons.error_outline, size: 20, color: TokenColors.error);
       case SyncStatus.idle:
-        return Icon(Icons.sync, size: 20, color: TokenColors.textTertiary);
+        return const Icon(Icons.sync, size: 20, color: TokenColors.textTertiary);
     }
   }
 
@@ -116,8 +116,8 @@ class _SyncStatusWidgetState extends State<SyncStatusWidget> {
                   child: CircularProgressIndicator(strokeWidth: 2),
                 )
               else
-                Icon(Icons.sync, size: 14, color: TokenColors.textAccent),
-              SizedBox(width: TokenSpacing.xs),
+                const Icon(Icons.sync, size: 14, color: TokenColors.textAccent),
+              const SizedBox(width: TokenSpacing.xs),
               Text(
                 isSyncing ? l10n.syncing : l10n.syncNow,
                 style: TokenTypography.caption(

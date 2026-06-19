@@ -104,13 +104,13 @@ class ExpenseTabPage extends HookWidget {
         onRefresh: fetchData,
         child: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
-          padding: EdgeInsets.symmetric(horizontal: TokenSpacing.xl)
+          padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl)
               .copyWith(bottom: MediaQuery.of(context).padding.bottom + 80),
           child: Column(
             children: [
-              PageHeader(
-                leading: const ReviewCenterBadge(),
-                trailing: const SettingsIconButton(),
+              const PageHeader(
+                leading: ReviewCenterBadge(),
+                trailing: SettingsIconButton(),
               ),
               const SizedBox(height: TokenSpacing.xl),
 
@@ -150,7 +150,7 @@ class ExpenseTabPage extends HookWidget {
               const SizedBox(height: TokenSpacing.xl),
 
               // Category list
-              SectionHeader(title: '收支明细'),
+              const SectionHeader(title: '收支明细'),
               const SizedBox(height: TokenSpacing.xl),
 
               if (isLoading.value && categories.value.isEmpty)
@@ -162,7 +162,7 @@ class ExpenseTabPage extends HookWidget {
                         vertical: TokenSpacing.xxl * 2),
                     child: Column(
                       children: [
-                        Icon(Icons.receipt_long_outlined,
+                        const Icon(Icons.receipt_long_outlined,
                             size: 48, color: TokenColors.textTertiary),
                         const SizedBox(height: TokenSpacing.lg),
                         Text('暂无交易记录',

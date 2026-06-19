@@ -63,7 +63,7 @@ class LiabilitiesBreakdownCard extends HookWidget {
             padding: const EdgeInsets.all(TokenSpacing.xxl),
             child: Row(
               children: [
-                Icon(
+                const Icon(
                   Icons.trending_down,
                   size: 24,
                   color: TokenColors.error,

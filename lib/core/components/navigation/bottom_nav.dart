@@ -84,7 +84,7 @@ class DesignBottomNav extends StatelessWidget {
                     ),
                   ],
                 ),
-                child: Icon(
+                child: const Icon(
                   Icons.add,
                   size: 24,
                   color: TokenColors.white,

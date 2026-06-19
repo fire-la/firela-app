@@ -183,7 +183,7 @@ class SavingsRateIndicator extends HookWidget {
       ),
       child: Column(
         children: [
-          Icon(
+          const Icon(
             Icons.flag_outlined,
             size: 32,
             color: TokenColors.textTertiary,

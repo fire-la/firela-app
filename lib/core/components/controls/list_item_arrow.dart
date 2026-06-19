@@ -45,7 +45,7 @@ class ListItemArrow extends StatelessWidget {
         child: Row(
           children: [
             Icon(icon, size: 20, color: tokens.textAccent),
-            SizedBox(width: TokenSpacing.lg),
+            const SizedBox(width: TokenSpacing.lg),
             Text(
               label,
               style: TokenTypography.body(color: tokens.textPrimary),
@@ -61,7 +61,7 @@ class ListItemArrow extends StatelessWidget {
                     )
                   : const SizedBox.shrink(),
             ),
-            SizedBox(width: TokenSpacing.sm),
+            const SizedBox(width: TokenSpacing.sm),
             Icon(
               Icons.chevron_right,
               size: 16,

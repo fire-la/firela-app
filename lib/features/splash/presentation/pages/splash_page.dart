@@ -98,8 +98,8 @@ class _SplashPageState extends State<SplashPage> {
     // Use system background color for seamless transition from native splash
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      body: Center(
-        child: const _SplashLogo(),
+      body: const Center(
+        child: _SplashLogo(),
       ),
     );
   }
@@ -158,7 +158,7 @@ class _SplashLogoState extends State<_SplashLogo>
                 color: isDark ? TokenColors.neutral900 : TokenColors.textPrimary,
                 borderRadius: BorderRadius.circular(TokenSpacing.xxl),
               ),
-              child: Center(
+              child: const Center(
                 child: Icon(
                   Icons.local_fire_department,
                   size: 44,
@@ -166,7 +166,7 @@ class _SplashLogoState extends State<_SplashLogo>
                 ),
               ),
             ),
-            SizedBox(height: TokenSpacing.xl),
+            const SizedBox(height: TokenSpacing.xl),
             Text(
               'FIREla',
               style: TokenTypography.display(
@@ -174,7 +174,7 @@ class _SplashLogoState extends State<_SplashLogo>
                 color: colorScheme.onSurface,
               ).copyWith(letterSpacing: 1.2),
             ),
-            SizedBox(height: TokenSpacing.sm),
+            const SizedBox(height: TokenSpacing.sm),
             Text(
               'Your FIRE Companion',
               style: TokenTypography.body(

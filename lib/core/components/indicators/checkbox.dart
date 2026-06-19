@@ -27,7 +27,7 @@ class DesignCheckbox extends StatelessWidget {
           ),
         ),
         child: value
-            ? Icon(
+            ? const Icon(
                 Icons.check,
                 size: 14,
                 color: TokenColors.white,

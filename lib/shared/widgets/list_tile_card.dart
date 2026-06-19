@@ -27,7 +27,7 @@ class ListTileCard extends StatelessWidget {
         children: [
           if (leading != null) ...[
             leading!,
-            SizedBox(width: TokenSpacing.lg),
+            const SizedBox(width: TokenSpacing.lg),
           ],
           Expanded(
             child: Column(
@@ -38,7 +38,7 @@ class ListTileCard extends StatelessWidget {
                   style: TokenTypography.body(color: TokenColors.textPrimary),
                 ),
                 if (subtitle != null) ...[
-                  SizedBox(height: TokenSpacing.xs),
+                  const SizedBox(height: TokenSpacing.xs),
                   Text(
                     subtitle!,
                     style: TokenTypography.caption(color: TokenColors.textTertiary),
@@ -48,11 +48,11 @@ class ListTileCard extends StatelessWidget {
             ),
           ),
           if (trailing != null) ...[
-            SizedBox(width: TokenSpacing.lg),
+            const SizedBox(width: TokenSpacing.lg),
             trailing!,
           ] else ...[
-            SizedBox(width: TokenSpacing.lg),
-            Icon(
+            const SizedBox(width: TokenSpacing.lg),
+            const Icon(
               Icons.chevron_right,
               color: TokenColors.textTertiary,
               size: 20,

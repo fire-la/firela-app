@@ -424,7 +424,7 @@ class _FireProjectionChartState extends State<FireProjectionChart> {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
+          const Icon(
             Icons.calendar_today,
             size: 14,
             color: TokenColors.textTertiary,
@@ -435,7 +435,7 @@ class _FireProjectionChartState extends State<FireProjectionChart> {
             style: TokenTypography.micro(),
           ),
           const SizedBox(width: TokenSpacing.lg),
-          Icon(
+          const Icon(
             Icons.account_balance_wallet,
             size: 14,
             color: TokenColors.textTertiary,

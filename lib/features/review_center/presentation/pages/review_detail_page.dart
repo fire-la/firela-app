@@ -234,7 +234,7 @@ class ReviewDetailPage extends HookWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.error_outline,
+                    const Icon(Icons.error_outline,
                         size: 64, color: TokenColors.error),
                     const SizedBox(height: TokenSpacing.xl),
                     Text(error.value ?? '加载失败'),
@@ -357,7 +357,7 @@ class ReviewDetailPage extends HookWidget {
                           onPressed: isSaving.value ? null : handleDelete,
                           style: OutlinedButton.styleFrom(
                             foregroundColor: TokenColors.error,
-                            side: BorderSide(color: TokenColors.error),
+                            side: const BorderSide(color: TokenColors.error),
                             padding: const EdgeInsets.symmetric(vertical: 14),
                           ),
                           child: const Text('删除'),

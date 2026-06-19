@@ -15,7 +15,7 @@ class GradientCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final defaultGradient = LinearGradient(
+    const defaultGradient = LinearGradient(
       colors: [
         TokenColors.neutral700,
         TokenColors.neutral900,

@@ -22,7 +22,7 @@ class DesignToast {
             mainAxisSize: MainAxisSize.min,
             children: [
               Icon(icon, size: 18, color: TokenColors.white),
-              SizedBox(width: TokenSpacing.sm),
+              const SizedBox(width: TokenSpacing.sm),
               Flexible(
                 child: Text(
                   message,

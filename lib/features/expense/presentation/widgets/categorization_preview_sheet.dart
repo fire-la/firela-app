@@ -239,7 +239,7 @@ class _CategorizationPreviewSheetState extends State<CategorizationPreviewSheet>
           // Category dropdown
           Row(
             children: [
-              Icon(
+              const Icon(
                 Icons.category_outlined,
                 size: 16,
                 color: TokenColors.textTertiary,
@@ -276,8 +276,8 @@ class _CategorizationPreviewSheetState extends State<CategorizationPreviewSheet>
             ),
           ),
           if (wasEdited)
-            Padding(
-              padding: const EdgeInsets.only(left: TokenSpacing.sm),
+            const Padding(
+              padding: EdgeInsets.only(left: TokenSpacing.sm),
               child: Icon(
                 Icons.edit,
                 size: 14,

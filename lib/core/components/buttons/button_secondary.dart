@@ -38,7 +38,7 @@ class ButtonSecondary extends StatelessWidget {
           children: [
             if (icon != null) ...[
               icon!,
-              SizedBox(width: TokenSpacing.sm),
+              const SizedBox(width: TokenSpacing.sm),
             ],
             Text(
               label,

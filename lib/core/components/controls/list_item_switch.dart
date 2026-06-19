@@ -26,7 +26,7 @@ class ListItemSwitch extends StatelessWidget {
       child: Row(
         children: [
           Icon(icon, size: 20, color: TokenColors.textAccent),
-          SizedBox(width: TokenSpacing.lg),
+          const SizedBox(width: TokenSpacing.lg),
           Expanded(
             child: Text(
               label,

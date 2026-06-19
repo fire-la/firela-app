@@ -39,8 +39,8 @@ class SectionHeader extends StatelessWidget {
                       color: TokenColors.textAccent,
                     ),
                   ),
-                  SizedBox(width: TokenSpacing.xs),
-                  Icon(
+                  const SizedBox(width: TokenSpacing.xs),
+                  const Icon(
                     Icons.chevron_right,
                     size: 20,
                     color: TokenColors.textTertiary,

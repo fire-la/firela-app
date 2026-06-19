@@ -247,7 +247,7 @@ class _OcrResultDebugSheetState extends State<OcrResultDebugSheet> {
                           ),
                         ),
                       ),
-                      Icon(
+                      const Icon(
                         Icons.calendar_today,
                         size: 14,
                         color: TokenColors.textAccent,
@@ -259,7 +259,7 @@ class _OcrResultDebugSheetState extends State<OcrResultDebugSheet> {
             ),
           ),
           const SizedBox(width: TokenSpacing.xs),
-          Icon(
+          const Icon(
             Icons.edit_calendar,
             size: 16,
             color: TokenColors.textAccent,
@@ -488,7 +488,7 @@ class _OcrResultDebugSheetState extends State<OcrResultDebugSheet> {
                 ),
                 const SizedBox(width: TokenSpacing.xs),
                 IconButton(
-                  icon: Icon(Icons.close, size: 18, color: TokenColors.error),
+                  icon: const Icon(Icons.close, size: 18, color: TokenColors.error),
                   onPressed: () => _removeItem(index),
                   padding: EdgeInsets.zero,
                   constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
@@ -500,7 +500,7 @@ class _OcrResultDebugSheetState extends State<OcrResultDebugSheet> {
                 padding: const EdgeInsets.only(top: 2, left: TokenSpacing.xs),
                 child: Row(
                   children: [
-                    Icon(Icons.info_outline, size: 12, color: TokenColors.primary),
+                    const Icon(Icons.info_outline, size: 12, color: TokenColors.primary),
                     const SizedBox(width: TokenSpacing.xs),
                     Text(
                       item.name.trim().isEmpty

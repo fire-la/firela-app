@@ -298,7 +298,7 @@ class BillImportPage extends HookWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.insert_drive_file_outlined,
                     size: 48,
                     color: TokenColors.textTertiary,
@@ -969,7 +969,7 @@ class BillImportPage extends HookWidget {
       ),
       child: Row(
         children: [
-          Icon(Icons.info_outline, size: 16, color: TokenColors.textTertiary),
+          const Icon(Icons.info_outline, size: 16, color: TokenColors.textTertiary),
           const SizedBox(width: TokenSpacing.sm),
           Expanded(
             child: Text(

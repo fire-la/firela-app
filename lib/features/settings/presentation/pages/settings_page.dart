@@ -214,7 +214,7 @@ class SettingsPageState extends State<SettingsPage> {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(Icons.check_circle, size: 14, color: TokenColors.success),
+                const Icon(Icons.check_circle, size: 14, color: TokenColors.success),
                 const SizedBox(width: 4),
                 Text(
                   '已登录',

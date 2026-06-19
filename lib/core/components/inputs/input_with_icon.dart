@@ -46,7 +46,7 @@ class InputWithIcon extends StatelessWidget {
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: TokenRadius.borderMd,
-            borderSide: BorderSide(color: TokenColors.textAccent, width: 0.5),
+            borderSide: const BorderSide(color: TokenColors.textAccent, width: 0.5),
           ),
         ),
       ),
@@ -62,7 +62,7 @@ class InputWithIcon extends StatelessWidget {
           label!,
           style: TokenTypography.caption(color: tokens.textSecondary),
         ),
-        SizedBox(height: TokenSpacing.sm),
+        const SizedBox(height: TokenSpacing.sm),
         inputBox,
       ],
     );

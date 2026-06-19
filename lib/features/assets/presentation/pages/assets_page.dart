@@ -147,14 +147,14 @@ class AssetsPage extends HookWidget {
         onRefresh: fetchData,
         child: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
-          padding: EdgeInsets.symmetric(horizontal: TokenSpacing.xl)
+          padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl)
               .copyWith(bottom: MediaQuery.of(context).padding.bottom + 80),
           child: Column(
             children: [
               // PageHeader
-              PageHeader(
-                leading: const ReviewCenterBadge(),
-                trailing: const SettingsIconButton(),
+              const PageHeader(
+                leading: ReviewCenterBadge(),
+                trailing: SettingsIconButton(),
               ),
               const SizedBox(height: TokenSpacing.xl),
 
@@ -396,7 +396,7 @@ class AssetsPage extends HookWidget {
             Container(
               width: 24,
               height: 24,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: TokenColors.chartBlue,
                 shape: BoxShape.circle,
               ),
@@ -483,7 +483,7 @@ class AssetsPage extends HookWidget {
                 Container(
                   width: 24,
                   height: 24,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: TokenColors.neutral200,
                     shape: BoxShape.circle,
                   ),

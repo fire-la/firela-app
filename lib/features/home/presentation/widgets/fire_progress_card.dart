@@ -42,7 +42,7 @@ class FireProgressCard extends HookWidget {
                 if (fireProgress.isLoading)
                   const LoadingIndicator()
                 else
-                  Icon(Icons.local_fire_department, size: 18, color: TokenColors.textTertiary),
+                  const Icon(Icons.local_fire_department, size: 18, color: TokenColors.textTertiary),
               ],
             ),
             const SizedBox(height: TokenSpacing.lg),
@@ -63,7 +63,7 @@ class FireProgressCard extends HookWidget {
                   padding: const EdgeInsets.symmetric(vertical: TokenSpacing.sm),
                   child: Column(
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.flag_outlined,
                         size: 32,
                         color: TokenColors.textTertiary,
@@ -172,7 +172,7 @@ class FireProgressCard extends HookWidget {
                   ),
 
                   // Arrow indicator
-                  Align(
+                  const Align(
                     alignment: Alignment.centerRight,
                     child: Icon(
                       Icons.arrow_forward_ios,

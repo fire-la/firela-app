@@ -33,7 +33,7 @@ class ButtonPrimary extends StatelessWidget {
           padding: EdgeInsets.zero,
         ),
         child: isLoading
-            ? SizedBox(
+            ? const SizedBox(
                 width: 20,
                 height: 20,
                 child: CircularProgressIndicator(
@@ -46,7 +46,7 @@ class ButtonPrimary extends StatelessWidget {
                 children: [
                   if (icon != null) ...[
                     icon!,
-                    SizedBox(width: TokenSpacing.sm),
+                    const SizedBox(width: TokenSpacing.sm),
                   ],
                   Text(
                     label,

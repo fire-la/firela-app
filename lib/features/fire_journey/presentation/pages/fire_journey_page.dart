@@ -171,7 +171,7 @@ class FireJourneyPage extends HookWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
+            const Icon(
               Icons.flag_outlined,
               size: 64,
               color: TokenColors.textTertiary,
@@ -565,7 +565,7 @@ class FireJourneyPage extends HookWidget {
             left: 40,
             child: Row(
               children: [
-                Icon(
+                const Icon(
                   Icons.access_time,
                   size: 20,
                   color: TokenColors.textTertiary,

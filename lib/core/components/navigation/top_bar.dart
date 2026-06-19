@@ -37,7 +37,7 @@ class TopBar extends StatelessWidget {
                   size: 24,
                   color: tokens.textPrimary,
                 ),
-                SizedBox(width: 8),
+                const SizedBox(width: 8),
                 Text(
                   title,
                   style: TokenTypography.h3(

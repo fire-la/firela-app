@@ -87,7 +87,7 @@ class IncomeExpensePage extends StatelessWidget {
                   padding: const EdgeInsets.all(TokenSpacing.xxl),
                   child: Column(
                     children: [
-                      Icon(Icons.receipt_long_outlined, size: 48, color: TokenColors.textTertiary),
+                      const Icon(Icons.receipt_long_outlined, size: 48, color: TokenColors.textTertiary),
                       const SizedBox(height: TokenSpacing.lg),
                       Text(
                         '暂无交易记录',
@@ -143,9 +143,9 @@ class IncomeExpensePage extends StatelessWidget {
 
   List<DonutLegendItem> _buildDonutLegends() {
     return [
-      DonutLegendItem(label: '进阶', color: TokenColors.chartAmber),
-      DonutLegendItem(label: '稳健', color: TokenColors.chartBlue),
-      DonutLegendItem(label: '活期', color: TokenColors.chartGreen),
+      const DonutLegendItem(label: '进阶', color: TokenColors.chartAmber),
+      const DonutLegendItem(label: '稳健', color: TokenColors.chartBlue),
+      const DonutLegendItem(label: '活期', color: TokenColors.chartGreen),
     ];
   }
 

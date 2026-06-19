@@ -271,7 +271,7 @@ class AccountsListPage extends HookWidget {
               ],
             ),
             const SizedBox(width: TokenSpacing.sm),
-            Icon(Icons.chevron_right, size: 16, color: TokenColors.textTertiary),
+            const Icon(Icons.chevron_right, size: 16, color: TokenColors.textTertiary),
           ],
         ),
       ),

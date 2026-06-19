@@ -46,7 +46,7 @@ class SearchInput extends StatelessWidget {
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: TokenRadius.borderMd,
-            borderSide: BorderSide(color: TokenColors.textAccent, width: 0.5),
+            borderSide: const BorderSide(color: TokenColors.textAccent, width: 0.5),
           ),
         ),
       ),

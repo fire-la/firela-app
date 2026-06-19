@@ -44,12 +44,12 @@ class OfflineIndicator extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(
+                const Icon(
                   Icons.cloud_off_rounded,
                   size: 16,
                   color: TokenColors.textAccent,
                 ),
-                SizedBox(width: TokenSpacing.sm),
+                const SizedBox(width: TokenSpacing.sm),
                 Flexible(
                   child: Text(
                     l10n.youAreOffline,
@@ -76,8 +76,8 @@ class OfflineToast {
       SnackBar(
         content: Row(
           children: [
-            Icon(Icons.cloud_off_rounded, color: TokenColors.white, size: 20),
-            SizedBox(width: TokenSpacing.lg),
+            const Icon(Icons.cloud_off_rounded, color: TokenColors.white, size: 20),
+            const SizedBox(width: TokenSpacing.lg),
             Expanded(child: Text(l10n.actionFailedOffline)),
           ],
         ),
@@ -94,8 +94,8 @@ class OfflineToast {
       SnackBar(
         content: Row(
           children: [
-            Icon(Icons.cloud_done_rounded, color: TokenColors.white, size: 20),
-            SizedBox(width: TokenSpacing.lg),
+            const Icon(Icons.cloud_done_rounded, color: TokenColors.white, size: 20),
+            const SizedBox(width: TokenSpacing.lg),
             Expanded(child: Text(l10n.connectionRestored)),
           ],
         ),

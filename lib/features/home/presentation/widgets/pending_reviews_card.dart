@@ -90,7 +90,7 @@ class PendingReviewsCard extends HookWidget {
                   ),
                 ),
               const SizedBox(height: TokenSpacing.sm),
-              Align(
+              const Align(
                 alignment: Alignment.centerRight,
                 child: Icon(
                   Icons.arrow_forward_ios,

@@ -86,8 +86,8 @@ class AccountsDetailPage extends HookWidget {
         bottom: false,
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
               child: TopBar(title: '账户'),
             ),
             Expanded(
@@ -111,7 +111,7 @@ class AccountsDetailPage extends HookWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.error_outline, size: 48, color: TokenColors.error),
+          const Icon(Icons.error_outline, size: 48, color: TokenColors.error),
           const SizedBox(height: TokenSpacing.xl),
           Text(message, style: TokenTypography.body(color: TokenColors.textTertiary)),
           const SizedBox(height: TokenSpacing.xl),
@@ -141,7 +141,7 @@ class AccountsDetailPage extends HookWidget {
             borderRadius: TokenRadius.borderLg,
             border: Border.all(color: TokenColors.borderCard, width: 0.5),
             boxShadow: [
-              BoxShadow(color: TokenColors.neutral200, blurRadius: 18, offset: const Offset(0, 2), spreadRadius: 2),
+              const BoxShadow(color: TokenColors.neutral200, blurRadius: 18, offset: Offset(0, 2), spreadRadius: 2),
             ],
           ),
           child: Column(
@@ -186,7 +186,7 @@ class AccountsDetailPage extends HookWidget {
               padding: const EdgeInsets.symmetric(vertical: TokenSpacing.xxl * 2),
               child: Column(
                 children: [
-                  Icon(Icons.account_balance_wallet_outlined, size: 48, color: TokenColors.textTertiary),
+                  const Icon(Icons.account_balance_wallet_outlined, size: 48, color: TokenColors.textTertiary),
                   const SizedBox(height: TokenSpacing.lg),
                   Text('暂无账户数据', style: TokenTypography.body(color: TokenColors.textTertiary)),
                 ],
@@ -234,7 +234,7 @@ class AccountsDetailPage extends HookWidget {
         borderRadius: TokenRadius.borderLg,
         border: Border.all(color: TokenColors.borderCard, width: 0.5),
         boxShadow: [
-          BoxShadow(color: TokenColors.neutral200, blurRadius: 18, offset: const Offset(0, 2), spreadRadius: 2),
+          const BoxShadow(color: TokenColors.neutral200, blurRadius: 18, offset: Offset(0, 2), spreadRadius: 2),
         ],
       ),
       child: Row(

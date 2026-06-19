@@ -56,7 +56,7 @@ class TransactionListPage extends HookWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.error_outline, size: 48, color: TokenColors.error),
+          const Icon(Icons.error_outline, size: 48, color: TokenColors.error),
           const SizedBox(height: TokenSpacing.xl),
           Text(state.error ?? '加载失败', style: TokenTypography.body(color: TokenColors.textTertiary)),
           const SizedBox(height: TokenSpacing.xl),

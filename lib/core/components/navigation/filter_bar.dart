@@ -27,7 +27,7 @@ class FilterBar extends StatelessWidget {
           children: [
             Row(
               children: [
-                Icon(Icons.tune, size: 16, color: TokenColors.textAccent),
+                const Icon(Icons.tune, size: 16, color: TokenColors.textAccent),
                 const SizedBox(width: TokenSpacing.lg),
                 Text(
                   label,
@@ -41,7 +41,7 @@ class FilterBar extends StatelessWidget {
             if (onClear != null)
               GestureDetector(
                 onTap: onClear,
-                child: Icon(Icons.close, size: 16, color: TokenColors.textTertiary),
+                child: const Icon(Icons.close, size: 16, color: TokenColors.textTertiary),
               ),
           ],
         ),

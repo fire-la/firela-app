@@ -30,7 +30,7 @@ class DesignRadio extends StatelessWidget {
                 child: Container(
                   width: 10,
                   height: 10,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: TokenColors.textAccent,
                     shape: BoxShape.circle,
                   ),

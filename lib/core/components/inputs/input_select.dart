@@ -60,7 +60,7 @@ class InputSelect extends StatelessWidget {
           label!,
           style: TokenTypography.caption(color: tokens.textSecondary),
         ),
-        SizedBox(height: TokenSpacing.sm),
+        const SizedBox(height: TokenSpacing.sm),
         selectBox,
       ],
     );

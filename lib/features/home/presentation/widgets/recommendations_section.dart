@@ -223,7 +223,7 @@ class _RecommendationCard extends StatelessWidget {
             ),
 
             // Arrow indicator
-            Icon(
+            const Icon(
               Icons.chevron_right,
               size: 20,
               color: TokenColors.textTertiary,

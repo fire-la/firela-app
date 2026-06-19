@@ -140,7 +140,7 @@ class _ExpenseItem extends StatelessWidget {
               color: TokenColors.textTertiary,
             ),
           ),
-          SizedBox(width: TokenSpacing.lg),
+          const SizedBox(width: TokenSpacing.lg),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

@@ -30,11 +30,11 @@ class DesignSwitch extends StatelessWidget {
             width: 18,
             height: 18,
             margin: const EdgeInsets.symmetric(horizontal: 2),
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: TokenColors.white,
               shape: BoxShape.circle,
               boxShadow: [
-                const BoxShadow(
+                BoxShadow(
                   color: Color(0x1A000000),
                   blurRadius: 3,
                   offset: Offset(0, 1),
