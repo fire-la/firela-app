@@ -8,6 +8,8 @@ import '../../../../core/router/route_names.dart';
 import '../../../../core/services/ign_api_service.dart';
 import '../../../../core/utils/logger.dart';
 import '../../../../shared/widgets/section_header.dart';
+import '../../../../shared/widgets/settings_icon_button.dart';
+import '../../../review_center/presentation/widgets/review_center_badge.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 class ExpenseTabPage extends HookWidget {
@@ -61,7 +63,8 @@ class ExpenseTabPage extends HookWidget {
             if (acct.startsWith('Expenses:') && units != 0) {
               // Extract category: "Expenses:Food:Restaurant" → "Expenses:Food"
               final parts = acct.split(':');
-              final category = parts.length >= 2 ? '${parts[0]}:${parts[1]}' : acct;
+              final category =
+                  parts.length >= 2 ? '${parts[0]}:${parts[1]}' : acct;
               catMap[category] = (catMap[category] ?? 0) + units.abs();
               // Track account IDs for this category
               final pAcctId = (p['accountId'] ?? '') as String;
@@ -74,12 +77,14 @@ class ExpenseTabPage extends HookWidget {
 
         final sorted = catMap.entries.toList()
           ..sort((a, b) => b.value.compareTo(a.value));
-        categories.value = sorted.map((e) => _CategorySummary(
-          path: e.key,
-          displayName: e.key.split(':').last,
-          amount: e.value,
-          accountIds: catAccountIds[e.key]?.toList() ?? [],
-        )).toList();
+        categories.value = sorted
+            .map((e) => _CategorySummary(
+                  path: e.key,
+                  displayName: e.key.split(':').last,
+                  amount: e.value,
+                  accountIds: catAccountIds[e.key]?.toList() ?? [],
+                ))
+            .toList();
       } catch (e) {
         logger.e('[ExpenseTab] Failed: $e');
         error.value = '加载失败';
@@ -102,110 +107,140 @@ class ExpenseTabPage extends HookWidget {
           padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
           child: Column(
             children: [
-              const PageHeader(title: 'IGN'),
-                const SizedBox(height: TokenSpacing.xl),
+              PageHeader(
+                leading: const ReviewCenterBadge(),
+                trailing: const SettingsIconButton(),
+              ),
+              const SizedBox(height: TokenSpacing.xl),
 
-                // Income/Expense display
-                NetWorthDisplay(
-                  leftLabel: '本月支出(元)',
-                  leftValue: isLoading.value ? '—' : '-${monthlyExpense.value}',
-                  rightLabel: '本月收入(元)',
-                  rightValue: isLoading.value ? '—' : '+${monthlyIncome.value}',
+              // Income/Expense display
+              NetWorthDisplay(
+                leftLabel: '本月支出(元)',
+                leftValue: isLoading.value ? '—' : '-${monthlyExpense.value}',
+                rightLabel: '本月收入(元)',
+                rightValue: isLoading.value ? '—' : '+${monthlyIncome.value}',
+              ),
+              const SizedBox(height: TokenSpacing.xl),
+
+              // Charts row
+              IntrinsicHeight(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Expanded(
+                      child: DonutChartCard(
+                        title: '支出分类',
+                        centerText: '${categories.value.length}',
+                        sections: _buildDonutSections(categories.value),
+                        legends: _buildDonutLegends(categories.value),
+                      ),
+                    ),
+                    const SizedBox(width: TokenSpacing.lg),
+                    Expanded(
+                      child: ChartCard(
+                        title: '支出趋势',
+                        chartWidget: _buildLineChart(),
+                        bottomLeftLabel: '近6月',
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(height: TokenSpacing.xl),
+              ),
+              const SizedBox(height: TokenSpacing.xl),
 
-                // Charts row
-                IntrinsicHeight(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Expanded(
-                        child: DonutChartCard(
-                          title: '支出分类',
-                          centerText: '${categories.value.length}',
-                          sections: _buildDonutSections(categories.value),
-                          legends: _buildDonutLegends(categories.value),
-                        ),
-                      ),
-                      const SizedBox(width: TokenSpacing.lg),
-                      Expanded(
-                        child: ChartCard(
-                          title: '支出趋势',
-                          chartWidget: _buildLineChart(),
-                          bottomLeftLabel: '近6月',
-                        ),
-                      ),
-                    ],
+              // Category list
+              SectionHeader(title: '收支明细'),
+              const SizedBox(height: TokenSpacing.xl),
+
+              if (isLoading.value && categories.value.isEmpty)
+                ..._buildSkeleton()
+              else if (categories.value.isEmpty)
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: TokenSpacing.xxl * 2),
+                    child: Column(
+                      children: [
+                        Icon(Icons.receipt_long_outlined,
+                            size: 48, color: TokenColors.textTertiary),
+                        const SizedBox(height: TokenSpacing.lg),
+                        Text('暂无交易记录',
+                            style: TokenTypography.body(
+                                color: TokenColors.textTertiary)),
+                      ],
+                    ),
                   ),
-                ),
-                const SizedBox(height: TokenSpacing.xl),
-
-                // Category list
-                SectionHeader(title: '收支明细'),
-                const SizedBox(height: TokenSpacing.xl),
-
-                if (isLoading.value && categories.value.isEmpty)
-                  ..._buildSkeleton()
-                else if (categories.value.isEmpty)
-                  Center(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: TokenSpacing.xxl * 2),
-                      child: Column(
-                        children: [
-                          Icon(Icons.receipt_long_outlined, size: 48, color: TokenColors.textTertiary),
-                          const SizedBox(height: TokenSpacing.lg),
-                          Text('暂无交易记录', style: TokenTypography.body(color: TokenColors.textTertiary)),
-                        ],
-                      ),
-                    ),
-                  )
-                else
-                  for (final cat in categories.value)
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: TokenSpacing.lg),
-                      child: _buildCategoryItem(context, cat),
-                    ),
-              ],
-            ),
+                )
+              else
+                for (final cat in categories.value)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: TokenSpacing.lg),
+                    child: _buildCategoryItem(context, cat),
+                  ),
+            ],
           ),
         ),
+      ),
     );
   }
 
   List<Widget> _buildSkeleton() {
-    return List.generate(4, (_) => Padding(
-      padding: const EdgeInsets.only(bottom: TokenSpacing.lg),
-      child: Container(
-        height: 72,
-        padding: const EdgeInsets.all(TokenSpacing.xl),
-        decoration: BoxDecoration(
-          color: TokenColors.bgCard,
-          borderRadius: TokenRadius.borderLg,
-          border: Border.all(color: TokenColors.borderCard, width: 0.5),
-        ),
-        child: Row(
-          children: [
-            Container(width: 36, height: 36, decoration: BoxDecoration(color: TokenColors.neutral200, borderRadius: BorderRadius.circular(10))),
-            const SizedBox(width: TokenSpacing.lg),
-            Container(width: 80, height: 14, decoration: BoxDecoration(color: TokenColors.neutral200, borderRadius: TokenRadius.borderSm)),
-            const Spacer(),
-            Container(width: 60, height: 14, decoration: BoxDecoration(color: TokenColors.neutral200, borderRadius: TokenRadius.borderSm)),
-          ],
-        ),
-      ),
-    ));
+    return List.generate(
+        4,
+        (_) => Padding(
+              padding: const EdgeInsets.only(bottom: TokenSpacing.lg),
+              child: Container(
+                height: 72,
+                padding: const EdgeInsets.all(TokenSpacing.xl),
+                decoration: BoxDecoration(
+                  color: TokenColors.bgCard,
+                  borderRadius: TokenRadius.borderLg,
+                  border: Border.all(color: TokenColors.borderCard, width: 0.5),
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                        width: 36,
+                        height: 36,
+                        decoration: BoxDecoration(
+                            color: TokenColors.neutral200,
+                            borderRadius: BorderRadius.circular(10))),
+                    const SizedBox(width: TokenSpacing.lg),
+                    Container(
+                        width: 80,
+                        height: 14,
+                        decoration: BoxDecoration(
+                            color: TokenColors.neutral200,
+                            borderRadius: TokenRadius.borderSm)),
+                    const Spacer(),
+                    Container(
+                        width: 60,
+                        height: 14,
+                        decoration: BoxDecoration(
+                            color: TokenColors.neutral200,
+                            borderRadius: TokenRadius.borderSm)),
+                  ],
+                ),
+              ),
+            ));
   }
 
   Widget _buildCategoryItem(BuildContext context, _CategorySummary cat) {
     final tokens = ThemeTokens.of(context);
-    final colors = [TokenColors.chartBlue, TokenColors.chartAmber, TokenColors.chartGreen, TokenColors.chartGrey];
+    final colors = [
+      TokenColors.chartBlue,
+      TokenColors.chartAmber,
+      TokenColors.chartGreen,
+      TokenColors.chartGrey
+    ];
     final color = colors[cat.path.hashCode.abs() % colors.length];
 
     return GestureDetector(
       onTap: () {
         // Use first account ID for filtering, fall back to path
         final id = cat.accountIds.isNotEmpty ? cat.accountIds.first : cat.path;
-        context.push('${RouteNames.transactions}?accountId=${Uri.encodeComponent(id)}&accountName=${Uri.encodeComponent(cat.displayName)}');
+        context.push(
+            '${RouteNames.transactions}?accountId=${Uri.encodeComponent(id)}&accountName=${Uri.encodeComponent(cat.displayName)}');
       },
       child: Container(
         padding: const EdgeInsets.all(TokenSpacing.xl),
@@ -214,7 +249,11 @@ class ExpenseTabPage extends HookWidget {
           borderRadius: TokenRadius.borderLg,
           border: Border.all(color: tokens.borderCard, width: 0.5),
           boxShadow: [
-            BoxShadow(color: tokens.shadow, blurRadius: 18, offset: const Offset(0, 2), spreadRadius: 2),
+            BoxShadow(
+                color: tokens.shadow,
+                blurRadius: 18,
+                offset: const Offset(0, 2),
+                spreadRadius: 2),
           ],
         ),
         child: Row(
@@ -226,18 +265,22 @@ class ExpenseTabPage extends HookWidget {
                 color: color.withValues(alpha: 0.15),
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: Icon(_categoryIcon(cat.displayName), size: 18, color: color),
+              child:
+                  Icon(_categoryIcon(cat.displayName), size: 18, color: color),
             ),
             const SizedBox(width: TokenSpacing.lg),
             Expanded(
               child: Text(
                 cat.displayName,
-                style: TokenTypography.body(fontWeight: FontWeight.w500, color: TokenColors.textPrimary),
+                style: TokenTypography.body(
+                    fontWeight: FontWeight.w500,
+                    color: TokenColors.textPrimary),
               ),
             ),
             Text(
               '-${cat.amount.toStringAsFixed(2)}',
-              style: TokenTypography.body(fontWeight: FontWeight.w700, color: TokenColors.textPrimary),
+              style: TokenTypography.body(
+                  fontWeight: FontWeight.w700, color: TokenColors.textPrimary),
             ),
           ],
         ),
@@ -247,34 +290,78 @@ class ExpenseTabPage extends HookWidget {
 
   IconData _categoryIcon(String name) {
     switch (name.toLowerCase()) {
-      case 'food': return Icons.restaurant;
-      case 'transport': return Icons.directions_car;
-      case 'shopping': return Icons.shopping_bag;
-      case 'entertainment': return Icons.movie;
-      case 'health': return Icons.local_hospital;
-      case 'education': return Icons.school;
-      case 'housing': return Icons.home;
-      case 'travel': return Icons.flight;
-      default: return Icons.category;
+      case 'food':
+        return Icons.restaurant;
+      case 'transport':
+        return Icons.directions_car;
+      case 'shopping':
+        return Icons.shopping_bag;
+      case 'entertainment':
+        return Icons.movie;
+      case 'health':
+        return Icons.local_hospital;
+      case 'education':
+        return Icons.school;
+      case 'housing':
+        return Icons.home;
+      case 'travel':
+        return Icons.flight;
+      default:
+        return Icons.category;
     }
   }
 
   List<PieChartSectionData> _buildDonutSections(List<_CategorySummary> cats) {
-    if (cats.isEmpty) return [PieChartSectionData(value: 1, color: TokenColors.neutral200, radius: 30, title: '')];
+    if (cats.isEmpty)
+      return [
+        PieChartSectionData(
+            value: 1, color: TokenColors.neutral200, radius: 30, title: '')
+      ];
     final total = cats.fold(0.0, (sum, c) => sum + c.amount);
-    if (total == 0) return [PieChartSectionData(value: 1, color: TokenColors.neutral200, radius: 30, title: '')];
-    final colors = [TokenColors.chartBlue, TokenColors.chartAmber, TokenColors.chartGreen, TokenColors.chartGrey];
-    return cats.take(4).toList().asMap().entries.map((e) =>
-      PieChartSectionData(value: e.value.amount, title: '', color: colors[e.key % colors.length], radius: 30),
-    ).toList();
+    if (total == 0)
+      return [
+        PieChartSectionData(
+            value: 1, color: TokenColors.neutral200, radius: 30, title: '')
+      ];
+    final colors = [
+      TokenColors.chartBlue,
+      TokenColors.chartAmber,
+      TokenColors.chartGreen,
+      TokenColors.chartGrey
+    ];
+    return cats
+        .take(4)
+        .toList()
+        .asMap()
+        .entries
+        .map(
+          (e) => PieChartSectionData(
+              value: e.value.amount,
+              title: '',
+              color: colors[e.key % colors.length],
+              radius: 30),
+        )
+        .toList();
   }
 
   List<DonutLegendItem> _buildDonutLegends(List<_CategorySummary> cats) {
     if (cats.isEmpty) return [];
-    final colors = [TokenColors.chartBlue, TokenColors.chartAmber, TokenColors.chartGreen, TokenColors.chartGrey];
-    return cats.take(3).toList().asMap().entries.map((e) =>
-      DonutLegendItem(label: e.value.displayName, color: colors[e.key % colors.length]),
-    ).toList();
+    final colors = [
+      TokenColors.chartBlue,
+      TokenColors.chartAmber,
+      TokenColors.chartGreen,
+      TokenColors.chartGrey
+    ];
+    return cats
+        .take(3)
+        .toList()
+        .asMap()
+        .entries
+        .map(
+          (e) => DonutLegendItem(
+              label: e.value.displayName, color: colors[e.key % colors.length]),
+        )
+        .toList();
   }
 
   Widget _buildLineChart() {
@@ -284,7 +371,14 @@ class ExpenseTabPage extends HookWidget {
       borderData: FlBorderData(show: false),
       lineBarsData: [
         LineChartBarData(
-          spots: const [FlSpot(0, 3.2), FlSpot(1, 4.5), FlSpot(2, 3.8), FlSpot(3, 5.1), FlSpot(4, 4.7), FlSpot(5, 6.2)],
+          spots: const [
+            FlSpot(0, 3.2),
+            FlSpot(1, 4.5),
+            FlSpot(2, 3.8),
+            FlSpot(3, 5.1),
+            FlSpot(4, 4.7),
+            FlSpot(5, 6.2)
+          ],
           isCurved: true,
           color: TokenColors.textAccent,
           barWidth: 2,
@@ -321,5 +415,9 @@ class _CategorySummary {
   final String displayName;
   final double amount;
   final List<String> accountIds;
-  const _CategorySummary({required this.path, required this.displayName, required this.amount, this.accountIds = const []});
+  const _CategorySummary(
+      {required this.path,
+      required this.displayName,
+      required this.amount,
+      this.accountIds = const []});
 }

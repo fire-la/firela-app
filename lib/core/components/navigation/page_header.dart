@@ -1,34 +1,29 @@
 import 'package:flutter/material.dart';
-import '../../design_tokens/design_tokens.dart';
 
+/// Page header for top-level (tab) pages.
+/// Per .pen spec (Ln7UG): leading entry (e.g. review center) on the left,
+/// trailing entry (e.g. settings) on the right, no title, center empty.
+/// height 56. Horizontal padding is provided by the host page (e.g. its
+/// SingleChildScrollView padding), matching the original component contract.
 class PageHeader extends StatelessWidget {
-  final String title;
+  final Widget? leading;
   final Widget? trailing;
 
   const PageHeader({
     super.key,
-    required this.title,
+    this.leading,
     this.trailing,
   });
 
   @override
   Widget build(BuildContext context) {
-    final tokens = ThemeTokens.of(context);
     return SizedBox(
       height: 56,
       child: Row(
         children: [
-          Text(
-            title,
-            style: TokenTypography.h1(
-              fontWeight: FontWeight.w700,
-              color: tokens.textPrimary,
-            ).copyWith(fontStyle: FontStyle.italic),
-          ),
-          if (trailing != null) ...[
-            const Spacer(),
-            trailing!,
-          ],
+          if (leading != null) leading!,
+          const Spacer(),
+          if (trailing != null) trailing!,
         ],
       ),
     );

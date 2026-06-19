@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:signals_flutter/signals_flutter.dart';
+import '../../../../core/components/components.dart';
+import 'package:firela_app/generated/l10n/app_localizations.dart';
 import '../../../../core/design_tokens/design_tokens.dart';
 import '../../../../core/services/analytics_service.dart';
 import '../../../../core/services/analytics_events.dart';
@@ -15,6 +17,7 @@ class ReviewCenterPage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final state = useReviewCenter();
     final scrollController = useScrollController();
@@ -135,113 +138,120 @@ class ReviewCenterPage extends HookWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('审核中心'),
-        bottom: TabBar(
-          controller: tabController,
-          isScrollable: false,
-          labelStyle: TokenTypography.body(
-            fontWeight: FontWeight.w500,
+      body: Column(
+        children: [
+          TopBar(title: l10n.reviewCenterTitle),
+          TabBar(
+            controller: tabController,
+            isScrollable: false,
+            labelStyle: TokenTypography.body(
+              fontWeight: FontWeight.w500,
+            ),
+            tabs: [
+              Watch((context) => Tab(
+                    text: '全部(${state.getCountForLevel(null)})',
+                  )),
+              Watch((context) => Tab(
+                    text: '高(${state.getCountForLevel(ConfidenceLevel.high)})',
+                  )),
+              Watch((context) => Tab(
+                    text:
+                        '需确认(${state.getCountForLevel(ConfidenceLevel.medium)})',
+                  )),
+              Watch((context) => Tab(
+                    text: '核对(${state.getCountForLevel(ConfidenceLevel.low)})',
+                  )),
+            ],
           ),
-          tabs: [
-            Watch((context) => Tab(
-              text: '全部(${state.getCountForLevel(null)})',
-            )),
-            Watch((context) => Tab(
-              text: '高(${state.getCountForLevel(ConfidenceLevel.high)})',
-            )),
-            Watch((context) => Tab(
-              text: '需确认(${state.getCountForLevel(ConfidenceLevel.medium)})',
-            )),
-            Watch((context) => Tab(
-              text: '核对(${state.getCountForLevel(ConfidenceLevel.low)})',
-            )),
-          ],
-        ),
-      ),
-      body: TabBarView(
-        controller: tabController,
-        children: List.generate(4, (tabIndex) {
-          return Watch((context) {
-            final transactions = state.transactions;
-            final isLoading = state.isLoading;
-            final hasMore = state.hasMore;
-            final error = state.error;
+          Expanded(
+            child: TabBarView(
+              controller: tabController,
+              children: List.generate(4, (tabIndex) {
+                return Watch((context) {
+                  final transactions = state.transactions;
+                  final isLoading = state.isLoading;
+                  final hasMore = state.hasMore;
+                  final error = state.error;
 
-            // Error state
-            if (error != null && transactions.isEmpty) {
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.error_outline,
-                      size: 64,
-                      color: TokenColors.error,
-                    ),
-                    const SizedBox(height: TokenSpacing.xl),
-                    Text(error),
-                    const SizedBox(height: TokenSpacing.xl),
-                    FilledButton(
-                      onPressed: () => state.loadTransactions(refresh: true),
-                      child: const Text('重试'),
-                    ),
-                  ],
-                ),
-              );
-            }
-
-            // Empty state
-            if (transactions.isEmpty && !isLoading) {
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.check_circle_outline,
-                      size: 64,
-                      color: TokenColors.textAccent.withValues(alpha: 0.5),
-                    ),
-                    const SizedBox(height: TokenSpacing.xl),
-                    Text(
-                      '暂无待审核交易',
-                      style: TokenTypography.body(
-                        color: theme.colorScheme.onSurfaceVariant,
+                  // Error state
+                  if (error != null && transactions.isEmpty) {
+                    return Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.error_outline,
+                            size: 64,
+                            color: TokenColors.error,
+                          ),
+                          const SizedBox(height: TokenSpacing.xl),
+                          Text(error),
+                          const SizedBox(height: TokenSpacing.xl),
+                          FilledButton(
+                            onPressed: () =>
+                                state.loadTransactions(refresh: true),
+                            child: const Text('重试'),
+                          ),
+                        ],
                       ),
-                    ),
-                  ],
-                ),
-              );
-            }
-
-            // List with refresh
-            return RefreshIndicator(
-              onRefresh: () => state.loadTransactions(refresh: true),
-              child: ListView.builder(
-                controller: scrollController,
-                physics: const AlwaysScrollableScrollPhysics(),
-                itemCount: transactions.length + (hasMore ? 1 : 0),
-                itemBuilder: (context, index) {
-                  // Loading indicator at bottom
-                  if (index == transactions.length) {
-                    return const Padding(
-                      padding: EdgeInsets.all(TokenSpacing.xl),
-                      child: Center(child: CircularProgressIndicator()),
                     );
                   }
 
-                  final transaction = transactions[index];
-                  return PendingTransactionCard(
-                    transaction: transaction,
-                    onDelete: () => handleDelete(transaction.id),
-                    onConfirm: () => handleConfirm(transaction.id),
-                    onTap: () => navigateToDetail(transaction.id),
+                  // Empty state
+                  if (transactions.isEmpty && !isLoading) {
+                    return Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.check_circle_outline,
+                            size: 64,
+                            color:
+                                TokenColors.textAccent.withValues(alpha: 0.5),
+                          ),
+                          const SizedBox(height: TokenSpacing.xl),
+                          Text(
+                            '暂无待审核交易',
+                            style: TokenTypography.body(
+                              color: theme.colorScheme.onSurfaceVariant,
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+
+                  // List with refresh
+                  return RefreshIndicator(
+                    onRefresh: () => state.loadTransactions(refresh: true),
+                    child: ListView.builder(
+                      controller: scrollController,
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      itemCount: transactions.length + (hasMore ? 1 : 0),
+                      itemBuilder: (context, index) {
+                        // Loading indicator at bottom
+                        if (index == transactions.length) {
+                          return const Padding(
+                            padding: EdgeInsets.all(TokenSpacing.xl),
+                            child: Center(child: CircularProgressIndicator()),
+                          );
+                        }
+
+                        final transaction = transactions[index];
+                        return PendingTransactionCard(
+                          transaction: transaction,
+                          onDelete: () => handleDelete(transaction.id),
+                          onConfirm: () => handleConfirm(transaction.id),
+                          onTap: () => navigateToDetail(transaction.id),
+                        );
+                      },
+                    ),
                   );
-                },
-              ),
-            );
-          });
-        }),
+                });
+              }),
+            ),
+          ),
+        ],
       ),
     );
   }

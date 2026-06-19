@@ -362,6 +362,7 @@
   "reviewCenterLoading": "加载中...",
   "reviewCenterError": "加载失败，请重试",
   "reviewCenterDetailTitle": "交易详情",
+  "aiChatComingSoon": "AI 对话（开发中）",
   "reviewCenterConfidence": "AI 识别置信度",
   "reviewCenterAccount": "账户",
   "reviewCenterMerchant": "商户",

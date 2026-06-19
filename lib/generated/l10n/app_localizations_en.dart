@@ -366,6 +366,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get reviewCenterDetailTitle => 'Transaction Detail';
 
   @override
+  String get aiChatComingSoon => 'AI Chat (Coming Soon)';
+
+  @override
   String get reviewCenterConfidence => 'AI Confidence Level';
 
   @override

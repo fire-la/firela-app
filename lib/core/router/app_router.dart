@@ -11,6 +11,7 @@ import '../../features/transactions/presentation/pages/transaction_list_page.dar
 import '../../features/transactions/presentation/pages/transaction_detail_edit_page.dart';
 import '../../features/recurring/presentation/pages/recurring_transaction_dialog_page.dart';
 import '../../features/recurring/presentation/pages/recurring_transaction_setup_page.dart';
+import '../../features/settings/presentation/pages/settings_page.dart';
 import 'route_names.dart';
 
 /// Application router configuration
@@ -21,6 +22,11 @@ final appRouter = GoRouter(
       path: RouteNames.home,
       name: 'home',
       builder: (context, state) => const MainPage(),
+    ),
+    GoRoute(
+      path: RouteNames.settings,
+      name: 'settings',
+      builder: (context, state) => const SettingsPage(),
     ),
     GoRoute(
       path: RouteNames.accounts,

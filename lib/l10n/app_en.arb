@@ -599,6 +599,11 @@
     "description": "Detail page title"
   },
 
+  "aiChatComingSoon": "AI Chat (Coming Soon)",
+  "@aiChatComingSoon": {
+    "description": "AI chat tab placeholder text"
+  },
+
   "reviewCenterConfidence": "AI Confidence Level",
   "@reviewCenterConfidence": {
     "description": "Confidence level label"

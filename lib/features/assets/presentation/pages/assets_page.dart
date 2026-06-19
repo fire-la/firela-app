@@ -11,6 +11,7 @@ import '../../../../core/services/ign_api_service.dart';
 import '../../../../core/utils/logger.dart';
 import '../../../../shared/signals/asset_refresh_signal.dart';
 import '../../../../shared/widgets/section_header.dart';
+import '../../../../shared/widgets/settings_icon_button.dart';
 import '../../../review_center/presentation/widgets/review_center_badge.dart';
 import '../../data/services/dashboard_aggregation_service.dart';
 import '../../domain/models/net_worth_history_point.dart';
@@ -40,10 +41,18 @@ class AssetsPage extends HookWidget {
         final period = '${now.year}-${now.month.toString().padLeft(2, '0')}';
 
         final results = await Future.wait([
-          IgnApiService.instance.getNetWorth().catchError((_) => <String, dynamic>{}),
-          IgnApiService.instance.getCashFlow(period: period).catchError((_) => <String, dynamic>{}),
-          IgnApiService.instance.getBeanAccounts(type: 'Assets').catchError((_) => <String, dynamic>{'items': [], 'total': 0}),
-          IgnApiService.instance.getDashboardAccounts().catchError((_) => <String, dynamic>{'groups': []}),
+          IgnApiService.instance
+              .getNetWorth()
+              .catchError((_) => <String, dynamic>{}),
+          IgnApiService.instance
+              .getCashFlow(period: period)
+              .catchError((_) => <String, dynamic>{}),
+          IgnApiService.instance
+              .getBeanAccounts(type: 'Assets')
+              .catchError((_) => <String, dynamic>{'items': [], 'total': 0}),
+          IgnApiService.instance
+              .getDashboardAccounts()
+              .catchError((_) => <String, dynamic>{'groups': []}),
         ]);
 
         final netWorthData = results[0];
@@ -81,7 +90,9 @@ class AssetsPage extends HookWidget {
           final id = item['id'] as String? ?? '';
           final displayName = path.contains(':') ? path.split(':').last : path;
           final parts = path.split(':');
-          final institution = parts.length >= 3 ? parts[2] : (parts.length >= 2 ? parts[1] : '');
+          final institution = parts.length >= 3
+              ? parts[2]
+              : (parts.length >= 2 ? parts[1] : '');
           // Match by id first, then by path name
           final balance = balanceById[id] ?? balanceByName[path] ?? 0.0;
           accountList.add(AccountData(
@@ -98,12 +109,16 @@ class AssetsPage extends HookWidget {
 
         // 3. History
         try {
-          final historyData = await IgnApiService.instance.getNetWorthHistory(months: selectedPeriodMonths.value);
-          final history = DashboardAggregationService.instance.aggregateNetWorthHistory(historyData);
+          final historyData = await IgnApiService.instance
+              .getNetWorthHistory(months: selectedPeriodMonths.value);
+          final history = DashboardAggregationService.instance
+              .aggregateNetWorthHistory(historyData);
           netWorthHistory.value = history;
           if (history.length >= 2) {
-            final change = history.last.netWorth - history[history.length - 2].netWorth;
-            monthlyChange.value = '${change >= 0 ? '+' : ''}${change.toStringAsFixed(0)}';
+            final change =
+                history.last.netWorth - history[history.length - 2].netWorth;
+            monthlyChange.value =
+                '${change >= 0 ? '+' : ''}${change.toStringAsFixed(0)}';
           }
         } catch (_) {}
       } catch (e) {
@@ -137,8 +152,8 @@ class AssetsPage extends HookWidget {
             children: [
               // PageHeader
               PageHeader(
-                title: 'IGN',
-                trailing: const ReviewCenterBadge(),
+                leading: const ReviewCenterBadge(),
+                trailing: const SettingsIconButton(),
               ),
               const SizedBox(height: TokenSpacing.xl),
 
@@ -159,7 +174,8 @@ class AssetsPage extends HookWidget {
                     Expanded(
                       child: DonutChartCard(
                         title: '资产分布',
-                        centerText: isLoading.value ? '—' : '${accounts.value.length}',
+                        centerText:
+                            isLoading.value ? '—' : '${accounts.value.length}',
                         sections: _buildDonutSections(accounts.value),
                         legends: _buildDonutLegends(accounts.value),
                       ),
@@ -170,7 +186,9 @@ class AssetsPage extends HookWidget {
                         title: '资产变化',
                         chartWidget: _buildLineChart(netWorthHistory.value),
                         bottomLeftLabel: _getPeriodLabel(),
-                        bottomRightLabel: isLoading.value ? null : _getChangePercent(netWorthHistory.value),
+                        bottomRightLabel: isLoading.value
+                            ? null
+                            : _getChangePercent(netWorthHistory.value),
                       ),
                     ),
                   ],
@@ -183,7 +201,9 @@ class AssetsPage extends HookWidget {
                 leftLabel: '资产',
                 leftValue: totalAssets.value,
                 rightLabel: '负债',
-                rightValue: totalLiabilities.value == '0.00' ? '0.00' : '-${totalLiabilities.value}',
+                rightValue: totalLiabilities.value == '0.00'
+                    ? '0.00'
+                    : '-${totalLiabilities.value}',
               ),
               const SizedBox(height: TokenSpacing.xl),
 
@@ -210,25 +230,48 @@ class AssetsPage extends HookWidget {
 
   List<PieChartSectionData> _buildDonutSections(List<AccountData> accounts) {
     if (accounts.isEmpty) {
-      return [PieChartSectionData(value: 1, color: TokenColors.neutral200, radius: 30, title: '')];
+      return [
+        PieChartSectionData(
+            value: 1, color: TokenColors.neutral200, radius: 30, title: '')
+      ];
     }
-    final colors = [TokenColors.chartBlue, TokenColors.chartAmber, TokenColors.chartGreen, TokenColors.chartGrey];
+    final colors = [
+      TokenColors.chartBlue,
+      TokenColors.chartAmber,
+      TokenColors.chartGreen,
+      TokenColors.chartGrey
+    ];
     final total = accounts.fold(0.0, (sum, a) => sum + a.balance.abs());
-    return accounts.asMap().entries.map((e) => PieChartSectionData(
-      value: total == 0 ? 1 : e.value.balance.abs(),
-      title: '',
-      color: colors[e.key % colors.length],
-      radius: 30,
-    )).toList();
+    return accounts
+        .asMap()
+        .entries
+        .map((e) => PieChartSectionData(
+              value: total == 0 ? 1 : e.value.balance.abs(),
+              title: '',
+              color: colors[e.key % colors.length],
+              radius: 30,
+            ))
+        .toList();
   }
 
   List<DonutLegendItem> _buildDonutLegends(List<AccountData> accounts) {
     if (accounts.isEmpty) return [];
-    final colors = [TokenColors.chartBlue, TokenColors.chartAmber, TokenColors.chartGreen, TokenColors.chartGrey];
-    return accounts.take(3).toList().asMap().entries.map((e) => DonutLegendItem(
-      label: e.value.displayName,
-      color: colors[e.key % colors.length],
-    )).toList();
+    final colors = [
+      TokenColors.chartBlue,
+      TokenColors.chartAmber,
+      TokenColors.chartGreen,
+      TokenColors.chartGrey
+    ];
+    return accounts
+        .take(3)
+        .toList()
+        .asMap()
+        .entries
+        .map((e) => DonutLegendItem(
+              label: e.value.displayName,
+              color: colors[e.key % colors.length],
+            ))
+        .toList();
   }
 
   // --- Line chart ---
@@ -236,7 +279,14 @@ class AssetsPage extends HookWidget {
   Widget _buildLineChart(List<NetWorthHistoryPoint> history) {
     final spots = _convertHistoryToSpots(history);
     final chartSpots = spots.isEmpty
-        ? const [FlSpot(0, 3.2), FlSpot(1, 4.5), FlSpot(2, 3.8), FlSpot(3, 5.1), FlSpot(4, 4.7), FlSpot(5, 6.2)]
+        ? const [
+            FlSpot(0, 3.2),
+            FlSpot(1, 4.5),
+            FlSpot(2, 3.8),
+            FlSpot(3, 5.1),
+            FlSpot(4, 4.7),
+            FlSpot(5, 6.2)
+          ]
         : spots;
     return LineChart(
       LineChartData(
@@ -260,7 +310,8 @@ class AssetsPage extends HookWidget {
   List<FlSpot> _convertHistoryToSpots(List<NetWorthHistoryPoint> history) {
     if (history.isEmpty) return [];
     // 只有1个点时复制一份，确保 LineChart 能画出直线
-    final sorted = List<NetWorthHistoryPoint>.from(history)..sort((a, b) => a.date.compareTo(b.date));
+    final sorted = List<NetWorthHistoryPoint>.from(history)
+      ..sort((a, b) => a.date.compareTo(b.date));
     if (sorted.length == 1) {
       final p = sorted[0];
       sorted.add(NetWorthHistoryPoint(
@@ -275,17 +326,22 @@ class AssetsPage extends HookWidget {
     final maxValue = values.reduce((a, b) => a > b ? a : b);
     final range = maxValue - minValue;
     return sorted.asMap().entries.map((e) {
-      final normalizedY = range > 0 ? ((e.value.netWorth - minValue) / range) * 10 : 5.0;
+      final normalizedY =
+          range > 0 ? ((e.value.netWorth - minValue) / range) * 10 : 5.0;
       return FlSpot(e.key.toDouble(), normalizedY);
     }).toList();
   }
 
   String _getPeriodLabel() {
     switch (6) {
-      case 1: return '近1月';
-      case 3: return '近3月';
-      case 12: return '近1年';
-      default: return '近6月';
+      case 1:
+        return '近1月';
+      case 3:
+        return '近3月';
+      case 12:
+        return '近1年';
+      default:
+        return '近6月';
     }
   }
 
@@ -300,11 +356,14 @@ class AssetsPage extends HookWidget {
 
   // --- Account list ---
 
-  List<Widget> _buildGroupedAccounts(BuildContext context, List<AccountData> accounts) {
-    return accounts.map((account) => Padding(
-      padding: const EdgeInsets.only(bottom: TokenSpacing.lg),
-      child: _buildAccountItem(context, account),
-    )).toList();
+  List<Widget> _buildGroupedAccounts(
+      BuildContext context, List<AccountData> accounts) {
+    return accounts
+        .map((account) => Padding(
+              padding: const EdgeInsets.only(bottom: TokenSpacing.lg),
+              child: _buildAccountItem(context, account),
+            ))
+        .toList();
   }
 
   Widget _buildAccountItem(BuildContext context, AccountData account) {
@@ -312,17 +371,23 @@ class AssetsPage extends HookWidget {
     return GestureDetector(
       onTap: () {
         if (account.accountId.isNotEmpty) {
-          context.push('${RouteNames.transactions}?accountId=${Uri.encodeComponent(account.accountId)}&accountName=${Uri.encodeComponent(account.displayName)}');
+          context.push(
+              '${RouteNames.transactions}?accountId=${Uri.encodeComponent(account.accountId)}&accountName=${Uri.encodeComponent(account.displayName)}');
         }
       },
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: TokenSpacing.xl, horizontal: TokenSpacing.xxl),
+        padding: const EdgeInsets.symmetric(
+            vertical: TokenSpacing.xl, horizontal: TokenSpacing.xxl),
         decoration: BoxDecoration(
           color: tokens.bgCard,
           borderRadius: TokenRadius.borderLg,
           border: Border.all(color: tokens.borderCard, width: 0.5),
           boxShadow: [
-            BoxShadow(color: tokens.shadow, blurRadius: 18, offset: const Offset(0, 2), spreadRadius: 2),
+            BoxShadow(
+                color: tokens.shadow,
+                blurRadius: 18,
+                offset: const Offset(0, 2),
+                spreadRadius: 2),
           ],
         ),
         child: Row(
@@ -362,7 +427,8 @@ class AssetsPage extends HookWidget {
             ),
             if (account.platform.isNotEmpty)
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                 decoration: BoxDecoration(
                   color: tokens.bgCard,
                   borderRadius: BorderRadius.circular(11),
@@ -381,11 +447,16 @@ class AssetsPage extends HookWidget {
 
   IconData _getPlatformIcon(String platform) {
     switch (platform.toLowerCase()) {
-      case 'alipay': return Icons.account_balance_wallet;
-      case 'wechat': return Icons.chat_bubble_outline;
-      case 'bank': return Icons.account_balance;
-      case 'investment': return Icons.trending_up;
-      default: return Icons.account_balance;
+      case 'alipay':
+        return Icons.account_balance_wallet;
+      case 'wechat':
+        return Icons.chat_bubble_outline;
+      case 'bank':
+        return Icons.account_balance;
+      case 'investment':
+        return Icons.trending_up;
+      default:
+        return Icons.account_balance;
     }
   }
 
@@ -395,41 +466,53 @@ class AssetsPage extends HookWidget {
     return [
       const SectionHeader(title: '账户'),
       const SizedBox(height: TokenSpacing.lg),
-      for (int i = 0; i < 3; i++) Padding(
-        padding: const EdgeInsets.only(bottom: TokenSpacing.lg),
-        child: Container(
-          height: 72,
-          padding: const EdgeInsets.all(TokenSpacing.xl),
-          decoration: BoxDecoration(
-            color: TokenColors.bgCard,
-            borderRadius: TokenRadius.borderLg,
-            border: Border.all(color: TokenColors.borderCard, width: 0.5),
-          ),
-          child: Row(
-            children: [
-              Container(
-                width: 24, height: 24,
-                decoration: BoxDecoration(
-                  color: TokenColors.neutral200,
-                  shape: BoxShape.circle,
+      for (int i = 0; i < 3; i++)
+        Padding(
+          padding: const EdgeInsets.only(bottom: TokenSpacing.lg),
+          child: Container(
+            height: 72,
+            padding: const EdgeInsets.all(TokenSpacing.xl),
+            decoration: BoxDecoration(
+              color: TokenColors.bgCard,
+              borderRadius: TokenRadius.borderLg,
+              border: Border.all(color: TokenColors.borderCard, width: 0.5),
+            ),
+            child: Row(
+              children: [
+                Container(
+                  width: 24,
+                  height: 24,
+                  decoration: BoxDecoration(
+                    color: TokenColors.neutral200,
+                    shape: BoxShape.circle,
+                  ),
                 ),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(width: 80, height: 12, decoration: BoxDecoration(color: TokenColors.neutral200, borderRadius: TokenRadius.borderSm)),
-                    const SizedBox(height: 8),
-                    Container(width: 120, height: 16, decoration: BoxDecoration(color: TokenColors.neutral200, borderRadius: TokenRadius.borderSm)),
-                  ],
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                          width: 80,
+                          height: 12,
+                          decoration: BoxDecoration(
+                              color: TokenColors.neutral200,
+                              borderRadius: TokenRadius.borderSm)),
+                      const SizedBox(height: 8),
+                      Container(
+                          width: 120,
+                          height: 16,
+                          decoration: BoxDecoration(
+                              color: TokenColors.neutral200,
+                              borderRadius: TokenRadius.borderSm)),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
-      ),
     ];
   }
 
@@ -439,7 +522,9 @@ class AssetsPage extends HookWidget {
     final lower = path.toLowerCase();
     if (lower.contains('alipay') || lower.contains('支付宝')) return 'Alipay';
     if (lower.contains('wechat') || lower.contains('微信')) return 'WeChat';
-    if (lower.contains('invest') || lower.contains('stock') || lower.contains('fund')) return 'Investment';
+    if (lower.contains('invest') ||
+        lower.contains('stock') ||
+        lower.contains('fund')) return 'Investment';
     if (lower.contains('bank')) return 'Bank';
     return 'Bank';
   }

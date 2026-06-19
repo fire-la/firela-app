@@ -18,10 +18,9 @@ import '../../../../core/router/route_names.dart';
 import '../../../../core/utils/logger.dart';
 import '../../../assets/presentation/pages/assets_page.dart';
 import '../../../expense/presentation/pages/expense_tab_page.dart';
-import '../../../settings/presentation/pages/settings_page.dart';
+import 'ai_chat_placeholder_page.dart';
 import '../../../expense/presentation/widgets/expense_entry_bottom_sheet.dart';
 import '../../../expense/presentation/widgets/nlp_result_bottom_sheet.dart';
-import '../../../../core/services/receipt_text_parser.dart';
 import '../../../expense/presentation/widgets/ocr_result_debug_sheet.dart';
 import '../../../expense/presentation/widgets/categorization_preview_sheet.dart';
 import '../../../../shared/signals/connectivity_signal.dart';
@@ -34,14 +33,10 @@ class MainPage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
     final currentIndex = useState(0);
 
     // NLP 会话状态
     final nlpSessionId = useState<String>('');
-
-    // SettingsPage 的 key，用于在切换 Tab 时刷新状态
-    final settingsKey = useMemoized(() => GlobalKey<SettingsPageState>());
 
     // Start connectivity monitoring
     useEffect(() {
@@ -67,45 +62,42 @@ class MainPage extends HookWidget {
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.only(top: topPadding),
-      child: Stack(
-        children: [
-          for (int i = 0; i < 3; i++)
-            Offstage(
-              offstage: currentIndex.value != i,
-              child: visitedTabs.value.contains(i)
-                  ? TickerMode(
-                      enabled: currentIndex.value == i,
-                      child: _buildPage(i, settingsKey),
-                    )
-                  : const SizedBox.shrink(),
-            ),
-        ],
-      ),
+        child: Stack(
+          children: [
+            for (int i = 0; i < 3; i++)
+              Offstage(
+                offstage: currentIndex.value != i,
+                child: visitedTabs.value.contains(i)
+                    ? TickerMode(
+                        enabled: currentIndex.value == i,
+                        child: _buildPage(i),
+                      )
+                    : const SizedBox.shrink(),
+              ),
+          ],
+        ),
       ),
       floatingActionButton: null,
       bottomNavigationBar: DesignBottomNav(
         currentIndex: currentIndex.value,
         onTap: (index) {
           currentIndex.value = index;
-          if (index == 2) {
-            settingsKey.currentState?.refresh();
-          }
         },
         items: [
-          BottomNavItem(
+          const BottomNavItem(
             icon: Icons.bar_chart_outlined,
             activeIcon: Icons.bar_chart,
             label: '资产',
           ),
-          BottomNavItem(
+          const BottomNavItem(
             icon: Icons.receipt_long_outlined,
             activeIcon: Icons.receipt_long,
             label: '收支',
           ),
-          BottomNavItem(
-            icon: Icons.person_outline,
-            activeIcon: Icons.person,
-            label: '我的',
+          const BottomNavItem(
+            icon: Icons.smart_toy_outlined,
+            activeIcon: Icons.smart_toy,
+            label: 'AI',
           ),
         ],
         onFabTap: () => _onFloatingAddTap(context, nlpSessionId),
@@ -114,21 +106,22 @@ class MainPage extends HookWidget {
   }
 
   /// Build page by index (lazy)
-  Widget _buildPage(int index, GlobalKey<SettingsPageState> settingsKey) {
+  Widget _buildPage(int index) {
     switch (index) {
       case 0:
         return const AssetsPage();
       case 1:
         return const ExpenseTabPage();
       case 2:
-        return SettingsPage(key: settingsKey);
+        return const AiChatPlaceholderPage();
       default:
         return const SizedBox.shrink();
     }
   }
 
   /// 悬浮按钮点击 - 打开记账弹窗
-  void _onFloatingAddTap(BuildContext context, ValueNotifier<String> nlpSessionId) {
+  void _onFloatingAddTap(
+      BuildContext context, ValueNotifier<String> nlpSessionId) {
     // Track expense button click
     AnalyticsService().capture(AnalyticsEvents.expenseButtonClicked);
 
@@ -209,7 +202,8 @@ class MainPage extends HookWidget {
       final action = response['action'] as String? ?? '';
       final confidence = (response['confidence'] as num?)?.toDouble() ?? 0.0;
 
-      logger.i('[MainPage] NLP response: action=$action, confidence=$confidence');
+      logger
+          .i('[MainPage] NLP response: action=$action, confidence=$confidence');
 
       switch (action) {
         case 'created':
@@ -248,7 +242,8 @@ class MainPage extends HookWidget {
             if (message.contains('not found in account standards')) {
               // 检查是否是 NLP 服务端错误（API 返回 similarAccounts 数组）
               final errorData = e.data as Map<String, dynamic>?;
-              final similarAccounts = errorData?['similarAccounts'] as List<dynamic>?;
+              final similarAccounts =
+                  errorData?['similarAccounts'] as List<dynamic>?;
               final suggestedAccount = similarAccounts?.isNotEmpty == true
                   ? similarAccounts![0]['name'] as String?
                   : null;
@@ -256,7 +251,8 @@ class MainPage extends HookWidget {
 
               if (suggestedAccount != null) {
                 errorMsg = '分类未识别，已使用: $suggestedAccount';
-              } else if (operation == 'createTransactionAfterPayeeConfirmation') {
+              } else if (operation ==
+                  'createTransactionAfterPayeeConfirmation') {
                 errorMsg = 'NLP服务异常：无法识别分类，请尝试更具体的描述（如"午餐餐饮花费88元"）';
               } else {
                 errorMsg = '账户未配置：请先在 Beancount 账本中添加对应账户，或尝试更具体的描述';
@@ -307,7 +303,9 @@ class MainPage extends HookWidget {
 
             if (data['_action'] == 'edit') {
               final transactionId = data['transactionId']?.toString();
-              if (transactionId != null && transactionId.isNotEmpty && context.mounted) {
+              if (transactionId != null &&
+                  transactionId.isNotEmpty &&
+                  context.mounted) {
                 context.push('/transactions/$transactionId');
               }
               return;
@@ -318,7 +316,9 @@ class MainPage extends HookWidget {
               refreshAssetData();
               if (context.mounted) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(AppLocalizations.of(context)!.expenseEntrySuccess)),
+                  SnackBar(
+                      content: Text(
+                          AppLocalizations.of(context)!.expenseEntrySuccess)),
                 );
               }
               return;
@@ -330,13 +330,16 @@ class MainPage extends HookWidget {
                 ? Map<String, dynamic>.from(response['parsedData'] as Map)
                 : null;
             if (context.mounted) {
-              await _handleNlpSubmit(context, message, nlpSessionId, parsedData: lastParsedData);
+              await _handleNlpSubmit(context, message, nlpSessionId,
+                  parsedData: lastParsedData);
             }
           },
           onCancel: () {
             Navigator.of(ctx).pop();
             if (nlpSessionId.value.isNotEmpty) {
-              IgnApiService.instance.clearNlpSession(nlpSessionId.value).catchError((_) {});
+              IgnApiService.instance
+                  .clearNlpSession(nlpSessionId.value)
+                  .catchError((_) {});
             }
             nlpSessionId.value = '';
           },
@@ -345,7 +348,9 @@ class MainPage extends HookWidget {
             nlpSessionId.value = '';
             if (context.mounted) {
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(AppLocalizations.of(context)!.nlpDuplicateIgnored)),
+                SnackBar(
+                    content: Text(
+                        AppLocalizations.of(context)!.nlpDuplicateIgnored)),
               );
               Navigator.pop(context);
             }
@@ -381,14 +386,16 @@ class MainPage extends HookWidget {
   }
 
   /// 选择图片来源并执行 OCR 识别
-  void _showImageSourceAndProcessOcr(BuildContext context, ValueNotifier<String> nlpSessionId) {
+  void _showImageSourceAndProcessOcr(
+      BuildContext context, ValueNotifier<String> nlpSessionId) {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
       builder: (ctx) => Container(
         decoration: BoxDecoration(
           color: Theme.of(ctx).colorScheme.surface,
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(TokenRadius.lg)),
+          borderRadius:
+              const BorderRadius.vertical(top: Radius.circular(TokenRadius.lg)),
         ),
         child: SafeArea(
           child: Column(
@@ -396,7 +403,8 @@ class MainPage extends HookWidget {
             children: [
               Container(
                 margin: const EdgeInsets.only(top: TokenSpacing.sm),
-                width: 40, height: 4,
+                width: 40,
+                height: 4,
                 decoration: BoxDecoration(
                   color: TokenColors.textTertiary.withValues(alpha: 0.3),
                   borderRadius: BorderRadius.circular(2),
@@ -404,14 +412,16 @@ class MainPage extends HookWidget {
               ),
               Padding(
                 padding: const EdgeInsets.all(TokenSpacing.xl),
-                child: Text('选择图片来源', style: TokenTypography.body(fontWeight: FontWeight.w500)),
+                child: Text('选择图片来源',
+                    style: TokenTypography.body(fontWeight: FontWeight.w500)),
               ),
               ListTile(
                 leading: const Icon(Icons.camera_alt),
                 title: const Text('拍照识别'),
                 onTap: () {
                   Navigator.pop(ctx);
-                  _processOcrFromSource(context, ImageSource.camera, nlpSessionId);
+                  _processOcrFromSource(
+                      context, ImageSource.camera, nlpSessionId);
                 },
               ),
               ListTile(
@@ -419,7 +429,8 @@ class MainPage extends HookWidget {
                 title: const Text('从相册选择'),
                 onTap: () {
                   Navigator.pop(ctx);
-                  _processOcrFromSource(context, ImageSource.gallery, nlpSessionId);
+                  _processOcrFromSource(
+                      context, ImageSource.gallery, nlpSessionId);
                 },
               ),
               const SizedBox(height: TokenSpacing.sm),
@@ -486,7 +497,8 @@ class MainPage extends HookWidget {
           processingTime: result.processingTime,
           reconstructedLines: result.reconstructedLines,
           onConfirm: (OcrConfirmResult confirmResult) {
-            _confirmOcrReceipt(context, receipt, confirmResult, result.engineName);
+            _confirmOcrReceipt(
+                context, receipt, confirmResult, result.engineName);
           },
         ),
       );
@@ -495,7 +507,8 @@ class MainPage extends HookWidget {
       if (context.mounted) {
         Navigator.pop(context); // Close loading
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('识别失败: $e'), duration: const Duration(seconds: 3)),
+          SnackBar(
+              content: Text('识别失败: $e'), duration: const Duration(seconds: 3)),
         );
       }
     }
@@ -520,7 +533,9 @@ class MainPage extends HookWidget {
       items.add(CategorizationItem(
         id: 'ocr-$now',
         merchant: merchantName,
-        amount: confirmResult.totalAmount > 0 ? confirmResult.totalAmount : receipt.totalAmount,
+        amount: confirmResult.totalAmount > 0
+            ? confirmResult.totalAmount
+            : receipt.totalAmount,
         date: confirmResult.selectedDate,
         suggestedCategory: '其他',
         confidence: receipt.confidence,
@@ -542,7 +557,17 @@ class MainPage extends HookWidget {
       }
     }
 
-    final availableCategories = ['餐饮', '交通', '购物', '娱乐', '医疗', '教育', '居住', '通讯', '其他'];
+    final availableCategories = [
+      '餐饮',
+      '交通',
+      '购物',
+      '娱乐',
+      '医疗',
+      '教育',
+      '居住',
+      '通讯',
+      '其他'
+    ];
 
     showModalBottomSheet(
       context: context,
@@ -555,7 +580,10 @@ class MainPage extends HookWidget {
           Navigator.pop(ctx); // close preview sheet
 
           final transactions = _buildOcrTransactions(
-            items, receipt, confirmResult, engineName,
+            items,
+            receipt,
+            confirmResult,
+            engineName,
           );
 
           if (!context.mounted) return;
@@ -566,7 +594,8 @@ class MainPage extends HookWidget {
           );
 
           try {
-            final result = await IgnApiService.instance.uploadParsedTransactions(transactions);
+            final result = await IgnApiService.instance
+                .uploadParsedTransactions(transactions);
             if (!context.mounted) return;
             Navigator.pop(context); // close loading
 
@@ -581,7 +610,8 @@ class MainPage extends HookWidget {
               final errors = result['errors'] as List? ?? [];
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text(errors.isNotEmpty ? '导入失败: ${errors.first}' : '导入失败，请重试'),
+                  content: Text(
+                      errors.isNotEmpty ? '导入失败: ${errors.first}' : '导入失败，请重试'),
                   duration: const Duration(seconds: 3),
                 ),
               );
@@ -591,7 +621,9 @@ class MainPage extends HookWidget {
             if (context.mounted) {
               Navigator.pop(context); // close loading
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('提交失败: $e'), duration: const Duration(seconds: 3)),
+                SnackBar(
+                    content: Text('提交失败: $e'),
+                    duration: const Duration(seconds: 3)),
               );
             }
           }
@@ -610,15 +642,18 @@ class MainPage extends HookWidget {
     OcrConfirmResult confirmResult,
     String engineName,
   ) {
-    final lineItemsMeta = confirmResult.editedLineItems.map((i) => {
-      'name': i.name,
-      'quantity': i.quantity,
-      'totalPrice': i.totalPrice,
-    }).toList();
+    final lineItemsMeta = confirmResult.editedLineItems
+        .map((i) => {
+              'name': i.name,
+              'quantity': i.quantity,
+              'totalPrice': i.totalPrice,
+            })
+        .toList();
 
     return items.map((item) {
       return {
-        'date': '${item.date.year}-${item.date.month.toString().padLeft(2, '0')}-${item.date.day.toString().padLeft(2, '0')}',
+        'date':
+            '${item.date.year}-${item.date.month.toString().padLeft(2, '0')}-${item.date.day.toString().padLeft(2, '0')}',
         'narration': item.merchant,
         'payee': item.merchant,
         'postings': [
@@ -637,8 +672,11 @@ class MainPage extends HookWidget {
           'source': 'ocr-receipt',
           'confidence': receipt.confidence,
           'ocrEngine': engineName,
-          'mode': confirmResult.mode == TransactionMode.single ? 'single' : 'multiple',
-          if (confirmResult.mode == TransactionMode.single && lineItemsMeta.isNotEmpty)
+          'mode': confirmResult.mode == TransactionMode.single
+              ? 'single'
+              : 'multiple',
+          if (confirmResult.mode == TransactionMode.single &&
+              lineItemsMeta.isNotEmpty)
             'lineItems': lineItemsMeta,
         },
         'idempotencyKey': item.id,

@@ -363,6 +363,7 @@
   "reviewCenterLoading": "載入中...",
   "reviewCenterError": "載入失敗，請重試",
   "reviewCenterDetailTitle": "交易詳情",
+  "aiChatComingSoon": "AI 對話（開發中）",
   "reviewCenterConfidence": "AI 識別置信度",
   "reviewCenterAccount": "帳戶",
   "reviewCenterMerchant": "商戶",

@@ -772,6 +772,12 @@ abstract class AppLocalizations {
   /// **'Transaction Detail'**
   String get reviewCenterDetailTitle;
 
+  /// AI chat tab placeholder text
+  ///
+  /// In en, this message translates to:
+  /// **'AI Chat (Coming Soon)'**
+  String get aiChatComingSoon;
+
   /// Confidence level label
   ///
   /// In en, this message translates to:

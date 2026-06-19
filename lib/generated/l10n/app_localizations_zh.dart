@@ -357,6 +357,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get reviewCenterDetailTitle => '交易详情';
 
   @override
+  String get aiChatComingSoon => 'AI 对话（开发中）';
+
+  @override
   String get reviewCenterConfidence => 'AI 识别置信度';
 
   @override
@@ -1694,6 +1697,9 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get reviewCenterDetailTitle => '交易详情';
 
   @override
+  String get aiChatComingSoon => 'AI 对话（开发中）';
+
+  @override
   String get reviewCenterConfidence => 'AI 识别置信度';
 
   @override
@@ -3029,6 +3035,9 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get reviewCenterDetailTitle => '交易詳情';
+
+  @override
+  String get aiChatComingSoon => 'AI 對話（開發中）';
 
   @override
   String get reviewCenterConfidence => 'AI 識別置信度';

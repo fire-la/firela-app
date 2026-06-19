@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
+import 'package:firela_app/generated/l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import '../../../../core/design_tokens/design_tokens.dart';
 import '../../../../core/services/analytics_service.dart';
@@ -20,6 +21,7 @@ class ReviewDetailPage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     // State
     final isLoading = useState(true);
     final isSaving = useState(false);
@@ -45,7 +47,8 @@ class ReviewDetailPage extends HookWidget {
       error.value = null;
 
       try {
-        final detail = await ReviewCenterRepository.instance.getPendingTransactionDetail(id);
+        final detail = await ReviewCenterRepository.instance
+            .getPendingTransactionDetail(id);
         transaction.value = detail;
 
         // Pre-fill form
@@ -211,29 +214,40 @@ class ReviewDetailPage extends HookWidget {
     // Loading state
     if (isLoading.value) {
       return Scaffold(
-        appBar: AppBar(title: const Text('交易详情')),
-        body: const Center(child: CircularProgressIndicator()),
+        body: Column(
+          children: [
+            TopBar(title: l10n.reviewCenterDetailTitle),
+            const Expanded(child: Center(child: CircularProgressIndicator())),
+          ],
+        ),
       );
     }
 
     // Error state
     if (error.value != null || transaction.value == null) {
       return Scaffold(
-        appBar: AppBar(title: const Text('交易详情')),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.error_outline, size: 64, color: TokenColors.error),
-              const SizedBox(height: TokenSpacing.xl),
-              Text(error.value ?? '加载失败'),
-              const SizedBox(height: TokenSpacing.xl),
-              FilledButton(
-                onPressed: () => context.pop(),
-                child: const Text('返回'),
+        body: Column(
+          children: [
+            TopBar(title: l10n.reviewCenterDetailTitle),
+            Expanded(
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.error_outline,
+                        size: 64, color: TokenColors.error),
+                    const SizedBox(height: TokenSpacing.xl),
+                    Text(error.value ?? '加载失败'),
+                    const SizedBox(height: TokenSpacing.xl),
+                    FilledButton(
+                      onPressed: () => context.pop(),
+                      child: const Text('返回'),
+                    ),
+                  ],
+                ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       );
     }
@@ -242,128 +256,139 @@ class ReviewDetailPage extends HookWidget {
     final isExpense = tx.amount < 0;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('交易详情'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.delete_outline),
-            onPressed: isSaving.value ? null : handleDelete,
+      body: Column(
+        children: [
+          TopBar(
+            title: l10n.reviewCenterDetailTitle,
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.delete_outline),
+                onPressed: isSaving.value ? null : handleDelete,
+              ),
+            ],
           ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(TokenSpacing.xl),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Confidence indicator (bare meter — no card-in-card)
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'AI 识别置信度',
-                  style: TokenTypography.caption(),
-                ),
-                const SizedBox(height: TokenSpacing.sm),
-                ConfidenceMeter(
-                  confidence:
-                      ConfidenceLevel.normalize(tx.confidenceScore),
-                ),
-              ],
-            ),
-            const SizedBox(height: 24),
-
-            // Account field
-            _FormTextField(
-              label: '账户',
-              controller: accountController,
-              prefixIcon: Icons.account_balance_wallet,
-            ),
-            const SizedBox(height: TokenSpacing.xl),
-
-            // Merchant field
-            _FormTextField(
-              label: '商户',
-              controller: merchantController,
-              prefixIcon: Icons.store,
-            ),
-            const SizedBox(height: TokenSpacing.xl),
-
-            // Amount field
-            _FormTextField(
-              label: '金额',
-              controller: amountController,
-              prefixIcon: isExpense ? Icons.remove_circle_outline : Icons.add_circle_outline,
-              keyboardType: const TextInputType.numberWithOptions(decimal: true),
-              prefixText: '${tx.currency} ',
-              suffixText: isExpense ? '(支出)' : '(收入)',
-            ),
-            const SizedBox(height: TokenSpacing.xl),
-
-            // Date field
-            _FormField(
-              label: '日期时间',
-              prefixIcon: Icons.calendar_today,
-              child: InkWell(
-                onTap: pickDate,
-                borderRadius: TokenRadius.borderMd,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: TokenSpacing.lg),
-                  child: Text(
-                    DateFormat('yyyy-MM-dd HH:mm').format(selectedDate.value),
-                    style: TokenTypography.body(),
+          Expanded(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(TokenSpacing.xl),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Confidence indicator (bare meter — no card-in-card)
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'AI 识别置信度',
+                        style: TokenTypography.caption(),
+                      ),
+                      const SizedBox(height: TokenSpacing.sm),
+                      ConfidenceMeter(
+                        confidence:
+                            ConfidenceLevel.normalize(tx.confidenceScore),
+                      ),
+                    ],
                   ),
-                ),
+                  const SizedBox(height: 24),
+
+                  // Account field
+                  _FormTextField(
+                    label: '账户',
+                    controller: accountController,
+                    prefixIcon: Icons.account_balance_wallet,
+                  ),
+                  const SizedBox(height: TokenSpacing.xl),
+
+                  // Merchant field
+                  _FormTextField(
+                    label: '商户',
+                    controller: merchantController,
+                    prefixIcon: Icons.store,
+                  ),
+                  const SizedBox(height: TokenSpacing.xl),
+
+                  // Amount field
+                  _FormTextField(
+                    label: '金额',
+                    controller: amountController,
+                    prefixIcon: isExpense
+                        ? Icons.remove_circle_outline
+                        : Icons.add_circle_outline,
+                    keyboardType:
+                        const TextInputType.numberWithOptions(decimal: true),
+                    prefixText: '${tx.currency} ',
+                    suffixText: isExpense ? '(支出)' : '(收入)',
+                  ),
+                  const SizedBox(height: TokenSpacing.xl),
+
+                  // Date field
+                  _FormField(
+                    label: '日期时间',
+                    prefixIcon: Icons.calendar_today,
+                    child: InkWell(
+                      onTap: pickDate,
+                      borderRadius: TokenRadius.borderMd,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: TokenSpacing.lg),
+                        child: Text(
+                          DateFormat('yyyy-MM-dd HH:mm')
+                              .format(selectedDate.value),
+                          style: TokenTypography.body(),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: TokenSpacing.xl),
+
+                  // Notes field
+                  _FormTextField(
+                    label: '备注',
+                    controller: notesController,
+                    prefixIcon: Icons.notes,
+                    maxLines: 3,
+                  ),
+                  const SizedBox(height: 32),
+
+                  // Action buttons
+                  Row(
+                    children: [
+                      Expanded(
+                        child: OutlinedButton(
+                          onPressed: isSaving.value ? null : handleDelete,
+                          style: OutlinedButton.styleFrom(
+                            foregroundColor: TokenColors.error,
+                            side: BorderSide(color: TokenColors.error),
+                            padding: const EdgeInsets.symmetric(vertical: 14),
+                          ),
+                          child: const Text('删除'),
+                        ),
+                      ),
+                      const SizedBox(width: TokenSpacing.xl),
+                      Expanded(
+                        child: FilledButton(
+                          onPressed: isSaving.value ? null : handleSave,
+                          style: FilledButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(vertical: 14),
+                          ),
+                          child: isSaving.value
+                              ? const SizedBox(
+                                  width: 20,
+                                  height: 20,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                    color: TokenColors.white,
+                                  ),
+                                )
+                              : const Text('保存'),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
-            const SizedBox(height: TokenSpacing.xl),
-
-            // Notes field
-            _FormTextField(
-              label: '备注',
-              controller: notesController,
-              prefixIcon: Icons.notes,
-              maxLines: 3,
-            ),
-            const SizedBox(height: 32),
-
-            // Action buttons
-            Row(
-              children: [
-                Expanded(
-                  child: OutlinedButton(
-                    onPressed: isSaving.value ? null : handleDelete,
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: TokenColors.error,
-                      side: BorderSide(color: TokenColors.error),
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-                    ),
-                    child: const Text('删除'),
-                  ),
-                ),
-                const SizedBox(width: TokenSpacing.xl),
-                Expanded(
-                  child: FilledButton(
-                    onPressed: isSaving.value ? null : handleSave,
-                    style: FilledButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-                    ),
-                    child: isSaving.value
-                        ? const SizedBox(
-                            width: 20,
-                            height: 20,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              color: TokenColors.white,
-                            ),
-                          )
-                        : const Text('保存'),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -388,7 +413,8 @@ class _FormField extends StatelessWidget {
         labelText: label,
         prefixIcon: Icon(prefixIcon),
         border: OutlineInputBorder(borderRadius: TokenRadius.borderMd),
-        contentPadding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl, vertical: 4),
+        contentPadding: const EdgeInsets.symmetric(
+            horizontal: TokenSpacing.xl, vertical: 4),
       ),
       child: child,
     );

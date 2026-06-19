@@ -6,6 +6,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:firela_app/generated/l10n/app_localizations.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:image_picker/image_picker.dart';
+import '../../../../core/components/components.dart';
 import '../../../../core/design_tokens/design_tokens.dart';
 import '../../../../core/services/ign_api_service.dart';
 import '../../../../core/services/document_scanner_service.dart';
@@ -45,98 +46,121 @@ class BillImportPage extends HookWidget {
     final lastImportPath = useState<String?>(null);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.billImportTitle),
-        centerTitle: false,
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(height: TokenSpacing.xl),
-
-            // Stepped progress indicator
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
-              child: ImportProgressIndicator(
-                currentStep: currentStep.value,
-                progress: parseProgress.value,
-                itemCount: categorizationItems.value.isNotEmpty
-                    ? categorizationItems.value.length
-                    : null,
-              ),
-            ),
-
-            const SizedBox(height: TokenSpacing.xl),
-
-            // Title
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
-              child: Text(
-                l10n.pleaseImportAlipayBill,
-                style: TokenTypography.h4(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-
-            const SizedBox(height: TokenSpacing.xl),
-
-            // File upload area or selected file
-            if (errorMessage.value != null)
-              _buildErrorArea(
-                context,
-                l10n,
-                theme,
-                errorMessage,
-                errorDetails,
-                lastImportPath,
-                isParsing,
-                parseProgress,
-                importResult,
-                categorizationItems,
-                editedCount,
-                importSource,
-                currentStep,
-                selectedFile,
-              )
-            else if (importResult.value != null)
-              _buildImportResultArea(context, l10n, theme, importResult, selectedFile, isParsing, currentStep)
-            else if (isParsing.value)
-              _buildParsingArea(context, l10n, theme, parseProgress, selectedFile, currentStep)
-            else if (selectedFile.value != null)
-              _buildSelectedFileArea(context, l10n, theme, selectedFile)
-            else
-              _buildFileUploadArea(context, l10n, theme, selectedFile, isParsing, parseProgress, importResult, categorizationItems, editedCount, importSource, currentStep, lastImportPath, errorMessage, errorDetails),
-
-            const SizedBox(height: TokenSpacing.xl),
-
-            // How to get bill section
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
+      body: Column(
+        children: [
+          TopBar(title: l10n.billImportTitle),
+          Expanded(
+            child: SingleChildScrollView(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    l10n.howToGetBill,
-                    style: TokenTypography.h4(
-                      fontWeight: FontWeight.bold,
+                  const SizedBox(height: TokenSpacing.xl),
+
+                  // Stepped progress indicator
+                  Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
+                    child: ImportProgressIndicator(
+                      currentStep: currentStep.value,
+                      progress: parseProgress.value,
+                      itemCount: categorizationItems.value.isNotEmpty
+                          ? categorizationItems.value.length
+                          : null,
                     ),
                   ),
+
                   const SizedBox(height: TokenSpacing.xl),
-                  _buildStepCard(context, theme, '支持 CSV、Excel (.xlsx, .xls) 格式的账单文件'),
-                  const SizedBox(height: TokenSpacing.sm),
-                  _buildStepCard(context, theme, '文件大小不超过 10MB'),
-                  const SizedBox(height: TokenSpacing.sm),
-                  _buildStepCard(context, theme, '账单需包含日期、金额等基本信息'),
-                  const SizedBox(height: TokenSpacing.sm),
-                  _buildStepCard(context, theme, '支持支付宝、微信、银行账单格式'),
+
+                  // Title
+                  Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
+                    child: Text(
+                      l10n.pleaseImportAlipayBill,
+                      style: TokenTypography.h4(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: TokenSpacing.xl),
+
+                  // File upload area or selected file
+                  if (errorMessage.value != null)
+                    _buildErrorArea(
+                      context,
+                      l10n,
+                      theme,
+                      errorMessage,
+                      errorDetails,
+                      lastImportPath,
+                      isParsing,
+                      parseProgress,
+                      importResult,
+                      categorizationItems,
+                      editedCount,
+                      importSource,
+                      currentStep,
+                      selectedFile,
+                    )
+                  else if (importResult.value != null)
+                    _buildImportResultArea(context, l10n, theme, importResult,
+                        selectedFile, isParsing, currentStep)
+                  else if (isParsing.value)
+                    _buildParsingArea(context, l10n, theme, parseProgress,
+                        selectedFile, currentStep)
+                  else if (selectedFile.value != null)
+                    _buildSelectedFileArea(context, l10n, theme, selectedFile)
+                  else
+                    _buildFileUploadArea(
+                        context,
+                        l10n,
+                        theme,
+                        selectedFile,
+                        isParsing,
+                        parseProgress,
+                        importResult,
+                        categorizationItems,
+                        editedCount,
+                        importSource,
+                        currentStep,
+                        lastImportPath,
+                        errorMessage,
+                        errorDetails),
+
+                  const SizedBox(height: TokenSpacing.xl),
+
+                  // How to get bill section
+                  Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          l10n.howToGetBill,
+                          style: TokenTypography.h4(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: TokenSpacing.xl),
+                        _buildStepCard(context, theme,
+                            '支持 CSV、Excel (.xlsx, .xls) 格式的账单文件'),
+                        const SizedBox(height: TokenSpacing.sm),
+                        _buildStepCard(context, theme, '文件大小不超过 10MB'),
+                        const SizedBox(height: TokenSpacing.sm),
+                        _buildStepCard(context, theme, '账单需包含日期、金额等基本信息'),
+                        const SizedBox(height: TokenSpacing.sm),
+                        _buildStepCard(context, theme, '支持支付宝、微信、银行账单格式'),
+                      ],
+                    ),
+                  ),
+
+                  const SizedBox(height: TokenSpacing.xl),
                 ],
               ),
             ),
-
-            const SizedBox(height: TokenSpacing.xl),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -191,9 +215,12 @@ class BillImportPage extends HookWidget {
           // Divider
           Row(
             children: [
-              Expanded(child: Divider(color: TokenColors.textTertiary.withValues(alpha: 0.3))),
+              Expanded(
+                  child: Divider(
+                      color: TokenColors.textTertiary.withValues(alpha: 0.3))),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
                 child: Text(
                   'OR',
                   style: TokenTypography.caption(
@@ -201,7 +228,9 @@ class BillImportPage extends HookWidget {
                   ),
                 ),
               ),
-              Expanded(child: Divider(color: TokenColors.textTertiary.withValues(alpha: 0.3))),
+              Expanded(
+                  child: Divider(
+                      color: TokenColors.textTertiary.withValues(alpha: 0.3))),
             ],
           ),
 
@@ -226,7 +255,9 @@ class BillImportPage extends HookWidget {
                 allowedExtensions: ['xlsx', 'xls', 'csv'],
               );
 
-              if (result != null && result.files.single.path != null && context.mounted) {
+              if (result != null &&
+                  result.files.single.path != null &&
+                  context.mounted) {
                 selectedFile.value = result.files.single;
                 // Track file selected
                 await AnalyticsService().trackBillImport(
@@ -738,13 +769,22 @@ class BillImportPage extends HookWidget {
       itemCount: items.length,
       avgConfidence: items.isEmpty
           ? 0
-          : items.map((e) => e.confidence).reduce((a, b) => a + b) / items.length,
+          : items.map((e) => e.confidence).reduce((a, b) => a + b) /
+              items.length,
       source: importSource.value,
     );
 
     // Default categories (in production, these would come from beancount config)
     final defaultCategories = [
-      '餐饮', '交通', '购物', '娱乐', '医疗', '教育', '居住', '通讯', '其他'
+      '餐饮',
+      '交通',
+      '购物',
+      '娱乐',
+      '医疗',
+      '教育',
+      '居住',
+      '通讯',
+      '其他'
     ];
 
     showModalBottomSheet(
@@ -758,7 +798,7 @@ class BillImportPage extends HookWidget {
         onConfirm: () {
           Navigator.pop(sheetContext);
           _confirmCategorization(
-            context,  // 使用外部页面的 context，而不是弹窗的 context
+            context, // 使用外部页面的 context，而不是弹窗的 context
             l10n,
             theme,
             categorizationItems,
@@ -806,7 +846,8 @@ class BillImportPage extends HookWidget {
     ValueNotifier<ImportStep> currentStep,
   ) async {
     final items = categorizationItems.value;
-    final edits = items.where((e) => e.selectedCategory != e.suggestedCategory).length;
+    final edits =
+        items.where((e) => e.selectedCategory != e.suggestedCategory).length;
 
     // Track confirmation
     await AnalyticsService().trackCategorization(
@@ -815,7 +856,8 @@ class BillImportPage extends HookWidget {
       editedCount: edits,
       avgConfidence: items.isEmpty
           ? 0
-          : items.map((e) => e.confidence).reduce((a, b) => a + b) / items.length,
+          : items.map((e) => e.confidence).reduce((a, b) => a + b) /
+              items.length,
       source: importSource.value,
     );
 
@@ -834,7 +876,9 @@ class BillImportPage extends HookWidget {
         'postings': [
           {
             'account': expenseAccount,
-            'units': isIncome ? amount.toStringAsFixed(2) : amount.toStringAsFixed(2),
+            'units': isIncome
+                ? amount.toStringAsFixed(2)
+                : amount.toStringAsFixed(2),
             'currency': 'CNY',
           },
           {
@@ -862,7 +906,8 @@ class BillImportPage extends HookWidget {
 
     try {
       // Upload transactions to backend
-      result = await IgnApiService.instance.uploadParsedTransactions(transactions);
+      result =
+          await IgnApiService.instance.uploadParsedTransactions(transactions);
       logger.i('[BillImport] 上传交易成功: $result');
     } catch (e) {
       error = e;
@@ -889,7 +934,8 @@ class BillImportPage extends HookWidget {
         // 显示简短提示
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('已导入 $imported 笔记账${skipped > 0 ? '，跳过 $skipped 笔重复' : ''}'),
+            content: Text(
+                '已导入 $imported 笔记账${skipped > 0 ? '，跳过 $skipped 笔重复' : ''}'),
             backgroundColor: failed > 0 ? TokenColors.primary : null,
           ),
         );
@@ -985,7 +1031,8 @@ class BillImportPage extends HookWidget {
           for (final table in excelData.tables.keys) {
             final sheet = excelData.tables[table]!;
             for (final row in sheet.rows) {
-              final cells = row.map((cell) => cell?.value?.toString() ?? '').join('\t');
+              final cells =
+                  row.map((cell) => cell?.value?.toString() ?? '').join('\t');
               buffer.writeln(cells);
             }
           }
@@ -1018,11 +1065,13 @@ class BillImportPage extends HookWidget {
         logger.i('[BillImport] 本地无匹配解析器，尝试后端 API 导入');
         currentStep.value = ImportStep.categorizing;
         try {
-          final apiResult = await IgnApiService.instance.importBillFile(filePath);
+          final apiResult =
+              await IgnApiService.instance.importBillFile(filePath);
           final imported = apiResult['imported'] as int? ?? 0;
           final failed = apiResult['failed'] as int? ?? 0;
           final pendingReviews = apiResult['pendingReviews'] as int? ?? 0;
-          logger.i('[BillImport] API导入完成: imported=$imported, failed=$failed, pending=$pendingReviews');
+          logger.i(
+              '[BillImport] API导入完成: imported=$imported, failed=$failed, pending=$pendingReviews');
 
           parseProgress.value = 1.0;
           isParsing.value = false;
@@ -1035,7 +1084,8 @@ class BillImportPage extends HookWidget {
 
           if (context.mounted) {
             final l10n = AppLocalizations.of(context)!;
-            _showApiImportResult(context, l10n, imported, failed, pendingReviews);
+            _showApiImportResult(
+                context, l10n, imported, failed, pendingReviews);
           }
           return;
         } catch (apiError) {
@@ -1069,7 +1119,8 @@ class BillImportPage extends HookWidget {
           // 转换为 CategorizationItem
           final items = result.data.map((txn) {
             return CategorizationItem(
-              id: txn.metadata?['orderNo'] ?? '${txn.date.toIso8601String()}_${txn.amount}',
+              id: txn.metadata?['orderNo'] ??
+                  '${txn.date.toIso8601String()}_${txn.amount}',
               merchant: txn.payee ?? txn.description,
               amount: txn.amount.abs().toDouble(),
               date: txn.date,
@@ -1142,16 +1193,25 @@ class BillImportPage extends HookWidget {
   String _inferCategory(String description, String? payee) {
     final text = '$description ${payee ?? ''}'.toLowerCase();
 
-    if (text.contains('餐') || text.contains('食') || text.contains('外卖') ||
-        text.contains('coffee') || text.contains('咖啡')) {
+    if (text.contains('餐') ||
+        text.contains('食') ||
+        text.contains('外卖') ||
+        text.contains('coffee') ||
+        text.contains('咖啡')) {
       return '餐饮';
     }
-    if (text.contains('滴滴') || text.contains('打车') || text.contains('地铁') ||
-        text.contains('公交') || text.contains('加油')) {
+    if (text.contains('滴滴') ||
+        text.contains('打车') ||
+        text.contains('地铁') ||
+        text.contains('公交') ||
+        text.contains('加油')) {
       return '交通';
     }
-    if (text.contains('超市') || text.contains('购物') || text.contains('淘宝') ||
-        text.contains('京东') || text.contains('拼多多')) {
+    if (text.contains('超市') ||
+        text.contains('购物') ||
+        text.contains('淘宝') ||
+        text.contains('京东') ||
+        text.contains('拼多多')) {
       return '购物';
     }
     if (text.contains('电影') || text.contains('游戏') || text.contains('娱乐')) {

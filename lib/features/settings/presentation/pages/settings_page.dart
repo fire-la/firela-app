@@ -36,10 +36,7 @@ class SettingsPageState extends State<SettingsPage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
-              child: const PageHeader(title: 'IGN'),
-            ),
+            TopBar(title: l10n.settings),
             // User profile
             _buildUserProfile(context, l10n),
 
@@ -60,14 +57,18 @@ class SettingsPageState extends State<SettingsPage> {
                     l10n.dataExport,
                     () => _showDataExportSheet(context, l10n),
                   ),
-                  Divider(height: 1, color: theme.colorScheme.outline.withValues(alpha: 0.1)),
+                  Divider(
+                      height: 1,
+                      color: theme.colorScheme.outline.withValues(alpha: 0.1)),
                   _buildSettingItem(
                     context,
                     Icons.privacy_tip_outlined,
                     l10n.privacyStatement,
                     () => _showPrivacyDialog(context, l10n),
                   ),
-                  Divider(height: 1, color: theme.colorScheme.outline.withValues(alpha: 0.1)),
+                  Divider(
+                      height: 1,
+                      color: theme.colorScheme.outline.withValues(alpha: 0.1)),
                   _buildSettingItem(
                     context,
                     Icons.info_outline,
@@ -77,7 +78,9 @@ class SettingsPageState extends State<SettingsPage> {
                       MaterialPageRoute(builder: (_) => const AboutPage()),
                     ),
                   ),
-                  Divider(height: 1, color: theme.colorScheme.outline.withValues(alpha: 0.1)),
+                  Divider(
+                      height: 1,
+                      color: theme.colorScheme.outline.withValues(alpha: 0.1)),
                   _buildSettingItem(
                     context,
                     Icons.help_outline,
@@ -87,7 +90,9 @@ class SettingsPageState extends State<SettingsPage> {
                       MaterialPageRoute(builder: (_) => const HelpCenterPage()),
                     ),
                   ),
-                  Divider(height: 1, color: theme.colorScheme.outline.withValues(alpha: 0.1)),
+                  Divider(
+                      height: 1,
+                      color: theme.colorScheme.outline.withValues(alpha: 0.1)),
                   _buildSettingItem(
                     context,
                     Icons.feedback_outlined,
@@ -116,7 +121,8 @@ class SettingsPageState extends State<SettingsPage> {
                         style: OutlinedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(vertical: 14),
                           side: BorderSide(
-                            color: theme.colorScheme.outline.withValues(alpha: 0.2),
+                            color: theme.colorScheme.outline
+                                .withValues(alpha: 0.2),
                             width: 1,
                           ),
                           shape: RoundedRectangleBorder(
@@ -141,7 +147,7 @@ class SettingsPageState extends State<SettingsPage> {
                       ),
               ),
             ),
-            
+
             const SizedBox(height: TokenSpacing.xl),
           ],
         ),
@@ -160,9 +166,8 @@ class SettingsPageState extends State<SettingsPage> {
       children: [
         CircleAvatar(
           radius: 36,
-          backgroundColor: isLoggedIn
-              ? TokenColors.neutral900
-              : TokenColors.neutral400,
+          backgroundColor:
+              isLoggedIn ? TokenColors.neutral900 : TokenColors.neutral400,
           child: Icon(
             isLoggedIn ? Icons.person : Icons.person_outline,
             size: 40,
@@ -230,7 +235,8 @@ class SettingsPageState extends State<SettingsPage> {
     );
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(TokenSpacing.xl, TokenSpacing.sm, TokenSpacing.xl, TokenSpacing.xl),
+      padding: const EdgeInsets.fromLTRB(
+          TokenSpacing.xl, TokenSpacing.sm, TokenSpacing.xl, TokenSpacing.xl),
       child: isLoggedIn
           ? InkWell(
               onTap: () => Navigator.push(
@@ -335,7 +341,8 @@ class SettingsPageState extends State<SettingsPage> {
                 onTap: () => _showRegionDialog(context, l10n),
                 borderRadius: TokenRadius.borderSm,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
                   child: Row(
                     children: [
                       Text(
@@ -386,7 +393,7 @@ class SettingsPageState extends State<SettingsPage> {
     VoidCallback onTap,
   ) {
     final theme = Theme.of(context);
-    
+
     return InkWell(
       onTap: onTap,
       child: Padding(
@@ -540,7 +547,8 @@ class SettingsPageState extends State<SettingsPage> {
                       await setRegion(regionCode);
                       if (context.mounted) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text(l10n.regionSwitched(info.name))),
+                          SnackBar(
+                              content: Text(l10n.regionSwitched(info.name))),
                         );
                       }
                     }
@@ -591,7 +599,9 @@ class SettingsPageState extends State<SettingsPage> {
                 showBackupDialog(context);
               },
             ),
-            Divider(height: 1, color: theme.colorScheme.outline.withValues(alpha: 0.1)),
+            Divider(
+                height: 1,
+                color: theme.colorScheme.outline.withValues(alpha: 0.1)),
             ListTile(
               leading: const Icon(Icons.data_object),
               title: Text(l10n.exportAsJson),
@@ -733,5 +743,4 @@ Sample,2026-03-05,0.00,CNY,Export,"This is a sample export. Connect to your acco
       }
     }
   }
-
 }

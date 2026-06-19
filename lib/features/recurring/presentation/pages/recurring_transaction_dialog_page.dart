@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/components/components.dart';
-import '../../../../core/design_tokens/design_tokens.dart';
 import '../../../../core/router/route_names.dart';
 import '../../../../core/services/ign_api_service.dart';
 import '../../../../core/utils/logger.dart';
@@ -26,25 +25,7 @@ class RecurringTransactionDialogPage extends HookWidget {
     return Scaffold(
       body: Column(
         children: [
-          PageHeader(
-            title: 'Recurring Transaction',
-            trailing: Container(
-              width: 18,
-              height: 18,
-              decoration: BoxDecoration(
-                color: TokenColors.textAccent,
-                borderRadius: TokenRadius.borderSm,
-              ),
-              alignment: Alignment.center,
-              child: Text(
-                '1',
-                style: TokenTypography.micro(
-                  fontWeight: FontWeight.w600,
-                  color: TokenColors.white,
-                ),
-              ),
-            ),
-          ),
+          TopBar(title: 'Recurring Transaction'),
           Expanded(
             child: Center(
               child: DialogOverlay(
@@ -52,15 +33,19 @@ class RecurringTransactionDialogPage extends HookWidget {
                 subtitle: matchedDate.isNotEmpty
                     ? 'Found a same-amount transaction on $matchedDate'
                     : 'This transaction appears to repeat',
-                primaryLabel: isSubmitting.value ? 'Setting...' : 'Set Recurring',
+                primaryLabel:
+                    isSubmitting.value ? 'Setting...' : 'Set Recurring',
                 primaryOnTap: isSubmitting.value
                     ? null
                     : () async {
                         isSubmitting.value = true;
                         try {
-                          await IgnApiService.instance.createRecurringRuleFromTransaction(transactionId);
+                          await IgnApiService.instance
+                              .createRecurringRuleFromTransaction(
+                                  transactionId);
                           if (context.mounted) {
-                            context.push('${RouteNames.recurringSetup}?transactionId=$transactionId');
+                            context.push(
+                                '${RouteNames.recurringSetup}?transactionId=$transactionId');
                           }
                         } catch (e) {
                           logger.e('[RecurringDialog] create failed: $e');
