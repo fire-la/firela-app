@@ -104,7 +104,8 @@ class ExpenseTabPage extends HookWidget {
         onRefresh: fetchData,
         child: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
-          padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
+          padding: EdgeInsets.symmetric(horizontal: TokenSpacing.xl)
+              .copyWith(bottom: MediaQuery.of(context).padding.bottom + 80),
           child: Column(
             children: [
               PageHeader(

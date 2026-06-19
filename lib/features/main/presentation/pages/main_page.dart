@@ -60,6 +60,7 @@ class MainPage extends HookWidget {
     }, [currentIndex.value]);
 
     return Scaffold(
+      extendBody: true,
       body: Padding(
         padding: EdgeInsets.only(top: topPadding),
         child: Stack(
