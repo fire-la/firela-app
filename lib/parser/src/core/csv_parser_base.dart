@@ -4,8 +4,8 @@
 import 'dart:typed_data';
 
 import 'package:csv/csv.dart';
-import 'package:firela_app/parser/src/types.dart';
-import 'package:firela_app/parser/src/utils/encoding.dart' as encoding;
+import 'package:firela/parser/src/types.dart';
+import 'package:firela/parser/src/utils/encoding.dart' as encoding;
 
 // ============================================================================
 // Configuration Types

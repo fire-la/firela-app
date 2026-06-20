@@ -1,6 +1,6 @@
 // Hand-written -- do not auto-generate with ts2dart
 
-import 'package:firela_app/parser/src/types.dart' show RawTransaction;
+import 'package:firela/parser/src/types.dart' show RawTransaction;
 
 // ============================================================================
 // Result Types

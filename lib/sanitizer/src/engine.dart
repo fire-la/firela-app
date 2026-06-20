@@ -1,7 +1,7 @@
 // Hand-written -- do not auto-generate with ts2dart
 
 import 'package:decimal/decimal.dart';
-import 'package:firela_app/parser/src/types.dart' show RawTransaction;
+import 'package:firela/parser/src/types.dart' show RawTransaction;
 
 import 'patterns/index.dart' show loadPatterns;
 import 'rules/index.dart' show loadRuleSet;

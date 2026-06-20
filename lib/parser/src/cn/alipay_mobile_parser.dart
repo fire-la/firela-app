@@ -7,14 +7,14 @@
 // ignore_for_file: avoid_redundant_argument_values, avoid_unused_element, unused_local_variable
 // ignore_for_file: unused_shown_name, non_constant_identifier_names, annotate_overrides, prefer_const_declarations
 
-import 'package:firela_app/parser/src/cn/alipay_custom_fields.dart' show AlipayCustomFields;
-import 'package:firela_app/parser/src/cn/chinese_csv_parser.dart' show ChineseCsvParser;
-import 'package:firela_app/parser/src/core/csv_parser_base.dart' show RowTransformResult;
-import 'package:firela_app/parser/src/result.dart';
-import 'package:firela_app/parser/src/types.dart' show RawTransaction;
-import 'package:firela_app/parser/src/utils/amount_parser.dart' show parseAmount;
-import 'package:firela_app/parser/src/utils/date_parser.dart' show parseDate;
-import 'package:firela_app/parser/src/utils/parser_helpers.dart' show isValidAlipayDirection;
+import 'package:firela/parser/src/cn/alipay_custom_fields.dart' show AlipayCustomFields;
+import 'package:firela/parser/src/cn/chinese_csv_parser.dart' show ChineseCsvParser;
+import 'package:firela/parser/src/core/csv_parser_base.dart' show RowTransformResult;
+import 'package:firela/parser/src/result.dart';
+import 'package:firela/parser/src/types.dart' show RawTransaction;
+import 'package:firela/parser/src/utils/amount_parser.dart' show parseChineseAmount;
+import 'package:firela/parser/src/utils/date_parser.dart' show parseDate;
+import 'package:firela/parser/src/utils/parser_helpers.dart' show isValidAlipayDirection;
 
 typedef AlipayMobileRawTransaction = RawTransaction<AlipayCustomFields>;
 
@@ -73,11 +73,11 @@ class AlipayMobileParser extends ChineseCsvParser<AlipayMobileRawTransaction> {
     if (!isExpense && !isIncome) {
     return RowTransformResult.err('Unsupported direction: $direction', {'direction': direction, 'row': row});
     }
-    final amountResult = parseAmount(amt);
+    final amountResult = parseChineseAmount(amt);
     if (amountResult is Failure) {
     return RowTransformResult.err('Failed to parse amount: ${(amountResult as Failure).error.message}', {'input': amt, 'row': row});
     }
-    var amount = (amountResult as Success).value;
+    var amount = (amountResult as Success).value.number;
     if (isExpense) {
     amount = -amount;
     }
@@ -89,7 +89,7 @@ class AlipayMobileParser extends ChineseCsvParser<AlipayMobileRawTransaction> {
     if (remark != null) {
     txnMetadata['remark'] = remark;
     }
-    final transaction = AlipayMobileRawTransaction(date: (dateResult as Success).value, amount: amount, currency: 'CNY', description: narration ?? '', payee: payee ?? null, metadata: txnMetadata, customFields: customFields);
+    final transaction = AlipayMobileRawTransaction(date: (dateResult as Success).value, amount: amount, currency: (amountResult as Success).value.currency, description: narration ?? '', payee: payee ?? null, metadata: txnMetadata, customFields: customFields);
     return RowTransformResult.ok(transaction);
   }
   

@@ -7,7 +7,7 @@
 // ignore_for_file: avoid_redundant_argument_values, avoid_unused_element, unused_local_variable
 // ignore_for_file: unused_shown_name, non_constant_identifier_names, annotate_overrides, prefer_const_declarations
 
-import 'package:firela_app/parser/src/types.dart' show RawTransaction;
+import 'package:firela/parser/src/types.dart' show RawTransaction;
 
 final DB_COLUMNS_EN = {'BOOKING_DATE': 'Booking date', 'VALUE_DATE': 'Value date', 'TRANSACTION_TYPE': 'Transaction Type', 'BENEFICIARY': 'Beneficiary / Originator', 'PAYMENT_DETAILS': 'Payment Details', 'IBAN': 'IBAN', 'BIC': 'BIC', 'CUSTOMER_REF': 'Customer Reference', 'DEBIT': 'Debit', 'CREDIT': 'Credit', 'CURRENCY': 'Currency'};
 

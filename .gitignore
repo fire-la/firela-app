@@ -31,12 +31,16 @@ build/
 
 # Generated files (build_runner caches)
 *.g.dart
+!lib/api/generated/**/*.g.dart
 *.freezed.dart
 *.mocks.dart
 # Note: lib/api/generated/ is NOT ignored — generated OpenAPI types are committed via CI
 
 # Hindsight local config
 .hindsight.json
+
+# OpenAPI Generator CLI config (local tool)
+openapitools.json
 
 # Claude Code
 CLAUDE.md

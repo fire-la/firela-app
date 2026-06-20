@@ -1,10 +1,10 @@
 // Hand-written — do not auto-generate with ts2dart
 
 import 'package:decimal/decimal.dart';
-import 'package:firela_app/parser/src/cn/chinese_csv_parser.dart' show ChineseCsvParser;
-import 'package:firela_app/parser/src/core/csv_parser_base.dart' show RowTransformResult;
-import 'package:firela_app/parser/src/types.dart';
-import 'package:firela_app/parser/src/utils/parser_helpers.dart'
+import 'package:firela/parser/src/cn/chinese_csv_parser.dart' show ChineseCsvParser;
+import 'package:firela/parser/src/core/csv_parser_base.dart' show RowTransformResult;
+import 'package:firela/parser/src/types.dart';
+import 'package:firela/parser/src/utils/parser_helpers.dart'
     show categorizeWechatStatus, isValidWechatFlowType, WechatStatusCategory;
 
 typedef WechatRawTransaction = RawTransaction<WeChatCustomFields>;
@@ -187,8 +187,8 @@ class WechatParser extends ChineseCsvParser<WechatRawTransaction> {
     cleaned = cleaned.replaceAll(',', '');
 
     try {
-      final amount = Decimal.tryParse(cleaned);
-      if (amount == null) return null;
+      final amount = Decimal.parse(cleaned);
+      if (!amount.isFinite) return null;
 
       // Apply sign convention
       if (flowType == '支出') {

@@ -10,11 +10,11 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:firela_app/parser/src/core/csv_parser_base.dart' show RowTransformResult;
-import 'package:firela_app/parser/src/hk/hsbc_hk_shared.dart' show HSBC_HK_SHARED_KEYWORDS, detectPaymentMethod, parseHsbcHkCsv, parseHsbcAmount;
-import 'package:firela_app/parser/src/result.dart';
-import 'package:firela_app/parser/src/types.dart' show Parser, DetectionResult, RawTransaction, ParseResult, ParseWarning, createParseFailure, ParseErrorType, ParseFailure, ParseSuccess;
-import 'package:firela_app/parser/src/utils/date_parser.dart' show parseDate;
+import 'package:firela/parser/src/core/csv_parser_base.dart' show RowTransformResult;
+import 'package:firela/parser/src/hk/hsbc_hk_shared.dart' show HSBC_HK_SHARED_KEYWORDS, detectPaymentMethod, parseHsbcHkCsv, parseHsbcAmount;
+import 'package:firela/parser/src/result.dart';
+import 'package:firela/parser/src/types.dart' show Parser, DetectionResult, RawTransaction, ParseResult, ParseWarning, createParseFailure, ParseErrorType, ParseFailure, ParseSuccess;
+import 'package:firela/parser/src/utils/date_parser.dart' show parseDate;
 
 typedef HsbcHkCreditRawTransaction = RawTransaction<dynamic>;
 

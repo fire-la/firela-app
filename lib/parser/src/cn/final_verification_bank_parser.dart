@@ -6,9 +6,9 @@ import 'dart:typed_data';
 
 import 'package:csv/csv.dart';
 import 'package:decimal/decimal.dart';
-import 'package:firela_app/parser/src/result.dart';
-import 'package:firela_app/parser/src/types.dart';
-import 'package:firela_app/parser/src/utils/encoding.dart' show decodeContent;
+import 'package:firela/parser/src/result.dart';
+import 'package:firela/parser/src/types.dart';
+import 'package:firela/parser/src/utils/encoding.dart' show decodeContent;
 
 /// Custom fields for final verification bank transactions.
 class FinalVerificationBankCustomFields {

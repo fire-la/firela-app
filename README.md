@@ -1,6 +1,10 @@
-# FIREla
+# firela-app
 
 > **Beancount account management for mobile - Data sovereignty for your financial data**
+
+<a href="https://apps.apple.com/app/xxx"><img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us.svg" alt="App Store" height="40"></a> <a href="https://play.google.com/store/apps/details?id=xxx"><img src="https://raw.githubusercontent.com/steverichey/google-play-badge-svg/master/img/en_get.svg" alt="Google Play" height="55"></a>
+
+*Coming soon*
 
 ## Data Sovereignty First
 
@@ -17,7 +21,6 @@ Beancount philosophy:
 Beancount was designed from the ground up as a **data sovereignty** tool:
 - **Plain text format** - Your ledger is human-readable and editable
 - **No vendor lock-in** - Your data isn't trapped in proprietary formats
-- **Version control friendly** - Track changes with Git, never lose history
 - **Transparent** - Every transaction is visible, no hidden algorithms
 - **Future-proof** - Plain text files last forever
 
@@ -35,11 +38,11 @@ FIREla extends this philosophy to mobile: **manage your Beancount accounts on yo
 
 ## Ecosystem Context
 
-FIREla is part of the firela open source ecosystem, all built on the principle of **data sovereignty**:
+app & bot both are part of the FIREla open source ecosystem, all built on the principle of **data sovereignty**:
 
 ```
 ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐
-│  firela-connect │  │   FIREla        │  │   firela-vlt    │  │   firela-relay  │
+│  firela-bot     │  │   firela-app    │  │   firela-vlt    │  │   firela-relay  │
 │  Data Import    │  │   Account Mgmt  │  │   Beancount     │  │   Open Banking  │
 │  (billclaw)     │  │   (Flutter)     │  │   Ledger Store  │  │   Relay Service │
 └────────┬────────┘  └────────┬────────┘  └────────┬────────┘  └────────┬────────┘
@@ -50,8 +53,8 @@ FIREla is part of the firela open source ecosystem, all built on the principle o
                      ─────────────── Your data, your control ───────────────
 ```
 
-- **firela-connect** (billclaw): Import your financial data - **you hold the API keys**
-- **FIREla**: Manage accounts on mobile - **you hold the account credentials**
+- **firela-bot** (billclaw): Import your financial data - **you hold the API keys**
+- **firela-app**: Manage accounts on mobile - **you hold the account credentials**
 - **firela-vlt**: Beancount ledger store for transaction data - **your ledger, your rules**
 - **firela-relay**: Open banking relay service - **your connections, your control**
 
@@ -194,10 +197,8 @@ AGPL-3.0 License - see [LICENSE](LICENSE) for details.
 
 ## Links
 
-- GitHub: https://github.com/fire-la/firela-app
-- billclaw: https://github.com/fire-la/billclaw
+- firela-bot: https://github.com/fire-la/firela-bot
 - Beancount: http://furius.ca/beancount/
-- firela: https://github.com/fire-la
 
 ## Acknowledgments
 
