@@ -15,6 +15,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       requestBody:
         required: true
@@ -101,6 +102,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       responses:
         '200':
@@ -135,6 +137,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       responses:
         '200':
@@ -169,6 +172,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       requestBody:
         required: true
@@ -209,6 +213,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       responses:
         '204':
@@ -242,6 +247,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       requestBody:
         required: true
@@ -285,6 +291,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       requestBody:
         required: true
@@ -307,6 +314,113 @@ paths:
         - Bean Accounts
       security:
         - bearer: []
+  /api/v1/{region}/bean/account-standards:
+    get:
+      operationId: AccountStandardsController_getTemplates
+      summary: Get account templates
+      description: >-
+        Returns predefined account templates for a region. Supports filtering by
+        account type and search term.
+      parameters:
+        - name: region
+          required: true
+          in: path
+          description: Region code (cn, us, de)
+          schema:
+            enum:
+              - cn
+              - us
+              - de
+              - gb
+            type: string
+        - name: type
+          required: false
+          in: query
+          description: Filter by account type
+          schema:
+            example: Assets
+            enum:
+              - Assets
+              - Liabilities
+              - Income
+              - Expenses
+              - Equity
+            type: string
+        - name: search
+          required: false
+          in: query
+          description: Search term for path or description
+          schema:
+            example: Bank
+            type: string
+      responses:
+        '200':
+          description: Account templates retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountStandardListResponseDto'
+      tags:
+        - Bean Account Standards
+  /api/v1/{region}/bean/account-standards/template-metadata:
+    get:
+      operationId: AccountStandardsController_getTemplateMetadata
+      summary: Get template metadata for an account path
+      description: Returns extendable status and root type for a template path.
+      parameters:
+        - name: region
+          required: true
+          in: path
+          description: Region code for tenant context
+          schema:
+            enum:
+              - cn
+              - us
+              - de
+              - gb
+            type: string
+        - name: path
+          required: true
+          in: query
+          description: Account path to check
+          schema:
+            example: Assets:CN:Bank:Checking
+            type: string
+      responses:
+        '200':
+          description: Template metadata retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateMetadataResponseDto'
+      tags:
+        - Bean Account Standards
+  /api/v1/{region}/bean/account-standards/regions:
+    get:
+      operationId: AccountStandardsController_getRegions
+      summary: Get available regions with hierarchy
+      description: Returns supported regions with inheritance metadata
+      parameters:
+        - name: region
+          required: true
+          in: path
+          description: Region code for tenant context
+          schema:
+            enum:
+              - cn
+              - us
+              - de
+              - gb
+            type: string
+      responses:
+        '200':
+          description: Regions metadata retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegionsMetadataResponseDto'
+      tags:
+        - Bean Account Standards
   /api/v1/{region}/bean/transactions:
     post:
       operationId: TransactionController_create
@@ -325,6 +439,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       requestBody:
         required: true
@@ -442,6 +557,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       responses:
         '200':
@@ -484,6 +600,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       requestBody:
         required: true
@@ -535,6 +652,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       responses:
         '200':
@@ -581,6 +699,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       requestBody:
         required: true
@@ -638,6 +757,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       responses:
         '204':
@@ -664,78 +784,6 @@ paths:
         - Bean Transactions
       security:
         - bearer: []
-  /api/v1/{region}/bean/account-standards:
-    get:
-      operationId: AccountStandardsController_getTemplates
-      summary: Get account templates
-      description: >-
-        Returns predefined account templates for a region. Supports filtering by
-        account type and search term.
-      parameters:
-        - name: region
-          required: true
-          in: path
-          description: Region code (cn, us, de)
-          schema:
-            enum:
-              - cn
-              - us
-              - de
-            type: string
-        - name: type
-          required: false
-          in: query
-          description: Filter by account type
-          schema:
-            example: Assets
-            enum:
-              - Assets
-              - Liabilities
-              - Income
-              - Expenses
-              - Equity
-            type: string
-        - name: search
-          required: false
-          in: query
-          description: Search term for path or description
-          schema:
-            example: Bank
-            type: string
-      responses:
-        '200':
-          description: Account templates retrieved successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AccountStandardListResponseDto'
-      tags:
-        - Bean Account Standards
-  /api/v1/{region}/bean/account-standards/regions:
-    get:
-      operationId: AccountStandardsController_getRegions
-      summary: Get available regions with hierarchy
-      description: Returns supported regions with inheritance metadata
-      parameters:
-        - name: region
-          required: true
-          in: path
-          description: Region code for tenant context
-          schema:
-            enum:
-              - cn
-              - us
-              - de
-            type: string
-      responses:
-        '200':
-          description: Regions metadata retrieved successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RegionsMetadataResponseDto'
-      tags:
-        - Bean Account Standards
   /api/v1/{region}/bean/balances:
     get:
       operationId: BalanceController_getBalance
@@ -772,6 +820,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       responses:
         '200':
@@ -803,6 +852,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       responses:
         '200':
@@ -883,6 +933,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       responses:
         '200':
@@ -915,6 +966,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       responses:
         '200':
@@ -953,6 +1005,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       responses:
         '200':
@@ -991,6 +1044,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       requestBody:
         required: true
@@ -1041,6 +1095,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       responses:
         '200':
@@ -1079,6 +1134,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       requestBody:
         required: true
@@ -1708,6 +1764,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       requestBody:
         required: true
@@ -1770,6 +1827,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       responses:
         '200':
@@ -1804,6 +1862,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       responses:
         '200':
@@ -1843,6 +1902,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       requestBody:
         required: true
@@ -1894,6 +1954,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       responses:
         '204':
@@ -1914,7 +1975,7 @@ paths:
       summary: Ensure commodity exists
       description: >-
         Gets existing commodity or creates it with automatic initialization from
-        SymbolProfile
+        OpenBB
       parameters:
         - name: symbol
           required: true
@@ -1932,6 +1993,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       responses:
         '200':
@@ -1961,6 +2023,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       responses:
         '201':
@@ -1990,6 +2053,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       requestBody:
         required: true
@@ -2046,6 +2110,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       responses:
         '200':
@@ -2083,6 +2148,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       requestBody:
         required: true
@@ -2134,6 +2200,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       responses:
         '200':
@@ -2168,6 +2235,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       requestBody:
         required: true
@@ -2210,6 +2278,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       responses:
         '204':
@@ -2241,6 +2310,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       responses:
         '200':
@@ -2296,6 +2366,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       responses:
         '200':
@@ -2323,6 +2394,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       responses:
         '200':
@@ -2356,6 +2428,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       responses:
         '200':
@@ -2391,6 +2464,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       responses:
         '200':
@@ -2427,6 +2501,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       responses:
         '200':
@@ -2464,6 +2539,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       requestBody:
         required: true
@@ -2506,6 +2582,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       responses:
         '200':
@@ -2541,6 +2618,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       requestBody:
         required: true
@@ -2585,6 +2663,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       responses:
         '200':
@@ -2614,6 +2693,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       requestBody:
         required: true
@@ -2704,6 +2784,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       responses:
         '200':
@@ -2736,6 +2817,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       requestBody:
         required: true
@@ -2780,6 +2862,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       requestBody:
         required: true
@@ -2832,6 +2915,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       responses:
         '200':
@@ -2880,6 +2964,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       responses:
         '200':
@@ -2918,6 +3003,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       responses:
         '200':
@@ -2967,6 +3053,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       requestBody:
         required: true
@@ -3034,6 +3121,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       responses:
         '204':
@@ -3086,6 +3174,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       requestBody:
         required: true
@@ -3368,6 +3457,21 @@ paths:
         - Properties
       security:
         - bearer: []
+  /api/v1/{region}/bean/export/beancount:
+    get:
+      operationId: ExportController_exportBeancount
+      summary: Export Beancount ledger as ZIP
+      description: >-
+        Export all user Beancount data as a ZIP file containing ledger.beancount
+        and yearly files in community format.
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Bean Export
+      security:
+        - bearer: []
   /api/v1/{region}/bean/import/file:
     post:
       operationId: FileImportController_importFile
@@ -3388,6 +3492,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       requestBody:
         required: true
@@ -3506,6 +3611,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       requestBody:
         required: true
@@ -3547,6 +3653,68 @@ paths:
         - Bean Import
       security:
         - bearer: []
+  /api/v1/{region}/bean/import/beancount:
+    post:
+      operationId: FileImportController_importBeancount
+      summary: Import a Beancount file in community format
+      description: >-
+        Upload a .beancount file to import. The system parses community-format
+        paths, converts to internal format using category metadata, auto-creates
+        accounts, and imports transactions with deduplication. Maximum file
+        size: 50MB. Only 1 import per user at a time.
+      parameters:
+        - name: region
+          required: true
+          in: path
+          description: Region code for tenant context
+          schema:
+            enum:
+              - cn
+              - us
+              - de
+              - gb
+            type: string
+      requestBody:
+        required: true
+        description: Beancount file to import
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FileImportDto'
+      responses:
+        '200':
+          description: Beancount file imported successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  imported:
+                    type: number
+                    example: 45
+                  skipped:
+                    type: number
+                    example: 2
+                  failed:
+                    type: number
+                    example: 0
+                  accountsCreated:
+                    type: number
+                    example: 8
+                  errors:
+                    type: array
+                    items:
+                      type: object
+        '400':
+          description: Bad request - invalid file or no file uploaded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiProblemResponseDto'
+      tags:
+        - Bean Import
+      security:
+        - bearer: []
   /api/v1/{region}/bean/import/config/{importerId}:
     get:
       operationId: ImporterConfigController_getConfig
@@ -3574,6 +3742,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       responses:
         '200':
@@ -3624,6 +3793,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       requestBody:
         required: true
@@ -3682,6 +3852,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       responses:
         '200':
@@ -3698,6 +3869,120 @@ paths:
                 $ref: '#/components/schemas/ApiProblemResponseDto'
       tags:
         - Bean Import
+      security:
+        - bearer: []
+  /api/v1/bean/platforms:
+    get:
+      operationId: PlatformController_findAll
+      summary: Get all platforms with statistics
+      parameters: []
+      responses:
+        '200':
+          description: List of platforms with binding and account counts
+      tags:
+        - Bean Platforms
+      security:
+        - bearer: []
+    post:
+      operationId: PlatformController_create
+      summary: Create a new platform
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePlatformDto'
+      responses:
+        '201':
+          description: Platform created successfully
+        '409':
+          description: Platform already exists
+      tags:
+        - Bean Platforms
+      security:
+        - bearer: []
+  /api/v1/bean/platforms/list:
+    get:
+      operationId: PlatformController_getPlatformList
+      summary: Get platform list for current user
+      parameters: []
+      responses:
+        '200':
+          description: List of platforms with user binding status
+      tags:
+        - Bean Platforms
+      security:
+        - bearer: []
+  /api/v1/bean/platforms/match:
+    get:
+      operationId: PlatformController_matchPlatforms
+      summary: Match platforms by name or alias
+      parameters:
+        - name: q
+          required: true
+          in: query
+          description: Search query — Chinese name, English name, or abbreviation
+          schema:
+            example: 工行
+            type: string
+        - name: region
+          required: false
+          in: query
+          description: Region code for category override lookup
+          schema:
+            example: CN
+            type: string
+      responses:
+        '200':
+          description: List of matching platforms with suggested segment names
+      tags:
+        - Bean Platforms
+      security:
+        - bearer: []
+  /api/v1/bean/platforms/{id}:
+    put:
+      operationId: PlatformController_update
+      summary: Update a platform
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: Platform ID
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatePlatformDto'
+      responses:
+        '200':
+          description: Platform updated successfully
+        '404':
+          description: Platform not found
+      tags:
+        - Bean Platforms
+      security:
+        - bearer: []
+    delete:
+      operationId: PlatformController_delete
+      summary: Delete a platform
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: Platform ID
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Platform deleted successfully
+        '404':
+          description: Platform not found
+      tags:
+        - Bean Platforms
       security:
         - bearer: []
   /api/v1/{region}/bean/import/provider/{providerName}/sync:
@@ -3804,6 +4089,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       responses:
         '200':
@@ -3840,6 +4126,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       responses:
         '200':
@@ -3864,6 +4151,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       requestBody:
         required: true
@@ -3901,6 +4189,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       requestBody:
         required: true
@@ -3949,6 +4238,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       responses:
         '204':
@@ -3981,6 +4271,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       responses:
         '200':
@@ -3991,255 +4282,6 @@ paths:
         - Bean NLP
       security:
         - bearer: []
-  /api/v1/bean/platforms:
-    get:
-      operationId: PlatformController_findAll
-      summary: Get all platforms with statistics
-      parameters: []
-      responses:
-        '200':
-          description: List of platforms with binding and account counts
-      tags:
-        - Bean Platforms
-      security:
-        - bearer: []
-    post:
-      operationId: PlatformController_create
-      summary: Create a new platform
-      parameters: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreatePlatformDto'
-      responses:
-        '201':
-          description: Platform created successfully
-        '409':
-          description: Platform already exists
-      tags:
-        - Bean Platforms
-      security:
-        - bearer: []
-  /api/v1/bean/platforms/list:
-    get:
-      operationId: PlatformController_getPlatformList
-      summary: Get platform list for current user
-      parameters: []
-      responses:
-        '200':
-          description: List of platforms with user binding status
-      tags:
-        - Bean Platforms
-      security:
-        - bearer: []
-  /api/v1/bean/platforms/{id}:
-    put:
-      operationId: PlatformController_update
-      summary: Update a platform
-      parameters:
-        - name: id
-          required: true
-          in: path
-          description: Platform ID
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UpdatePlatformDto'
-      responses:
-        '200':
-          description: Platform updated successfully
-        '404':
-          description: Platform not found
-      tags:
-        - Bean Platforms
-      security:
-        - bearer: []
-    delete:
-      operationId: PlatformController_delete
-      summary: Delete a platform
-      parameters:
-        - name: id
-          required: true
-          in: path
-          description: Platform ID
-          schema:
-            type: string
-      responses:
-        '204':
-          description: Platform deleted successfully
-        '404':
-          description: Platform not found
-        '409':
-          description: 'Cannot delete: platform has active bindings'
-      tags:
-        - Bean Platforms
-      security:
-        - bearer: []
-  /api/v1/market/symbols/lookup:
-    get:
-      operationId: SymbolController_lookupSymbol
-      summary: Search for symbols
-      description: >-
-        Search symbols by query with optional filters for asset class, area, and
-        indices
-      parameters:
-        - name: includeIndices
-          required: false
-          in: query
-          description: Include index symbols in results
-          schema: {}
-        - name: assetSubClass
-          required: false
-          in: query
-          description: Asset sub-class filter
-          schema: {}
-        - name: assetClass
-          required: false
-          in: query
-          description: Asset class filter
-          schema: {}
-        - name: area
-          required: false
-          in: query
-          description: Geographic area filter (e.g., CN, US)
-          schema: {}
-        - name: query
-          required: false
-          in: query
-          description: Search query string
-          schema: {}
-      responses:
-        '200':
-          description: Symbols found successfully
-        '400':
-          description: Invalid query parameters
-      tags:
-        - Symbols
-      security:
-        - bearer: []
-  /api/v1/market/symbols/{dataSource}/{symbol}:
-    get:
-      operationId: SymbolController_getSymbolData
-      summary: Get symbol data
-      description: Retrieve detailed symbol information including optional historical data
-      parameters:
-        - name: dataSource
-          required: true
-          in: path
-          description: Data source provider
-          schema:
-            enum:
-              - ALPHA_VANTAGE
-              - EOD_HISTORICAL_DATA
-              - FINANCIAL_MODELING_PREP
-              - MANUAL
-              - RAPID_API
-              - YAHOO
-              - COINGECKO
-              - TUSHARE
-              - BLOOMBERG
-              - CSI
-              - STOOQ
-              - TRADING_VIEW
-            type: string
-        - name: symbol
-          required: true
-          in: path
-          description: Symbol identifier (e.g., ticker code)
-          schema:
-            type: string
-        - name: includeHistoricalData
-          required: false
-          in: query
-          description: Include historical price data (0 or 1)
-          schema: {}
-      responses:
-        '200':
-          description: Symbol data retrieved successfully
-        '400':
-          description: Invalid data source
-        '404':
-          description: Symbol not found
-      tags:
-        - Symbols
-      security:
-        - bearer: []
-  /api/v1/market/symbols/{dataSource}/{symbol}/{dateString}:
-    get:
-      operationId: SymbolController_gatherSymbolForDate
-      summary: Gather symbol data for specific date
-      description: Retrieve historical symbol data for a specific date
-      parameters:
-        - name: dataSource
-          required: true
-          in: path
-          description: Data source provider
-          schema:
-            enum:
-              - ALPHA_VANTAGE
-              - EOD_HISTORICAL_DATA
-              - FINANCIAL_MODELING_PREP
-              - MANUAL
-              - RAPID_API
-              - YAHOO
-              - COINGECKO
-              - TUSHARE
-              - BLOOMBERG
-              - CSI
-              - STOOQ
-              - TRADING_VIEW
-            type: string
-        - name: dateString
-          required: true
-          in: path
-          description: Date in ISO 8601 format (YYYY-MM-DD)
-          schema:
-            type: string
-        - name: symbol
-          required: true
-          in: path
-          description: Symbol identifier (e.g., ticker code)
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Historical data retrieved successfully
-        '400':
-          description: Invalid date format
-        '404':
-          description: Symbol data not found for specified date
-      tags:
-        - Symbols
-      security:
-        - bearer: []
-  /api/v1/market/symbols/yahoo/batch-update:
-    put:
-      operationId: SymbolController_batchUpdateYahooSymbols
-      summary: Batch update Yahoo symbols
-      description: Update all symbols missing Yahoo data source information
-      parameters: []
-      responses:
-        '200':
-          description: Symbols updated successfully
-        '403':
-          description: Insufficient permissions
-      tags:
-        - Symbols
-      security:
-        - bearer: []
-  /api/v1/cache/flush:
-    post:
-      operationId: CacheController_flushCache
-      parameters: []
-      responses:
-        '201':
-          description: ''
   /api/v1/{region}/dashboard/net-worth:
     get:
       operationId: DashboardController_getNetWorth
@@ -4262,6 +4304,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       responses:
         '200':
@@ -4307,6 +4350,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       responses:
         '200':
@@ -4347,6 +4391,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       responses:
         '200':
@@ -4413,6 +4458,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       responses:
         '200':
@@ -4455,6 +4501,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       requestBody:
         required: true
@@ -4514,6 +4561,7 @@ paths:
               - cn
               - us
               - de
+              - gb
             type: string
       requestBody:
         required: true
@@ -4579,6 +4627,13 @@ paths:
         - Auth
       security:
         - bearer: []
+  /api/v1/cache/flush:
+    post:
+      operationId: CacheController_flushCache
+      parameters: []
+      responses:
+        '201':
+          description: ''
   /api/v1/market/exchange-rates/{symbol}/{dateString}:
     get:
       operationId: ExchangeRateController_getExchangeRate
@@ -4632,6 +4687,20 @@ paths:
           description: Database is healthy
         '503':
           description: Database unavailable
+      tags:
+        - Health
+      security:
+        - bearer: []
+  /api/v1/health/openbb:
+    get:
+      operationId: HealthController_checkOpenBB
+      summary: Check OpenBB schema status
+      parameters: []
+      responses:
+        '200':
+          description: OpenBB status
+        '503':
+          description: OpenBB unavailable
       tags:
         - Health
       security:
@@ -4702,68 +4771,6 @@ paths:
         - Health
       security:
         - bearer: []
-  /api/v1/health/data-enhancer/{name}:
-    get:
-      operationId: HealthController_getHealthOfDataEnhancer
-      summary: Check health of a specific data enhancer
-      parameters:
-        - name: name
-          required: true
-          in: path
-          description: Data enhancer name
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Data enhancer is healthy
-        '401':
-          description: Unauthorized
-        '503':
-          description: Data enhancer unavailable
-      tags:
-        - Health
-      security:
-        - bearer: []
-  /api/v1/health/data-providers:
-    get:
-      operationId: HealthController_checkDataProviders
-      summary: Check health of all data providers
-      parameters: []
-      responses:
-        '200':
-          description: Data providers health status
-        '401':
-          description: Unauthorized
-        '503':
-          description: Data providers check failed
-      tags:
-        - Health
-      security:
-        - bearer: []
-  /api/v1/health/data-provider/{dataSource}:
-    get:
-      operationId: HealthController_getHealthOfDataProvider
-      summary: Check health of a specific data provider
-      parameters:
-        - name: dataSource
-          required: true
-          in: path
-          description: Data source identifier
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Data provider is healthy
-        '400':
-          description: Invalid data source
-        '401':
-          description: Unauthorized
-        '503':
-          description: Data provider unavailable
-      tags:
-        - Health
-      security:
-        - bearer: []
   /api/v1/system/info:
     get:
       operationId: InfoController_getInfo
@@ -4774,150 +4781,6 @@ paths:
           description: System information retrieved successfully
       tags:
         - Info
-      security:
-        - bearer: []
-  /api/v1/market/logos/{dataSource}/{symbol}:
-    get:
-      operationId: LogoController_getLogoByDataSourceAndSymbol
-      summary: Get asset logo by data source and symbol
-      parameters:
-        - name: dataSource
-          required: true
-          in: path
-          description: Data source identifier (e.g., YAHOO, COINGECKO)
-          schema:
-            type: string
-        - name: symbol
-          required: true
-          in: path
-          description: Asset symbol (e.g., AAPL, BTC)
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Logo image stream (favicon)
-        '401':
-          description: Unauthorized
-        '404':
-          description: Logo not found for the specified asset
-        '503':
-          description: Service unavailable
-      tags:
-        - Logos
-      security:
-        - bearer: []
-  /api/v1/market/logos:
-    get:
-      operationId: LogoController_getLogoByUrl
-      summary: Get website favicon by URL
-      parameters:
-        - name: url
-          required: true
-          in: query
-          description: Website URL to fetch favicon from
-          schema:
-            example: https://example.com
-            type: string
-      responses:
-        '200':
-          description: Logo image stream (favicon)
-        '401':
-          description: Unauthorized
-        '503':
-          description: Service unavailable
-      tags:
-        - Logos
-      security:
-        - bearer: []
-  /api/v1/market-data/{dataSource}/{symbol}:
-    get:
-      operationId: MarketDataController_getMarketDataBySymbol
-      summary: Get market data by symbol
-      description: >-
-        Retrieves market data and asset profile for a given symbol and data
-        source
-      parameters:
-        - name: dataSource
-          required: true
-          in: path
-          description: Data source provider
-          schema:
-            enum:
-              - ALPHA_VANTAGE
-              - EOD_HISTORICAL_DATA
-              - FINANCIAL_MODELING_PREP
-              - MANUAL
-              - RAPID_API
-              - YAHOO
-              - COINGECKO
-              - TUSHARE
-              - BLOOMBERG
-              - CSI
-              - STOOQ
-              - TRADING_VIEW
-            type: string
-        - name: symbol
-          required: true
-          in: path
-          description: Symbol code
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Market data retrieved successfully
-        '403':
-          description: Insufficient permissions to read market data
-        '404':
-          description: Market data not found
-      tags:
-        - Market Data
-      security:
-        - bearer: []
-    post:
-      operationId: MarketDataController_updateMarketData
-      summary: Update market data
-      description: Bulk update market data for a given symbol (admin only)
-      parameters:
-        - name: dataSource
-          required: true
-          in: path
-          description: Data source provider
-          schema:
-            enum:
-              - ALPHA_VANTAGE
-              - EOD_HISTORICAL_DATA
-              - FINANCIAL_MODELING_PREP
-              - MANUAL
-              - RAPID_API
-              - YAHOO
-              - COINGECKO
-              - TUSHARE
-              - BLOOMBERG
-              - CSI
-              - STOOQ
-              - TRADING_VIEW
-            type: string
-        - name: symbol
-          required: true
-          in: path
-          description: Symbol code
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UpdateBulkMarketDataDto'
-      responses:
-        '200':
-          description: Market data updated successfully
-        '403':
-          description: Insufficient permissions to update market data
-        '404':
-          description: Asset profile not found
-      tags:
-        - Market Data
       security:
         - bearer: []
 info:
@@ -5100,6 +4963,10 @@ components:
           type: string
           description: Account path (hierarchical, colon-separated)
           example: Assets:CN:Bank:ICBC:Checking
+        displayName:
+          type: string
+          description: 'Display name to distinguish accounts at the same path (default: "")'
+          example: 工资卡
         openDate:
           format: date-time
           type: string
@@ -5165,6 +5032,10 @@ components:
           type: string
           description: Account path (hierarchical, colon-separated)
           example: Assets:CN:Bank:ICBC:Checking
+        displayName:
+          type: string
+          description: Display name distinguishing multiple accounts at the same path
+          example: 工资卡
         type:
           type: string
           description: Account type (root segment)
@@ -5250,6 +5121,7 @@ components:
       required:
         - id
         - path
+        - displayName
         - type
         - status
         - openDate
@@ -5275,6 +5147,10 @@ components:
     UpdateAccountDto:
       type: object
       properties:
+        displayName:
+          type: string
+          description: Display name to distinguish accounts at the same path
+          example: 招行工资卡
         currencies:
           description: Allowed currencies (null = no restriction)
           example:
@@ -5335,6 +5211,140 @@ components:
           type: string
           description: New open date (optional)
           example: '2025-01-01'
+    AccountStandardResponseDto:
+      type: object
+      properties:
+        path:
+          type: string
+          description: Account path (hierarchical, colon-separated)
+          example: Assets:CN:Bank:ICBC:Checking
+        type:
+          type: string
+          description: Account type in Beancount hierarchy
+          enum:
+            - Assets
+            - Liabilities
+            - Income
+            - Expenses
+            - Equity
+          example: Assets
+        i18nKey:
+          type: string
+          description: i18n key for localized display name
+          example: account.assets.cn.bank.icbc.checking
+        name:
+          type: string
+          description: Short localized display name
+          example: Housing Fund
+        description:
+          type: string
+          description: Account description (stable semantics only)
+          example: ICBC checking account for daily transactions
+        tags:
+          description: Account tags for categorization
+          example:
+            - bank
+            - checking
+            - primary
+          type: array
+          items:
+            type: string
+        icon:
+          type: string
+          description: Icon identifier for UI display
+          example: bank-icbc
+      required:
+        - path
+        - type
+        - description
+    AccountStandardListResponseDto:
+      type: object
+      properties:
+        items:
+          description: Array of account templates
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountStandardResponseDto'
+        total:
+          type: number
+          description: Total number of account templates
+          example: 150
+        region:
+          type: string
+          description: Region code
+          example: CN
+      required:
+        - items
+        - total
+        - region
+    TemplateMetadataDto:
+      type: object
+      properties:
+        extendable:
+          type: boolean
+          description: Whether this path can be extended
+          example: true
+        rootType:
+          type: string
+          description: Root account type
+          example: Assets
+      required:
+        - extendable
+        - rootType
+    TemplateMetadataResponseDto:
+      type: object
+      properties:
+        metadata:
+          $ref: '#/components/schemas/TemplateMetadataDto'
+    RegionConfigDto:
+      type: object
+      properties:
+        currency:
+          type: string
+          example: EUR
+        dateFormat:
+          type: string
+          example: DD.MM.YYYY
+        locale:
+          type: string
+          example: de-DE
+      required:
+        - currency
+        - dateFormat
+        - locale
+    RegionInfoDto:
+      type: object
+      properties:
+        code:
+          type: string
+          example: de
+        displayName:
+          type: string
+          example: Germany
+        parent:
+          type: string
+        chain:
+          example:
+            - de
+          type: array
+          items:
+            type: string
+        config:
+          $ref: '#/components/schemas/RegionConfigDto'
+      required:
+        - code
+        - displayName
+        - chain
+        - config
+    RegionsMetadataResponseDto:
+      type: object
+      properties:
+        regions:
+          type: array
+          items:
+            $ref: '#/components/schemas/RegionInfoDto'
+      required:
+        - regions
     CreatePostingDto:
       type: object
       properties:
@@ -5621,6 +5631,10 @@ components:
           type: string
           description: Error message describing the failure
           example: Transaction does not balance
+        errorCode:
+          type: string
+          description: Structured error code for programmatic handling
+          example: INSUFFICIENT_QUANTITY
       required:
         - index
         - error
@@ -5867,118 +5881,6 @@ components:
           example:
             category: Food:Groceries
             reviewed: true
-    AccountStandardResponseDto:
-      type: object
-      properties:
-        path:
-          type: string
-          description: Account path (hierarchical, colon-separated)
-          example: Assets:CN:Bank:ICBC:Checking
-        type:
-          type: string
-          description: Account type in Beancount hierarchy
-          enum:
-            - Assets
-            - Liabilities
-            - Income
-            - Expenses
-            - Equity
-          example: Assets
-        i18nKey:
-          type: string
-          description: i18n key for localized display name
-          example: account.assets.cn.bank.icbc.checking
-        description:
-          type: string
-          description: Account description
-          example: ICBC checking account for daily transactions
-        tags:
-          description: Account tags for categorization
-          example:
-            - bank
-            - checking
-            - primary
-          type: array
-          items:
-            type: string
-        icon:
-          type: string
-          description: Icon identifier for UI display
-          example: bank-icbc
-      required:
-        - path
-        - type
-    AccountStandardListResponseDto:
-      type: object
-      properties:
-        items:
-          description: Array of account templates
-          type: array
-          items:
-            $ref: '#/components/schemas/AccountStandardResponseDto'
-        total:
-          type: number
-          description: Total number of account templates
-          example: 150
-        region:
-          type: string
-          description: Region code
-          example: CN
-      required:
-        - items
-        - total
-        - region
-    RegionConfigDto:
-      type: object
-      properties:
-        currency:
-          type: string
-          example: EUR
-        dateFormat:
-          type: string
-          example: DD.MM.YYYY
-        locale:
-          type: string
-          example: de-DE
-      required:
-        - currency
-        - dateFormat
-        - locale
-    RegionInfoDto:
-      type: object
-      properties:
-        code:
-          type: string
-          example: de
-        displayName:
-          type: string
-          example: Germany
-        parent:
-          type: string
-          example: eu-core
-        chain:
-          example:
-            - eu-core
-            - de
-          type: array
-          items:
-            type: string
-        config:
-          $ref: '#/components/schemas/RegionConfigDto'
-      required:
-        - code
-        - displayName
-        - chain
-        - config
-    RegionsMetadataResponseDto:
-      type: object
-      properties:
-        regions:
-          type: array
-          items:
-            $ref: '#/components/schemas/RegionInfoDto'
-      required:
-        - regions
     BalanceResponseDto:
       type: object
       properties:
@@ -7059,13 +6961,6 @@ components:
             tags:
               - tech
               - dividend
-        symbolProfileId:
-          type: string
-          description: >-
-            Optional reference to global SymbolProfile for market data
-            integration (SaaS feature, not part of Beancount spec)
-          example: uuid-123
-          format: uuid
       required:
         - symbol
         - date
@@ -7103,11 +6998,6 @@ components:
             precision: 2
             note: Tech stock
             source: AUTO_CREATED
-        symbolProfileId:
-          type: string
-          description: Reference to SymbolProfile (market data integration, SaaS feature)
-          example: uuid-789
-          nullable: true
         createdAt:
           format: date-time
           type: string
@@ -7162,13 +7052,6 @@ components:
             precision: 4
             note: Updated investment strategy
             lastReviewed: '2024-11-03'
-        symbolProfileId:
-          type: string
-          description: >-
-            Optional reference to global SymbolProfile for market data
-            integration (SaaS feature, not part of Beancount spec)
-          example: uuid-123
-          format: uuid
     CreateRecurringRuleDto:
       type: object
       properties:
@@ -8735,6 +8618,99 @@ components:
           description: Configuration data (v1 schema)
           allOf:
             - $ref: '#/components/schemas/UpdateConfigDataDto'
+    CreatePlatformDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Platform name
+          example: Binance
+        canonical:
+          type: string
+          description: Platform canonical identifier (lowercase, kebab-case)
+          example: binance
+        aliases:
+          description: Platform aliases (multi-language names for lookup)
+          example:
+            - Binance
+            - Binance Exchange
+            - BNB
+          type: array
+          items:
+            type: string
+        url:
+          type: string
+          description: Platform URL
+          example: https://www.binance.com
+        type:
+          type: string
+          description: Platform type
+          enum:
+            - BANK
+            - BROKERAGE
+            - CRYPTO_EXCHANGE
+            - PAYMENT
+            - INVESTMENT
+            - INSURANCE
+            - OTHER
+          example: CRYPTO_EXCHANGE
+        logoUrl:
+          type: string
+          description: Platform logo URL
+          example: https://example.com/logos/binance.png
+        isActive:
+          type: boolean
+          description: Whether the platform is active
+          default: true
+      required:
+        - name
+        - canonical
+        - aliases
+        - url
+        - type
+    UpdatePlatformDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Platform name
+          example: Binance
+        canonical:
+          type: string
+          description: Platform canonical identifier (lowercase, kebab-case)
+          example: binance
+        aliases:
+          description: Platform aliases (multi-language names for lookup)
+          example:
+            - Binance
+            - Binance Exchange
+            - BNB
+          type: array
+          items:
+            type: string
+        url:
+          type: string
+          description: Platform URL
+          example: https://www.binance.com
+        type:
+          type: string
+          description: Platform type
+          enum:
+            - BANK
+            - BROKERAGE
+            - CRYPTO_EXCHANGE
+            - PAYMENT
+            - INVESTMENT
+            - INSURANCE
+            - OTHER
+          example: CRYPTO_EXCHANGE
+        logoUrl:
+          type: string
+          description: Platform logo URL
+          example: https://example.com/logos/binance.png
+        isActive:
+          type: boolean
+          description: Whether the platform is active
     ProviderSyncConfigDto:
       type: object
       properties:
@@ -8869,6 +8845,15 @@ components:
             Session ID for multi-turn conversation (auto-generated if not
             provided)
           example: session_abc123
+        parsedData:
+          type: object
+          description: >-
+            Parsed data from previous NLP response for session recovery. Send
+            back the parsedData received in confirm_payee/confirm responses.
+          example:
+            amount: 35
+            currency: CNY
+            payee: Starbucks
       required:
         - message
     NlpTransactionInfoDto:
@@ -9512,99 +9497,6 @@ components:
       required:
         - status
         - action
-    CreatePlatformDto:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Platform name
-          example: Binance
-        canonical:
-          type: string
-          description: Platform canonical identifier (lowercase, kebab-case)
-          example: binance
-        aliases:
-          description: Platform aliases (multi-language names for lookup)
-          example:
-            - Binance
-            - Binance Exchange
-            - BNB
-          type: array
-          items:
-            type: string
-        url:
-          type: string
-          description: Platform URL
-          example: https://www.binance.com
-        type:
-          type: string
-          description: Platform type
-          enum:
-            - BANK
-            - BROKERAGE
-            - CRYPTO_EXCHANGE
-            - PAYMENT
-            - INVESTMENT
-            - INSURANCE
-            - OTHER
-          example: CRYPTO_EXCHANGE
-        logoUrl:
-          type: string
-          description: Platform logo URL
-          example: https://example.com/logos/binance.png
-        isActive:
-          type: boolean
-          description: Whether the platform is active
-          default: true
-      required:
-        - name
-        - canonical
-        - aliases
-        - url
-        - type
-    UpdatePlatformDto:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Platform name
-          example: Binance
-        canonical:
-          type: string
-          description: Platform canonical identifier (lowercase, kebab-case)
-          example: binance
-        aliases:
-          description: Platform aliases (multi-language names for lookup)
-          example:
-            - Binance
-            - Binance Exchange
-            - BNB
-          type: array
-          items:
-            type: string
-        url:
-          type: string
-          description: Platform URL
-          example: https://www.binance.com
-        type:
-          type: string
-          description: Platform type
-          enum:
-            - BANK
-            - BROKERAGE
-            - CRYPTO_EXCHANGE
-            - PAYMENT
-            - INVESTMENT
-            - INSURANCE
-            - OTHER
-          example: CRYPTO_EXCHANGE
-        logoUrl:
-          type: string
-          description: Platform logo URL
-          example: https://example.com/logos/binance.png
-        isActive:
-          type: boolean
-          description: Whether the platform is active
     BalanceByCurrencyDto:
       type: object
       properties:
@@ -10207,29 +10099,3 @@ components:
           description: Access token for anonymous login
       required:
         - accessToken
-    UpdateMarketDataDto:
-      type: object
-      properties:
-        date:
-          type: string
-          description: Price date (ISO 8601 format)
-          example: '2024-11-20'
-        marketPrice:
-          type: number
-          description: >-
-            Market price (supports negative values for historical anomalies like
-            WTI 2020)
-          example: 7.25
-      required:
-        - date
-        - marketPrice
-    UpdateBulkMarketDataDto:
-      type: object
-      properties:
-        marketData:
-          description: Array of market data entries
-          type: array
-          items:
-            $ref: '#/components/schemas/UpdateMarketDataDto'
-      required:
-        - marketData
