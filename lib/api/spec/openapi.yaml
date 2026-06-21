@@ -5256,7 +5256,10 @@ components:
       required:
         - path
         - type
+        - i18nKey
         - description
+        - tags
+        - icon
     AccountStandardListResponseDto:
       type: object
       properties:
