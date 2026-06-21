@@ -62,7 +62,7 @@ dependencies:
   uuid: ^4.4.0
   decimal: ^3.0.2
 
-  # Utils
+  # Device Info
   package_info_plus: ^8.0.0
 
   # Cloudflare Turnstile (bot protection)
