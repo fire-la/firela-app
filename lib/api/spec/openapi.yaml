@@ -5238,7 +5238,7 @@ components:
           example: Housing Fund
         description:
           type: string
-          description: Account description (stable semantics only)
+          description: Account description (stable semantics only) [automerge-test]
           example: ICBC checking account for daily transactions
         tags:
           description: Account tags for categorization
