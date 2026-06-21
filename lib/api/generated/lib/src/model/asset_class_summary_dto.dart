@@ -18,8 +18,7 @@ part 'asset_class_summary_dto.g.dart';
 /// * [baseCurrency] - Base currency for conversion
 /// * [warnings] - Exchange rate warnings
 @BuiltValue()
-abstract class AssetClassSummaryDto
-    implements Built<AssetClassSummaryDto, AssetClassSummaryDtoBuilder> {
+abstract class AssetClassSummaryDto implements Built<AssetClassSummaryDto, AssetClassSummaryDtoBuilder> {
   /// Total number of accounts
   @BuiltValueField(wireName: r'totalAccounts')
   num get totalAccounts;
@@ -38,24 +37,18 @@ abstract class AssetClassSummaryDto
 
   AssetClassSummaryDto._();
 
-  factory AssetClassSummaryDto([void updates(AssetClassSummaryDtoBuilder b)]) =
-      _$AssetClassSummaryDto;
+  factory AssetClassSummaryDto([void updates(AssetClassSummaryDtoBuilder b)]) = _$AssetClassSummaryDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(AssetClassSummaryDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<AssetClassSummaryDto> get serializer =>
-      _$AssetClassSummaryDtoSerializer();
+  static Serializer<AssetClassSummaryDto> get serializer => _$AssetClassSummaryDtoSerializer();
 }
 
-class _$AssetClassSummaryDtoSerializer
-    implements PrimitiveSerializer<AssetClassSummaryDto> {
+class _$AssetClassSummaryDtoSerializer implements PrimitiveSerializer<AssetClassSummaryDto> {
   @override
-  final Iterable<Type> types = const [
-    AssetClassSummaryDto,
-    _$AssetClassSummaryDto
-  ];
+  final Iterable<Type> types = const [AssetClassSummaryDto, _$AssetClassSummaryDto];
 
   @override
   final String wireName = r'AssetClassSummaryDto';
@@ -84,8 +77,7 @@ class _$AssetClassSummaryDtoSerializer
       yield r'warnings';
       yield serializers.serialize(
         object.warnings,
-        specifiedType: const FullType(
-            BuiltList, [FullType(AccountExchangeRateWarningDto)]),
+        specifiedType: const FullType(BuiltList, [FullType(AccountExchangeRateWarningDto)]),
       );
     }
   }
@@ -96,9 +88,7 @@ class _$AssetClassSummaryDtoSerializer
     AssetClassSummaryDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -137,8 +127,7 @@ class _$AssetClassSummaryDtoSerializer
         case r'warnings':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(
-                BuiltList, [FullType(AccountExchangeRateWarningDto)]),
+            specifiedType: const FullType(BuiltList, [FullType(AccountExchangeRateWarningDto)]),
           ) as BuiltList<AccountExchangeRateWarningDto>;
           result.warnings.replace(valueDes);
           break;
@@ -170,3 +159,4 @@ class _$AssetClassSummaryDtoSerializer
     return result.build();
   }
 }
+

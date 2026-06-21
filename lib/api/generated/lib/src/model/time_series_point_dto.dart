@@ -19,8 +19,7 @@ part 'time_series_point_dto.g.dart';
 /// * [change] - Change from previous point
 /// * [byCurrency] - Multi-currency breakdown for this point
 @BuiltValue()
-abstract class TimeSeriesPointDto
-    implements Built<TimeSeriesPointDto, TimeSeriesPointDtoBuilder> {
+abstract class TimeSeriesPointDto implements Built<TimeSeriesPointDto, TimeSeriesPointDtoBuilder> {
   /// Date in YYYY-MM-DD format
   @BuiltValueField(wireName: r'date')
   String get date;
@@ -39,19 +38,16 @@ abstract class TimeSeriesPointDto
 
   TimeSeriesPointDto._();
 
-  factory TimeSeriesPointDto([void updates(TimeSeriesPointDtoBuilder b)]) =
-      _$TimeSeriesPointDto;
+  factory TimeSeriesPointDto([void updates(TimeSeriesPointDtoBuilder b)]) = _$TimeSeriesPointDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(TimeSeriesPointDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<TimeSeriesPointDto> get serializer =>
-      _$TimeSeriesPointDtoSerializer();
+  static Serializer<TimeSeriesPointDto> get serializer => _$TimeSeriesPointDtoSerializer();
 }
 
-class _$TimeSeriesPointDtoSerializer
-    implements PrimitiveSerializer<TimeSeriesPointDto> {
+class _$TimeSeriesPointDtoSerializer implements PrimitiveSerializer<TimeSeriesPointDto> {
   @override
   final Iterable<Type> types = const [TimeSeriesPointDto, _$TimeSeriesPointDto];
 
@@ -84,8 +80,7 @@ class _$TimeSeriesPointDtoSerializer
       yield r'byCurrency';
       yield serializers.serialize(
         object.byCurrency,
-        specifiedType:
-            const FullType(BuiltList, [FullType(CurrencyBalanceDto)]),
+        specifiedType: const FullType(BuiltList, [FullType(CurrencyBalanceDto)]),
       );
     }
   }
@@ -96,9 +91,7 @@ class _$TimeSeriesPointDtoSerializer
     TimeSeriesPointDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -137,8 +130,7 @@ class _$TimeSeriesPointDtoSerializer
         case r'byCurrency':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType:
-                const FullType(BuiltList, [FullType(CurrencyBalanceDto)]),
+            specifiedType: const FullType(BuiltList, [FullType(CurrencyBalanceDto)]),
           ) as BuiltList<CurrencyBalanceDto>;
           result.byCurrency.replace(valueDes);
           break;
@@ -170,3 +162,4 @@ class _$TimeSeriesPointDtoSerializer
     return result.build();
   }
 }
+

@@ -20,23 +20,23 @@ part 'review_detail_dto.g.dart';
 /// * [status] - Review status
 /// * [confidence] - Confidence score (0-1)
 /// * [confidenceLevel] - Confidence level derived from score
-/// * [summary] - Human-readable summary of the review item
+/// * [summaryKey] - i18n message key for summary (e.g., review.summary.duplicate). Translate on frontend with summaryParams.
+/// * [summaryParams] - Parameters for summary message interpolation (e.g., { date: \"2024-01-15\", amount: \"50\" })
 /// * [matchReasons] - Human-readable reasons for branching
 /// * [sourceType] - Source type (NLP, CSV, OCR, API)
-/// * [createdAt] - Creation timestamp
-/// * [reviewData] - Review-type-specific data (JSONB). Structure varies by type: DUPLICATE: {newTransaction, existingTransaction, matchScore}, RULE_MATCH: {transaction, matchedRule, suggestedAccount}, PAYEE_MATCH: {originalPayee, suggestedPayee}, ACCOUNT_VALIDATION: {invalidAccount, suggestedCorrection, similarAccounts}, PIPELINE_ERROR: {errorType, errorMessage}
-/// * [decisionOptions] - Available decision options
 /// * [sourcePlatform] - Source platform (e.g., alipay, wechat)
-/// * [transaction]
+/// * [createdAt] - Creation timestamp
+/// * [transaction] 
 /// * [amount] - Transaction amount (convenience field for mobile display)
 /// * [currency] - Currency code (convenience field for mobile display)
 /// * [merchantName] - Payee/Merchant name (convenience field for mobile display)
 /// * [accountName] - Account name (convenience field for mobile display)
 /// * [transactionTime] - Transaction date/time (convenience field for mobile display)
+/// * [reviewData] - Review-type-specific data (JSONB). Structure varies by type: DUPLICATE: {newTransaction, existingTransaction, matchScore}, RULE_MATCH: {transaction, matchedRule, suggestedAccount}, PAYEE_MATCH: {originalPayee, suggestedPayee}, ACCOUNT_VALIDATION: {invalidAccount, suggestedCorrection, similarAccounts}, PIPELINE_ERROR: {errorType, errorMessage}
+/// * [decisionOptions] - Available decision options
 /// * [transactionId] - Related transaction ID if applicable
 @BuiltValue()
-abstract class ReviewDetailDto
-    implements Built<ReviewDetailDto, ReviewDetailDtoBuilder> {
+abstract class ReviewDetailDto implements Built<ReviewDetailDto, ReviewDetailDtoBuilder> {
   /// Review item ID
   @BuiltValueField(wireName: r'id')
   String get id;
@@ -60,9 +60,13 @@ abstract class ReviewDetailDto
   ReviewDetailDtoConfidenceLevelEnum get confidenceLevel;
   // enum confidenceLevelEnum {  HIGH,  MEDIUM,  LOW,  };
 
-  /// Human-readable summary of the review item
-  @BuiltValueField(wireName: r'summary')
-  String get summary;
+  /// i18n message key for summary (e.g., review.summary.duplicate). Translate on frontend with summaryParams.
+  @BuiltValueField(wireName: r'summaryKey')
+  String get summaryKey;
+
+  /// Parameters for summary message interpolation (e.g., { date: \"2024-01-15\", amount: \"50\" })
+  @BuiltValueField(wireName: r'summaryParams')
+  BuiltMap<String, String>? get summaryParams;
 
   /// Human-readable reasons for branching
   @BuiltValueField(wireName: r'matchReasons')
@@ -72,21 +76,13 @@ abstract class ReviewDetailDto
   @BuiltValueField(wireName: r'sourceType')
   String get sourceType;
 
-  /// Creation timestamp
-  @BuiltValueField(wireName: r'createdAt')
-  DateTime get createdAt;
-
-  /// Review-type-specific data (JSONB). Structure varies by type: DUPLICATE: {newTransaction, existingTransaction, matchScore}, RULE_MATCH: {transaction, matchedRule, suggestedAccount}, PAYEE_MATCH: {originalPayee, suggestedPayee}, ACCOUNT_VALIDATION: {invalidAccount, suggestedCorrection, similarAccounts}, PIPELINE_ERROR: {errorType, errorMessage}
-  @BuiltValueField(wireName: r'reviewData')
-  JsonObject get reviewData;
-
-  /// Available decision options
-  @BuiltValueField(wireName: r'decisionOptions')
-  BuiltList<DecisionOptionDto> get decisionOptions;
-
   /// Source platform (e.g., alipay, wechat)
   @BuiltValueField(wireName: r'sourcePlatform')
   String? get sourcePlatform;
+
+  /// Creation timestamp
+  @BuiltValueField(wireName: r'createdAt')
+  DateTime get createdAt;
 
   @BuiltValueField(wireName: r'transaction')
   ReviewSummaryDtoTransaction? get transaction;
@@ -111,25 +107,30 @@ abstract class ReviewDetailDto
   @BuiltValueField(wireName: r'transactionTime')
   String? get transactionTime;
 
+  /// Review-type-specific data (JSONB). Structure varies by type: DUPLICATE: {newTransaction, existingTransaction, matchScore}, RULE_MATCH: {transaction, matchedRule, suggestedAccount}, PAYEE_MATCH: {originalPayee, suggestedPayee}, ACCOUNT_VALIDATION: {invalidAccount, suggestedCorrection, similarAccounts}, PIPELINE_ERROR: {errorType, errorMessage}
+  @BuiltValueField(wireName: r'reviewData')
+  JsonObject get reviewData;
+
+  /// Available decision options
+  @BuiltValueField(wireName: r'decisionOptions')
+  BuiltList<DecisionOptionDto> get decisionOptions;
+
   /// Related transaction ID if applicable
   @BuiltValueField(wireName: r'transactionId')
   String? get transactionId;
 
   ReviewDetailDto._();
 
-  factory ReviewDetailDto([void updates(ReviewDetailDtoBuilder b)]) =
-      _$ReviewDetailDto;
+  factory ReviewDetailDto([void updates(ReviewDetailDtoBuilder b)]) = _$ReviewDetailDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(ReviewDetailDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<ReviewDetailDto> get serializer =>
-      _$ReviewDetailDtoSerializer();
+  static Serializer<ReviewDetailDto> get serializer => _$ReviewDetailDtoSerializer();
 }
 
-class _$ReviewDetailDtoSerializer
-    implements PrimitiveSerializer<ReviewDetailDto> {
+class _$ReviewDetailDtoSerializer implements PrimitiveSerializer<ReviewDetailDto> {
   @override
   final Iterable<Type> types = const [ReviewDetailDto, _$ReviewDetailDto];
 
@@ -166,11 +167,18 @@ class _$ReviewDetailDtoSerializer
       object.confidenceLevel,
       specifiedType: const FullType(ReviewDetailDtoConfidenceLevelEnum),
     );
-    yield r'summary';
+    yield r'summaryKey';
     yield serializers.serialize(
-      object.summary,
+      object.summaryKey,
       specifiedType: const FullType(String),
     );
+    if (object.summaryParams != null) {
+      yield r'summaryParams';
+      yield serializers.serialize(
+        object.summaryParams,
+        specifiedType: const FullType(BuiltMap, [FullType(String), FullType(String)]),
+      );
+    }
     yield r'matchReasons';
     yield serializers.serialize(
       object.matchReasons,
@@ -181,21 +189,6 @@ class _$ReviewDetailDtoSerializer
       object.sourceType,
       specifiedType: const FullType(String),
     );
-    yield r'createdAt';
-    yield serializers.serialize(
-      object.createdAt,
-      specifiedType: const FullType(DateTime),
-    );
-    yield r'reviewData';
-    yield serializers.serialize(
-      object.reviewData,
-      specifiedType: const FullType(JsonObject),
-    );
-    yield r'decisionOptions';
-    yield serializers.serialize(
-      object.decisionOptions,
-      specifiedType: const FullType(BuiltList, [FullType(DecisionOptionDto)]),
-    );
     if (object.sourcePlatform != null) {
       yield r'sourcePlatform';
       yield serializers.serialize(
@@ -203,6 +196,11 @@ class _$ReviewDetailDtoSerializer
         specifiedType: const FullType(String),
       );
     }
+    yield r'createdAt';
+    yield serializers.serialize(
+      object.createdAt,
+      specifiedType: const FullType(DateTime),
+    );
     if (object.transaction != null) {
       yield r'transaction';
       yield serializers.serialize(
@@ -245,6 +243,16 @@ class _$ReviewDetailDtoSerializer
         specifiedType: const FullType(String),
       );
     }
+    yield r'reviewData';
+    yield serializers.serialize(
+      object.reviewData,
+      specifiedType: const FullType(JsonObject),
+    );
+    yield r'decisionOptions';
+    yield serializers.serialize(
+      object.decisionOptions,
+      specifiedType: const FullType(BuiltList, [FullType(DecisionOptionDto)]),
+    );
     if (object.transactionId != null) {
       yield r'transactionId';
       yield serializers.serialize(
@@ -260,9 +268,7 @@ class _$ReviewDetailDtoSerializer
     ReviewDetailDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -312,12 +318,19 @@ class _$ReviewDetailDtoSerializer
           ) as ReviewDetailDtoConfidenceLevelEnum;
           result.confidenceLevel = valueDes;
           break;
-        case r'summary':
+        case r'summaryKey':
           final valueDes = serializers.deserialize(
             value,
             specifiedType: const FullType(String),
           ) as String;
-          result.summary = valueDes;
+          result.summaryKey = valueDes;
+          break;
+        case r'summaryParams':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(BuiltMap, [FullType(String), FullType(String)]),
+          ) as BuiltMap<String, String>;
+          result.summaryParams.replace(valueDes);
           break;
         case r'matchReasons':
           final valueDes = serializers.deserialize(
@@ -333,34 +346,19 @@ class _$ReviewDetailDtoSerializer
           ) as String;
           result.sourceType = valueDes;
           break;
-        case r'createdAt':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(DateTime),
-          ) as DateTime;
-          result.createdAt = valueDes;
-          break;
-        case r'reviewData':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(JsonObject),
-          ) as JsonObject;
-          result.reviewData = valueDes;
-          break;
-        case r'decisionOptions':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType:
-                const FullType(BuiltList, [FullType(DecisionOptionDto)]),
-          ) as BuiltList<DecisionOptionDto>;
-          result.decisionOptions.replace(valueDes);
-          break;
         case r'sourcePlatform':
           final valueDes = serializers.deserialize(
             value,
             specifiedType: const FullType(String),
           ) as String;
           result.sourcePlatform = valueDes;
+          break;
+        case r'createdAt':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(DateTime),
+          ) as DateTime;
+          result.createdAt = valueDes;
           break;
         case r'transaction':
           final valueDes = serializers.deserialize(
@@ -405,6 +403,20 @@ class _$ReviewDetailDtoSerializer
           ) as String;
           result.transactionTime = valueDes;
           break;
+        case r'reviewData':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(JsonObject),
+          ) as JsonObject;
+          result.reviewData = valueDes;
+          break;
+        case r'decisionOptions':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(BuiltList, [FullType(DecisionOptionDto)]),
+          ) as BuiltList<DecisionOptionDto>;
+          result.decisionOptions.replace(valueDes);
+          break;
         case r'transactionId':
           final valueDes = serializers.deserialize(
             value,
@@ -442,97 +454,71 @@ class _$ReviewDetailDtoSerializer
 }
 
 class ReviewDetailDtoTypeEnum extends EnumClass {
+
   /// Review type
   @BuiltValueEnumConst(wireName: r'DUPLICATE')
-  static const ReviewDetailDtoTypeEnum DUPLICATE =
-      _$reviewDetailDtoTypeEnum_DUPLICATE;
-
+  static const ReviewDetailDtoTypeEnum DUPLICATE = _$reviewDetailDtoTypeEnum_DUPLICATE;
   /// Review type
   @BuiltValueEnumConst(wireName: r'RULE_MATCH')
-  static const ReviewDetailDtoTypeEnum RULE_MATCH =
-      _$reviewDetailDtoTypeEnum_RULE_MATCH;
-
+  static const ReviewDetailDtoTypeEnum RULE_MATCH = _$reviewDetailDtoTypeEnum_RULE_MATCH;
   /// Review type
   @BuiltValueEnumConst(wireName: r'PAYEE_MATCH')
-  static const ReviewDetailDtoTypeEnum PAYEE_MATCH =
-      _$reviewDetailDtoTypeEnum_PAYEE_MATCH;
-
+  static const ReviewDetailDtoTypeEnum PAYEE_MATCH = _$reviewDetailDtoTypeEnum_PAYEE_MATCH;
   /// Review type
   @BuiltValueEnumConst(wireName: r'ACCOUNT_VALIDATION')
-  static const ReviewDetailDtoTypeEnum ACCOUNT_VALIDATION =
-      _$reviewDetailDtoTypeEnum_ACCOUNT_VALIDATION;
-
+  static const ReviewDetailDtoTypeEnum ACCOUNT_VALIDATION = _$reviewDetailDtoTypeEnum_ACCOUNT_VALIDATION;
   /// Review type
-  @BuiltValueEnumConst(wireName: r'PIPELINE_ERROR', fallback: true)
-  static const ReviewDetailDtoTypeEnum PIPELINE_ERROR =
-      _$reviewDetailDtoTypeEnum_PIPELINE_ERROR;
+  @BuiltValueEnumConst(wireName: r'PIPELINE_ERROR')
+  static const ReviewDetailDtoTypeEnum PIPELINE_ERROR = _$reviewDetailDtoTypeEnum_PIPELINE_ERROR;
 
-  static Serializer<ReviewDetailDtoTypeEnum> get serializer =>
-      _$reviewDetailDtoTypeEnumSerializer;
+  static Serializer<ReviewDetailDtoTypeEnum> get serializer => _$reviewDetailDtoTypeEnumSerializer;
 
-  const ReviewDetailDtoTypeEnum._(String name) : super(name);
+  const ReviewDetailDtoTypeEnum._(String name): super(name);
 
-  static BuiltSet<ReviewDetailDtoTypeEnum> get values =>
-      _$reviewDetailDtoTypeEnumValues;
-  static ReviewDetailDtoTypeEnum valueOf(String name) =>
-      _$reviewDetailDtoTypeEnumValueOf(name);
+  static BuiltSet<ReviewDetailDtoTypeEnum> get values => _$reviewDetailDtoTypeEnumValues;
+  static ReviewDetailDtoTypeEnum valueOf(String name) => _$reviewDetailDtoTypeEnumValueOf(name);
 }
 
 class ReviewDetailDtoStatusEnum extends EnumClass {
+
   /// Review status
   @BuiltValueEnumConst(wireName: r'PENDING')
-  static const ReviewDetailDtoStatusEnum PENDING =
-      _$reviewDetailDtoStatusEnum_PENDING;
-
+  static const ReviewDetailDtoStatusEnum PENDING = _$reviewDetailDtoStatusEnum_PENDING;
   /// Review status
   @BuiltValueEnumConst(wireName: r'RESOLVED')
-  static const ReviewDetailDtoStatusEnum RESOLVED =
-      _$reviewDetailDtoStatusEnum_RESOLVED;
-
+  static const ReviewDetailDtoStatusEnum RESOLVED = _$reviewDetailDtoStatusEnum_RESOLVED;
   /// Review status
   @BuiltValueEnumConst(wireName: r'EXPIRED')
-  static const ReviewDetailDtoStatusEnum EXPIRED =
-      _$reviewDetailDtoStatusEnum_EXPIRED;
-
+  static const ReviewDetailDtoStatusEnum EXPIRED = _$reviewDetailDtoStatusEnum_EXPIRED;
   /// Review status
-  @BuiltValueEnumConst(wireName: r'CANCELLED', fallback: true)
-  static const ReviewDetailDtoStatusEnum CANCELLED =
-      _$reviewDetailDtoStatusEnum_CANCELLED;
+  @BuiltValueEnumConst(wireName: r'CANCELLED')
+  static const ReviewDetailDtoStatusEnum CANCELLED = _$reviewDetailDtoStatusEnum_CANCELLED;
 
-  static Serializer<ReviewDetailDtoStatusEnum> get serializer =>
-      _$reviewDetailDtoStatusEnumSerializer;
+  static Serializer<ReviewDetailDtoStatusEnum> get serializer => _$reviewDetailDtoStatusEnumSerializer;
 
-  const ReviewDetailDtoStatusEnum._(String name) : super(name);
+  const ReviewDetailDtoStatusEnum._(String name): super(name);
 
-  static BuiltSet<ReviewDetailDtoStatusEnum> get values =>
-      _$reviewDetailDtoStatusEnumValues;
-  static ReviewDetailDtoStatusEnum valueOf(String name) =>
-      _$reviewDetailDtoStatusEnumValueOf(name);
+  static BuiltSet<ReviewDetailDtoStatusEnum> get values => _$reviewDetailDtoStatusEnumValues;
+  static ReviewDetailDtoStatusEnum valueOf(String name) => _$reviewDetailDtoStatusEnumValueOf(name);
 }
 
 class ReviewDetailDtoConfidenceLevelEnum extends EnumClass {
+
   /// Confidence level derived from score
   @BuiltValueEnumConst(wireName: r'HIGH')
-  static const ReviewDetailDtoConfidenceLevelEnum HIGH =
-      _$reviewDetailDtoConfidenceLevelEnum_HIGH;
-
+  static const ReviewDetailDtoConfidenceLevelEnum HIGH = _$reviewDetailDtoConfidenceLevelEnum_HIGH;
   /// Confidence level derived from score
   @BuiltValueEnumConst(wireName: r'MEDIUM')
-  static const ReviewDetailDtoConfidenceLevelEnum MEDIUM =
-      _$reviewDetailDtoConfidenceLevelEnum_MEDIUM;
-
+  static const ReviewDetailDtoConfidenceLevelEnum MEDIUM = _$reviewDetailDtoConfidenceLevelEnum_MEDIUM;
   /// Confidence level derived from score
-  @BuiltValueEnumConst(wireName: r'LOW', fallback: true)
-  static const ReviewDetailDtoConfidenceLevelEnum LOW =
-      _$reviewDetailDtoConfidenceLevelEnum_LOW;
+  @BuiltValueEnumConst(wireName: r'LOW')
+  static const ReviewDetailDtoConfidenceLevelEnum LOW = _$reviewDetailDtoConfidenceLevelEnum_LOW;
 
-  static Serializer<ReviewDetailDtoConfidenceLevelEnum> get serializer =>
-      _$reviewDetailDtoConfidenceLevelEnumSerializer;
+  static Serializer<ReviewDetailDtoConfidenceLevelEnum> get serializer => _$reviewDetailDtoConfidenceLevelEnumSerializer;
 
-  const ReviewDetailDtoConfidenceLevelEnum._(String name) : super(name);
+  const ReviewDetailDtoConfidenceLevelEnum._(String name): super(name);
 
-  static BuiltSet<ReviewDetailDtoConfidenceLevelEnum> get values =>
-      _$reviewDetailDtoConfidenceLevelEnumValues;
-  static ReviewDetailDtoConfidenceLevelEnum valueOf(String name) =>
-      _$reviewDetailDtoConfidenceLevelEnumValueOf(name);
+  static BuiltSet<ReviewDetailDtoConfidenceLevelEnum> get values => _$reviewDetailDtoConfidenceLevelEnumValues;
+  static ReviewDetailDtoConfidenceLevelEnum valueOf(String name) => _$reviewDetailDtoConfidenceLevelEnumValueOf(name);
 }
+

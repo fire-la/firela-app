@@ -16,6 +16,7 @@ import 'package:firela_api/src/api/bean_account_standards_api.dart';
 import 'package:firela_api/src/api/bean_accounts_api.dart';
 import 'package:firela_api/src/api/bean_balances_api.dart';
 import 'package:firela_api/src/api/bean_commodities_api.dart';
+import 'package:firela_api/src/api/bean_export_api.dart';
 import 'package:firela_api/src/api/bean_import_api.dart';
 import 'package:firela_api/src/api/bean_nlp_api.dart';
 import 'package:firela_api/src/api/bean_payees_api.dart';
@@ -28,15 +29,13 @@ import 'package:firela_api/src/api/default_api.dart';
 import 'package:firela_api/src/api/exchange_rate_api.dart';
 import 'package:firela_api/src/api/expected_transactions_api.dart';
 import 'package:firela_api/src/api/health_api.dart';
+import 'package:firela_api/src/api/import_telemetry_api.dart';
 import 'package:firela_api/src/api/info_api.dart';
-import 'package:firela_api/src/api/logos_api.dart';
-import 'package:firela_api/src/api/market_data_api.dart';
 import 'package:firela_api/src/api/properties_api.dart';
 import 'package:firela_api/src/api/provider_sync_api.dart';
 import 'package:firela_api/src/api/recurring_forecast_api.dart';
 import 'package:firela_api/src/api/recurring_rules_api.dart';
 import 'package:firela_api/src/api/reporting_api.dart';
-import 'package:firela_api/src/api/symbols_api.dart';
 import 'package:firela_api/src/api/users_api.dart';
 
 class FirelaApi {
@@ -71,36 +70,25 @@ class FirelaApi {
 
   void setOAuthToken(String name, String token) {
     if (this.dio.interceptors.any((i) => i is OAuthInterceptor)) {
-      (this.dio.interceptors.firstWhere((i) => i is OAuthInterceptor)
-              as OAuthInterceptor)
-          .tokens[name] = token;
+      (this.dio.interceptors.firstWhere((i) => i is OAuthInterceptor) as OAuthInterceptor).tokens[name] = token;
     }
   }
 
   void setBearerAuth(String name, String token) {
     if (this.dio.interceptors.any((i) => i is BearerAuthInterceptor)) {
-      (this.dio.interceptors.firstWhere((i) => i is BearerAuthInterceptor)
-              as BearerAuthInterceptor)
-          .tokens[name] = token;
+      (this.dio.interceptors.firstWhere((i) => i is BearerAuthInterceptor) as BearerAuthInterceptor).tokens[name] = token;
     }
   }
 
   void setBasicAuth(String name, String username, String password) {
     if (this.dio.interceptors.any((i) => i is BasicAuthInterceptor)) {
-      (this.dio.interceptors.firstWhere((i) => i is BasicAuthInterceptor)
-              as BasicAuthInterceptor)
-          .authInfo[name] = BasicAuthInfo(username, password);
+      (this.dio.interceptors.firstWhere((i) => i is BasicAuthInterceptor) as BasicAuthInterceptor).authInfo[name] = BasicAuthInfo(username, password);
     }
   }
 
   void setApiKey(String name, String apiKey) {
     if (this.dio.interceptors.any((i) => i is ApiKeyAuthInterceptor)) {
-      (this
-                  .dio
-                  .interceptors
-                  .firstWhere((element) => element is ApiKeyAuthInterceptor)
-              as ApiKeyAuthInterceptor)
-          .apiKeys[name] = apiKey;
+      (this.dio.interceptors.firstWhere((element) => element is ApiKeyAuthInterceptor) as ApiKeyAuthInterceptor).apiKeys[name] = apiKey;
     }
   }
 
@@ -144,6 +132,12 @@ class FirelaApi {
   /// by doing that all interceptors will not be executed
   BeanCommoditiesApi getBeanCommoditiesApi() {
     return BeanCommoditiesApi(dio, serializers);
+  }
+
+  /// Get BeanExportApi instance, base route and serializer can be overridden by a given but be careful,
+  /// by doing that all interceptors will not be executed
+  BeanExportApi getBeanExportApi() {
+    return BeanExportApi(dio, serializers);
   }
 
   /// Get BeanImportApi instance, base route and serializer can be overridden by a given but be careful,
@@ -218,22 +212,16 @@ class FirelaApi {
     return HealthApi(dio, serializers);
   }
 
+  /// Get ImportTelemetryApi instance, base route and serializer can be overridden by a given but be careful,
+  /// by doing that all interceptors will not be executed
+  ImportTelemetryApi getImportTelemetryApi() {
+    return ImportTelemetryApi(dio, serializers);
+  }
+
   /// Get InfoApi instance, base route and serializer can be overridden by a given but be careful,
   /// by doing that all interceptors will not be executed
   InfoApi getInfoApi() {
     return InfoApi(dio, serializers);
-  }
-
-  /// Get LogosApi instance, base route and serializer can be overridden by a given but be careful,
-  /// by doing that all interceptors will not be executed
-  LogosApi getLogosApi() {
-    return LogosApi(dio, serializers);
-  }
-
-  /// Get MarketDataApi instance, base route and serializer can be overridden by a given but be careful,
-  /// by doing that all interceptors will not be executed
-  MarketDataApi getMarketDataApi() {
-    return MarketDataApi(dio, serializers);
   }
 
   /// Get PropertiesApi instance, base route and serializer can be overridden by a given but be careful,
@@ -264,12 +252,6 @@ class FirelaApi {
   /// by doing that all interceptors will not be executed
   ReportingApi getReportingApi() {
     return ReportingApi(dio, serializers);
-  }
-
-  /// Get SymbolsApi instance, base route and serializer can be overridden by a given but be careful,
-  /// by doing that all interceptors will not be executed
-  SymbolsApi getSymbolsApi() {
-    return SymbolsApi(dio, serializers);
   }
 
   /// Get UsersApi instance, base route and serializer can be overridden by a given but be careful,

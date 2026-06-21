@@ -14,6 +14,7 @@ import 'package:firela_api/src/model/provider_sync_response_dto.dart';
 import 'package:firela_api/src/model/supported_providers_response_dto.dart';
 
 class ProviderSyncApi {
+
   final Dio _dio;
 
   final Serializers _serializers;
@@ -24,7 +25,7 @@ class ProviderSyncApi {
   /// Returns a list of all providers supported by the sync endpoint.
   ///
   /// Parameters:
-  /// * [region] - Region code (cn, us, de)
+  /// * [region] - Region code for tenant context
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -34,8 +35,7 @@ class ProviderSyncApi {
   ///
   /// Returns a [Future] containing a [Response] with a [SupportedProvidersResponseDto] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<SupportedProvidersResponseDto>>
-      providerSyncControllerGetSupportedProviders({
+  Future<Response<SupportedProvidersResponseDto>> providerSyncControllerGetSupportedProviders({ 
     required String region,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -44,10 +44,7 @@ class ProviderSyncApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/{region}/bean/import/provider/supported'.replaceAll(
-        '{' r'region' '}',
-        encodeQueryParameter(_serializers, region, const FullType(String))
-            .toString());
+    final _path = r'/api/v1/{region}/bean/import/provider/supported'.replaceAll('{' r'region' '}', encodeQueryParameter(_serializers, region, const FullType(String)).toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -72,12 +69,11 @@ class ProviderSyncApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null
-          ? null
-          : _serializers.deserialize(
-              rawResponse,
-              specifiedType: const FullType(SupportedProvidersResponseDto),
-            ) as SupportedProvidersResponseDto;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(SupportedProvidersResponseDto),
+      ) as SupportedProvidersResponseDto;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -105,7 +101,7 @@ class ProviderSyncApi {
   ///
   /// Parameters:
   /// * [providerName] - Provider name to check
-  /// * [region] - Region code (cn, us, de)
+  /// * [region] - Region code for tenant context
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -115,7 +111,7 @@ class ProviderSyncApi {
   ///
   /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<void>> providerSyncControllerIsProviderSupported({
+  Future<Response<void>> providerSyncControllerIsProviderSupported({ 
     required String providerName,
     required String region,
     CancelToken? cancelToken,
@@ -125,18 +121,7 @@ class ProviderSyncApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path =
-        r'/api/v1/{region}/bean/import/provider/{providerName}/supported'
-            .replaceAll(
-                '{' r'providerName' '}',
-                encodeQueryParameter(
-                        _serializers, providerName, const FullType(String))
-                    .toString())
-            .replaceAll(
-                '{' r'region' '}',
-                encodeQueryParameter(
-                        _serializers, region, const FullType(String))
-                    .toString());
+    final _path = r'/api/v1/{region}/bean/import/provider/{providerName}/supported'.replaceAll('{' r'providerName' '}', encodeQueryParameter(_serializers, providerName, const FullType(String)).toString()).replaceAll('{' r'region' '}', encodeQueryParameter(_serializers, region, const FullType(String)).toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -161,12 +146,12 @@ class ProviderSyncApi {
   }
 
   /// Sync transactions from financial data provider
-  ///  Accepts raw transactions from external financial data providers, transforms them to Beancount format, and processes them through the ingestion pipeline.  **Supported Providers:** - **plaid**: Plaid API (US, Canada, Europe) - **teller**: Teller API (US) - **truelayer**: TrueLayer Open Banking (UK, Europe) - **gocardless**: GoCardless Bank Account Data (Europe) - **simplefin**: SimpleFIN (Self-hosted) - **yodlee**: Yodlee (Global) - **beancount-direct**: Beancount format transactions  **Processing Flow:** 1. Transform raw data via provider adapter 2. Validate transaction format 3. Deduplicate using originalId 4. Classify using rule engine 5. Route low-confidence to Review Center 6. Persist validated transactions
+  ///  Accepts raw transactions from external financial data providers, transforms them to Beancount format, and processes them through the ingestion pipeline.  **Supported Providers:** - **plaid**: Plaid API (US, Canada, Europe) - **teller**: Teller API (US) - **truelayer**: TrueLayer Open Banking (UK, Europe) - **gocardless**: GoCardless Bank Account Data (Europe) - **simplefin**: SimpleFIN (Self-hosted) - **yodlee**: Yodlee (Global) - **beancount-direct**: Beancount format transactions - **parsed-bill**: Client-side parsed bill transactions  **Processing Flow:** 1. Transform raw data via provider adapter 2. Validate transaction format 3. Deduplicate using originalId 4. Classify using rule engine 5. Route low-confidence to Review Center 6. Persist validated transactions   
   ///
   /// Parameters:
   /// * [providerName] - Provider name
   /// * [region] - Region code
-  /// * [providerSyncDto]
+  /// * [providerSyncDto] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -176,7 +161,7 @@ class ProviderSyncApi {
   ///
   /// Returns a [Future] containing a [Response] with a [ProviderSyncResponseDto] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<ProviderSyncResponseDto>> providerSyncControllerSync({
+  Future<Response<ProviderSyncResponseDto>> providerSyncControllerSync({ 
     required String providerName,
     required JsonObject region,
     required ProviderSyncDto providerSyncDto,
@@ -187,17 +172,7 @@ class ProviderSyncApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/{region}/bean/import/provider/{providerName}/sync'
-        .replaceAll(
-            '{' r'providerName' '}',
-            encodeQueryParameter(
-                    _serializers, providerName, const FullType(String))
-                .toString())
-        .replaceAll(
-            '{' r'region' '}',
-            encodeQueryParameter(
-                    _serializers, region, const FullType(JsonObject))
-                .toString());
+    final _path = r'/api/v1/{region}/bean/import/provider/{providerName}/sync'.replaceAll('{' r'providerName' '}', encodeQueryParameter(_serializers, providerName, const FullType(String)).toString()).replaceAll('{' r'region' '}', encodeQueryParameter(_serializers, region, const FullType(JsonObject)).toString());
     final _options = Options(
       method: r'POST',
       headers: <String, dynamic>{
@@ -216,9 +191,10 @@ class ProviderSyncApi {
     try {
       const _type = FullType(ProviderSyncDto);
       _bodyData = _serializers.serialize(providerSyncDto, specifiedType: _type);
-    } catch (error, stackTrace) {
+
+    } catch(error, stackTrace) {
       throw DioException(
-        requestOptions: _options.compose(
+         requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -241,12 +217,11 @@ class ProviderSyncApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null
-          ? null
-          : _serializers.deserialize(
-              rawResponse,
-              specifiedType: const FullType(ProviderSyncResponseDto),
-            ) as ProviderSyncResponseDto;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(ProviderSyncResponseDto),
+      ) as ProviderSyncResponseDto;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -268,4 +243,5 @@ class ProviderSyncApi {
       extra: _response.extra,
     );
   }
+
 }

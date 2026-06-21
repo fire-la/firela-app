@@ -16,8 +16,7 @@ part 'multi_currency_point_dto.g.dart';
 /// * [date] - Date in YYYY-MM-DD format
 /// * [byCurrency] - Balances by currency
 @BuiltValue()
-abstract class MultiCurrencyPointDto
-    implements Built<MultiCurrencyPointDto, MultiCurrencyPointDtoBuilder> {
+abstract class MultiCurrencyPointDto implements Built<MultiCurrencyPointDto, MultiCurrencyPointDtoBuilder> {
   /// Date in YYYY-MM-DD format
   @BuiltValueField(wireName: r'date')
   String get date;
@@ -28,24 +27,18 @@ abstract class MultiCurrencyPointDto
 
   MultiCurrencyPointDto._();
 
-  factory MultiCurrencyPointDto(
-      [void updates(MultiCurrencyPointDtoBuilder b)]) = _$MultiCurrencyPointDto;
+  factory MultiCurrencyPointDto([void updates(MultiCurrencyPointDtoBuilder b)]) = _$MultiCurrencyPointDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(MultiCurrencyPointDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<MultiCurrencyPointDto> get serializer =>
-      _$MultiCurrencyPointDtoSerializer();
+  static Serializer<MultiCurrencyPointDto> get serializer => _$MultiCurrencyPointDtoSerializer();
 }
 
-class _$MultiCurrencyPointDtoSerializer
-    implements PrimitiveSerializer<MultiCurrencyPointDto> {
+class _$MultiCurrencyPointDtoSerializer implements PrimitiveSerializer<MultiCurrencyPointDto> {
   @override
-  final Iterable<Type> types = const [
-    MultiCurrencyPointDto,
-    _$MultiCurrencyPointDto
-  ];
+  final Iterable<Type> types = const [MultiCurrencyPointDto, _$MultiCurrencyPointDto];
 
   @override
   final String wireName = r'MultiCurrencyPointDto';
@@ -73,9 +66,7 @@ class _$MultiCurrencyPointDtoSerializer
     MultiCurrencyPointDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -100,8 +91,7 @@ class _$MultiCurrencyPointDtoSerializer
         case r'byCurrency':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType:
-                const FullType(BuiltList, [FullType(CurrencyBalanceDto)]),
+            specifiedType: const FullType(BuiltList, [FullType(CurrencyBalanceDto)]),
           ) as BuiltList<CurrencyBalanceDto>;
           result.byCurrency.replace(valueDes);
           break;
@@ -133,3 +123,4 @@ class _$MultiCurrencyPointDtoSerializer
     return result.build();
   }
 }
+

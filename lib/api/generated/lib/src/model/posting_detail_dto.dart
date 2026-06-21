@@ -25,8 +25,7 @@ part 'posting_detail_dto.g.dart';
 /// * [flag] - Posting flag
 /// * [meta] - Posting metadata
 @BuiltValue()
-abstract class PostingDetailDto
-    implements Built<PostingDetailDto, PostingDetailDtoBuilder> {
+abstract class PostingDetailDto implements Built<PostingDetailDto, PostingDetailDtoBuilder> {
   /// Posting ID
   @BuiltValueField(wireName: r'id')
   String get id;
@@ -77,19 +76,16 @@ abstract class PostingDetailDto
 
   PostingDetailDto._();
 
-  factory PostingDetailDto([void updates(PostingDetailDtoBuilder b)]) =
-      _$PostingDetailDto;
+  factory PostingDetailDto([void updates(PostingDetailDtoBuilder b)]) = _$PostingDetailDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(PostingDetailDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<PostingDetailDto> get serializer =>
-      _$PostingDetailDtoSerializer();
+  static Serializer<PostingDetailDto> get serializer => _$PostingDetailDtoSerializer();
 }
 
-class _$PostingDetailDtoSerializer
-    implements PrimitiveSerializer<PostingDetailDto> {
+class _$PostingDetailDtoSerializer implements PrimitiveSerializer<PostingDetailDto> {
   @override
   final Iterable<Type> types = const [PostingDetailDto, _$PostingDetailDto];
 
@@ -187,9 +183,7 @@ class _$PostingDetailDtoSerializer
     PostingDetailDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -316,3 +310,4 @@ class _$PostingDetailDtoSerializer
     return result.build();
   }
 }
+

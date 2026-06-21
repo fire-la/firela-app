@@ -19,8 +19,7 @@ part 'nlp_similarity_dto.g.dart';
 /// * [payeeSimilarity] - Payee similarity score (0-1)
 /// * [accountOverlap] - Account overlap score (0-1)
 @BuiltValue()
-abstract class NlpSimilarityDto
-    implements Built<NlpSimilarityDto, NlpSimilarityDtoBuilder> {
+abstract class NlpSimilarityDto implements Built<NlpSimilarityDto, NlpSimilarityDtoBuilder> {
   /// Whether dates match
   @BuiltValueField(wireName: r'dateMatch')
   bool get dateMatch;
@@ -51,19 +50,16 @@ abstract class NlpSimilarityDto
 
   NlpSimilarityDto._();
 
-  factory NlpSimilarityDto([void updates(NlpSimilarityDtoBuilder b)]) =
-      _$NlpSimilarityDto;
+  factory NlpSimilarityDto([void updates(NlpSimilarityDtoBuilder b)]) = _$NlpSimilarityDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(NlpSimilarityDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<NlpSimilarityDto> get serializer =>
-      _$NlpSimilarityDtoSerializer();
+  static Serializer<NlpSimilarityDto> get serializer => _$NlpSimilarityDtoSerializer();
 }
 
-class _$NlpSimilarityDtoSerializer
-    implements PrimitiveSerializer<NlpSimilarityDto> {
+class _$NlpSimilarityDtoSerializer implements PrimitiveSerializer<NlpSimilarityDto> {
   @override
   final Iterable<Type> types = const [NlpSimilarityDto, _$NlpSimilarityDto];
 
@@ -118,9 +114,7 @@ class _$NlpSimilarityDtoSerializer
     NlpSimilarityDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -212,3 +206,4 @@ class _$NlpSimilarityDtoSerializer
     return result.build();
   }
 }
+

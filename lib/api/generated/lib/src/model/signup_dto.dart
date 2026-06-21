@@ -56,9 +56,7 @@ class _$SignupDtoSerializer implements PrimitiveSerializer<SignupDto> {
     SignupDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -108,3 +106,4 @@ class _$SignupDtoSerializer implements PrimitiveSerializer<SignupDto> {
     return result.build();
   }
 }
+

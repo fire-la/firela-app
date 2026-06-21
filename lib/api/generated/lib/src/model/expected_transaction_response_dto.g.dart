@@ -20,6 +20,12 @@ class _$ExpectedTransactionResponseDto extends ExpectedTransactionResponseDto {
   @override
   final String status;
   @override
+  final JsonObject? matchedTransactionId;
+  @override
+  final JsonObject? matchedAt;
+  @override
+  final JsonObject? matchConfidence;
+  @override
   final bool isOverdue;
   @override
   final ExpectedTransactionRuleDto rule;
@@ -27,12 +33,6 @@ class _$ExpectedTransactionResponseDto extends ExpectedTransactionResponseDto {
   final DateTime createdAt;
   @override
   final DateTime updatedAt;
-  @override
-  final JsonObject? matchedTransactionId;
-  @override
-  final JsonObject? matchedAt;
-  @override
-  final JsonObject? matchConfidence;
 
   factory _$ExpectedTransactionResponseDto(
           [void Function(ExpectedTransactionResponseDtoBuilder)? updates]) =>
@@ -45,13 +45,13 @@ class _$ExpectedTransactionResponseDto extends ExpectedTransactionResponseDto {
       required this.expectedDate,
       required this.expectedAmount,
       required this.status,
+      this.matchedTransactionId,
+      this.matchedAt,
+      this.matchConfidence,
       required this.isOverdue,
       required this.rule,
       required this.createdAt,
-      required this.updatedAt,
-      this.matchedTransactionId,
-      this.matchedAt,
-      this.matchConfidence})
+      required this.updatedAt})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(
         id, r'ExpectedTransactionResponseDto', 'id');
@@ -94,13 +94,13 @@ class _$ExpectedTransactionResponseDto extends ExpectedTransactionResponseDto {
         expectedDate == other.expectedDate &&
         expectedAmount == other.expectedAmount &&
         status == other.status &&
+        matchedTransactionId == other.matchedTransactionId &&
+        matchedAt == other.matchedAt &&
+        matchConfidence == other.matchConfidence &&
         isOverdue == other.isOverdue &&
         rule == other.rule &&
         createdAt == other.createdAt &&
-        updatedAt == other.updatedAt &&
-        matchedTransactionId == other.matchedTransactionId &&
-        matchedAt == other.matchedAt &&
-        matchConfidence == other.matchConfidence;
+        updatedAt == other.updatedAt;
   }
 
   @override
@@ -112,13 +112,13 @@ class _$ExpectedTransactionResponseDto extends ExpectedTransactionResponseDto {
     _$hash = $jc(_$hash, expectedDate.hashCode);
     _$hash = $jc(_$hash, expectedAmount.hashCode);
     _$hash = $jc(_$hash, status.hashCode);
+    _$hash = $jc(_$hash, matchedTransactionId.hashCode);
+    _$hash = $jc(_$hash, matchedAt.hashCode);
+    _$hash = $jc(_$hash, matchConfidence.hashCode);
     _$hash = $jc(_$hash, isOverdue.hashCode);
     _$hash = $jc(_$hash, rule.hashCode);
     _$hash = $jc(_$hash, createdAt.hashCode);
     _$hash = $jc(_$hash, updatedAt.hashCode);
-    _$hash = $jc(_$hash, matchedTransactionId.hashCode);
-    _$hash = $jc(_$hash, matchedAt.hashCode);
-    _$hash = $jc(_$hash, matchConfidence.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -132,13 +132,13 @@ class _$ExpectedTransactionResponseDto extends ExpectedTransactionResponseDto {
           ..add('expectedDate', expectedDate)
           ..add('expectedAmount', expectedAmount)
           ..add('status', status)
+          ..add('matchedTransactionId', matchedTransactionId)
+          ..add('matchedAt', matchedAt)
+          ..add('matchConfidence', matchConfidence)
           ..add('isOverdue', isOverdue)
           ..add('rule', rule)
           ..add('createdAt', createdAt)
-          ..add('updatedAt', updatedAt)
-          ..add('matchedTransactionId', matchedTransactionId)
-          ..add('matchedAt', matchedAt)
-          ..add('matchConfidence', matchConfidence))
+          ..add('updatedAt', updatedAt))
         .toString();
   }
 }
@@ -174,6 +174,20 @@ class ExpectedTransactionResponseDtoBuilder
   String? get status => _$this._status;
   set status(String? status) => _$this._status = status;
 
+  JsonObject? _matchedTransactionId;
+  JsonObject? get matchedTransactionId => _$this._matchedTransactionId;
+  set matchedTransactionId(JsonObject? matchedTransactionId) =>
+      _$this._matchedTransactionId = matchedTransactionId;
+
+  JsonObject? _matchedAt;
+  JsonObject? get matchedAt => _$this._matchedAt;
+  set matchedAt(JsonObject? matchedAt) => _$this._matchedAt = matchedAt;
+
+  JsonObject? _matchConfidence;
+  JsonObject? get matchConfidence => _$this._matchConfidence;
+  set matchConfidence(JsonObject? matchConfidence) =>
+      _$this._matchConfidence = matchConfidence;
+
   bool? _isOverdue;
   bool? get isOverdue => _$this._isOverdue;
   set isOverdue(bool? isOverdue) => _$this._isOverdue = isOverdue;
@@ -191,20 +205,6 @@ class ExpectedTransactionResponseDtoBuilder
   DateTime? get updatedAt => _$this._updatedAt;
   set updatedAt(DateTime? updatedAt) => _$this._updatedAt = updatedAt;
 
-  JsonObject? _matchedTransactionId;
-  JsonObject? get matchedTransactionId => _$this._matchedTransactionId;
-  set matchedTransactionId(JsonObject? matchedTransactionId) =>
-      _$this._matchedTransactionId = matchedTransactionId;
-
-  JsonObject? _matchedAt;
-  JsonObject? get matchedAt => _$this._matchedAt;
-  set matchedAt(JsonObject? matchedAt) => _$this._matchedAt = matchedAt;
-
-  JsonObject? _matchConfidence;
-  JsonObject? get matchConfidence => _$this._matchConfidence;
-  set matchConfidence(JsonObject? matchConfidence) =>
-      _$this._matchConfidence = matchConfidence;
-
   ExpectedTransactionResponseDtoBuilder() {
     ExpectedTransactionResponseDto._defaults(this);
   }
@@ -218,13 +218,13 @@ class ExpectedTransactionResponseDtoBuilder
       _expectedDate = $v.expectedDate;
       _expectedAmount = $v.expectedAmount;
       _status = $v.status;
+      _matchedTransactionId = $v.matchedTransactionId;
+      _matchedAt = $v.matchedAt;
+      _matchConfidence = $v.matchConfidence;
       _isOverdue = $v.isOverdue;
       _rule = $v.rule.toBuilder();
       _createdAt = $v.createdAt;
       _updatedAt = $v.updatedAt;
-      _matchedTransactionId = $v.matchedTransactionId;
-      _matchedAt = $v.matchedAt;
-      _matchConfidence = $v.matchConfidence;
       _$v = null;
     }
     return this;
@@ -261,15 +261,15 @@ class ExpectedTransactionResponseDtoBuilder
                   expectedAmount, r'ExpectedTransactionResponseDto', 'expectedAmount'),
               status: BuiltValueNullFieldError.checkNotNull(
                   status, r'ExpectedTransactionResponseDto', 'status'),
+              matchedTransactionId: matchedTransactionId,
+              matchedAt: matchedAt,
+              matchConfidence: matchConfidence,
               isOverdue: BuiltValueNullFieldError.checkNotNull(
                   isOverdue, r'ExpectedTransactionResponseDto', 'isOverdue'),
               rule: rule.build(),
               createdAt: BuiltValueNullFieldError.checkNotNull(
                   createdAt, r'ExpectedTransactionResponseDto', 'createdAt'),
-              updatedAt: BuiltValueNullFieldError.checkNotNull(updatedAt, r'ExpectedTransactionResponseDto', 'updatedAt'),
-              matchedTransactionId: matchedTransactionId,
-              matchedAt: matchedAt,
-              matchConfidence: matchConfidence);
+              updatedAt: BuiltValueNullFieldError.checkNotNull(updatedAt, r'ExpectedTransactionResponseDto', 'updatedAt'));
     } catch (_) {
       late String _$failedField;
       try {

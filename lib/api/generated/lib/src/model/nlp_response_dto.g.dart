@@ -22,7 +22,7 @@ NlpResponseDtoStatusEnum _$nlpResponseDtoStatusEnumValueOf(String name) {
     case 'error':
       return _$nlpResponseDtoStatusEnum_error;
     default:
-      return _$nlpResponseDtoStatusEnum_error;
+      throw new ArgumentError(name);
   }
 }
 
@@ -69,7 +69,7 @@ NlpResponseDtoActionEnum _$nlpResponseDtoActionEnumValueOf(String name) {
     case 'cancel':
       return _$nlpResponseDtoActionEnum_cancel;
     default:
-      return _$nlpResponseDtoActionEnum_cancel;
+      throw new ArgumentError(name);
   }
 }
 
@@ -109,7 +109,7 @@ NlpResponseDtoIntentEnum _$nlpResponseDtoIntentEnumValueOf(String name) {
     case 'equity':
       return _$nlpResponseDtoIntentEnum_equity;
     default:
-      return _$nlpResponseDtoIntentEnum_equity;
+      throw new ArgumentError(name);
   }
 }
 
@@ -140,7 +140,7 @@ NlpResponseDtoAssetSubTypeEnum _$nlpResponseDtoAssetSubTypeEnumValueOf(
     case 'investment':
       return _$nlpResponseDtoAssetSubTypeEnum_investment;
     default:
-      return _$nlpResponseDtoAssetSubTypeEnum_investment;
+      throw new ArgumentError(name);
   }
 }
 
@@ -167,7 +167,7 @@ NlpResponseDtoLiabilitySubTypeEnum _$nlpResponseDtoLiabilitySubTypeEnumValueOf(
     case 'repay':
       return _$nlpResponseDtoLiabilitySubTypeEnum_repay;
     default:
-      return _$nlpResponseDtoLiabilitySubTypeEnum_repay;
+      throw new ArgumentError(name);
   }
 }
 
@@ -193,7 +193,7 @@ NlpResponseDtoEquitySubTypeEnum _$nlpResponseDtoEquitySubTypeEnumValueOf(
     case 'adjustment':
       return _$nlpResponseDtoEquitySubTypeEnum_adjustment;
     default:
-      return _$nlpResponseDtoEquitySubTypeEnum_adjustment;
+      throw new ArgumentError(name);
   }
 }
 
@@ -218,7 +218,7 @@ NlpResponseDtoPaymentSourceEnum _$nlpResponseDtoPaymentSourceEnumValueOf(
     case 'liability':
       return _$nlpResponseDtoPaymentSourceEnum_liability;
     default:
-      return _$nlpResponseDtoPaymentSourceEnum_liability;
+      throw new ArgumentError(name);
   }
 }
 

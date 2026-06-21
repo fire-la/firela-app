@@ -15,29 +15,27 @@ part 'recurring_rule_response_dto.g.dart';
 /// * [id] - Rule ID
 /// * [userId] - User ID
 /// * [name] - Rule name
+/// * [icon] - Icon emoji
 /// * [frequency] - Recurring frequency
 /// * [expectedAmount] - Expected amount
-/// * [currency] - Currency code
-/// * [matchAmountTolerance] - Amount tolerance percentage
-/// * [isActive] - Whether rule is active
-/// * [startDate] - Rule start date (YYYY-MM-DD)
-/// * [autoCreate] - Auto-create transaction on expected date
-/// * [totalCount] - Total matched transactions count
-/// * [createdAt] - Created at timestamp
-/// * [updatedAt] - Updated at timestamp
-/// * [icon] - Icon emoji
 /// * [expectedDay] - Expected day of month
 /// * [customIntervalDays] - Custom interval in days
+/// * [currency] - Currency code
 /// * [matchPayeePattern] - Payee matching pattern
+/// * [matchAmountTolerance] - Amount tolerance percentage
 /// * [defaultExpenseAccount] - Default expense account
 /// * [defaultPaymentAccount] - Default payment account
 /// * [defaultPayee] - Default payee
+/// * [isActive] - Whether rule is active
+/// * [startDate] - Rule start date (YYYY-MM-DD)
 /// * [endDate] - Rule end date (YYYY-MM-DD)
+/// * [autoCreate] - Auto-create transaction on expected date
 /// * [lastOccurrence] - Last matched occurrence date (YYYY-MM-DD)
+/// * [totalCount] - Total matched transactions count
+/// * [createdAt] - Created at timestamp
+/// * [updatedAt] - Updated at timestamp
 @BuiltValue()
-abstract class RecurringRuleResponseDto
-    implements
-        Built<RecurringRuleResponseDto, RecurringRuleResponseDtoBuilder> {
+abstract class RecurringRuleResponseDto implements Built<RecurringRuleResponseDto, RecurringRuleResponseDtoBuilder> {
   /// Rule ID
   @BuiltValueField(wireName: r'id')
   String get id;
@@ -50,6 +48,10 @@ abstract class RecurringRuleResponseDto
   @BuiltValueField(wireName: r'name')
   String get name;
 
+  /// Icon emoji
+  @BuiltValueField(wireName: r'icon')
+  JsonObject? get icon;
+
   /// Recurring frequency
   @BuiltValueField(wireName: r'frequency')
   String get frequency;
@@ -57,42 +59,6 @@ abstract class RecurringRuleResponseDto
   /// Expected amount
   @BuiltValueField(wireName: r'expectedAmount')
   num get expectedAmount;
-
-  /// Currency code
-  @BuiltValueField(wireName: r'currency')
-  String get currency;
-
-  /// Amount tolerance percentage
-  @BuiltValueField(wireName: r'matchAmountTolerance')
-  num get matchAmountTolerance;
-
-  /// Whether rule is active
-  @BuiltValueField(wireName: r'isActive')
-  bool get isActive;
-
-  /// Rule start date (YYYY-MM-DD)
-  @BuiltValueField(wireName: r'startDate')
-  String get startDate;
-
-  /// Auto-create transaction on expected date
-  @BuiltValueField(wireName: r'autoCreate')
-  bool get autoCreate;
-
-  /// Total matched transactions count
-  @BuiltValueField(wireName: r'totalCount')
-  num get totalCount;
-
-  /// Created at timestamp
-  @BuiltValueField(wireName: r'createdAt')
-  DateTime get createdAt;
-
-  /// Updated at timestamp
-  @BuiltValueField(wireName: r'updatedAt')
-  DateTime get updatedAt;
-
-  /// Icon emoji
-  @BuiltValueField(wireName: r'icon')
-  JsonObject? get icon;
 
   /// Expected day of month
   @BuiltValueField(wireName: r'expectedDay')
@@ -102,9 +68,17 @@ abstract class RecurringRuleResponseDto
   @BuiltValueField(wireName: r'customIntervalDays')
   JsonObject? get customIntervalDays;
 
+  /// Currency code
+  @BuiltValueField(wireName: r'currency')
+  String get currency;
+
   /// Payee matching pattern
   @BuiltValueField(wireName: r'matchPayeePattern')
   JsonObject? get matchPayeePattern;
+
+  /// Amount tolerance percentage
+  @BuiltValueField(wireName: r'matchAmountTolerance')
+  num get matchAmountTolerance;
 
   /// Default expense account
   @BuiltValueField(wireName: r'defaultExpenseAccount')
@@ -118,35 +92,52 @@ abstract class RecurringRuleResponseDto
   @BuiltValueField(wireName: r'defaultPayee')
   JsonObject? get defaultPayee;
 
+  /// Whether rule is active
+  @BuiltValueField(wireName: r'isActive')
+  bool get isActive;
+
+  /// Rule start date (YYYY-MM-DD)
+  @BuiltValueField(wireName: r'startDate')
+  String get startDate;
+
   /// Rule end date (YYYY-MM-DD)
   @BuiltValueField(wireName: r'endDate')
   JsonObject? get endDate;
+
+  /// Auto-create transaction on expected date
+  @BuiltValueField(wireName: r'autoCreate')
+  bool get autoCreate;
 
   /// Last matched occurrence date (YYYY-MM-DD)
   @BuiltValueField(wireName: r'lastOccurrence')
   JsonObject? get lastOccurrence;
 
+  /// Total matched transactions count
+  @BuiltValueField(wireName: r'totalCount')
+  num get totalCount;
+
+  /// Created at timestamp
+  @BuiltValueField(wireName: r'createdAt')
+  DateTime get createdAt;
+
+  /// Updated at timestamp
+  @BuiltValueField(wireName: r'updatedAt')
+  DateTime get updatedAt;
+
   RecurringRuleResponseDto._();
 
-  factory RecurringRuleResponseDto(
-          [void updates(RecurringRuleResponseDtoBuilder b)]) =
-      _$RecurringRuleResponseDto;
+  factory RecurringRuleResponseDto([void updates(RecurringRuleResponseDtoBuilder b)]) = _$RecurringRuleResponseDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(RecurringRuleResponseDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<RecurringRuleResponseDto> get serializer =>
-      _$RecurringRuleResponseDtoSerializer();
+  static Serializer<RecurringRuleResponseDto> get serializer => _$RecurringRuleResponseDtoSerializer();
 }
 
-class _$RecurringRuleResponseDtoSerializer
-    implements PrimitiveSerializer<RecurringRuleResponseDto> {
+class _$RecurringRuleResponseDtoSerializer implements PrimitiveSerializer<RecurringRuleResponseDto> {
   @override
-  final Iterable<Type> types = const [
-    RecurringRuleResponseDto,
-    _$RecurringRuleResponseDto
-  ];
+  final Iterable<Type> types = const [RecurringRuleResponseDto, _$RecurringRuleResponseDto];
 
   @override
   final String wireName = r'RecurringRuleResponseDto';
@@ -171,6 +162,13 @@ class _$RecurringRuleResponseDtoSerializer
       object.name,
       specifiedType: const FullType(String),
     );
+    if (object.icon != null) {
+      yield r'icon';
+      yield serializers.serialize(
+        object.icon,
+        specifiedType: const FullType(JsonObject),
+      );
+    }
     yield r'frequency';
     yield serializers.serialize(
       object.frequency,
@@ -181,53 +179,6 @@ class _$RecurringRuleResponseDtoSerializer
       object.expectedAmount,
       specifiedType: const FullType(num),
     );
-    yield r'currency';
-    yield serializers.serialize(
-      object.currency,
-      specifiedType: const FullType(String),
-    );
-    yield r'matchAmountTolerance';
-    yield serializers.serialize(
-      object.matchAmountTolerance,
-      specifiedType: const FullType(num),
-    );
-    yield r'isActive';
-    yield serializers.serialize(
-      object.isActive,
-      specifiedType: const FullType(bool),
-    );
-    yield r'startDate';
-    yield serializers.serialize(
-      object.startDate,
-      specifiedType: const FullType(String),
-    );
-    yield r'autoCreate';
-    yield serializers.serialize(
-      object.autoCreate,
-      specifiedType: const FullType(bool),
-    );
-    yield r'totalCount';
-    yield serializers.serialize(
-      object.totalCount,
-      specifiedType: const FullType(num),
-    );
-    yield r'createdAt';
-    yield serializers.serialize(
-      object.createdAt,
-      specifiedType: const FullType(DateTime),
-    );
-    yield r'updatedAt';
-    yield serializers.serialize(
-      object.updatedAt,
-      specifiedType: const FullType(DateTime),
-    );
-    if (object.icon != null) {
-      yield r'icon';
-      yield serializers.serialize(
-        object.icon,
-        specifiedType: const FullType(JsonObject),
-      );
-    }
     if (object.expectedDay != null) {
       yield r'expectedDay';
       yield serializers.serialize(
@@ -242,6 +193,11 @@ class _$RecurringRuleResponseDtoSerializer
         specifiedType: const FullType(JsonObject),
       );
     }
+    yield r'currency';
+    yield serializers.serialize(
+      object.currency,
+      specifiedType: const FullType(String),
+    );
     if (object.matchPayeePattern != null) {
       yield r'matchPayeePattern';
       yield serializers.serialize(
@@ -249,6 +205,11 @@ class _$RecurringRuleResponseDtoSerializer
         specifiedType: const FullType(JsonObject),
       );
     }
+    yield r'matchAmountTolerance';
+    yield serializers.serialize(
+      object.matchAmountTolerance,
+      specifiedType: const FullType(num),
+    );
     if (object.defaultExpenseAccount != null) {
       yield r'defaultExpenseAccount';
       yield serializers.serialize(
@@ -270,6 +231,16 @@ class _$RecurringRuleResponseDtoSerializer
         specifiedType: const FullType(JsonObject),
       );
     }
+    yield r'isActive';
+    yield serializers.serialize(
+      object.isActive,
+      specifiedType: const FullType(bool),
+    );
+    yield r'startDate';
+    yield serializers.serialize(
+      object.startDate,
+      specifiedType: const FullType(String),
+    );
     if (object.endDate != null) {
       yield r'endDate';
       yield serializers.serialize(
@@ -277,6 +248,11 @@ class _$RecurringRuleResponseDtoSerializer
         specifiedType: const FullType(JsonObject),
       );
     }
+    yield r'autoCreate';
+    yield serializers.serialize(
+      object.autoCreate,
+      specifiedType: const FullType(bool),
+    );
     if (object.lastOccurrence != null) {
       yield r'lastOccurrence';
       yield serializers.serialize(
@@ -284,6 +260,21 @@ class _$RecurringRuleResponseDtoSerializer
         specifiedType: const FullType(JsonObject),
       );
     }
+    yield r'totalCount';
+    yield serializers.serialize(
+      object.totalCount,
+      specifiedType: const FullType(num),
+    );
+    yield r'createdAt';
+    yield serializers.serialize(
+      object.createdAt,
+      specifiedType: const FullType(DateTime),
+    );
+    yield r'updatedAt';
+    yield serializers.serialize(
+      object.updatedAt,
+      specifiedType: const FullType(DateTime),
+    );
   }
 
   @override
@@ -292,9 +283,7 @@ class _$RecurringRuleResponseDtoSerializer
     RecurringRuleResponseDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -330,6 +319,13 @@ class _$RecurringRuleResponseDtoSerializer
           ) as String;
           result.name = valueDes;
           break;
+        case r'icon':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(JsonObject),
+          ) as JsonObject;
+          result.icon = valueDes;
+          break;
         case r'frequency':
           final valueDes = serializers.deserialize(
             value,
@@ -343,69 +339,6 @@ class _$RecurringRuleResponseDtoSerializer
             specifiedType: const FullType(num),
           ) as num;
           result.expectedAmount = valueDes;
-          break;
-        case r'currency':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.currency = valueDes;
-          break;
-        case r'matchAmountTolerance':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(num),
-          ) as num;
-          result.matchAmountTolerance = valueDes;
-          break;
-        case r'isActive':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(bool),
-          ) as bool;
-          result.isActive = valueDes;
-          break;
-        case r'startDate':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.startDate = valueDes;
-          break;
-        case r'autoCreate':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(bool),
-          ) as bool;
-          result.autoCreate = valueDes;
-          break;
-        case r'totalCount':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(num),
-          ) as num;
-          result.totalCount = valueDes;
-          break;
-        case r'createdAt':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(DateTime),
-          ) as DateTime;
-          result.createdAt = valueDes;
-          break;
-        case r'updatedAt':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(DateTime),
-          ) as DateTime;
-          result.updatedAt = valueDes;
-          break;
-        case r'icon':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(JsonObject),
-          ) as JsonObject;
-          result.icon = valueDes;
           break;
         case r'expectedDay':
           final valueDes = serializers.deserialize(
@@ -421,12 +354,26 @@ class _$RecurringRuleResponseDtoSerializer
           ) as JsonObject;
           result.customIntervalDays = valueDes;
           break;
+        case r'currency':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.currency = valueDes;
+          break;
         case r'matchPayeePattern':
           final valueDes = serializers.deserialize(
             value,
             specifiedType: const FullType(JsonObject),
           ) as JsonObject;
           result.matchPayeePattern = valueDes;
+          break;
+        case r'matchAmountTolerance':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(num),
+          ) as num;
+          result.matchAmountTolerance = valueDes;
           break;
         case r'defaultExpenseAccount':
           final valueDes = serializers.deserialize(
@@ -449,6 +396,20 @@ class _$RecurringRuleResponseDtoSerializer
           ) as JsonObject;
           result.defaultPayee = valueDes;
           break;
+        case r'isActive':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(bool),
+          ) as bool;
+          result.isActive = valueDes;
+          break;
+        case r'startDate':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.startDate = valueDes;
+          break;
         case r'endDate':
           final valueDes = serializers.deserialize(
             value,
@@ -456,12 +417,40 @@ class _$RecurringRuleResponseDtoSerializer
           ) as JsonObject;
           result.endDate = valueDes;
           break;
+        case r'autoCreate':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(bool),
+          ) as bool;
+          result.autoCreate = valueDes;
+          break;
         case r'lastOccurrence':
           final valueDes = serializers.deserialize(
             value,
             specifiedType: const FullType(JsonObject),
           ) as JsonObject;
           result.lastOccurrence = valueDes;
+          break;
+        case r'totalCount':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(num),
+          ) as num;
+          result.totalCount = valueDes;
+          break;
+        case r'createdAt':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(DateTime),
+          ) as DateTime;
+          result.createdAt = valueDes;
+          break;
+        case r'updatedAt':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(DateTime),
+          ) as DateTime;
+          result.updatedAt = valueDes;
           break;
         default:
           unhandled.add(key);
@@ -491,3 +480,4 @@ class _$RecurringRuleResponseDtoSerializer
     return result.build();
   }
 }
+

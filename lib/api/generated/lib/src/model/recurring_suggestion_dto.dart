@@ -19,8 +19,7 @@ part 'recurring_suggestion_dto.g.dart';
 /// * [averageAmount] - Average amount across similar transactions
 /// * [suggestedExpectedDay] - Suggested expected day of month (1-28). Only provided when dates are consistent.
 @BuiltValue()
-abstract class RecurringSuggestionDto
-    implements Built<RecurringSuggestionDto, RecurringSuggestionDtoBuilder> {
+abstract class RecurringSuggestionDto implements Built<RecurringSuggestionDto, RecurringSuggestionDtoBuilder> {
   /// Whether to suggest creating a recurring rule
   @BuiltValueField(wireName: r'shouldSuggest')
   bool get shouldSuggest;
@@ -48,25 +47,18 @@ abstract class RecurringSuggestionDto
 
   RecurringSuggestionDto._();
 
-  factory RecurringSuggestionDto(
-          [void updates(RecurringSuggestionDtoBuilder b)]) =
-      _$RecurringSuggestionDto;
+  factory RecurringSuggestionDto([void updates(RecurringSuggestionDtoBuilder b)]) = _$RecurringSuggestionDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(RecurringSuggestionDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<RecurringSuggestionDto> get serializer =>
-      _$RecurringSuggestionDtoSerializer();
+  static Serializer<RecurringSuggestionDto> get serializer => _$RecurringSuggestionDtoSerializer();
 }
 
-class _$RecurringSuggestionDtoSerializer
-    implements PrimitiveSerializer<RecurringSuggestionDto> {
+class _$RecurringSuggestionDtoSerializer implements PrimitiveSerializer<RecurringSuggestionDto> {
   @override
-  final Iterable<Type> types = const [
-    RecurringSuggestionDto,
-    _$RecurringSuggestionDto
-  ];
+  final Iterable<Type> types = const [RecurringSuggestionDto, _$RecurringSuggestionDto];
 
   @override
   final String wireName = r'RecurringSuggestionDto';
@@ -84,8 +76,7 @@ class _$RecurringSuggestionDtoSerializer
     yield r'suggestedFrequency';
     yield serializers.serialize(
       object.suggestedFrequency,
-      specifiedType:
-          const FullType(RecurringSuggestionDtoSuggestedFrequencyEnum),
+      specifiedType: const FullType(RecurringSuggestionDtoSuggestedFrequencyEnum),
     );
     yield r'confidence';
     yield serializers.serialize(
@@ -117,9 +108,7 @@ class _$RecurringSuggestionDtoSerializer
     RecurringSuggestionDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -144,8 +133,7 @@ class _$RecurringSuggestionDtoSerializer
         case r'suggestedFrequency':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType:
-                const FullType(RecurringSuggestionDtoSuggestedFrequencyEnum),
+            specifiedType: const FullType(RecurringSuggestionDtoSuggestedFrequencyEnum),
           ) as RecurringSuggestionDtoSuggestedFrequencyEnum;
           result.suggestedFrequency = valueDes;
           break;
@@ -207,50 +195,34 @@ class _$RecurringSuggestionDtoSerializer
 }
 
 class RecurringSuggestionDtoSuggestedFrequencyEnum extends EnumClass {
+
   /// Suggested frequency based on pattern analysis
   @BuiltValueEnumConst(wireName: r'WEEKLY')
-  static const RecurringSuggestionDtoSuggestedFrequencyEnum WEEKLY =
-      _$recurringSuggestionDtoSuggestedFrequencyEnum_WEEKLY;
-
+  static const RecurringSuggestionDtoSuggestedFrequencyEnum WEEKLY = _$recurringSuggestionDtoSuggestedFrequencyEnum_WEEKLY;
   /// Suggested frequency based on pattern analysis
   @BuiltValueEnumConst(wireName: r'BIWEEKLY')
-  static const RecurringSuggestionDtoSuggestedFrequencyEnum BIWEEKLY =
-      _$recurringSuggestionDtoSuggestedFrequencyEnum_BIWEEKLY;
-
+  static const RecurringSuggestionDtoSuggestedFrequencyEnum BIWEEKLY = _$recurringSuggestionDtoSuggestedFrequencyEnum_BIWEEKLY;
   /// Suggested frequency based on pattern analysis
   @BuiltValueEnumConst(wireName: r'MONTHLY')
-  static const RecurringSuggestionDtoSuggestedFrequencyEnum MONTHLY =
-      _$recurringSuggestionDtoSuggestedFrequencyEnum_MONTHLY;
-
+  static const RecurringSuggestionDtoSuggestedFrequencyEnum MONTHLY = _$recurringSuggestionDtoSuggestedFrequencyEnum_MONTHLY;
   /// Suggested frequency based on pattern analysis
   @BuiltValueEnumConst(wireName: r'BIMONTHLY')
-  static const RecurringSuggestionDtoSuggestedFrequencyEnum BIMONTHLY =
-      _$recurringSuggestionDtoSuggestedFrequencyEnum_BIMONTHLY;
-
+  static const RecurringSuggestionDtoSuggestedFrequencyEnum BIMONTHLY = _$recurringSuggestionDtoSuggestedFrequencyEnum_BIMONTHLY;
   /// Suggested frequency based on pattern analysis
   @BuiltValueEnumConst(wireName: r'QUARTERLY')
-  static const RecurringSuggestionDtoSuggestedFrequencyEnum QUARTERLY =
-      _$recurringSuggestionDtoSuggestedFrequencyEnum_QUARTERLY;
-
+  static const RecurringSuggestionDtoSuggestedFrequencyEnum QUARTERLY = _$recurringSuggestionDtoSuggestedFrequencyEnum_QUARTERLY;
   /// Suggested frequency based on pattern analysis
   @BuiltValueEnumConst(wireName: r'YEARLY')
-  static const RecurringSuggestionDtoSuggestedFrequencyEnum YEARLY =
-      _$recurringSuggestionDtoSuggestedFrequencyEnum_YEARLY;
-
+  static const RecurringSuggestionDtoSuggestedFrequencyEnum YEARLY = _$recurringSuggestionDtoSuggestedFrequencyEnum_YEARLY;
   /// Suggested frequency based on pattern analysis
-  @BuiltValueEnumConst(wireName: r'CUSTOM', fallback: true)
-  static const RecurringSuggestionDtoSuggestedFrequencyEnum CUSTOM =
-      _$recurringSuggestionDtoSuggestedFrequencyEnum_CUSTOM;
+  @BuiltValueEnumConst(wireName: r'CUSTOM')
+  static const RecurringSuggestionDtoSuggestedFrequencyEnum CUSTOM = _$recurringSuggestionDtoSuggestedFrequencyEnum_CUSTOM;
 
-  static Serializer<RecurringSuggestionDtoSuggestedFrequencyEnum>
-      get serializer =>
-          _$recurringSuggestionDtoSuggestedFrequencyEnumSerializer;
+  static Serializer<RecurringSuggestionDtoSuggestedFrequencyEnum> get serializer => _$recurringSuggestionDtoSuggestedFrequencyEnumSerializer;
 
-  const RecurringSuggestionDtoSuggestedFrequencyEnum._(String name)
-      : super(name);
+  const RecurringSuggestionDtoSuggestedFrequencyEnum._(String name): super(name);
 
-  static BuiltSet<RecurringSuggestionDtoSuggestedFrequencyEnum> get values =>
-      _$recurringSuggestionDtoSuggestedFrequencyEnumValues;
-  static RecurringSuggestionDtoSuggestedFrequencyEnum valueOf(String name) =>
-      _$recurringSuggestionDtoSuggestedFrequencyEnumValueOf(name);
+  static BuiltSet<RecurringSuggestionDtoSuggestedFrequencyEnum> get values => _$recurringSuggestionDtoSuggestedFrequencyEnumValues;
+  static RecurringSuggestionDtoSuggestedFrequencyEnum valueOf(String name) => _$recurringSuggestionDtoSuggestedFrequencyEnumValueOf(name);
 }
+

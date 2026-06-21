@@ -23,8 +23,7 @@ part 'import_result_dto.g.dart';
 /// * [reviewItems] - Array of transactions pending review with preview data. Contains essential information for displaying in the import preview UI.
 /// * [transactions] - Array of imported transactions (optional, for debugging)
 @BuiltValue()
-abstract class ImportResultDto
-    implements Built<ImportResultDto, ImportResultDtoBuilder> {
+abstract class ImportResultDto implements Built<ImportResultDto, ImportResultDtoBuilder> {
   /// Number of successfully imported transactions
   @BuiltValueField(wireName: r'imported')
   num get imported;
@@ -55,19 +54,16 @@ abstract class ImportResultDto
 
   ImportResultDto._();
 
-  factory ImportResultDto([void updates(ImportResultDtoBuilder b)]) =
-      _$ImportResultDto;
+  factory ImportResultDto([void updates(ImportResultDtoBuilder b)]) = _$ImportResultDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(ImportResultDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<ImportResultDto> get serializer =>
-      _$ImportResultDtoSerializer();
+  static Serializer<ImportResultDto> get serializer => _$ImportResultDtoSerializer();
 }
 
-class _$ImportResultDtoSerializer
-    implements PrimitiveSerializer<ImportResultDto> {
+class _$ImportResultDtoSerializer implements PrimitiveSerializer<ImportResultDto> {
   @override
   final Iterable<Type> types = const [ImportResultDto, _$ImportResultDto];
 
@@ -108,8 +104,7 @@ class _$ImportResultDtoSerializer
       yield r'reviewItems';
       yield serializers.serialize(
         object.reviewItems,
-        specifiedType:
-            const FullType(BuiltList, [FullType(ReviewItemPreviewDto)]),
+        specifiedType: const FullType(BuiltList, [FullType(ReviewItemPreviewDto)]),
       );
     }
     if (object.transactions != null) {
@@ -127,9 +122,7 @@ class _$ImportResultDtoSerializer
     ImportResultDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -175,16 +168,14 @@ class _$ImportResultDtoSerializer
         case r'errors':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType:
-                const FullType(BuiltList, [FullType(ImportErrorDto)]),
+            specifiedType: const FullType(BuiltList, [FullType(ImportErrorDto)]),
           ) as BuiltList<ImportErrorDto>;
           result.errors.replace(valueDes);
           break;
         case r'reviewItems':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType:
-                const FullType(BuiltList, [FullType(ReviewItemPreviewDto)]),
+            specifiedType: const FullType(BuiltList, [FullType(ReviewItemPreviewDto)]),
           ) as BuiltList<ReviewItemPreviewDto>;
           result.reviewItems.replace(valueDes);
           break;
@@ -223,3 +214,4 @@ class _$ImportResultDtoSerializer
     return result.build();
   }
 }
+

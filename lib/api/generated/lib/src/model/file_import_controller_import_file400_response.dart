@@ -11,17 +11,14 @@ part 'file_import_controller_import_file400_response.g.dart';
 /// FileImportControllerImportFile400Response
 ///
 /// Properties:
-/// * [type]
-/// * [title]
-/// * [status]
-/// * [detail]
-/// * [filename]
-/// * [fileSize]
+/// * [type] 
+/// * [title] 
+/// * [status] 
+/// * [detail] 
+/// * [filename] 
+/// * [fileSize] 
 @BuiltValue()
-abstract class FileImportControllerImportFile400Response
-    implements
-        Built<FileImportControllerImportFile400Response,
-            FileImportControllerImportFile400ResponseBuilder> {
+abstract class FileImportControllerImportFile400Response implements Built<FileImportControllerImportFile400Response, FileImportControllerImportFile400ResponseBuilder> {
   @BuiltValueField(wireName: r'type')
   String? get type;
 
@@ -42,26 +39,18 @@ abstract class FileImportControllerImportFile400Response
 
   FileImportControllerImportFile400Response._();
 
-  factory FileImportControllerImportFile400Response(
-          [void updates(FileImportControllerImportFile400ResponseBuilder b)]) =
-      _$FileImportControllerImportFile400Response;
+  factory FileImportControllerImportFile400Response([void updates(FileImportControllerImportFile400ResponseBuilder b)]) = _$FileImportControllerImportFile400Response;
 
   @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(FileImportControllerImportFile400ResponseBuilder b) =>
-      b;
+  static void _defaults(FileImportControllerImportFile400ResponseBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<FileImportControllerImportFile400Response> get serializer =>
-      _$FileImportControllerImportFile400ResponseSerializer();
+  static Serializer<FileImportControllerImportFile400Response> get serializer => _$FileImportControllerImportFile400ResponseSerializer();
 }
 
-class _$FileImportControllerImportFile400ResponseSerializer
-    implements PrimitiveSerializer<FileImportControllerImportFile400Response> {
+class _$FileImportControllerImportFile400ResponseSerializer implements PrimitiveSerializer<FileImportControllerImportFile400Response> {
   @override
-  final Iterable<Type> types = const [
-    FileImportControllerImportFile400Response,
-    _$FileImportControllerImportFile400Response
-  ];
+  final Iterable<Type> types = const [FileImportControllerImportFile400Response, _$FileImportControllerImportFile400Response];
 
   @override
   final String wireName = r'FileImportControllerImportFile400Response';
@@ -121,9 +110,7 @@ class _$FileImportControllerImportFile400ResponseSerializer
     FileImportControllerImportFile400Response object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -208,3 +195,4 @@ class _$FileImportControllerImportFile400ResponseSerializer
     return result.build();
   }
 }
+

@@ -16,14 +16,12 @@ part 'nlp_payee_confirmation_data_dto.g.dart';
 /// Properties:
 /// * [confidence] - Confidence score for the payee match (0-1)
 /// * [originalPayee] - Original payee string from user input
+/// * [suggestedPayee] 
 /// * [similarity] - Similarity score between original and suggested (0-1)
 /// * [alternatives] - Alternative payee options
 /// * [reasons] - Human-readable reasons for the match
-/// * [suggestedPayee]
 @BuiltValue()
-abstract class NlpPayeeConfirmationDataDto
-    implements
-        Built<NlpPayeeConfirmationDataDto, NlpPayeeConfirmationDataDtoBuilder> {
+abstract class NlpPayeeConfirmationDataDto implements Built<NlpPayeeConfirmationDataDto, NlpPayeeConfirmationDataDtoBuilder> {
   /// Confidence score for the payee match (0-1)
   @BuiltValueField(wireName: r'confidence')
   num get confidence;
@@ -31,6 +29,9 @@ abstract class NlpPayeeConfirmationDataDto
   /// Original payee string from user input
   @BuiltValueField(wireName: r'originalPayee')
   String get originalPayee;
+
+  @BuiltValueField(wireName: r'suggestedPayee')
+  NlpPayeeConfirmationDataDtoSuggestedPayee? get suggestedPayee;
 
   /// Similarity score between original and suggested (0-1)
   @BuiltValueField(wireName: r'similarity')
@@ -44,30 +45,20 @@ abstract class NlpPayeeConfirmationDataDto
   @BuiltValueField(wireName: r'reasons')
   BuiltList<String> get reasons;
 
-  @BuiltValueField(wireName: r'suggestedPayee')
-  NlpPayeeConfirmationDataDtoSuggestedPayee? get suggestedPayee;
-
   NlpPayeeConfirmationDataDto._();
 
-  factory NlpPayeeConfirmationDataDto(
-          [void updates(NlpPayeeConfirmationDataDtoBuilder b)]) =
-      _$NlpPayeeConfirmationDataDto;
+  factory NlpPayeeConfirmationDataDto([void updates(NlpPayeeConfirmationDataDtoBuilder b)]) = _$NlpPayeeConfirmationDataDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(NlpPayeeConfirmationDataDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<NlpPayeeConfirmationDataDto> get serializer =>
-      _$NlpPayeeConfirmationDataDtoSerializer();
+  static Serializer<NlpPayeeConfirmationDataDto> get serializer => _$NlpPayeeConfirmationDataDtoSerializer();
 }
 
-class _$NlpPayeeConfirmationDataDtoSerializer
-    implements PrimitiveSerializer<NlpPayeeConfirmationDataDto> {
+class _$NlpPayeeConfirmationDataDtoSerializer implements PrimitiveSerializer<NlpPayeeConfirmationDataDto> {
   @override
-  final Iterable<Type> types = const [
-    NlpPayeeConfirmationDataDto,
-    _$NlpPayeeConfirmationDataDto
-  ];
+  final Iterable<Type> types = const [NlpPayeeConfirmationDataDto, _$NlpPayeeConfirmationDataDto];
 
   @override
   final String wireName = r'NlpPayeeConfirmationDataDto';
@@ -87,6 +78,13 @@ class _$NlpPayeeConfirmationDataDtoSerializer
       object.originalPayee,
       specifiedType: const FullType(String),
     );
+    if (object.suggestedPayee != null) {
+      yield r'suggestedPayee';
+      yield serializers.serialize(
+        object.suggestedPayee,
+        specifiedType: const FullType.nullable(NlpPayeeConfirmationDataDtoSuggestedPayee),
+      );
+    }
     yield r'similarity';
     yield serializers.serialize(
       object.similarity,
@@ -95,22 +93,13 @@ class _$NlpPayeeConfirmationDataDtoSerializer
     yield r'alternatives';
     yield serializers.serialize(
       object.alternatives,
-      specifiedType:
-          const FullType(BuiltList, [FullType(NlpAlternativePayeeDto)]),
+      specifiedType: const FullType(BuiltList, [FullType(NlpAlternativePayeeDto)]),
     );
     yield r'reasons';
     yield serializers.serialize(
       object.reasons,
       specifiedType: const FullType(BuiltList, [FullType(String)]),
     );
-    if (object.suggestedPayee != null) {
-      yield r'suggestedPayee';
-      yield serializers.serialize(
-        object.suggestedPayee,
-        specifiedType:
-            const FullType.nullable(NlpPayeeConfirmationDataDtoSuggestedPayee),
-      );
-    }
   }
 
   @override
@@ -119,9 +108,7 @@ class _$NlpPayeeConfirmationDataDtoSerializer
     NlpPayeeConfirmationDataDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -150,6 +137,14 @@ class _$NlpPayeeConfirmationDataDtoSerializer
           ) as String;
           result.originalPayee = valueDes;
           break;
+        case r'suggestedPayee':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType.nullable(NlpPayeeConfirmationDataDtoSuggestedPayee),
+          ) as NlpPayeeConfirmationDataDtoSuggestedPayee?;
+          if (valueDes == null) continue;
+          result.suggestedPayee.replace(valueDes);
+          break;
         case r'similarity':
           final valueDes = serializers.deserialize(
             value,
@@ -160,8 +155,7 @@ class _$NlpPayeeConfirmationDataDtoSerializer
         case r'alternatives':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType:
-                const FullType(BuiltList, [FullType(NlpAlternativePayeeDto)]),
+            specifiedType: const FullType(BuiltList, [FullType(NlpAlternativePayeeDto)]),
           ) as BuiltList<NlpAlternativePayeeDto>;
           result.alternatives.replace(valueDes);
           break;
@@ -171,15 +165,6 @@ class _$NlpPayeeConfirmationDataDtoSerializer
             specifiedType: const FullType(BuiltList, [FullType(String)]),
           ) as BuiltList<String>;
           result.reasons.replace(valueDes);
-          break;
-        case r'suggestedPayee':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType.nullable(
-                NlpPayeeConfirmationDataDtoSuggestedPayee),
-          ) as NlpPayeeConfirmationDataDtoSuggestedPayee?;
-          if (valueDes == null) continue;
-          result.suggestedPayee.replace(valueDes);
           break;
         default:
           unhandled.add(key);
@@ -209,3 +194,4 @@ class _$NlpPayeeConfirmationDataDtoSerializer
     return result.build();
   }
 }
+

@@ -14,33 +14,21 @@ class _$RecurringRuleResponseDto extends RecurringRuleResponseDto {
   @override
   final String name;
   @override
+  final JsonObject? icon;
+  @override
   final String frequency;
   @override
   final num expectedAmount;
-  @override
-  final String currency;
-  @override
-  final num matchAmountTolerance;
-  @override
-  final bool isActive;
-  @override
-  final String startDate;
-  @override
-  final bool autoCreate;
-  @override
-  final num totalCount;
-  @override
-  final DateTime createdAt;
-  @override
-  final DateTime updatedAt;
-  @override
-  final JsonObject? icon;
   @override
   final JsonObject? expectedDay;
   @override
   final JsonObject? customIntervalDays;
   @override
+  final String currency;
+  @override
   final JsonObject? matchPayeePattern;
+  @override
+  final num matchAmountTolerance;
   @override
   final JsonObject? defaultExpenseAccount;
   @override
@@ -48,9 +36,21 @@ class _$RecurringRuleResponseDto extends RecurringRuleResponseDto {
   @override
   final JsonObject? defaultPayee;
   @override
+  final bool isActive;
+  @override
+  final String startDate;
+  @override
   final JsonObject? endDate;
   @override
+  final bool autoCreate;
+  @override
   final JsonObject? lastOccurrence;
+  @override
+  final num totalCount;
+  @override
+  final DateTime createdAt;
+  @override
+  final DateTime updatedAt;
 
   factory _$RecurringRuleResponseDto(
           [void Function(RecurringRuleResponseDtoBuilder)? updates]) =>
@@ -60,25 +60,25 @@ class _$RecurringRuleResponseDto extends RecurringRuleResponseDto {
       {required this.id,
       required this.userId,
       required this.name,
+      this.icon,
       required this.frequency,
       required this.expectedAmount,
-      required this.currency,
-      required this.matchAmountTolerance,
-      required this.isActive,
-      required this.startDate,
-      required this.autoCreate,
-      required this.totalCount,
-      required this.createdAt,
-      required this.updatedAt,
-      this.icon,
       this.expectedDay,
       this.customIntervalDays,
+      required this.currency,
       this.matchPayeePattern,
+      required this.matchAmountTolerance,
       this.defaultExpenseAccount,
       this.defaultPaymentAccount,
       this.defaultPayee,
+      required this.isActive,
+      required this.startDate,
       this.endDate,
-      this.lastOccurrence})
+      required this.autoCreate,
+      this.lastOccurrence,
+      required this.totalCount,
+      required this.createdAt,
+      required this.updatedAt})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(
         id, r'RecurringRuleResponseDto', 'id');
@@ -124,25 +124,25 @@ class _$RecurringRuleResponseDto extends RecurringRuleResponseDto {
         id == other.id &&
         userId == other.userId &&
         name == other.name &&
+        icon == other.icon &&
         frequency == other.frequency &&
         expectedAmount == other.expectedAmount &&
-        currency == other.currency &&
-        matchAmountTolerance == other.matchAmountTolerance &&
-        isActive == other.isActive &&
-        startDate == other.startDate &&
-        autoCreate == other.autoCreate &&
-        totalCount == other.totalCount &&
-        createdAt == other.createdAt &&
-        updatedAt == other.updatedAt &&
-        icon == other.icon &&
         expectedDay == other.expectedDay &&
         customIntervalDays == other.customIntervalDays &&
+        currency == other.currency &&
         matchPayeePattern == other.matchPayeePattern &&
+        matchAmountTolerance == other.matchAmountTolerance &&
         defaultExpenseAccount == other.defaultExpenseAccount &&
         defaultPaymentAccount == other.defaultPaymentAccount &&
         defaultPayee == other.defaultPayee &&
+        isActive == other.isActive &&
+        startDate == other.startDate &&
         endDate == other.endDate &&
-        lastOccurrence == other.lastOccurrence;
+        autoCreate == other.autoCreate &&
+        lastOccurrence == other.lastOccurrence &&
+        totalCount == other.totalCount &&
+        createdAt == other.createdAt &&
+        updatedAt == other.updatedAt;
   }
 
   @override
@@ -151,25 +151,25 @@ class _$RecurringRuleResponseDto extends RecurringRuleResponseDto {
     _$hash = $jc(_$hash, id.hashCode);
     _$hash = $jc(_$hash, userId.hashCode);
     _$hash = $jc(_$hash, name.hashCode);
+    _$hash = $jc(_$hash, icon.hashCode);
     _$hash = $jc(_$hash, frequency.hashCode);
     _$hash = $jc(_$hash, expectedAmount.hashCode);
-    _$hash = $jc(_$hash, currency.hashCode);
-    _$hash = $jc(_$hash, matchAmountTolerance.hashCode);
-    _$hash = $jc(_$hash, isActive.hashCode);
-    _$hash = $jc(_$hash, startDate.hashCode);
-    _$hash = $jc(_$hash, autoCreate.hashCode);
-    _$hash = $jc(_$hash, totalCount.hashCode);
-    _$hash = $jc(_$hash, createdAt.hashCode);
-    _$hash = $jc(_$hash, updatedAt.hashCode);
-    _$hash = $jc(_$hash, icon.hashCode);
     _$hash = $jc(_$hash, expectedDay.hashCode);
     _$hash = $jc(_$hash, customIntervalDays.hashCode);
+    _$hash = $jc(_$hash, currency.hashCode);
     _$hash = $jc(_$hash, matchPayeePattern.hashCode);
+    _$hash = $jc(_$hash, matchAmountTolerance.hashCode);
     _$hash = $jc(_$hash, defaultExpenseAccount.hashCode);
     _$hash = $jc(_$hash, defaultPaymentAccount.hashCode);
     _$hash = $jc(_$hash, defaultPayee.hashCode);
+    _$hash = $jc(_$hash, isActive.hashCode);
+    _$hash = $jc(_$hash, startDate.hashCode);
     _$hash = $jc(_$hash, endDate.hashCode);
+    _$hash = $jc(_$hash, autoCreate.hashCode);
     _$hash = $jc(_$hash, lastOccurrence.hashCode);
+    _$hash = $jc(_$hash, totalCount.hashCode);
+    _$hash = $jc(_$hash, createdAt.hashCode);
+    _$hash = $jc(_$hash, updatedAt.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -180,25 +180,25 @@ class _$RecurringRuleResponseDto extends RecurringRuleResponseDto {
           ..add('id', id)
           ..add('userId', userId)
           ..add('name', name)
+          ..add('icon', icon)
           ..add('frequency', frequency)
           ..add('expectedAmount', expectedAmount)
-          ..add('currency', currency)
-          ..add('matchAmountTolerance', matchAmountTolerance)
-          ..add('isActive', isActive)
-          ..add('startDate', startDate)
-          ..add('autoCreate', autoCreate)
-          ..add('totalCount', totalCount)
-          ..add('createdAt', createdAt)
-          ..add('updatedAt', updatedAt)
-          ..add('icon', icon)
           ..add('expectedDay', expectedDay)
           ..add('customIntervalDays', customIntervalDays)
+          ..add('currency', currency)
           ..add('matchPayeePattern', matchPayeePattern)
+          ..add('matchAmountTolerance', matchAmountTolerance)
           ..add('defaultExpenseAccount', defaultExpenseAccount)
           ..add('defaultPaymentAccount', defaultPaymentAccount)
           ..add('defaultPayee', defaultPayee)
+          ..add('isActive', isActive)
+          ..add('startDate', startDate)
           ..add('endDate', endDate)
-          ..add('lastOccurrence', lastOccurrence))
+          ..add('autoCreate', autoCreate)
+          ..add('lastOccurrence', lastOccurrence)
+          ..add('totalCount', totalCount)
+          ..add('createdAt', createdAt)
+          ..add('updatedAt', updatedAt))
         .toString();
   }
 }
@@ -220,6 +220,10 @@ class RecurringRuleResponseDtoBuilder
   String? get name => _$this._name;
   set name(String? name) => _$this._name = name;
 
+  JsonObject? _icon;
+  JsonObject? get icon => _$this._icon;
+  set icon(JsonObject? icon) => _$this._icon = icon;
+
   String? _frequency;
   String? get frequency => _$this._frequency;
   set frequency(String? frequency) => _$this._frequency = frequency;
@@ -228,43 +232,6 @@ class RecurringRuleResponseDtoBuilder
   num? get expectedAmount => _$this._expectedAmount;
   set expectedAmount(num? expectedAmount) =>
       _$this._expectedAmount = expectedAmount;
-
-  String? _currency;
-  String? get currency => _$this._currency;
-  set currency(String? currency) => _$this._currency = currency;
-
-  num? _matchAmountTolerance;
-  num? get matchAmountTolerance => _$this._matchAmountTolerance;
-  set matchAmountTolerance(num? matchAmountTolerance) =>
-      _$this._matchAmountTolerance = matchAmountTolerance;
-
-  bool? _isActive;
-  bool? get isActive => _$this._isActive;
-  set isActive(bool? isActive) => _$this._isActive = isActive;
-
-  String? _startDate;
-  String? get startDate => _$this._startDate;
-  set startDate(String? startDate) => _$this._startDate = startDate;
-
-  bool? _autoCreate;
-  bool? get autoCreate => _$this._autoCreate;
-  set autoCreate(bool? autoCreate) => _$this._autoCreate = autoCreate;
-
-  num? _totalCount;
-  num? get totalCount => _$this._totalCount;
-  set totalCount(num? totalCount) => _$this._totalCount = totalCount;
-
-  DateTime? _createdAt;
-  DateTime? get createdAt => _$this._createdAt;
-  set createdAt(DateTime? createdAt) => _$this._createdAt = createdAt;
-
-  DateTime? _updatedAt;
-  DateTime? get updatedAt => _$this._updatedAt;
-  set updatedAt(DateTime? updatedAt) => _$this._updatedAt = updatedAt;
-
-  JsonObject? _icon;
-  JsonObject? get icon => _$this._icon;
-  set icon(JsonObject? icon) => _$this._icon = icon;
 
   JsonObject? _expectedDay;
   JsonObject? get expectedDay => _$this._expectedDay;
@@ -275,10 +242,19 @@ class RecurringRuleResponseDtoBuilder
   set customIntervalDays(JsonObject? customIntervalDays) =>
       _$this._customIntervalDays = customIntervalDays;
 
+  String? _currency;
+  String? get currency => _$this._currency;
+  set currency(String? currency) => _$this._currency = currency;
+
   JsonObject? _matchPayeePattern;
   JsonObject? get matchPayeePattern => _$this._matchPayeePattern;
   set matchPayeePattern(JsonObject? matchPayeePattern) =>
       _$this._matchPayeePattern = matchPayeePattern;
+
+  num? _matchAmountTolerance;
+  num? get matchAmountTolerance => _$this._matchAmountTolerance;
+  set matchAmountTolerance(num? matchAmountTolerance) =>
+      _$this._matchAmountTolerance = matchAmountTolerance;
 
   JsonObject? _defaultExpenseAccount;
   JsonObject? get defaultExpenseAccount => _$this._defaultExpenseAccount;
@@ -295,14 +271,38 @@ class RecurringRuleResponseDtoBuilder
   set defaultPayee(JsonObject? defaultPayee) =>
       _$this._defaultPayee = defaultPayee;
 
+  bool? _isActive;
+  bool? get isActive => _$this._isActive;
+  set isActive(bool? isActive) => _$this._isActive = isActive;
+
+  String? _startDate;
+  String? get startDate => _$this._startDate;
+  set startDate(String? startDate) => _$this._startDate = startDate;
+
   JsonObject? _endDate;
   JsonObject? get endDate => _$this._endDate;
   set endDate(JsonObject? endDate) => _$this._endDate = endDate;
+
+  bool? _autoCreate;
+  bool? get autoCreate => _$this._autoCreate;
+  set autoCreate(bool? autoCreate) => _$this._autoCreate = autoCreate;
 
   JsonObject? _lastOccurrence;
   JsonObject? get lastOccurrence => _$this._lastOccurrence;
   set lastOccurrence(JsonObject? lastOccurrence) =>
       _$this._lastOccurrence = lastOccurrence;
+
+  num? _totalCount;
+  num? get totalCount => _$this._totalCount;
+  set totalCount(num? totalCount) => _$this._totalCount = totalCount;
+
+  DateTime? _createdAt;
+  DateTime? get createdAt => _$this._createdAt;
+  set createdAt(DateTime? createdAt) => _$this._createdAt = createdAt;
+
+  DateTime? _updatedAt;
+  DateTime? get updatedAt => _$this._updatedAt;
+  set updatedAt(DateTime? updatedAt) => _$this._updatedAt = updatedAt;
 
   RecurringRuleResponseDtoBuilder() {
     RecurringRuleResponseDto._defaults(this);
@@ -314,25 +314,25 @@ class RecurringRuleResponseDtoBuilder
       _id = $v.id;
       _userId = $v.userId;
       _name = $v.name;
+      _icon = $v.icon;
       _frequency = $v.frequency;
       _expectedAmount = $v.expectedAmount;
-      _currency = $v.currency;
-      _matchAmountTolerance = $v.matchAmountTolerance;
-      _isActive = $v.isActive;
-      _startDate = $v.startDate;
-      _autoCreate = $v.autoCreate;
-      _totalCount = $v.totalCount;
-      _createdAt = $v.createdAt;
-      _updatedAt = $v.updatedAt;
-      _icon = $v.icon;
       _expectedDay = $v.expectedDay;
       _customIntervalDays = $v.customIntervalDays;
+      _currency = $v.currency;
       _matchPayeePattern = $v.matchPayeePattern;
+      _matchAmountTolerance = $v.matchAmountTolerance;
       _defaultExpenseAccount = $v.defaultExpenseAccount;
       _defaultPaymentAccount = $v.defaultPaymentAccount;
       _defaultPayee = $v.defaultPayee;
+      _isActive = $v.isActive;
+      _startDate = $v.startDate;
       _endDate = $v.endDate;
+      _autoCreate = $v.autoCreate;
       _lastOccurrence = $v.lastOccurrence;
+      _totalCount = $v.totalCount;
+      _createdAt = $v.createdAt;
+      _updatedAt = $v.updatedAt;
       _$v = null;
     }
     return this;
@@ -361,30 +361,30 @@ class RecurringRuleResponseDtoBuilder
                 userId, r'RecurringRuleResponseDto', 'userId'),
             name: BuiltValueNullFieldError.checkNotNull(
                 name, r'RecurringRuleResponseDto', 'name'),
+            icon: icon,
             frequency: BuiltValueNullFieldError.checkNotNull(
                 frequency, r'RecurringRuleResponseDto', 'frequency'),
             expectedAmount: BuiltValueNullFieldError.checkNotNull(
                 expectedAmount, r'RecurringRuleResponseDto', 'expectedAmount'),
-            currency: BuiltValueNullFieldError.checkNotNull(
-                currency, r'RecurringRuleResponseDto', 'currency'),
-            matchAmountTolerance: BuiltValueNullFieldError.checkNotNull(
-                matchAmountTolerance, r'RecurringRuleResponseDto', 'matchAmountTolerance'),
-            isActive: BuiltValueNullFieldError.checkNotNull(
-                isActive, r'RecurringRuleResponseDto', 'isActive'),
-            startDate: BuiltValueNullFieldError.checkNotNull(startDate, r'RecurringRuleResponseDto', 'startDate'),
-            autoCreate: BuiltValueNullFieldError.checkNotNull(autoCreate, r'RecurringRuleResponseDto', 'autoCreate'),
-            totalCount: BuiltValueNullFieldError.checkNotNull(totalCount, r'RecurringRuleResponseDto', 'totalCount'),
-            createdAt: BuiltValueNullFieldError.checkNotNull(createdAt, r'RecurringRuleResponseDto', 'createdAt'),
-            updatedAt: BuiltValueNullFieldError.checkNotNull(updatedAt, r'RecurringRuleResponseDto', 'updatedAt'),
-            icon: icon,
             expectedDay: expectedDay,
             customIntervalDays: customIntervalDays,
+            currency: BuiltValueNullFieldError.checkNotNull(
+                currency, r'RecurringRuleResponseDto', 'currency'),
             matchPayeePattern: matchPayeePattern,
+            matchAmountTolerance: BuiltValueNullFieldError.checkNotNull(
+                matchAmountTolerance, r'RecurringRuleResponseDto', 'matchAmountTolerance'),
             defaultExpenseAccount: defaultExpenseAccount,
             defaultPaymentAccount: defaultPaymentAccount,
             defaultPayee: defaultPayee,
+            isActive: BuiltValueNullFieldError.checkNotNull(
+                isActive, r'RecurringRuleResponseDto', 'isActive'),
+            startDate: BuiltValueNullFieldError.checkNotNull(startDate, r'RecurringRuleResponseDto', 'startDate'),
             endDate: endDate,
-            lastOccurrence: lastOccurrence);
+            autoCreate: BuiltValueNullFieldError.checkNotNull(autoCreate, r'RecurringRuleResponseDto', 'autoCreate'),
+            lastOccurrence: lastOccurrence,
+            totalCount: BuiltValueNullFieldError.checkNotNull(totalCount, r'RecurringRuleResponseDto', 'totalCount'),
+            createdAt: BuiltValueNullFieldError.checkNotNull(createdAt, r'RecurringRuleResponseDto', 'createdAt'),
+            updatedAt: BuiltValueNullFieldError.checkNotNull(updatedAt, r'RecurringRuleResponseDto', 'updatedAt'));
     replace(_$result);
     return _$result;
   }

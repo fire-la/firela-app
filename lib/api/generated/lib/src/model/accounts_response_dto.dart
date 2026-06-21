@@ -15,10 +15,9 @@ part 'accounts_response_dto.g.dart';
 ///
 /// Properties:
 /// * [groups] - Account groups by platform
-/// * [summary]
+/// * [summary] 
 @BuiltValue()
-abstract class AccountsResponseDto
-    implements Built<AccountsResponseDto, AccountsResponseDtoBuilder> {
+abstract class AccountsResponseDto implements Built<AccountsResponseDto, AccountsResponseDtoBuilder> {
   /// Account groups by platform
   @BuiltValueField(wireName: r'groups')
   BuiltList<PlatformGroupDto> get groups;
@@ -28,24 +27,18 @@ abstract class AccountsResponseDto
 
   AccountsResponseDto._();
 
-  factory AccountsResponseDto([void updates(AccountsResponseDtoBuilder b)]) =
-      _$AccountsResponseDto;
+  factory AccountsResponseDto([void updates(AccountsResponseDtoBuilder b)]) = _$AccountsResponseDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(AccountsResponseDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<AccountsResponseDto> get serializer =>
-      _$AccountsResponseDtoSerializer();
+  static Serializer<AccountsResponseDto> get serializer => _$AccountsResponseDtoSerializer();
 }
 
-class _$AccountsResponseDtoSerializer
-    implements PrimitiveSerializer<AccountsResponseDto> {
+class _$AccountsResponseDtoSerializer implements PrimitiveSerializer<AccountsResponseDto> {
   @override
-  final Iterable<Type> types = const [
-    AccountsResponseDto,
-    _$AccountsResponseDto
-  ];
+  final Iterable<Type> types = const [AccountsResponseDto, _$AccountsResponseDto];
 
   @override
   final String wireName = r'AccountsResponseDto';
@@ -73,9 +66,7 @@ class _$AccountsResponseDtoSerializer
     AccountsResponseDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -93,8 +84,7 @@ class _$AccountsResponseDtoSerializer
         case r'groups':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType:
-                const FullType(BuiltList, [FullType(PlatformGroupDto)]),
+            specifiedType: const FullType(BuiltList, [FullType(PlatformGroupDto)]),
           ) as BuiltList<PlatformGroupDto>;
           result.groups.replace(valueDes);
           break;
@@ -133,3 +123,4 @@ class _$AccountsResponseDtoSerializer
     return result.build();
   }
 }
+

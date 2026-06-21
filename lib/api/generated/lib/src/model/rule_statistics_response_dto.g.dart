@@ -26,7 +26,7 @@ RuleStatisticsResponseDtoPeriodEnum
     case 'n90d':
       return _$ruleStatisticsResponseDtoPeriodEnum_n90d;
     default:
-      return _$ruleStatisticsResponseDtoPeriodEnum_n90d;
+      throw new ArgumentError(name);
   }
 }
 

@@ -16,8 +16,7 @@ part 'validate_rule_response_dto.g.dart';
 /// * [errors] - List of validation errors (empty if valid)
 /// * [warnings] - List of validation warnings (non-blocking issues)
 @BuiltValue()
-abstract class ValidateRuleResponseDto
-    implements Built<ValidateRuleResponseDto, ValidateRuleResponseDtoBuilder> {
+abstract class ValidateRuleResponseDto implements Built<ValidateRuleResponseDto, ValidateRuleResponseDtoBuilder> {
   /// Whether the rule configuration is valid
   @BuiltValueField(wireName: r'valid')
   bool get valid;
@@ -32,25 +31,18 @@ abstract class ValidateRuleResponseDto
 
   ValidateRuleResponseDto._();
 
-  factory ValidateRuleResponseDto(
-          [void updates(ValidateRuleResponseDtoBuilder b)]) =
-      _$ValidateRuleResponseDto;
+  factory ValidateRuleResponseDto([void updates(ValidateRuleResponseDtoBuilder b)]) = _$ValidateRuleResponseDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(ValidateRuleResponseDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<ValidateRuleResponseDto> get serializer =>
-      _$ValidateRuleResponseDtoSerializer();
+  static Serializer<ValidateRuleResponseDto> get serializer => _$ValidateRuleResponseDtoSerializer();
 }
 
-class _$ValidateRuleResponseDtoSerializer
-    implements PrimitiveSerializer<ValidateRuleResponseDto> {
+class _$ValidateRuleResponseDtoSerializer implements PrimitiveSerializer<ValidateRuleResponseDto> {
   @override
-  final Iterable<Type> types = const [
-    ValidateRuleResponseDto,
-    _$ValidateRuleResponseDto
-  ];
+  final Iterable<Type> types = const [ValidateRuleResponseDto, _$ValidateRuleResponseDto];
 
   @override
   final String wireName = r'ValidateRuleResponseDto';
@@ -83,9 +75,7 @@ class _$ValidateRuleResponseDtoSerializer
     ValidateRuleResponseDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -149,3 +139,4 @@ class _$ValidateRuleResponseDtoSerializer
     return result.build();
   }
 }
+

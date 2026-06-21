@@ -10,6 +10,8 @@ class _$CommodityResponseDto extends CommodityResponseDto {
   @override
   final String id;
   @override
+  final String? userId;
+  @override
   final String symbol;
   @override
   final Date date;
@@ -19,10 +21,6 @@ class _$CommodityResponseDto extends CommodityResponseDto {
   final DateTime createdAt;
   @override
   final DateTime updatedAt;
-  @override
-  final JsonObject? userId;
-  @override
-  final JsonObject? symbolProfileId;
 
   factory _$CommodityResponseDto(
           [void Function(CommodityResponseDtoBuilder)? updates]) =>
@@ -30,13 +28,12 @@ class _$CommodityResponseDto extends CommodityResponseDto {
 
   _$CommodityResponseDto._(
       {required this.id,
+      this.userId,
       required this.symbol,
       required this.date,
       required this.metadata,
       required this.createdAt,
-      required this.updatedAt,
-      this.userId,
-      this.symbolProfileId})
+      required this.updatedAt})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(id, r'CommodityResponseDto', 'id');
     BuiltValueNullFieldError.checkNotNull(
@@ -65,26 +62,24 @@ class _$CommodityResponseDto extends CommodityResponseDto {
     if (identical(other, this)) return true;
     return other is CommodityResponseDto &&
         id == other.id &&
+        userId == other.userId &&
         symbol == other.symbol &&
         date == other.date &&
         metadata == other.metadata &&
         createdAt == other.createdAt &&
-        updatedAt == other.updatedAt &&
-        userId == other.userId &&
-        symbolProfileId == other.symbolProfileId;
+        updatedAt == other.updatedAt;
   }
 
   @override
   int get hashCode {
     var _$hash = 0;
     _$hash = $jc(_$hash, id.hashCode);
+    _$hash = $jc(_$hash, userId.hashCode);
     _$hash = $jc(_$hash, symbol.hashCode);
     _$hash = $jc(_$hash, date.hashCode);
     _$hash = $jc(_$hash, metadata.hashCode);
     _$hash = $jc(_$hash, createdAt.hashCode);
     _$hash = $jc(_$hash, updatedAt.hashCode);
-    _$hash = $jc(_$hash, userId.hashCode);
-    _$hash = $jc(_$hash, symbolProfileId.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -93,13 +88,12 @@ class _$CommodityResponseDto extends CommodityResponseDto {
   String toString() {
     return (newBuiltValueToStringHelper(r'CommodityResponseDto')
           ..add('id', id)
+          ..add('userId', userId)
           ..add('symbol', symbol)
           ..add('date', date)
           ..add('metadata', metadata)
           ..add('createdAt', createdAt)
-          ..add('updatedAt', updatedAt)
-          ..add('userId', userId)
-          ..add('symbolProfileId', symbolProfileId))
+          ..add('updatedAt', updatedAt))
         .toString();
   }
 }
@@ -111,6 +105,10 @@ class CommodityResponseDtoBuilder
   String? _id;
   String? get id => _$this._id;
   set id(String? id) => _$this._id = id;
+
+  String? _userId;
+  String? get userId => _$this._userId;
+  set userId(String? userId) => _$this._userId = userId;
 
   String? _symbol;
   String? get symbol => _$this._symbol;
@@ -132,15 +130,6 @@ class CommodityResponseDtoBuilder
   DateTime? get updatedAt => _$this._updatedAt;
   set updatedAt(DateTime? updatedAt) => _$this._updatedAt = updatedAt;
 
-  JsonObject? _userId;
-  JsonObject? get userId => _$this._userId;
-  set userId(JsonObject? userId) => _$this._userId = userId;
-
-  JsonObject? _symbolProfileId;
-  JsonObject? get symbolProfileId => _$this._symbolProfileId;
-  set symbolProfileId(JsonObject? symbolProfileId) =>
-      _$this._symbolProfileId = symbolProfileId;
-
   CommodityResponseDtoBuilder() {
     CommodityResponseDto._defaults(this);
   }
@@ -149,13 +138,12 @@ class CommodityResponseDtoBuilder
     final $v = _$v;
     if ($v != null) {
       _id = $v.id;
+      _userId = $v.userId;
       _symbol = $v.symbol;
       _date = $v.date;
       _metadata = $v.metadata;
       _createdAt = $v.createdAt;
       _updatedAt = $v.updatedAt;
-      _userId = $v.userId;
-      _symbolProfileId = $v.symbolProfileId;
       _$v = null;
     }
     return this;
@@ -180,6 +168,7 @@ class CommodityResponseDtoBuilder
         new _$CommodityResponseDto._(
             id: BuiltValueNullFieldError.checkNotNull(
                 id, r'CommodityResponseDto', 'id'),
+            userId: userId,
             symbol: BuiltValueNullFieldError.checkNotNull(
                 symbol, r'CommodityResponseDto', 'symbol'),
             date: BuiltValueNullFieldError.checkNotNull(
@@ -189,9 +178,7 @@ class CommodityResponseDtoBuilder
             createdAt: BuiltValueNullFieldError.checkNotNull(
                 createdAt, r'CommodityResponseDto', 'createdAt'),
             updatedAt: BuiltValueNullFieldError.checkNotNull(
-                updatedAt, r'CommodityResponseDto', 'updatedAt'),
-            userId: userId,
-            symbolProfileId: symbolProfileId);
+                updatedAt, r'CommodityResponseDto', 'updatedAt'));
     replace(_$result);
     return _$result;
   }

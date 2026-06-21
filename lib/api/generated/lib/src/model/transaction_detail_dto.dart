@@ -16,24 +16,23 @@ part 'transaction_detail_dto.g.dart';
 /// Properties:
 /// * [id] - Transaction ID
 /// * [date] - Transaction date
-/// * [narration] - Transaction narration
-/// * [tags] - Transaction tags
-/// * [links] - Transaction links
-/// * [status] - Transaction status
-/// * [postings] - Transaction postings
-/// * [createdAt] - Created at timestamp
 /// * [flag] - Transaction flag
 /// * [customFlag] - Custom flag (if not using standard flags)
 /// * [payee] - Payee name
+/// * [narration] - Transaction narration
+/// * [tags] - Transaction tags
+/// * [links] - Transaction links
 /// * [meta] - Transaction metadata
+/// * [status] - Transaction status
 /// * [sourceType] - Source type (how the transaction was created)
 /// * [sourcePlatform] - Source platform (e.g., alipay, wechat)
+/// * [postings] - Transaction postings
+/// * [createdAt] - Created at timestamp
 /// * [voidedAt] - Voided at timestamp (if voided)
 /// * [voidedBy] - User ID who voided this transaction
 /// * [correctionReason] - Correction reason (if voided or superseded)
 @BuiltValue()
-abstract class TransactionDetailDto
-    implements Built<TransactionDetailDto, TransactionDetailDtoBuilder> {
+abstract class TransactionDetailDto implements Built<TransactionDetailDto, TransactionDetailDtoBuilder> {
   /// Transaction ID
   @BuiltValueField(wireName: r'id')
   String get id;
@@ -41,31 +40,6 @@ abstract class TransactionDetailDto
   /// Transaction date
   @BuiltValueField(wireName: r'date')
   String get date;
-
-  /// Transaction narration
-  @BuiltValueField(wireName: r'narration')
-  String get narration;
-
-  /// Transaction tags
-  @BuiltValueField(wireName: r'tags')
-  BuiltList<String> get tags;
-
-  /// Transaction links
-  @BuiltValueField(wireName: r'links')
-  BuiltList<String> get links;
-
-  /// Transaction status
-  @BuiltValueField(wireName: r'status')
-  TransactionDetailDtoStatusEnum get status;
-  // enum statusEnum {  ACTIVE,  VOIDED,  SUPERSEDED,  };
-
-  /// Transaction postings
-  @BuiltValueField(wireName: r'postings')
-  BuiltList<PostingDetailDto> get postings;
-
-  /// Created at timestamp
-  @BuiltValueField(wireName: r'createdAt')
-  String get createdAt;
 
   /// Transaction flag
   @BuiltValueField(wireName: r'flag')
@@ -80,9 +54,26 @@ abstract class TransactionDetailDto
   @BuiltValueField(wireName: r'payee')
   String? get payee;
 
+  /// Transaction narration
+  @BuiltValueField(wireName: r'narration')
+  String get narration;
+
+  /// Transaction tags
+  @BuiltValueField(wireName: r'tags')
+  BuiltList<String> get tags;
+
+  /// Transaction links
+  @BuiltValueField(wireName: r'links')
+  BuiltList<String> get links;
+
   /// Transaction metadata
   @BuiltValueField(wireName: r'meta')
   JsonObject? get meta;
+
+  /// Transaction status
+  @BuiltValueField(wireName: r'status')
+  TransactionDetailDtoStatusEnum get status;
+  // enum statusEnum {  ACTIVE,  VOIDED,  SUPERSEDED,  };
 
   /// Source type (how the transaction was created)
   @BuiltValueField(wireName: r'sourceType')
@@ -92,6 +83,14 @@ abstract class TransactionDetailDto
   /// Source platform (e.g., alipay, wechat)
   @BuiltValueField(wireName: r'sourcePlatform')
   String? get sourcePlatform;
+
+  /// Transaction postings
+  @BuiltValueField(wireName: r'postings')
+  BuiltList<PostingDetailDto> get postings;
+
+  /// Created at timestamp
+  @BuiltValueField(wireName: r'createdAt')
+  String get createdAt;
 
   /// Voided at timestamp (if voided)
   @BuiltValueField(wireName: r'voidedAt')
@@ -107,24 +106,18 @@ abstract class TransactionDetailDto
 
   TransactionDetailDto._();
 
-  factory TransactionDetailDto([void updates(TransactionDetailDtoBuilder b)]) =
-      _$TransactionDetailDto;
+  factory TransactionDetailDto([void updates(TransactionDetailDtoBuilder b)]) = _$TransactionDetailDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(TransactionDetailDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<TransactionDetailDto> get serializer =>
-      _$TransactionDetailDtoSerializer();
+  static Serializer<TransactionDetailDto> get serializer => _$TransactionDetailDtoSerializer();
 }
 
-class _$TransactionDetailDtoSerializer
-    implements PrimitiveSerializer<TransactionDetailDto> {
+class _$TransactionDetailDtoSerializer implements PrimitiveSerializer<TransactionDetailDto> {
   @override
-  final Iterable<Type> types = const [
-    TransactionDetailDto,
-    _$TransactionDetailDto
-  ];
+  final Iterable<Type> types = const [TransactionDetailDto, _$TransactionDetailDto];
 
   @override
   final String wireName = r'TransactionDetailDto';
@@ -142,36 +135,6 @@ class _$TransactionDetailDtoSerializer
     yield r'date';
     yield serializers.serialize(
       object.date,
-      specifiedType: const FullType(String),
-    );
-    yield r'narration';
-    yield serializers.serialize(
-      object.narration,
-      specifiedType: const FullType(String),
-    );
-    yield r'tags';
-    yield serializers.serialize(
-      object.tags,
-      specifiedType: const FullType(BuiltList, [FullType(String)]),
-    );
-    yield r'links';
-    yield serializers.serialize(
-      object.links,
-      specifiedType: const FullType(BuiltList, [FullType(String)]),
-    );
-    yield r'status';
-    yield serializers.serialize(
-      object.status,
-      specifiedType: const FullType(TransactionDetailDtoStatusEnum),
-    );
-    yield r'postings';
-    yield serializers.serialize(
-      object.postings,
-      specifiedType: const FullType(BuiltList, [FullType(PostingDetailDto)]),
-    );
-    yield r'createdAt';
-    yield serializers.serialize(
-      object.createdAt,
       specifiedType: const FullType(String),
     );
     if (object.flag != null) {
@@ -195,6 +158,21 @@ class _$TransactionDetailDtoSerializer
         specifiedType: const FullType(String),
       );
     }
+    yield r'narration';
+    yield serializers.serialize(
+      object.narration,
+      specifiedType: const FullType(String),
+    );
+    yield r'tags';
+    yield serializers.serialize(
+      object.tags,
+      specifiedType: const FullType(BuiltList, [FullType(String)]),
+    );
+    yield r'links';
+    yield serializers.serialize(
+      object.links,
+      specifiedType: const FullType(BuiltList, [FullType(String)]),
+    );
     if (object.meta != null) {
       yield r'meta';
       yield serializers.serialize(
@@ -202,6 +180,11 @@ class _$TransactionDetailDtoSerializer
         specifiedType: const FullType(JsonObject),
       );
     }
+    yield r'status';
+    yield serializers.serialize(
+      object.status,
+      specifiedType: const FullType(TransactionDetailDtoStatusEnum),
+    );
     if (object.sourceType != null) {
       yield r'sourceType';
       yield serializers.serialize(
@@ -216,6 +199,16 @@ class _$TransactionDetailDtoSerializer
         specifiedType: const FullType(String),
       );
     }
+    yield r'postings';
+    yield serializers.serialize(
+      object.postings,
+      specifiedType: const FullType(BuiltList, [FullType(PostingDetailDto)]),
+    );
+    yield r'createdAt';
+    yield serializers.serialize(
+      object.createdAt,
+      specifiedType: const FullType(String),
+    );
     if (object.voidedAt != null) {
       yield r'voidedAt';
       yield serializers.serialize(
@@ -245,9 +238,7 @@ class _$TransactionDetailDtoSerializer
     TransactionDetailDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -276,49 +267,6 @@ class _$TransactionDetailDtoSerializer
           ) as String;
           result.date = valueDes;
           break;
-        case r'narration':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.narration = valueDes;
-          break;
-        case r'tags':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(BuiltList, [FullType(String)]),
-          ) as BuiltList<String>;
-          result.tags.replace(valueDes);
-          break;
-        case r'links':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(BuiltList, [FullType(String)]),
-          ) as BuiltList<String>;
-          result.links.replace(valueDes);
-          break;
-        case r'status':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(TransactionDetailDtoStatusEnum),
-          ) as TransactionDetailDtoStatusEnum;
-          result.status = valueDes;
-          break;
-        case r'postings':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType:
-                const FullType(BuiltList, [FullType(PostingDetailDto)]),
-          ) as BuiltList<PostingDetailDto>;
-          result.postings.replace(valueDes);
-          break;
-        case r'createdAt':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.createdAt = valueDes;
-          break;
         case r'flag':
           final valueDes = serializers.deserialize(
             value,
@@ -340,12 +288,40 @@ class _$TransactionDetailDtoSerializer
           ) as String;
           result.payee = valueDes;
           break;
+        case r'narration':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.narration = valueDes;
+          break;
+        case r'tags':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(BuiltList, [FullType(String)]),
+          ) as BuiltList<String>;
+          result.tags.replace(valueDes);
+          break;
+        case r'links':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(BuiltList, [FullType(String)]),
+          ) as BuiltList<String>;
+          result.links.replace(valueDes);
+          break;
         case r'meta':
           final valueDes = serializers.deserialize(
             value,
             specifiedType: const FullType(JsonObject),
           ) as JsonObject;
           result.meta = valueDes;
+          break;
+        case r'status':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(TransactionDetailDtoStatusEnum),
+          ) as TransactionDetailDtoStatusEnum;
+          result.status = valueDes;
           break;
         case r'sourceType':
           final valueDes = serializers.deserialize(
@@ -360,6 +336,20 @@ class _$TransactionDetailDtoSerializer
             specifiedType: const FullType(String),
           ) as String;
           result.sourcePlatform = valueDes;
+          break;
+        case r'postings':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(BuiltList, [FullType(PostingDetailDto)]),
+          ) as BuiltList<PostingDetailDto>;
+          result.postings.replace(valueDes);
+          break;
+        case r'createdAt':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.createdAt = valueDes;
           break;
         case r'voidedAt':
           final valueDes = serializers.deserialize(
@@ -411,103 +401,75 @@ class _$TransactionDetailDtoSerializer
   }
 }
 
-class TransactionDetailDtoStatusEnum extends EnumClass {
-  /// Transaction status
-  @BuiltValueEnumConst(wireName: r'ACTIVE')
-  static const TransactionDetailDtoStatusEnum ACTIVE =
-      _$transactionDetailDtoStatusEnum_ACTIVE;
-
-  /// Transaction status
-  @BuiltValueEnumConst(wireName: r'VOIDED')
-  static const TransactionDetailDtoStatusEnum VOIDED =
-      _$transactionDetailDtoStatusEnum_VOIDED;
-
-  /// Transaction status
-  @BuiltValueEnumConst(wireName: r'SUPERSEDED', fallback: true)
-  static const TransactionDetailDtoStatusEnum SUPERSEDED =
-      _$transactionDetailDtoStatusEnum_SUPERSEDED;
-
-  static Serializer<TransactionDetailDtoStatusEnum> get serializer =>
-      _$transactionDetailDtoStatusEnumSerializer;
-
-  const TransactionDetailDtoStatusEnum._(String name) : super(name);
-
-  static BuiltSet<TransactionDetailDtoStatusEnum> get values =>
-      _$transactionDetailDtoStatusEnumValues;
-  static TransactionDetailDtoStatusEnum valueOf(String name) =>
-      _$transactionDetailDtoStatusEnumValueOf(name);
-}
-
 class TransactionDetailDtoFlagEnum extends EnumClass {
+
   /// Transaction flag
   @BuiltValueEnumConst(wireName: r'CLEARED')
-  static const TransactionDetailDtoFlagEnum CLEARED =
-      _$transactionDetailDtoFlagEnum_CLEARED;
-
+  static const TransactionDetailDtoFlagEnum CLEARED = _$transactionDetailDtoFlagEnum_CLEARED;
   /// Transaction flag
   @BuiltValueEnumConst(wireName: r'PENDING')
-  static const TransactionDetailDtoFlagEnum PENDING =
-      _$transactionDetailDtoFlagEnum_PENDING;
-
+  static const TransactionDetailDtoFlagEnum PENDING = _$transactionDetailDtoFlagEnum_PENDING;
   /// Transaction flag
   @BuiltValueEnumConst(wireName: r'PADDING')
-  static const TransactionDetailDtoFlagEnum PADDING =
-      _$transactionDetailDtoFlagEnum_PADDING;
-
+  static const TransactionDetailDtoFlagEnum PADDING = _$transactionDetailDtoFlagEnum_PADDING;
   /// Transaction flag
   @BuiltValueEnumConst(wireName: r'SUMMARIZE')
-  static const TransactionDetailDtoFlagEnum SUMMARIZE =
-      _$transactionDetailDtoFlagEnum_SUMMARIZE;
-
+  static const TransactionDetailDtoFlagEnum SUMMARIZE = _$transactionDetailDtoFlagEnum_SUMMARIZE;
   /// Transaction flag
   @BuiltValueEnumConst(wireName: r'TRANSFER')
-  static const TransactionDetailDtoFlagEnum TRANSFER =
-      _$transactionDetailDtoFlagEnum_TRANSFER;
-
+  static const TransactionDetailDtoFlagEnum TRANSFER = _$transactionDetailDtoFlagEnum_TRANSFER;
   /// Transaction flag
-  @BuiltValueEnumConst(wireName: r'CONVERSIONS', fallback: true)
-  static const TransactionDetailDtoFlagEnum CONVERSIONS =
-      _$transactionDetailDtoFlagEnum_CONVERSIONS;
+  @BuiltValueEnumConst(wireName: r'CONVERSIONS')
+  static const TransactionDetailDtoFlagEnum CONVERSIONS = _$transactionDetailDtoFlagEnum_CONVERSIONS;
 
-  static Serializer<TransactionDetailDtoFlagEnum> get serializer =>
-      _$transactionDetailDtoFlagEnumSerializer;
+  static Serializer<TransactionDetailDtoFlagEnum> get serializer => _$transactionDetailDtoFlagEnumSerializer;
 
-  const TransactionDetailDtoFlagEnum._(String name) : super(name);
+  const TransactionDetailDtoFlagEnum._(String name): super(name);
 
-  static BuiltSet<TransactionDetailDtoFlagEnum> get values =>
-      _$transactionDetailDtoFlagEnumValues;
-  static TransactionDetailDtoFlagEnum valueOf(String name) =>
-      _$transactionDetailDtoFlagEnumValueOf(name);
+  static BuiltSet<TransactionDetailDtoFlagEnum> get values => _$transactionDetailDtoFlagEnumValues;
+  static TransactionDetailDtoFlagEnum valueOf(String name) => _$transactionDetailDtoFlagEnumValueOf(name);
+}
+
+class TransactionDetailDtoStatusEnum extends EnumClass {
+
+  /// Transaction status
+  @BuiltValueEnumConst(wireName: r'ACTIVE')
+  static const TransactionDetailDtoStatusEnum ACTIVE = _$transactionDetailDtoStatusEnum_ACTIVE;
+  /// Transaction status
+  @BuiltValueEnumConst(wireName: r'VOIDED')
+  static const TransactionDetailDtoStatusEnum VOIDED = _$transactionDetailDtoStatusEnum_VOIDED;
+  /// Transaction status
+  @BuiltValueEnumConst(wireName: r'SUPERSEDED')
+  static const TransactionDetailDtoStatusEnum SUPERSEDED = _$transactionDetailDtoStatusEnum_SUPERSEDED;
+
+  static Serializer<TransactionDetailDtoStatusEnum> get serializer => _$transactionDetailDtoStatusEnumSerializer;
+
+  const TransactionDetailDtoStatusEnum._(String name): super(name);
+
+  static BuiltSet<TransactionDetailDtoStatusEnum> get values => _$transactionDetailDtoStatusEnumValues;
+  static TransactionDetailDtoStatusEnum valueOf(String name) => _$transactionDetailDtoStatusEnumValueOf(name);
 }
 
 class TransactionDetailDtoSourceTypeEnum extends EnumClass {
+
   /// Source type (how the transaction was created)
   @BuiltValueEnumConst(wireName: r'NLP')
-  static const TransactionDetailDtoSourceTypeEnum NLP =
-      _$transactionDetailDtoSourceTypeEnum_NLP;
-
+  static const TransactionDetailDtoSourceTypeEnum NLP = _$transactionDetailDtoSourceTypeEnum_NLP;
   /// Source type (how the transaction was created)
   @BuiltValueEnumConst(wireName: r'CSV')
-  static const TransactionDetailDtoSourceTypeEnum CSV =
-      _$transactionDetailDtoSourceTypeEnum_CSV;
-
+  static const TransactionDetailDtoSourceTypeEnum CSV = _$transactionDetailDtoSourceTypeEnum_CSV;
   /// Source type (how the transaction was created)
   @BuiltValueEnumConst(wireName: r'OCR')
-  static const TransactionDetailDtoSourceTypeEnum OCR =
-      _$transactionDetailDtoSourceTypeEnum_OCR;
-
+  static const TransactionDetailDtoSourceTypeEnum OCR = _$transactionDetailDtoSourceTypeEnum_OCR;
   /// Source type (how the transaction was created)
-  @BuiltValueEnumConst(wireName: r'API', fallback: true)
-  static const TransactionDetailDtoSourceTypeEnum API =
-      _$transactionDetailDtoSourceTypeEnum_API;
+  @BuiltValueEnumConst(wireName: r'API')
+  static const TransactionDetailDtoSourceTypeEnum API = _$transactionDetailDtoSourceTypeEnum_API;
 
-  static Serializer<TransactionDetailDtoSourceTypeEnum> get serializer =>
-      _$transactionDetailDtoSourceTypeEnumSerializer;
+  static Serializer<TransactionDetailDtoSourceTypeEnum> get serializer => _$transactionDetailDtoSourceTypeEnumSerializer;
 
-  const TransactionDetailDtoSourceTypeEnum._(String name) : super(name);
+  const TransactionDetailDtoSourceTypeEnum._(String name): super(name);
 
-  static BuiltSet<TransactionDetailDtoSourceTypeEnum> get values =>
-      _$transactionDetailDtoSourceTypeEnumValues;
-  static TransactionDetailDtoSourceTypeEnum valueOf(String name) =>
-      _$transactionDetailDtoSourceTypeEnumValueOf(name);
+  static BuiltSet<TransactionDetailDtoSourceTypeEnum> get values => _$transactionDetailDtoSourceTypeEnumValues;
+  static TransactionDetailDtoSourceTypeEnum valueOf(String name) => _$transactionDetailDtoSourceTypeEnumValueOf(name);
 }
+

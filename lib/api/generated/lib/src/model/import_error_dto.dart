@@ -14,8 +14,7 @@ part 'import_error_dto.g.dart';
 /// * [index] - Index of failed transaction in the file
 /// * [error] - Error message
 @BuiltValue()
-abstract class ImportErrorDto
-    implements Built<ImportErrorDto, ImportErrorDtoBuilder> {
+abstract class ImportErrorDto implements Built<ImportErrorDto, ImportErrorDtoBuilder> {
   /// Index of failed transaction in the file
   @BuiltValueField(wireName: r'index')
   num get index;
@@ -26,19 +25,16 @@ abstract class ImportErrorDto
 
   ImportErrorDto._();
 
-  factory ImportErrorDto([void updates(ImportErrorDtoBuilder b)]) =
-      _$ImportErrorDto;
+  factory ImportErrorDto([void updates(ImportErrorDtoBuilder b)]) = _$ImportErrorDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(ImportErrorDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<ImportErrorDto> get serializer =>
-      _$ImportErrorDtoSerializer();
+  static Serializer<ImportErrorDto> get serializer => _$ImportErrorDtoSerializer();
 }
 
-class _$ImportErrorDtoSerializer
-    implements PrimitiveSerializer<ImportErrorDto> {
+class _$ImportErrorDtoSerializer implements PrimitiveSerializer<ImportErrorDto> {
   @override
   final Iterable<Type> types = const [ImportErrorDto, _$ImportErrorDto];
 
@@ -68,9 +64,7 @@ class _$ImportErrorDtoSerializer
     ImportErrorDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -127,3 +121,4 @@ class _$ImportErrorDtoSerializer
     return result.build();
   }
 }
+

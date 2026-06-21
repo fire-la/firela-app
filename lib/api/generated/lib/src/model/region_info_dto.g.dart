@@ -12,11 +12,11 @@ class _$RegionInfoDto extends RegionInfoDto {
   @override
   final String displayName;
   @override
+  final String? parent;
+  @override
   final BuiltList<String> chain;
   @override
   final RegionConfigDto config;
-  @override
-  final String? parent;
 
   factory _$RegionInfoDto([void Function(RegionInfoDtoBuilder)? updates]) =>
       (new RegionInfoDtoBuilder()..update(updates))._build();
@@ -24,9 +24,9 @@ class _$RegionInfoDto extends RegionInfoDto {
   _$RegionInfoDto._(
       {required this.code,
       required this.displayName,
+      this.parent,
       required this.chain,
-      required this.config,
-      this.parent})
+      required this.config})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(code, r'RegionInfoDto', 'code');
     BuiltValueNullFieldError.checkNotNull(
@@ -48,9 +48,9 @@ class _$RegionInfoDto extends RegionInfoDto {
     return other is RegionInfoDto &&
         code == other.code &&
         displayName == other.displayName &&
+        parent == other.parent &&
         chain == other.chain &&
-        config == other.config &&
-        parent == other.parent;
+        config == other.config;
   }
 
   @override
@@ -58,9 +58,9 @@ class _$RegionInfoDto extends RegionInfoDto {
     var _$hash = 0;
     _$hash = $jc(_$hash, code.hashCode);
     _$hash = $jc(_$hash, displayName.hashCode);
+    _$hash = $jc(_$hash, parent.hashCode);
     _$hash = $jc(_$hash, chain.hashCode);
     _$hash = $jc(_$hash, config.hashCode);
-    _$hash = $jc(_$hash, parent.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -70,9 +70,9 @@ class _$RegionInfoDto extends RegionInfoDto {
     return (newBuiltValueToStringHelper(r'RegionInfoDto')
           ..add('code', code)
           ..add('displayName', displayName)
+          ..add('parent', parent)
           ..add('chain', chain)
-          ..add('config', config)
-          ..add('parent', parent))
+          ..add('config', config))
         .toString();
   }
 }
@@ -89,6 +89,10 @@ class RegionInfoDtoBuilder
   String? get displayName => _$this._displayName;
   set displayName(String? displayName) => _$this._displayName = displayName;
 
+  String? _parent;
+  String? get parent => _$this._parent;
+  set parent(String? parent) => _$this._parent = parent;
+
   ListBuilder<String>? _chain;
   ListBuilder<String> get chain => _$this._chain ??= new ListBuilder<String>();
   set chain(ListBuilder<String>? chain) => _$this._chain = chain;
@@ -97,10 +101,6 @@ class RegionInfoDtoBuilder
   RegionConfigDtoBuilder get config =>
       _$this._config ??= new RegionConfigDtoBuilder();
   set config(RegionConfigDtoBuilder? config) => _$this._config = config;
-
-  String? _parent;
-  String? get parent => _$this._parent;
-  set parent(String? parent) => _$this._parent = parent;
 
   RegionInfoDtoBuilder() {
     RegionInfoDto._defaults(this);
@@ -111,9 +111,9 @@ class RegionInfoDtoBuilder
     if ($v != null) {
       _code = $v.code;
       _displayName = $v.displayName;
+      _parent = $v.parent;
       _chain = $v.chain.toBuilder();
       _config = $v.config.toBuilder();
-      _parent = $v.parent;
       _$v = null;
     }
     return this;
@@ -142,9 +142,9 @@ class RegionInfoDtoBuilder
                   code, r'RegionInfoDto', 'code'),
               displayName: BuiltValueNullFieldError.checkNotNull(
                   displayName, r'RegionInfoDto', 'displayName'),
+              parent: parent,
               chain: chain.build(),
-              config: config.build(),
-              parent: parent);
+              config: config.build());
     } catch (_) {
       late String _$failedField;
       try {

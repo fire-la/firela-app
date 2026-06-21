@@ -13,16 +13,18 @@ part 'expected_transaction_rule_dto.g.dart';
 ///
 /// Properties:
 /// * [name] - Rule name
+/// * [icon] - Rule icon
 /// * [frequency] - Rule frequency
 /// * [currency] - Currency code
-/// * [icon] - Rule icon
 @BuiltValue()
-abstract class ExpectedTransactionRuleDto
-    implements
-        Built<ExpectedTransactionRuleDto, ExpectedTransactionRuleDtoBuilder> {
+abstract class ExpectedTransactionRuleDto implements Built<ExpectedTransactionRuleDto, ExpectedTransactionRuleDtoBuilder> {
   /// Rule name
   @BuiltValueField(wireName: r'name')
   String get name;
+
+  /// Rule icon
+  @BuiltValueField(wireName: r'icon')
+  JsonObject? get icon;
 
   /// Rule frequency
   @BuiltValueField(wireName: r'frequency')
@@ -32,31 +34,20 @@ abstract class ExpectedTransactionRuleDto
   @BuiltValueField(wireName: r'currency')
   String get currency;
 
-  /// Rule icon
-  @BuiltValueField(wireName: r'icon')
-  JsonObject? get icon;
-
   ExpectedTransactionRuleDto._();
 
-  factory ExpectedTransactionRuleDto(
-          [void updates(ExpectedTransactionRuleDtoBuilder b)]) =
-      _$ExpectedTransactionRuleDto;
+  factory ExpectedTransactionRuleDto([void updates(ExpectedTransactionRuleDtoBuilder b)]) = _$ExpectedTransactionRuleDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(ExpectedTransactionRuleDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<ExpectedTransactionRuleDto> get serializer =>
-      _$ExpectedTransactionRuleDtoSerializer();
+  static Serializer<ExpectedTransactionRuleDto> get serializer => _$ExpectedTransactionRuleDtoSerializer();
 }
 
-class _$ExpectedTransactionRuleDtoSerializer
-    implements PrimitiveSerializer<ExpectedTransactionRuleDto> {
+class _$ExpectedTransactionRuleDtoSerializer implements PrimitiveSerializer<ExpectedTransactionRuleDto> {
   @override
-  final Iterable<Type> types = const [
-    ExpectedTransactionRuleDto,
-    _$ExpectedTransactionRuleDto
-  ];
+  final Iterable<Type> types = const [ExpectedTransactionRuleDto, _$ExpectedTransactionRuleDto];
 
   @override
   final String wireName = r'ExpectedTransactionRuleDto';
@@ -71,6 +62,13 @@ class _$ExpectedTransactionRuleDtoSerializer
       object.name,
       specifiedType: const FullType(String),
     );
+    if (object.icon != null) {
+      yield r'icon';
+      yield serializers.serialize(
+        object.icon,
+        specifiedType: const FullType(JsonObject),
+      );
+    }
     yield r'frequency';
     yield serializers.serialize(
       object.frequency,
@@ -81,13 +79,6 @@ class _$ExpectedTransactionRuleDtoSerializer
       object.currency,
       specifiedType: const FullType(String),
     );
-    if (object.icon != null) {
-      yield r'icon';
-      yield serializers.serialize(
-        object.icon,
-        specifiedType: const FullType(JsonObject),
-      );
-    }
   }
 
   @override
@@ -96,9 +87,7 @@ class _$ExpectedTransactionRuleDtoSerializer
     ExpectedTransactionRuleDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -120,6 +109,13 @@ class _$ExpectedTransactionRuleDtoSerializer
           ) as String;
           result.name = valueDes;
           break;
+        case r'icon':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(JsonObject),
+          ) as JsonObject;
+          result.icon = valueDes;
+          break;
         case r'frequency':
           final valueDes = serializers.deserialize(
             value,
@@ -133,13 +129,6 @@ class _$ExpectedTransactionRuleDtoSerializer
             specifiedType: const FullType(String),
           ) as String;
           result.currency = valueDes;
-          break;
-        case r'icon':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(JsonObject),
-          ) as JsonObject;
-          result.icon = valueDes;
           break;
         default:
           unhandled.add(key);
@@ -169,3 +158,4 @@ class _$ExpectedTransactionRuleDtoSerializer
     return result.build();
   }
 }
+

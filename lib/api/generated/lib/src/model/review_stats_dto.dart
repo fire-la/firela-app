@@ -16,8 +16,7 @@ part 'review_stats_dto.g.dart';
 /// * [byType] - Count by type
 /// * [oldestPending] - Oldest pending review date
 @BuiltValue()
-abstract class ReviewStatsDto
-    implements Built<ReviewStatsDto, ReviewStatsDtoBuilder> {
+abstract class ReviewStatsDto implements Built<ReviewStatsDto, ReviewStatsDtoBuilder> {
   /// Total pending reviews
   @BuiltValueField(wireName: r'total')
   num get total;
@@ -32,19 +31,16 @@ abstract class ReviewStatsDto
 
   ReviewStatsDto._();
 
-  factory ReviewStatsDto([void updates(ReviewStatsDtoBuilder b)]) =
-      _$ReviewStatsDto;
+  factory ReviewStatsDto([void updates(ReviewStatsDtoBuilder b)]) = _$ReviewStatsDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(ReviewStatsDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<ReviewStatsDto> get serializer =>
-      _$ReviewStatsDtoSerializer();
+  static Serializer<ReviewStatsDto> get serializer => _$ReviewStatsDtoSerializer();
 }
 
-class _$ReviewStatsDtoSerializer
-    implements PrimitiveSerializer<ReviewStatsDto> {
+class _$ReviewStatsDtoSerializer implements PrimitiveSerializer<ReviewStatsDto> {
   @override
   final Iterable<Type> types = const [ReviewStatsDto, _$ReviewStatsDto];
 
@@ -81,9 +77,7 @@ class _$ReviewStatsDtoSerializer
     ReviewStatsDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -147,3 +141,4 @@ class _$ReviewStatsDtoSerializer
     return result.build();
   }
 }
+

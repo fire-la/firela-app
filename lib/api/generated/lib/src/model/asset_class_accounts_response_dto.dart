@@ -15,12 +15,9 @@ part 'asset_class_accounts_response_dto.g.dart';
 ///
 /// Properties:
 /// * [groups] - Account groups by asset class
-/// * [summary]
+/// * [summary] 
 @BuiltValue()
-abstract class AssetClassAccountsResponseDto
-    implements
-        Built<AssetClassAccountsResponseDto,
-            AssetClassAccountsResponseDtoBuilder> {
+abstract class AssetClassAccountsResponseDto implements Built<AssetClassAccountsResponseDto, AssetClassAccountsResponseDtoBuilder> {
   /// Account groups by asset class
   @BuiltValueField(wireName: r'groups')
   BuiltList<AssetClassGroupDto> get groups;
@@ -30,25 +27,18 @@ abstract class AssetClassAccountsResponseDto
 
   AssetClassAccountsResponseDto._();
 
-  factory AssetClassAccountsResponseDto(
-          [void updates(AssetClassAccountsResponseDtoBuilder b)]) =
-      _$AssetClassAccountsResponseDto;
+  factory AssetClassAccountsResponseDto([void updates(AssetClassAccountsResponseDtoBuilder b)]) = _$AssetClassAccountsResponseDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(AssetClassAccountsResponseDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<AssetClassAccountsResponseDto> get serializer =>
-      _$AssetClassAccountsResponseDtoSerializer();
+  static Serializer<AssetClassAccountsResponseDto> get serializer => _$AssetClassAccountsResponseDtoSerializer();
 }
 
-class _$AssetClassAccountsResponseDtoSerializer
-    implements PrimitiveSerializer<AssetClassAccountsResponseDto> {
+class _$AssetClassAccountsResponseDtoSerializer implements PrimitiveSerializer<AssetClassAccountsResponseDto> {
   @override
-  final Iterable<Type> types = const [
-    AssetClassAccountsResponseDto,
-    _$AssetClassAccountsResponseDto
-  ];
+  final Iterable<Type> types = const [AssetClassAccountsResponseDto, _$AssetClassAccountsResponseDto];
 
   @override
   final String wireName = r'AssetClassAccountsResponseDto';
@@ -76,9 +66,7 @@ class _$AssetClassAccountsResponseDtoSerializer
     AssetClassAccountsResponseDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -96,8 +84,7 @@ class _$AssetClassAccountsResponseDtoSerializer
         case r'groups':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType:
-                const FullType(BuiltList, [FullType(AssetClassGroupDto)]),
+            specifiedType: const FullType(BuiltList, [FullType(AssetClassGroupDto)]),
           ) as BuiltList<AssetClassGroupDto>;
           result.groups.replace(valueDes);
           break;
@@ -136,3 +123,4 @@ class _$AssetClassAccountsResponseDtoSerializer
     return result.build();
   }
 }
+

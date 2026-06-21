@@ -17,8 +17,7 @@ part 'export_rules_response_dto.g.dart';
 /// * [ruleCount] - Number of exported rules
 /// * [rules] - Exported rules
 @BuiltValue()
-abstract class ExportRulesResponseDto
-    implements Built<ExportRulesResponseDto, ExportRulesResponseDtoBuilder> {
+abstract class ExportRulesResponseDto implements Built<ExportRulesResponseDto, ExportRulesResponseDtoBuilder> {
   /// Export timestamp
   @BuiltValueField(wireName: r'exportedAt')
   String get exportedAt;
@@ -37,25 +36,18 @@ abstract class ExportRulesResponseDto
 
   ExportRulesResponseDto._();
 
-  factory ExportRulesResponseDto(
-          [void updates(ExportRulesResponseDtoBuilder b)]) =
-      _$ExportRulesResponseDto;
+  factory ExportRulesResponseDto([void updates(ExportRulesResponseDtoBuilder b)]) = _$ExportRulesResponseDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(ExportRulesResponseDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<ExportRulesResponseDto> get serializer =>
-      _$ExportRulesResponseDtoSerializer();
+  static Serializer<ExportRulesResponseDto> get serializer => _$ExportRulesResponseDtoSerializer();
 }
 
-class _$ExportRulesResponseDtoSerializer
-    implements PrimitiveSerializer<ExportRulesResponseDto> {
+class _$ExportRulesResponseDtoSerializer implements PrimitiveSerializer<ExportRulesResponseDto> {
   @override
-  final Iterable<Type> types = const [
-    ExportRulesResponseDto,
-    _$ExportRulesResponseDto
-  ];
+  final Iterable<Type> types = const [ExportRulesResponseDto, _$ExportRulesResponseDto];
 
   @override
   final String wireName = r'ExportRulesResponseDto';
@@ -93,9 +85,7 @@ class _$ExportRulesResponseDtoSerializer
     ExportRulesResponseDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -166,3 +156,4 @@ class _$ExportRulesResponseDtoSerializer
     return result.build();
   }
 }
+

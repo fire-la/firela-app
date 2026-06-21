@@ -17,8 +17,7 @@ part 'test_rule_response_dto.g.dart';
 /// * [confidence] - Match confidence score (0-1)
 /// * [matchDetails] - Details of which fields matched
 @BuiltValue()
-abstract class TestRuleResponseDto
-    implements Built<TestRuleResponseDto, TestRuleResponseDtoBuilder> {
+abstract class TestRuleResponseDto implements Built<TestRuleResponseDto, TestRuleResponseDtoBuilder> {
   /// Rule ID that was tested
   @BuiltValueField(wireName: r'ruleId')
   String get ruleId;
@@ -37,24 +36,18 @@ abstract class TestRuleResponseDto
 
   TestRuleResponseDto._();
 
-  factory TestRuleResponseDto([void updates(TestRuleResponseDtoBuilder b)]) =
-      _$TestRuleResponseDto;
+  factory TestRuleResponseDto([void updates(TestRuleResponseDtoBuilder b)]) = _$TestRuleResponseDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(TestRuleResponseDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<TestRuleResponseDto> get serializer =>
-      _$TestRuleResponseDtoSerializer();
+  static Serializer<TestRuleResponseDto> get serializer => _$TestRuleResponseDtoSerializer();
 }
 
-class _$TestRuleResponseDtoSerializer
-    implements PrimitiveSerializer<TestRuleResponseDto> {
+class _$TestRuleResponseDtoSerializer implements PrimitiveSerializer<TestRuleResponseDto> {
   @override
-  final Iterable<Type> types = const [
-    TestRuleResponseDto,
-    _$TestRuleResponseDto
-  ];
+  final Iterable<Type> types = const [TestRuleResponseDto, _$TestRuleResponseDto];
 
   @override
   final String wireName = r'TestRuleResponseDto';
@@ -92,9 +85,7 @@ class _$TestRuleResponseDtoSerializer
     TestRuleResponseDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -165,3 +156,4 @@ class _$TestRuleResponseDtoSerializer
     return result.build();
   }
 }
+

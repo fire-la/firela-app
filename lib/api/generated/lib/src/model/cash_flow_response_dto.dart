@@ -21,12 +21,11 @@ part 'cash_flow_response_dto.g.dart';
 /// * [netSavings] - Net savings (income - expense, converted)
 /// * [savingsRate] - Savings rate percentage (netSavings / income * 100)
 /// * [currency] - Base currency code
-/// * [byCurrency]
-/// * [converted]
+/// * [byCurrency] 
+/// * [converted] 
 /// * [warnings] - Exchange rate warnings
 @BuiltValue()
-abstract class CashFlowResponseDto
-    implements Built<CashFlowResponseDto, CashFlowResponseDtoBuilder> {
+abstract class CashFlowResponseDto implements Built<CashFlowResponseDto, CashFlowResponseDtoBuilder> {
   /// Period identifier (YYYY-MM)
   @BuiltValueField(wireName: r'period')
   String get period;
@@ -63,24 +62,18 @@ abstract class CashFlowResponseDto
 
   CashFlowResponseDto._();
 
-  factory CashFlowResponseDto([void updates(CashFlowResponseDtoBuilder b)]) =
-      _$CashFlowResponseDto;
+  factory CashFlowResponseDto([void updates(CashFlowResponseDtoBuilder b)]) = _$CashFlowResponseDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(CashFlowResponseDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<CashFlowResponseDto> get serializer =>
-      _$CashFlowResponseDtoSerializer();
+  static Serializer<CashFlowResponseDto> get serializer => _$CashFlowResponseDtoSerializer();
 }
 
-class _$CashFlowResponseDtoSerializer
-    implements PrimitiveSerializer<CashFlowResponseDto> {
+class _$CashFlowResponseDtoSerializer implements PrimitiveSerializer<CashFlowResponseDto> {
   @override
-  final Iterable<Type> types = const [
-    CashFlowResponseDto,
-    _$CashFlowResponseDto
-  ];
+  final Iterable<Type> types = const [CashFlowResponseDto, _$CashFlowResponseDto];
 
   @override
   final String wireName = r'CashFlowResponseDto';
@@ -138,8 +131,7 @@ class _$CashFlowResponseDtoSerializer
       yield r'warnings';
       yield serializers.serialize(
         object.warnings,
-        specifiedType:
-            const FullType(BuiltList, [FullType(ExchangeRateWarningDto)]),
+        specifiedType: const FullType(BuiltList, [FullType(ExchangeRateWarningDto)]),
       );
     }
   }
@@ -150,9 +142,7 @@ class _$CashFlowResponseDtoSerializer
     CashFlowResponseDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -226,8 +216,7 @@ class _$CashFlowResponseDtoSerializer
         case r'warnings':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType:
-                const FullType(BuiltList, [FullType(ExchangeRateWarningDto)]),
+            specifiedType: const FullType(BuiltList, [FullType(ExchangeRateWarningDto)]),
           ) as BuiltList<ExchangeRateWarningDto>;
           result.warnings.replace(valueDes);
           break;
@@ -259,3 +248,4 @@ class _$CashFlowResponseDtoSerializer
     return result.build();
   }
 }
+

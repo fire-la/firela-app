@@ -19,8 +19,7 @@ part 'api_problem_response_dto.g.dart';
 /// * [instance] - A URI reference that identifies the specific occurrence
 /// * [extensions] - Additional extension data
 @BuiltValue()
-abstract class ApiProblemResponseDto
-    implements Built<ApiProblemResponseDto, ApiProblemResponseDtoBuilder> {
+abstract class ApiProblemResponseDto implements Built<ApiProblemResponseDto, ApiProblemResponseDtoBuilder> {
   /// A URI reference that identifies the problem type
   @BuiltValueField(wireName: r'type')
   String get type;
@@ -47,24 +46,18 @@ abstract class ApiProblemResponseDto
 
   ApiProblemResponseDto._();
 
-  factory ApiProblemResponseDto(
-      [void updates(ApiProblemResponseDtoBuilder b)]) = _$ApiProblemResponseDto;
+  factory ApiProblemResponseDto([void updates(ApiProblemResponseDtoBuilder b)]) = _$ApiProblemResponseDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(ApiProblemResponseDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<ApiProblemResponseDto> get serializer =>
-      _$ApiProblemResponseDtoSerializer();
+  static Serializer<ApiProblemResponseDto> get serializer => _$ApiProblemResponseDtoSerializer();
 }
 
-class _$ApiProblemResponseDtoSerializer
-    implements PrimitiveSerializer<ApiProblemResponseDto> {
+class _$ApiProblemResponseDtoSerializer implements PrimitiveSerializer<ApiProblemResponseDto> {
   @override
-  final Iterable<Type> types = const [
-    ApiProblemResponseDto,
-    _$ApiProblemResponseDto
-  ];
+  final Iterable<Type> types = const [ApiProblemResponseDto, _$ApiProblemResponseDto];
 
   @override
   final String wireName = r'ApiProblemResponseDto';
@@ -116,9 +109,7 @@ class _$ApiProblemResponseDtoSerializer
     ApiProblemResponseDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -203,3 +194,4 @@ class _$ApiProblemResponseDtoSerializer
     return result.build();
   }
 }
+

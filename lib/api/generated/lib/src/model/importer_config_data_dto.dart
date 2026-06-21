@@ -12,33 +12,26 @@ part 'importer_config_data_dto.g.dart';
 /// ImporterConfigDataDto
 ///
 /// Properties:
-/// * [defaults]
+/// * [defaults] 
 @BuiltValue()
-abstract class ImporterConfigDataDto
-    implements Built<ImporterConfigDataDto, ImporterConfigDataDtoBuilder> {
+abstract class ImporterConfigDataDto implements Built<ImporterConfigDataDto, ImporterConfigDataDtoBuilder> {
   @BuiltValueField(wireName: r'defaults')
   MapperDefaultsDto get defaults;
 
   ImporterConfigDataDto._();
 
-  factory ImporterConfigDataDto(
-      [void updates(ImporterConfigDataDtoBuilder b)]) = _$ImporterConfigDataDto;
+  factory ImporterConfigDataDto([void updates(ImporterConfigDataDtoBuilder b)]) = _$ImporterConfigDataDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(ImporterConfigDataDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<ImporterConfigDataDto> get serializer =>
-      _$ImporterConfigDataDtoSerializer();
+  static Serializer<ImporterConfigDataDto> get serializer => _$ImporterConfigDataDtoSerializer();
 }
 
-class _$ImporterConfigDataDtoSerializer
-    implements PrimitiveSerializer<ImporterConfigDataDto> {
+class _$ImporterConfigDataDtoSerializer implements PrimitiveSerializer<ImporterConfigDataDto> {
   @override
-  final Iterable<Type> types = const [
-    ImporterConfigDataDto,
-    _$ImporterConfigDataDto
-  ];
+  final Iterable<Type> types = const [ImporterConfigDataDto, _$ImporterConfigDataDto];
 
   @override
   final String wireName = r'ImporterConfigDataDto';
@@ -61,9 +54,7 @@ class _$ImporterConfigDataDtoSerializer
     ImporterConfigDataDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -113,3 +104,4 @@ class _$ImporterConfigDataDtoSerializer
     return result.build();
   }
 }
+

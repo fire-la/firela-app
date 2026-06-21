@@ -3,6 +3,7 @@
 //
 
 // ignore_for_file: unused_element
+import 'package:built_value/json_object.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
@@ -13,9 +14,9 @@ part 'process_nlp_dto.g.dart';
 /// Properties:
 /// * [message] - Natural language text describing a transaction (Chinese)
 /// * [sessionId] - Session ID for multi-turn conversation (auto-generated if not provided)
+/// * [parsedData] - Parsed data from previous NLP response for session recovery. Send back the parsedData received in confirm_payee/confirm responses.
 @BuiltValue()
-abstract class ProcessNlpDto
-    implements Built<ProcessNlpDto, ProcessNlpDtoBuilder> {
+abstract class ProcessNlpDto implements Built<ProcessNlpDto, ProcessNlpDtoBuilder> {
   /// Natural language text describing a transaction (Chinese)
   @BuiltValueField(wireName: r'message')
   String get message;
@@ -24,17 +25,19 @@ abstract class ProcessNlpDto
   @BuiltValueField(wireName: r'sessionId')
   String? get sessionId;
 
+  /// Parsed data from previous NLP response for session recovery. Send back the parsedData received in confirm_payee/confirm responses.
+  @BuiltValueField(wireName: r'parsedData')
+  JsonObject? get parsedData;
+
   ProcessNlpDto._();
 
-  factory ProcessNlpDto([void updates(ProcessNlpDtoBuilder b)]) =
-      _$ProcessNlpDto;
+  factory ProcessNlpDto([void updates(ProcessNlpDtoBuilder b)]) = _$ProcessNlpDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(ProcessNlpDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<ProcessNlpDto> get serializer =>
-      _$ProcessNlpDtoSerializer();
+  static Serializer<ProcessNlpDto> get serializer => _$ProcessNlpDtoSerializer();
 }
 
 class _$ProcessNlpDtoSerializer implements PrimitiveSerializer<ProcessNlpDto> {
@@ -61,6 +64,13 @@ class _$ProcessNlpDtoSerializer implements PrimitiveSerializer<ProcessNlpDto> {
         specifiedType: const FullType(String),
       );
     }
+    if (object.parsedData != null) {
+      yield r'parsedData';
+      yield serializers.serialize(
+        object.parsedData,
+        specifiedType: const FullType(JsonObject),
+      );
+    }
   }
 
   @override
@@ -69,9 +79,7 @@ class _$ProcessNlpDtoSerializer implements PrimitiveSerializer<ProcessNlpDto> {
     ProcessNlpDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -99,6 +107,13 @@ class _$ProcessNlpDtoSerializer implements PrimitiveSerializer<ProcessNlpDto> {
             specifiedType: const FullType(String),
           ) as String;
           result.sessionId = valueDes;
+          break;
+        case r'parsedData':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(JsonObject),
+          ) as JsonObject;
+          result.parsedData = valueDes;
           break;
         default:
           unhandled.add(key);
@@ -128,3 +143,4 @@ class _$ProcessNlpDtoSerializer implements PrimitiveSerializer<ProcessNlpDto> {
     return result.build();
   }
 }
+

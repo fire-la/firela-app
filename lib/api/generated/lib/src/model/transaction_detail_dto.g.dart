@@ -6,36 +6,6 @@ part of 'transaction_detail_dto.dart';
 // BuiltValueGenerator
 // **************************************************************************
 
-const TransactionDetailDtoStatusEnum _$transactionDetailDtoStatusEnum_ACTIVE =
-    const TransactionDetailDtoStatusEnum._('ACTIVE');
-const TransactionDetailDtoStatusEnum _$transactionDetailDtoStatusEnum_VOIDED =
-    const TransactionDetailDtoStatusEnum._('VOIDED');
-const TransactionDetailDtoStatusEnum
-    _$transactionDetailDtoStatusEnum_SUPERSEDED =
-    const TransactionDetailDtoStatusEnum._('SUPERSEDED');
-
-TransactionDetailDtoStatusEnum _$transactionDetailDtoStatusEnumValueOf(
-    String name) {
-  switch (name) {
-    case 'ACTIVE':
-      return _$transactionDetailDtoStatusEnum_ACTIVE;
-    case 'VOIDED':
-      return _$transactionDetailDtoStatusEnum_VOIDED;
-    case 'SUPERSEDED':
-      return _$transactionDetailDtoStatusEnum_SUPERSEDED;
-    default:
-      return _$transactionDetailDtoStatusEnum_SUPERSEDED;
-  }
-}
-
-final BuiltSet<TransactionDetailDtoStatusEnum>
-    _$transactionDetailDtoStatusEnumValues = new BuiltSet<
-        TransactionDetailDtoStatusEnum>(const <TransactionDetailDtoStatusEnum>[
-  _$transactionDetailDtoStatusEnum_ACTIVE,
-  _$transactionDetailDtoStatusEnum_VOIDED,
-  _$transactionDetailDtoStatusEnum_SUPERSEDED,
-]);
-
 const TransactionDetailDtoFlagEnum _$transactionDetailDtoFlagEnum_CLEARED =
     const TransactionDetailDtoFlagEnum._('CLEARED');
 const TransactionDetailDtoFlagEnum _$transactionDetailDtoFlagEnum_PENDING =
@@ -65,7 +35,7 @@ TransactionDetailDtoFlagEnum _$transactionDetailDtoFlagEnumValueOf(
     case 'CONVERSIONS':
       return _$transactionDetailDtoFlagEnum_CONVERSIONS;
     default:
-      return _$transactionDetailDtoFlagEnum_CONVERSIONS;
+      throw new ArgumentError(name);
   }
 }
 
@@ -78,6 +48,36 @@ final BuiltSet<TransactionDetailDtoFlagEnum>
   _$transactionDetailDtoFlagEnum_SUMMARIZE,
   _$transactionDetailDtoFlagEnum_TRANSFER,
   _$transactionDetailDtoFlagEnum_CONVERSIONS,
+]);
+
+const TransactionDetailDtoStatusEnum _$transactionDetailDtoStatusEnum_ACTIVE =
+    const TransactionDetailDtoStatusEnum._('ACTIVE');
+const TransactionDetailDtoStatusEnum _$transactionDetailDtoStatusEnum_VOIDED =
+    const TransactionDetailDtoStatusEnum._('VOIDED');
+const TransactionDetailDtoStatusEnum
+    _$transactionDetailDtoStatusEnum_SUPERSEDED =
+    const TransactionDetailDtoStatusEnum._('SUPERSEDED');
+
+TransactionDetailDtoStatusEnum _$transactionDetailDtoStatusEnumValueOf(
+    String name) {
+  switch (name) {
+    case 'ACTIVE':
+      return _$transactionDetailDtoStatusEnum_ACTIVE;
+    case 'VOIDED':
+      return _$transactionDetailDtoStatusEnum_VOIDED;
+    case 'SUPERSEDED':
+      return _$transactionDetailDtoStatusEnum_SUPERSEDED;
+    default:
+      throw new ArgumentError(name);
+  }
+}
+
+final BuiltSet<TransactionDetailDtoStatusEnum>
+    _$transactionDetailDtoStatusEnumValues = new BuiltSet<
+        TransactionDetailDtoStatusEnum>(const <TransactionDetailDtoStatusEnum>[
+  _$transactionDetailDtoStatusEnum_ACTIVE,
+  _$transactionDetailDtoStatusEnum_VOIDED,
+  _$transactionDetailDtoStatusEnum_SUPERSEDED,
 ]);
 
 const TransactionDetailDtoSourceTypeEnum
@@ -105,7 +105,7 @@ TransactionDetailDtoSourceTypeEnum _$transactionDetailDtoSourceTypeEnumValueOf(
     case 'API':
       return _$transactionDetailDtoSourceTypeEnum_API;
     default:
-      return _$transactionDetailDtoSourceTypeEnum_API;
+      throw new ArgumentError(name);
   }
 }
 
@@ -118,47 +118,15 @@ final BuiltSet<TransactionDetailDtoSourceTypeEnum>
   _$transactionDetailDtoSourceTypeEnum_API,
 ]);
 
-Serializer<TransactionDetailDtoStatusEnum>
-    _$transactionDetailDtoStatusEnumSerializer =
-    new _$TransactionDetailDtoStatusEnumSerializer();
 Serializer<TransactionDetailDtoFlagEnum>
     _$transactionDetailDtoFlagEnumSerializer =
     new _$TransactionDetailDtoFlagEnumSerializer();
+Serializer<TransactionDetailDtoStatusEnum>
+    _$transactionDetailDtoStatusEnumSerializer =
+    new _$TransactionDetailDtoStatusEnumSerializer();
 Serializer<TransactionDetailDtoSourceTypeEnum>
     _$transactionDetailDtoSourceTypeEnumSerializer =
     new _$TransactionDetailDtoSourceTypeEnumSerializer();
-
-class _$TransactionDetailDtoStatusEnumSerializer
-    implements PrimitiveSerializer<TransactionDetailDtoStatusEnum> {
-  static const Map<String, Object> _toWire = const <String, Object>{
-    'ACTIVE': 'ACTIVE',
-    'VOIDED': 'VOIDED',
-    'SUPERSEDED': 'SUPERSEDED',
-  };
-  static const Map<Object, String> _fromWire = const <Object, String>{
-    'ACTIVE': 'ACTIVE',
-    'VOIDED': 'VOIDED',
-    'SUPERSEDED': 'SUPERSEDED',
-  };
-
-  @override
-  final Iterable<Type> types = const <Type>[TransactionDetailDtoStatusEnum];
-  @override
-  final String wireName = 'TransactionDetailDtoStatusEnum';
-
-  @override
-  Object serialize(
-          Serializers serializers, TransactionDetailDtoStatusEnum object,
-          {FullType specifiedType = FullType.unspecified}) =>
-      _toWire[object.name] ?? object.name;
-
-  @override
-  TransactionDetailDtoStatusEnum deserialize(
-          Serializers serializers, Object serialized,
-          {FullType specifiedType = FullType.unspecified}) =>
-      TransactionDetailDtoStatusEnum.valueOf(
-          _fromWire[serialized] ?? (serialized is String ? serialized : ''));
-}
 
 class _$TransactionDetailDtoFlagEnumSerializer
     implements PrimitiveSerializer<TransactionDetailDtoFlagEnum> {
@@ -194,6 +162,38 @@ class _$TransactionDetailDtoFlagEnumSerializer
           Serializers serializers, Object serialized,
           {FullType specifiedType = FullType.unspecified}) =>
       TransactionDetailDtoFlagEnum.valueOf(
+          _fromWire[serialized] ?? (serialized is String ? serialized : ''));
+}
+
+class _$TransactionDetailDtoStatusEnumSerializer
+    implements PrimitiveSerializer<TransactionDetailDtoStatusEnum> {
+  static const Map<String, Object> _toWire = const <String, Object>{
+    'ACTIVE': 'ACTIVE',
+    'VOIDED': 'VOIDED',
+    'SUPERSEDED': 'SUPERSEDED',
+  };
+  static const Map<Object, String> _fromWire = const <Object, String>{
+    'ACTIVE': 'ACTIVE',
+    'VOIDED': 'VOIDED',
+    'SUPERSEDED': 'SUPERSEDED',
+  };
+
+  @override
+  final Iterable<Type> types = const <Type>[TransactionDetailDtoStatusEnum];
+  @override
+  final String wireName = 'TransactionDetailDtoStatusEnum';
+
+  @override
+  Object serialize(
+          Serializers serializers, TransactionDetailDtoStatusEnum object,
+          {FullType specifiedType = FullType.unspecified}) =>
+      _toWire[object.name] ?? object.name;
+
+  @override
+  TransactionDetailDtoStatusEnum deserialize(
+          Serializers serializers, Object serialized,
+          {FullType specifiedType = FullType.unspecified}) =>
+      TransactionDetailDtoStatusEnum.valueOf(
           _fromWire[serialized] ?? (serialized is String ? serialized : ''));
 }
 
@@ -237,29 +237,29 @@ class _$TransactionDetailDto extends TransactionDetailDto {
   @override
   final String date;
   @override
-  final String narration;
-  @override
-  final BuiltList<String> tags;
-  @override
-  final BuiltList<String> links;
-  @override
-  final TransactionDetailDtoStatusEnum status;
-  @override
-  final BuiltList<PostingDetailDto> postings;
-  @override
-  final String createdAt;
-  @override
   final TransactionDetailDtoFlagEnum? flag;
   @override
   final String? customFlag;
   @override
   final String? payee;
   @override
+  final String narration;
+  @override
+  final BuiltList<String> tags;
+  @override
+  final BuiltList<String> links;
+  @override
   final JsonObject? meta;
+  @override
+  final TransactionDetailDtoStatusEnum status;
   @override
   final TransactionDetailDtoSourceTypeEnum? sourceType;
   @override
   final String? sourcePlatform;
+  @override
+  final BuiltList<PostingDetailDto> postings;
+  @override
+  final String createdAt;
   @override
   final String? voidedAt;
   @override
@@ -274,18 +274,18 @@ class _$TransactionDetailDto extends TransactionDetailDto {
   _$TransactionDetailDto._(
       {required this.id,
       required this.date,
-      required this.narration,
-      required this.tags,
-      required this.links,
-      required this.status,
-      required this.postings,
-      required this.createdAt,
       this.flag,
       this.customFlag,
       this.payee,
+      required this.narration,
+      required this.tags,
+      required this.links,
       this.meta,
+      required this.status,
       this.sourceType,
       this.sourcePlatform,
+      required this.postings,
+      required this.createdAt,
       this.voidedAt,
       this.voidedBy,
       this.correctionReason})
@@ -322,18 +322,18 @@ class _$TransactionDetailDto extends TransactionDetailDto {
     return other is TransactionDetailDto &&
         id == other.id &&
         date == other.date &&
-        narration == other.narration &&
-        tags == other.tags &&
-        links == other.links &&
-        status == other.status &&
-        postings == other.postings &&
-        createdAt == other.createdAt &&
         flag == other.flag &&
         customFlag == other.customFlag &&
         payee == other.payee &&
+        narration == other.narration &&
+        tags == other.tags &&
+        links == other.links &&
         meta == other.meta &&
+        status == other.status &&
         sourceType == other.sourceType &&
         sourcePlatform == other.sourcePlatform &&
+        postings == other.postings &&
+        createdAt == other.createdAt &&
         voidedAt == other.voidedAt &&
         voidedBy == other.voidedBy &&
         correctionReason == other.correctionReason;
@@ -344,18 +344,18 @@ class _$TransactionDetailDto extends TransactionDetailDto {
     var _$hash = 0;
     _$hash = $jc(_$hash, id.hashCode);
     _$hash = $jc(_$hash, date.hashCode);
-    _$hash = $jc(_$hash, narration.hashCode);
-    _$hash = $jc(_$hash, tags.hashCode);
-    _$hash = $jc(_$hash, links.hashCode);
-    _$hash = $jc(_$hash, status.hashCode);
-    _$hash = $jc(_$hash, postings.hashCode);
-    _$hash = $jc(_$hash, createdAt.hashCode);
     _$hash = $jc(_$hash, flag.hashCode);
     _$hash = $jc(_$hash, customFlag.hashCode);
     _$hash = $jc(_$hash, payee.hashCode);
+    _$hash = $jc(_$hash, narration.hashCode);
+    _$hash = $jc(_$hash, tags.hashCode);
+    _$hash = $jc(_$hash, links.hashCode);
     _$hash = $jc(_$hash, meta.hashCode);
+    _$hash = $jc(_$hash, status.hashCode);
     _$hash = $jc(_$hash, sourceType.hashCode);
     _$hash = $jc(_$hash, sourcePlatform.hashCode);
+    _$hash = $jc(_$hash, postings.hashCode);
+    _$hash = $jc(_$hash, createdAt.hashCode);
     _$hash = $jc(_$hash, voidedAt.hashCode);
     _$hash = $jc(_$hash, voidedBy.hashCode);
     _$hash = $jc(_$hash, correctionReason.hashCode);
@@ -368,18 +368,18 @@ class _$TransactionDetailDto extends TransactionDetailDto {
     return (newBuiltValueToStringHelper(r'TransactionDetailDto')
           ..add('id', id)
           ..add('date', date)
-          ..add('narration', narration)
-          ..add('tags', tags)
-          ..add('links', links)
-          ..add('status', status)
-          ..add('postings', postings)
-          ..add('createdAt', createdAt)
           ..add('flag', flag)
           ..add('customFlag', customFlag)
           ..add('payee', payee)
+          ..add('narration', narration)
+          ..add('tags', tags)
+          ..add('links', links)
           ..add('meta', meta)
+          ..add('status', status)
           ..add('sourceType', sourceType)
           ..add('sourcePlatform', sourcePlatform)
+          ..add('postings', postings)
+          ..add('createdAt', createdAt)
           ..add('voidedAt', voidedAt)
           ..add('voidedBy', voidedBy)
           ..add('correctionReason', correctionReason))
@@ -399,32 +399,6 @@ class TransactionDetailDtoBuilder
   String? get date => _$this._date;
   set date(String? date) => _$this._date = date;
 
-  String? _narration;
-  String? get narration => _$this._narration;
-  set narration(String? narration) => _$this._narration = narration;
-
-  ListBuilder<String>? _tags;
-  ListBuilder<String> get tags => _$this._tags ??= new ListBuilder<String>();
-  set tags(ListBuilder<String>? tags) => _$this._tags = tags;
-
-  ListBuilder<String>? _links;
-  ListBuilder<String> get links => _$this._links ??= new ListBuilder<String>();
-  set links(ListBuilder<String>? links) => _$this._links = links;
-
-  TransactionDetailDtoStatusEnum? _status;
-  TransactionDetailDtoStatusEnum? get status => _$this._status;
-  set status(TransactionDetailDtoStatusEnum? status) => _$this._status = status;
-
-  ListBuilder<PostingDetailDto>? _postings;
-  ListBuilder<PostingDetailDto> get postings =>
-      _$this._postings ??= new ListBuilder<PostingDetailDto>();
-  set postings(ListBuilder<PostingDetailDto>? postings) =>
-      _$this._postings = postings;
-
-  String? _createdAt;
-  String? get createdAt => _$this._createdAt;
-  set createdAt(String? createdAt) => _$this._createdAt = createdAt;
-
   TransactionDetailDtoFlagEnum? _flag;
   TransactionDetailDtoFlagEnum? get flag => _$this._flag;
   set flag(TransactionDetailDtoFlagEnum? flag) => _$this._flag = flag;
@@ -437,9 +411,25 @@ class TransactionDetailDtoBuilder
   String? get payee => _$this._payee;
   set payee(String? payee) => _$this._payee = payee;
 
+  String? _narration;
+  String? get narration => _$this._narration;
+  set narration(String? narration) => _$this._narration = narration;
+
+  ListBuilder<String>? _tags;
+  ListBuilder<String> get tags => _$this._tags ??= new ListBuilder<String>();
+  set tags(ListBuilder<String>? tags) => _$this._tags = tags;
+
+  ListBuilder<String>? _links;
+  ListBuilder<String> get links => _$this._links ??= new ListBuilder<String>();
+  set links(ListBuilder<String>? links) => _$this._links = links;
+
   JsonObject? _meta;
   JsonObject? get meta => _$this._meta;
   set meta(JsonObject? meta) => _$this._meta = meta;
+
+  TransactionDetailDtoStatusEnum? _status;
+  TransactionDetailDtoStatusEnum? get status => _$this._status;
+  set status(TransactionDetailDtoStatusEnum? status) => _$this._status = status;
 
   TransactionDetailDtoSourceTypeEnum? _sourceType;
   TransactionDetailDtoSourceTypeEnum? get sourceType => _$this._sourceType;
@@ -450,6 +440,16 @@ class TransactionDetailDtoBuilder
   String? get sourcePlatform => _$this._sourcePlatform;
   set sourcePlatform(String? sourcePlatform) =>
       _$this._sourcePlatform = sourcePlatform;
+
+  ListBuilder<PostingDetailDto>? _postings;
+  ListBuilder<PostingDetailDto> get postings =>
+      _$this._postings ??= new ListBuilder<PostingDetailDto>();
+  set postings(ListBuilder<PostingDetailDto>? postings) =>
+      _$this._postings = postings;
+
+  String? _createdAt;
+  String? get createdAt => _$this._createdAt;
+  set createdAt(String? createdAt) => _$this._createdAt = createdAt;
 
   String? _voidedAt;
   String? get voidedAt => _$this._voidedAt;
@@ -473,18 +473,18 @@ class TransactionDetailDtoBuilder
     if ($v != null) {
       _id = $v.id;
       _date = $v.date;
-      _narration = $v.narration;
-      _tags = $v.tags.toBuilder();
-      _links = $v.links.toBuilder();
-      _status = $v.status;
-      _postings = $v.postings.toBuilder();
-      _createdAt = $v.createdAt;
       _flag = $v.flag;
       _customFlag = $v.customFlag;
       _payee = $v.payee;
+      _narration = $v.narration;
+      _tags = $v.tags.toBuilder();
+      _links = $v.links.toBuilder();
       _meta = $v.meta;
+      _status = $v.status;
       _sourceType = $v.sourceType;
       _sourcePlatform = $v.sourcePlatform;
+      _postings = $v.postings.toBuilder();
+      _createdAt = $v.createdAt;
       _voidedAt = $v.voidedAt;
       _voidedBy = $v.voidedBy;
       _correctionReason = $v.correctionReason;
@@ -516,21 +516,21 @@ class TransactionDetailDtoBuilder
                   id, r'TransactionDetailDto', 'id'),
               date: BuiltValueNullFieldError.checkNotNull(
                   date, r'TransactionDetailDto', 'date'),
+              flag: flag,
+              customFlag: customFlag,
+              payee: payee,
               narration: BuiltValueNullFieldError.checkNotNull(
                   narration, r'TransactionDetailDto', 'narration'),
               tags: tags.build(),
               links: links.build(),
+              meta: meta,
               status: BuiltValueNullFieldError.checkNotNull(
                   status, r'TransactionDetailDto', 'status'),
+              sourceType: sourceType,
+              sourcePlatform: sourcePlatform,
               postings: postings.build(),
               createdAt: BuiltValueNullFieldError.checkNotNull(
                   createdAt, r'TransactionDetailDto', 'createdAt'),
-              flag: flag,
-              customFlag: customFlag,
-              payee: payee,
-              meta: meta,
-              sourceType: sourceType,
-              sourcePlatform: sourcePlatform,
               voidedAt: voidedAt,
               voidedBy: voidedBy,
               correctionReason: correctionReason);

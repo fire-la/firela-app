@@ -15,13 +15,12 @@ part 'account_standard_response_dto.g.dart';
 /// * [path] - Account path (hierarchical, colon-separated)
 /// * [type] - Account type in Beancount hierarchy
 /// * [i18nKey] - i18n key for localized display name
-/// * [description] - Account description
+/// * [name] - Short localized display name
+/// * [description] - Account description (stable semantics only)
 /// * [tags] - Account tags for categorization
 /// * [icon] - Icon identifier for UI display
 @BuiltValue()
-abstract class AccountStandardResponseDto
-    implements
-        Built<AccountStandardResponseDto, AccountStandardResponseDtoBuilder> {
+abstract class AccountStandardResponseDto implements Built<AccountStandardResponseDto, AccountStandardResponseDtoBuilder> {
   /// Account path (hierarchical, colon-separated)
   @BuiltValueField(wireName: r'path')
   String get path;
@@ -35,9 +34,13 @@ abstract class AccountStandardResponseDto
   @BuiltValueField(wireName: r'i18nKey')
   String? get i18nKey;
 
-  /// Account description
+  /// Short localized display name
+  @BuiltValueField(wireName: r'name')
+  String? get name;
+
+  /// Account description (stable semantics only)
   @BuiltValueField(wireName: r'description')
-  String? get description;
+  String get description;
 
   /// Account tags for categorization
   @BuiltValueField(wireName: r'tags')
@@ -49,25 +52,18 @@ abstract class AccountStandardResponseDto
 
   AccountStandardResponseDto._();
 
-  factory AccountStandardResponseDto(
-          [void updates(AccountStandardResponseDtoBuilder b)]) =
-      _$AccountStandardResponseDto;
+  factory AccountStandardResponseDto([void updates(AccountStandardResponseDtoBuilder b)]) = _$AccountStandardResponseDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(AccountStandardResponseDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<AccountStandardResponseDto> get serializer =>
-      _$AccountStandardResponseDtoSerializer();
+  static Serializer<AccountStandardResponseDto> get serializer => _$AccountStandardResponseDtoSerializer();
 }
 
-class _$AccountStandardResponseDtoSerializer
-    implements PrimitiveSerializer<AccountStandardResponseDto> {
+class _$AccountStandardResponseDtoSerializer implements PrimitiveSerializer<AccountStandardResponseDto> {
   @override
-  final Iterable<Type> types = const [
-    AccountStandardResponseDto,
-    _$AccountStandardResponseDto
-  ];
+  final Iterable<Type> types = const [AccountStandardResponseDto, _$AccountStandardResponseDto];
 
   @override
   final String wireName = r'AccountStandardResponseDto';
@@ -94,13 +90,18 @@ class _$AccountStandardResponseDtoSerializer
         specifiedType: const FullType(String),
       );
     }
-    if (object.description != null) {
-      yield r'description';
+    if (object.name != null) {
+      yield r'name';
       yield serializers.serialize(
-        object.description,
+        object.name,
         specifiedType: const FullType(String),
       );
     }
+    yield r'description';
+    yield serializers.serialize(
+      object.description,
+      specifiedType: const FullType(String),
+    );
     if (object.tags != null) {
       yield r'tags';
       yield serializers.serialize(
@@ -123,9 +124,7 @@ class _$AccountStandardResponseDtoSerializer
     AccountStandardResponseDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -160,6 +159,13 @@ class _$AccountStandardResponseDtoSerializer
             specifiedType: const FullType(String),
           ) as String;
           result.i18nKey = valueDes;
+          break;
+        case r'name':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.name = valueDes;
           break;
         case r'description':
           final valueDes = serializers.deserialize(
@@ -212,38 +218,28 @@ class _$AccountStandardResponseDtoSerializer
 }
 
 class AccountStandardResponseDtoTypeEnum extends EnumClass {
+
   /// Account type in Beancount hierarchy
   @BuiltValueEnumConst(wireName: r'Assets')
-  static const AccountStandardResponseDtoTypeEnum assets =
-      _$accountStandardResponseDtoTypeEnum_assets;
-
+  static const AccountStandardResponseDtoTypeEnum assets = _$accountStandardResponseDtoTypeEnum_assets;
   /// Account type in Beancount hierarchy
   @BuiltValueEnumConst(wireName: r'Liabilities')
-  static const AccountStandardResponseDtoTypeEnum liabilities =
-      _$accountStandardResponseDtoTypeEnum_liabilities;
-
+  static const AccountStandardResponseDtoTypeEnum liabilities = _$accountStandardResponseDtoTypeEnum_liabilities;
   /// Account type in Beancount hierarchy
   @BuiltValueEnumConst(wireName: r'Income')
-  static const AccountStandardResponseDtoTypeEnum income =
-      _$accountStandardResponseDtoTypeEnum_income;
-
+  static const AccountStandardResponseDtoTypeEnum income = _$accountStandardResponseDtoTypeEnum_income;
   /// Account type in Beancount hierarchy
   @BuiltValueEnumConst(wireName: r'Expenses')
-  static const AccountStandardResponseDtoTypeEnum expenses =
-      _$accountStandardResponseDtoTypeEnum_expenses;
-
+  static const AccountStandardResponseDtoTypeEnum expenses = _$accountStandardResponseDtoTypeEnum_expenses;
   /// Account type in Beancount hierarchy
-  @BuiltValueEnumConst(wireName: r'Equity', fallback: true)
-  static const AccountStandardResponseDtoTypeEnum equity =
-      _$accountStandardResponseDtoTypeEnum_equity;
+  @BuiltValueEnumConst(wireName: r'Equity')
+  static const AccountStandardResponseDtoTypeEnum equity = _$accountStandardResponseDtoTypeEnum_equity;
 
-  static Serializer<AccountStandardResponseDtoTypeEnum> get serializer =>
-      _$accountStandardResponseDtoTypeEnumSerializer;
+  static Serializer<AccountStandardResponseDtoTypeEnum> get serializer => _$accountStandardResponseDtoTypeEnumSerializer;
 
-  const AccountStandardResponseDtoTypeEnum._(String name) : super(name);
+  const AccountStandardResponseDtoTypeEnum._(String name): super(name);
 
-  static BuiltSet<AccountStandardResponseDtoTypeEnum> get values =>
-      _$accountStandardResponseDtoTypeEnumValues;
-  static AccountStandardResponseDtoTypeEnum valueOf(String name) =>
-      _$accountStandardResponseDtoTypeEnumValueOf(name);
+  static BuiltSet<AccountStandardResponseDtoTypeEnum> get values => _$accountStandardResponseDtoTypeEnumValues;
+  static AccountStandardResponseDtoTypeEnum valueOf(String name) => _$accountStandardResponseDtoTypeEnumValueOf(name);
 }
+

@@ -13,32 +13,24 @@ part 'validate_rule_dto.g.dart';
 /// ValidateRuleDto
 ///
 /// Properties:
-/// * [name]
-/// * [matchLogic]
-/// * [priority]
-/// * [description]
-/// * [narrationKeywords]
-/// * [payeeKeywords]
-/// * [categoryKeywords]
+/// * [name] 
+/// * [description] 
+/// * [narrationKeywords] 
+/// * [payeeKeywords] 
+/// * [categoryKeywords] 
 /// * [methodKeywords] - Payment method keywords (e.g., HuaBei, YuEBao)
 /// * [categoryAccount] - Destination account for expenses/income (e.g., Expenses:Food:Coffee)
+/// * [matchLogic] 
 /// * [amountMin] - Minimum transaction amount (inclusive)
 /// * [amountMax] - Maximum transaction amount (inclusive)
-/// * [additionalTags]
-/// * [additionalMetadata]
+/// * [priority] 
+/// * [additionalTags] 
+/// * [additionalMetadata] 
 /// * [upsertByPayee] - If true, update existing rule with matching payeeKeywords[0] instead of creating new rule
 @BuiltValue()
-abstract class ValidateRuleDto
-    implements Built<ValidateRuleDto, ValidateRuleDtoBuilder> {
+abstract class ValidateRuleDto implements Built<ValidateRuleDto, ValidateRuleDtoBuilder> {
   @BuiltValueField(wireName: r'name')
   String get name;
-
-  @BuiltValueField(wireName: r'matchLogic')
-  ValidateRuleDtoMatchLogicEnum get matchLogic;
-  // enum matchLogicEnum {  OR,  AND,  };
-
-  @BuiltValueField(wireName: r'priority')
-  num get priority;
 
   @BuiltValueField(wireName: r'description')
   String? get description;
@@ -60,6 +52,10 @@ abstract class ValidateRuleDto
   @BuiltValueField(wireName: r'categoryAccount')
   String? get categoryAccount;
 
+  @BuiltValueField(wireName: r'matchLogic')
+  ValidateRuleDtoMatchLogicEnum get matchLogic;
+  // enum matchLogicEnum {  OR,  AND,  };
+
   /// Minimum transaction amount (inclusive)
   @BuiltValueField(wireName: r'amountMin')
   num? get amountMin;
@@ -67,6 +63,9 @@ abstract class ValidateRuleDto
   /// Maximum transaction amount (inclusive)
   @BuiltValueField(wireName: r'amountMax')
   num? get amountMax;
+
+  @BuiltValueField(wireName: r'priority')
+  num get priority;
 
   @BuiltValueField(wireName: r'additionalTags')
   BuiltList<BuiltList>? get additionalTags;
@@ -80,21 +79,18 @@ abstract class ValidateRuleDto
 
   ValidateRuleDto._();
 
-  factory ValidateRuleDto([void updates(ValidateRuleDtoBuilder b)]) =
-      _$ValidateRuleDto;
+  factory ValidateRuleDto([void updates(ValidateRuleDtoBuilder b)]) = _$ValidateRuleDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(ValidateRuleDtoBuilder b) => b
-    ..matchLogic = const ValidateRuleDtoMatchLogicEnum._('OR')
-    ..priority = 50;
+      ..matchLogic = const ValidateRuleDtoMatchLogicEnum._('OR')
+      ..priority = 50;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<ValidateRuleDto> get serializer =>
-      _$ValidateRuleDtoSerializer();
+  static Serializer<ValidateRuleDto> get serializer => _$ValidateRuleDtoSerializer();
 }
 
-class _$ValidateRuleDtoSerializer
-    implements PrimitiveSerializer<ValidateRuleDto> {
+class _$ValidateRuleDtoSerializer implements PrimitiveSerializer<ValidateRuleDto> {
   @override
   final Iterable<Type> types = const [ValidateRuleDto, _$ValidateRuleDto];
 
@@ -110,16 +106,6 @@ class _$ValidateRuleDtoSerializer
     yield serializers.serialize(
       object.name,
       specifiedType: const FullType(String),
-    );
-    yield r'matchLogic';
-    yield serializers.serialize(
-      object.matchLogic,
-      specifiedType: const FullType(ValidateRuleDtoMatchLogicEnum),
-    );
-    yield r'priority';
-    yield serializers.serialize(
-      object.priority,
-      specifiedType: const FullType(num),
     );
     if (object.description != null) {
       yield r'description';
@@ -163,6 +149,11 @@ class _$ValidateRuleDtoSerializer
         specifiedType: const FullType(String),
       );
     }
+    yield r'matchLogic';
+    yield serializers.serialize(
+      object.matchLogic,
+      specifiedType: const FullType(ValidateRuleDtoMatchLogicEnum),
+    );
     if (object.amountMin != null) {
       yield r'amountMin';
       yield serializers.serialize(
@@ -177,6 +168,11 @@ class _$ValidateRuleDtoSerializer
         specifiedType: const FullType(num),
       );
     }
+    yield r'priority';
+    yield serializers.serialize(
+      object.priority,
+      specifiedType: const FullType(num),
+    );
     if (object.additionalTags != null) {
       yield r'additionalTags';
       yield serializers.serialize(
@@ -206,9 +202,7 @@ class _$ValidateRuleDtoSerializer
     ValidateRuleDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -229,20 +223,6 @@ class _$ValidateRuleDtoSerializer
             specifiedType: const FullType(String),
           ) as String;
           result.name = valueDes;
-          break;
-        case r'matchLogic':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(ValidateRuleDtoMatchLogicEnum),
-          ) as ValidateRuleDtoMatchLogicEnum;
-          result.matchLogic = valueDes;
-          break;
-        case r'priority':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(num),
-          ) as num;
-          result.priority = valueDes;
           break;
         case r'description':
           final valueDes = serializers.deserialize(
@@ -286,6 +266,13 @@ class _$ValidateRuleDtoSerializer
           ) as String;
           result.categoryAccount = valueDes;
           break;
+        case r'matchLogic':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(ValidateRuleDtoMatchLogicEnum),
+          ) as ValidateRuleDtoMatchLogicEnum;
+          result.matchLogic = valueDes;
+          break;
         case r'amountMin':
           final valueDes = serializers.deserialize(
             value,
@@ -299,6 +286,13 @@ class _$ValidateRuleDtoSerializer
             specifiedType: const FullType(num),
           ) as num;
           result.amountMax = valueDes;
+          break;
+        case r'priority':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(num),
+          ) as num;
+          result.priority = valueDes;
           break;
         case r'additionalTags':
           final valueDes = serializers.deserialize(
@@ -351,20 +345,17 @@ class _$ValidateRuleDtoSerializer
 }
 
 class ValidateRuleDtoMatchLogicEnum extends EnumClass {
+
   @BuiltValueEnumConst(wireName: r'OR')
-  static const ValidateRuleDtoMatchLogicEnum OR =
-      _$validateRuleDtoMatchLogicEnum_OR;
-  @BuiltValueEnumConst(wireName: r'AND', fallback: true)
-  static const ValidateRuleDtoMatchLogicEnum AND =
-      _$validateRuleDtoMatchLogicEnum_AND;
+  static const ValidateRuleDtoMatchLogicEnum OR = _$validateRuleDtoMatchLogicEnum_OR;
+  @BuiltValueEnumConst(wireName: r'AND')
+  static const ValidateRuleDtoMatchLogicEnum AND = _$validateRuleDtoMatchLogicEnum_AND;
 
-  static Serializer<ValidateRuleDtoMatchLogicEnum> get serializer =>
-      _$validateRuleDtoMatchLogicEnumSerializer;
+  static Serializer<ValidateRuleDtoMatchLogicEnum> get serializer => _$validateRuleDtoMatchLogicEnumSerializer;
 
-  const ValidateRuleDtoMatchLogicEnum._(String name) : super(name);
+  const ValidateRuleDtoMatchLogicEnum._(String name): super(name);
 
-  static BuiltSet<ValidateRuleDtoMatchLogicEnum> get values =>
-      _$validateRuleDtoMatchLogicEnumValues;
-  static ValidateRuleDtoMatchLogicEnum valueOf(String name) =>
-      _$validateRuleDtoMatchLogicEnumValueOf(name);
+  static BuiltSet<ValidateRuleDtoMatchLogicEnum> get values => _$validateRuleDtoMatchLogicEnumValues;
+  static ValidateRuleDtoMatchLogicEnum valueOf(String name) => _$validateRuleDtoMatchLogicEnumValueOf(name);
 }
+

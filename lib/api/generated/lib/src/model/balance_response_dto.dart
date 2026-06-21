@@ -16,8 +16,7 @@ part 'balance_response_dto.g.dart';
 /// * [currency] - Currency code
 /// * [date] - Date of the balance calculation (ISO 8601)
 @BuiltValue()
-abstract class BalanceResponseDto
-    implements Built<BalanceResponseDto, BalanceResponseDtoBuilder> {
+abstract class BalanceResponseDto implements Built<BalanceResponseDto, BalanceResponseDtoBuilder> {
   /// Account name
   @BuiltValueField(wireName: r'account')
   String get account;
@@ -36,19 +35,16 @@ abstract class BalanceResponseDto
 
   BalanceResponseDto._();
 
-  factory BalanceResponseDto([void updates(BalanceResponseDtoBuilder b)]) =
-      _$BalanceResponseDto;
+  factory BalanceResponseDto([void updates(BalanceResponseDtoBuilder b)]) = _$BalanceResponseDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(BalanceResponseDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<BalanceResponseDto> get serializer =>
-      _$BalanceResponseDtoSerializer();
+  static Serializer<BalanceResponseDto> get serializer => _$BalanceResponseDtoSerializer();
 }
 
-class _$BalanceResponseDtoSerializer
-    implements PrimitiveSerializer<BalanceResponseDto> {
+class _$BalanceResponseDtoSerializer implements PrimitiveSerializer<BalanceResponseDto> {
   @override
   final Iterable<Type> types = const [BalanceResponseDto, _$BalanceResponseDto];
 
@@ -88,9 +84,7 @@ class _$BalanceResponseDtoSerializer
     BalanceResponseDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -161,3 +155,4 @@ class _$BalanceResponseDtoSerializer
     return result.build();
   }
 }
+
