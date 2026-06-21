@@ -18,5 +18,8 @@
 
 # Skip generated boilerplate (not useful in committed code)
 doc/
+docs/
 test/
 .openapi-generator/
+git_push.sh
+*.mustache
