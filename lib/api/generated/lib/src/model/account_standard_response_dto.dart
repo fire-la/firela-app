@@ -32,7 +32,7 @@ abstract class AccountStandardResponseDto implements Built<AccountStandardRespon
 
   /// i18n key for localized display name
   @BuiltValueField(wireName: r'i18nKey')
-  String? get i18nKey;
+  String get i18nKey;
 
   /// Short localized display name
   @BuiltValueField(wireName: r'name')
@@ -44,11 +44,11 @@ abstract class AccountStandardResponseDto implements Built<AccountStandardRespon
 
   /// Account tags for categorization
   @BuiltValueField(wireName: r'tags')
-  BuiltList<String>? get tags;
+  BuiltList<String> get tags;
 
   /// Icon identifier for UI display
   @BuiltValueField(wireName: r'icon')
-  String? get icon;
+  String get icon;
 
   AccountStandardResponseDto._();
 
@@ -83,13 +83,11 @@ class _$AccountStandardResponseDtoSerializer implements PrimitiveSerializer<Acco
       object.type,
       specifiedType: const FullType(AccountStandardResponseDtoTypeEnum),
     );
-    if (object.i18nKey != null) {
-      yield r'i18nKey';
-      yield serializers.serialize(
-        object.i18nKey,
-        specifiedType: const FullType(String),
-      );
-    }
+    yield r'i18nKey';
+    yield serializers.serialize(
+      object.i18nKey,
+      specifiedType: const FullType(String),
+    );
     if (object.name != null) {
       yield r'name';
       yield serializers.serialize(
@@ -102,20 +100,16 @@ class _$AccountStandardResponseDtoSerializer implements PrimitiveSerializer<Acco
       object.description,
       specifiedType: const FullType(String),
     );
-    if (object.tags != null) {
-      yield r'tags';
-      yield serializers.serialize(
-        object.tags,
-        specifiedType: const FullType(BuiltList, [FullType(String)]),
-      );
-    }
-    if (object.icon != null) {
-      yield r'icon';
-      yield serializers.serialize(
-        object.icon,
-        specifiedType: const FullType(String),
-      );
-    }
+    yield r'tags';
+    yield serializers.serialize(
+      object.tags,
+      specifiedType: const FullType(BuiltList, [FullType(String)]),
+    );
+    yield r'icon';
+    yield serializers.serialize(
+      object.icon,
+      specifiedType: const FullType(String),
+    );
   }
 
   @override
