@@ -208,7 +208,7 @@ abstract class AppLocalizations {
   /// **'Error'**
   String get error;
 
-  /// Retry button text
+  /// Retry button label
   ///
   /// In en, this message translates to:
   /// **'Retry'**
@@ -406,10 +406,10 @@ abstract class AppLocalizations {
   /// **'No transactions'**
   String get noTransactionRecords;
 
-  /// Generic data load failure message
+  /// Load failure message
   ///
   /// In en, this message translates to:
-  /// **'Failed to load'**
+  /// **'Load failed'**
   String get loadFailed;
 
   /// Chart period label for last 6 months
@@ -2799,6 +2799,348 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count} / {total} transactions'**
   String transactionSummary(int count, int total);
+
+  /// Save action
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get actionSave;
+
+  /// Delete action
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get actionDelete;
+
+  /// Close action
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get actionClose;
+
+  /// Transaction edit page title
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get txEditTitle;
+
+  /// Amount field label
+  ///
+  /// In en, this message translates to:
+  /// **'Amount'**
+  String get txAmount;
+
+  /// Transfer transaction type
+  ///
+  /// In en, this message translates to:
+  /// **'Transfer'**
+  String get txTypeTransfer;
+
+  /// Expense transaction type
+  ///
+  /// In en, this message translates to:
+  /// **'Expense'**
+  String get txTypeExpense;
+
+  /// Income transaction type
+  ///
+  /// In en, this message translates to:
+  /// **'Income'**
+  String get txTypeIncome;
+
+  /// AI parse confidence label
+  ///
+  /// In en, this message translates to:
+  /// **'AI confidence'**
+  String get txConfidence;
+
+  /// Date field label
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get txDate;
+
+  /// Payee field label
+  ///
+  /// In en, this message translates to:
+  /// **'Payee'**
+  String get txPayee;
+
+  /// Category field label
+  ///
+  /// In en, this message translates to:
+  /// **'Category'**
+  String get txCategory;
+
+  /// Account field label
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get txAccount;
+
+  /// Remember category rule label
+  ///
+  /// In en, this message translates to:
+  /// **'Remember category'**
+  String get txLearnRule;
+
+  /// Remember category rule description
+  ///
+  /// In en, this message translates to:
+  /// **'Future transactions from this payee will auto-categorize'**
+  String get txLearnRuleHint;
+
+  /// Description field label
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get txDescription;
+
+  /// Description field placeholder
+  ///
+  /// In en, this message translates to:
+  /// **'Transaction description'**
+  String get txDescriptionPlaceholder;
+
+  /// Tags field label
+  ///
+  /// In en, this message translates to:
+  /// **'Tags'**
+  String get txTags;
+
+  /// Add tag button
+  ///
+  /// In en, this message translates to:
+  /// **'Add tag'**
+  String get txAddTag;
+
+  /// Postings section title
+  ///
+  /// In en, this message translates to:
+  /// **'Postings'**
+  String get txPostingsTitle;
+
+  /// Add posting button
+  ///
+  /// In en, this message translates to:
+  /// **'Add posting'**
+  String get txAddPosting;
+
+  /// Transaction source label
+  ///
+  /// In en, this message translates to:
+  /// **'Source'**
+  String get txSource;
+
+  /// Transaction created label
+  ///
+  /// In en, this message translates to:
+  /// **'Created'**
+  String get txCreated;
+
+  /// Transaction ID label
+  ///
+  /// In en, this message translates to:
+  /// **'ID'**
+  String get txId;
+
+  /// Postings balanced state
+  ///
+  /// In en, this message translates to:
+  /// **'Balanced'**
+  String get balanceBalanced;
+
+  /// Postings unbalanced state
+  ///
+  /// In en, this message translates to:
+  /// **'Unbalanced'**
+  String get balanceUnbalanced;
+
+  /// Auto-fill posting button
+  ///
+  /// In en, this message translates to:
+  /// **'Auto-fill'**
+  String get balanceAutoFill;
+
+  /// Balance delta label
+  ///
+  /// In en, this message translates to:
+  /// **'Delta'**
+  String get balanceDelta;
+
+  /// Interpolated posting label
+  ///
+  /// In en, this message translates to:
+  /// **'Auto'**
+  String get txPostingInterpolated;
+
+  /// Account detail page title
+  ///
+  /// In en, this message translates to:
+  /// **'Account Detail'**
+  String get accountDetailTitle;
+
+  /// Cost basis explanation
+  ///
+  /// In en, this message translates to:
+  /// **'Cost basis records the acquisition cost of each holding; market value fluctuates with prices, and the difference is the unrealized P&L.'**
+  String get investCostBasisHint;
+
+  /// Account type info label
+  ///
+  /// In en, this message translates to:
+  /// **'Account Type'**
+  String get investInfoAccountType;
+
+  /// Custodian info label
+  ///
+  /// In en, this message translates to:
+  /// **'Custodian'**
+  String get investInfoCustodian;
+
+  /// Holdings count info label
+  ///
+  /// In en, this message translates to:
+  /// **'Holdings'**
+  String get investInfoHoldingsCount;
+
+  /// Account standard info label
+  ///
+  /// In en, this message translates to:
+  /// **'Standard'**
+  String get investInfoStandard;
+
+  /// Holdings section title
+  ///
+  /// In en, this message translates to:
+  /// **'Holdings · cost basis'**
+  String get investHoldingsTitle;
+
+  /// Holding cost label
+  ///
+  /// In en, this message translates to:
+  /// **'Cost'**
+  String get holdingCost;
+
+  /// Holding unit price label
+  ///
+  /// In en, this message translates to:
+  /// **'Unit price'**
+  String get holdingUnitPrice;
+
+  /// Holding market value label
+  ///
+  /// In en, this message translates to:
+  /// **'Market value'**
+  String get holdingMarketValue;
+
+  /// Holding profit and loss label
+  ///
+  /// In en, this message translates to:
+  /// **'P&L'**
+  String get holdingPnl;
+
+  /// Total cost summary label
+  ///
+  /// In en, this message translates to:
+  /// **'Total Cost'**
+  String get investTotalCost;
+
+  /// Total market value summary label
+  ///
+  /// In en, this message translates to:
+  /// **'Total Market Value'**
+  String get investTotalMarketValue;
+
+  /// Total P&L summary label
+  ///
+  /// In en, this message translates to:
+  /// **'Total P&L'**
+  String get investTotalPnl;
+
+  /// Reconciliation entry label
+  ///
+  /// In en, this message translates to:
+  /// **'Balance Reconciliation'**
+  String get reconcileEntry;
+
+  /// Reconciliation page title
+  ///
+  /// In en, this message translates to:
+  /// **'Balance Reconciliation'**
+  String get reconcileTitle;
+
+  /// Book balance label
+  ///
+  /// In en, this message translates to:
+  /// **'Book Balance'**
+  String get reconcileBookBalance;
+
+  /// Book balance hint
+  ///
+  /// In en, this message translates to:
+  /// **'System-calculated'**
+  String get reconcileBookBalanceHint;
+
+  /// Actual balance form title
+  ///
+  /// In en, this message translates to:
+  /// **'Verify actual balance'**
+  String get reconcileFormTitle;
+
+  /// Reconciliation date label
+  ///
+  /// In en, this message translates to:
+  /// **'Reconciliation date'**
+  String get reconcileDate;
+
+  /// Actual balance label
+  ///
+  /// In en, this message translates to:
+  /// **'Actual balance'**
+  String get reconcileActual;
+
+  /// Actual balance placeholder
+  ///
+  /// In en, this message translates to:
+  /// **'Enter actual balance'**
+  String get reconcileActualPlaceholder;
+
+  /// Difference label
+  ///
+  /// In en, this message translates to:
+  /// **'Difference'**
+  String get reconcileDifference;
+
+  /// Tolerance hint
+  ///
+  /// In en, this message translates to:
+  /// **'Difference within ¥1.00 will only be recorded as a balance assertion, skipping the adjustment entry.'**
+  String get reconcileToleranceHint;
+
+  /// Record assertion button
+  ///
+  /// In en, this message translates to:
+  /// **'Record assertion'**
+  String get reconcileRecordAssertion;
+
+  /// Generate adjustment entry button
+  ///
+  /// In en, this message translates to:
+  /// **'Generate adjustment entry'**
+  String get reconcileGenerateEntry;
+
+  /// Cancel action
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get txCancel;
+
+  /// Delete confirmation message
+  ///
+  /// In en, this message translates to:
+  /// **'Mark this transaction as voided?'**
+  String get txDeleteConfirmMessage;
 }
 
 class _AppLocalizationsDelegate

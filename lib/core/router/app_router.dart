@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../features/main/presentation/pages/main_page.dart';
 import '../../features/accounts/presentation/pages/accounts_page.dart';
+import '../../features/accounts/presentation/pages/account_detail_investment_page.dart';
+import '../../features/accounts/presentation/pages/balance_reconciliation_page.dart';
 import '../../features/expense/presentation/pages/bill_import_page.dart';
 import '../../features/review_center/presentation/pages/review_center_page.dart';
 import '../../features/review_center/presentation/pages/review_detail_page.dart';
@@ -32,6 +34,22 @@ final appRouter = GoRouter(
       path: RouteNames.accounts,
       name: 'accounts',
       builder: (context, state) => const AccountsPage(),
+    ),
+    GoRoute(
+      path: RouteNames.accountDetail,
+      name: 'account_detail',
+      builder: (context, state) {
+        final id = state.pathParameters['id'] ?? '';
+        // TODO(routing): dispatch by account type; investment → AccountDetailInvestmentPage
+        return AccountDetailInvestmentPage(id: id);
+      },
+    ),
+    GoRoute(
+      path: RouteNames.reconciliation,
+      name: 'reconciliation',
+      builder: (context, state) => BalanceReconciliationPage(
+        accountId: state.pathParameters['accountId'] ?? '',
+      ),
     ),
     GoRoute(
       path: RouteNames.billImport,

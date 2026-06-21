@@ -11,6 +11,9 @@ class RouteNames {
   /// Account detail route
   static const String accountDetail = '/accounts/:id';
 
+  /// Balance reconciliation route
+  static const String reconciliation = '/reconciliation/:accountId';
+
   /// Transactions route
   static const String transactions = '/transactions';
 

@@ -19,6 +19,9 @@ class TokenColors {
   /// bg.toast
   static const Color bgToast = Color(0xCC000000);
 
+  /// bg.scrim
+  static const Color bgScrim = Color(0x66000000);
+
   // Border
   /// border.card
   static const Color borderCard = Color(0xFFEEEEEE);
@@ -49,15 +52,27 @@ class TokenColors {
   /// color.accent.peach
   static const Color accentPeach = Color(0xFFFFF3C7);
 
+  /// color.accent.bg
+  static const Color accentBg = Color(0x1AE6662A);
+
   // Semantic
   /// color.error
   static const Color error = Color(0xFFEF4444);
 
+  /// color.error.bg
+  static const Color errorBg = Color(0x1AEF4444);
+
   /// color.info
   static const Color info = Color(0xFF3B82F6);
 
+  /// color.info.bg
+  static const Color infoBg = Color(0x1A3B82F6);
+
   /// color.success
   static const Color success = Color(0xFF22C55E);
+
+  /// color.success.bg
+  static const Color successBg = Color(0x1A22C55E);
 
   // Neutral
   /// color.neutral.50

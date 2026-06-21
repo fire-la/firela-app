@@ -176,7 +176,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noTransactionRecords => 'No transactions';
 
   @override
-  String get loadFailed => 'Failed to load';
+  String get loadFailed => 'Load failed';
 
   @override
   String get recent6Months => 'Last 6 months';
@@ -1436,4 +1436,178 @@ class AppLocalizationsEn extends AppLocalizations {
   String transactionSummary(int count, int total) {
     return '$count / $total transactions';
   }
+
+  @override
+  String get actionSave => 'Save';
+
+  @override
+  String get actionDelete => 'Delete';
+
+  @override
+  String get actionClose => 'Close';
+
+  @override
+  String get txEditTitle => 'Edit';
+
+  @override
+  String get txAmount => 'Amount';
+
+  @override
+  String get txTypeTransfer => 'Transfer';
+
+  @override
+  String get txTypeExpense => 'Expense';
+
+  @override
+  String get txTypeIncome => 'Income';
+
+  @override
+  String get txConfidence => 'AI confidence';
+
+  @override
+  String get txDate => 'Date';
+
+  @override
+  String get txPayee => 'Payee';
+
+  @override
+  String get txCategory => 'Category';
+
+  @override
+  String get txAccount => 'Account';
+
+  @override
+  String get txLearnRule => 'Remember category';
+
+  @override
+  String get txLearnRuleHint =>
+      'Future transactions from this payee will auto-categorize';
+
+  @override
+  String get txDescription => 'Description';
+
+  @override
+  String get txDescriptionPlaceholder => 'Transaction description';
+
+  @override
+  String get txTags => 'Tags';
+
+  @override
+  String get txAddTag => 'Add tag';
+
+  @override
+  String get txPostingsTitle => 'Postings';
+
+  @override
+  String get txAddPosting => 'Add posting';
+
+  @override
+  String get txSource => 'Source';
+
+  @override
+  String get txCreated => 'Created';
+
+  @override
+  String get txId => 'ID';
+
+  @override
+  String get balanceBalanced => 'Balanced';
+
+  @override
+  String get balanceUnbalanced => 'Unbalanced';
+
+  @override
+  String get balanceAutoFill => 'Auto-fill';
+
+  @override
+  String get balanceDelta => 'Delta';
+
+  @override
+  String get txPostingInterpolated => 'Auto';
+
+  @override
+  String get accountDetailTitle => 'Account Detail';
+
+  @override
+  String get investCostBasisHint =>
+      'Cost basis records the acquisition cost of each holding; market value fluctuates with prices, and the difference is the unrealized P&L.';
+
+  @override
+  String get investInfoAccountType => 'Account Type';
+
+  @override
+  String get investInfoCustodian => 'Custodian';
+
+  @override
+  String get investInfoHoldingsCount => 'Holdings';
+
+  @override
+  String get investInfoStandard => 'Standard';
+
+  @override
+  String get investHoldingsTitle => 'Holdings · cost basis';
+
+  @override
+  String get holdingCost => 'Cost';
+
+  @override
+  String get holdingUnitPrice => 'Unit price';
+
+  @override
+  String get holdingMarketValue => 'Market value';
+
+  @override
+  String get holdingPnl => 'P&L';
+
+  @override
+  String get investTotalCost => 'Total Cost';
+
+  @override
+  String get investTotalMarketValue => 'Total Market Value';
+
+  @override
+  String get investTotalPnl => 'Total P&L';
+
+  @override
+  String get reconcileEntry => 'Balance Reconciliation';
+
+  @override
+  String get reconcileTitle => 'Balance Reconciliation';
+
+  @override
+  String get reconcileBookBalance => 'Book Balance';
+
+  @override
+  String get reconcileBookBalanceHint => 'System-calculated';
+
+  @override
+  String get reconcileFormTitle => 'Verify actual balance';
+
+  @override
+  String get reconcileDate => 'Reconciliation date';
+
+  @override
+  String get reconcileActual => 'Actual balance';
+
+  @override
+  String get reconcileActualPlaceholder => 'Enter actual balance';
+
+  @override
+  String get reconcileDifference => 'Difference';
+
+  @override
+  String get reconcileToleranceHint =>
+      'Difference within ¥1.00 will only be recorded as a balance assertion, skipping the adjustment entry.';
+
+  @override
+  String get reconcileRecordAssertion => 'Record assertion';
+
+  @override
+  String get reconcileGenerateEntry => 'Generate adjustment entry';
+
+  @override
+  String get txCancel => 'Cancel';
+
+  @override
+  String get txDeleteConfirmMessage => 'Mark this transaction as voided?';
 }

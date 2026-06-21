@@ -44,6 +44,33 @@ class TransactionDetailState {
     required this.setPayee,
     required this.setTags,
   });
+
+  /// Per-currency balance deltas for postings.
+  /// Skips interpolated postings (units == null). Balanced when every |delta| < 1e-9.
+  List<PostingBalance> get postingBalances {
+    final tx = transaction;
+    if (tx == null) return const [];
+    final postings = (tx['postings'] as List<dynamic>?) ?? const [];
+    final byCurrency = <String, double>{};
+    for (final raw in postings) {
+      if (raw is! Map<String, dynamic>) continue;
+      final p = raw;
+      final units = p['units'];
+      if (units == null) continue; // interpolated posting
+      final cur = (p['currency'] as String?) ?? 'UNKNOWN';
+      byCurrency[cur] =
+          (byCurrency[cur] ?? 0) + (double.tryParse(units.toString()) ?? 0);
+    }
+    return byCurrency.entries
+        .map((e) => PostingBalance(e.key, e.value))
+        .toList(growable: false);
+  }
+
+  /// True when every currency delta is ~0 (or there are no postings).
+  bool get isBalanced {
+    final balances = postingBalances;
+    return balances.isEmpty || balances.every((b) => b.isZero);
+  }
 }
 
 TransactionDetailState useTransactionDetail(String id) {
@@ -148,4 +175,14 @@ TransactionDetailState useTransactionDetail(String id) {
     setPayee: (name) => payee.value = name,
     setTags: (list) => tagsState.value = list,
   );
+}
+
+/// Per-currency posting balance delta (sum of posting units in one currency).
+class PostingBalance {
+  const PostingBalance(this.currency, this.delta);
+
+  final String currency;
+  final double delta;
+
+  bool get isZero => delta.abs() < 1e-9;
 }

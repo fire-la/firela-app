@@ -1400,6 +1400,178 @@ class AppLocalizationsZh extends AppLocalizations {
   String transactionSummary(int count, int total) {
     return '$count / $total 笔交易';
   }
+
+  @override
+  String get actionSave => '保存';
+
+  @override
+  String get actionDelete => '删除';
+
+  @override
+  String get actionClose => '关闭';
+
+  @override
+  String get txEditTitle => '编辑';
+
+  @override
+  String get txAmount => '金额';
+
+  @override
+  String get txTypeTransfer => '转账';
+
+  @override
+  String get txTypeExpense => '支出';
+
+  @override
+  String get txTypeIncome => '收入';
+
+  @override
+  String get txConfidence => 'AI 识别置信度';
+
+  @override
+  String get txDate => '日期';
+
+  @override
+  String get txPayee => '交易对方';
+
+  @override
+  String get txCategory => '分类';
+
+  @override
+  String get txAccount => '账户';
+
+  @override
+  String get txLearnRule => '记住此分类';
+
+  @override
+  String get txLearnRuleHint => '以后该交易对方的交易将自动归类';
+
+  @override
+  String get txDescription => '描述';
+
+  @override
+  String get txDescriptionPlaceholder => '输入交易描述';
+
+  @override
+  String get txTags => '标签';
+
+  @override
+  String get txAddTag => '添加标签';
+
+  @override
+  String get txPostingsTitle => '分录';
+
+  @override
+  String get txAddPosting => '添加分录';
+
+  @override
+  String get txSource => '来源';
+
+  @override
+  String get txCreated => '创建时间';
+
+  @override
+  String get txId => 'ID';
+
+  @override
+  String get balanceBalanced => '已平衡';
+
+  @override
+  String get balanceUnbalanced => '未平衡';
+
+  @override
+  String get balanceAutoFill => '自动补平';
+
+  @override
+  String get balanceDelta => '差额';
+
+  @override
+  String get txPostingInterpolated => '自动';
+
+  @override
+  String get accountDetailTitle => '账户详情';
+
+  @override
+  String get investCostBasisHint =>
+      '成本基础（cost basis）记录每笔持仓的取得成本；市值随行情波动，差额即浮盈或浮亏。';
+
+  @override
+  String get investInfoAccountType => '账户类型';
+
+  @override
+  String get investInfoCustodian => '托管人';
+
+  @override
+  String get investInfoHoldingsCount => '持仓数';
+
+  @override
+  String get investInfoStandard => '账户标准';
+
+  @override
+  String get investHoldingsTitle => '持仓明细 · 成本基础';
+
+  @override
+  String get holdingCost => '成本';
+
+  @override
+  String get holdingUnitPrice => '单价';
+
+  @override
+  String get holdingMarketValue => '市值';
+
+  @override
+  String get holdingPnl => '浮盈';
+
+  @override
+  String get investTotalCost => '总成本';
+
+  @override
+  String get investTotalMarketValue => '总市值';
+
+  @override
+  String get investTotalPnl => '总浮盈';
+
+  @override
+  String get reconcileEntry => '余额对账';
+
+  @override
+  String get reconcileTitle => '余额对账';
+
+  @override
+  String get reconcileBookBalance => '账面余额';
+
+  @override
+  String get reconcileBookBalanceHint => '系统计算';
+
+  @override
+  String get reconcileFormTitle => '核对实际余额';
+
+  @override
+  String get reconcileDate => '对账日期';
+
+  @override
+  String get reconcileActual => '实际余额';
+
+  @override
+  String get reconcileActualPlaceholder => '输入实际余额';
+
+  @override
+  String get reconcileDifference => '差额';
+
+  @override
+  String get reconcileToleranceHint => '差额在 ¥1.00 以内将仅记录为余额断言，不生成调整分录。';
+
+  @override
+  String get reconcileRecordAssertion => '仅记录断言';
+
+  @override
+  String get reconcileGenerateEntry => '生成调整分录';
+
+  @override
+  String get txCancel => '取消';
+
+  @override
+  String get txDeleteConfirmMessage => '确认将此交易标记为已作废？';
 }
 
 /// The translations for Chinese, as used in China (`zh_CN`).
@@ -2798,6 +2970,178 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String transactionSummary(int count, int total) {
     return '$count / $total 笔交易';
   }
+
+  @override
+  String get actionSave => '保存';
+
+  @override
+  String get actionDelete => '删除';
+
+  @override
+  String get actionClose => '关闭';
+
+  @override
+  String get txEditTitle => '编辑';
+
+  @override
+  String get txAmount => '金额';
+
+  @override
+  String get txTypeTransfer => '转账';
+
+  @override
+  String get txTypeExpense => '支出';
+
+  @override
+  String get txTypeIncome => '收入';
+
+  @override
+  String get txConfidence => 'AI 识别置信度';
+
+  @override
+  String get txDate => '日期';
+
+  @override
+  String get txPayee => '交易对方';
+
+  @override
+  String get txCategory => '分类';
+
+  @override
+  String get txAccount => '账户';
+
+  @override
+  String get txLearnRule => '记住此分类';
+
+  @override
+  String get txLearnRuleHint => '以后该交易对方的交易将自动归类';
+
+  @override
+  String get txDescription => '描述';
+
+  @override
+  String get txDescriptionPlaceholder => '输入交易描述';
+
+  @override
+  String get txTags => '标签';
+
+  @override
+  String get txAddTag => '添加标签';
+
+  @override
+  String get txPostingsTitle => '分录';
+
+  @override
+  String get txAddPosting => '添加分录';
+
+  @override
+  String get txSource => '来源';
+
+  @override
+  String get txCreated => '创建时间';
+
+  @override
+  String get txId => 'ID';
+
+  @override
+  String get balanceBalanced => '已平衡';
+
+  @override
+  String get balanceUnbalanced => '未平衡';
+
+  @override
+  String get balanceAutoFill => '自动补平';
+
+  @override
+  String get balanceDelta => '差额';
+
+  @override
+  String get txPostingInterpolated => '自动';
+
+  @override
+  String get accountDetailTitle => '账户详情';
+
+  @override
+  String get investCostBasisHint =>
+      '成本基础（cost basis）记录每笔持仓的取得成本；市值随行情波动，差额即浮盈或浮亏。';
+
+  @override
+  String get investInfoAccountType => '账户类型';
+
+  @override
+  String get investInfoCustodian => '托管人';
+
+  @override
+  String get investInfoHoldingsCount => '持仓数';
+
+  @override
+  String get investInfoStandard => '账户标准';
+
+  @override
+  String get investHoldingsTitle => '持仓明细 · 成本基础';
+
+  @override
+  String get holdingCost => '成本';
+
+  @override
+  String get holdingUnitPrice => '单价';
+
+  @override
+  String get holdingMarketValue => '市值';
+
+  @override
+  String get holdingPnl => '浮盈';
+
+  @override
+  String get investTotalCost => '总成本';
+
+  @override
+  String get investTotalMarketValue => '总市值';
+
+  @override
+  String get investTotalPnl => '总浮盈';
+
+  @override
+  String get reconcileEntry => '余额对账';
+
+  @override
+  String get reconcileTitle => '余额对账';
+
+  @override
+  String get reconcileBookBalance => '账面余额';
+
+  @override
+  String get reconcileBookBalanceHint => '系统计算';
+
+  @override
+  String get reconcileFormTitle => '核对实际余额';
+
+  @override
+  String get reconcileDate => '对账日期';
+
+  @override
+  String get reconcileActual => '实际余额';
+
+  @override
+  String get reconcileActualPlaceholder => '输入实际余额';
+
+  @override
+  String get reconcileDifference => '差额';
+
+  @override
+  String get reconcileToleranceHint => '差额在 ¥1.00 以内将仅记录为余额断言，不生成调整分录。';
+
+  @override
+  String get reconcileRecordAssertion => '仅记录断言';
+
+  @override
+  String get reconcileGenerateEntry => '生成调整分录';
+
+  @override
+  String get txCancel => '取消';
+
+  @override
+  String get txDeleteConfirmMessage => '确认将此交易标记为已作废？';
 }
 
 /// The translations for Chinese, as used in Taiwan (`zh_TW`).
@@ -4196,4 +4540,176 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
   String transactionSummary(int count, int total) {
     return '$count / $total 筆交易';
   }
+
+  @override
+  String get actionSave => '儲存';
+
+  @override
+  String get actionDelete => '刪除';
+
+  @override
+  String get actionClose => '關閉';
+
+  @override
+  String get txEditTitle => '編輯';
+
+  @override
+  String get txAmount => '金額';
+
+  @override
+  String get txTypeTransfer => '轉帳';
+
+  @override
+  String get txTypeExpense => '支出';
+
+  @override
+  String get txTypeIncome => '收入';
+
+  @override
+  String get txConfidence => 'AI 識別置信度';
+
+  @override
+  String get txDate => '日期';
+
+  @override
+  String get txPayee => '交易對方';
+
+  @override
+  String get txCategory => '分類';
+
+  @override
+  String get txAccount => '帳戶';
+
+  @override
+  String get txLearnRule => '記住此分類';
+
+  @override
+  String get txLearnRuleHint => '以後該交易對方的交易將自動歸類';
+
+  @override
+  String get txDescription => '描述';
+
+  @override
+  String get txDescriptionPlaceholder => '輸入交易描述';
+
+  @override
+  String get txTags => '標籤';
+
+  @override
+  String get txAddTag => '新增標籤';
+
+  @override
+  String get txPostingsTitle => '分錄';
+
+  @override
+  String get txAddPosting => '新增分錄';
+
+  @override
+  String get txSource => '來源';
+
+  @override
+  String get txCreated => '建立時間';
+
+  @override
+  String get txId => 'ID';
+
+  @override
+  String get balanceBalanced => '已平衡';
+
+  @override
+  String get balanceUnbalanced => '未平衡';
+
+  @override
+  String get balanceAutoFill => '自動補平';
+
+  @override
+  String get balanceDelta => '差額';
+
+  @override
+  String get txPostingInterpolated => '自動';
+
+  @override
+  String get accountDetailTitle => '帳戶詳情';
+
+  @override
+  String get investCostBasisHint =>
+      '成本基礎（cost basis）記錄每筆持倉的取得成本；市值隨行情波動，差額即浮盈或浮虧。';
+
+  @override
+  String get investInfoAccountType => '帳戶類型';
+
+  @override
+  String get investInfoCustodian => '託管人';
+
+  @override
+  String get investInfoHoldingsCount => '持倉數';
+
+  @override
+  String get investInfoStandard => '帳戶標準';
+
+  @override
+  String get investHoldingsTitle => '持倉明細 · 成本基礎';
+
+  @override
+  String get holdingCost => '成本';
+
+  @override
+  String get holdingUnitPrice => '單價';
+
+  @override
+  String get holdingMarketValue => '市值';
+
+  @override
+  String get holdingPnl => '浮盈';
+
+  @override
+  String get investTotalCost => '總成本';
+
+  @override
+  String get investTotalMarketValue => '總市值';
+
+  @override
+  String get investTotalPnl => '總浮盈';
+
+  @override
+  String get reconcileEntry => '餘額對帳';
+
+  @override
+  String get reconcileTitle => '餘額對帳';
+
+  @override
+  String get reconcileBookBalance => '帳面餘額';
+
+  @override
+  String get reconcileBookBalanceHint => '系統計算';
+
+  @override
+  String get reconcileFormTitle => '核對實際餘額';
+
+  @override
+  String get reconcileDate => '對帳日期';
+
+  @override
+  String get reconcileActual => '實際餘額';
+
+  @override
+  String get reconcileActualPlaceholder => '輸入實際餘額';
+
+  @override
+  String get reconcileDifference => '差額';
+
+  @override
+  String get reconcileToleranceHint => '差額在 ¥1.00 以內將僅記錄為餘額斷言，不生成調整分錄。';
+
+  @override
+  String get reconcileRecordAssertion => '僅記錄斷言';
+
+  @override
+  String get reconcileGenerateEntry => '生成調整分錄';
+
+  @override
+  String get txCancel => '取消';
+
+  @override
+  String get txDeleteConfirmMessage => '確認將此交易標記為已作廢？';
 }
