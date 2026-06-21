@@ -16,7 +16,7 @@ part 'account_standard_response_dto.g.dart';
 /// * [type] - Account type in Beancount hierarchy
 /// * [i18nKey] - i18n key for localized display name
 /// * [name] - Short localized display name
-/// * [description] - Account description (stable semantics only)
+/// * [description] - Account description (stable semantics only) [automerge-test]
 /// * [tags] - Account tags for categorization
 /// * [icon] - Icon identifier for UI display
 @BuiltValue()
@@ -38,7 +38,7 @@ abstract class AccountStandardResponseDto implements Built<AccountStandardRespon
   @BuiltValueField(wireName: r'name')
   String? get name;
 
-  /// Account description (stable semantics only)
+  /// Account description (stable semantics only) [automerge-test]
   @BuiltValueField(wireName: r'description')
   String get description;
 
