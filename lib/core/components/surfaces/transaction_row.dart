@@ -47,7 +47,7 @@ class TransactionRow extends StatelessWidget {
                 child: Icon(icon, size: 18, color: tokens.textPrimary),
               ),
             ),
-            const SizedBox(width: 10),
+            const SizedBox(width: TokenSpacing.md),
             // Info
             Expanded(
               child: Column(
@@ -63,42 +63,43 @@ class TransactionRow extends StatelessWidget {
                       color: tokens.textPrimary,
                     ),
                   ),
-                  if (subtitle != null)
+                  if (subtitle != null) ...[
+                    const SizedBox(height: TokenSpacing.xs),
                     Text(
                       subtitle!,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TokenTypography.micro(color: tokens.textTertiary),
                     ),
+                  ],
                 ],
               ),
             ),
             const SizedBox(width: TokenSpacing.lg),
-            // Amount (+ optional converted). Flexible so a long amount can
-            // ellipsize instead of overflowing the row (matches the card bases).
-            Flexible(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    amount,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TokenTypography.body(
-                      fontWeight: FontWeight.w700,
-                      color: amountColor ?? tokens.textPrimary,
-                    ),
+            // Amount (+ optional converted). Intrinsic width so it sits flush
+            // at the row's right edge (mirrors NcNfF space_between right frame);
+            // Expanded(info) above absorbs the middle and ellipsizes long titles.
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  amount,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TokenTypography.body(
+                    fontWeight: FontWeight.w700,
+                    color: amountColor ?? tokens.textPrimary,
                   ),
-                  if (convertedText != null) ...[
-                    const SizedBox(height: 2),
-                    Text(
-                      convertedText!,
-                      style: TokenTypography.micro(color: tokens.textTertiary),
-                    ),
-                  ],
+                ),
+                if (convertedText != null) ...[
+                  const SizedBox(height: TokenSpacing.xs),
+                  Text(
+                    convertedText!,
+                    style: TokenTypography.micro(color: tokens.textTertiary),
+                  ),
                 ],
-              ),
+              ],
             ),
           ],
         ),

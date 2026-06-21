@@ -7,13 +7,19 @@ import '../../../../core/design_tokens/design_tokens.dart';
 import '../../../../core/router/route_names.dart';
 import '../../../../shared/widgets/error_view.dart';
 import '../providers/use_transaction_list.dart';
-import '../widgets/transaction_date_group.dart';
+import '../widgets/transaction_list_by.dart';
 
-class TransactionListPage extends HookWidget {
+/// Transaction list page (Pencil `TransactionListByPage`, UsIJi):
+/// TopBar + [loading | error | TransactionListBy content].
+class TransactionListByPage extends HookWidget {
   final String? initialAccountId;
   final String? initialAccountName;
 
-  const TransactionListPage({super.key, this.initialAccountId, this.initialAccountName});
+  const TransactionListByPage({
+    super.key,
+    this.initialAccountId,
+    this.initialAccountName,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -50,79 +56,23 @@ class TransactionListPage extends HookWidget {
                           onRetry: state.refresh,
                           actionLabel: l10n.retry,
                         )
-                      : _buildContent(context, state, scrollController),
+                      : ListView(
+                          controller: scrollController,
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          padding: const EdgeInsets.only(bottom: TokenSpacing.xxl),
+                          children: [
+                            TransactionListBy(
+                              state: state,
+                              onTransactionTap: (id) =>
+                                  context.push('${RouteNames.transactions}/$id'),
+                              onOpenFilter: () => _showFilterSheet(context, state),
+                            ),
+                          ],
+                        ),
             ),
           ),
         ],
       ),
-    );
-  }
-
-  Widget _buildContent(BuildContext context, TransactionListState state, ScrollController controller) {
-    final l10n = AppLocalizations.of(context)!;
-    final hasFilters = state.filterDateFrom != null ||
-        state.filterDateTo != null ||
-        state.filterStatus != null ||
-        state.filterSearch != null ||
-        state.filterAccountId != null;
-
-    return ListView(
-      controller: controller,
-      physics: const AlwaysScrollableScrollPhysics(),
-      padding: const EdgeInsets.only(bottom: TokenSpacing.xxl),
-      children: [
-        // Filter bar
-        if (hasFilters)
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
-            child: FilterBar(
-              label: state.accountDisplayName ??
-                  state.filterAccountId ??
-                  state.filterSearch ??
-                  l10n.filtered,
-              onClear: state.clearFilters,
-            ),
-          )
-        else
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
-            child: FilterBar(
-              label: l10n.filterTransactions,
-              onTap: () => _showFilterSheet(context, state),
-            ),
-          ),
-        const SizedBox(height: TokenSpacing.xl),
-
-        // Summary
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
-          child: SummaryCard(
-            label: l10n.transactionSummary(state.loadedCount, state.total),
-            value: state.summaryValue,
-          ),
-        ),
-        const SizedBox(height: TokenSpacing.xl),
-
-        // Date groups
-        for (final entry in state.groupedTransactions.entries)
-          TransactionDateGroup(
-            date: entry.key,
-            transactions: entry.value,
-            onTransactionTap: (id) => context.push('${RouteNames.transactions}/$id'),
-          ),
-
-        // Load more
-        if (state.hasMore)
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl, vertical: TokenSpacing.xl),
-            child: state.isLoading
-                ? const Center(child: CircularProgressIndicator())
-                : ButtonSecondary(
-                    label: l10n.loadMore,
-                    onPressed: state.loadMore,
-                  ),
-          ),
-      ],
     );
   }
 

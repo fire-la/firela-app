@@ -85,12 +85,33 @@ void main() {
               icon: Icons.receipt_outlined,
               title: 'A very long transaction narration that should ellipsize gracefully',
               subtitle: 'A very long payee name that should also ellipsize gracefully',
-              amount: '-1,234,567.89 CNY',
+              amount: '-50.00 CNY',
             ),
           ),
         ),
       ),
     );
     expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('amount sits flush at the row right edge (right-aligned)', (tester) async {
+    await tester.pumpWidget(
+      const MaterialApp(
+        home: Scaffold(
+          body: SizedBox(
+            width: 343,
+            child: TransactionRow(
+              icon: Icons.receipt_outlined,
+              title: 'Coffee',
+              amount: '-12.50 CNY',
+            ),
+          ),
+        ),
+      ),
+    );
+    final rowRight = tester.getTopRight(find.byType(TransactionRow)).dx;
+    final amountRight = tester.getTopRight(find.text('-12.50 CNY')).dx;
+    // Row padding is 12 (TokenSpacing.lg); amount flush to right edge minus it.
+    expect(rowRight - amountRight, closeTo(12, 2));
   });
 }

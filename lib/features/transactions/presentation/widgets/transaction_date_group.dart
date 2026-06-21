@@ -5,6 +5,8 @@ import '../../../../core/design_tokens/design_tokens.dart';
 import '../../../../core/utils/formatters.dart';
 import '../../domain/entities/transaction.dart';
 
+/// A date group: a localized date label + a card holding that day's
+/// transaction rows separated by hairline dividers (.pen dateGroup yK4ZH).
 class TransactionDateGroup extends StatelessWidget {
   const TransactionDateGroup({
     super.key,
@@ -23,20 +25,45 @@ class TransactionDateGroup extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: TokenSpacing.xl,
-            vertical: TokenSpacing.sm,
-          ),
-          child: Text(
-            _formatDateHeader(date, Localizations.localeOf(context)),
-            style: TokenTypography.body(
-              fontWeight: FontWeight.w600,
-              color: tokens.textPrimary,
-            ),
+        Text(
+          _formatDateHeader(date, Localizations.localeOf(context)),
+          style: TokenTypography.caption(
+            fontWeight: FontWeight.w600,
+            color: tokens.textSecondary,
           ),
         ),
-        ...transactions.map((tx) => _buildRow(tx, tokens)),
+        const SizedBox(height: TokenSpacing.sm),
+        Container(
+          width: double.infinity,
+          clipBehavior: Clip.antiAlias,
+          decoration: BoxDecoration(
+            color: tokens.bgCard,
+            borderRadius: TokenRadius.borderLg,
+            border: Border.all(color: tokens.borderCard, width: 0.5),
+            boxShadow: [
+              BoxShadow(
+                color: tokens.shadow,
+                blurRadius: 18,
+                offset: const Offset(0, 2),
+                spreadRadius: 2,
+              ),
+            ],
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              for (int i = 0; i < transactions.length; i++) ...[
+                _buildRow(transactions[i], tokens),
+                if (i < transactions.length - 1)
+                  Container(
+                    height: 0.5,
+                    width: double.infinity,
+                    color: tokens.borderCard,
+                  ),
+              ],
+            ],
+          ),
+        ),
       ],
     );
   }

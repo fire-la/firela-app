@@ -28,7 +28,7 @@ class FilterBar extends StatelessWidget {
             Row(
               children: [
                 const Icon(Icons.tune, size: 16, color: TokenColors.textAccent),
-                const SizedBox(width: TokenSpacing.lg),
+                const SizedBox(width: TokenSpacing.sm),
                 Text(
                   label,
                   style: TokenTypography.caption(
