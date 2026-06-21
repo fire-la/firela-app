@@ -1,9 +1,9 @@
 // Hand-written — do not auto-generate with ts2dart
 
 import 'package:decimal/decimal.dart';
-import 'package:firela/parser/src/core/csv_parser_base.dart'
+import 'package:firela_app/parser/src/core/csv_parser_base.dart'
     show ColumnDef, CsvParser, CsvParserConfig, RowTransformResult;
-import 'package:firela/parser/src/eu/degiro_types.dart';
+import 'package:firela_app/parser/src/eu/degiro_types.dart';
 
 // ============================================================================
 // Constants

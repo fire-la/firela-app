@@ -9,9 +9,9 @@
 
 import 'package:csv/csv.dart' show parse;
 import 'package:decimal/decimal.dart' show Decimal;
-import 'package:firela/parser/src/result.dart';
-import 'package:firela/parser/src/types.dart' show ParseError, ParseSuccess, ParseWarning;
-import 'package:firela/parser/src/utils/csv_helpers.dart';
+import 'package:firela_app/parser/src/result.dart';
+import 'package:firela_app/parser/src/types.dart' show ParseError, ParseSuccess, ParseWarning;
+import 'package:firela_app/parser/src/utils/csv_helpers.dart';
 
 final List<String> HSBC_HK_SHARED_KEYWORDS = ['Billing currency', 'Description'];
 
@@ -41,9 +41,6 @@ dynamic parseHsbcAmount(String amountStr) {
   }
   try {
   final amount = Decimal.parse((amountStr.trim()).toString());
-  if (!amount.isFinite) {
-  return err({'message': 'Invalid amount: $amountStr'});
-  }
   return ok(amount);
   } catch (e) {
   return err({'message': 'Invalid amount: $amountStr'});

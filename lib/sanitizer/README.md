@@ -7,8 +7,8 @@ Used before uploading parsed transactions to the server — strips sensitive dat
 ## Quick Start
 
 ```dart
-import 'package:firela/sanitizer/sanitizer.dart';
-import 'package:firela/parser/parser.dart';
+import 'package:firela_app/sanitizer/sanitizer.dart';
+import 'package:firela_app/parser/parser.dart';
 
 // Create engine for user's region
 final engine = SanitizeEngine('cn');

@@ -7,13 +7,13 @@
 // ignore_for_file: avoid_redundant_argument_values, avoid_unused_element, unused_local_variable
 // ignore_for_file: unused_shown_name, non_constant_identifier_names, annotate_overrides, prefer_const_declarations
 
-import 'package:firela/parser/src/cn/alipay_custom_fields.dart' show AlipayCustomFields;
-import 'package:firela/parser/src/cn/chinese_csv_parser.dart' show ChineseCsvParser;
-import 'package:firela/parser/src/core/csv_parser_base.dart' show RowTransformResult;
-import 'package:firela/parser/src/result.dart';
-import 'package:firela/parser/src/types.dart' show RawTransaction;
-import 'package:firela/parser/src/utils/amount_parser.dart' show parseChineseAmount;
-import 'package:firela/parser/src/utils/date_parser.dart' show parseDate;
+import 'package:firela_app/parser/src/cn/alipay_custom_fields.dart' show AlipayCustomFields;
+import 'package:firela_app/parser/src/cn/chinese_csv_parser.dart' show ChineseCsvParser;
+import 'package:firela_app/parser/src/core/csv_parser_base.dart' show RowTransformResult;
+import 'package:firela_app/parser/src/result.dart';
+import 'package:firela_app/parser/src/types.dart' show RawTransaction;
+import 'package:firela_app/parser/src/utils/amount_parser.dart' show parseChineseAmount;
+import 'package:firela_app/parser/src/utils/date_parser.dart' show parseDate;
 
 typedef AlipayWebRawTransaction = RawTransaction<AlipayCustomFields>;
 

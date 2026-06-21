@@ -21,13 +21,22 @@ class PendingTransactionModel extends PendingTransaction {
       id: json['id'] as String? ?? '',
       accountName: json['account_name'] as String? ?? json['accountName'] as String? ?? '',
       merchantName: json['merchant_name'] as String? ?? json['merchantName'] as String? ?? '',
-      amount: (json['amount'] as num?)?.toDouble() ?? 0.0,
+      amount: _parseAmount(json['amount']),
       currency: json['currency'] as String? ?? 'CNY',
       transactionTime: _parseDateTime(json['transaction_time'] ?? json['transactionTime']),
       confidenceLevel: _parseConfidenceLevel(json['confidence_level'] ?? json['confidenceLevel']),
       confidenceScore: (json['confidence_score'] as num?)?.toDouble() ?? (json['confidenceScore'] as num?)?.toDouble() ?? 0.0,
       createdAt: _parseDateTime(json['created_at'] ?? json['createdAt']),
     );
+  }
+
+  /// Parse amount from various formats
+  // Backend sends Decimal amounts as strings (e.g. "128.50", "0"); accept num or string.
+  static double _parseAmount(dynamic value) {
+    if (value == null) return 0.0;
+    if (value is num) return value.toDouble();
+    if (value is String) return double.tryParse(value) ?? 0.0;
+    return 0.0;
   }
 
   /// Parse DateTime from various formats

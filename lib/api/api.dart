@@ -10,7 +10,10 @@
 library;
 
 import 'package:dio/dio.dart';
-import 'package:firela_api/firela_api.dart';
+// `as gen` avoids this file's own `class FirelaApi` shadowing the generated
+// base class `FirelaApi` (which `_GeneratedFirelaApi` must extend) and all the
+// generated `BeanXxxApi` return types.
+import 'package:firela_api/firela_api.dart' as gen;
 
 import 'src/api_client.dart';
 
@@ -47,32 +50,33 @@ class FirelaApi {
 
   // === API instances ===
 
-  BeanTransactionsApi get transactions => _generated.getBeanTransactionsApi();
-  BeanAccountsApi get accounts => _generated.getBeanAccountsApi();
-  BeanCommoditiesApi get commodities => _generated.getBeanCommoditiesApi();
-  BeanBalancesApi get balances => _generated.getBeanBalancesApi();
-  HealthApi get health => _generated.getHealthApi();
-  BeanAccountStandardsApi get regions =>
+  gen.BeanTransactionsApi get transactions =>
+      _generated.getBeanTransactionsApi();
+  gen.BeanAccountsApi get accounts => _generated.getBeanAccountsApi();
+  gen.BeanCommoditiesApi get commodities => _generated.getBeanCommoditiesApi();
+  gen.BeanBalancesApi get balances => _generated.getBeanBalancesApi();
+  gen.HealthApi get health => _generated.getHealthApi();
+  gen.BeanAccountStandardsApi get regions =>
       _generated.getBeanAccountStandardsApi();
-  ProviderSyncApi get providerSync => _generated.getProviderSyncApi();
-  BeanPayeesApi get payees => _generated.getBeanPayeesApi();
-  BeanReviewsApi get reviews => _generated.getBeanReviewsApi();
-  BeanTransactionRulesApi get transactionRules =>
+  gen.ProviderSyncApi get providerSync => _generated.getProviderSyncApi();
+  gen.BeanPayeesApi get payees => _generated.getBeanPayeesApi();
+  gen.BeanReviewsApi get reviews => _generated.getBeanReviewsApi();
+  gen.BeanTransactionRulesApi get transactionRules =>
       _generated.getBeanTransactionRulesApi();
-  RecurringRulesApi get recurringRules => _generated.getRecurringRulesApi();
-  ExpectedTransactionsApi get expectedTransactions =>
+  gen.RecurringRulesApi get recurringRules => _generated.getRecurringRulesApi();
+  gen.ExpectedTransactionsApi get expectedTransactions =>
       _generated.getExpectedTransactionsApi();
-  DashboardApi get dashboard => _generated.getDashboardApi();
-  ReportingApi get reporting => _generated.getReportingApi();
-  BeanImportApi get imports => _generated.getBeanImportApi();
-  BeanNLPApi get nlp => _generated.getBeanNLPApi();
+  gen.DashboardApi get dashboard => _generated.getDashboardApi();
+  gen.ReportingApi get reporting => _generated.getReportingApi();
+  gen.BeanImportApi get imports => _generated.getBeanImportApi();
+  gen.BeanNLPApi get nlp => _generated.getBeanNLPApi();
 }
 
 /// Internal wrapper for the generated FirelaApi client
 ///
 /// Uses the project's shared Dio instance from [ApiClient] instead of
 /// creating its own, ensuring consistent auth headers and base URL.
-class _GeneratedFirelaApi extends FirelaApi {
+class _GeneratedFirelaApi extends gen.FirelaApi {
   _GeneratedFirelaApi(Dio dio)
       : super(
           dio: dio,

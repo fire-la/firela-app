@@ -20,7 +20,7 @@ lib/api/
 ## Quick Start
 
 ```dart
-import 'package:firela/api/api.dart';
+import 'package:firela_app/api/api.dart';
 
 // Singleton - use anywhere in the app
 final api = FirelaApi();

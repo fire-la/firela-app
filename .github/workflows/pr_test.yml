@@ -35,6 +35,19 @@ jobs:
       - name: Analyze code
         run: flutter analyze --fatal-infos
 
+      - name: Check doc package imports
+        # Reject the phantom 'package:firela/' in any .md — app modules live under
+        # 'package:firela_app/', generated types under 'package:firela_api/'.
+        # See CLAUDE.md "Package 命名规范".
+        run: |
+          matches=$(grep -rn --include="*.md" "package:firela/" . \
+              | grep -vE "package:firela_(app|api)/" || true)
+          if [ -n "$matches" ]; then
+            echo "::error::Documents reference non-existent package 'firela'. Use 'package:firela_app/' (app) or 'package:firela_api/' (generated)."
+            echo "$matches"
+            exit 1
+          fi
+
   # Unit and Widget tests
   test:
     needs: analyze

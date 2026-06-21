@@ -7,8 +7,8 @@
 // ignore_for_file: unused_shown_name, non_constant_identifier_names, annotate_overrides, prefer_const_declarations
 
 import 'package:decimal/decimal.dart' show Decimal;
-import 'package:firela/parser/src/cn/alipay_custom_fields.dart' show AlipayCustomFields;
-import 'package:firela/parser/src/result.dart' show Result;
+import 'package:firela_app/parser/src/cn/alipay_custom_fields.dart' show AlipayCustomFields;
+import 'package:firela_app/parser/src/result.dart' show Result;
 
 typedef EncodingErrorType = String;
 

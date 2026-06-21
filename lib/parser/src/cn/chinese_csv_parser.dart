@@ -4,10 +4,10 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:csv/csv.dart';
-import 'package:firela/parser/src/core/csv_parser_base.dart' show RowTransformResult;
-import 'package:firela/parser/src/result.dart';
-import 'package:firela/parser/src/types.dart';
-import 'package:firela/parser/src/utils/encoding.dart' as encoding;
+import 'package:firela_app/parser/src/core/csv_parser_base.dart' show RowTransformResult;
+import 'package:firela_app/parser/src/result.dart';
+import 'package:firela_app/parser/src/types.dart';
+import 'package:firela_app/parser/src/utils/encoding.dart' as encoding;
 
 /// Simple result for internal _parseRows (avoids RowTransformResult's RawTransaction bound).
 class _RowsResult {

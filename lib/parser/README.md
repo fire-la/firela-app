@@ -8,7 +8,7 @@ Designed for client-side file parsing — no server roundtrip needed.
 
 ```dart
 import 'dart:typed_data';
-import 'package:firela/parser/parser.dart';
+import 'package:firela_app/parser/parser.dart';
 
 // Load file bytes
 final bytes = Uint8List.fromList(fileBytes);
@@ -133,7 +133,7 @@ final names = registry.availableParsers;
 ### Date Parsing
 
 ```dart
-import 'package:firela/parser/src/utils/date_parser.dart';
+import 'package:firela_app/parser/src/utils/date_parser.dart';
 
 // Supports: 2024年1月25日, 2024-01-25, 2024.1.25, ISO datetime
 final result = parseDate('2024年1月25日');
@@ -145,7 +145,7 @@ if (result.success) {
 ### Amount Parsing
 
 ```dart
-import 'package:firela/parser/src/utils/amount_parser.dart';
+import 'package:firela_app/parser/src/utils/amount_parser.dart';
 
 // Supports: 50.00, 1,234.56, (1,234.56) for negative
 final result = parseAmount('¥1,234.56');
@@ -157,7 +157,7 @@ if (result.success) {
 ### Encoding Detection
 
 ```dart
-import 'package:firela/parser/src/utils/encoding.dart';
+import 'package:firela_app/parser/src/utils/encoding.dart';
 
 // Auto-detects UTF-8 / GBK encoding
 final text = decodeContent(bytes);

@@ -1,37 +1,118 @@
-name: firela
-description: "Beancount account management for mobile - Data sovereignty for your financial data"
-publish_to: 'none'
-version: 0.0.1+1
+name: firela_app
+description: "Beancount account management mobile app - Your personal finance companion"
+version: 1.0.0+2
+homepage: https://github.com/fire-la/firela-app
+repository: https://github.com/fire-la/firela-app
+issue_tracker: https://github.com/fire-la/firela-app/issues
+documentation: https://github.com/fire-la/firela-app/blob/main/README.md
 
 environment:
-  sdk: '>=3.2.0 <4.0.0'
+  sdk: ^3.5.0
+  flutter: ">=3.24.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  dio: ^5.4.0
+
+  # Internationalization
+  flutter_localizations:
+    sdk: flutter
+  intl: ^0.20.2
+
+  # State Management & Hooks
+  signals: ^6.3.0
+  signals_flutter: ^6.3.0
+  flutter_hooks: ^0.20.5
+
+  # Data Fetching (React Query style)
+  fquery: ^1.2.0
+
+  # Navigation
+  go_router: ^14.6.2
+
+  # HTTP & API
   http: ^1.2.0
-  intl: ^0.19.0
-  meta: ^1.9.0
-  json_annotation: ^4.8.1
-  built_value: ^8.9.0
-  built_collection: ^5.1.1
+  http_parser: ^4.0.2
+  web_socket_channel: ^2.4.0
+  dio: ^5.4.0
+
+  # Text encoding (for Chinese bill files)
+  gbk_codec: ^0.4.0
+  charset: ^2.0.1
+
+  # Excel parsing (for XLSX files)
+  excel: ^4.0.0
+  csv: ^6.0.0
+
+  # Generated API client (local package)
   firela_api:
     path: lib/api/generated
 
-  # Parser dependencies (Phase 33.2-02)
-  decimal: ^2.3.3      # Precise decimal arithmetic for financial calculations
-  csv: ^6.0.0          # CSV parsing
-  charset: ^1.0.0      # Official Dart charset library with GBK support
-  file_picker: ^8.0.0  # File selection
+  # Required by generated API types
+  built_value: ^8.9.0
+  built_collection: ^5.1.1
+
+  # Local Storage
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  path_provider: ^2.1.2
+
+  # Utils
+  logger: ^2.3.0
+  uuid: ^4.4.0
+  decimal: ^3.0.2
+
+  # Utils
+  package_info_plus: ^8.0.0
+
+  # Cloudflare Turnstile (bot protection)
+  cloudflare_turnstile: ^3.3.1
+
+  # UI Components
+  cupertino_icons: ^1.0.6
+  
+  # Charts & Indicators
+  fl_chart: ^0.70.2
+  percent_indicator: ^4.2.3
+  
+  # Image & File Picker
+  image_picker: ^1.1.2
+  file_picker: ^8.1.4
+
+  # Local OCR
+  google_mlkit_text_recognition: ^0.14.0
+
+  # Sharing & URLs
+  share_plus: ^10.0.0
+  url_launcher: ^6.2.2
+
+  # Connectivity
+  connectivity_plus: ^6.0.5
+  sentry_flutter: ^9.14.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  build_runner: ^2.4.0
+  integration_test:
+    sdk: flutter
+  flutter_lints: ^3.0.1
+  hive_generator: ^2.0.1
+  build_runner: ^2.4.8
+  patrol: ^3.0.0
+  mocktail: ^1.0.0
+
+  # OpenAPI code generation
+  openapi_generator: ^6.0.0
+  openapi_generator_annotations: ^6.0.0
   json_serializable: ^6.7.0
   built_value_generator: ^8.9.0
   lints: ^3.0.0
 
 flutter:
   uses-material-design: true
+  # Enable l10n code generation
+  generate: true
+
+  assets:
+    - assets/images/
+    - assets/icons/
