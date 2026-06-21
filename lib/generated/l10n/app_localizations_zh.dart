@@ -1374,6 +1374,32 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get noAccountsYet => '暂无账户';
+
+  @override
+  String get transactionRecordTitle => '交易记录';
+
+  @override
+  String get filtered => '已筛选';
+
+  @override
+  String get filterTransactions => '筛选交易';
+
+  @override
+  String get loadMore => '加载更多';
+
+  @override
+  String get filter => '筛选';
+
+  @override
+  String get transactionStatusActive => '有效';
+
+  @override
+  String get transactionStatusVoided => '已作废';
+
+  @override
+  String transactionSummary(int count, int total) {
+    return '$count / $total 笔交易';
+  }
 }
 
 /// The translations for Chinese, as used in China (`zh_CN`).
@@ -2746,6 +2772,32 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
 
   @override
   String get noAccountsYet => '暂无账户';
+
+  @override
+  String get transactionRecordTitle => '交易记录';
+
+  @override
+  String get filtered => '已筛选';
+
+  @override
+  String get filterTransactions => '筛选交易';
+
+  @override
+  String get loadMore => '加载更多';
+
+  @override
+  String get filter => '筛选';
+
+  @override
+  String get transactionStatusActive => '有效';
+
+  @override
+  String get transactionStatusVoided => '已作废';
+
+  @override
+  String transactionSummary(int count, int total) {
+    return '$count / $total 笔交易';
+  }
 }
 
 /// The translations for Chinese, as used in Taiwan (`zh_TW`).
@@ -4118,4 +4170,30 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get noAccountsYet => '暫無帳戶';
+
+  @override
+  String get transactionRecordTitle => '交易紀錄';
+
+  @override
+  String get filtered => '已篩選';
+
+  @override
+  String get filterTransactions => '篩選交易';
+
+  @override
+  String get loadMore => '載入更多';
+
+  @override
+  String get filter => '篩選';
+
+  @override
+  String get transactionStatusActive => '有效';
+
+  @override
+  String get transactionStatusVoided => '已作廢';
+
+  @override
+  String transactionSummary(int count, int total) {
+    return '$count / $total 筆交易';
+  }
 }

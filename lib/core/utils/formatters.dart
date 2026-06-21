@@ -13,6 +13,15 @@ class Formatters {
     return formatter.format(amount);
   }
 
+  /// Formats a signed amount with a currency-code suffix, e.g. "-2,000.00 CNY".
+  /// Sign denotes direction; the currency is shown as a trailing code. When the
+  /// currency is empty/unknown the suffix is omitted.
+  static String formatSignedCurrency(double amount, {required String currency}) {
+    final body = formatCurrency(amount.abs(), symbol: '');
+    final sign = amount < 0 ? '-' : '+';
+    return currency.isEmpty ? '$sign$body' : '$sign$body $currency';
+  }
+
   /// Formats date
   static String formatDate(DateTime date) {
     final formatter = DateFormat('yyyy-MM-dd');

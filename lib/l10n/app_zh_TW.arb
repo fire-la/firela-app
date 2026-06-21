@@ -478,5 +478,13 @@
   "accountTypeSavings": "儲蓄",
   "accountTypeInvestment": "投資",
   "accountTypeCredit": "信用",
-  "noAccountsYet": "暫無帳戶"
+  "noAccountsYet": "暫無帳戶",
+  "transactionRecordTitle": "交易紀錄",
+  "filtered": "已篩選",
+  "filterTransactions": "篩選交易",
+  "loadMore": "載入更多",
+  "filter": "篩選",
+  "transactionStatusActive": "有效",
+  "transactionStatusVoided": "已作廢",
+  "transactionSummary": "{count} / {total} 筆交易"
 }

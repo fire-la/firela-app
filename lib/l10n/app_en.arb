@@ -2288,5 +2288,41 @@
   "noAccountsYet": "No accounts yet",
   "@noAccountsYet": {
     "description": "Empty state message when there are no accounts"
+  },
+  "transactionRecordTitle": "Transactions",
+  "@transactionRecordTitle": {
+    "description": "Transaction list page title when no account filter is active"
+  },
+  "filtered": "Filtered",
+  "@filtered": {
+    "description": "Filter bar label shown when filters are active"
+  },
+  "filterTransactions": "Filter transactions",
+  "@filterTransactions": {
+    "description": "Filter bar label that opens the filter sheet"
+  },
+  "loadMore": "Load more",
+  "@loadMore": {
+    "description": "Button to load more transactions"
+  },
+  "filter": "Filter",
+  "@filter": {
+    "description": "Transaction filter sheet title"
+  },
+  "transactionStatusActive": "Active",
+  "@transactionStatusActive": {
+    "description": "Transaction status label: active"
+  },
+  "transactionStatusVoided": "Voided",
+  "@transactionStatusVoided": {
+    "description": "Transaction status label: voided"
+  },
+  "transactionSummary": "{count} / {total} transactions",
+  "@transactionSummary": {
+    "description": "Summary of loaded vs total transaction count",
+    "placeholders": {
+      "count": { "type": "int" },
+      "total": { "type": "int" }
+    }
   }
 }

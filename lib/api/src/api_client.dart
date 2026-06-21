@@ -1,11 +1,17 @@
 /// API Client Configuration for firela Flutter App
 ///
-/// Configures Dio HTTP client with authentication and base URL.
+/// Configures the Dio HTTP client consumed by the generated `firela_api`
+/// client (via the `FirelaApi` facade). `baseUrl` is **host-only** because
+/// generated request paths already include `/api/v1/{region}/...`. Auth is
+/// injected from [AuthManager] to mirror `IgnApiService`.
 library;
 
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+
+import '../../core/constants/api_constants.dart';
+import '../../core/network/auth_manager.dart';
 
 /// API Client Configuration
 class ApiClient {
@@ -15,11 +21,17 @@ class ApiClient {
   late final Dio _dio;
 
   ApiClient._internal() {
+    // Generated paths are `/api/v1/{region}/...`, so baseUrl must be the host
+    // only — strip the `/api` suffix that ApiConstants.ignBaseUrl carries.
+    final baseUrl = ApiConstants.ignBaseUrl.endsWith('/api')
+        ? ApiConstants.ignBaseUrl.substring(
+            0,
+            ApiConstants.ignBaseUrl.length - '/api'.length,
+          )
+        : ApiConstants.ignBaseUrl;
+
     _dio = Dio(BaseOptions(
-      baseUrl: const String.fromEnvironment(
-        'API_URL',
-        defaultValue: 'http://localhost:3334/api/v1',
-      ),
+      baseUrl: baseUrl,
       connectTimeout: const Duration(seconds: 30),
       receiveTimeout: const Duration(seconds: 30),
       headers: {
@@ -27,20 +39,19 @@ class ApiClient {
       },
     ));
 
-    // Add auth interceptor
+    // Inject auth token on every request; clear on 401 (mirrors IgnApiService).
     _dio.interceptors.add(InterceptorsWrapper(
       onRequest: (options, handler) {
-        // Add auth token from storage
-        // final token = await _getToken();
-        // if (token != null) {
-        //   options.headers['Authorization'] = 'Bearer $token';
-        // }
+        final token = AuthManager.instance.authToken;
+        if (token != null) {
+          options.headers['Authorization'] = 'Bearer $token';
+        }
         return handler.next(options);
       },
       onError: (error, handler) {
         if (error.response?.statusCode == 401) {
-          // Handle unauthorized - redirect to login
-          log('[API] Unauthorized - redirecting to login', name: 'ApiClient');
+          log('[API] Unauthorized - clearing auth token', name: 'ApiClient');
+          AuthManager.instance.clearAuthToken();
         }
         return handler.next(error);
       },

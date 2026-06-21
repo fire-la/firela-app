@@ -18,6 +18,7 @@ class ThemeTokens {
   final Color textTertiary;
   final Color textTab;
   final Color textAccent;
+  final Color neutral100;
   final Color neutral200;
   final Color neutral700;
   final Color shadow;
@@ -35,6 +36,7 @@ class ThemeTokens {
     required this.textTertiary,
     required this.textTab,
     required this.textAccent,
+    required this.neutral100,
     required this.neutral200,
     required this.neutral700,
     required this.shadow,
@@ -54,6 +56,7 @@ class ThemeTokens {
     textTertiary: TokenColors.textTertiary,
     textTab: TokenColors.textTab,
     textAccent: TokenColors.textAccent,
+    neutral100: TokenColors.neutral100,
     neutral200: TokenColors.neutral200,
     neutral700: TokenColors.neutral700,
     shadow: Color(0x0D000000),
@@ -73,6 +76,7 @@ class ThemeTokens {
     textTertiary: Color(0xFF979797),
     textTab: Color(0xFFB0B0B0),
     textAccent: Color(0xFFFF7525),
+    neutral100: Color(0xFF333333),
     neutral200: Color(0xFF333333),
     neutral700: Color(0xFF888888),
     shadow: Color(0x1A000000),

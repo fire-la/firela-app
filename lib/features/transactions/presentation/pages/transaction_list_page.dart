@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
+import 'package:firela_app/generated/l10n/app_localizations.dart';
 import '../../../../core/components/components.dart';
 import '../../../../core/design_tokens/design_tokens.dart';
 import '../../../../core/router/route_names.dart';
+import '../../../../shared/widgets/error_view.dart';
 import '../providers/use_transaction_list.dart';
 import '../widgets/transaction_date_group.dart';
 
@@ -15,6 +17,7 @@ class TransactionListPage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final state = useTransactionList(
       initialAccountId: initialAccountId,
       initialAccountName: initialAccountName,
@@ -35,14 +38,18 @@ class TransactionListPage extends HookWidget {
     return Scaffold(
       body: Column(
         children: [
-          TopBar(title: initialAccountName ?? '交易记录'),
+          TopBar(title: initialAccountName ?? l10n.transactionRecordTitle),
           Expanded(
             child: RefreshIndicator(
               onRefresh: () async => state.refresh(),
               child: state.isLoading && state.groupedTransactions.isEmpty
                   ? const Center(child: CircularProgressIndicator())
                   : state.error != null && state.groupedTransactions.isEmpty
-                      ? _buildError(state)
+                      ? ErrorView(
+                          message: l10n.loadFailed,
+                          onRetry: state.refresh,
+                          actionLabel: l10n.retry,
+                        )
                       : _buildContent(context, state, scrollController),
             ),
           ),
@@ -51,25 +58,8 @@ class TransactionListPage extends HookWidget {
     );
   }
 
-  Widget _buildError(TransactionListState state) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Icon(Icons.error_outline, size: 48, color: TokenColors.error),
-          const SizedBox(height: TokenSpacing.xl),
-          Text(state.error ?? '加载失败', style: TokenTypography.body(color: TokenColors.textTertiary)),
-          const SizedBox(height: TokenSpacing.xl),
-          SizedBox(
-            width: 120,
-            child: ButtonPrimary(label: '重试', onPressed: state.refresh),
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget _buildContent(BuildContext context, TransactionListState state, ScrollController controller) {
+    final l10n = AppLocalizations.of(context)!;
     final hasFilters = state.filterDateFrom != null ||
         state.filterDateTo != null ||
         state.filterStatus != null ||
@@ -86,7 +76,10 @@ class TransactionListPage extends HookWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
             child: FilterBar(
-              label: state.accountDisplayName ?? state.filterAccountId ?? state.filterSearch ?? '已筛选',
+              label: state.accountDisplayName ??
+                  state.filterAccountId ??
+                  state.filterSearch ??
+                  l10n.filtered,
               onClear: state.clearFilters,
             ),
           )
@@ -94,7 +87,7 @@ class TransactionListPage extends HookWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
             child: FilterBar(
-              label: '筛选交易',
+              label: l10n.filterTransactions,
               onTap: () => _showFilterSheet(context, state),
             ),
           ),
@@ -104,7 +97,7 @@ class TransactionListPage extends HookWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
           child: SummaryCard(
-            label: state.summaryLabel,
+            label: l10n.transactionSummary(state.loadedCount, state.total),
             value: state.summaryValue,
           ),
         ),
@@ -125,7 +118,7 @@ class TransactionListPage extends HookWidget {
             child: state.isLoading
                 ? const Center(child: CircularProgressIndicator())
                 : ButtonSecondary(
-                    label: '加载更多',
+                    label: l10n.loadMore,
                     onPressed: state.loadMore,
                   ),
           ),
@@ -134,6 +127,11 @@ class TransactionListPage extends HookWidget {
   }
 
   void _showFilterSheet(BuildContext context, TransactionListState state) {
+    final l10n = AppLocalizations.of(context)!;
+    final statusOptions = <String, String>{
+      'ACTIVE': l10n.transactionStatusActive,
+      'VOIDED': l10n.transactionStatusVoided,
+    };
     showModalBottomSheet(
       context: context,
       builder: (ctx) => Container(
@@ -142,20 +140,20 @@ class TransactionListPage extends HookWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('筛选', style: TokenTypography.h3(fontWeight: FontWeight.w600)),
+            Text(l10n.filter, style: TokenTypography.h3(fontWeight: FontWeight.w600)),
             const SizedBox(height: TokenSpacing.xl),
             Wrap(
               spacing: TokenSpacing.sm,
-              children: ['ACTIVE', 'VOIDED'].map((status) {
+              children: statusOptions.entries.map((e) {
                 return ChoiceChip(
-                  label: Text(status),
-                  selected: state.filterStatus == status,
+                  label: Text(e.value),
+                  selected: state.filterStatus == e.key,
                   onSelected: (_) {
                     Navigator.pop(ctx);
                     state.applyFilters(
                       state.filterDateFrom,
                       state.filterDateTo,
-                      status,
+                      e.key,
                       state.filterSearch,
                     );
                   },

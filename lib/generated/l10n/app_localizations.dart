@@ -2751,6 +2751,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No accounts yet'**
   String get noAccountsYet;
+
+  /// Transaction list page title when no account filter is active
+  ///
+  /// In en, this message translates to:
+  /// **'Transactions'**
+  String get transactionRecordTitle;
+
+  /// Filter bar label shown when filters are active
+  ///
+  /// In en, this message translates to:
+  /// **'Filtered'**
+  String get filtered;
+
+  /// Filter bar label that opens the filter sheet
+  ///
+  /// In en, this message translates to:
+  /// **'Filter transactions'**
+  String get filterTransactions;
+
+  /// Button to load more transactions
+  ///
+  /// In en, this message translates to:
+  /// **'Load more'**
+  String get loadMore;
+
+  /// Transaction filter sheet title
+  ///
+  /// In en, this message translates to:
+  /// **'Filter'**
+  String get filter;
+
+  /// Transaction status label: active
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get transactionStatusActive;
+
+  /// Transaction status label: voided
+  ///
+  /// In en, this message translates to:
+  /// **'Voided'**
+  String get transactionStatusVoided;
+
+  /// Summary of loaded vs total transaction count
+  ///
+  /// In en, this message translates to:
+  /// **'{count} / {total} transactions'**
+  String transactionSummary(int count, int total);
 }
 
 class _AppLocalizationsDelegate

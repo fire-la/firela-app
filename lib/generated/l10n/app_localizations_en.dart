@@ -1410,4 +1410,30 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noAccountsYet => 'No accounts yet';
+
+  @override
+  String get transactionRecordTitle => 'Transactions';
+
+  @override
+  String get filtered => 'Filtered';
+
+  @override
+  String get filterTransactions => 'Filter transactions';
+
+  @override
+  String get loadMore => 'Load more';
+
+  @override
+  String get filter => 'Filter';
+
+  @override
+  String get transactionStatusActive => 'Active';
+
+  @override
+  String get transactionStatusVoided => 'Voided';
+
+  @override
+  String transactionSummary(int count, int total) {
+    return '$count / $total transactions';
+  }
 }

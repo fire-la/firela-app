@@ -478,5 +478,13 @@
   "accountTypeSavings": "储蓄",
   "accountTypeInvestment": "投资",
   "accountTypeCredit": "信用",
-  "noAccountsYet": "暂无账户"
+  "noAccountsYet": "暂无账户",
+  "transactionRecordTitle": "交易记录",
+  "filtered": "已筛选",
+  "filterTransactions": "筛选交易",
+  "loadMore": "加载更多",
+  "filter": "筛选",
+  "transactionStatusActive": "有效",
+  "transactionStatusVoided": "已作废",
+  "transactionSummary": "{count} / {total} 笔交易"
 }
