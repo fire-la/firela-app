@@ -16,9 +16,7 @@ part 'commodity_list_response_dto.g.dart';
 /// * [items] - List of commodities
 /// * [total] - Total number of commodities
 @BuiltValue()
-abstract class CommodityListResponseDto
-    implements
-        Built<CommodityListResponseDto, CommodityListResponseDtoBuilder> {
+abstract class CommodityListResponseDto implements Built<CommodityListResponseDto, CommodityListResponseDtoBuilder> {
   /// List of commodities
   @BuiltValueField(wireName: r'items')
   BuiltList<CommodityResponseDto> get items;
@@ -29,25 +27,18 @@ abstract class CommodityListResponseDto
 
   CommodityListResponseDto._();
 
-  factory CommodityListResponseDto(
-          [void updates(CommodityListResponseDtoBuilder b)]) =
-      _$CommodityListResponseDto;
+  factory CommodityListResponseDto([void updates(CommodityListResponseDtoBuilder b)]) = _$CommodityListResponseDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(CommodityListResponseDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<CommodityListResponseDto> get serializer =>
-      _$CommodityListResponseDtoSerializer();
+  static Serializer<CommodityListResponseDto> get serializer => _$CommodityListResponseDtoSerializer();
 }
 
-class _$CommodityListResponseDtoSerializer
-    implements PrimitiveSerializer<CommodityListResponseDto> {
+class _$CommodityListResponseDtoSerializer implements PrimitiveSerializer<CommodityListResponseDto> {
   @override
-  final Iterable<Type> types = const [
-    CommodityListResponseDto,
-    _$CommodityListResponseDto
-  ];
+  final Iterable<Type> types = const [CommodityListResponseDto, _$CommodityListResponseDto];
 
   @override
   final String wireName = r'CommodityListResponseDto';
@@ -60,8 +51,7 @@ class _$CommodityListResponseDtoSerializer
     yield r'items';
     yield serializers.serialize(
       object.items,
-      specifiedType:
-          const FullType(BuiltList, [FullType(CommodityResponseDto)]),
+      specifiedType: const FullType(BuiltList, [FullType(CommodityResponseDto)]),
     );
     yield r'total';
     yield serializers.serialize(
@@ -76,9 +66,7 @@ class _$CommodityListResponseDtoSerializer
     CommodityListResponseDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -96,8 +84,7 @@ class _$CommodityListResponseDtoSerializer
         case r'items':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType:
-                const FullType(BuiltList, [FullType(CommodityResponseDto)]),
+            specifiedType: const FullType(BuiltList, [FullType(CommodityResponseDto)]),
           ) as BuiltList<CommodityResponseDto>;
           result.items.replace(valueDes);
           break;
@@ -136,3 +123,4 @@ class _$CommodityListResponseDtoSerializer
     return result.build();
   }
 }
+

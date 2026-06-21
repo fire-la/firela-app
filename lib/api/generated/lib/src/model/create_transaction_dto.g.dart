@@ -19,7 +19,7 @@ CreateTransactionDtoFlagEnum _$createTransactionDtoFlagEnumValueOf(
     case 'exclamation':
       return _$createTransactionDtoFlagEnum_exclamation;
     default:
-      return _$createTransactionDtoFlagEnum_exclamation;
+      throw new ArgumentError(name);
   }
 }
 
@@ -67,17 +67,17 @@ class _$CreateTransactionDto extends CreateTransactionDto {
   @override
   final String date;
   @override
-  final String narration;
-  @override
-  final BuiltList<CreatePostingDto> postings;
-  @override
   final CreateTransactionDtoFlagEnum? flag;
   @override
   final String? payee;
   @override
+  final String narration;
+  @override
   final BuiltList<String>? tags;
   @override
   final BuiltList<String>? links;
+  @override
+  final BuiltList<CreatePostingDto> postings;
   @override
   final JsonObject? meta;
   @override
@@ -91,12 +91,12 @@ class _$CreateTransactionDto extends CreateTransactionDto {
 
   _$CreateTransactionDto._(
       {required this.date,
-      required this.narration,
-      required this.postings,
       this.flag,
       this.payee,
+      required this.narration,
       this.tags,
       this.links,
+      required this.postings,
       this.meta,
       this.idempotencyKey,
       this.autoCreateAccounts})
@@ -123,12 +123,12 @@ class _$CreateTransactionDto extends CreateTransactionDto {
     if (identical(other, this)) return true;
     return other is CreateTransactionDto &&
         date == other.date &&
-        narration == other.narration &&
-        postings == other.postings &&
         flag == other.flag &&
         payee == other.payee &&
+        narration == other.narration &&
         tags == other.tags &&
         links == other.links &&
+        postings == other.postings &&
         meta == other.meta &&
         idempotencyKey == other.idempotencyKey &&
         autoCreateAccounts == other.autoCreateAccounts;
@@ -138,12 +138,12 @@ class _$CreateTransactionDto extends CreateTransactionDto {
   int get hashCode {
     var _$hash = 0;
     _$hash = $jc(_$hash, date.hashCode);
-    _$hash = $jc(_$hash, narration.hashCode);
-    _$hash = $jc(_$hash, postings.hashCode);
     _$hash = $jc(_$hash, flag.hashCode);
     _$hash = $jc(_$hash, payee.hashCode);
+    _$hash = $jc(_$hash, narration.hashCode);
     _$hash = $jc(_$hash, tags.hashCode);
     _$hash = $jc(_$hash, links.hashCode);
+    _$hash = $jc(_$hash, postings.hashCode);
     _$hash = $jc(_$hash, meta.hashCode);
     _$hash = $jc(_$hash, idempotencyKey.hashCode);
     _$hash = $jc(_$hash, autoCreateAccounts.hashCode);
@@ -155,12 +155,12 @@ class _$CreateTransactionDto extends CreateTransactionDto {
   String toString() {
     return (newBuiltValueToStringHelper(r'CreateTransactionDto')
           ..add('date', date)
-          ..add('narration', narration)
-          ..add('postings', postings)
           ..add('flag', flag)
           ..add('payee', payee)
+          ..add('narration', narration)
           ..add('tags', tags)
           ..add('links', links)
+          ..add('postings', postings)
           ..add('meta', meta)
           ..add('idempotencyKey', idempotencyKey)
           ..add('autoCreateAccounts', autoCreateAccounts))
@@ -176,16 +176,6 @@ class CreateTransactionDtoBuilder
   String? get date => _$this._date;
   set date(String? date) => _$this._date = date;
 
-  String? _narration;
-  String? get narration => _$this._narration;
-  set narration(String? narration) => _$this._narration = narration;
-
-  ListBuilder<CreatePostingDto>? _postings;
-  ListBuilder<CreatePostingDto> get postings =>
-      _$this._postings ??= new ListBuilder<CreatePostingDto>();
-  set postings(ListBuilder<CreatePostingDto>? postings) =>
-      _$this._postings = postings;
-
   CreateTransactionDtoFlagEnum? _flag;
   CreateTransactionDtoFlagEnum? get flag => _$this._flag;
   set flag(CreateTransactionDtoFlagEnum? flag) => _$this._flag = flag;
@@ -194,6 +184,10 @@ class CreateTransactionDtoBuilder
   String? get payee => _$this._payee;
   set payee(String? payee) => _$this._payee = payee;
 
+  String? _narration;
+  String? get narration => _$this._narration;
+  set narration(String? narration) => _$this._narration = narration;
+
   ListBuilder<String>? _tags;
   ListBuilder<String> get tags => _$this._tags ??= new ListBuilder<String>();
   set tags(ListBuilder<String>? tags) => _$this._tags = tags;
@@ -201,6 +195,12 @@ class CreateTransactionDtoBuilder
   ListBuilder<String>? _links;
   ListBuilder<String> get links => _$this._links ??= new ListBuilder<String>();
   set links(ListBuilder<String>? links) => _$this._links = links;
+
+  ListBuilder<CreatePostingDto>? _postings;
+  ListBuilder<CreatePostingDto> get postings =>
+      _$this._postings ??= new ListBuilder<CreatePostingDto>();
+  set postings(ListBuilder<CreatePostingDto>? postings) =>
+      _$this._postings = postings;
 
   JsonObject? _meta;
   JsonObject? get meta => _$this._meta;
@@ -224,12 +224,12 @@ class CreateTransactionDtoBuilder
     final $v = _$v;
     if ($v != null) {
       _date = $v.date;
-      _narration = $v.narration;
-      _postings = $v.postings.toBuilder();
       _flag = $v.flag;
       _payee = $v.payee;
+      _narration = $v.narration;
       _tags = $v.tags?.toBuilder();
       _links = $v.links?.toBuilder();
+      _postings = $v.postings.toBuilder();
       _meta = $v.meta;
       _idempotencyKey = $v.idempotencyKey;
       _autoCreateAccounts = $v.autoCreateAccounts;
@@ -259,26 +259,25 @@ class CreateTransactionDtoBuilder
           new _$CreateTransactionDto._(
               date: BuiltValueNullFieldError.checkNotNull(
                   date, r'CreateTransactionDto', 'date'),
-              narration: BuiltValueNullFieldError.checkNotNull(
-                  narration, r'CreateTransactionDto', 'narration'),
-              postings: postings.build(),
               flag: flag,
               payee: payee,
+              narration: BuiltValueNullFieldError.checkNotNull(
+                  narration, r'CreateTransactionDto', 'narration'),
               tags: _tags?.build(),
               links: _links?.build(),
+              postings: postings.build(),
               meta: meta,
               idempotencyKey: idempotencyKey,
               autoCreateAccounts: autoCreateAccounts);
     } catch (_) {
       late String _$failedField;
       try {
-        _$failedField = 'postings';
-        postings.build();
-
         _$failedField = 'tags';
         _tags?.build();
         _$failedField = 'links';
         _links?.build();
+        _$failedField = 'postings';
+        postings.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             r'CreateTransactionDto', _$failedField, e.toString());

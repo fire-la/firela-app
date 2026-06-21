@@ -46,7 +46,7 @@ RecurringSuggestionDtoSuggestedFrequencyEnum
     case 'CUSTOM':
       return _$recurringSuggestionDtoSuggestedFrequencyEnum_CUSTOM;
     default:
-      return _$recurringSuggestionDtoSuggestedFrequencyEnum_CUSTOM;
+      throw new ArgumentError(name);
   }
 }
 

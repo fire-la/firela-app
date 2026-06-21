@@ -12,11 +12,10 @@ part 'nlp_suggested_accounts_dto.g.dart';
 /// NlpSuggestedAccountsDto
 ///
 /// Properties:
-/// * [source_]
-/// * [destination]
+/// * [source_] 
+/// * [destination] 
 @BuiltValue()
-abstract class NlpSuggestedAccountsDto
-    implements Built<NlpSuggestedAccountsDto, NlpSuggestedAccountsDtoBuilder> {
+abstract class NlpSuggestedAccountsDto implements Built<NlpSuggestedAccountsDto, NlpSuggestedAccountsDtoBuilder> {
   @BuiltValueField(wireName: r'source')
   NlpSuggestedAccountDto? get source_;
 
@@ -25,25 +24,18 @@ abstract class NlpSuggestedAccountsDto
 
   NlpSuggestedAccountsDto._();
 
-  factory NlpSuggestedAccountsDto(
-          [void updates(NlpSuggestedAccountsDtoBuilder b)]) =
-      _$NlpSuggestedAccountsDto;
+  factory NlpSuggestedAccountsDto([void updates(NlpSuggestedAccountsDtoBuilder b)]) = _$NlpSuggestedAccountsDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(NlpSuggestedAccountsDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<NlpSuggestedAccountsDto> get serializer =>
-      _$NlpSuggestedAccountsDtoSerializer();
+  static Serializer<NlpSuggestedAccountsDto> get serializer => _$NlpSuggestedAccountsDtoSerializer();
 }
 
-class _$NlpSuggestedAccountsDtoSerializer
-    implements PrimitiveSerializer<NlpSuggestedAccountsDto> {
+class _$NlpSuggestedAccountsDtoSerializer implements PrimitiveSerializer<NlpSuggestedAccountsDto> {
   @override
-  final Iterable<Type> types = const [
-    NlpSuggestedAccountsDto,
-    _$NlpSuggestedAccountsDto
-  ];
+  final Iterable<Type> types = const [NlpSuggestedAccountsDto, _$NlpSuggestedAccountsDto];
 
   @override
   final String wireName = r'NlpSuggestedAccountsDto';
@@ -75,9 +67,7 @@ class _$NlpSuggestedAccountsDtoSerializer
     NlpSuggestedAccountsDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -134,3 +124,4 @@ class _$NlpSuggestedAccountsDtoSerializer
     return result.build();
   }
 }
+

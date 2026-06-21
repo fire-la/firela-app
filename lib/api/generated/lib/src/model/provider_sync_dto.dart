@@ -13,20 +13,12 @@ part 'provider_sync_dto.g.dart';
 /// ProviderSyncDto
 ///
 /// Properties:
-/// * [config]
-/// * [transactions] - Raw transactions from provider
 /// * [provider] - Provider name (already in URL path, optional here for reference)
 /// * [syncId] - Unique sync identifier for idempotency
+/// * [config] 
+/// * [transactions] - Raw transactions from provider
 @BuiltValue()
-abstract class ProviderSyncDto
-    implements Built<ProviderSyncDto, ProviderSyncDtoBuilder> {
-  @BuiltValueField(wireName: r'config')
-  ProviderSyncConfigDto get config;
-
-  /// Raw transactions from provider
-  @BuiltValueField(wireName: r'transactions')
-  BuiltList get transactions;
-
+abstract class ProviderSyncDto implements Built<ProviderSyncDto, ProviderSyncDtoBuilder> {
   /// Provider name (already in URL path, optional here for reference)
   @BuiltValueField(wireName: r'provider')
   String? get provider;
@@ -35,21 +27,25 @@ abstract class ProviderSyncDto
   @BuiltValueField(wireName: r'syncId')
   String? get syncId;
 
+  @BuiltValueField(wireName: r'config')
+  ProviderSyncConfigDto get config;
+
+  /// Raw transactions from provider
+  @BuiltValueField(wireName: r'transactions')
+  BuiltList get transactions;
+
   ProviderSyncDto._();
 
-  factory ProviderSyncDto([void updates(ProviderSyncDtoBuilder b)]) =
-      _$ProviderSyncDto;
+  factory ProviderSyncDto([void updates(ProviderSyncDtoBuilder b)]) = _$ProviderSyncDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(ProviderSyncDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<ProviderSyncDto> get serializer =>
-      _$ProviderSyncDtoSerializer();
+  static Serializer<ProviderSyncDto> get serializer => _$ProviderSyncDtoSerializer();
 }
 
-class _$ProviderSyncDtoSerializer
-    implements PrimitiveSerializer<ProviderSyncDto> {
+class _$ProviderSyncDtoSerializer implements PrimitiveSerializer<ProviderSyncDto> {
   @override
   final Iterable<Type> types = const [ProviderSyncDto, _$ProviderSyncDto];
 
@@ -61,16 +57,6 @@ class _$ProviderSyncDtoSerializer
     ProviderSyncDto object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'config';
-    yield serializers.serialize(
-      object.config,
-      specifiedType: const FullType(ProviderSyncConfigDto),
-    );
-    yield r'transactions';
-    yield serializers.serialize(
-      object.transactions,
-      specifiedType: const FullType(BuiltList),
-    );
     if (object.provider != null) {
       yield r'provider';
       yield serializers.serialize(
@@ -85,6 +71,16 @@ class _$ProviderSyncDtoSerializer
         specifiedType: const FullType(String),
       );
     }
+    yield r'config';
+    yield serializers.serialize(
+      object.config,
+      specifiedType: const FullType(ProviderSyncConfigDto),
+    );
+    yield r'transactions';
+    yield serializers.serialize(
+      object.transactions,
+      specifiedType: const FullType(BuiltList),
+    );
   }
 
   @override
@@ -93,9 +89,7 @@ class _$ProviderSyncDtoSerializer
     ProviderSyncDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -110,20 +104,6 @@ class _$ProviderSyncDtoSerializer
       final key = serializedList[i] as String;
       final value = serializedList[i + 1];
       switch (key) {
-        case r'config':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(ProviderSyncConfigDto),
-          ) as ProviderSyncConfigDto;
-          result.config.replace(valueDes);
-          break;
-        case r'transactions':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(BuiltList),
-          ) as BuiltList;
-          result.transactions.replace(valueDes);
-          break;
         case r'provider':
           final valueDes = serializers.deserialize(
             value,
@@ -137,6 +117,20 @@ class _$ProviderSyncDtoSerializer
             specifiedType: const FullType(String),
           ) as String;
           result.syncId = valueDes;
+          break;
+        case r'config':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(ProviderSyncConfigDto),
+          ) as ProviderSyncConfigDto;
+          result.config.replace(valueDes);
+          break;
+        case r'transactions':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(BuiltList),
+          ) as BuiltList;
+          result.transactions.replace(valueDes);
           break;
         default:
           unhandled.add(key);
@@ -166,3 +160,4 @@ class _$ProviderSyncDtoSerializer
     return result.build();
   }
 }
+

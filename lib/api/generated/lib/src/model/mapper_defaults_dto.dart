@@ -20,8 +20,7 @@ part 'mapper_defaults_dto.g.dart';
 /// * [useCnh] - Convert CNY to CNH (offshore RMB) (for HK importers). Default: false.
 /// * [methodAccountMapping] - Payment method to source account mapping. Maps payment method keywords to Beancount account paths. Used by Alipay/WeChat importers to determine sourceAccount based on payment method (e.g., HuaBei, CreditCard).
 @BuiltValue()
-abstract class MapperDefaultsDto
-    implements Built<MapperDefaultsDto, MapperDefaultsDtoBuilder> {
+abstract class MapperDefaultsDto implements Built<MapperDefaultsDto, MapperDefaultsDtoBuilder> {
   /// Source account for transactions (Beancount format)
   @BuiltValueField(wireName: r'sourceAccount')
   String get sourceAccount;
@@ -52,19 +51,16 @@ abstract class MapperDefaultsDto
 
   MapperDefaultsDto._();
 
-  factory MapperDefaultsDto([void updates(MapperDefaultsDtoBuilder b)]) =
-      _$MapperDefaultsDto;
+  factory MapperDefaultsDto([void updates(MapperDefaultsDtoBuilder b)]) = _$MapperDefaultsDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(MapperDefaultsDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<MapperDefaultsDto> get serializer =>
-      _$MapperDefaultsDtoSerializer();
+  static Serializer<MapperDefaultsDto> get serializer => _$MapperDefaultsDtoSerializer();
 }
 
-class _$MapperDefaultsDtoSerializer
-    implements PrimitiveSerializer<MapperDefaultsDto> {
+class _$MapperDefaultsDtoSerializer implements PrimitiveSerializer<MapperDefaultsDto> {
   @override
   final Iterable<Type> types = const [MapperDefaultsDto, _$MapperDefaultsDto];
 
@@ -129,9 +125,7 @@ class _$MapperDefaultsDtoSerializer
     MapperDefaultsDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -223,3 +217,4 @@ class _$MapperDefaultsDtoSerializer
     return result.build();
   }
 }
+

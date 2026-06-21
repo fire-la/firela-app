@@ -16,8 +16,7 @@ part 'payee_list_response_dto.g.dart';
 /// * [items] - List of payees
 /// * [total] - Total number of payees
 @BuiltValue()
-abstract class PayeeListResponseDto
-    implements Built<PayeeListResponseDto, PayeeListResponseDtoBuilder> {
+abstract class PayeeListResponseDto implements Built<PayeeListResponseDto, PayeeListResponseDtoBuilder> {
   /// List of payees
   @BuiltValueField(wireName: r'items')
   BuiltList<PayeeResponseDto> get items;
@@ -28,24 +27,18 @@ abstract class PayeeListResponseDto
 
   PayeeListResponseDto._();
 
-  factory PayeeListResponseDto([void updates(PayeeListResponseDtoBuilder b)]) =
-      _$PayeeListResponseDto;
+  factory PayeeListResponseDto([void updates(PayeeListResponseDtoBuilder b)]) = _$PayeeListResponseDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(PayeeListResponseDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<PayeeListResponseDto> get serializer =>
-      _$PayeeListResponseDtoSerializer();
+  static Serializer<PayeeListResponseDto> get serializer => _$PayeeListResponseDtoSerializer();
 }
 
-class _$PayeeListResponseDtoSerializer
-    implements PrimitiveSerializer<PayeeListResponseDto> {
+class _$PayeeListResponseDtoSerializer implements PrimitiveSerializer<PayeeListResponseDto> {
   @override
-  final Iterable<Type> types = const [
-    PayeeListResponseDto,
-    _$PayeeListResponseDto
-  ];
+  final Iterable<Type> types = const [PayeeListResponseDto, _$PayeeListResponseDto];
 
   @override
   final String wireName = r'PayeeListResponseDto';
@@ -73,9 +66,7 @@ class _$PayeeListResponseDtoSerializer
     PayeeListResponseDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -93,8 +84,7 @@ class _$PayeeListResponseDtoSerializer
         case r'items':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType:
-                const FullType(BuiltList, [FullType(PayeeResponseDto)]),
+            specifiedType: const FullType(BuiltList, [FullType(PayeeResponseDto)]),
           ) as BuiltList<PayeeResponseDto>;
           result.items.replace(valueDes);
           break;
@@ -133,3 +123,4 @@ class _$PayeeListResponseDtoSerializer
     return result.build();
   }
 }
+

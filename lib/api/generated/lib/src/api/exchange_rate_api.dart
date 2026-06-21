@@ -10,6 +10,7 @@ import 'package:dio/dio.dart';
 import 'package:firela_api/src/api_util.dart';
 
 class ExchangeRateApi {
+
   final Dio _dio;
 
   final Serializers _serializers;
@@ -22,7 +23,6 @@ class ExchangeRateApi {
   /// Parameters:
   /// * [symbol] - Currency pair symbol (e.g., USDCNY, EURUSD)
   /// * [dateString] - Date in ISO format (YYYY-MM-DD)
-  /// * [region] - Region code (cn, us, de)
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -32,10 +32,9 @@ class ExchangeRateApi {
   ///
   /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<void>> exchangeRateControllerGetExchangeRate({
+  Future<Response<void>> exchangeRateControllerGetExchangeRate({ 
     required String symbol,
     required String dateString,
-    required String region,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -43,20 +42,7 @@ class ExchangeRateApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/market/exchange-rates/{symbol}/{dateString}'
-        .replaceAll(
-            '{' r'symbol' '}',
-            encodeQueryParameter(_serializers, symbol, const FullType(String))
-                .toString())
-        .replaceAll(
-            '{' r'dateString' '}',
-            encodeQueryParameter(
-                    _serializers, dateString, const FullType(String))
-                .toString())
-        .replaceAll(
-            '{' r'region' '}',
-            encodeQueryParameter(_serializers, region, const FullType(String))
-                .toString());
+    final _path = r'/api/v1/market/exchange-rates/{symbol}/{dateString}'.replaceAll('{' r'symbol' '}', encodeQueryParameter(_serializers, symbol, const FullType(String)).toString()).replaceAll('{' r'dateString' '}', encodeQueryParameter(_serializers, dateString, const FullType(String)).toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -79,4 +65,5 @@ class ExchangeRateApi {
 
     return _response;
   }
+
 }

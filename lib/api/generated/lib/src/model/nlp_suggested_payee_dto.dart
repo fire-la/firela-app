@@ -18,7 +18,7 @@ part 'nlp_suggested_payee_dto.g.dart';
 /// * [source_] - Source of the payee
 /// * [payeeProfileId] - PayeeProfile ID (if matched from global)
 @BuiltValue(instantiable: false)
-abstract class NlpSuggestedPayeeDto {
+abstract class NlpSuggestedPayeeDto  {
   /// Payee ID
   @BuiltValueField(wireName: r'id')
   String get id;
@@ -41,12 +41,10 @@ abstract class NlpSuggestedPayeeDto {
   String? get payeeProfileId;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<NlpSuggestedPayeeDto> get serializer =>
-      _$NlpSuggestedPayeeDtoSerializer();
+  static Serializer<NlpSuggestedPayeeDto> get serializer => _$NlpSuggestedPayeeDtoSerializer();
 }
 
-class _$NlpSuggestedPayeeDtoSerializer
-    implements PrimitiveSerializer<NlpSuggestedPayeeDto> {
+class _$NlpSuggestedPayeeDtoSerializer implements PrimitiveSerializer<NlpSuggestedPayeeDto> {
   @override
   final Iterable<Type> types = const [NlpSuggestedPayeeDto];
 
@@ -97,9 +95,7 @@ class _$NlpSuggestedPayeeDtoSerializer
     NlpSuggestedPayeeDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   @override
@@ -108,39 +104,27 @@ class _$NlpSuggestedPayeeDtoSerializer
     Object serialized, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return serializers.deserialize(serialized,
-            specifiedType: FullType($NlpSuggestedPayeeDto))
-        as $NlpSuggestedPayeeDto;
+    return serializers.deserialize(serialized, specifiedType: FullType($NlpSuggestedPayeeDto)) as $NlpSuggestedPayeeDto;
   }
 }
 
 /// a concrete implementation of [NlpSuggestedPayeeDto], since [NlpSuggestedPayeeDto] is not instantiable
 @BuiltValue(instantiable: true)
-abstract class $NlpSuggestedPayeeDto
-    implements
-        NlpSuggestedPayeeDto,
-        Built<$NlpSuggestedPayeeDto, $NlpSuggestedPayeeDtoBuilder> {
+abstract class $NlpSuggestedPayeeDto implements NlpSuggestedPayeeDto, Built<$NlpSuggestedPayeeDto, $NlpSuggestedPayeeDtoBuilder> {
   $NlpSuggestedPayeeDto._();
 
-  factory $NlpSuggestedPayeeDto(
-          [void Function($NlpSuggestedPayeeDtoBuilder)? updates]) =
-      _$$NlpSuggestedPayeeDto;
+  factory $NlpSuggestedPayeeDto([void Function($NlpSuggestedPayeeDtoBuilder)? updates]) = _$$NlpSuggestedPayeeDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults($NlpSuggestedPayeeDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<$NlpSuggestedPayeeDto> get serializer =>
-      _$$NlpSuggestedPayeeDtoSerializer();
+  static Serializer<$NlpSuggestedPayeeDto> get serializer => _$$NlpSuggestedPayeeDtoSerializer();
 }
 
-class _$$NlpSuggestedPayeeDtoSerializer
-    implements PrimitiveSerializer<$NlpSuggestedPayeeDto> {
+class _$$NlpSuggestedPayeeDtoSerializer implements PrimitiveSerializer<$NlpSuggestedPayeeDto> {
   @override
-  final Iterable<Type> types = const [
-    $NlpSuggestedPayeeDto,
-    _$$NlpSuggestedPayeeDto
-  ];
+  final Iterable<Type> types = const [$NlpSuggestedPayeeDto, _$$NlpSuggestedPayeeDto];
 
   @override
   final String wireName = r'$NlpSuggestedPayeeDto';
@@ -151,8 +135,7 @@ class _$$NlpSuggestedPayeeDtoSerializer
     $NlpSuggestedPayeeDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return serializers.serialize(object,
-        specifiedType: FullType(NlpSuggestedPayeeDto))!;
+    return serializers.serialize(object, specifiedType: FullType(NlpSuggestedPayeeDto))!;
   }
 
   void _deserializeProperties(
@@ -232,23 +215,19 @@ class _$$NlpSuggestedPayeeDtoSerializer
 }
 
 class NlpSuggestedPayeeDtoSource_Enum extends EnumClass {
+
   /// Source of the payee
   @BuiltValueEnumConst(wireName: r'user')
-  static const NlpSuggestedPayeeDtoSource_Enum user =
-      _$nlpSuggestedPayeeDtoSourceEnum_user;
-
+  static const NlpSuggestedPayeeDtoSource_Enum user = _$nlpSuggestedPayeeDtoSourceEnum_user;
   /// Source of the payee
-  @BuiltValueEnumConst(wireName: r'global', fallback: true)
-  static const NlpSuggestedPayeeDtoSource_Enum global =
-      _$nlpSuggestedPayeeDtoSourceEnum_global;
+  @BuiltValueEnumConst(wireName: r'global')
+  static const NlpSuggestedPayeeDtoSource_Enum global = _$nlpSuggestedPayeeDtoSourceEnum_global;
 
-  static Serializer<NlpSuggestedPayeeDtoSource_Enum> get serializer =>
-      _$nlpSuggestedPayeeDtoSourceEnumSerializer;
+  static Serializer<NlpSuggestedPayeeDtoSource_Enum> get serializer => _$nlpSuggestedPayeeDtoSourceEnumSerializer;
 
-  const NlpSuggestedPayeeDtoSource_Enum._(String name) : super(name);
+  const NlpSuggestedPayeeDtoSource_Enum._(String name): super(name);
 
-  static BuiltSet<NlpSuggestedPayeeDtoSource_Enum> get values =>
-      _$nlpSuggestedPayeeDtoSourceEnumValues;
-  static NlpSuggestedPayeeDtoSource_Enum valueOf(String name) =>
-      _$nlpSuggestedPayeeDtoSourceEnumValueOf(name);
+  static BuiltSet<NlpSuggestedPayeeDtoSource_Enum> get values => _$nlpSuggestedPayeeDtoSourceEnumValues;
+  static NlpSuggestedPayeeDtoSource_Enum valueOf(String name) => _$nlpSuggestedPayeeDtoSourceEnumValueOf(name);
 }
+

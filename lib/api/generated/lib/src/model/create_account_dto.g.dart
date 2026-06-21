@@ -46,7 +46,7 @@ CreateAccountDtoBookingMethodEnum _$createAccountDtoBookingMethodEnumValueOf(
     case 'NONE':
       return _$createAccountDtoBookingMethodEnum_NONE;
     default:
-      return _$createAccountDtoBookingMethodEnum_NONE;
+      throw new ArgumentError(name);
   }
 }
 
@@ -110,6 +110,8 @@ class _$CreateAccountDto extends CreateAccountDto {
   @override
   final String path;
   @override
+  final String? displayName;
+  @override
   final DateTime openDate;
   @override
   final BuiltList<String>? currencies;
@@ -134,6 +136,7 @@ class _$CreateAccountDto extends CreateAccountDto {
 
   _$CreateAccountDto._(
       {required this.path,
+      this.displayName,
       required this.openDate,
       this.currencies,
       this.bookingMethod,
@@ -162,6 +165,7 @@ class _$CreateAccountDto extends CreateAccountDto {
     if (identical(other, this)) return true;
     return other is CreateAccountDto &&
         path == other.path &&
+        displayName == other.displayName &&
         openDate == other.openDate &&
         currencies == other.currencies &&
         bookingMethod == other.bookingMethod &&
@@ -177,6 +181,7 @@ class _$CreateAccountDto extends CreateAccountDto {
   int get hashCode {
     var _$hash = 0;
     _$hash = $jc(_$hash, path.hashCode);
+    _$hash = $jc(_$hash, displayName.hashCode);
     _$hash = $jc(_$hash, openDate.hashCode);
     _$hash = $jc(_$hash, currencies.hashCode);
     _$hash = $jc(_$hash, bookingMethod.hashCode);
@@ -194,6 +199,7 @@ class _$CreateAccountDto extends CreateAccountDto {
   String toString() {
     return (newBuiltValueToStringHelper(r'CreateAccountDto')
           ..add('path', path)
+          ..add('displayName', displayName)
           ..add('openDate', openDate)
           ..add('currencies', currencies)
           ..add('bookingMethod', bookingMethod)
@@ -214,6 +220,10 @@ class CreateAccountDtoBuilder
   String? _path;
   String? get path => _$this._path;
   set path(String? path) => _$this._path = path;
+
+  String? _displayName;
+  String? get displayName => _$this._displayName;
+  set displayName(String? displayName) => _$this._displayName = displayName;
 
   DateTime? _openDate;
   DateTime? get openDate => _$this._openDate;
@@ -262,6 +272,7 @@ class CreateAccountDtoBuilder
     final $v = _$v;
     if ($v != null) {
       _path = $v.path;
+      _displayName = $v.displayName;
       _openDate = $v.openDate;
       _currencies = $v.currencies?.toBuilder();
       _bookingMethod = $v.bookingMethod;
@@ -297,6 +308,7 @@ class CreateAccountDtoBuilder
           new _$CreateAccountDto._(
               path: BuiltValueNullFieldError.checkNotNull(
                   path, r'CreateAccountDto', 'path'),
+              displayName: displayName,
               openDate: BuiltValueNullFieldError.checkNotNull(
                   openDate, r'CreateAccountDto', 'openDate'),
               currencies: _currencies?.build(),

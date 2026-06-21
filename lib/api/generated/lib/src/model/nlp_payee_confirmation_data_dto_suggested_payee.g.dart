@@ -21,7 +21,7 @@ NlpPayeeConfirmationDataDtoSuggestedPayeeSource_Enum
     case 'global':
       return _$nlpPayeeConfirmationDataDtoSuggestedPayeeSourceEnum_global;
     default:
-      return _$nlpPayeeConfirmationDataDtoSuggestedPayeeSourceEnum_global;
+      throw new ArgumentError(name);
   }
 }
 

@@ -16,6 +16,8 @@ part 'payee_response_dto.g.dart';
 /// * [id] - Unique identifier (UUID)
 /// * [userId] - User ID (owner of this payee mapping)
 /// * [payee] - User's original payee name (e.g., 'Starbucks', 'McDonald')
+/// * [payeeProfileId] - Reference to global PayeeProfile (merchant info, i18n keys, categories)
+/// * [customCategory] - User's custom category (overrides PayeeProfile category if set)
 /// * [customTags] - User's custom tags (e.g., ['favorite', 'work_meal'])
 /// * [useCount] - Usage count (number of times this payee was used in transactions)
 /// * [lastUsedAt] - Last used timestamp
@@ -23,11 +25,8 @@ part 'payee_response_dto.g.dart';
 /// * [isActive] - Active status (inactive payees hidden from autocomplete)
 /// * [createdAt] - Creation timestamp (first time this payee was used)
 /// * [updatedAt] - Last update timestamp
-/// * [payeeProfileId] - Reference to global PayeeProfile (merchant info, i18n keys, categories)
-/// * [customCategory] - User's custom category (overrides PayeeProfile category if set)
 @BuiltValue()
-abstract class PayeeResponseDto
-    implements Built<PayeeResponseDto, PayeeResponseDtoBuilder> {
+abstract class PayeeResponseDto implements Built<PayeeResponseDto, PayeeResponseDtoBuilder> {
   /// Unique identifier (UUID)
   @BuiltValueField(wireName: r'id')
   String get id;
@@ -39,6 +38,14 @@ abstract class PayeeResponseDto
   /// User's original payee name (e.g., 'Starbucks', 'McDonald')
   @BuiltValueField(wireName: r'payee')
   String get payee;
+
+  /// Reference to global PayeeProfile (merchant info, i18n keys, categories)
+  @BuiltValueField(wireName: r'payeeProfileId')
+  String? get payeeProfileId;
+
+  /// User's custom category (overrides PayeeProfile category if set)
+  @BuiltValueField(wireName: r'customCategory')
+  String? get customCategory;
 
   /// User's custom tags (e.g., ['favorite', 'work_meal'])
   @BuiltValueField(wireName: r'customTags')
@@ -68,29 +75,18 @@ abstract class PayeeResponseDto
   @BuiltValueField(wireName: r'updatedAt')
   DateTime get updatedAt;
 
-  /// Reference to global PayeeProfile (merchant info, i18n keys, categories)
-  @BuiltValueField(wireName: r'payeeProfileId')
-  JsonObject? get payeeProfileId;
-
-  /// User's custom category (overrides PayeeProfile category if set)
-  @BuiltValueField(wireName: r'customCategory')
-  JsonObject? get customCategory;
-
   PayeeResponseDto._();
 
-  factory PayeeResponseDto([void updates(PayeeResponseDtoBuilder b)]) =
-      _$PayeeResponseDto;
+  factory PayeeResponseDto([void updates(PayeeResponseDtoBuilder b)]) = _$PayeeResponseDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(PayeeResponseDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<PayeeResponseDto> get serializer =>
-      _$PayeeResponseDtoSerializer();
+  static Serializer<PayeeResponseDto> get serializer => _$PayeeResponseDtoSerializer();
 }
 
-class _$PayeeResponseDtoSerializer
-    implements PrimitiveSerializer<PayeeResponseDto> {
+class _$PayeeResponseDtoSerializer implements PrimitiveSerializer<PayeeResponseDto> {
   @override
   final Iterable<Type> types = const [PayeeResponseDto, _$PayeeResponseDto];
 
@@ -117,6 +113,20 @@ class _$PayeeResponseDtoSerializer
       object.payee,
       specifiedType: const FullType(String),
     );
+    if (object.payeeProfileId != null) {
+      yield r'payeeProfileId';
+      yield serializers.serialize(
+        object.payeeProfileId,
+        specifiedType: const FullType.nullable(String),
+      );
+    }
+    if (object.customCategory != null) {
+      yield r'customCategory';
+      yield serializers.serialize(
+        object.customCategory,
+        specifiedType: const FullType.nullable(String),
+      );
+    }
     yield r'customTags';
     yield serializers.serialize(
       object.customTags,
@@ -152,20 +162,6 @@ class _$PayeeResponseDtoSerializer
       object.updatedAt,
       specifiedType: const FullType(DateTime),
     );
-    if (object.payeeProfileId != null) {
-      yield r'payeeProfileId';
-      yield serializers.serialize(
-        object.payeeProfileId,
-        specifiedType: const FullType.nullable(JsonObject),
-      );
-    }
-    if (object.customCategory != null) {
-      yield r'customCategory';
-      yield serializers.serialize(
-        object.customCategory,
-        specifiedType: const FullType.nullable(JsonObject),
-      );
-    }
   }
 
   @override
@@ -174,9 +170,7 @@ class _$PayeeResponseDtoSerializer
     PayeeResponseDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -211,6 +205,22 @@ class _$PayeeResponseDtoSerializer
             specifiedType: const FullType(String),
           ) as String;
           result.payee = valueDes;
+          break;
+        case r'payeeProfileId':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
+          result.payeeProfileId = valueDes;
+          break;
+        case r'customCategory':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
+          result.customCategory = valueDes;
           break;
         case r'customTags':
           final valueDes = serializers.deserialize(
@@ -261,22 +271,6 @@ class _$PayeeResponseDtoSerializer
           ) as DateTime;
           result.updatedAt = valueDes;
           break;
-        case r'payeeProfileId':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType.nullable(JsonObject),
-          ) as JsonObject?;
-          if (valueDes == null) continue;
-          result.payeeProfileId = valueDes;
-          break;
-        case r'customCategory':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType.nullable(JsonObject),
-          ) as JsonObject?;
-          if (valueDes == null) continue;
-          result.customCategory = valueDes;
-          break;
         default:
           unhandled.add(key);
           unhandled.add(value);
@@ -305,3 +299,4 @@ class _$PayeeResponseDtoSerializer
     return result.build();
   }
 }
+

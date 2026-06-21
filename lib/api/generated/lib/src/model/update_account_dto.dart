@@ -13,6 +13,7 @@ part 'update_account_dto.g.dart';
 /// UpdateAccountDto
 ///
 /// Properties:
+/// * [displayName] - Display name to distinguish accounts at the same path
 /// * [currencies] - Allowed currencies (null = no restriction)
 /// * [bookingMethod] - Booking method for cost basis
 /// * [i18nKey] - i18n key for display name
@@ -20,8 +21,11 @@ part 'update_account_dto.g.dart';
 /// * [openMeta] - Additional metadata (merged with existing)
 /// * [platformId] - Platform ID (references Platform.id), null to clear association
 @BuiltValue()
-abstract class UpdateAccountDto
-    implements Built<UpdateAccountDto, UpdateAccountDtoBuilder> {
+abstract class UpdateAccountDto implements Built<UpdateAccountDto, UpdateAccountDtoBuilder> {
+  /// Display name to distinguish accounts at the same path
+  @BuiltValueField(wireName: r'displayName')
+  String? get displayName;
+
   /// Allowed currencies (null = no restriction)
   @BuiltValueField(wireName: r'currencies')
   BuiltList<String>? get currencies;
@@ -45,23 +49,20 @@ abstract class UpdateAccountDto
 
   /// Platform ID (references Platform.id), null to clear association
   @BuiltValueField(wireName: r'platformId')
-  JsonObject? get platformId;
+  String? get platformId;
 
   UpdateAccountDto._();
 
-  factory UpdateAccountDto([void updates(UpdateAccountDtoBuilder b)]) =
-      _$UpdateAccountDto;
+  factory UpdateAccountDto([void updates(UpdateAccountDtoBuilder b)]) = _$UpdateAccountDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(UpdateAccountDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<UpdateAccountDto> get serializer =>
-      _$UpdateAccountDtoSerializer();
+  static Serializer<UpdateAccountDto> get serializer => _$UpdateAccountDtoSerializer();
 }
 
-class _$UpdateAccountDtoSerializer
-    implements PrimitiveSerializer<UpdateAccountDto> {
+class _$UpdateAccountDtoSerializer implements PrimitiveSerializer<UpdateAccountDto> {
   @override
   final Iterable<Type> types = const [UpdateAccountDto, _$UpdateAccountDto];
 
@@ -73,6 +74,13 @@ class _$UpdateAccountDtoSerializer
     UpdateAccountDto object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
+    if (object.displayName != null) {
+      yield r'displayName';
+      yield serializers.serialize(
+        object.displayName,
+        specifiedType: const FullType(String),
+      );
+    }
     if (object.currencies != null) {
       yield r'currencies';
       yield serializers.serialize(
@@ -112,7 +120,7 @@ class _$UpdateAccountDtoSerializer
       yield r'platformId';
       yield serializers.serialize(
         object.platformId,
-        specifiedType: const FullType.nullable(JsonObject),
+        specifiedType: const FullType.nullable(String),
       );
     }
   }
@@ -123,9 +131,7 @@ class _$UpdateAccountDtoSerializer
     UpdateAccountDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -140,6 +146,13 @@ class _$UpdateAccountDtoSerializer
       final key = serializedList[i] as String;
       final value = serializedList[i + 1];
       switch (key) {
+        case r'displayName':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.displayName = valueDes;
+          break;
         case r'currencies':
           final valueDes = serializers.deserialize(
             value,
@@ -178,8 +191,8 @@ class _$UpdateAccountDtoSerializer
         case r'platformId':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType.nullable(JsonObject),
-          ) as JsonObject?;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
           if (valueDes == null) continue;
           result.platformId = valueDes;
           break;
@@ -213,48 +226,34 @@ class _$UpdateAccountDtoSerializer
 }
 
 class UpdateAccountDtoBookingMethodEnum extends EnumClass {
+
   /// Booking method for cost basis
   @BuiltValueEnumConst(wireName: r'FIFO')
-  static const UpdateAccountDtoBookingMethodEnum FIFO =
-      _$updateAccountDtoBookingMethodEnum_FIFO;
-
+  static const UpdateAccountDtoBookingMethodEnum FIFO = _$updateAccountDtoBookingMethodEnum_FIFO;
   /// Booking method for cost basis
   @BuiltValueEnumConst(wireName: r'LIFO')
-  static const UpdateAccountDtoBookingMethodEnum LIFO =
-      _$updateAccountDtoBookingMethodEnum_LIFO;
-
+  static const UpdateAccountDtoBookingMethodEnum LIFO = _$updateAccountDtoBookingMethodEnum_LIFO;
   /// Booking method for cost basis
   @BuiltValueEnumConst(wireName: r'HIFO')
-  static const UpdateAccountDtoBookingMethodEnum HIFO =
-      _$updateAccountDtoBookingMethodEnum_HIFO;
-
+  static const UpdateAccountDtoBookingMethodEnum HIFO = _$updateAccountDtoBookingMethodEnum_HIFO;
   /// Booking method for cost basis
   @BuiltValueEnumConst(wireName: r'AVERAGE')
-  static const UpdateAccountDtoBookingMethodEnum AVERAGE =
-      _$updateAccountDtoBookingMethodEnum_AVERAGE;
-
+  static const UpdateAccountDtoBookingMethodEnum AVERAGE = _$updateAccountDtoBookingMethodEnum_AVERAGE;
   /// Booking method for cost basis
   @BuiltValueEnumConst(wireName: r'STRICT')
-  static const UpdateAccountDtoBookingMethodEnum STRICT =
-      _$updateAccountDtoBookingMethodEnum_STRICT;
-
+  static const UpdateAccountDtoBookingMethodEnum STRICT = _$updateAccountDtoBookingMethodEnum_STRICT;
   /// Booking method for cost basis
   @BuiltValueEnumConst(wireName: r'STRICT_WITH_SIZE')
-  static const UpdateAccountDtoBookingMethodEnum STRICT_WITH_SIZE =
-      _$updateAccountDtoBookingMethodEnum_STRICT_WITH_SIZE;
-
+  static const UpdateAccountDtoBookingMethodEnum STRICT_WITH_SIZE = _$updateAccountDtoBookingMethodEnum_STRICT_WITH_SIZE;
   /// Booking method for cost basis
-  @BuiltValueEnumConst(wireName: r'NONE', fallback: true)
-  static const UpdateAccountDtoBookingMethodEnum NONE =
-      _$updateAccountDtoBookingMethodEnum_NONE;
+  @BuiltValueEnumConst(wireName: r'NONE')
+  static const UpdateAccountDtoBookingMethodEnum NONE = _$updateAccountDtoBookingMethodEnum_NONE;
 
-  static Serializer<UpdateAccountDtoBookingMethodEnum> get serializer =>
-      _$updateAccountDtoBookingMethodEnumSerializer;
+  static Serializer<UpdateAccountDtoBookingMethodEnum> get serializer => _$updateAccountDtoBookingMethodEnumSerializer;
 
-  const UpdateAccountDtoBookingMethodEnum._(String name) : super(name);
+  const UpdateAccountDtoBookingMethodEnum._(String name): super(name);
 
-  static BuiltSet<UpdateAccountDtoBookingMethodEnum> get values =>
-      _$updateAccountDtoBookingMethodEnumValues;
-  static UpdateAccountDtoBookingMethodEnum valueOf(String name) =>
-      _$updateAccountDtoBookingMethodEnumValueOf(name);
+  static BuiltSet<UpdateAccountDtoBookingMethodEnum> get values => _$updateAccountDtoBookingMethodEnumValues;
+  static UpdateAccountDtoBookingMethodEnum valueOf(String name) => _$updateAccountDtoBookingMethodEnumValueOf(name);
 }
+

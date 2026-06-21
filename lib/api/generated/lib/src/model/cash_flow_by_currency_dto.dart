@@ -17,8 +17,7 @@ part 'cash_flow_by_currency_dto.g.dart';
 /// * [expense] - Expense by currency
 /// * [netSavings] - Net savings by currency
 @BuiltValue()
-abstract class CashFlowByCurrencyDto
-    implements Built<CashFlowByCurrencyDto, CashFlowByCurrencyDtoBuilder> {
+abstract class CashFlowByCurrencyDto implements Built<CashFlowByCurrencyDto, CashFlowByCurrencyDtoBuilder> {
   /// Income by currency
   @BuiltValueField(wireName: r'income')
   BuiltList<BalanceByCurrencyDto> get income;
@@ -33,24 +32,18 @@ abstract class CashFlowByCurrencyDto
 
   CashFlowByCurrencyDto._();
 
-  factory CashFlowByCurrencyDto(
-      [void updates(CashFlowByCurrencyDtoBuilder b)]) = _$CashFlowByCurrencyDto;
+  factory CashFlowByCurrencyDto([void updates(CashFlowByCurrencyDtoBuilder b)]) = _$CashFlowByCurrencyDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(CashFlowByCurrencyDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<CashFlowByCurrencyDto> get serializer =>
-      _$CashFlowByCurrencyDtoSerializer();
+  static Serializer<CashFlowByCurrencyDto> get serializer => _$CashFlowByCurrencyDtoSerializer();
 }
 
-class _$CashFlowByCurrencyDtoSerializer
-    implements PrimitiveSerializer<CashFlowByCurrencyDto> {
+class _$CashFlowByCurrencyDtoSerializer implements PrimitiveSerializer<CashFlowByCurrencyDto> {
   @override
-  final Iterable<Type> types = const [
-    CashFlowByCurrencyDto,
-    _$CashFlowByCurrencyDto
-  ];
+  final Iterable<Type> types = const [CashFlowByCurrencyDto, _$CashFlowByCurrencyDto];
 
   @override
   final String wireName = r'CashFlowByCurrencyDto';
@@ -63,20 +56,17 @@ class _$CashFlowByCurrencyDtoSerializer
     yield r'income';
     yield serializers.serialize(
       object.income,
-      specifiedType:
-          const FullType(BuiltList, [FullType(BalanceByCurrencyDto)]),
+      specifiedType: const FullType(BuiltList, [FullType(BalanceByCurrencyDto)]),
     );
     yield r'expense';
     yield serializers.serialize(
       object.expense,
-      specifiedType:
-          const FullType(BuiltList, [FullType(BalanceByCurrencyDto)]),
+      specifiedType: const FullType(BuiltList, [FullType(BalanceByCurrencyDto)]),
     );
     yield r'netSavings';
     yield serializers.serialize(
       object.netSavings,
-      specifiedType:
-          const FullType(BuiltList, [FullType(BalanceByCurrencyDto)]),
+      specifiedType: const FullType(BuiltList, [FullType(BalanceByCurrencyDto)]),
     );
   }
 
@@ -86,9 +76,7 @@ class _$CashFlowByCurrencyDtoSerializer
     CashFlowByCurrencyDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -106,24 +94,21 @@ class _$CashFlowByCurrencyDtoSerializer
         case r'income':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType:
-                const FullType(BuiltList, [FullType(BalanceByCurrencyDto)]),
+            specifiedType: const FullType(BuiltList, [FullType(BalanceByCurrencyDto)]),
           ) as BuiltList<BalanceByCurrencyDto>;
           result.income.replace(valueDes);
           break;
         case r'expense':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType:
-                const FullType(BuiltList, [FullType(BalanceByCurrencyDto)]),
+            specifiedType: const FullType(BuiltList, [FullType(BalanceByCurrencyDto)]),
           ) as BuiltList<BalanceByCurrencyDto>;
           result.expense.replace(valueDes);
           break;
         case r'netSavings':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType:
-                const FullType(BuiltList, [FullType(BalanceByCurrencyDto)]),
+            specifiedType: const FullType(BuiltList, [FullType(BalanceByCurrencyDto)]),
           ) as BuiltList<BalanceByCurrencyDto>;
           result.netSavings.replace(valueDes);
           break;
@@ -155,3 +140,4 @@ class _$CashFlowByCurrencyDtoSerializer
     return result.build();
   }
 }
+

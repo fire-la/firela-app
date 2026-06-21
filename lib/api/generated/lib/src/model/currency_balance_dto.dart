@@ -14,8 +14,7 @@ part 'currency_balance_dto.g.dart';
 /// * [currency] - ISO 4217 currency code
 /// * [balance] - Balance amount
 @BuiltValue()
-abstract class CurrencyBalanceDto
-    implements Built<CurrencyBalanceDto, CurrencyBalanceDtoBuilder> {
+abstract class CurrencyBalanceDto implements Built<CurrencyBalanceDto, CurrencyBalanceDtoBuilder> {
   /// ISO 4217 currency code
   @BuiltValueField(wireName: r'currency')
   String get currency;
@@ -26,19 +25,16 @@ abstract class CurrencyBalanceDto
 
   CurrencyBalanceDto._();
 
-  factory CurrencyBalanceDto([void updates(CurrencyBalanceDtoBuilder b)]) =
-      _$CurrencyBalanceDto;
+  factory CurrencyBalanceDto([void updates(CurrencyBalanceDtoBuilder b)]) = _$CurrencyBalanceDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(CurrencyBalanceDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<CurrencyBalanceDto> get serializer =>
-      _$CurrencyBalanceDtoSerializer();
+  static Serializer<CurrencyBalanceDto> get serializer => _$CurrencyBalanceDtoSerializer();
 }
 
-class _$CurrencyBalanceDtoSerializer
-    implements PrimitiveSerializer<CurrencyBalanceDto> {
+class _$CurrencyBalanceDtoSerializer implements PrimitiveSerializer<CurrencyBalanceDto> {
   @override
   final Iterable<Type> types = const [CurrencyBalanceDto, _$CurrencyBalanceDto];
 
@@ -68,9 +64,7 @@ class _$CurrencyBalanceDtoSerializer
     CurrencyBalanceDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -127,3 +121,4 @@ class _$CurrencyBalanceDtoSerializer
     return result.build();
   }
 }
+

@@ -31,7 +31,7 @@ ReviewSummaryDtoTransactionSourceTypeEnum
     case 'API':
       return _$reviewSummaryDtoTransactionSourceTypeEnum_API;
     default:
-      return _$reviewSummaryDtoTransactionSourceTypeEnum_API;
+      throw new ArgumentError(name);
   }
 }
 
@@ -86,17 +86,17 @@ class _$ReviewSummaryDtoTransactionSourceTypeEnumSerializer
 
 class _$ReviewSummaryDtoTransaction extends ReviewSummaryDtoTransaction {
   @override
+  final String? id;
+  @override
   final String date;
   @override
   final String amount;
   @override
   final String currency;
   @override
-  final String narration;
-  @override
-  final String? id;
-  @override
   final String? payee;
+  @override
+  final String narration;
   @override
   final String? accountName;
   @override
@@ -109,12 +109,12 @@ class _$ReviewSummaryDtoTransaction extends ReviewSummaryDtoTransaction {
       (new ReviewSummaryDtoTransactionBuilder()..update(updates))._build();
 
   _$ReviewSummaryDtoTransaction._(
-      {required this.date,
+      {this.id,
+      required this.date,
       required this.amount,
       required this.currency,
-      required this.narration,
-      this.id,
       this.payee,
+      required this.narration,
       this.accountName,
       this.sourceType,
       this.sourcePlatform})
@@ -142,12 +142,12 @@ class _$ReviewSummaryDtoTransaction extends ReviewSummaryDtoTransaction {
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
     return other is ReviewSummaryDtoTransaction &&
+        id == other.id &&
         date == other.date &&
         amount == other.amount &&
         currency == other.currency &&
-        narration == other.narration &&
-        id == other.id &&
         payee == other.payee &&
+        narration == other.narration &&
         accountName == other.accountName &&
         sourceType == other.sourceType &&
         sourcePlatform == other.sourcePlatform;
@@ -156,12 +156,12 @@ class _$ReviewSummaryDtoTransaction extends ReviewSummaryDtoTransaction {
   @override
   int get hashCode {
     var _$hash = 0;
+    _$hash = $jc(_$hash, id.hashCode);
     _$hash = $jc(_$hash, date.hashCode);
     _$hash = $jc(_$hash, amount.hashCode);
     _$hash = $jc(_$hash, currency.hashCode);
-    _$hash = $jc(_$hash, narration.hashCode);
-    _$hash = $jc(_$hash, id.hashCode);
     _$hash = $jc(_$hash, payee.hashCode);
+    _$hash = $jc(_$hash, narration.hashCode);
     _$hash = $jc(_$hash, accountName.hashCode);
     _$hash = $jc(_$hash, sourceType.hashCode);
     _$hash = $jc(_$hash, sourcePlatform.hashCode);
@@ -172,12 +172,12 @@ class _$ReviewSummaryDtoTransaction extends ReviewSummaryDtoTransaction {
   @override
   String toString() {
     return (newBuiltValueToStringHelper(r'ReviewSummaryDtoTransaction')
+          ..add('id', id)
           ..add('date', date)
           ..add('amount', amount)
           ..add('currency', currency)
-          ..add('narration', narration)
-          ..add('id', id)
           ..add('payee', payee)
+          ..add('narration', narration)
           ..add('accountName', accountName)
           ..add('sourceType', sourceType)
           ..add('sourcePlatform', sourcePlatform))
@@ -192,6 +192,10 @@ class ReviewSummaryDtoTransactionBuilder
         TransactionSummaryDtoBuilder {
   _$ReviewSummaryDtoTransaction? _$v;
 
+  String? _id;
+  String? get id => _$this._id;
+  set id(covariant String? id) => _$this._id = id;
+
   String? _date;
   String? get date => _$this._date;
   set date(covariant String? date) => _$this._date = date;
@@ -204,17 +208,13 @@ class ReviewSummaryDtoTransactionBuilder
   String? get currency => _$this._currency;
   set currency(covariant String? currency) => _$this._currency = currency;
 
-  String? _narration;
-  String? get narration => _$this._narration;
-  set narration(covariant String? narration) => _$this._narration = narration;
-
-  String? _id;
-  String? get id => _$this._id;
-  set id(covariant String? id) => _$this._id = id;
-
   String? _payee;
   String? get payee => _$this._payee;
   set payee(covariant String? payee) => _$this._payee = payee;
+
+  String? _narration;
+  String? get narration => _$this._narration;
+  set narration(covariant String? narration) => _$this._narration = narration;
 
   String? _accountName;
   String? get accountName => _$this._accountName;
@@ -238,12 +238,12 @@ class ReviewSummaryDtoTransactionBuilder
   ReviewSummaryDtoTransactionBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
+      _id = $v.id;
       _date = $v.date;
       _amount = $v.amount;
       _currency = $v.currency;
-      _narration = $v.narration;
-      _id = $v.id;
       _payee = $v.payee;
+      _narration = $v.narration;
       _accountName = $v.accountName;
       _sourceType = $v.sourceType;
       _sourcePlatform = $v.sourcePlatform;
@@ -269,16 +269,16 @@ class ReviewSummaryDtoTransactionBuilder
   _$ReviewSummaryDtoTransaction _build() {
     final _$result = _$v ??
         new _$ReviewSummaryDtoTransaction._(
+            id: id,
             date: BuiltValueNullFieldError.checkNotNull(
                 date, r'ReviewSummaryDtoTransaction', 'date'),
             amount: BuiltValueNullFieldError.checkNotNull(
                 amount, r'ReviewSummaryDtoTransaction', 'amount'),
             currency: BuiltValueNullFieldError.checkNotNull(
                 currency, r'ReviewSummaryDtoTransaction', 'currency'),
+            payee: payee,
             narration: BuiltValueNullFieldError.checkNotNull(
                 narration, r'ReviewSummaryDtoTransaction', 'narration'),
-            id: id,
-            payee: payee,
             accountName: accountName,
             sourceType: sourceType,
             sourcePlatform: sourcePlatform);

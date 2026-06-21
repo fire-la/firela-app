@@ -18,8 +18,7 @@ part 'converted_net_worth_dto.g.dart';
 /// * [liabilities] - Converted liabilities
 /// * [exchangeRates] - Exchange rates used for conversion
 @BuiltValue()
-abstract class ConvertedNetWorthDto
-    implements Built<ConvertedNetWorthDto, ConvertedNetWorthDtoBuilder> {
+abstract class ConvertedNetWorthDto implements Built<ConvertedNetWorthDto, ConvertedNetWorthDtoBuilder> {
   /// Base currency for conversion
   @BuiltValueField(wireName: r'baseCurrency')
   String get baseCurrency;
@@ -42,24 +41,18 @@ abstract class ConvertedNetWorthDto
 
   ConvertedNetWorthDto._();
 
-  factory ConvertedNetWorthDto([void updates(ConvertedNetWorthDtoBuilder b)]) =
-      _$ConvertedNetWorthDto;
+  factory ConvertedNetWorthDto([void updates(ConvertedNetWorthDtoBuilder b)]) = _$ConvertedNetWorthDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(ConvertedNetWorthDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<ConvertedNetWorthDto> get serializer =>
-      _$ConvertedNetWorthDtoSerializer();
+  static Serializer<ConvertedNetWorthDto> get serializer => _$ConvertedNetWorthDtoSerializer();
 }
 
-class _$ConvertedNetWorthDtoSerializer
-    implements PrimitiveSerializer<ConvertedNetWorthDto> {
+class _$ConvertedNetWorthDtoSerializer implements PrimitiveSerializer<ConvertedNetWorthDto> {
   @override
-  final Iterable<Type> types = const [
-    ConvertedNetWorthDto,
-    _$ConvertedNetWorthDto
-  ];
+  final Iterable<Type> types = const [ConvertedNetWorthDto, _$ConvertedNetWorthDto];
 
   @override
   final String wireName = r'ConvertedNetWorthDto';
@@ -102,9 +95,7 @@ class _$ConvertedNetWorthDtoSerializer
     ConvertedNetWorthDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -182,3 +173,4 @@ class _$ConvertedNetWorthDtoSerializer
     return result.build();
   }
 }
+

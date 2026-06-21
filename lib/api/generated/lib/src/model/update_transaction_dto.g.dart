@@ -35,7 +35,7 @@ UpdateTransactionDtoFlagEnum _$updateTransactionDtoFlagEnumValueOf(
     case 'CONVERSIONS':
       return _$updateTransactionDtoFlagEnum_CONVERSIONS;
     default:
-      return _$updateTransactionDtoFlagEnum_CONVERSIONS;
+      throw new ArgumentError(name);
   }
 }
 

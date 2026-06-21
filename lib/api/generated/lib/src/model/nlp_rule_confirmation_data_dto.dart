@@ -19,9 +19,7 @@ part 'nlp_rule_confirmation_data_dto.g.dart';
 /// * [alternatives] - Alternative rules that also match
 /// * [reasons] - Human-readable reasons for the match
 @BuiltValue()
-abstract class NlpRuleConfirmationDataDto
-    implements
-        Built<NlpRuleConfirmationDataDto, NlpRuleConfirmationDataDtoBuilder> {
+abstract class NlpRuleConfirmationDataDto implements Built<NlpRuleConfirmationDataDto, NlpRuleConfirmationDataDtoBuilder> {
   /// Rule match confidence score (0.5-0.74)
   @BuiltValueField(wireName: r'confidence')
   num get confidence;
@@ -44,25 +42,18 @@ abstract class NlpRuleConfirmationDataDto
 
   NlpRuleConfirmationDataDto._();
 
-  factory NlpRuleConfirmationDataDto(
-          [void updates(NlpRuleConfirmationDataDtoBuilder b)]) =
-      _$NlpRuleConfirmationDataDto;
+  factory NlpRuleConfirmationDataDto([void updates(NlpRuleConfirmationDataDtoBuilder b)]) = _$NlpRuleConfirmationDataDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(NlpRuleConfirmationDataDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<NlpRuleConfirmationDataDto> get serializer =>
-      _$NlpRuleConfirmationDataDtoSerializer();
+  static Serializer<NlpRuleConfirmationDataDto> get serializer => _$NlpRuleConfirmationDataDtoSerializer();
 }
 
-class _$NlpRuleConfirmationDataDtoSerializer
-    implements PrimitiveSerializer<NlpRuleConfirmationDataDto> {
+class _$NlpRuleConfirmationDataDtoSerializer implements PrimitiveSerializer<NlpRuleConfirmationDataDto> {
   @override
-  final Iterable<Type> types = const [
-    NlpRuleConfirmationDataDto,
-    _$NlpRuleConfirmationDataDto
-  ];
+  final Iterable<Type> types = const [NlpRuleConfirmationDataDto, _$NlpRuleConfirmationDataDto];
 
   @override
   final String wireName = r'NlpRuleConfirmationDataDto';
@@ -105,9 +96,7 @@ class _$NlpRuleConfirmationDataDtoSerializer
     NlpRuleConfirmationDataDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -185,3 +174,4 @@ class _$NlpRuleConfirmationDataDtoSerializer
     return result.build();
   }
 }
+

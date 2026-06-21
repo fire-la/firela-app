@@ -13,14 +13,13 @@ part 'review_list_response_dto.g.dart';
 /// ReviewListResponseDto
 ///
 /// Properties:
-/// * [items]
+/// * [items] 
 /// * [total] - Total number of items
 /// * [page] - Current page number
 /// * [limit] - Items per page
 /// * [hasMore] - Whether there are more pages
 @BuiltValue()
-abstract class ReviewListResponseDto
-    implements Built<ReviewListResponseDto, ReviewListResponseDtoBuilder> {
+abstract class ReviewListResponseDto implements Built<ReviewListResponseDto, ReviewListResponseDtoBuilder> {
   @BuiltValueField(wireName: r'items')
   BuiltList<ReviewSummaryDto> get items;
 
@@ -42,24 +41,18 @@ abstract class ReviewListResponseDto
 
   ReviewListResponseDto._();
 
-  factory ReviewListResponseDto(
-      [void updates(ReviewListResponseDtoBuilder b)]) = _$ReviewListResponseDto;
+  factory ReviewListResponseDto([void updates(ReviewListResponseDtoBuilder b)]) = _$ReviewListResponseDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(ReviewListResponseDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<ReviewListResponseDto> get serializer =>
-      _$ReviewListResponseDtoSerializer();
+  static Serializer<ReviewListResponseDto> get serializer => _$ReviewListResponseDtoSerializer();
 }
 
-class _$ReviewListResponseDtoSerializer
-    implements PrimitiveSerializer<ReviewListResponseDto> {
+class _$ReviewListResponseDtoSerializer implements PrimitiveSerializer<ReviewListResponseDto> {
   @override
-  final Iterable<Type> types = const [
-    ReviewListResponseDto,
-    _$ReviewListResponseDto
-  ];
+  final Iterable<Type> types = const [ReviewListResponseDto, _$ReviewListResponseDto];
 
   @override
   final String wireName = r'ReviewListResponseDto';
@@ -102,9 +95,7 @@ class _$ReviewListResponseDtoSerializer
     ReviewListResponseDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -122,8 +113,7 @@ class _$ReviewListResponseDtoSerializer
         case r'items':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType:
-                const FullType(BuiltList, [FullType(ReviewSummaryDto)]),
+            specifiedType: const FullType(BuiltList, [FullType(ReviewSummaryDto)]),
           ) as BuiltList<ReviewSummaryDto>;
           result.items.replace(valueDes);
           break;
@@ -183,3 +173,4 @@ class _$ReviewListResponseDtoSerializer
     return result.build();
   }
 }
+

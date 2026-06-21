@@ -16,7 +16,7 @@ class _$ForecastItemDto extends ForecastItemDto {
   @override
   final String date;
   @override
-  final JsonObject? icon;
+  final String? icon;
   @override
   final String currency;
 
@@ -105,9 +105,9 @@ class ForecastItemDtoBuilder
   String? get date => _$this._date;
   set date(String? date) => _$this._date = date;
 
-  JsonObject? _icon;
-  JsonObject? get icon => _$this._icon;
-  set icon(JsonObject? icon) => _$this._icon = icon;
+  String? _icon;
+  String? get icon => _$this._icon;
+  set icon(String? icon) => _$this._icon = icon;
 
   String? _currency;
   String? get currency => _$this._currency;

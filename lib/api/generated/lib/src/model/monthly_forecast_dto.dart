@@ -20,8 +20,7 @@ part 'monthly_forecast_dto.g.dart';
 /// * [byCurrency] - Breakdown by currency
 /// * [items] - Individual forecast items
 @BuiltValue()
-abstract class MonthlyForecastDto
-    implements Built<MonthlyForecastDto, MonthlyForecastDtoBuilder> {
+abstract class MonthlyForecastDto implements Built<MonthlyForecastDto, MonthlyForecastDtoBuilder> {
   /// Month (YYYY-MM)
   @BuiltValueField(wireName: r'month')
   String get month;
@@ -44,19 +43,16 @@ abstract class MonthlyForecastDto
 
   MonthlyForecastDto._();
 
-  factory MonthlyForecastDto([void updates(MonthlyForecastDtoBuilder b)]) =
-      _$MonthlyForecastDto;
+  factory MonthlyForecastDto([void updates(MonthlyForecastDtoBuilder b)]) = _$MonthlyForecastDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(MonthlyForecastDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<MonthlyForecastDto> get serializer =>
-      _$MonthlyForecastDtoSerializer();
+  static Serializer<MonthlyForecastDto> get serializer => _$MonthlyForecastDtoSerializer();
 }
 
-class _$MonthlyForecastDtoSerializer
-    implements PrimitiveSerializer<MonthlyForecastDto> {
+class _$MonthlyForecastDtoSerializer implements PrimitiveSerializer<MonthlyForecastDto> {
   @override
   final Iterable<Type> types = const [MonthlyForecastDto, _$MonthlyForecastDto];
 
@@ -101,9 +97,7 @@ class _$MonthlyForecastDtoSerializer
     MonthlyForecastDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -149,8 +143,7 @@ class _$MonthlyForecastDtoSerializer
         case r'items':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType:
-                const FullType(BuiltList, [FullType(ForecastItemDto)]),
+            specifiedType: const FullType(BuiltList, [FullType(ForecastItemDto)]),
           ) as BuiltList<ForecastItemDto>;
           result.items.replace(valueDes);
           break;
@@ -182,3 +175,4 @@ class _$MonthlyForecastDtoSerializer
     return result.build();
   }
 }
+

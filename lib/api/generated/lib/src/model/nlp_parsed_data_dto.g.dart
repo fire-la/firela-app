@@ -21,7 +21,7 @@ NlpParsedDataDtoInvestmentActionEnum
     case 'sell':
       return _$nlpParsedDataDtoInvestmentActionEnum_sell;
     default:
-      return _$nlpParsedDataDtoInvestmentActionEnum_sell;
+      throw new ArgumentError(name);
   }
 }
 
@@ -47,7 +47,7 @@ NlpParsedDataDtoPaymentSourceEnum _$nlpParsedDataDtoPaymentSourceEnumValueOf(
     case 'liability':
       return _$nlpParsedDataDtoPaymentSourceEnum_liability;
     default:
-      return _$nlpParsedDataDtoPaymentSourceEnum_liability;
+      throw new ArgumentError(name);
   }
 }
 

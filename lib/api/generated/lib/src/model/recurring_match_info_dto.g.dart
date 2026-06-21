@@ -14,6 +14,8 @@ class _$RecurringMatchInfoDto extends RecurringMatchInfoDto {
   @override
   final String ruleName;
   @override
+  final String? ruleIcon;
+  @override
   final String expectedDate;
   @override
   final num expectedAmount;
@@ -21,8 +23,6 @@ class _$RecurringMatchInfoDto extends RecurringMatchInfoDto {
   final num confidence;
   @override
   final bool isAutoMatched;
-  @override
-  final String? ruleIcon;
 
   factory _$RecurringMatchInfoDto(
           [void Function(RecurringMatchInfoDtoBuilder)? updates]) =>
@@ -32,11 +32,11 @@ class _$RecurringMatchInfoDto extends RecurringMatchInfoDto {
       {required this.expectedId,
       required this.ruleId,
       required this.ruleName,
+      this.ruleIcon,
       required this.expectedDate,
       required this.expectedAmount,
       required this.confidence,
-      required this.isAutoMatched,
-      this.ruleIcon})
+      required this.isAutoMatched})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(
         expectedId, r'RecurringMatchInfoDto', 'expectedId');
@@ -70,11 +70,11 @@ class _$RecurringMatchInfoDto extends RecurringMatchInfoDto {
         expectedId == other.expectedId &&
         ruleId == other.ruleId &&
         ruleName == other.ruleName &&
+        ruleIcon == other.ruleIcon &&
         expectedDate == other.expectedDate &&
         expectedAmount == other.expectedAmount &&
         confidence == other.confidence &&
-        isAutoMatched == other.isAutoMatched &&
-        ruleIcon == other.ruleIcon;
+        isAutoMatched == other.isAutoMatched;
   }
 
   @override
@@ -83,11 +83,11 @@ class _$RecurringMatchInfoDto extends RecurringMatchInfoDto {
     _$hash = $jc(_$hash, expectedId.hashCode);
     _$hash = $jc(_$hash, ruleId.hashCode);
     _$hash = $jc(_$hash, ruleName.hashCode);
+    _$hash = $jc(_$hash, ruleIcon.hashCode);
     _$hash = $jc(_$hash, expectedDate.hashCode);
     _$hash = $jc(_$hash, expectedAmount.hashCode);
     _$hash = $jc(_$hash, confidence.hashCode);
     _$hash = $jc(_$hash, isAutoMatched.hashCode);
-    _$hash = $jc(_$hash, ruleIcon.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -98,11 +98,11 @@ class _$RecurringMatchInfoDto extends RecurringMatchInfoDto {
           ..add('expectedId', expectedId)
           ..add('ruleId', ruleId)
           ..add('ruleName', ruleName)
+          ..add('ruleIcon', ruleIcon)
           ..add('expectedDate', expectedDate)
           ..add('expectedAmount', expectedAmount)
           ..add('confidence', confidence)
-          ..add('isAutoMatched', isAutoMatched)
-          ..add('ruleIcon', ruleIcon))
+          ..add('isAutoMatched', isAutoMatched))
         .toString();
   }
 }
@@ -123,6 +123,10 @@ class RecurringMatchInfoDtoBuilder
   String? get ruleName => _$this._ruleName;
   set ruleName(String? ruleName) => _$this._ruleName = ruleName;
 
+  String? _ruleIcon;
+  String? get ruleIcon => _$this._ruleIcon;
+  set ruleIcon(String? ruleIcon) => _$this._ruleIcon = ruleIcon;
+
   String? _expectedDate;
   String? get expectedDate => _$this._expectedDate;
   set expectedDate(String? expectedDate) => _$this._expectedDate = expectedDate;
@@ -141,10 +145,6 @@ class RecurringMatchInfoDtoBuilder
   set isAutoMatched(bool? isAutoMatched) =>
       _$this._isAutoMatched = isAutoMatched;
 
-  String? _ruleIcon;
-  String? get ruleIcon => _$this._ruleIcon;
-  set ruleIcon(String? ruleIcon) => _$this._ruleIcon = ruleIcon;
-
   RecurringMatchInfoDtoBuilder() {
     RecurringMatchInfoDto._defaults(this);
   }
@@ -155,11 +155,11 @@ class RecurringMatchInfoDtoBuilder
       _expectedId = $v.expectedId;
       _ruleId = $v.ruleId;
       _ruleName = $v.ruleName;
+      _ruleIcon = $v.ruleIcon;
       _expectedDate = $v.expectedDate;
       _expectedAmount = $v.expectedAmount;
       _confidence = $v.confidence;
       _isAutoMatched = $v.isAutoMatched;
-      _ruleIcon = $v.ruleIcon;
       _$v = null;
     }
     return this;
@@ -188,6 +188,7 @@ class RecurringMatchInfoDtoBuilder
                 ruleId, r'RecurringMatchInfoDto', 'ruleId'),
             ruleName: BuiltValueNullFieldError.checkNotNull(
                 ruleName, r'RecurringMatchInfoDto', 'ruleName'),
+            ruleIcon: ruleIcon,
             expectedDate: BuiltValueNullFieldError.checkNotNull(
                 expectedDate, r'RecurringMatchInfoDto', 'expectedDate'),
             expectedAmount: BuiltValueNullFieldError.checkNotNull(
@@ -195,8 +196,7 @@ class RecurringMatchInfoDtoBuilder
             confidence: BuiltValueNullFieldError.checkNotNull(
                 confidence, r'RecurringMatchInfoDto', 'confidence'),
             isAutoMatched: BuiltValueNullFieldError.checkNotNull(
-                isAutoMatched, r'RecurringMatchInfoDto', 'isAutoMatched'),
-            ruleIcon: ruleIcon);
+                isAutoMatched, r'RecurringMatchInfoDto', 'isAutoMatched'));
     replace(_$result);
     return _$result;
   }

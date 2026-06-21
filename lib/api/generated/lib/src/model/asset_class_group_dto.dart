@@ -15,17 +15,20 @@ part 'asset_class_group_dto.g.dart';
 ///
 /// Properties:
 /// * [assetClass] - Asset class name
+/// * [assetSubClass] - Asset sub-class name
 /// * [accounts] - Accounts within this asset class
 /// * [balanceByCurrency] - Balances grouped by currency
-/// * [assetSubClass] - Asset sub-class name
 /// * [convertedBalance] - Converted balance in base currency
 @BuiltValue()
-abstract class AssetClassGroupDto
-    implements Built<AssetClassGroupDto, AssetClassGroupDtoBuilder> {
+abstract class AssetClassGroupDto implements Built<AssetClassGroupDto, AssetClassGroupDtoBuilder> {
   /// Asset class name
   @BuiltValueField(wireName: r'assetClass')
   AssetClassGroupDtoAssetClassEnum get assetClass;
   // enum assetClassEnum {  LIQUIDITY,  EQUITY,  FIXED_INCOME,  PRECIOUS_METALS,  COMMODITY,  INSURANCE,  ALTERNATIVE_INVESTMENT,  PERSONAL_ASSETS,  LIABILITY,  REAL_ESTATE,  INDEX,  };
+
+  /// Asset sub-class name
+  @BuiltValueField(wireName: r'assetSubClass')
+  String? get assetSubClass;
 
   /// Accounts within this asset class
   @BuiltValueField(wireName: r'accounts')
@@ -35,29 +38,22 @@ abstract class AssetClassGroupDto
   @BuiltValueField(wireName: r'balanceByCurrency')
   BuiltList<BalanceByCurrencyDto> get balanceByCurrency;
 
-  /// Asset sub-class name
-  @BuiltValueField(wireName: r'assetSubClass')
-  String? get assetSubClass;
-
   /// Converted balance in base currency
   @BuiltValueField(wireName: r'convertedBalance')
   String? get convertedBalance;
 
   AssetClassGroupDto._();
 
-  factory AssetClassGroupDto([void updates(AssetClassGroupDtoBuilder b)]) =
-      _$AssetClassGroupDto;
+  factory AssetClassGroupDto([void updates(AssetClassGroupDtoBuilder b)]) = _$AssetClassGroupDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(AssetClassGroupDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<AssetClassGroupDto> get serializer =>
-      _$AssetClassGroupDtoSerializer();
+  static Serializer<AssetClassGroupDto> get serializer => _$AssetClassGroupDtoSerializer();
 }
 
-class _$AssetClassGroupDtoSerializer
-    implements PrimitiveSerializer<AssetClassGroupDto> {
+class _$AssetClassGroupDtoSerializer implements PrimitiveSerializer<AssetClassGroupDto> {
   @override
   final Iterable<Type> types = const [AssetClassGroupDto, _$AssetClassGroupDto];
 
@@ -74,18 +70,6 @@ class _$AssetClassGroupDtoSerializer
       object.assetClass,
       specifiedType: const FullType(AssetClassGroupDtoAssetClassEnum),
     );
-    yield r'accounts';
-    yield serializers.serialize(
-      object.accounts,
-      specifiedType:
-          const FullType(BuiltList, [FullType(AccountItemWithAssetClassDto)]),
-    );
-    yield r'balanceByCurrency';
-    yield serializers.serialize(
-      object.balanceByCurrency,
-      specifiedType:
-          const FullType(BuiltList, [FullType(BalanceByCurrencyDto)]),
-    );
     if (object.assetSubClass != null) {
       yield r'assetSubClass';
       yield serializers.serialize(
@@ -93,6 +77,16 @@ class _$AssetClassGroupDtoSerializer
         specifiedType: const FullType(String),
       );
     }
+    yield r'accounts';
+    yield serializers.serialize(
+      object.accounts,
+      specifiedType: const FullType(BuiltList, [FullType(AccountItemWithAssetClassDto)]),
+    );
+    yield r'balanceByCurrency';
+    yield serializers.serialize(
+      object.balanceByCurrency,
+      specifiedType: const FullType(BuiltList, [FullType(BalanceByCurrencyDto)]),
+    );
     if (object.convertedBalance != null) {
       yield r'convertedBalance';
       yield serializers.serialize(
@@ -108,9 +102,7 @@ class _$AssetClassGroupDtoSerializer
     AssetClassGroupDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -132,28 +124,26 @@ class _$AssetClassGroupDtoSerializer
           ) as AssetClassGroupDtoAssetClassEnum;
           result.assetClass = valueDes;
           break;
-        case r'accounts':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(
-                BuiltList, [FullType(AccountItemWithAssetClassDto)]),
-          ) as BuiltList<AccountItemWithAssetClassDto>;
-          result.accounts.replace(valueDes);
-          break;
-        case r'balanceByCurrency':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType:
-                const FullType(BuiltList, [FullType(BalanceByCurrencyDto)]),
-          ) as BuiltList<BalanceByCurrencyDto>;
-          result.balanceByCurrency.replace(valueDes);
-          break;
         case r'assetSubClass':
           final valueDes = serializers.deserialize(
             value,
             specifiedType: const FullType(String),
           ) as String;
           result.assetSubClass = valueDes;
+          break;
+        case r'accounts':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(BuiltList, [FullType(AccountItemWithAssetClassDto)]),
+          ) as BuiltList<AccountItemWithAssetClassDto>;
+          result.accounts.replace(valueDes);
+          break;
+        case r'balanceByCurrency':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(BuiltList, [FullType(BalanceByCurrencyDto)]),
+          ) as BuiltList<BalanceByCurrencyDto>;
+          result.balanceByCurrency.replace(valueDes);
           break;
         case r'convertedBalance':
           final valueDes = serializers.deserialize(
@@ -192,68 +182,46 @@ class _$AssetClassGroupDtoSerializer
 }
 
 class AssetClassGroupDtoAssetClassEnum extends EnumClass {
+
   /// Asset class name
   @BuiltValueEnumConst(wireName: r'LIQUIDITY')
-  static const AssetClassGroupDtoAssetClassEnum LIQUIDITY =
-      _$assetClassGroupDtoAssetClassEnum_LIQUIDITY;
-
+  static const AssetClassGroupDtoAssetClassEnum LIQUIDITY = _$assetClassGroupDtoAssetClassEnum_LIQUIDITY;
   /// Asset class name
   @BuiltValueEnumConst(wireName: r'EQUITY')
-  static const AssetClassGroupDtoAssetClassEnum EQUITY =
-      _$assetClassGroupDtoAssetClassEnum_EQUITY;
-
+  static const AssetClassGroupDtoAssetClassEnum EQUITY = _$assetClassGroupDtoAssetClassEnum_EQUITY;
   /// Asset class name
   @BuiltValueEnumConst(wireName: r'FIXED_INCOME')
-  static const AssetClassGroupDtoAssetClassEnum FIXED_INCOME =
-      _$assetClassGroupDtoAssetClassEnum_FIXED_INCOME;
-
+  static const AssetClassGroupDtoAssetClassEnum FIXED_INCOME = _$assetClassGroupDtoAssetClassEnum_FIXED_INCOME;
   /// Asset class name
   @BuiltValueEnumConst(wireName: r'PRECIOUS_METALS')
-  static const AssetClassGroupDtoAssetClassEnum PRECIOUS_METALS =
-      _$assetClassGroupDtoAssetClassEnum_PRECIOUS_METALS;
-
+  static const AssetClassGroupDtoAssetClassEnum PRECIOUS_METALS = _$assetClassGroupDtoAssetClassEnum_PRECIOUS_METALS;
   /// Asset class name
   @BuiltValueEnumConst(wireName: r'COMMODITY')
-  static const AssetClassGroupDtoAssetClassEnum COMMODITY =
-      _$assetClassGroupDtoAssetClassEnum_COMMODITY;
-
+  static const AssetClassGroupDtoAssetClassEnum COMMODITY = _$assetClassGroupDtoAssetClassEnum_COMMODITY;
   /// Asset class name
   @BuiltValueEnumConst(wireName: r'INSURANCE')
-  static const AssetClassGroupDtoAssetClassEnum INSURANCE =
-      _$assetClassGroupDtoAssetClassEnum_INSURANCE;
-
+  static const AssetClassGroupDtoAssetClassEnum INSURANCE = _$assetClassGroupDtoAssetClassEnum_INSURANCE;
   /// Asset class name
   @BuiltValueEnumConst(wireName: r'ALTERNATIVE_INVESTMENT')
-  static const AssetClassGroupDtoAssetClassEnum ALTERNATIVE_INVESTMENT =
-      _$assetClassGroupDtoAssetClassEnum_ALTERNATIVE_INVESTMENT;
-
+  static const AssetClassGroupDtoAssetClassEnum ALTERNATIVE_INVESTMENT = _$assetClassGroupDtoAssetClassEnum_ALTERNATIVE_INVESTMENT;
   /// Asset class name
   @BuiltValueEnumConst(wireName: r'PERSONAL_ASSETS')
-  static const AssetClassGroupDtoAssetClassEnum PERSONAL_ASSETS =
-      _$assetClassGroupDtoAssetClassEnum_PERSONAL_ASSETS;
-
+  static const AssetClassGroupDtoAssetClassEnum PERSONAL_ASSETS = _$assetClassGroupDtoAssetClassEnum_PERSONAL_ASSETS;
   /// Asset class name
   @BuiltValueEnumConst(wireName: r'LIABILITY')
-  static const AssetClassGroupDtoAssetClassEnum LIABILITY =
-      _$assetClassGroupDtoAssetClassEnum_LIABILITY;
-
+  static const AssetClassGroupDtoAssetClassEnum LIABILITY = _$assetClassGroupDtoAssetClassEnum_LIABILITY;
   /// Asset class name
   @BuiltValueEnumConst(wireName: r'REAL_ESTATE')
-  static const AssetClassGroupDtoAssetClassEnum REAL_ESTATE =
-      _$assetClassGroupDtoAssetClassEnum_REAL_ESTATE;
-
+  static const AssetClassGroupDtoAssetClassEnum REAL_ESTATE = _$assetClassGroupDtoAssetClassEnum_REAL_ESTATE;
   /// Asset class name
-  @BuiltValueEnumConst(wireName: r'INDEX', fallback: true)
-  static const AssetClassGroupDtoAssetClassEnum INDEX =
-      _$assetClassGroupDtoAssetClassEnum_INDEX;
+  @BuiltValueEnumConst(wireName: r'INDEX')
+  static const AssetClassGroupDtoAssetClassEnum INDEX = _$assetClassGroupDtoAssetClassEnum_INDEX;
 
-  static Serializer<AssetClassGroupDtoAssetClassEnum> get serializer =>
-      _$assetClassGroupDtoAssetClassEnumSerializer;
+  static Serializer<AssetClassGroupDtoAssetClassEnum> get serializer => _$assetClassGroupDtoAssetClassEnumSerializer;
 
-  const AssetClassGroupDtoAssetClassEnum._(String name) : super(name);
+  const AssetClassGroupDtoAssetClassEnum._(String name): super(name);
 
-  static BuiltSet<AssetClassGroupDtoAssetClassEnum> get values =>
-      _$assetClassGroupDtoAssetClassEnumValues;
-  static AssetClassGroupDtoAssetClassEnum valueOf(String name) =>
-      _$assetClassGroupDtoAssetClassEnumValueOf(name);
+  static BuiltSet<AssetClassGroupDtoAssetClassEnum> get values => _$assetClassGroupDtoAssetClassEnumValues;
+  static AssetClassGroupDtoAssetClassEnum valueOf(String name) => _$assetClassGroupDtoAssetClassEnumValueOf(name);
 }
+

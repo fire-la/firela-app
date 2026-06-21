@@ -19,8 +19,7 @@ part 'nlp_transaction_info_dto.g.dart';
 /// * [narration] - Transaction narration
 /// * [warning] - Warning message for special transaction scenarios (e.g., cross-currency settlement)
 @BuiltValue()
-abstract class NlpTransactionInfoDto
-    implements Built<NlpTransactionInfoDto, NlpTransactionInfoDtoBuilder> {
+abstract class NlpTransactionInfoDto implements Built<NlpTransactionInfoDto, NlpTransactionInfoDtoBuilder> {
   /// Transaction ID
   @BuiltValueField(wireName: r'id')
   String get id;
@@ -51,24 +50,18 @@ abstract class NlpTransactionInfoDto
 
   NlpTransactionInfoDto._();
 
-  factory NlpTransactionInfoDto(
-      [void updates(NlpTransactionInfoDtoBuilder b)]) = _$NlpTransactionInfoDto;
+  factory NlpTransactionInfoDto([void updates(NlpTransactionInfoDtoBuilder b)]) = _$NlpTransactionInfoDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(NlpTransactionInfoDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<NlpTransactionInfoDto> get serializer =>
-      _$NlpTransactionInfoDtoSerializer();
+  static Serializer<NlpTransactionInfoDto> get serializer => _$NlpTransactionInfoDtoSerializer();
 }
 
-class _$NlpTransactionInfoDtoSerializer
-    implements PrimitiveSerializer<NlpTransactionInfoDto> {
+class _$NlpTransactionInfoDtoSerializer implements PrimitiveSerializer<NlpTransactionInfoDto> {
   @override
-  final Iterable<Type> types = const [
-    NlpTransactionInfoDto,
-    _$NlpTransactionInfoDto
-  ];
+  final Iterable<Type> types = const [NlpTransactionInfoDto, _$NlpTransactionInfoDto];
 
   @override
   final String wireName = r'NlpTransactionInfoDto';
@@ -127,9 +120,7 @@ class _$NlpTransactionInfoDtoSerializer
     NlpTransactionInfoDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -221,3 +212,4 @@ class _$NlpTransactionInfoDtoSerializer
     return result.build();
   }
 }
+

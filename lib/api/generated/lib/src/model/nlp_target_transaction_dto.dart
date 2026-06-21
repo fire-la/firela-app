@@ -15,11 +15,10 @@ part 'nlp_target_transaction_dto.g.dart';
 /// * [date] - Transaction date (ISO format)
 /// * [amount] - Amount as string
 /// * [currency] - Currency code
-/// * [narration] - Transaction narration
 /// * [payee] - Payee name
+/// * [narration] - Transaction narration
 @BuiltValue()
-abstract class NlpTargetTransactionDto
-    implements Built<NlpTargetTransactionDto, NlpTargetTransactionDtoBuilder> {
+abstract class NlpTargetTransactionDto implements Built<NlpTargetTransactionDto, NlpTargetTransactionDtoBuilder> {
   /// Existing transaction ID
   @BuiltValueField(wireName: r'id')
   String get id;
@@ -36,35 +35,28 @@ abstract class NlpTargetTransactionDto
   @BuiltValueField(wireName: r'currency')
   String get currency;
 
-  /// Transaction narration
-  @BuiltValueField(wireName: r'narration')
-  String get narration;
-
   /// Payee name
   @BuiltValueField(wireName: r'payee')
   String? get payee;
 
+  /// Transaction narration
+  @BuiltValueField(wireName: r'narration')
+  String get narration;
+
   NlpTargetTransactionDto._();
 
-  factory NlpTargetTransactionDto(
-          [void updates(NlpTargetTransactionDtoBuilder b)]) =
-      _$NlpTargetTransactionDto;
+  factory NlpTargetTransactionDto([void updates(NlpTargetTransactionDtoBuilder b)]) = _$NlpTargetTransactionDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(NlpTargetTransactionDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<NlpTargetTransactionDto> get serializer =>
-      _$NlpTargetTransactionDtoSerializer();
+  static Serializer<NlpTargetTransactionDto> get serializer => _$NlpTargetTransactionDtoSerializer();
 }
 
-class _$NlpTargetTransactionDtoSerializer
-    implements PrimitiveSerializer<NlpTargetTransactionDto> {
+class _$NlpTargetTransactionDtoSerializer implements PrimitiveSerializer<NlpTargetTransactionDto> {
   @override
-  final Iterable<Type> types = const [
-    NlpTargetTransactionDto,
-    _$NlpTargetTransactionDto
-  ];
+  final Iterable<Type> types = const [NlpTargetTransactionDto, _$NlpTargetTransactionDto];
 
   @override
   final String wireName = r'NlpTargetTransactionDto';
@@ -94,11 +86,6 @@ class _$NlpTargetTransactionDtoSerializer
       object.currency,
       specifiedType: const FullType(String),
     );
-    yield r'narration';
-    yield serializers.serialize(
-      object.narration,
-      specifiedType: const FullType(String),
-    );
     if (object.payee != null) {
       yield r'payee';
       yield serializers.serialize(
@@ -106,6 +93,11 @@ class _$NlpTargetTransactionDtoSerializer
         specifiedType: const FullType(String),
       );
     }
+    yield r'narration';
+    yield serializers.serialize(
+      object.narration,
+      specifiedType: const FullType(String),
+    );
   }
 
   @override
@@ -114,9 +106,7 @@ class _$NlpTargetTransactionDtoSerializer
     NlpTargetTransactionDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -159,19 +149,19 @@ class _$NlpTargetTransactionDtoSerializer
           ) as String;
           result.currency = valueDes;
           break;
-        case r'narration':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.narration = valueDes;
-          break;
         case r'payee':
           final valueDes = serializers.deserialize(
             value,
             specifiedType: const FullType(String),
           ) as String;
           result.payee = valueDes;
+          break;
+        case r'narration':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.narration = valueDes;
           break;
         default:
           unhandled.add(key);
@@ -201,3 +191,4 @@ class _$NlpTargetTransactionDtoSerializer
     return result.build();
   }
 }
+

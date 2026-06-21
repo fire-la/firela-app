@@ -19,8 +19,7 @@ part 'provider_sync_response_dto.g.dart';
 /// * [importedTransactionIds] - IDs of successfully imported transactions
 /// * [reviewItemIds] - IDs of review items created for branched transactions
 @BuiltValue()
-abstract class ProviderSyncResponseDto
-    implements Built<ProviderSyncResponseDto, ProviderSyncResponseDtoBuilder> {
+abstract class ProviderSyncResponseDto implements Built<ProviderSyncResponseDto, ProviderSyncResponseDtoBuilder> {
   /// Number of transactions successfully imported
   @BuiltValueField(wireName: r'imported')
   num get imported;
@@ -47,25 +46,18 @@ abstract class ProviderSyncResponseDto
 
   ProviderSyncResponseDto._();
 
-  factory ProviderSyncResponseDto(
-          [void updates(ProviderSyncResponseDtoBuilder b)]) =
-      _$ProviderSyncResponseDto;
+  factory ProviderSyncResponseDto([void updates(ProviderSyncResponseDtoBuilder b)]) = _$ProviderSyncResponseDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(ProviderSyncResponseDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<ProviderSyncResponseDto> get serializer =>
-      _$ProviderSyncResponseDtoSerializer();
+  static Serializer<ProviderSyncResponseDto> get serializer => _$ProviderSyncResponseDtoSerializer();
 }
 
-class _$ProviderSyncResponseDtoSerializer
-    implements PrimitiveSerializer<ProviderSyncResponseDto> {
+class _$ProviderSyncResponseDtoSerializer implements PrimitiveSerializer<ProviderSyncResponseDto> {
   @override
-  final Iterable<Type> types = const [
-    ProviderSyncResponseDto,
-    _$ProviderSyncResponseDto
-  ];
+  final Iterable<Type> types = const [ProviderSyncResponseDto, _$ProviderSyncResponseDto];
 
   @override
   final String wireName = r'ProviderSyncResponseDto';
@@ -117,9 +109,7 @@ class _$ProviderSyncResponseDtoSerializer
     ProviderSyncResponseDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -204,3 +194,4 @@ class _$ProviderSyncResponseDtoSerializer
     return result.build();
   }
 }
+

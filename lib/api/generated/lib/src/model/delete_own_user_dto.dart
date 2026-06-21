@@ -13,27 +13,23 @@ part 'delete_own_user_dto.g.dart';
 /// Properties:
 /// * [accessToken] - Access token for user verification
 @BuiltValue()
-abstract class DeleteOwnUserDto
-    implements Built<DeleteOwnUserDto, DeleteOwnUserDtoBuilder> {
+abstract class DeleteOwnUserDto implements Built<DeleteOwnUserDto, DeleteOwnUserDtoBuilder> {
   /// Access token for user verification
   @BuiltValueField(wireName: r'accessToken')
   String get accessToken;
 
   DeleteOwnUserDto._();
 
-  factory DeleteOwnUserDto([void updates(DeleteOwnUserDtoBuilder b)]) =
-      _$DeleteOwnUserDto;
+  factory DeleteOwnUserDto([void updates(DeleteOwnUserDtoBuilder b)]) = _$DeleteOwnUserDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(DeleteOwnUserDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<DeleteOwnUserDto> get serializer =>
-      _$DeleteOwnUserDtoSerializer();
+  static Serializer<DeleteOwnUserDto> get serializer => _$DeleteOwnUserDtoSerializer();
 }
 
-class _$DeleteOwnUserDtoSerializer
-    implements PrimitiveSerializer<DeleteOwnUserDto> {
+class _$DeleteOwnUserDtoSerializer implements PrimitiveSerializer<DeleteOwnUserDto> {
   @override
   final Iterable<Type> types = const [DeleteOwnUserDto, _$DeleteOwnUserDto];
 
@@ -58,9 +54,7 @@ class _$DeleteOwnUserDtoSerializer
     DeleteOwnUserDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -110,3 +104,4 @@ class _$DeleteOwnUserDtoSerializer
     return result.build();
   }
 }
+

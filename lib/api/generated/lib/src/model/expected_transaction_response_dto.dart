@@ -19,18 +19,15 @@ part 'expected_transaction_response_dto.g.dart';
 /// * [expectedDate] - Expected date (YYYY-MM-DD)
 /// * [expectedAmount] - Expected amount
 /// * [status] - Status (PENDING, COMPLETED, SKIPPED)
-/// * [isOverdue] - Whether this expected transaction is overdue
-/// * [rule]
-/// * [createdAt] - Created at timestamp
-/// * [updatedAt] - Updated at timestamp
 /// * [matchedTransactionId] - Matched transaction ID
 /// * [matchedAt] - Match timestamp (ISO 8601)
 /// * [matchConfidence] - Match confidence score (0-1)
+/// * [isOverdue] - Whether this expected transaction is overdue
+/// * [rule] 
+/// * [createdAt] - Created at timestamp
+/// * [updatedAt] - Updated at timestamp
 @BuiltValue()
-abstract class ExpectedTransactionResponseDto
-    implements
-        Built<ExpectedTransactionResponseDto,
-            ExpectedTransactionResponseDtoBuilder> {
+abstract class ExpectedTransactionResponseDto implements Built<ExpectedTransactionResponseDto, ExpectedTransactionResponseDtoBuilder> {
   /// Expected transaction ID
   @BuiltValueField(wireName: r'id')
   String get id;
@@ -55,6 +52,18 @@ abstract class ExpectedTransactionResponseDto
   @BuiltValueField(wireName: r'status')
   String get status;
 
+  /// Matched transaction ID
+  @BuiltValueField(wireName: r'matchedTransactionId')
+  JsonObject? get matchedTransactionId;
+
+  /// Match timestamp (ISO 8601)
+  @BuiltValueField(wireName: r'matchedAt')
+  JsonObject? get matchedAt;
+
+  /// Match confidence score (0-1)
+  @BuiltValueField(wireName: r'matchConfidence')
+  JsonObject? get matchConfidence;
+
   /// Whether this expected transaction is overdue
   @BuiltValueField(wireName: r'isOverdue')
   bool get isOverdue;
@@ -70,39 +79,20 @@ abstract class ExpectedTransactionResponseDto
   @BuiltValueField(wireName: r'updatedAt')
   DateTime get updatedAt;
 
-  /// Matched transaction ID
-  @BuiltValueField(wireName: r'matchedTransactionId')
-  JsonObject? get matchedTransactionId;
-
-  /// Match timestamp (ISO 8601)
-  @BuiltValueField(wireName: r'matchedAt')
-  JsonObject? get matchedAt;
-
-  /// Match confidence score (0-1)
-  @BuiltValueField(wireName: r'matchConfidence')
-  JsonObject? get matchConfidence;
-
   ExpectedTransactionResponseDto._();
 
-  factory ExpectedTransactionResponseDto(
-          [void updates(ExpectedTransactionResponseDtoBuilder b)]) =
-      _$ExpectedTransactionResponseDto;
+  factory ExpectedTransactionResponseDto([void updates(ExpectedTransactionResponseDtoBuilder b)]) = _$ExpectedTransactionResponseDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(ExpectedTransactionResponseDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<ExpectedTransactionResponseDto> get serializer =>
-      _$ExpectedTransactionResponseDtoSerializer();
+  static Serializer<ExpectedTransactionResponseDto> get serializer => _$ExpectedTransactionResponseDtoSerializer();
 }
 
-class _$ExpectedTransactionResponseDtoSerializer
-    implements PrimitiveSerializer<ExpectedTransactionResponseDto> {
+class _$ExpectedTransactionResponseDtoSerializer implements PrimitiveSerializer<ExpectedTransactionResponseDto> {
   @override
-  final Iterable<Type> types = const [
-    ExpectedTransactionResponseDto,
-    _$ExpectedTransactionResponseDto
-  ];
+  final Iterable<Type> types = const [ExpectedTransactionResponseDto, _$ExpectedTransactionResponseDto];
 
   @override
   final String wireName = r'ExpectedTransactionResponseDto';
@@ -142,26 +132,6 @@ class _$ExpectedTransactionResponseDtoSerializer
       object.status,
       specifiedType: const FullType(String),
     );
-    yield r'isOverdue';
-    yield serializers.serialize(
-      object.isOverdue,
-      specifiedType: const FullType(bool),
-    );
-    yield r'rule';
-    yield serializers.serialize(
-      object.rule,
-      specifiedType: const FullType(ExpectedTransactionRuleDto),
-    );
-    yield r'createdAt';
-    yield serializers.serialize(
-      object.createdAt,
-      specifiedType: const FullType(DateTime),
-    );
-    yield r'updatedAt';
-    yield serializers.serialize(
-      object.updatedAt,
-      specifiedType: const FullType(DateTime),
-    );
     if (object.matchedTransactionId != null) {
       yield r'matchedTransactionId';
       yield serializers.serialize(
@@ -183,6 +153,26 @@ class _$ExpectedTransactionResponseDtoSerializer
         specifiedType: const FullType(JsonObject),
       );
     }
+    yield r'isOverdue';
+    yield serializers.serialize(
+      object.isOverdue,
+      specifiedType: const FullType(bool),
+    );
+    yield r'rule';
+    yield serializers.serialize(
+      object.rule,
+      specifiedType: const FullType(ExpectedTransactionRuleDto),
+    );
+    yield r'createdAt';
+    yield serializers.serialize(
+      object.createdAt,
+      specifiedType: const FullType(DateTime),
+    );
+    yield r'updatedAt';
+    yield serializers.serialize(
+      object.updatedAt,
+      specifiedType: const FullType(DateTime),
+    );
   }
 
   @override
@@ -191,9 +181,7 @@ class _$ExpectedTransactionResponseDtoSerializer
     ExpectedTransactionResponseDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -250,6 +238,27 @@ class _$ExpectedTransactionResponseDtoSerializer
           ) as String;
           result.status = valueDes;
           break;
+        case r'matchedTransactionId':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(JsonObject),
+          ) as JsonObject;
+          result.matchedTransactionId = valueDes;
+          break;
+        case r'matchedAt':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(JsonObject),
+          ) as JsonObject;
+          result.matchedAt = valueDes;
+          break;
+        case r'matchConfidence':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(JsonObject),
+          ) as JsonObject;
+          result.matchConfidence = valueDes;
+          break;
         case r'isOverdue':
           final valueDes = serializers.deserialize(
             value,
@@ -277,27 +286,6 @@ class _$ExpectedTransactionResponseDtoSerializer
             specifiedType: const FullType(DateTime),
           ) as DateTime;
           result.updatedAt = valueDes;
-          break;
-        case r'matchedTransactionId':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(JsonObject),
-          ) as JsonObject;
-          result.matchedTransactionId = valueDes;
-          break;
-        case r'matchedAt':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(JsonObject),
-          ) as JsonObject;
-          result.matchedAt = valueDes;
-          break;
-        case r'matchConfidence':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(JsonObject),
-          ) as JsonObject;
-          result.matchConfidence = valueDes;
           break;
         default:
           unhandled.add(key);
@@ -327,3 +315,4 @@ class _$ExpectedTransactionResponseDtoSerializer
     return result.build();
   }
 }
+

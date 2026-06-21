@@ -16,8 +16,7 @@ part 'account_list_response_dto.g.dart';
 /// * [items] - Array of accounts
 /// * [total] - Total number of accounts matching the query
 @BuiltValue()
-abstract class AccountListResponseDto
-    implements Built<AccountListResponseDto, AccountListResponseDtoBuilder> {
+abstract class AccountListResponseDto implements Built<AccountListResponseDto, AccountListResponseDtoBuilder> {
   /// Array of accounts
   @BuiltValueField(wireName: r'items')
   BuiltList<AccountResponseDto> get items;
@@ -28,25 +27,18 @@ abstract class AccountListResponseDto
 
   AccountListResponseDto._();
 
-  factory AccountListResponseDto(
-          [void updates(AccountListResponseDtoBuilder b)]) =
-      _$AccountListResponseDto;
+  factory AccountListResponseDto([void updates(AccountListResponseDtoBuilder b)]) = _$AccountListResponseDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(AccountListResponseDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<AccountListResponseDto> get serializer =>
-      _$AccountListResponseDtoSerializer();
+  static Serializer<AccountListResponseDto> get serializer => _$AccountListResponseDtoSerializer();
 }
 
-class _$AccountListResponseDtoSerializer
-    implements PrimitiveSerializer<AccountListResponseDto> {
+class _$AccountListResponseDtoSerializer implements PrimitiveSerializer<AccountListResponseDto> {
   @override
-  final Iterable<Type> types = const [
-    AccountListResponseDto,
-    _$AccountListResponseDto
-  ];
+  final Iterable<Type> types = const [AccountListResponseDto, _$AccountListResponseDto];
 
   @override
   final String wireName = r'AccountListResponseDto';
@@ -74,9 +66,7 @@ class _$AccountListResponseDtoSerializer
     AccountListResponseDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -94,8 +84,7 @@ class _$AccountListResponseDtoSerializer
         case r'items':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType:
-                const FullType(BuiltList, [FullType(AccountResponseDto)]),
+            specifiedType: const FullType(BuiltList, [FullType(AccountResponseDto)]),
           ) as BuiltList<AccountResponseDto>;
           result.items.replace(valueDes);
           break;
@@ -134,3 +123,4 @@ class _$AccountListResponseDtoSerializer
     return result.build();
   }
 }
+

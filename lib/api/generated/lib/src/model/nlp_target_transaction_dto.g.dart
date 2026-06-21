@@ -16,9 +16,9 @@ class _$NlpTargetTransactionDto extends NlpTargetTransactionDto {
   @override
   final String currency;
   @override
-  final String narration;
-  @override
   final String? payee;
+  @override
+  final String narration;
 
   factory _$NlpTargetTransactionDto(
           [void Function(NlpTargetTransactionDtoBuilder)? updates]) =>
@@ -29,8 +29,8 @@ class _$NlpTargetTransactionDto extends NlpTargetTransactionDto {
       required this.date,
       required this.amount,
       required this.currency,
-      required this.narration,
-      this.payee})
+      this.payee,
+      required this.narration})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(id, r'NlpTargetTransactionDto', 'id');
     BuiltValueNullFieldError.checkNotNull(
@@ -60,8 +60,8 @@ class _$NlpTargetTransactionDto extends NlpTargetTransactionDto {
         date == other.date &&
         amount == other.amount &&
         currency == other.currency &&
-        narration == other.narration &&
-        payee == other.payee;
+        payee == other.payee &&
+        narration == other.narration;
   }
 
   @override
@@ -71,8 +71,8 @@ class _$NlpTargetTransactionDto extends NlpTargetTransactionDto {
     _$hash = $jc(_$hash, date.hashCode);
     _$hash = $jc(_$hash, amount.hashCode);
     _$hash = $jc(_$hash, currency.hashCode);
-    _$hash = $jc(_$hash, narration.hashCode);
     _$hash = $jc(_$hash, payee.hashCode);
+    _$hash = $jc(_$hash, narration.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -84,8 +84,8 @@ class _$NlpTargetTransactionDto extends NlpTargetTransactionDto {
           ..add('date', date)
           ..add('amount', amount)
           ..add('currency', currency)
-          ..add('narration', narration)
-          ..add('payee', payee))
+          ..add('payee', payee)
+          ..add('narration', narration))
         .toString();
   }
 }
@@ -111,13 +111,13 @@ class NlpTargetTransactionDtoBuilder
   String? get currency => _$this._currency;
   set currency(String? currency) => _$this._currency = currency;
 
-  String? _narration;
-  String? get narration => _$this._narration;
-  set narration(String? narration) => _$this._narration = narration;
-
   String? _payee;
   String? get payee => _$this._payee;
   set payee(String? payee) => _$this._payee = payee;
+
+  String? _narration;
+  String? get narration => _$this._narration;
+  set narration(String? narration) => _$this._narration = narration;
 
   NlpTargetTransactionDtoBuilder() {
     NlpTargetTransactionDto._defaults(this);
@@ -130,8 +130,8 @@ class NlpTargetTransactionDtoBuilder
       _date = $v.date;
       _amount = $v.amount;
       _currency = $v.currency;
-      _narration = $v.narration;
       _payee = $v.payee;
+      _narration = $v.narration;
       _$v = null;
     }
     return this;
@@ -162,9 +162,9 @@ class NlpTargetTransactionDtoBuilder
                 amount, r'NlpTargetTransactionDto', 'amount'),
             currency: BuiltValueNullFieldError.checkNotNull(
                 currency, r'NlpTargetTransactionDto', 'currency'),
+            payee: payee,
             narration: BuiltValueNullFieldError.checkNotNull(
-                narration, r'NlpTargetTransactionDto', 'narration'),
-            payee: payee);
+                narration, r'NlpTargetTransactionDto', 'narration'));
     replace(_$result);
     return _$result;
   }

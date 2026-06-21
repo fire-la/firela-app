@@ -18,20 +18,20 @@ part 'review_summary_dto.g.dart';
 /// * [status] - Review status
 /// * [confidence] - Confidence score (0-1)
 /// * [confidenceLevel] - Confidence level derived from score
-/// * [summary] - Human-readable summary of the review item
+/// * [summaryKey] - i18n message key for summary (e.g., review.summary.duplicate). Translate on frontend with summaryParams.
+/// * [summaryParams] - Parameters for summary message interpolation (e.g., { date: \"2024-01-15\", amount: \"50\" })
 /// * [matchReasons] - Human-readable reasons for branching
 /// * [sourceType] - Source type (NLP, CSV, OCR, API)
-/// * [createdAt] - Creation timestamp
 /// * [sourcePlatform] - Source platform (e.g., alipay, wechat)
-/// * [transaction]
+/// * [createdAt] - Creation timestamp
+/// * [transaction] 
 /// * [amount] - Transaction amount (convenience field for mobile display)
 /// * [currency] - Currency code (convenience field for mobile display)
 /// * [merchantName] - Payee/Merchant name (convenience field for mobile display)
 /// * [accountName] - Account name (convenience field for mobile display)
 /// * [transactionTime] - Transaction date/time (convenience field for mobile display)
 @BuiltValue()
-abstract class ReviewSummaryDto
-    implements Built<ReviewSummaryDto, ReviewSummaryDtoBuilder> {
+abstract class ReviewSummaryDto implements Built<ReviewSummaryDto, ReviewSummaryDtoBuilder> {
   /// Review item ID
   @BuiltValueField(wireName: r'id')
   String get id;
@@ -55,9 +55,13 @@ abstract class ReviewSummaryDto
   ReviewSummaryDtoConfidenceLevelEnum get confidenceLevel;
   // enum confidenceLevelEnum {  HIGH,  MEDIUM,  LOW,  };
 
-  /// Human-readable summary of the review item
-  @BuiltValueField(wireName: r'summary')
-  String get summary;
+  /// i18n message key for summary (e.g., review.summary.duplicate). Translate on frontend with summaryParams.
+  @BuiltValueField(wireName: r'summaryKey')
+  String get summaryKey;
+
+  /// Parameters for summary message interpolation (e.g., { date: \"2024-01-15\", amount: \"50\" })
+  @BuiltValueField(wireName: r'summaryParams')
+  BuiltMap<String, String>? get summaryParams;
 
   /// Human-readable reasons for branching
   @BuiltValueField(wireName: r'matchReasons')
@@ -67,13 +71,13 @@ abstract class ReviewSummaryDto
   @BuiltValueField(wireName: r'sourceType')
   String get sourceType;
 
-  /// Creation timestamp
-  @BuiltValueField(wireName: r'createdAt')
-  DateTime get createdAt;
-
   /// Source platform (e.g., alipay, wechat)
   @BuiltValueField(wireName: r'sourcePlatform')
   String? get sourcePlatform;
+
+  /// Creation timestamp
+  @BuiltValueField(wireName: r'createdAt')
+  DateTime get createdAt;
 
   @BuiltValueField(wireName: r'transaction')
   ReviewSummaryDtoTransaction? get transaction;
@@ -100,19 +104,16 @@ abstract class ReviewSummaryDto
 
   ReviewSummaryDto._();
 
-  factory ReviewSummaryDto([void updates(ReviewSummaryDtoBuilder b)]) =
-      _$ReviewSummaryDto;
+  factory ReviewSummaryDto([void updates(ReviewSummaryDtoBuilder b)]) = _$ReviewSummaryDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(ReviewSummaryDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<ReviewSummaryDto> get serializer =>
-      _$ReviewSummaryDtoSerializer();
+  static Serializer<ReviewSummaryDto> get serializer => _$ReviewSummaryDtoSerializer();
 }
 
-class _$ReviewSummaryDtoSerializer
-    implements PrimitiveSerializer<ReviewSummaryDto> {
+class _$ReviewSummaryDtoSerializer implements PrimitiveSerializer<ReviewSummaryDto> {
   @override
   final Iterable<Type> types = const [ReviewSummaryDto, _$ReviewSummaryDto];
 
@@ -149,11 +150,18 @@ class _$ReviewSummaryDtoSerializer
       object.confidenceLevel,
       specifiedType: const FullType(ReviewSummaryDtoConfidenceLevelEnum),
     );
-    yield r'summary';
+    yield r'summaryKey';
     yield serializers.serialize(
-      object.summary,
+      object.summaryKey,
       specifiedType: const FullType(String),
     );
+    if (object.summaryParams != null) {
+      yield r'summaryParams';
+      yield serializers.serialize(
+        object.summaryParams,
+        specifiedType: const FullType(BuiltMap, [FullType(String), FullType(String)]),
+      );
+    }
     yield r'matchReasons';
     yield serializers.serialize(
       object.matchReasons,
@@ -164,11 +172,6 @@ class _$ReviewSummaryDtoSerializer
       object.sourceType,
       specifiedType: const FullType(String),
     );
-    yield r'createdAt';
-    yield serializers.serialize(
-      object.createdAt,
-      specifiedType: const FullType(DateTime),
-    );
     if (object.sourcePlatform != null) {
       yield r'sourcePlatform';
       yield serializers.serialize(
@@ -176,6 +179,11 @@ class _$ReviewSummaryDtoSerializer
         specifiedType: const FullType(String),
       );
     }
+    yield r'createdAt';
+    yield serializers.serialize(
+      object.createdAt,
+      specifiedType: const FullType(DateTime),
+    );
     if (object.transaction != null) {
       yield r'transaction';
       yield serializers.serialize(
@@ -226,9 +234,7 @@ class _$ReviewSummaryDtoSerializer
     ReviewSummaryDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -278,12 +284,19 @@ class _$ReviewSummaryDtoSerializer
           ) as ReviewSummaryDtoConfidenceLevelEnum;
           result.confidenceLevel = valueDes;
           break;
-        case r'summary':
+        case r'summaryKey':
           final valueDes = serializers.deserialize(
             value,
             specifiedType: const FullType(String),
           ) as String;
-          result.summary = valueDes;
+          result.summaryKey = valueDes;
+          break;
+        case r'summaryParams':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(BuiltMap, [FullType(String), FullType(String)]),
+          ) as BuiltMap<String, String>;
+          result.summaryParams.replace(valueDes);
           break;
         case r'matchReasons':
           final valueDes = serializers.deserialize(
@@ -299,19 +312,19 @@ class _$ReviewSummaryDtoSerializer
           ) as String;
           result.sourceType = valueDes;
           break;
-        case r'createdAt':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(DateTime),
-          ) as DateTime;
-          result.createdAt = valueDes;
-          break;
         case r'sourcePlatform':
           final valueDes = serializers.deserialize(
             value,
             specifiedType: const FullType(String),
           ) as String;
           result.sourcePlatform = valueDes;
+          break;
+        case r'createdAt':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(DateTime),
+          ) as DateTime;
+          result.createdAt = valueDes;
           break;
         case r'transaction':
           final valueDes = serializers.deserialize(
@@ -386,97 +399,71 @@ class _$ReviewSummaryDtoSerializer
 }
 
 class ReviewSummaryDtoTypeEnum extends EnumClass {
+
   /// Review type
   @BuiltValueEnumConst(wireName: r'DUPLICATE')
-  static const ReviewSummaryDtoTypeEnum DUPLICATE =
-      _$reviewSummaryDtoTypeEnum_DUPLICATE;
-
+  static const ReviewSummaryDtoTypeEnum DUPLICATE = _$reviewSummaryDtoTypeEnum_DUPLICATE;
   /// Review type
   @BuiltValueEnumConst(wireName: r'RULE_MATCH')
-  static const ReviewSummaryDtoTypeEnum RULE_MATCH =
-      _$reviewSummaryDtoTypeEnum_RULE_MATCH;
-
+  static const ReviewSummaryDtoTypeEnum RULE_MATCH = _$reviewSummaryDtoTypeEnum_RULE_MATCH;
   /// Review type
   @BuiltValueEnumConst(wireName: r'PAYEE_MATCH')
-  static const ReviewSummaryDtoTypeEnum PAYEE_MATCH =
-      _$reviewSummaryDtoTypeEnum_PAYEE_MATCH;
-
+  static const ReviewSummaryDtoTypeEnum PAYEE_MATCH = _$reviewSummaryDtoTypeEnum_PAYEE_MATCH;
   /// Review type
   @BuiltValueEnumConst(wireName: r'ACCOUNT_VALIDATION')
-  static const ReviewSummaryDtoTypeEnum ACCOUNT_VALIDATION =
-      _$reviewSummaryDtoTypeEnum_ACCOUNT_VALIDATION;
-
+  static const ReviewSummaryDtoTypeEnum ACCOUNT_VALIDATION = _$reviewSummaryDtoTypeEnum_ACCOUNT_VALIDATION;
   /// Review type
-  @BuiltValueEnumConst(wireName: r'PIPELINE_ERROR', fallback: true)
-  static const ReviewSummaryDtoTypeEnum PIPELINE_ERROR =
-      _$reviewSummaryDtoTypeEnum_PIPELINE_ERROR;
+  @BuiltValueEnumConst(wireName: r'PIPELINE_ERROR')
+  static const ReviewSummaryDtoTypeEnum PIPELINE_ERROR = _$reviewSummaryDtoTypeEnum_PIPELINE_ERROR;
 
-  static Serializer<ReviewSummaryDtoTypeEnum> get serializer =>
-      _$reviewSummaryDtoTypeEnumSerializer;
+  static Serializer<ReviewSummaryDtoTypeEnum> get serializer => _$reviewSummaryDtoTypeEnumSerializer;
 
-  const ReviewSummaryDtoTypeEnum._(String name) : super(name);
+  const ReviewSummaryDtoTypeEnum._(String name): super(name);
 
-  static BuiltSet<ReviewSummaryDtoTypeEnum> get values =>
-      _$reviewSummaryDtoTypeEnumValues;
-  static ReviewSummaryDtoTypeEnum valueOf(String name) =>
-      _$reviewSummaryDtoTypeEnumValueOf(name);
+  static BuiltSet<ReviewSummaryDtoTypeEnum> get values => _$reviewSummaryDtoTypeEnumValues;
+  static ReviewSummaryDtoTypeEnum valueOf(String name) => _$reviewSummaryDtoTypeEnumValueOf(name);
 }
 
 class ReviewSummaryDtoStatusEnum extends EnumClass {
+
   /// Review status
   @BuiltValueEnumConst(wireName: r'PENDING')
-  static const ReviewSummaryDtoStatusEnum PENDING =
-      _$reviewSummaryDtoStatusEnum_PENDING;
-
+  static const ReviewSummaryDtoStatusEnum PENDING = _$reviewSummaryDtoStatusEnum_PENDING;
   /// Review status
   @BuiltValueEnumConst(wireName: r'RESOLVED')
-  static const ReviewSummaryDtoStatusEnum RESOLVED =
-      _$reviewSummaryDtoStatusEnum_RESOLVED;
-
+  static const ReviewSummaryDtoStatusEnum RESOLVED = _$reviewSummaryDtoStatusEnum_RESOLVED;
   /// Review status
   @BuiltValueEnumConst(wireName: r'EXPIRED')
-  static const ReviewSummaryDtoStatusEnum EXPIRED =
-      _$reviewSummaryDtoStatusEnum_EXPIRED;
-
+  static const ReviewSummaryDtoStatusEnum EXPIRED = _$reviewSummaryDtoStatusEnum_EXPIRED;
   /// Review status
-  @BuiltValueEnumConst(wireName: r'CANCELLED', fallback: true)
-  static const ReviewSummaryDtoStatusEnum CANCELLED =
-      _$reviewSummaryDtoStatusEnum_CANCELLED;
+  @BuiltValueEnumConst(wireName: r'CANCELLED')
+  static const ReviewSummaryDtoStatusEnum CANCELLED = _$reviewSummaryDtoStatusEnum_CANCELLED;
 
-  static Serializer<ReviewSummaryDtoStatusEnum> get serializer =>
-      _$reviewSummaryDtoStatusEnumSerializer;
+  static Serializer<ReviewSummaryDtoStatusEnum> get serializer => _$reviewSummaryDtoStatusEnumSerializer;
 
-  const ReviewSummaryDtoStatusEnum._(String name) : super(name);
+  const ReviewSummaryDtoStatusEnum._(String name): super(name);
 
-  static BuiltSet<ReviewSummaryDtoStatusEnum> get values =>
-      _$reviewSummaryDtoStatusEnumValues;
-  static ReviewSummaryDtoStatusEnum valueOf(String name) =>
-      _$reviewSummaryDtoStatusEnumValueOf(name);
+  static BuiltSet<ReviewSummaryDtoStatusEnum> get values => _$reviewSummaryDtoStatusEnumValues;
+  static ReviewSummaryDtoStatusEnum valueOf(String name) => _$reviewSummaryDtoStatusEnumValueOf(name);
 }
 
 class ReviewSummaryDtoConfidenceLevelEnum extends EnumClass {
+
   /// Confidence level derived from score
   @BuiltValueEnumConst(wireName: r'HIGH')
-  static const ReviewSummaryDtoConfidenceLevelEnum HIGH =
-      _$reviewSummaryDtoConfidenceLevelEnum_HIGH;
-
+  static const ReviewSummaryDtoConfidenceLevelEnum HIGH = _$reviewSummaryDtoConfidenceLevelEnum_HIGH;
   /// Confidence level derived from score
   @BuiltValueEnumConst(wireName: r'MEDIUM')
-  static const ReviewSummaryDtoConfidenceLevelEnum MEDIUM =
-      _$reviewSummaryDtoConfidenceLevelEnum_MEDIUM;
-
+  static const ReviewSummaryDtoConfidenceLevelEnum MEDIUM = _$reviewSummaryDtoConfidenceLevelEnum_MEDIUM;
   /// Confidence level derived from score
-  @BuiltValueEnumConst(wireName: r'LOW', fallback: true)
-  static const ReviewSummaryDtoConfidenceLevelEnum LOW =
-      _$reviewSummaryDtoConfidenceLevelEnum_LOW;
+  @BuiltValueEnumConst(wireName: r'LOW')
+  static const ReviewSummaryDtoConfidenceLevelEnum LOW = _$reviewSummaryDtoConfidenceLevelEnum_LOW;
 
-  static Serializer<ReviewSummaryDtoConfidenceLevelEnum> get serializer =>
-      _$reviewSummaryDtoConfidenceLevelEnumSerializer;
+  static Serializer<ReviewSummaryDtoConfidenceLevelEnum> get serializer => _$reviewSummaryDtoConfidenceLevelEnumSerializer;
 
-  const ReviewSummaryDtoConfidenceLevelEnum._(String name) : super(name);
+  const ReviewSummaryDtoConfidenceLevelEnum._(String name): super(name);
 
-  static BuiltSet<ReviewSummaryDtoConfidenceLevelEnum> get values =>
-      _$reviewSummaryDtoConfidenceLevelEnumValues;
-  static ReviewSummaryDtoConfidenceLevelEnum valueOf(String name) =>
-      _$reviewSummaryDtoConfidenceLevelEnumValueOf(name);
+  static BuiltSet<ReviewSummaryDtoConfidenceLevelEnum> get values => _$reviewSummaryDtoConfidenceLevelEnumValues;
+  static ReviewSummaryDtoConfidenceLevelEnum valueOf(String name) => _$reviewSummaryDtoConfidenceLevelEnumValueOf(name);
 }
+

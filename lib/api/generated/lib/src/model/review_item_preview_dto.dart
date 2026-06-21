@@ -14,17 +14,16 @@ part 'review_item_preview_dto.g.dart';
 /// Properties:
 /// * [index] - Index in the import batch (for tracking)
 /// * [date] - Transaction date (ISO format)
-/// * [narration] - Transaction narration/description
 /// * [amount] - Transaction amount (absolute value)
 /// * [currency] - Currency code
+/// * [narration] - Transaction narration/description
 /// * [payee] - Payee name
 /// * [category] - Inferred category from rule matching
 /// * [confidence] - Confidence score for the match (0-1)
 /// * [branchType] - Type of branch requiring review
 /// * [reasons] - Human-readable reasons for requiring review
 @BuiltValue()
-abstract class ReviewItemPreviewDto
-    implements Built<ReviewItemPreviewDto, ReviewItemPreviewDtoBuilder> {
+abstract class ReviewItemPreviewDto implements Built<ReviewItemPreviewDto, ReviewItemPreviewDtoBuilder> {
   /// Index in the import batch (for tracking)
   @BuiltValueField(wireName: r'index')
   num get index;
@@ -33,10 +32,6 @@ abstract class ReviewItemPreviewDto
   @BuiltValueField(wireName: r'date')
   String get date;
 
-  /// Transaction narration/description
-  @BuiltValueField(wireName: r'narration')
-  String get narration;
-
   /// Transaction amount (absolute value)
   @BuiltValueField(wireName: r'amount')
   num? get amount;
@@ -44,6 +39,10 @@ abstract class ReviewItemPreviewDto
   /// Currency code
   @BuiltValueField(wireName: r'currency')
   String? get currency;
+
+  /// Transaction narration/description
+  @BuiltValueField(wireName: r'narration')
+  String get narration;
 
   /// Payee name
   @BuiltValueField(wireName: r'payee')
@@ -68,24 +67,18 @@ abstract class ReviewItemPreviewDto
 
   ReviewItemPreviewDto._();
 
-  factory ReviewItemPreviewDto([void updates(ReviewItemPreviewDtoBuilder b)]) =
-      _$ReviewItemPreviewDto;
+  factory ReviewItemPreviewDto([void updates(ReviewItemPreviewDtoBuilder b)]) = _$ReviewItemPreviewDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(ReviewItemPreviewDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<ReviewItemPreviewDto> get serializer =>
-      _$ReviewItemPreviewDtoSerializer();
+  static Serializer<ReviewItemPreviewDto> get serializer => _$ReviewItemPreviewDtoSerializer();
 }
 
-class _$ReviewItemPreviewDtoSerializer
-    implements PrimitiveSerializer<ReviewItemPreviewDto> {
+class _$ReviewItemPreviewDtoSerializer implements PrimitiveSerializer<ReviewItemPreviewDto> {
   @override
-  final Iterable<Type> types = const [
-    ReviewItemPreviewDto,
-    _$ReviewItemPreviewDto
-  ];
+  final Iterable<Type> types = const [ReviewItemPreviewDto, _$ReviewItemPreviewDto];
 
   @override
   final String wireName = r'ReviewItemPreviewDto';
@@ -105,11 +98,6 @@ class _$ReviewItemPreviewDtoSerializer
       object.date,
       specifiedType: const FullType(String),
     );
-    yield r'narration';
-    yield serializers.serialize(
-      object.narration,
-      specifiedType: const FullType(String),
-    );
     if (object.amount != null) {
       yield r'amount';
       yield serializers.serialize(
@@ -124,6 +112,11 @@ class _$ReviewItemPreviewDtoSerializer
         specifiedType: const FullType(String),
       );
     }
+    yield r'narration';
+    yield serializers.serialize(
+      object.narration,
+      specifiedType: const FullType(String),
+    );
     if (object.payee != null) {
       yield r'payee';
       yield serializers.serialize(
@@ -167,9 +160,7 @@ class _$ReviewItemPreviewDtoSerializer
     ReviewItemPreviewDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -198,13 +189,6 @@ class _$ReviewItemPreviewDtoSerializer
           ) as String;
           result.date = valueDes;
           break;
-        case r'narration':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.narration = valueDes;
-          break;
         case r'amount':
           final valueDes = serializers.deserialize(
             value,
@@ -218,6 +202,13 @@ class _$ReviewItemPreviewDtoSerializer
             specifiedType: const FullType(String),
           ) as String;
           result.currency = valueDes;
+          break;
+        case r'narration':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.narration = valueDes;
           break;
         case r'payee':
           final valueDes = serializers.deserialize(
@@ -284,38 +275,28 @@ class _$ReviewItemPreviewDtoSerializer
 }
 
 class ReviewItemPreviewDtoBranchTypeEnum extends EnumClass {
+
   /// Type of branch requiring review
   @BuiltValueEnumConst(wireName: r'DUPLICATE')
-  static const ReviewItemPreviewDtoBranchTypeEnum DUPLICATE =
-      _$reviewItemPreviewDtoBranchTypeEnum_DUPLICATE;
-
+  static const ReviewItemPreviewDtoBranchTypeEnum DUPLICATE = _$reviewItemPreviewDtoBranchTypeEnum_DUPLICATE;
   /// Type of branch requiring review
   @BuiltValueEnumConst(wireName: r'PAYEE_MATCH')
-  static const ReviewItemPreviewDtoBranchTypeEnum PAYEE_MATCH =
-      _$reviewItemPreviewDtoBranchTypeEnum_PAYEE_MATCH;
-
+  static const ReviewItemPreviewDtoBranchTypeEnum PAYEE_MATCH = _$reviewItemPreviewDtoBranchTypeEnum_PAYEE_MATCH;
   /// Type of branch requiring review
   @BuiltValueEnumConst(wireName: r'RULE_MATCH')
-  static const ReviewItemPreviewDtoBranchTypeEnum RULE_MATCH =
-      _$reviewItemPreviewDtoBranchTypeEnum_RULE_MATCH;
-
+  static const ReviewItemPreviewDtoBranchTypeEnum RULE_MATCH = _$reviewItemPreviewDtoBranchTypeEnum_RULE_MATCH;
   /// Type of branch requiring review
   @BuiltValueEnumConst(wireName: r'ACCOUNT_VALIDATION')
-  static const ReviewItemPreviewDtoBranchTypeEnum ACCOUNT_VALIDATION =
-      _$reviewItemPreviewDtoBranchTypeEnum_ACCOUNT_VALIDATION;
-
+  static const ReviewItemPreviewDtoBranchTypeEnum ACCOUNT_VALIDATION = _$reviewItemPreviewDtoBranchTypeEnum_ACCOUNT_VALIDATION;
   /// Type of branch requiring review
-  @BuiltValueEnumConst(wireName: r'PIPELINE_ERROR', fallback: true)
-  static const ReviewItemPreviewDtoBranchTypeEnum PIPELINE_ERROR =
-      _$reviewItemPreviewDtoBranchTypeEnum_PIPELINE_ERROR;
+  @BuiltValueEnumConst(wireName: r'PIPELINE_ERROR')
+  static const ReviewItemPreviewDtoBranchTypeEnum PIPELINE_ERROR = _$reviewItemPreviewDtoBranchTypeEnum_PIPELINE_ERROR;
 
-  static Serializer<ReviewItemPreviewDtoBranchTypeEnum> get serializer =>
-      _$reviewItemPreviewDtoBranchTypeEnumSerializer;
+  static Serializer<ReviewItemPreviewDtoBranchTypeEnum> get serializer => _$reviewItemPreviewDtoBranchTypeEnumSerializer;
 
-  const ReviewItemPreviewDtoBranchTypeEnum._(String name) : super(name);
+  const ReviewItemPreviewDtoBranchTypeEnum._(String name): super(name);
 
-  static BuiltSet<ReviewItemPreviewDtoBranchTypeEnum> get values =>
-      _$reviewItemPreviewDtoBranchTypeEnumValues;
-  static ReviewItemPreviewDtoBranchTypeEnum valueOf(String name) =>
-      _$reviewItemPreviewDtoBranchTypeEnumValueOf(name);
+  static BuiltSet<ReviewItemPreviewDtoBranchTypeEnum> get values => _$reviewItemPreviewDtoBranchTypeEnumValues;
+  static ReviewItemPreviewDtoBranchTypeEnum valueOf(String name) => _$reviewItemPreviewDtoBranchTypeEnumValueOf(name);
 }
+

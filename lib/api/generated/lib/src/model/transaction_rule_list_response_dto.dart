@@ -13,15 +13,12 @@ part 'transaction_rule_list_response_dto.g.dart';
 /// TransactionRuleListResponseDto
 ///
 /// Properties:
-/// * [data]
+/// * [data] 
 /// * [total] - Total count of rules
 /// * [limit] - Results per page
 /// * [offset] - Pagination offset
 @BuiltValue()
-abstract class TransactionRuleListResponseDto
-    implements
-        Built<TransactionRuleListResponseDto,
-            TransactionRuleListResponseDtoBuilder> {
+abstract class TransactionRuleListResponseDto implements Built<TransactionRuleListResponseDto, TransactionRuleListResponseDtoBuilder> {
   @BuiltValueField(wireName: r'data')
   BuiltList<TransactionRuleResponseDto> get data;
 
@@ -39,25 +36,18 @@ abstract class TransactionRuleListResponseDto
 
   TransactionRuleListResponseDto._();
 
-  factory TransactionRuleListResponseDto(
-          [void updates(TransactionRuleListResponseDtoBuilder b)]) =
-      _$TransactionRuleListResponseDto;
+  factory TransactionRuleListResponseDto([void updates(TransactionRuleListResponseDtoBuilder b)]) = _$TransactionRuleListResponseDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(TransactionRuleListResponseDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<TransactionRuleListResponseDto> get serializer =>
-      _$TransactionRuleListResponseDtoSerializer();
+  static Serializer<TransactionRuleListResponseDto> get serializer => _$TransactionRuleListResponseDtoSerializer();
 }
 
-class _$TransactionRuleListResponseDtoSerializer
-    implements PrimitiveSerializer<TransactionRuleListResponseDto> {
+class _$TransactionRuleListResponseDtoSerializer implements PrimitiveSerializer<TransactionRuleListResponseDto> {
   @override
-  final Iterable<Type> types = const [
-    TransactionRuleListResponseDto,
-    _$TransactionRuleListResponseDto
-  ];
+  final Iterable<Type> types = const [TransactionRuleListResponseDto, _$TransactionRuleListResponseDto];
 
   @override
   final String wireName = r'TransactionRuleListResponseDto';
@@ -70,8 +60,7 @@ class _$TransactionRuleListResponseDtoSerializer
     yield r'data';
     yield serializers.serialize(
       object.data,
-      specifiedType:
-          const FullType(BuiltList, [FullType(TransactionRuleResponseDto)]),
+      specifiedType: const FullType(BuiltList, [FullType(TransactionRuleResponseDto)]),
     );
     yield r'total';
     yield serializers.serialize(
@@ -96,9 +85,7 @@ class _$TransactionRuleListResponseDtoSerializer
     TransactionRuleListResponseDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -116,8 +103,7 @@ class _$TransactionRuleListResponseDtoSerializer
         case r'data':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(
-                BuiltList, [FullType(TransactionRuleResponseDto)]),
+            specifiedType: const FullType(BuiltList, [FullType(TransactionRuleResponseDto)]),
           ) as BuiltList<TransactionRuleResponseDto>;
           result.data.replace(valueDes);
           break;
@@ -170,3 +156,4 @@ class _$TransactionRuleListResponseDtoSerializer
     return result.build();
   }
 }
+

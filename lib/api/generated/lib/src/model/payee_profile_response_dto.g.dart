@@ -126,7 +126,7 @@ PayeeProfileResponseDtoCategoryEnum
     case 'OTHER':
       return _$payeeProfileResponseDtoCategoryEnum_OTHER;
     default:
-      return _$payeeProfileResponseDtoCategoryEnum_OTHER;
+      throw new ArgumentError(name);
   }
 }
 
@@ -183,7 +183,7 @@ PayeeProfileResponseDtoDataSourceEnum
     case 'CROWDSOURCED':
       return _$payeeProfileResponseDtoDataSourceEnum_CROWDSOURCED;
     default:
-      return _$payeeProfileResponseDtoDataSourceEnum_CROWDSOURCED;
+      throw new ArgumentError(name);
   }
 }
 
@@ -321,35 +321,35 @@ class _$PayeeProfileResponseDto extends PayeeProfileResponseDto {
   @override
   final BuiltList<String> aliases;
   @override
+  final String? i18nKey;
+  @override
   final PayeeProfileResponseDtoCategoryEnum category;
+  @override
+  final String? subCategory;
   @override
   final BuiltList<String> countries;
   @override
+  final String? primaryCountry;
+  @override
   final BuiltList<String> keywords;
+  @override
+  final String? logoUrl;
+  @override
+  final String? website;
+  @override
+  final String? description;
   @override
   final JsonObject meta;
   @override
   final PayeeProfileResponseDtoDataSourceEnum dataSource;
+  @override
+  final DateTime? verifiedAt;
   @override
   final bool isActive;
   @override
   final DateTime createdAt;
   @override
   final DateTime updatedAt;
-  @override
-  final JsonObject? i18nKey;
-  @override
-  final JsonObject? subCategory;
-  @override
-  final JsonObject? primaryCountry;
-  @override
-  final JsonObject? logoUrl;
-  @override
-  final JsonObject? website;
-  @override
-  final JsonObject? description;
-  @override
-  final JsonObject? verifiedAt;
 
   factory _$PayeeProfileResponseDto(
           [void Function(PayeeProfileResponseDtoBuilder)? updates]) =>
@@ -359,21 +359,21 @@ class _$PayeeProfileResponseDto extends PayeeProfileResponseDto {
       {required this.id,
       required this.canonical,
       required this.aliases,
-      required this.category,
-      required this.countries,
-      required this.keywords,
-      required this.meta,
-      required this.dataSource,
-      required this.isActive,
-      required this.createdAt,
-      required this.updatedAt,
       this.i18nKey,
+      required this.category,
       this.subCategory,
+      required this.countries,
       this.primaryCountry,
+      required this.keywords,
       this.logoUrl,
       this.website,
       this.description,
-      this.verifiedAt})
+      required this.meta,
+      required this.dataSource,
+      this.verifiedAt,
+      required this.isActive,
+      required this.createdAt,
+      required this.updatedAt})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(id, r'PayeeProfileResponseDto', 'id');
     BuiltValueNullFieldError.checkNotNull(
@@ -414,21 +414,21 @@ class _$PayeeProfileResponseDto extends PayeeProfileResponseDto {
         id == other.id &&
         canonical == other.canonical &&
         aliases == other.aliases &&
-        category == other.category &&
-        countries == other.countries &&
-        keywords == other.keywords &&
-        meta == other.meta &&
-        dataSource == other.dataSource &&
-        isActive == other.isActive &&
-        createdAt == other.createdAt &&
-        updatedAt == other.updatedAt &&
         i18nKey == other.i18nKey &&
+        category == other.category &&
         subCategory == other.subCategory &&
+        countries == other.countries &&
         primaryCountry == other.primaryCountry &&
+        keywords == other.keywords &&
         logoUrl == other.logoUrl &&
         website == other.website &&
         description == other.description &&
-        verifiedAt == other.verifiedAt;
+        meta == other.meta &&
+        dataSource == other.dataSource &&
+        verifiedAt == other.verifiedAt &&
+        isActive == other.isActive &&
+        createdAt == other.createdAt &&
+        updatedAt == other.updatedAt;
   }
 
   @override
@@ -437,21 +437,21 @@ class _$PayeeProfileResponseDto extends PayeeProfileResponseDto {
     _$hash = $jc(_$hash, id.hashCode);
     _$hash = $jc(_$hash, canonical.hashCode);
     _$hash = $jc(_$hash, aliases.hashCode);
-    _$hash = $jc(_$hash, category.hashCode);
-    _$hash = $jc(_$hash, countries.hashCode);
-    _$hash = $jc(_$hash, keywords.hashCode);
-    _$hash = $jc(_$hash, meta.hashCode);
-    _$hash = $jc(_$hash, dataSource.hashCode);
-    _$hash = $jc(_$hash, isActive.hashCode);
-    _$hash = $jc(_$hash, createdAt.hashCode);
-    _$hash = $jc(_$hash, updatedAt.hashCode);
     _$hash = $jc(_$hash, i18nKey.hashCode);
+    _$hash = $jc(_$hash, category.hashCode);
     _$hash = $jc(_$hash, subCategory.hashCode);
+    _$hash = $jc(_$hash, countries.hashCode);
     _$hash = $jc(_$hash, primaryCountry.hashCode);
+    _$hash = $jc(_$hash, keywords.hashCode);
     _$hash = $jc(_$hash, logoUrl.hashCode);
     _$hash = $jc(_$hash, website.hashCode);
     _$hash = $jc(_$hash, description.hashCode);
+    _$hash = $jc(_$hash, meta.hashCode);
+    _$hash = $jc(_$hash, dataSource.hashCode);
     _$hash = $jc(_$hash, verifiedAt.hashCode);
+    _$hash = $jc(_$hash, isActive.hashCode);
+    _$hash = $jc(_$hash, createdAt.hashCode);
+    _$hash = $jc(_$hash, updatedAt.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -462,21 +462,21 @@ class _$PayeeProfileResponseDto extends PayeeProfileResponseDto {
           ..add('id', id)
           ..add('canonical', canonical)
           ..add('aliases', aliases)
-          ..add('category', category)
-          ..add('countries', countries)
-          ..add('keywords', keywords)
-          ..add('meta', meta)
-          ..add('dataSource', dataSource)
-          ..add('isActive', isActive)
-          ..add('createdAt', createdAt)
-          ..add('updatedAt', updatedAt)
           ..add('i18nKey', i18nKey)
+          ..add('category', category)
           ..add('subCategory', subCategory)
+          ..add('countries', countries)
           ..add('primaryCountry', primaryCountry)
+          ..add('keywords', keywords)
           ..add('logoUrl', logoUrl)
           ..add('website', website)
           ..add('description', description)
-          ..add('verifiedAt', verifiedAt))
+          ..add('meta', meta)
+          ..add('dataSource', dataSource)
+          ..add('verifiedAt', verifiedAt)
+          ..add('isActive', isActive)
+          ..add('createdAt', createdAt)
+          ..add('updatedAt', updatedAt))
         .toString();
   }
 }
@@ -499,10 +499,18 @@ class PayeeProfileResponseDtoBuilder
       _$this._aliases ??= new ListBuilder<String>();
   set aliases(ListBuilder<String>? aliases) => _$this._aliases = aliases;
 
+  String? _i18nKey;
+  String? get i18nKey => _$this._i18nKey;
+  set i18nKey(String? i18nKey) => _$this._i18nKey = i18nKey;
+
   PayeeProfileResponseDtoCategoryEnum? _category;
   PayeeProfileResponseDtoCategoryEnum? get category => _$this._category;
   set category(PayeeProfileResponseDtoCategoryEnum? category) =>
       _$this._category = category;
+
+  String? _subCategory;
+  String? get subCategory => _$this._subCategory;
+  set subCategory(String? subCategory) => _$this._subCategory = subCategory;
 
   ListBuilder<String>? _countries;
   ListBuilder<String> get countries =>
@@ -510,10 +518,27 @@ class PayeeProfileResponseDtoBuilder
   set countries(ListBuilder<String>? countries) =>
       _$this._countries = countries;
 
+  String? _primaryCountry;
+  String? get primaryCountry => _$this._primaryCountry;
+  set primaryCountry(String? primaryCountry) =>
+      _$this._primaryCountry = primaryCountry;
+
   ListBuilder<String>? _keywords;
   ListBuilder<String> get keywords =>
       _$this._keywords ??= new ListBuilder<String>();
   set keywords(ListBuilder<String>? keywords) => _$this._keywords = keywords;
+
+  String? _logoUrl;
+  String? get logoUrl => _$this._logoUrl;
+  set logoUrl(String? logoUrl) => _$this._logoUrl = logoUrl;
+
+  String? _website;
+  String? get website => _$this._website;
+  set website(String? website) => _$this._website = website;
+
+  String? _description;
+  String? get description => _$this._description;
+  set description(String? description) => _$this._description = description;
 
   JsonObject? _meta;
   JsonObject? get meta => _$this._meta;
@@ -523,6 +548,10 @@ class PayeeProfileResponseDtoBuilder
   PayeeProfileResponseDtoDataSourceEnum? get dataSource => _$this._dataSource;
   set dataSource(PayeeProfileResponseDtoDataSourceEnum? dataSource) =>
       _$this._dataSource = dataSource;
+
+  DateTime? _verifiedAt;
+  DateTime? get verifiedAt => _$this._verifiedAt;
+  set verifiedAt(DateTime? verifiedAt) => _$this._verifiedAt = verifiedAt;
 
   bool? _isActive;
   bool? get isActive => _$this._isActive;
@@ -536,35 +565,6 @@ class PayeeProfileResponseDtoBuilder
   DateTime? get updatedAt => _$this._updatedAt;
   set updatedAt(DateTime? updatedAt) => _$this._updatedAt = updatedAt;
 
-  JsonObject? _i18nKey;
-  JsonObject? get i18nKey => _$this._i18nKey;
-  set i18nKey(JsonObject? i18nKey) => _$this._i18nKey = i18nKey;
-
-  JsonObject? _subCategory;
-  JsonObject? get subCategory => _$this._subCategory;
-  set subCategory(JsonObject? subCategory) => _$this._subCategory = subCategory;
-
-  JsonObject? _primaryCountry;
-  JsonObject? get primaryCountry => _$this._primaryCountry;
-  set primaryCountry(JsonObject? primaryCountry) =>
-      _$this._primaryCountry = primaryCountry;
-
-  JsonObject? _logoUrl;
-  JsonObject? get logoUrl => _$this._logoUrl;
-  set logoUrl(JsonObject? logoUrl) => _$this._logoUrl = logoUrl;
-
-  JsonObject? _website;
-  JsonObject? get website => _$this._website;
-  set website(JsonObject? website) => _$this._website = website;
-
-  JsonObject? _description;
-  JsonObject? get description => _$this._description;
-  set description(JsonObject? description) => _$this._description = description;
-
-  JsonObject? _verifiedAt;
-  JsonObject? get verifiedAt => _$this._verifiedAt;
-  set verifiedAt(JsonObject? verifiedAt) => _$this._verifiedAt = verifiedAt;
-
   PayeeProfileResponseDtoBuilder() {
     PayeeProfileResponseDto._defaults(this);
   }
@@ -575,21 +575,21 @@ class PayeeProfileResponseDtoBuilder
       _id = $v.id;
       _canonical = $v.canonical;
       _aliases = $v.aliases.toBuilder();
-      _category = $v.category;
-      _countries = $v.countries.toBuilder();
-      _keywords = $v.keywords.toBuilder();
-      _meta = $v.meta;
-      _dataSource = $v.dataSource;
-      _isActive = $v.isActive;
-      _createdAt = $v.createdAt;
-      _updatedAt = $v.updatedAt;
       _i18nKey = $v.i18nKey;
+      _category = $v.category;
       _subCategory = $v.subCategory;
+      _countries = $v.countries.toBuilder();
       _primaryCountry = $v.primaryCountry;
+      _keywords = $v.keywords.toBuilder();
       _logoUrl = $v.logoUrl;
       _website = $v.website;
       _description = $v.description;
+      _meta = $v.meta;
+      _dataSource = $v.dataSource;
       _verifiedAt = $v.verifiedAt;
+      _isActive = $v.isActive;
+      _createdAt = $v.createdAt;
+      _updatedAt = $v.updatedAt;
       _$v = null;
     }
     return this;
@@ -619,27 +619,27 @@ class PayeeProfileResponseDtoBuilder
               canonical: BuiltValueNullFieldError.checkNotNull(
                   canonical, r'PayeeProfileResponseDto', 'canonical'),
               aliases: aliases.build(),
+              i18nKey: i18nKey,
               category: BuiltValueNullFieldError.checkNotNull(
                   category, r'PayeeProfileResponseDto', 'category'),
+              subCategory: subCategory,
               countries: countries.build(),
+              primaryCountry: primaryCountry,
               keywords: keywords.build(),
+              logoUrl: logoUrl,
+              website: website,
+              description: description,
               meta: BuiltValueNullFieldError.checkNotNull(
                   meta, r'PayeeProfileResponseDto', 'meta'),
               dataSource: BuiltValueNullFieldError.checkNotNull(
                   dataSource, r'PayeeProfileResponseDto', 'dataSource'),
+              verifiedAt: verifiedAt,
               isActive: BuiltValueNullFieldError.checkNotNull(
                   isActive, r'PayeeProfileResponseDto', 'isActive'),
               createdAt: BuiltValueNullFieldError.checkNotNull(
                   createdAt, r'PayeeProfileResponseDto', 'createdAt'),
               updatedAt: BuiltValueNullFieldError.checkNotNull(
-                  updatedAt, r'PayeeProfileResponseDto', 'updatedAt'),
-              i18nKey: i18nKey,
-              subCategory: subCategory,
-              primaryCountry: primaryCountry,
-              logoUrl: logoUrl,
-              website: website,
-              description: description,
-              verifiedAt: verifiedAt);
+                  updatedAt, r'PayeeProfileResponseDto', 'updatedAt'));
     } catch (_) {
       late String _$failedField;
       try {
@@ -648,6 +648,7 @@ class PayeeProfileResponseDtoBuilder
 
         _$failedField = 'countries';
         countries.build();
+
         _$failedField = 'keywords';
         keywords.build();
       } catch (e) {

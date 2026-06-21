@@ -7,10 +7,10 @@ import 'dart:async';
 import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
 
-import 'package:firela_api/src/api_util.dart';
 import 'package:firela_api/src/model/anonymous_login_dto.dart';
 
 class AuthApi {
+
   final Dio _dio;
 
   final Serializers _serializers;
@@ -18,11 +18,10 @@ class AuthApi {
   const AuthApi(this._dio, this._serializers);
 
   /// Anonymous login with access token
-  ///
+  /// 
   ///
   /// Parameters:
-  /// * [region] - Region code (cn, us, de)
-  /// * [anonymousLoginDto]
+  /// * [anonymousLoginDto] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -32,8 +31,7 @@ class AuthApi {
   ///
   /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<void>> authControllerAccessTokenLogin({
-    required String region,
+  Future<Response<void>> authControllerAccessTokenLogin({ 
     required AnonymousLoginDto anonymousLoginDto,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -42,10 +40,7 @@ class AuthApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/auth/sessions/anonymous'.replaceAll(
-        '{' r'region' '}',
-        encodeQueryParameter(_serializers, region, const FullType(String))
-            .toString());
+    final _path = r'/api/v1/auth/sessions/anonymous';
     final _options = Options(
       method: r'POST',
       headers: <String, dynamic>{
@@ -63,11 +58,11 @@ class AuthApi {
 
     try {
       const _type = FullType(AnonymousLoginDto);
-      _bodyData =
-          _serializers.serialize(anonymousLoginDto, specifiedType: _type);
-    } catch (error, stackTrace) {
+      _bodyData = _serializers.serialize(anonymousLoginDto, specifiedType: _type);
+
+    } catch(error, stackTrace) {
       throw DioException(
-        requestOptions: _options.compose(
+         requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
@@ -88,4 +83,5 @@ class AuthApi {
 
     return _response;
   }
+
 }

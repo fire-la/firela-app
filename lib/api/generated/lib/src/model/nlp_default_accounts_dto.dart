@@ -16,8 +16,7 @@ part 'nlp_default_accounts_dto.g.dart';
 /// * [income] - Default income account
 /// * [liability] - Default liability account
 @BuiltValue()
-abstract class NlpDefaultAccountsDto
-    implements Built<NlpDefaultAccountsDto, NlpDefaultAccountsDtoBuilder> {
+abstract class NlpDefaultAccountsDto implements Built<NlpDefaultAccountsDto, NlpDefaultAccountsDtoBuilder> {
   /// Default asset account
   @BuiltValueField(wireName: r'asset')
   String get asset;
@@ -36,24 +35,18 @@ abstract class NlpDefaultAccountsDto
 
   NlpDefaultAccountsDto._();
 
-  factory NlpDefaultAccountsDto(
-      [void updates(NlpDefaultAccountsDtoBuilder b)]) = _$NlpDefaultAccountsDto;
+  factory NlpDefaultAccountsDto([void updates(NlpDefaultAccountsDtoBuilder b)]) = _$NlpDefaultAccountsDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(NlpDefaultAccountsDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<NlpDefaultAccountsDto> get serializer =>
-      _$NlpDefaultAccountsDtoSerializer();
+  static Serializer<NlpDefaultAccountsDto> get serializer => _$NlpDefaultAccountsDtoSerializer();
 }
 
-class _$NlpDefaultAccountsDtoSerializer
-    implements PrimitiveSerializer<NlpDefaultAccountsDto> {
+class _$NlpDefaultAccountsDtoSerializer implements PrimitiveSerializer<NlpDefaultAccountsDto> {
   @override
-  final Iterable<Type> types = const [
-    NlpDefaultAccountsDto,
-    _$NlpDefaultAccountsDto
-  ];
+  final Iterable<Type> types = const [NlpDefaultAccountsDto, _$NlpDefaultAccountsDto];
 
   @override
   final String wireName = r'NlpDefaultAccountsDto';
@@ -91,9 +84,7 @@ class _$NlpDefaultAccountsDtoSerializer
     NlpDefaultAccountsDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -164,3 +155,4 @@ class _$NlpDefaultAccountsDtoSerializer
     return result.build();
   }
 }
+

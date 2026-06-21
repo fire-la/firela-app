@@ -14,35 +14,25 @@ part 'supported_providers_response_dto.g.dart';
 /// Properties:
 /// * [providers] - List of supported provider names
 @BuiltValue()
-abstract class SupportedProvidersResponseDto
-    implements
-        Built<SupportedProvidersResponseDto,
-            SupportedProvidersResponseDtoBuilder> {
+abstract class SupportedProvidersResponseDto implements Built<SupportedProvidersResponseDto, SupportedProvidersResponseDtoBuilder> {
   /// List of supported provider names
   @BuiltValueField(wireName: r'providers')
   BuiltList<String> get providers;
 
   SupportedProvidersResponseDto._();
 
-  factory SupportedProvidersResponseDto(
-          [void updates(SupportedProvidersResponseDtoBuilder b)]) =
-      _$SupportedProvidersResponseDto;
+  factory SupportedProvidersResponseDto([void updates(SupportedProvidersResponseDtoBuilder b)]) = _$SupportedProvidersResponseDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(SupportedProvidersResponseDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<SupportedProvidersResponseDto> get serializer =>
-      _$SupportedProvidersResponseDtoSerializer();
+  static Serializer<SupportedProvidersResponseDto> get serializer => _$SupportedProvidersResponseDtoSerializer();
 }
 
-class _$SupportedProvidersResponseDtoSerializer
-    implements PrimitiveSerializer<SupportedProvidersResponseDto> {
+class _$SupportedProvidersResponseDtoSerializer implements PrimitiveSerializer<SupportedProvidersResponseDto> {
   @override
-  final Iterable<Type> types = const [
-    SupportedProvidersResponseDto,
-    _$SupportedProvidersResponseDto
-  ];
+  final Iterable<Type> types = const [SupportedProvidersResponseDto, _$SupportedProvidersResponseDto];
 
   @override
   final String wireName = r'SupportedProvidersResponseDto';
@@ -65,9 +55,7 @@ class _$SupportedProvidersResponseDtoSerializer
     SupportedProvidersResponseDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -117,3 +105,4 @@ class _$SupportedProvidersResponseDtoSerializer
     return result.build();
   }
 }
+

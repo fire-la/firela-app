@@ -11,11 +11,14 @@ class _$ProcessNlpDto extends ProcessNlpDto {
   final String message;
   @override
   final String? sessionId;
+  @override
+  final JsonObject? parsedData;
 
   factory _$ProcessNlpDto([void Function(ProcessNlpDtoBuilder)? updates]) =>
       (new ProcessNlpDtoBuilder()..update(updates))._build();
 
-  _$ProcessNlpDto._({required this.message, this.sessionId}) : super._() {
+  _$ProcessNlpDto._({required this.message, this.sessionId, this.parsedData})
+      : super._() {
     BuiltValueNullFieldError.checkNotNull(message, r'ProcessNlpDto', 'message');
   }
 
@@ -31,7 +34,8 @@ class _$ProcessNlpDto extends ProcessNlpDto {
     if (identical(other, this)) return true;
     return other is ProcessNlpDto &&
         message == other.message &&
-        sessionId == other.sessionId;
+        sessionId == other.sessionId &&
+        parsedData == other.parsedData;
   }
 
   @override
@@ -39,6 +43,7 @@ class _$ProcessNlpDto extends ProcessNlpDto {
     var _$hash = 0;
     _$hash = $jc(_$hash, message.hashCode);
     _$hash = $jc(_$hash, sessionId.hashCode);
+    _$hash = $jc(_$hash, parsedData.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -47,7 +52,8 @@ class _$ProcessNlpDto extends ProcessNlpDto {
   String toString() {
     return (newBuiltValueToStringHelper(r'ProcessNlpDto')
           ..add('message', message)
-          ..add('sessionId', sessionId))
+          ..add('sessionId', sessionId)
+          ..add('parsedData', parsedData))
         .toString();
   }
 }
@@ -64,6 +70,10 @@ class ProcessNlpDtoBuilder
   String? get sessionId => _$this._sessionId;
   set sessionId(String? sessionId) => _$this._sessionId = sessionId;
 
+  JsonObject? _parsedData;
+  JsonObject? get parsedData => _$this._parsedData;
+  set parsedData(JsonObject? parsedData) => _$this._parsedData = parsedData;
+
   ProcessNlpDtoBuilder() {
     ProcessNlpDto._defaults(this);
   }
@@ -73,6 +83,7 @@ class ProcessNlpDtoBuilder
     if ($v != null) {
       _message = $v.message;
       _sessionId = $v.sessionId;
+      _parsedData = $v.parsedData;
       _$v = null;
     }
     return this;
@@ -97,7 +108,8 @@ class ProcessNlpDtoBuilder
         new _$ProcessNlpDto._(
             message: BuiltValueNullFieldError.checkNotNull(
                 message, r'ProcessNlpDto', 'message'),
-            sessionId: sessionId);
+            sessionId: sessionId,
+            parsedData: parsedData);
     replace(_$result);
     return _$result;
   }

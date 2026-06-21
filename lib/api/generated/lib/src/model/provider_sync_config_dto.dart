@@ -17,8 +17,7 @@ part 'provider_sync_config_dto.g.dart';
 /// * [defaultIncomeAccount] - Default income account for the second posting
 /// * [filterPending] - Filter pending transactions
 @BuiltValue()
-abstract class ProviderSyncConfigDto
-    implements Built<ProviderSyncConfigDto, ProviderSyncConfigDtoBuilder> {
+abstract class ProviderSyncConfigDto implements Built<ProviderSyncConfigDto, ProviderSyncConfigDtoBuilder> {
   /// Source account for the first posting
   @BuiltValueField(wireName: r'sourceAccount')
   String get sourceAccount;
@@ -41,25 +40,19 @@ abstract class ProviderSyncConfigDto
 
   ProviderSyncConfigDto._();
 
-  factory ProviderSyncConfigDto(
-      [void updates(ProviderSyncConfigDtoBuilder b)]) = _$ProviderSyncConfigDto;
+  factory ProviderSyncConfigDto([void updates(ProviderSyncConfigDtoBuilder b)]) = _$ProviderSyncConfigDto;
 
   @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(ProviderSyncConfigDtoBuilder b) =>
-      b..filterPending = true;
+  static void _defaults(ProviderSyncConfigDtoBuilder b) => b
+      ..filterPending = true;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<ProviderSyncConfigDto> get serializer =>
-      _$ProviderSyncConfigDtoSerializer();
+  static Serializer<ProviderSyncConfigDto> get serializer => _$ProviderSyncConfigDtoSerializer();
 }
 
-class _$ProviderSyncConfigDtoSerializer
-    implements PrimitiveSerializer<ProviderSyncConfigDto> {
+class _$ProviderSyncConfigDtoSerializer implements PrimitiveSerializer<ProviderSyncConfigDto> {
   @override
-  final Iterable<Type> types = const [
-    ProviderSyncConfigDto,
-    _$ProviderSyncConfigDto
-  ];
+  final Iterable<Type> types = const [ProviderSyncConfigDto, _$ProviderSyncConfigDto];
 
   @override
   final String wireName = r'ProviderSyncConfigDto';
@@ -104,9 +97,7 @@ class _$ProviderSyncConfigDtoSerializer
     ProviderSyncConfigDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -184,3 +175,4 @@ class _$ProviderSyncConfigDtoSerializer
     return result.build();
   }
 }
+

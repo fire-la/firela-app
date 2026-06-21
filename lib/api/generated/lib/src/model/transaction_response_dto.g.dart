@@ -10,7 +10,13 @@ class _$TransactionResponseDto extends TransactionResponseDto {
   @override
   final String transactionId;
   @override
+  final String? idempotencyKey;
+  @override
   final String date;
+  @override
+  final String? flag;
+  @override
+  final String? payee;
   @override
   final String narration;
   @override
@@ -20,15 +26,9 @@ class _$TransactionResponseDto extends TransactionResponseDto {
   @override
   final bool booked;
   @override
-  final BuiltList<String> createdAccountIds;
-  @override
-  final String? idempotencyKey;
-  @override
-  final String? flag;
-  @override
-  final String? payee;
-  @override
   final BuiltList<String>? warnings;
+  @override
+  final BuiltList<String> createdAccountIds;
   @override
   final RecurringSuggestionDto? recurringSuggestion;
 
@@ -38,16 +38,16 @@ class _$TransactionResponseDto extends TransactionResponseDto {
 
   _$TransactionResponseDto._(
       {required this.transactionId,
+      this.idempotencyKey,
       required this.date,
+      this.flag,
+      this.payee,
       required this.narration,
       required this.postings,
       required this.interpolated,
       required this.booked,
-      required this.createdAccountIds,
-      this.idempotencyKey,
-      this.flag,
-      this.payee,
       this.warnings,
+      required this.createdAccountIds,
       this.recurringSuggestion})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(
@@ -80,16 +80,16 @@ class _$TransactionResponseDto extends TransactionResponseDto {
     if (identical(other, this)) return true;
     return other is TransactionResponseDto &&
         transactionId == other.transactionId &&
+        idempotencyKey == other.idempotencyKey &&
         date == other.date &&
+        flag == other.flag &&
+        payee == other.payee &&
         narration == other.narration &&
         postings == other.postings &&
         interpolated == other.interpolated &&
         booked == other.booked &&
-        createdAccountIds == other.createdAccountIds &&
-        idempotencyKey == other.idempotencyKey &&
-        flag == other.flag &&
-        payee == other.payee &&
         warnings == other.warnings &&
+        createdAccountIds == other.createdAccountIds &&
         recurringSuggestion == other.recurringSuggestion;
   }
 
@@ -97,16 +97,16 @@ class _$TransactionResponseDto extends TransactionResponseDto {
   int get hashCode {
     var _$hash = 0;
     _$hash = $jc(_$hash, transactionId.hashCode);
+    _$hash = $jc(_$hash, idempotencyKey.hashCode);
     _$hash = $jc(_$hash, date.hashCode);
+    _$hash = $jc(_$hash, flag.hashCode);
+    _$hash = $jc(_$hash, payee.hashCode);
     _$hash = $jc(_$hash, narration.hashCode);
     _$hash = $jc(_$hash, postings.hashCode);
     _$hash = $jc(_$hash, interpolated.hashCode);
     _$hash = $jc(_$hash, booked.hashCode);
-    _$hash = $jc(_$hash, createdAccountIds.hashCode);
-    _$hash = $jc(_$hash, idempotencyKey.hashCode);
-    _$hash = $jc(_$hash, flag.hashCode);
-    _$hash = $jc(_$hash, payee.hashCode);
     _$hash = $jc(_$hash, warnings.hashCode);
+    _$hash = $jc(_$hash, createdAccountIds.hashCode);
     _$hash = $jc(_$hash, recurringSuggestion.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
@@ -116,16 +116,16 @@ class _$TransactionResponseDto extends TransactionResponseDto {
   String toString() {
     return (newBuiltValueToStringHelper(r'TransactionResponseDto')
           ..add('transactionId', transactionId)
+          ..add('idempotencyKey', idempotencyKey)
           ..add('date', date)
+          ..add('flag', flag)
+          ..add('payee', payee)
           ..add('narration', narration)
           ..add('postings', postings)
           ..add('interpolated', interpolated)
           ..add('booked', booked)
-          ..add('createdAccountIds', createdAccountIds)
-          ..add('idempotencyKey', idempotencyKey)
-          ..add('flag', flag)
-          ..add('payee', payee)
           ..add('warnings', warnings)
+          ..add('createdAccountIds', createdAccountIds)
           ..add('recurringSuggestion', recurringSuggestion))
         .toString();
   }
@@ -140,9 +140,22 @@ class TransactionResponseDtoBuilder
   set transactionId(String? transactionId) =>
       _$this._transactionId = transactionId;
 
+  String? _idempotencyKey;
+  String? get idempotencyKey => _$this._idempotencyKey;
+  set idempotencyKey(String? idempotencyKey) =>
+      _$this._idempotencyKey = idempotencyKey;
+
   String? _date;
   String? get date => _$this._date;
   set date(String? date) => _$this._date = date;
+
+  String? _flag;
+  String? get flag => _$this._flag;
+  set flag(String? flag) => _$this._flag = flag;
+
+  String? _payee;
+  String? get payee => _$this._payee;
+  set payee(String? payee) => _$this._payee = payee;
 
   String? _narration;
   String? get narration => _$this._narration;
@@ -162,29 +175,16 @@ class TransactionResponseDtoBuilder
   bool? get booked => _$this._booked;
   set booked(bool? booked) => _$this._booked = booked;
 
+  ListBuilder<String>? _warnings;
+  ListBuilder<String> get warnings =>
+      _$this._warnings ??= new ListBuilder<String>();
+  set warnings(ListBuilder<String>? warnings) => _$this._warnings = warnings;
+
   ListBuilder<String>? _createdAccountIds;
   ListBuilder<String> get createdAccountIds =>
       _$this._createdAccountIds ??= new ListBuilder<String>();
   set createdAccountIds(ListBuilder<String>? createdAccountIds) =>
       _$this._createdAccountIds = createdAccountIds;
-
-  String? _idempotencyKey;
-  String? get idempotencyKey => _$this._idempotencyKey;
-  set idempotencyKey(String? idempotencyKey) =>
-      _$this._idempotencyKey = idempotencyKey;
-
-  String? _flag;
-  String? get flag => _$this._flag;
-  set flag(String? flag) => _$this._flag = flag;
-
-  String? _payee;
-  String? get payee => _$this._payee;
-  set payee(String? payee) => _$this._payee = payee;
-
-  ListBuilder<String>? _warnings;
-  ListBuilder<String> get warnings =>
-      _$this._warnings ??= new ListBuilder<String>();
-  set warnings(ListBuilder<String>? warnings) => _$this._warnings = warnings;
 
   RecurringSuggestionDtoBuilder? _recurringSuggestion;
   RecurringSuggestionDtoBuilder get recurringSuggestion =>
@@ -200,16 +200,16 @@ class TransactionResponseDtoBuilder
     final $v = _$v;
     if ($v != null) {
       _transactionId = $v.transactionId;
+      _idempotencyKey = $v.idempotencyKey;
       _date = $v.date;
+      _flag = $v.flag;
+      _payee = $v.payee;
       _narration = $v.narration;
       _postings = $v.postings.toBuilder();
       _interpolated = $v.interpolated;
       _booked = $v.booked;
-      _createdAccountIds = $v.createdAccountIds.toBuilder();
-      _idempotencyKey = $v.idempotencyKey;
-      _flag = $v.flag;
-      _payee = $v.payee;
       _warnings = $v.warnings?.toBuilder();
+      _createdAccountIds = $v.createdAccountIds.toBuilder();
       _recurringSuggestion = $v.recurringSuggestion?.toBuilder();
       _$v = null;
     }
@@ -237,8 +237,11 @@ class TransactionResponseDtoBuilder
           new _$TransactionResponseDto._(
               transactionId: BuiltValueNullFieldError.checkNotNull(
                   transactionId, r'TransactionResponseDto', 'transactionId'),
+              idempotencyKey: idempotencyKey,
               date: BuiltValueNullFieldError.checkNotNull(
                   date, r'TransactionResponseDto', 'date'),
+              flag: flag,
+              payee: payee,
               narration: BuiltValueNullFieldError.checkNotNull(
                   narration, r'TransactionResponseDto', 'narration'),
               postings: postings.build(),
@@ -246,11 +249,8 @@ class TransactionResponseDtoBuilder
                   interpolated, r'TransactionResponseDto', 'interpolated'),
               booked: BuiltValueNullFieldError.checkNotNull(
                   booked, r'TransactionResponseDto', 'booked'),
-              createdAccountIds: createdAccountIds.build(),
-              idempotencyKey: idempotencyKey,
-              flag: flag,
-              payee: payee,
               warnings: _warnings?.build(),
+              createdAccountIds: createdAccountIds.build(),
               recurringSuggestion: _recurringSuggestion?.build());
     } catch (_) {
       late String _$failedField;
@@ -258,11 +258,10 @@ class TransactionResponseDtoBuilder
         _$failedField = 'postings';
         postings.build();
 
-        _$failedField = 'createdAccountIds';
-        createdAccountIds.build();
-
         _$failedField = 'warnings';
         _warnings?.build();
+        _$failedField = 'createdAccountIds';
+        createdAccountIds.build();
         _$failedField = 'recurringSuggestion';
         _recurringSuggestion?.build();
       } catch (e) {

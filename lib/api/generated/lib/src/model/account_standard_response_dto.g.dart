@@ -36,7 +36,7 @@ AccountStandardResponseDtoTypeEnum _$accountStandardResponseDtoTypeEnumValueOf(
     case 'equity':
       return _$accountStandardResponseDtoTypeEnum_equity;
     default:
-      return _$accountStandardResponseDtoTypeEnum_equity;
+      throw new ArgumentError(name);
   }
 }
 
@@ -98,7 +98,9 @@ class _$AccountStandardResponseDto extends AccountStandardResponseDto {
   @override
   final String? i18nKey;
   @override
-  final String? description;
+  final String? name;
+  @override
+  final String description;
   @override
   final BuiltList<String>? tags;
   @override
@@ -112,7 +114,8 @@ class _$AccountStandardResponseDto extends AccountStandardResponseDto {
       {required this.path,
       required this.type,
       this.i18nKey,
-      this.description,
+      this.name,
+      required this.description,
       this.tags,
       this.icon})
       : super._() {
@@ -120,6 +123,8 @@ class _$AccountStandardResponseDto extends AccountStandardResponseDto {
         path, r'AccountStandardResponseDto', 'path');
     BuiltValueNullFieldError.checkNotNull(
         type, r'AccountStandardResponseDto', 'type');
+    BuiltValueNullFieldError.checkNotNull(
+        description, r'AccountStandardResponseDto', 'description');
   }
 
   @override
@@ -138,6 +143,7 @@ class _$AccountStandardResponseDto extends AccountStandardResponseDto {
         path == other.path &&
         type == other.type &&
         i18nKey == other.i18nKey &&
+        name == other.name &&
         description == other.description &&
         tags == other.tags &&
         icon == other.icon;
@@ -149,6 +155,7 @@ class _$AccountStandardResponseDto extends AccountStandardResponseDto {
     _$hash = $jc(_$hash, path.hashCode);
     _$hash = $jc(_$hash, type.hashCode);
     _$hash = $jc(_$hash, i18nKey.hashCode);
+    _$hash = $jc(_$hash, name.hashCode);
     _$hash = $jc(_$hash, description.hashCode);
     _$hash = $jc(_$hash, tags.hashCode);
     _$hash = $jc(_$hash, icon.hashCode);
@@ -162,6 +169,7 @@ class _$AccountStandardResponseDto extends AccountStandardResponseDto {
           ..add('path', path)
           ..add('type', type)
           ..add('i18nKey', i18nKey)
+          ..add('name', name)
           ..add('description', description)
           ..add('tags', tags)
           ..add('icon', icon))
@@ -186,6 +194,10 @@ class AccountStandardResponseDtoBuilder
   String? get i18nKey => _$this._i18nKey;
   set i18nKey(String? i18nKey) => _$this._i18nKey = i18nKey;
 
+  String? _name;
+  String? get name => _$this._name;
+  set name(String? name) => _$this._name = name;
+
   String? _description;
   String? get description => _$this._description;
   set description(String? description) => _$this._description = description;
@@ -208,6 +220,7 @@ class AccountStandardResponseDtoBuilder
       _path = $v.path;
       _type = $v.type;
       _i18nKey = $v.i18nKey;
+      _name = $v.name;
       _description = $v.description;
       _tags = $v.tags?.toBuilder();
       _icon = $v.icon;
@@ -240,7 +253,9 @@ class AccountStandardResponseDtoBuilder
               type: BuiltValueNullFieldError.checkNotNull(
                   type, r'AccountStandardResponseDto', 'type'),
               i18nKey: i18nKey,
-              description: description,
+              name: name,
+              description: BuiltValueNullFieldError.checkNotNull(
+                  description, r'AccountStandardResponseDto', 'description'),
               tags: _tags?.build(),
               icon: icon);
     } catch (_) {

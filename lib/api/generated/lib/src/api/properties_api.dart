@@ -8,19 +8,21 @@ import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
 
 import 'package:firela_api/src/api_util.dart';
+import 'package:firela_api/src/model/update_property_dto.dart';
 
 class PropertiesApi {
+
   final Dio _dio;
 
   final Serializers _serializers;
 
   const PropertiesApi(this._dio, this._serializers);
 
-  /// propertyController
-  ///
+  /// Delete a system property
+  /// 
   ///
   /// Parameters:
-  /// * [region] - Region code (cn, us, de)
+  /// * [key] - Property key
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -30,8 +32,8 @@ class PropertiesApi {
   ///
   /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<void>> propertyController({
-    required String region,
+  Future<Response<void>> propertyControllerDelete({ 
+    required String key,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -39,12 +41,9 @@ class PropertiesApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/admin/properties/{key}'.replaceAll(
-        '{' r'region' '}',
-        encodeQueryParameter(_serializers, region, const FullType(String))
-            .toString());
+    final _path = r'/api/v1/admin/properties/{key}'.replaceAll('{' r'key' '}', encodeQueryParameter(_serializers, key, const FullType(String)).toString());
     final _options = Options(
-      method: r'PUT',
+      method: r'DELETE',
       headers: <String, dynamic>{
         ...?headers,
       },
@@ -67,10 +66,9 @@ class PropertiesApi {
   }
 
   /// Get all system properties
-  ///
+  /// 
   ///
   /// Parameters:
-  /// * [region] - Region code (cn, us, de)
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -80,8 +78,7 @@ class PropertiesApi {
   ///
   /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<void>> propertyControllerGetAll({
-    required String region,
+  Future<Response<void>> propertyControllerGetAll({ 
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -89,10 +86,7 @@ class PropertiesApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/admin/properties'.replaceAll(
-        '{' r'region' '}',
-        encodeQueryParameter(_serializers, region, const FullType(String))
-            .toString());
+    final _path = r'/api/v1/admin/properties';
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -117,11 +111,10 @@ class PropertiesApi {
   }
 
   /// Get property by key
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [key] - Property key
-  /// * [region] - Region code (cn, us, de)
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -131,9 +124,8 @@ class PropertiesApi {
   ///
   /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<void>> propertyControllerGetByKey({
+  Future<Response<void>> propertyControllerGetByKey({ 
     required String key,
-    required String region,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -141,15 +133,7 @@ class PropertiesApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/admin/properties/{key}'
-        .replaceAll(
-            '{' r'key' '}',
-            encodeQueryParameter(_serializers, key, const FullType(String))
-                .toString())
-        .replaceAll(
-            '{' r'region' '}',
-            encodeQueryParameter(_serializers, region, const FullType(String))
-                .toString());
+    final _path = r'/api/v1/admin/properties/{key}'.replaceAll('{' r'key' '}', encodeQueryParameter(_serializers, key, const FullType(String)).toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -173,11 +157,12 @@ class PropertiesApi {
     return _response;
   }
 
-  /// propertyController_1
-  ///
+  /// Update a system property
+  /// 
   ///
   /// Parameters:
-  /// * [region] - Region code (cn, us, de)
+  /// * [key] - Property key
+  /// * [updatePropertyDto] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -187,8 +172,9 @@ class PropertiesApi {
   ///
   /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<void>> propertyController_1({
-    required String region,
+  Future<Response<void>> propertyControllerUpdate({ 
+    required String key,
+    required UpdatePropertyDto updatePropertyDto,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -196,12 +182,9 @@ class PropertiesApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/admin/properties/{key}'.replaceAll(
-        '{' r'region' '}',
-        encodeQueryParameter(_serializers, region, const FullType(String))
-            .toString());
+    final _path = r'/api/v1/admin/properties/{key}'.replaceAll('{' r'key' '}', encodeQueryParameter(_serializers, key, const FullType(String)).toString());
     final _options = Options(
-      method: r'DELETE',
+      method: r'PUT',
       headers: <String, dynamic>{
         ...?headers,
       },
@@ -209,11 +192,31 @@ class PropertiesApi {
         'secure': <Map<String, String>>[],
         ...?extra,
       },
+      contentType: 'application/json',
       validateStatus: validateStatus,
     );
 
+    dynamic _bodyData;
+
+    try {
+      const _type = FullType(UpdatePropertyDto);
+      _bodyData = _serializers.serialize(updatePropertyDto, specifiedType: _type);
+
+    } catch(error, stackTrace) {
+      throw DioException(
+         requestOptions: _options.compose(
+          _dio.options,
+          _path,
+        ),
+        type: DioExceptionType.unknown,
+        error: error,
+        stackTrace: stackTrace,
+      );
+    }
+
     final _response = await _dio.request<Object>(
       _path,
+      data: _bodyData,
       options: _options,
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
@@ -222,4 +225,5 @@ class PropertiesApi {
 
     return _response;
   }
+
 }

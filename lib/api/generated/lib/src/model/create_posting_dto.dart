@@ -17,8 +17,7 @@ part 'create_posting_dto.g.dart';
 /// * [currency] - Currency/commodity code. Required if units is provided, must be omitted if units is omitted.
 /// * [meta] - Posting-level metadata
 @BuiltValue()
-abstract class CreatePostingDto
-    implements Built<CreatePostingDto, CreatePostingDtoBuilder> {
+abstract class CreatePostingDto implements Built<CreatePostingDto, CreatePostingDtoBuilder> {
   /// Account name in Beancount format (must start with uppercase, colon-separated)
   @BuiltValueField(wireName: r'account')
   String get account;
@@ -37,19 +36,16 @@ abstract class CreatePostingDto
 
   CreatePostingDto._();
 
-  factory CreatePostingDto([void updates(CreatePostingDtoBuilder b)]) =
-      _$CreatePostingDto;
+  factory CreatePostingDto([void updates(CreatePostingDtoBuilder b)]) = _$CreatePostingDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(CreatePostingDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<CreatePostingDto> get serializer =>
-      _$CreatePostingDtoSerializer();
+  static Serializer<CreatePostingDto> get serializer => _$CreatePostingDtoSerializer();
 }
 
-class _$CreatePostingDtoSerializer
-    implements PrimitiveSerializer<CreatePostingDto> {
+class _$CreatePostingDtoSerializer implements PrimitiveSerializer<CreatePostingDto> {
   @override
   final Iterable<Type> types = const [CreatePostingDto, _$CreatePostingDto];
 
@@ -95,9 +91,7 @@ class _$CreatePostingDtoSerializer
     CreatePostingDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -168,3 +162,4 @@ class _$CreatePostingDtoSerializer
     return result.build();
   }
 }
+

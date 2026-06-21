@@ -23,6 +23,7 @@ import 'package:firela_api/src/model/account_standard_list_response_dto.dart';
 import 'package:firela_api/src/model/account_standard_response_dto.dart';
 import 'package:firela_api/src/model/accounts_response_dto.dart';
 import 'package:firela_api/src/model/accounts_summary_dto.dart';
+import 'package:firela_api/src/model/amount_range_dto.dart';
 import 'package:firela_api/src/model/anonymous_login_dto.dart';
 import 'package:firela_api/src/model/api_problem_response_dto.dart';
 import 'package:firela_api/src/model/asset_class_accounts_response_dto.dart';
@@ -30,26 +31,44 @@ import 'package:firela_api/src/model/asset_class_group_dto.dart';
 import 'package:firela_api/src/model/asset_class_summary_dto.dart';
 import 'package:firela_api/src/model/balance_by_currency_dto.dart';
 import 'package:firela_api/src/model/balance_response_dto.dart';
+import 'package:firela_api/src/model/batch_create_transaction_dto.dart';
+import 'package:firela_api/src/model/batch_resolve_dto.dart';
+import 'package:firela_api/src/model/batch_resolve_result_dto.dart';
+import 'package:firela_api/src/model/batch_transaction_error_dto.dart';
+import 'package:firela_api/src/model/batch_transaction_response_dto.dart';
+import 'package:firela_api/src/model/bulk_create_rules_dto.dart';
+import 'package:firela_api/src/model/bulk_create_rules_response_dto.dart';
+import 'package:firela_api/src/model/bulk_create_rules_response_dto_errors_inner.dart';
 import 'package:firela_api/src/model/cash_flow_by_currency_dto.dart';
 import 'package:firela_api/src/model/cash_flow_response_dto.dart';
 import 'package:firela_api/src/model/close_account_dto.dart';
 import 'package:firela_api/src/model/commodity_list_response_dto.dart';
 import 'package:firela_api/src/model/commodity_response_dto.dart';
+import 'package:firela_api/src/model/confirm_match_dto.dart';
 import 'package:firela_api/src/model/converted_cash_flow_dto.dart';
 import 'package:firela_api/src/model/converted_net_worth_dto.dart';
 import 'package:firela_api/src/model/create_account_dto.dart';
+import 'package:firela_api/src/model/create_commodity_dto.dart';
+import 'package:firela_api/src/model/create_payee_dto.dart';
+import 'package:firela_api/src/model/create_payee_profile_dto.dart';
+import 'package:firela_api/src/model/create_platform_dto.dart';
 import 'package:firela_api/src/model/create_posting_dto.dart';
+import 'package:firela_api/src/model/create_recurring_rule_dto.dart';
+import 'package:firela_api/src/model/create_rule_from_transaction_dto.dart';
 import 'package:firela_api/src/model/create_transaction_dto.dart';
+import 'package:firela_api/src/model/create_transaction_rule_dto.dart';
 import 'package:firela_api/src/model/currency_balance_dto.dart';
 import 'package:firela_api/src/model/dashboard_controller_get_accounts200_response.dart';
 import 'package:firela_api/src/model/decision_option_dto.dart';
 import 'package:firela_api/src/model/delete_own_user_dto.dart';
+import 'package:firela_api/src/model/enter_now_dto.dart';
 import 'package:firela_api/src/model/exchange_rate_warning_dto.dart';
 import 'package:firela_api/src/model/expected_transaction_list_response_dto.dart';
 import 'package:firela_api/src/model/expected_transaction_response_dto.dart';
 import 'package:firela_api/src/model/expected_transaction_rule_dto.dart';
 import 'package:firela_api/src/model/export_rules_response_dto.dart';
 import 'package:firela_api/src/model/file_import_controller_identify_file400_response.dart';
+import 'package:firela_api/src/model/file_import_controller_import_beancount200_response.dart';
 import 'package:firela_api/src/model/file_import_controller_import_file400_response.dart';
 import 'package:firela_api/src/model/file_import_controller_import_file413_response.dart';
 import 'package:firela_api/src/model/file_import_controller_import_file429_response.dart';
@@ -104,6 +123,8 @@ import 'package:firela_api/src/model/region_config_dto.dart';
 import 'package:firela_api/src/model/region_info_dto.dart';
 import 'package:firela_api/src/model/regions_metadata_response_dto.dart';
 import 'package:firela_api/src/model/reopen_account_dto.dart';
+import 'package:firela_api/src/model/resolve_result_dto.dart';
+import 'package:firela_api/src/model/resolve_review_dto.dart';
 import 'package:firela_api/src/model/review_detail_dto.dart';
 import 'package:firela_api/src/model/review_item_preview_dto.dart';
 import 'package:firela_api/src/model/review_list_response_dto.dart';
@@ -114,6 +135,8 @@ import 'package:firela_api/src/model/rule_statistics_response_dto.dart';
 import 'package:firela_api/src/model/rule_statistics_response_dto_rule_stats_inner.dart';
 import 'package:firela_api/src/model/signup_dto.dart';
 import 'package:firela_api/src/model/supported_providers_response_dto.dart';
+import 'package:firela_api/src/model/template_metadata_dto.dart';
+import 'package:firela_api/src/model/template_metadata_response_dto.dart';
 import 'package:firela_api/src/model/test_rule_dto.dart';
 import 'package:firela_api/src/model/test_rule_response_dto.dart';
 import 'package:firela_api/src/model/time_series_point_dto.dart';
@@ -124,8 +147,19 @@ import 'package:firela_api/src/model/transaction_rule_list_response_dto.dart';
 import 'package:firela_api/src/model/transaction_rule_response_dto.dart';
 import 'package:firela_api/src/model/transaction_summary_dto.dart';
 import 'package:firela_api/src/model/trend_summary_dto.dart';
+import 'package:firela_api/src/model/undo_result_dto.dart';
 import 'package:firela_api/src/model/update_account_dto.dart';
+import 'package:firela_api/src/model/update_commodity_dto.dart';
+import 'package:firela_api/src/model/update_config_data_dto.dart';
+import 'package:firela_api/src/model/update_importer_config_dto.dart';
+import 'package:firela_api/src/model/update_mapper_defaults_dto.dart';
+import 'package:firela_api/src/model/update_payee_dto.dart';
+import 'package:firela_api/src/model/update_payee_profile_dto.dart';
+import 'package:firela_api/src/model/update_platform_dto.dart';
+import 'package:firela_api/src/model/update_property_dto.dart';
+import 'package:firela_api/src/model/update_recurring_rule_dto.dart';
 import 'package:firela_api/src/model/update_transaction_dto.dart';
+import 'package:firela_api/src/model/update_transaction_rule_dto.dart';
 import 'package:firela_api/src/model/update_user_setting_dto.dart';
 import 'package:firela_api/src/model/validate_rule_dto.dart';
 import 'package:firela_api/src/model/validate_rule_response_dto.dart';
@@ -143,6 +177,7 @@ part 'serializers.g.dart';
   AccountStandardResponseDto,
   AccountsResponseDto,
   AccountsSummaryDto,
+  AmountRangeDto,
   AnonymousLoginDto,
   ApiProblemResponseDto,
   AssetClassAccountsResponseDto,
@@ -150,26 +185,44 @@ part 'serializers.g.dart';
   AssetClassSummaryDto,
   BalanceByCurrencyDto,
   BalanceResponseDto,
+  BatchCreateTransactionDto,
+  BatchResolveDto,
+  BatchResolveResultDto,
+  BatchTransactionErrorDto,
+  BatchTransactionResponseDto,
+  BulkCreateRulesDto,
+  BulkCreateRulesResponseDto,
+  BulkCreateRulesResponseDtoErrorsInner,
   CashFlowByCurrencyDto,
   CashFlowResponseDto,
   CloseAccountDto,
   CommodityListResponseDto,
   CommodityResponseDto,
+  ConfirmMatchDto,
   ConvertedCashFlowDto,
   ConvertedNetWorthDto,
   CreateAccountDto,
+  CreateCommodityDto,
+  CreatePayeeDto,
+  CreatePayeeProfileDto,
+  CreatePlatformDto,
   CreatePostingDto,
+  CreateRecurringRuleDto,
+  CreateRuleFromTransactionDto,
   CreateTransactionDto,
+  CreateTransactionRuleDto,
   CurrencyBalanceDto,
   DashboardControllerGetAccounts200Response,
   DecisionOptionDto,
   DeleteOwnUserDto,
+  EnterNowDto,
   ExchangeRateWarningDto,
   ExpectedTransactionListResponseDto,
   ExpectedTransactionResponseDto,
   ExpectedTransactionRuleDto,
   ExportRulesResponseDto,
   FileImportControllerIdentifyFile400Response,
+  FileImportControllerImportBeancount200Response,
   FileImportControllerImportFile400Response,
   FileImportControllerImportFile413Response,
   FileImportControllerImportFile429Response,
@@ -199,8 +252,7 @@ part 'serializers.g.dart';
   NlpSourceTransactionDto,
   NlpSuggestedAccountDto,
   NlpSuggestedAccountsDto,
-  NlpSuggestedPayeeDto,
-  $NlpSuggestedPayeeDto,
+  NlpSuggestedPayeeDto,$NlpSuggestedPayeeDto,
   NlpTargetTransactionDto,
   NlpTransactionInfoDto,
   PayeeAutocompleteResponseDto,
@@ -225,6 +277,8 @@ part 'serializers.g.dart';
   RegionInfoDto,
   RegionsMetadataResponseDto,
   ReopenAccountDto,
+  ResolveResultDto,
+  ResolveReviewDto,
   ReviewDetailDto,
   ReviewItemPreviewDto,
   ReviewListResponseDto,
@@ -235,6 +289,8 @@ part 'serializers.g.dart';
   RuleStatisticsResponseDtoRuleStatsInner,
   SignupDto,
   SupportedProvidersResponseDto,
+  TemplateMetadataDto,
+  TemplateMetadataResponseDto,
   TestRuleDto,
   TestRuleResponseDto,
   TimeSeriesPointDto,
@@ -243,11 +299,21 @@ part 'serializers.g.dart';
   TransactionResponseDto,
   TransactionRuleListResponseDto,
   TransactionRuleResponseDto,
-  TransactionSummaryDto,
-  $TransactionSummaryDto,
+  TransactionSummaryDto,$TransactionSummaryDto,
   TrendSummaryDto,
+  UndoResultDto,
   UpdateAccountDto,
+  UpdateCommodityDto,
+  UpdateConfigDataDto,
+  UpdateImporterConfigDto,
+  UpdateMapperDefaultsDto,
+  UpdatePayeeDto,
+  UpdatePayeeProfileDto,
+  UpdatePlatformDto,
+  UpdatePropertyDto,
+  UpdateRecurringRuleDto,
   UpdateTransactionDto,
+  UpdateTransactionRuleDto,
   UpdateUserSettingDto,
   ValidateRuleDto,
   ValidateRuleResponseDto,
@@ -261,6 +327,10 @@ Serializers serializers = (_$serializers.toBuilder()
       ..addBuilderFactory(
         const FullType(BuiltList, [FullType(PayeeStatsResponseDto)]),
         () => ListBuilder<PayeeStatsResponseDto>(),
+      )
+      ..addBuilderFactory(
+        const FullType(BuiltList, [FullType(CommodityResponseDto)]),
+        () => ListBuilder<CommodityResponseDto>(),
       )
       ..add(NlpSuggestedPayeeDto.serializer)
       ..add(TransactionSummaryDto.serializer)

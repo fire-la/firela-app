@@ -13,41 +13,31 @@ part 'review_summary_dto_transaction.g.dart';
 /// Transaction summary for display (null if transaction deleted)
 ///
 /// Properties:
+/// * [id] - Transaction ID (null if transaction deleted)
 /// * [date] - Transaction date (YYYY-MM-DD)
 /// * [amount] - Transaction amount (absolute value)
 /// * [currency] - Currency code
-/// * [narration] - Transaction narration
-/// * [id] - Transaction ID (null if transaction deleted)
 /// * [payee] - Payee/Merchant name
+/// * [narration] - Transaction narration
 /// * [accountName] - Source account name (first posting)
 /// * [sourceType] - Source type (NLP, CSV, OCR, API)
 /// * [sourcePlatform] - Source platform (e.g., alipay, wechat)
 @BuiltValue()
-abstract class ReviewSummaryDtoTransaction
-    implements
-        TransactionSummaryDto,
-        Built<ReviewSummaryDtoTransaction, ReviewSummaryDtoTransactionBuilder> {
+abstract class ReviewSummaryDtoTransaction implements TransactionSummaryDto, Built<ReviewSummaryDtoTransaction, ReviewSummaryDtoTransactionBuilder> {
   ReviewSummaryDtoTransaction._();
 
-  factory ReviewSummaryDtoTransaction(
-          [void updates(ReviewSummaryDtoTransactionBuilder b)]) =
-      _$ReviewSummaryDtoTransaction;
+  factory ReviewSummaryDtoTransaction([void updates(ReviewSummaryDtoTransactionBuilder b)]) = _$ReviewSummaryDtoTransaction;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(ReviewSummaryDtoTransactionBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<ReviewSummaryDtoTransaction> get serializer =>
-      _$ReviewSummaryDtoTransactionSerializer();
+  static Serializer<ReviewSummaryDtoTransaction> get serializer => _$ReviewSummaryDtoTransactionSerializer();
 }
 
-class _$ReviewSummaryDtoTransactionSerializer
-    implements PrimitiveSerializer<ReviewSummaryDtoTransaction> {
+class _$ReviewSummaryDtoTransactionSerializer implements PrimitiveSerializer<ReviewSummaryDtoTransaction> {
   @override
-  final Iterable<Type> types = const [
-    ReviewSummaryDtoTransaction,
-    _$ReviewSummaryDtoTransaction
-  ];
+  final Iterable<Type> types = const [ReviewSummaryDtoTransaction, _$ReviewSummaryDtoTransaction];
 
   @override
   final String wireName = r'ReviewSummaryDtoTransaction';
@@ -120,9 +110,7 @@ class _$ReviewSummaryDtoTransactionSerializer
     ReviewSummaryDtoTransaction object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -231,33 +219,25 @@ class _$ReviewSummaryDtoTransactionSerializer
 }
 
 class ReviewSummaryDtoTransactionSourceTypeEnum extends EnumClass {
+
   /// Source type (NLP, CSV, OCR, API)
   @BuiltValueEnumConst(wireName: r'NLP')
-  static const ReviewSummaryDtoTransactionSourceTypeEnum NLP =
-      _$reviewSummaryDtoTransactionSourceTypeEnum_NLP;
-
+  static const ReviewSummaryDtoTransactionSourceTypeEnum NLP = _$reviewSummaryDtoTransactionSourceTypeEnum_NLP;
   /// Source type (NLP, CSV, OCR, API)
   @BuiltValueEnumConst(wireName: r'CSV')
-  static const ReviewSummaryDtoTransactionSourceTypeEnum CSV =
-      _$reviewSummaryDtoTransactionSourceTypeEnum_CSV;
-
+  static const ReviewSummaryDtoTransactionSourceTypeEnum CSV = _$reviewSummaryDtoTransactionSourceTypeEnum_CSV;
   /// Source type (NLP, CSV, OCR, API)
   @BuiltValueEnumConst(wireName: r'OCR')
-  static const ReviewSummaryDtoTransactionSourceTypeEnum OCR =
-      _$reviewSummaryDtoTransactionSourceTypeEnum_OCR;
-
+  static const ReviewSummaryDtoTransactionSourceTypeEnum OCR = _$reviewSummaryDtoTransactionSourceTypeEnum_OCR;
   /// Source type (NLP, CSV, OCR, API)
-  @BuiltValueEnumConst(wireName: r'API', fallback: true)
-  static const ReviewSummaryDtoTransactionSourceTypeEnum API =
-      _$reviewSummaryDtoTransactionSourceTypeEnum_API;
+  @BuiltValueEnumConst(wireName: r'API')
+  static const ReviewSummaryDtoTransactionSourceTypeEnum API = _$reviewSummaryDtoTransactionSourceTypeEnum_API;
 
-  static Serializer<ReviewSummaryDtoTransactionSourceTypeEnum> get serializer =>
-      _$reviewSummaryDtoTransactionSourceTypeEnumSerializer;
+  static Serializer<ReviewSummaryDtoTransactionSourceTypeEnum> get serializer => _$reviewSummaryDtoTransactionSourceTypeEnumSerializer;
 
-  const ReviewSummaryDtoTransactionSourceTypeEnum._(String name) : super(name);
+  const ReviewSummaryDtoTransactionSourceTypeEnum._(String name): super(name);
 
-  static BuiltSet<ReviewSummaryDtoTransactionSourceTypeEnum> get values =>
-      _$reviewSummaryDtoTransactionSourceTypeEnumValues;
-  static ReviewSummaryDtoTransactionSourceTypeEnum valueOf(String name) =>
-      _$reviewSummaryDtoTransactionSourceTypeEnumValueOf(name);
+  static BuiltSet<ReviewSummaryDtoTransactionSourceTypeEnum> get values => _$reviewSummaryDtoTransactionSourceTypeEnumValues;
+  static ReviewSummaryDtoTransactionSourceTypeEnum valueOf(String name) => _$reviewSummaryDtoTransactionSourceTypeEnumValueOf(name);
 }
+

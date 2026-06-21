@@ -18,8 +18,7 @@ part 'platform_group_dto.g.dart';
 /// * [accounts] - Accounts within this platform
 /// * [totalBalance] - Total balance across all accounts in platform
 @BuiltValue()
-abstract class PlatformGroupDto
-    implements Built<PlatformGroupDto, PlatformGroupDtoBuilder> {
+abstract class PlatformGroupDto implements Built<PlatformGroupDto, PlatformGroupDtoBuilder> {
   /// Platform ID
   @BuiltValueField(wireName: r'platformId')
   String get platformId;
@@ -38,19 +37,16 @@ abstract class PlatformGroupDto
 
   PlatformGroupDto._();
 
-  factory PlatformGroupDto([void updates(PlatformGroupDtoBuilder b)]) =
-      _$PlatformGroupDto;
+  factory PlatformGroupDto([void updates(PlatformGroupDtoBuilder b)]) = _$PlatformGroupDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(PlatformGroupDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<PlatformGroupDto> get serializer =>
-      _$PlatformGroupDtoSerializer();
+  static Serializer<PlatformGroupDto> get serializer => _$PlatformGroupDtoSerializer();
 }
 
-class _$PlatformGroupDtoSerializer
-    implements PrimitiveSerializer<PlatformGroupDto> {
+class _$PlatformGroupDtoSerializer implements PrimitiveSerializer<PlatformGroupDto> {
   @override
   final Iterable<Type> types = const [PlatformGroupDto, _$PlatformGroupDto];
 
@@ -90,9 +86,7 @@ class _$PlatformGroupDtoSerializer
     PlatformGroupDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -124,8 +118,7 @@ class _$PlatformGroupDtoSerializer
         case r'accounts':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType:
-                const FullType(BuiltList, [FullType(AccountItemDto)]),
+            specifiedType: const FullType(BuiltList, [FullType(AccountItemDto)]),
           ) as BuiltList<AccountItemDto>;
           result.accounts.replace(valueDes);
           break;
@@ -164,3 +157,4 @@ class _$PlatformGroupDtoSerializer
     return result.build();
   }
 }
+

@@ -12,17 +12,21 @@ part 'transaction_summary_dto.g.dart';
 /// TransactionSummaryDto
 ///
 /// Properties:
+/// * [id] - Transaction ID (null if transaction deleted)
 /// * [date] - Transaction date (YYYY-MM-DD)
 /// * [amount] - Transaction amount (absolute value)
 /// * [currency] - Currency code
-/// * [narration] - Transaction narration
-/// * [id] - Transaction ID (null if transaction deleted)
 /// * [payee] - Payee/Merchant name
+/// * [narration] - Transaction narration
 /// * [accountName] - Source account name (first posting)
 /// * [sourceType] - Source type (NLP, CSV, OCR, API)
 /// * [sourcePlatform] - Source platform (e.g., alipay, wechat)
 @BuiltValue(instantiable: false)
-abstract class TransactionSummaryDto {
+abstract class TransactionSummaryDto  {
+  /// Transaction ID (null if transaction deleted)
+  @BuiltValueField(wireName: r'id')
+  String? get id;
+
   /// Transaction date (YYYY-MM-DD)
   @BuiltValueField(wireName: r'date')
   String get date;
@@ -35,17 +39,13 @@ abstract class TransactionSummaryDto {
   @BuiltValueField(wireName: r'currency')
   String get currency;
 
-  /// Transaction narration
-  @BuiltValueField(wireName: r'narration')
-  String get narration;
-
-  /// Transaction ID (null if transaction deleted)
-  @BuiltValueField(wireName: r'id')
-  String? get id;
-
   /// Payee/Merchant name
   @BuiltValueField(wireName: r'payee')
   String? get payee;
+
+  /// Transaction narration
+  @BuiltValueField(wireName: r'narration')
+  String get narration;
 
   /// Source account name (first posting)
   @BuiltValueField(wireName: r'accountName')
@@ -61,12 +61,10 @@ abstract class TransactionSummaryDto {
   String? get sourcePlatform;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<TransactionSummaryDto> get serializer =>
-      _$TransactionSummaryDtoSerializer();
+  static Serializer<TransactionSummaryDto> get serializer => _$TransactionSummaryDtoSerializer();
 }
 
-class _$TransactionSummaryDtoSerializer
-    implements PrimitiveSerializer<TransactionSummaryDto> {
+class _$TransactionSummaryDtoSerializer implements PrimitiveSerializer<TransactionSummaryDto> {
   @override
   final Iterable<Type> types = const [TransactionSummaryDto];
 
@@ -78,6 +76,13 @@ class _$TransactionSummaryDtoSerializer
     TransactionSummaryDto object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
+    if (object.id != null) {
+      yield r'id';
+      yield serializers.serialize(
+        object.id,
+        specifiedType: const FullType.nullable(String),
+      );
+    }
     yield r'date';
     yield serializers.serialize(
       object.date,
@@ -93,18 +98,6 @@ class _$TransactionSummaryDtoSerializer
       object.currency,
       specifiedType: const FullType(String),
     );
-    yield r'narration';
-    yield serializers.serialize(
-      object.narration,
-      specifiedType: const FullType(String),
-    );
-    if (object.id != null) {
-      yield r'id';
-      yield serializers.serialize(
-        object.id,
-        specifiedType: const FullType.nullable(String),
-      );
-    }
     if (object.payee != null) {
       yield r'payee';
       yield serializers.serialize(
@@ -112,6 +105,11 @@ class _$TransactionSummaryDtoSerializer
         specifiedType: const FullType(String),
       );
     }
+    yield r'narration';
+    yield serializers.serialize(
+      object.narration,
+      specifiedType: const FullType(String),
+    );
     if (object.accountName != null) {
       yield r'accountName';
       yield serializers.serialize(
@@ -141,9 +139,7 @@ class _$TransactionSummaryDtoSerializer
     TransactionSummaryDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   @override
@@ -152,39 +148,27 @@ class _$TransactionSummaryDtoSerializer
     Object serialized, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return serializers.deserialize(serialized,
-            specifiedType: FullType($TransactionSummaryDto))
-        as $TransactionSummaryDto;
+    return serializers.deserialize(serialized, specifiedType: FullType($TransactionSummaryDto)) as $TransactionSummaryDto;
   }
 }
 
 /// a concrete implementation of [TransactionSummaryDto], since [TransactionSummaryDto] is not instantiable
 @BuiltValue(instantiable: true)
-abstract class $TransactionSummaryDto
-    implements
-        TransactionSummaryDto,
-        Built<$TransactionSummaryDto, $TransactionSummaryDtoBuilder> {
+abstract class $TransactionSummaryDto implements TransactionSummaryDto, Built<$TransactionSummaryDto, $TransactionSummaryDtoBuilder> {
   $TransactionSummaryDto._();
 
-  factory $TransactionSummaryDto(
-          [void Function($TransactionSummaryDtoBuilder)? updates]) =
-      _$$TransactionSummaryDto;
+  factory $TransactionSummaryDto([void Function($TransactionSummaryDtoBuilder)? updates]) = _$$TransactionSummaryDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults($TransactionSummaryDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<$TransactionSummaryDto> get serializer =>
-      _$$TransactionSummaryDtoSerializer();
+  static Serializer<$TransactionSummaryDto> get serializer => _$$TransactionSummaryDtoSerializer();
 }
 
-class _$$TransactionSummaryDtoSerializer
-    implements PrimitiveSerializer<$TransactionSummaryDto> {
+class _$$TransactionSummaryDtoSerializer implements PrimitiveSerializer<$TransactionSummaryDto> {
   @override
-  final Iterable<Type> types = const [
-    $TransactionSummaryDto,
-    _$$TransactionSummaryDto
-  ];
+  final Iterable<Type> types = const [$TransactionSummaryDto, _$$TransactionSummaryDto];
 
   @override
   final String wireName = r'$TransactionSummaryDto';
@@ -195,8 +179,7 @@ class _$$TransactionSummaryDtoSerializer
     $TransactionSummaryDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return serializers.serialize(object,
-        specifiedType: FullType(TransactionSummaryDto))!;
+    return serializers.serialize(object, specifiedType: FullType(TransactionSummaryDto))!;
   }
 
   void _deserializeProperties(
@@ -211,6 +194,14 @@ class _$$TransactionSummaryDtoSerializer
       final key = serializedList[i] as String;
       final value = serializedList[i + 1];
       switch (key) {
+        case r'id':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
+          result.id = valueDes;
+          break;
         case r'date':
           final valueDes = serializers.deserialize(
             value,
@@ -232,27 +223,19 @@ class _$$TransactionSummaryDtoSerializer
           ) as String;
           result.currency = valueDes;
           break;
-        case r'narration':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.narration = valueDes;
-          break;
-        case r'id':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType.nullable(String),
-          ) as String?;
-          if (valueDes == null) continue;
-          result.id = valueDes;
-          break;
         case r'payee':
           final valueDes = serializers.deserialize(
             value,
             specifiedType: const FullType(String),
           ) as String;
           result.payee = valueDes;
+          break;
+        case r'narration':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.narration = valueDes;
           break;
         case r'accountName':
           final valueDes = serializers.deserialize(
@@ -305,33 +288,25 @@ class _$$TransactionSummaryDtoSerializer
 }
 
 class TransactionSummaryDtoSourceTypeEnum extends EnumClass {
+
   /// Source type (NLP, CSV, OCR, API)
   @BuiltValueEnumConst(wireName: r'NLP')
-  static const TransactionSummaryDtoSourceTypeEnum NLP =
-      _$transactionSummaryDtoSourceTypeEnum_NLP;
-
+  static const TransactionSummaryDtoSourceTypeEnum NLP = _$transactionSummaryDtoSourceTypeEnum_NLP;
   /// Source type (NLP, CSV, OCR, API)
   @BuiltValueEnumConst(wireName: r'CSV')
-  static const TransactionSummaryDtoSourceTypeEnum CSV =
-      _$transactionSummaryDtoSourceTypeEnum_CSV;
-
+  static const TransactionSummaryDtoSourceTypeEnum CSV = _$transactionSummaryDtoSourceTypeEnum_CSV;
   /// Source type (NLP, CSV, OCR, API)
   @BuiltValueEnumConst(wireName: r'OCR')
-  static const TransactionSummaryDtoSourceTypeEnum OCR =
-      _$transactionSummaryDtoSourceTypeEnum_OCR;
-
+  static const TransactionSummaryDtoSourceTypeEnum OCR = _$transactionSummaryDtoSourceTypeEnum_OCR;
   /// Source type (NLP, CSV, OCR, API)
-  @BuiltValueEnumConst(wireName: r'API', fallback: true)
-  static const TransactionSummaryDtoSourceTypeEnum API =
-      _$transactionSummaryDtoSourceTypeEnum_API;
+  @BuiltValueEnumConst(wireName: r'API')
+  static const TransactionSummaryDtoSourceTypeEnum API = _$transactionSummaryDtoSourceTypeEnum_API;
 
-  static Serializer<TransactionSummaryDtoSourceTypeEnum> get serializer =>
-      _$transactionSummaryDtoSourceTypeEnumSerializer;
+  static Serializer<TransactionSummaryDtoSourceTypeEnum> get serializer => _$transactionSummaryDtoSourceTypeEnumSerializer;
 
-  const TransactionSummaryDtoSourceTypeEnum._(String name) : super(name);
+  const TransactionSummaryDtoSourceTypeEnum._(String name): super(name);
 
-  static BuiltSet<TransactionSummaryDtoSourceTypeEnum> get values =>
-      _$transactionSummaryDtoSourceTypeEnumValues;
-  static TransactionSummaryDtoSourceTypeEnum valueOf(String name) =>
-      _$transactionSummaryDtoSourceTypeEnumValueOf(name);
+  static BuiltSet<TransactionSummaryDtoSourceTypeEnum> get values => _$transactionSummaryDtoSourceTypeEnumValues;
+  static TransactionSummaryDtoSourceTypeEnum valueOf(String name) => _$transactionSummaryDtoSourceTypeEnumValueOf(name);
 }
+

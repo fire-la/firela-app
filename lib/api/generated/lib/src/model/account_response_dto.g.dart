@@ -30,7 +30,7 @@ AccountResponseDtoTypeEnum _$accountResponseDtoTypeEnumValueOf(String name) {
     case 'equity':
       return _$accountResponseDtoTypeEnum_equity;
     default:
-      return _$accountResponseDtoTypeEnum_equity;
+      throw new ArgumentError(name);
   }
 }
 
@@ -60,7 +60,7 @@ AccountResponseDtoStatusEnum _$accountResponseDtoStatusEnumValueOf(
     case 'SUSPENDED':
       return _$accountResponseDtoStatusEnum_SUSPENDED;
     default:
-      return _$accountResponseDtoStatusEnum_SUSPENDED;
+      throw new ArgumentError(name);
   }
 }
 
@@ -112,7 +112,7 @@ AccountResponseDtoBookingMethodEnum
     case 'NONE':
       return _$accountResponseDtoBookingMethodEnum_NONE;
     default:
-      return _$accountResponseDtoBookingMethodEnum_NONE;
+      throw new ArgumentError(name);
   }
 }
 
@@ -251,25 +251,23 @@ class _$AccountResponseDto extends AccountResponseDto {
   @override
   final String path;
   @override
+  final String displayName;
+  @override
   final AccountResponseDtoTypeEnum type;
   @override
   final AccountResponseDtoStatusEnum status;
   @override
   final String openDate;
   @override
-  final AccountResponseDtoBookingMethodEnum bookingMethod;
-  @override
-  final bool isCustom;
-  @override
-  final String createdAt;
-  @override
-  final String updatedAt;
-  @override
   final String? closeDate;
   @override
   final BuiltList<String>? currencies;
   @override
+  final AccountResponseDtoBookingMethodEnum bookingMethod;
+  @override
   final String? templatePath;
+  @override
+  final bool isCustom;
   @override
   final String? i18nKey;
   @override
@@ -280,6 +278,10 @@ class _$AccountResponseDto extends AccountResponseDto {
   final JsonObject? platformId;
   @override
   final JsonObject? platform;
+  @override
+  final String createdAt;
+  @override
+  final String updatedAt;
 
   factory _$AccountResponseDto(
           [void Function(AccountResponseDtoBuilder)? updates]) =>
@@ -288,24 +290,27 @@ class _$AccountResponseDto extends AccountResponseDto {
   _$AccountResponseDto._(
       {required this.id,
       required this.path,
+      required this.displayName,
       required this.type,
       required this.status,
       required this.openDate,
-      required this.bookingMethod,
-      required this.isCustom,
-      required this.createdAt,
-      required this.updatedAt,
       this.closeDate,
       this.currencies,
+      required this.bookingMethod,
       this.templatePath,
+      required this.isCustom,
       this.i18nKey,
       this.icon,
       this.openMeta,
       this.platformId,
-      this.platform})
+      this.platform,
+      required this.createdAt,
+      required this.updatedAt})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(id, r'AccountResponseDto', 'id');
     BuiltValueNullFieldError.checkNotNull(path, r'AccountResponseDto', 'path');
+    BuiltValueNullFieldError.checkNotNull(
+        displayName, r'AccountResponseDto', 'displayName');
     BuiltValueNullFieldError.checkNotNull(type, r'AccountResponseDto', 'type');
     BuiltValueNullFieldError.checkNotNull(
         status, r'AccountResponseDto', 'status');
@@ -336,21 +341,22 @@ class _$AccountResponseDto extends AccountResponseDto {
     return other is AccountResponseDto &&
         id == other.id &&
         path == other.path &&
+        displayName == other.displayName &&
         type == other.type &&
         status == other.status &&
         openDate == other.openDate &&
-        bookingMethod == other.bookingMethod &&
-        isCustom == other.isCustom &&
-        createdAt == other.createdAt &&
-        updatedAt == other.updatedAt &&
         closeDate == other.closeDate &&
         currencies == other.currencies &&
+        bookingMethod == other.bookingMethod &&
         templatePath == other.templatePath &&
+        isCustom == other.isCustom &&
         i18nKey == other.i18nKey &&
         icon == other.icon &&
         openMeta == other.openMeta &&
         platformId == other.platformId &&
-        platform == other.platform;
+        platform == other.platform &&
+        createdAt == other.createdAt &&
+        updatedAt == other.updatedAt;
   }
 
   @override
@@ -358,21 +364,22 @@ class _$AccountResponseDto extends AccountResponseDto {
     var _$hash = 0;
     _$hash = $jc(_$hash, id.hashCode);
     _$hash = $jc(_$hash, path.hashCode);
+    _$hash = $jc(_$hash, displayName.hashCode);
     _$hash = $jc(_$hash, type.hashCode);
     _$hash = $jc(_$hash, status.hashCode);
     _$hash = $jc(_$hash, openDate.hashCode);
-    _$hash = $jc(_$hash, bookingMethod.hashCode);
-    _$hash = $jc(_$hash, isCustom.hashCode);
-    _$hash = $jc(_$hash, createdAt.hashCode);
-    _$hash = $jc(_$hash, updatedAt.hashCode);
     _$hash = $jc(_$hash, closeDate.hashCode);
     _$hash = $jc(_$hash, currencies.hashCode);
+    _$hash = $jc(_$hash, bookingMethod.hashCode);
     _$hash = $jc(_$hash, templatePath.hashCode);
+    _$hash = $jc(_$hash, isCustom.hashCode);
     _$hash = $jc(_$hash, i18nKey.hashCode);
     _$hash = $jc(_$hash, icon.hashCode);
     _$hash = $jc(_$hash, openMeta.hashCode);
     _$hash = $jc(_$hash, platformId.hashCode);
     _$hash = $jc(_$hash, platform.hashCode);
+    _$hash = $jc(_$hash, createdAt.hashCode);
+    _$hash = $jc(_$hash, updatedAt.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -382,21 +389,22 @@ class _$AccountResponseDto extends AccountResponseDto {
     return (newBuiltValueToStringHelper(r'AccountResponseDto')
           ..add('id', id)
           ..add('path', path)
+          ..add('displayName', displayName)
           ..add('type', type)
           ..add('status', status)
           ..add('openDate', openDate)
-          ..add('bookingMethod', bookingMethod)
-          ..add('isCustom', isCustom)
-          ..add('createdAt', createdAt)
-          ..add('updatedAt', updatedAt)
           ..add('closeDate', closeDate)
           ..add('currencies', currencies)
+          ..add('bookingMethod', bookingMethod)
           ..add('templatePath', templatePath)
+          ..add('isCustom', isCustom)
           ..add('i18nKey', i18nKey)
           ..add('icon', icon)
           ..add('openMeta', openMeta)
           ..add('platformId', platformId)
-          ..add('platform', platform))
+          ..add('platform', platform)
+          ..add('createdAt', createdAt)
+          ..add('updatedAt', updatedAt))
         .toString();
   }
 }
@@ -413,6 +421,10 @@ class AccountResponseDtoBuilder
   String? get path => _$this._path;
   set path(String? path) => _$this._path = path;
 
+  String? _displayName;
+  String? get displayName => _$this._displayName;
+  set displayName(String? displayName) => _$this._displayName = displayName;
+
   AccountResponseDtoTypeEnum? _type;
   AccountResponseDtoTypeEnum? get type => _$this._type;
   set type(AccountResponseDtoTypeEnum? type) => _$this._type = type;
@@ -425,24 +437,6 @@ class AccountResponseDtoBuilder
   String? get openDate => _$this._openDate;
   set openDate(String? openDate) => _$this._openDate = openDate;
 
-  AccountResponseDtoBookingMethodEnum? _bookingMethod;
-  AccountResponseDtoBookingMethodEnum? get bookingMethod =>
-      _$this._bookingMethod;
-  set bookingMethod(AccountResponseDtoBookingMethodEnum? bookingMethod) =>
-      _$this._bookingMethod = bookingMethod;
-
-  bool? _isCustom;
-  bool? get isCustom => _$this._isCustom;
-  set isCustom(bool? isCustom) => _$this._isCustom = isCustom;
-
-  String? _createdAt;
-  String? get createdAt => _$this._createdAt;
-  set createdAt(String? createdAt) => _$this._createdAt = createdAt;
-
-  String? _updatedAt;
-  String? get updatedAt => _$this._updatedAt;
-  set updatedAt(String? updatedAt) => _$this._updatedAt = updatedAt;
-
   String? _closeDate;
   String? get closeDate => _$this._closeDate;
   set closeDate(String? closeDate) => _$this._closeDate = closeDate;
@@ -453,9 +447,19 @@ class AccountResponseDtoBuilder
   set currencies(ListBuilder<String>? currencies) =>
       _$this._currencies = currencies;
 
+  AccountResponseDtoBookingMethodEnum? _bookingMethod;
+  AccountResponseDtoBookingMethodEnum? get bookingMethod =>
+      _$this._bookingMethod;
+  set bookingMethod(AccountResponseDtoBookingMethodEnum? bookingMethod) =>
+      _$this._bookingMethod = bookingMethod;
+
   String? _templatePath;
   String? get templatePath => _$this._templatePath;
   set templatePath(String? templatePath) => _$this._templatePath = templatePath;
+
+  bool? _isCustom;
+  bool? get isCustom => _$this._isCustom;
+  set isCustom(bool? isCustom) => _$this._isCustom = isCustom;
 
   String? _i18nKey;
   String? get i18nKey => _$this._i18nKey;
@@ -477,6 +481,14 @@ class AccountResponseDtoBuilder
   JsonObject? get platform => _$this._platform;
   set platform(JsonObject? platform) => _$this._platform = platform;
 
+  String? _createdAt;
+  String? get createdAt => _$this._createdAt;
+  set createdAt(String? createdAt) => _$this._createdAt = createdAt;
+
+  String? _updatedAt;
+  String? get updatedAt => _$this._updatedAt;
+  set updatedAt(String? updatedAt) => _$this._updatedAt = updatedAt;
+
   AccountResponseDtoBuilder() {
     AccountResponseDto._defaults(this);
   }
@@ -486,21 +498,22 @@ class AccountResponseDtoBuilder
     if ($v != null) {
       _id = $v.id;
       _path = $v.path;
+      _displayName = $v.displayName;
       _type = $v.type;
       _status = $v.status;
       _openDate = $v.openDate;
-      _bookingMethod = $v.bookingMethod;
-      _isCustom = $v.isCustom;
-      _createdAt = $v.createdAt;
-      _updatedAt = $v.updatedAt;
       _closeDate = $v.closeDate;
       _currencies = $v.currencies?.toBuilder();
+      _bookingMethod = $v.bookingMethod;
       _templatePath = $v.templatePath;
+      _isCustom = $v.isCustom;
       _i18nKey = $v.i18nKey;
       _icon = $v.icon;
       _openMeta = $v.openMeta;
       _platformId = $v.platformId;
       _platform = $v.platform;
+      _createdAt = $v.createdAt;
+      _updatedAt = $v.updatedAt;
       _$v = null;
     }
     return this;
@@ -529,28 +542,29 @@ class AccountResponseDtoBuilder
                   id, r'AccountResponseDto', 'id'),
               path: BuiltValueNullFieldError.checkNotNull(
                   path, r'AccountResponseDto', 'path'),
+              displayName: BuiltValueNullFieldError.checkNotNull(
+                  displayName, r'AccountResponseDto', 'displayName'),
               type: BuiltValueNullFieldError.checkNotNull(
                   type, r'AccountResponseDto', 'type'),
               status: BuiltValueNullFieldError.checkNotNull(
                   status, r'AccountResponseDto', 'status'),
               openDate: BuiltValueNullFieldError.checkNotNull(
                   openDate, r'AccountResponseDto', 'openDate'),
-              bookingMethod: BuiltValueNullFieldError.checkNotNull(
-                  bookingMethod, r'AccountResponseDto', 'bookingMethod'),
-              isCustom: BuiltValueNullFieldError.checkNotNull(
-                  isCustom, r'AccountResponseDto', 'isCustom'),
-              createdAt: BuiltValueNullFieldError.checkNotNull(
-                  createdAt, r'AccountResponseDto', 'createdAt'),
-              updatedAt: BuiltValueNullFieldError.checkNotNull(
-                  updatedAt, r'AccountResponseDto', 'updatedAt'),
               closeDate: closeDate,
               currencies: _currencies?.build(),
+              bookingMethod: BuiltValueNullFieldError.checkNotNull(
+                  bookingMethod, r'AccountResponseDto', 'bookingMethod'),
               templatePath: templatePath,
+              isCustom: BuiltValueNullFieldError.checkNotNull(
+                  isCustom, r'AccountResponseDto', 'isCustom'),
               i18nKey: i18nKey,
               icon: icon,
               openMeta: openMeta,
               platformId: platformId,
-              platform: platform);
+              platform: platform,
+              createdAt: BuiltValueNullFieldError.checkNotNull(
+                  createdAt, r'AccountResponseDto', 'createdAt'),
+              updatedAt: BuiltValueNullFieldError.checkNotNull(updatedAt, r'AccountResponseDto', 'updatedAt'));
     } catch (_) {
       late String _$failedField;
       try {

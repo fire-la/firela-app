@@ -16,8 +16,7 @@ part 'trend_summary_dto.g.dart';
 /// * [totalChange] - Total change over period
 /// * [totalChangePercentage] - Total change percentage
 @BuiltValue()
-abstract class TrendSummaryDto
-    implements Built<TrendSummaryDto, TrendSummaryDtoBuilder> {
+abstract class TrendSummaryDto implements Built<TrendSummaryDto, TrendSummaryDtoBuilder> {
   /// Value at start of period
   @BuiltValueField(wireName: r'startValue')
   String get startValue;
@@ -36,19 +35,16 @@ abstract class TrendSummaryDto
 
   TrendSummaryDto._();
 
-  factory TrendSummaryDto([void updates(TrendSummaryDtoBuilder b)]) =
-      _$TrendSummaryDto;
+  factory TrendSummaryDto([void updates(TrendSummaryDtoBuilder b)]) = _$TrendSummaryDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(TrendSummaryDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<TrendSummaryDto> get serializer =>
-      _$TrendSummaryDtoSerializer();
+  static Serializer<TrendSummaryDto> get serializer => _$TrendSummaryDtoSerializer();
 }
 
-class _$TrendSummaryDtoSerializer
-    implements PrimitiveSerializer<TrendSummaryDto> {
+class _$TrendSummaryDtoSerializer implements PrimitiveSerializer<TrendSummaryDto> {
   @override
   final Iterable<Type> types = const [TrendSummaryDto, _$TrendSummaryDto];
 
@@ -88,9 +84,7 @@ class _$TrendSummaryDtoSerializer
     TrendSummaryDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -161,3 +155,4 @@ class _$TrendSummaryDtoSerializer
     return result.build();
   }
 }
+

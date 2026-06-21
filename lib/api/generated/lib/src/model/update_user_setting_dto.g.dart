@@ -21,7 +21,7 @@ UpdateUserSettingDtoColorSchemeEnum
     case 'LIGHT':
       return _$updateUserSettingDtoColorSchemeEnum_LIGHT;
     default:
-      return _$updateUserSettingDtoColorSchemeEnum_LIGHT;
+      throw new ArgumentError(name);
   }
 }
 
@@ -46,7 +46,7 @@ UpdateUserSettingDtoViewModeEnum _$updateUserSettingDtoViewModeEnumValueOf(
     case 'ZEN':
       return _$updateUserSettingDtoViewModeEnum_ZEN;
     default:
-      return _$updateUserSettingDtoViewModeEnum_ZEN;
+      throw new ArgumentError(name);
   }
 }
 

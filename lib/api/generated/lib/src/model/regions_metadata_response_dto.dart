@@ -13,35 +13,26 @@ part 'regions_metadata_response_dto.g.dart';
 /// RegionsMetadataResponseDto
 ///
 /// Properties:
-/// * [regions]
+/// * [regions] 
 @BuiltValue()
-abstract class RegionsMetadataResponseDto
-    implements
-        Built<RegionsMetadataResponseDto, RegionsMetadataResponseDtoBuilder> {
+abstract class RegionsMetadataResponseDto implements Built<RegionsMetadataResponseDto, RegionsMetadataResponseDtoBuilder> {
   @BuiltValueField(wireName: r'regions')
   BuiltList<RegionInfoDto> get regions;
 
   RegionsMetadataResponseDto._();
 
-  factory RegionsMetadataResponseDto(
-          [void updates(RegionsMetadataResponseDtoBuilder b)]) =
-      _$RegionsMetadataResponseDto;
+  factory RegionsMetadataResponseDto([void updates(RegionsMetadataResponseDtoBuilder b)]) = _$RegionsMetadataResponseDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(RegionsMetadataResponseDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<RegionsMetadataResponseDto> get serializer =>
-      _$RegionsMetadataResponseDtoSerializer();
+  static Serializer<RegionsMetadataResponseDto> get serializer => _$RegionsMetadataResponseDtoSerializer();
 }
 
-class _$RegionsMetadataResponseDtoSerializer
-    implements PrimitiveSerializer<RegionsMetadataResponseDto> {
+class _$RegionsMetadataResponseDtoSerializer implements PrimitiveSerializer<RegionsMetadataResponseDto> {
   @override
-  final Iterable<Type> types = const [
-    RegionsMetadataResponseDto,
-    _$RegionsMetadataResponseDto
-  ];
+  final Iterable<Type> types = const [RegionsMetadataResponseDto, _$RegionsMetadataResponseDto];
 
   @override
   final String wireName = r'RegionsMetadataResponseDto';
@@ -64,9 +55,7 @@ class _$RegionsMetadataResponseDtoSerializer
     RegionsMetadataResponseDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -116,3 +105,4 @@ class _$RegionsMetadataResponseDtoSerializer
     return result.build();
   }
 }
+
