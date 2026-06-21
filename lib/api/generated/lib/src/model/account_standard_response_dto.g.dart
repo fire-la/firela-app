@@ -96,15 +96,15 @@ class _$AccountStandardResponseDto extends AccountStandardResponseDto {
   @override
   final AccountStandardResponseDtoTypeEnum type;
   @override
-  final String? i18nKey;
+  final String i18nKey;
   @override
   final String? name;
   @override
   final String description;
   @override
-  final BuiltList<String>? tags;
+  final BuiltList<String> tags;
   @override
-  final String? icon;
+  final String icon;
 
   factory _$AccountStandardResponseDto(
           [void Function(AccountStandardResponseDtoBuilder)? updates]) =>
@@ -113,18 +113,24 @@ class _$AccountStandardResponseDto extends AccountStandardResponseDto {
   _$AccountStandardResponseDto._(
       {required this.path,
       required this.type,
-      this.i18nKey,
+      required this.i18nKey,
       this.name,
       required this.description,
-      this.tags,
-      this.icon})
+      required this.tags,
+      required this.icon})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(
         path, r'AccountStandardResponseDto', 'path');
     BuiltValueNullFieldError.checkNotNull(
         type, r'AccountStandardResponseDto', 'type');
     BuiltValueNullFieldError.checkNotNull(
+        i18nKey, r'AccountStandardResponseDto', 'i18nKey');
+    BuiltValueNullFieldError.checkNotNull(
         description, r'AccountStandardResponseDto', 'description');
+    BuiltValueNullFieldError.checkNotNull(
+        tags, r'AccountStandardResponseDto', 'tags');
+    BuiltValueNullFieldError.checkNotNull(
+        icon, r'AccountStandardResponseDto', 'icon');
   }
 
   @override
@@ -222,7 +228,7 @@ class AccountStandardResponseDtoBuilder
       _i18nKey = $v.i18nKey;
       _name = $v.name;
       _description = $v.description;
-      _tags = $v.tags?.toBuilder();
+      _tags = $v.tags.toBuilder();
       _icon = $v.icon;
       _$v = null;
     }
@@ -252,17 +258,19 @@ class AccountStandardResponseDtoBuilder
                   path, r'AccountStandardResponseDto', 'path'),
               type: BuiltValueNullFieldError.checkNotNull(
                   type, r'AccountStandardResponseDto', 'type'),
-              i18nKey: i18nKey,
+              i18nKey: BuiltValueNullFieldError.checkNotNull(
+                  i18nKey, r'AccountStandardResponseDto', 'i18nKey'),
               name: name,
               description: BuiltValueNullFieldError.checkNotNull(
                   description, r'AccountStandardResponseDto', 'description'),
-              tags: _tags?.build(),
-              icon: icon);
+              tags: tags.build(),
+              icon: BuiltValueNullFieldError.checkNotNull(
+                  icon, r'AccountStandardResponseDto', 'icon'));
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'tags';
-        _tags?.build();
+        tags.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             r'AccountStandardResponseDto', _$failedField, e.toString());
