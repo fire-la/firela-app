@@ -47,21 +47,28 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      # openapi_generator_cli doesn't always bundle the JAR — download it explicitly
+      # Download the stock OpenAPITools CLI JAR (7.2.0) — the same version that produced
+      # the committed models. Invoked directly below, NOT via the openapi_generator Dart
+      # builder: its ^6.0.0 CLI defaults to generator 7.9.0 + the "NextGen" dart generator,
+      # which would rewrite every model to a different style.
       - name: Download OpenAPI Generator CLI JAR
         run: |
-          CLI_DIR="$(pub cache list 2>/dev/null | grep 'openapi_generator_cli' | head -1 | awk '{print $2}')"
-          if [ -z "$CLI_DIR" ]; then
-            CLI_DIR="$(find ~/.pub-cache -path '*/openapi_generator_cli-*/lib' -type d 2>/dev/null | head -1)"
-          fi
-          if [ -n "$CLI_DIR" ] && [ ! -f "$CLI_DIR/openapi-generator.jar" ]; then
-            echo "Downloading openapi-generator-cli JAR to $CLI_DIR"
-            curl -sL -o "$CLI_DIR/openapi-generator.jar" \
-              "https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.2.0/openapi-generator-cli-7.2.0.jar"
-          else
-            echo "JAR already exists or CLI dir not found, skipping"
-            ls -la "$CLI_DIR/" 2>/dev/null || true
-          fi
+          curl -sL -o openapi-generator-cli.jar \
+            "https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.2.0/openapi-generator-cli-7.2.0.jar"
+          test -s openapi-generator-cli.jar && echo "JAR downloaded: $(ls -la openapi-generator-cli.jar)"
+
+      # Generate model .dart files directly with stock dart-dio 7.2.0 (matches the
+      # committed models → minimal diff). pubName matches the firela_api package; dart-dio
+      # defaults to built_value serialization. build_runner below regenerates the .g.dart
+      # serializers. Do NOT set nullableFields (would force all fields nullable).
+      - name: Generate models (stock dart-dio 7.2.0)
+        run: |
+          java -jar openapi-generator-cli.jar generate \
+            -i lib/api/spec/openapi.yaml \
+            -g dart-dio \
+            -o lib/api/generated \
+            --additional-properties=pubName=firela_api \
+            --skip-validate-spec
 
       # Use --build-filter to avoid SEVERE errors from parser/sanitizer files
       - name: Generate types

@@ -6,7 +6,7 @@ on:
     branches: [main]
 
 jobs:
-  analyze:
+  analyze-sanitizer:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
