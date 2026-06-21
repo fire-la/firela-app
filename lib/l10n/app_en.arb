@@ -273,6 +273,36 @@
   "@expenseDetails": {
     "description": "Expense details section title"
   },
+
+  "expenseCategories": "Expense Categories",
+  "@expenseCategories": {
+    "description": "Expense categories donut chart title"
+  },
+
+  "noTransactionRecords": "No transactions",
+  "@noTransactionRecords": {
+    "description": "Empty state when there are no transactions"
+  },
+
+  "loadFailed": "Failed to load",
+  "@loadFailed": {
+    "description": "Generic data load failure message"
+  },
+
+  "recent6Months": "Last 6 months",
+  "@recent6Months": {
+    "description": "Chart period label for last 6 months"
+  },
+
+  "expenseShare": "{percent}% of spending",
+  "@expenseShare": {
+    "description": "A category's share of total spending",
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
   
   "total": "Total",
   "@total": {
@@ -2238,5 +2268,25 @@
   "nlpNoParsedData": "No parsed data",
   "@nlpNoParsedData": {
     "description": "No parsed data available message"
+  },
+  "accountTypeChecking": "Checking",
+  "@accountTypeChecking": {
+    "description": "Checking account type label"
+  },
+  "accountTypeSavings": "Savings",
+  "@accountTypeSavings": {
+    "description": "Savings account type label"
+  },
+  "accountTypeInvestment": "Investment",
+  "@accountTypeInvestment": {
+    "description": "Investment account type label"
+  },
+  "accountTypeCredit": "Credit",
+  "@accountTypeCredit": {
+    "description": "Credit account type label"
+  },
+  "noAccountsYet": "No accounts yet",
+  "@noAccountsYet": {
+    "description": "Empty state message when there are no accounts"
   }
 }

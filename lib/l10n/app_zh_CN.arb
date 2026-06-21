@@ -46,10 +46,15 @@
   "monthlyExpense": "本月实际支出(元)",
   "income": "收入",
   "budgetManagement": "预算管理",
-  "expenseTrend": "本月支出趋势",
+  "expenseTrend": "支出变化趋势",
   "used": "已用{percent}%",
   "remaining": "剩余¥{amount}",
   "expenseDetails": "收支明细",
+  "expenseCategories": "支出分类",
+  "noTransactionRecords": "暂无交易记录",
+  "loadFailed": "加载失败",
+  "recent6Months": "近6月",
+  "expenseShare": "占比 {percent}%",
   "total": "总计",
   "food": "餐饮",
   "transportation": "交通",
@@ -467,5 +472,10 @@
   "categoryExpenseCreditCard": "信用卡消费",
   "categoryExpenseHuabei": "花呗",
   "categoryExpenseBaitiao": "白条",
-  "nlpNoParsedData": "暂无解析数据"
+  "nlpNoParsedData": "暂无解析数据",
+  "accountTypeChecking": "活期",
+  "accountTypeSavings": "储蓄",
+  "accountTypeInvestment": "投资",
+  "accountTypeCredit": "信用",
+  "noAccountsYet": "暂无账户"
 }

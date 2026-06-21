@@ -170,6 +170,23 @@ class AppLocalizationsEn extends AppLocalizations {
   String get expenseDetails => 'Expense Details';
 
   @override
+  String get expenseCategories => 'Expense Categories';
+
+  @override
+  String get noTransactionRecords => 'No transactions';
+
+  @override
+  String get loadFailed => 'Failed to load';
+
+  @override
+  String get recent6Months => 'Last 6 months';
+
+  @override
+  String expenseShare(int percent) {
+    return '$percent% of spending';
+  }
+
+  @override
   String get total => 'Total';
 
   @override
@@ -1378,4 +1395,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get nlpNoParsedData => 'No parsed data';
+
+  @override
+  String get accountTypeChecking => 'Checking';
+
+  @override
+  String get accountTypeSavings => 'Savings';
+
+  @override
+  String get accountTypeInvestment => 'Investment';
+
+  @override
+  String get accountTypeCredit => 'Credit';
+
+  @override
+  String get noAccountsYet => 'No accounts yet';
 }

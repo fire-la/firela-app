@@ -394,6 +394,36 @@ abstract class AppLocalizations {
   /// **'Expense Details'**
   String get expenseDetails;
 
+  /// Expense categories donut chart title
+  ///
+  /// In en, this message translates to:
+  /// **'Expense Categories'**
+  String get expenseCategories;
+
+  /// Empty state when there are no transactions
+  ///
+  /// In en, this message translates to:
+  /// **'No transactions'**
+  String get noTransactionRecords;
+
+  /// Generic data load failure message
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load'**
+  String get loadFailed;
+
+  /// Chart period label for last 6 months
+  ///
+  /// In en, this message translates to:
+  /// **'Last 6 months'**
+  String get recent6Months;
+
+  /// A category's share of total spending
+  ///
+  /// In en, this message translates to:
+  /// **'{percent}% of spending'**
+  String expenseShare(int percent);
+
   /// Total label
   ///
   /// In en, this message translates to:
@@ -2691,6 +2721,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No parsed data'**
   String get nlpNoParsedData;
+
+  /// Checking account type label
+  ///
+  /// In en, this message translates to:
+  /// **'Checking'**
+  String get accountTypeChecking;
+
+  /// Savings account type label
+  ///
+  /// In en, this message translates to:
+  /// **'Savings'**
+  String get accountTypeSavings;
+
+  /// Investment account type label
+  ///
+  /// In en, this message translates to:
+  /// **'Investment'**
+  String get accountTypeInvestment;
+
+  /// Credit account type label
+  ///
+  /// In en, this message translates to:
+  /// **'Credit'**
+  String get accountTypeCredit;
+
+  /// Empty state message when there are no accounts
+  ///
+  /// In en, this message translates to:
+  /// **'No accounts yet'**
+  String get noAccountsYet;
 }
 
 class _AppLocalizationsDelegate

@@ -11,12 +11,14 @@ import '../../../../shared/widgets/section_header.dart';
 import '../../../../shared/widgets/settings_icon_button.dart';
 import '../../../review_center/presentation/widgets/review_center_badge.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:firela_app/generated/l10n/app_localizations.dart';
 
 class ExpenseTabPage extends HookWidget {
   const ExpenseTabPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final isLoading = useState(false);
     final monthlyIncome = useState('0.00');
     final monthlyExpense = useState('0.00');
@@ -87,7 +89,7 @@ class ExpenseTabPage extends HookWidget {
             .toList();
       } catch (e) {
         logger.e('[ExpenseTab] Failed: $e');
-        error.value = '加载失败';
+        error.value = l10n.loadFailed;
       } finally {
         isLoading.value = false;
       }
@@ -97,6 +99,9 @@ class ExpenseTabPage extends HookWidget {
       fetchData();
       return null;
     }, []);
+
+    final total =
+        categories.value.fold(0.0, (sum, c) => sum + c.amount);
 
     return Scaffold(
       backgroundColor: ThemeTokens.of(context).bgPage,
@@ -116,9 +121,9 @@ class ExpenseTabPage extends HookWidget {
 
               // Income/Expense display
               NetWorthDisplay(
-                leftLabel: '本月支出(元)',
+                leftLabel: l10n.monthlyExpense,
                 leftValue: isLoading.value ? '—' : '-${monthlyExpense.value}',
-                rightLabel: '本月收入(元)',
+                rightLabel: l10n.income,
                 rightValue: isLoading.value ? '—' : '+${monthlyIncome.value}',
               ),
               const SizedBox(height: TokenSpacing.xl),
@@ -130,7 +135,7 @@ class ExpenseTabPage extends HookWidget {
                   children: [
                     Expanded(
                       child: DonutChartCard(
-                        title: '支出分类',
+                        title: l10n.expenseCategories,
                         centerText: '${categories.value.length}',
                         sections: _buildDonutSections(categories.value),
                         legends: _buildDonutLegends(categories.value),
@@ -139,9 +144,9 @@ class ExpenseTabPage extends HookWidget {
                     const SizedBox(width: TokenSpacing.lg),
                     Expanded(
                       child: ChartCard(
-                        title: '支出趋势',
+                        title: l10n.expenseTrend,
                         chartWidget: _buildLineChart(),
-                        bottomLeftLabel: '近6月',
+                        bottomLeftLabel: l10n.recent6Months,
                       ),
                     ),
                   ],
@@ -150,7 +155,7 @@ class ExpenseTabPage extends HookWidget {
               const SizedBox(height: TokenSpacing.xl),
 
               // Category list
-              const SectionHeader(title: '收支明细'),
+              SectionHeader(title: l10n.expenseDetails),
               const SizedBox(height: TokenSpacing.xl),
 
               if (isLoading.value && categories.value.isEmpty)
@@ -165,7 +170,7 @@ class ExpenseTabPage extends HookWidget {
                         const Icon(Icons.receipt_long_outlined,
                             size: 48, color: TokenColors.textTertiary),
                         const SizedBox(height: TokenSpacing.lg),
-                        Text('暂无交易记录',
+                        Text(l10n.noTransactionRecords,
                             style: TokenTypography.body(
                                 color: TokenColors.textTertiary)),
                       ],
@@ -176,7 +181,7 @@ class ExpenseTabPage extends HookWidget {
                 for (final cat in categories.value)
                   Padding(
                     padding: const EdgeInsets.only(bottom: TokenSpacing.lg),
-                    child: _buildCategoryItem(context, cat),
+                    child: _buildCategoryItem(context, cat, total),
                   ),
             ],
           ),
@@ -226,8 +231,9 @@ class ExpenseTabPage extends HookWidget {
             ));
   }
 
-  Widget _buildCategoryItem(BuildContext context, _CategorySummary cat) {
-    final tokens = ThemeTokens.of(context);
+  Widget _buildCategoryItem(
+      BuildContext context, _CategorySummary cat, double total) {
+    final l10n = AppLocalizations.of(context)!;
     final colors = [
       TokenColors.chartBlue,
       TokenColors.chartAmber,
@@ -235,57 +241,21 @@ class ExpenseTabPage extends HookWidget {
       TokenColors.chartGrey
     ];
     final color = colors[cat.path.hashCode.abs() % colors.length];
+    final pct = total > 0 ? (cat.amount / total * 100).round() : 0;
 
-    return GestureDetector(
+    return ExpenseCard(
+      icon: _categoryIcon(cat.displayName),
+      iconColor: color,
+      name: cat.displayName,
+      meta: l10n.expenseShare(pct),
+      amount: cat.amount.toStringAsFixed(2),
+      currency: 'CNY',
       onTap: () {
         // Use first account ID for filtering, fall back to path
         final id = cat.accountIds.isNotEmpty ? cat.accountIds.first : cat.path;
         context.push(
             '${RouteNames.transactions}?accountId=${Uri.encodeComponent(id)}&accountName=${Uri.encodeComponent(cat.displayName)}');
       },
-      child: Container(
-        padding: const EdgeInsets.all(TokenSpacing.xl),
-        decoration: BoxDecoration(
-          color: tokens.bgCard,
-          borderRadius: TokenRadius.borderLg,
-          border: Border.all(color: tokens.borderCard, width: 0.5),
-          boxShadow: [
-            BoxShadow(
-                color: tokens.shadow,
-                blurRadius: 18,
-                offset: const Offset(0, 2),
-                spreadRadius: 2),
-          ],
-        ),
-        child: Row(
-          children: [
-            Container(
-              width: 36,
-              height: 36,
-              decoration: BoxDecoration(
-                color: color.withValues(alpha: 0.15),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child:
-                  Icon(_categoryIcon(cat.displayName), size: 18, color: color),
-            ),
-            const SizedBox(width: TokenSpacing.lg),
-            Expanded(
-              child: Text(
-                cat.displayName,
-                style: TokenTypography.body(
-                    fontWeight: FontWeight.w500,
-                    color: TokenColors.textPrimary),
-              ),
-            ),
-            Text(
-              '-${cat.amount.toStringAsFixed(2)}',
-              style: TokenTypography.body(
-                  fontWeight: FontWeight.w700, color: TokenColors.textPrimary),
-            ),
-          ],
-        ),
-      ),
     );
   }
 

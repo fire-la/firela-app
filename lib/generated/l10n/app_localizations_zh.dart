@@ -150,7 +150,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get budgetManagement => '预算管理';
 
   @override
-  String get expenseTrend => '本月支出趋势';
+  String get expenseTrend => '支出变化趋势';
 
   @override
   String used(int percent) {
@@ -164,6 +164,23 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get expenseDetails => '收支明细';
+
+  @override
+  String get expenseCategories => '支出分类';
+
+  @override
+  String get noTransactionRecords => '暂无交易记录';
+
+  @override
+  String get loadFailed => '加载失败';
+
+  @override
+  String get recent6Months => '近6月';
+
+  @override
+  String expenseShare(int percent) {
+    return '占比 $percent%';
+  }
 
   @override
   String get total => '总计';
@@ -1342,6 +1359,21 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get nlpNoParsedData => '暂无解析数据';
+
+  @override
+  String get accountTypeChecking => '活期';
+
+  @override
+  String get accountTypeSavings => '储蓄';
+
+  @override
+  String get accountTypeInvestment => '投资';
+
+  @override
+  String get accountTypeCredit => '信用';
+
+  @override
+  String get noAccountsYet => '暂无账户';
 }
 
 /// The translations for Chinese, as used in China (`zh_CN`).
@@ -1490,7 +1522,7 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get budgetManagement => '预算管理';
 
   @override
-  String get expenseTrend => '本月支出趋势';
+  String get expenseTrend => '支出变化趋势';
 
   @override
   String used(int percent) {
@@ -1504,6 +1536,23 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
 
   @override
   String get expenseDetails => '收支明细';
+
+  @override
+  String get expenseCategories => '支出分类';
+
+  @override
+  String get noTransactionRecords => '暂无交易记录';
+
+  @override
+  String get loadFailed => '加载失败';
+
+  @override
+  String get recent6Months => '近6月';
+
+  @override
+  String expenseShare(int percent) {
+    return '占比 $percent%';
+  }
 
   @override
   String get total => '总计';
@@ -2682,6 +2731,21 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
 
   @override
   String get nlpNoParsedData => '暂无解析数据';
+
+  @override
+  String get accountTypeChecking => '活期';
+
+  @override
+  String get accountTypeSavings => '储蓄';
+
+  @override
+  String get accountTypeInvestment => '投资';
+
+  @override
+  String get accountTypeCredit => '信用';
+
+  @override
+  String get noAccountsYet => '暂无账户';
 }
 
 /// The translations for Chinese, as used in Taiwan (`zh_TW`).
@@ -2830,7 +2894,7 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
   String get budgetManagement => '預算管理';
 
   @override
-  String get expenseTrend => '本月支出趨勢';
+  String get expenseTrend => '支出變化趨勢';
 
   @override
   String used(int percent) {
@@ -2844,6 +2908,23 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get expenseDetails => '收支明細';
+
+  @override
+  String get expenseCategories => '支出分類';
+
+  @override
+  String get noTransactionRecords => '暫無交易記錄';
+
+  @override
+  String get loadFailed => '載入失敗';
+
+  @override
+  String get recent6Months => '近6月';
+
+  @override
+  String expenseShare(int percent) {
+    return '佔比 $percent%';
+  }
 
   @override
   String get total => '總計';
@@ -4022,4 +4103,19 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get nlpNoParsedData => '暫無解析數據';
+
+  @override
+  String get accountTypeChecking => '活期';
+
+  @override
+  String get accountTypeSavings => '儲蓄';
+
+  @override
+  String get accountTypeInvestment => '投資';
+
+  @override
+  String get accountTypeCredit => '信用';
+
+  @override
+  String get noAccountsYet => '暫無帳戶';
 }

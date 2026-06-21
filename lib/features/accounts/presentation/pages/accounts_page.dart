@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:firela_app/generated/l10n/app_localizations.dart';
+import '../../../../core/components/components.dart';
+import '../../../../core/design_tokens/design_tokens.dart';
+import '../../../../core/utils/formatters.dart';
 import '../../../../shared/widgets/loading_indicator.dart';
 import '../../../../shared/widgets/error_view.dart';
 import '../../../../shared/widgets/empty_view.dart';
+import '../../domain/entities/account.dart';
 import '../hooks/use_accounts.dart';
-import '../widgets/account_card.dart';
 
 /// Accounts list page
 class AccountsPage extends HookWidget {
@@ -47,7 +50,7 @@ class AccountsPage extends HookWidget {
             // Empty state
             if (accounts.isEmpty) {
               return EmptyView(
-                message: 'No accounts yet',
+                message: l10n.noAccountsYet,
                 icon: Icons.account_balance_wallet_outlined,
                 actionLabel: l10n.createAccount,
                 onAction: () {
@@ -63,7 +66,11 @@ class AccountsPage extends HookWidget {
               itemBuilder: (context, index) {
                 final account = accounts[index];
                 return AccountCard(
-                  account: account,
+                  iconColor: _accountTypeColor(account.type),
+                  name: account.name,
+                  amount: Formatters.formatCurrency(account.balance, symbol: ''),
+                  currency: account.currency,
+                  tagLabel: _accountTypeLabel(account.type, l10n),
                   onTap: () {
                     // TODO: Navigate to account detail
                   },
@@ -80,5 +87,31 @@ class AccountsPage extends HookWidget {
         child: const Icon(Icons.add),
       ),
     );
+  }
+}
+
+Color _accountTypeColor(AccountType type) {
+  switch (type) {
+    case AccountType.checking:
+      return TokenColors.chartBlue;
+    case AccountType.savings:
+      return TokenColors.chartGreen;
+    case AccountType.investment:
+      return TokenColors.chartAmber;
+    case AccountType.credit:
+      return TokenColors.chartGrey;
+  }
+}
+
+String _accountTypeLabel(AccountType type, AppLocalizations l10n) {
+  switch (type) {
+    case AccountType.checking:
+      return l10n.accountTypeChecking;
+    case AccountType.savings:
+      return l10n.accountTypeSavings;
+    case AccountType.investment:
+      return l10n.accountTypeInvestment;
+    case AccountType.credit:
+      return l10n.accountTypeCredit;
   }
 }
