@@ -6,6 +6,7 @@ import '../../../../core/components/components.dart';
 import '../../../../core/design_tokens/design_tokens.dart';
 import '../../../../shared/widgets/section_header.dart';
 import '../providers/use_transaction_detail.dart';
+import 'posting_editor_row.dart';
 
 /// TransactionDetailEdit business component (.pen G07oe).
 /// Full editor structure aligned to the Pencil spec:
@@ -19,7 +20,68 @@ class TransactionDetailEdit extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final tokens = ThemeTokens.of(context);
     final state = useTransactionDetail(id);
+    final addTagController = useTextEditingController();
+    final addTagFocusNode = useFocusNode();
+
+    // addTag: opens an input dialog, returns the entered tag, then merges it
+    // into the CURRENT state.tags (closure captures the live state, so adding
+    // several tags in a row does not clobber earlier ones via a stale snapshot).
+    Future<void> addTag() async {
+      addTagController.clear();
+      // Guard: the dialog builder can run more than once (overlay/keyboard
+      // rebuilds); focus the field only on the first build so the cursor
+      // doesn't jump back mid-entry.
+      var focused = false;
+      final result = await showDialog<String>(
+        context: context,
+        builder: (dialogContext) {
+          if (!focused) {
+            focused = true;
+            WidgetsBinding.instance.addPostFrameCallback(
+              (_) => addTagFocusNode.requestFocus(),
+            );
+          }
+          return Dialog(
+            backgroundColor: tokens.bgCard,
+            child: Padding(
+              padding: const EdgeInsets.all(TokenSpacing.lg),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    l10n.txAddTag,
+                    style: TokenTypography.h3(fontWeight: FontWeight.w600),
+                  ),
+                  const SizedBox(height: TokenSpacing.lg),
+                  InputField(
+                    controller: addTagController,
+                    focusNode: addTagFocusNode,
+                    placeholder: l10n.txAddTagPlaceholder,
+                  ),
+                  const SizedBox(height: TokenSpacing.lg),
+                  ButtonRow(
+                    primaryLabel: l10n.txAddTag,
+                    primaryOnTap: () => Navigator.of(dialogContext)
+                        .pop(addTagController.text.trim()),
+                    secondaryLabel: l10n.txCancel,
+                    secondaryOnTap: () => Navigator.of(dialogContext).pop(),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      );
+      if (!context.mounted) return;
+      if (result != null &&
+          result.isNotEmpty &&
+          !state.tags.contains(result)) {
+        state.setTags([...state.tags, result]);
+      }
+    }
 
     if (state.isLoading) {
       return const Center(child: CircularProgressIndicator());
@@ -74,7 +136,7 @@ class TransactionDetailEdit extends HookWidget {
           ),
           const SizedBox(height: TokenSpacing.xl),
           // tagsSection
-          _TagsSection(tags: state.tags, l10n: l10n),
+          _TagsSection(tags: state.tags, l10n: l10n, onAddTag: addTag),
           const SizedBox(height: TokenSpacing.xl),
           // postingsSection — postings list + inline balance indicator
           _PostingsSection(state: state, postings: postings, l10n: l10n),
@@ -128,38 +190,71 @@ class _InfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ListItemArrow.card(
-          icon: Icons.calendar_today_outlined,
-          label: l10n.txDate,
-          trailingText: state.selectedDate.isEmpty ? '—' : state.selectedDate,
-        ),
-        ListItemArrow.card(
-          icon: Icons.person_outline,
-          label: l10n.txPayee,
-          trailingText: state.payee.isEmpty ? '—' : state.payee,
-        ),
-        ListItemArrow.card(
-          icon: Icons.label_outline,
-          label: l10n.txCategory,
-          trailingText: '—', // TODO: derive category from postings/rules
-        ),
-        ListItemArrow.card(
-          icon: Icons.account_balance_outlined,
-          label: l10n.txAccount,
-          trailingText: state.firstAccount.isEmpty ? '—' : state.firstAccount,
-        ),
-      ],
+    final tokens = ThemeTokens.of(context);
+    // .pen eC35n infoCard: a single card container (radius.lg + shadow +
+    // bg.card + border.card 0.5 inner, clipped) holding 4 transparent rows
+    // (AqRLj, fill #00000000) separated by 0.5 border.card dividers.
+    final rows = <Widget>[
+      ListItemArrow.plain(
+        icon: Icons.calendar_today_outlined,
+        label: l10n.txDate,
+        trailingText: state.selectedDate.isEmpty ? '—' : state.selectedDate,
+      ),
+      ListItemArrow.plain(
+        icon: Icons.person_outline,
+        label: l10n.txPayee,
+        trailingText: state.payee.isEmpty ? '—' : state.payee,
+      ),
+      ListItemArrow.plain(
+        icon: Icons.label_outline,
+        label: l10n.txCategory,
+        trailingText: '—', // TODO: derive category from postings/rules
+      ),
+      ListItemArrow.plain(
+        icon: Icons.account_balance_outlined,
+        label: l10n.txAccount,
+        trailingText: state.firstAccount.isEmpty ? '—' : state.firstAccount,
+      ),
+    ];
+    return Container(
+      decoration: BoxDecoration(
+        color: tokens.bgCard,
+        borderRadius: TokenRadius.borderLg,
+        border: Border.all(color: tokens.borderCard, width: 0.5),
+        boxShadow: [
+          BoxShadow(
+            color: tokens.shadow,
+            blurRadius: 18,
+            offset: const Offset(0, 2),
+            spreadRadius: 2,
+          ),
+        ],
+      ),
+      clipBehavior: Clip.antiAlias,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          for (var i = 0; i < rows.length; i++) ...[
+            rows[i],
+            if (i < rows.length - 1)
+              Container(height: 0.5, width: double.infinity, color: tokens.borderCard),
+          ],
+        ],
+      ),
     );
   }
 }
 
 class _TagsSection extends StatelessWidget {
-  const _TagsSection({required this.tags, required this.l10n});
+  const _TagsSection({
+    required this.tags,
+    required this.l10n,
+    required this.onAddTag,
+  });
 
   final List<String> tags;
   final AppLocalizations l10n;
+  final VoidCallback onAddTag;
 
   @override
   Widget build(BuildContext context) {
@@ -174,12 +269,11 @@ class _TagsSection extends StatelessWidget {
           runSpacing: TokenSpacing.sm,
           children: [
             for (final tag in tags) Tag(label: tag),
-            // addTag stub
+            // addTag button
             GestureDetector(
-              // TODO: add tag editor
-              onTap: () {},
+              onTap: onAddTag,
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 4, horizontal: TokenSpacing.md),
+                padding: const EdgeInsets.symmetric(vertical: TokenSpacing.xs, horizontal: TokenSpacing.lg),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(11),
                   border: Border.all(color: TokenColors.borderTag, width: 0.5),
@@ -215,7 +309,7 @@ class _PostingsSection extends StatelessWidget {
             children: [
               for (var i = 0; i < postings.length; i++) ...[
                 if (i > 0) const _Divider(),
-                _PostingRow(postings[i] as Map<String, dynamic>, l10n: l10n),
+                PostingEditorRow(posting: postings[i] as Map<String, dynamic>, l10n: l10n),
               ],
               if (postings.isNotEmpty) const _Divider(),
               _BalanceIndicator(state: state, l10n: l10n),
@@ -229,37 +323,9 @@ class _PostingsSection extends StatelessWidget {
   }
 }
 
-class _PostingRow extends StatelessWidget {
-  const _PostingRow(this.posting, {required this.l10n});
-
-  final Map<String, dynamic> posting;
-  final AppLocalizations l10n;
-
-  @override
-  Widget build(BuildContext context) {
-    final tokens = ThemeTokens.of(context);
-    final account = (posting['accountName'] as String?) ?? (posting['account'] as String?) ?? '—';
-    final units = posting['units']?.toString();
-    final currency = (posting['currency'] as String?) ?? '';
-    return TransactionRow(
-      icon: _accountIcon(account),
-      title: account,
-      subtitle: currency,
-      amount: units ?? l10n.txPostingInterpolated,
-      amountColor: tokens.textPrimary,
-    );
-  }
-}
-
-IconData _accountIcon(String account) {
-  if (account.startsWith('Liabilities')) return Icons.credit_card;
-  if (account.startsWith('Income')) return Icons.south_west;
-  if (account.startsWith('Expenses')) return Icons.shopping_cart_outlined;
-  return Icons.account_balance_wallet_outlined;
-}
-
 /// Balance indicator, inlined in postings card (.pen NpqoJ).
-/// Balanced → success; unbalanced → error + auto-fill stub.
+/// Pure boolean per ADR-0001 #1/#4: balanced → success; unbalanced → error.
+/// No residual Δ number, no auto-fill button (postings are immutable here).
 class _BalanceIndicator extends StatelessWidget {
   const _BalanceIndicator({required this.state, required this.l10n});
 
@@ -268,56 +334,20 @@ class _BalanceIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (state.isBalanced) {
-      return Container(
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: TokenSpacing.lg),
-        decoration: BoxDecoration(
-          color: TokenColors.successBg,
-          borderRadius: TokenRadius.borderMd,
-        ),
-        child: Row(
-          children: [
-            const Icon(Icons.check_circle_outline, size: 18, color: TokenColors.success),
-            const SizedBox(width: TokenSpacing.sm),
-            Text(
-              'Δ = 0 · ${l10n.balanceBalanced}',
-              style: TokenTypography.body(fontWeight: FontWeight.w600, color: TokenColors.success),
-            ),
-          ],
-        ),
-      );
-    }
+    final balanced = state.isBalanced;
+    final color = balanced ? TokenColors.success : TokenColors.error;
+    final bg = balanced ? TokenColors.successBg : TokenColors.errorBg;
+    final icon = balanced ? Icons.check_circle_outline : Icons.warning_amber_outlined;
+    final label = balanced ? l10n.balanceBalanced : l10n.balanceUnbalanced;
 
-    final first = state.postingBalances.firstWhere(
-      (b) => !b.isZero,
-      orElse: () => state.postingBalances.first,
-    );
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: TokenSpacing.lg),
-      decoration: BoxDecoration(
-        color: TokenColors.errorBg,
-        borderRadius: TokenRadius.borderMd,
-      ),
+      decoration: BoxDecoration(color: bg, borderRadius: TokenRadius.borderMd),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Row(
-            children: [
-              const Icon(Icons.warning_amber_outlined, size: 18, color: TokenColors.error),
-              const SizedBox(width: TokenSpacing.sm),
-              Text(
-                'Δ = ${_fmtDelta(first.delta)} ${first.currency}',
-                style: TokenTypography.body(fontWeight: FontWeight.w700, color: TokenColors.error),
-              ),
-              const SizedBox(width: TokenSpacing.sm),
-              Text(l10n.balanceUnbalanced, style: TokenTypography.caption(color: ThemeTokens.of(context).textSecondary)),
-            ],
-          ),
-          ButtonSmall(
-            label: l10n.balanceAutoFill,
-            // TODO: auto-fill interpolated posting to balance
-            onPressed: () {},
-          ),
+          Icon(icon, size: 18, color: color),
+          const SizedBox(width: TokenSpacing.sm),
+          Text(label, style: TokenTypography.body(fontWeight: FontWeight.w600, color: color)),
         ],
       ),
     );
@@ -394,9 +424,4 @@ class _Divider extends StatelessWidget {
       color: ThemeTokens.of(context).borderCard,
     );
   }
-}
-
-String _fmtDelta(double v) {
-  if (v == v.roundToDouble()) return v.toStringAsFixed(0);
-  return v.toStringAsFixed(2);
 }

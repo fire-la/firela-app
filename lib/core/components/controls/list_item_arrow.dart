@@ -8,6 +8,7 @@ class ListItemArrow extends StatelessWidget {
   final VoidCallback? onTap;
   final BorderRadius? borderRadius;
   final BoxBorder? border;
+  final Color? backgroundColor;
 
   const ListItemArrow({
     super.key,
@@ -17,6 +18,7 @@ class ListItemArrow extends StatelessWidget {
     this.onTap,
     this.borderRadius,
     this.border,
+    this.backgroundColor,
   });
 
   ListItemArrow.card({
@@ -26,7 +28,20 @@ class ListItemArrow extends StatelessWidget {
     this.trailingText,
     this.onTap,
   })  : borderRadius = TokenRadius.borderLg,
-        border = null;
+        border = null,
+        backgroundColor = null;
+
+  /// Plain row: transparent background, no visible border, square corners.
+  /// For rows nested inside an outer card container (.pen eC35n infoCard).
+  ListItemArrow.plain({
+    super.key,
+    required this.icon,
+    required this.label,
+    this.trailingText,
+    this.onTap,
+  })  : borderRadius = null,
+        border = Border.all(color: Colors.transparent, width: 0.5),
+        backgroundColor = Colors.transparent;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +52,7 @@ class ListItemArrow extends StatelessWidget {
       child: Container(
         height: 56,
         decoration: BoxDecoration(
-          color: tokens.bgCard,
+          color: backgroundColor ?? tokens.bgCard,
           borderRadius: borderRadius,
           border: effectiveBorder,
         ),

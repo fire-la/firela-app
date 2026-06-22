@@ -215,6 +215,14 @@
   "@assetChange": {
     "description": "Asset change trend chart title"
   },
+  "monthlyReturn": "Monthly Return (CNY)",
+  "@monthlyReturn": {
+    "description": "Monthly return label"
+  },
+  "viewAll": "View All",
+  "@viewAll": {
+    "description": "View all trailing button"
+  },
   
   "monthlyIncrease": "{month} +{amount}",
   "@monthlyIncrease": {
@@ -292,6 +300,18 @@
   "recent6Months": "Last 6 months",
   "@recent6Months": {
     "description": "Chart period label for last 6 months"
+  },
+  "recent1Month": "Last month",
+  "@recent1Month": {
+    "description": "Chart period label for last month"
+  },
+  "recent3Months": "Last 3 months",
+  "@recent3Months": {
+    "description": "Chart period label for last 3 months"
+  },
+  "recent1Year": "Last year",
+  "@recent1Year": {
+    "description": "Chart period label for last year"
   },
 
   "expenseShare": "{percent}% of spending",
@@ -2367,6 +2387,8 @@
   "@txTags": { "description": "Tags field label" },
   "txAddTag": "Add tag",
   "@txAddTag": { "description": "Add tag button" },
+  "txAddTagPlaceholder": "Tag name",
+  "@txAddTagPlaceholder": { "description": "Add tag input placeholder" },
   "txPostingsTitle": "Postings",
   "@txPostingsTitle": { "description": "Postings section title" },
   "txAddPosting": "Add posting",

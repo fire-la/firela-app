@@ -15,6 +15,7 @@ import '../../../../shared/widgets/settings_icon_button.dart';
 import '../../../review_center/presentation/widgets/review_center_badge.dart';
 import '../../data/services/dashboard_aggregation_service.dart';
 import '../../domain/models/net_worth_history_point.dart';
+import 'package:firela_app/generated/l10n/app_localizations.dart';
 
 /// Flat Assets page matching .pen design (R8glV).
 /// PageHeader → NetWorthDisplay → DonutChartCard + ChartCard → AssetBar → SectionHeader → Accounts
@@ -23,6 +24,7 @@ class AssetsPage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final isLoading = useState(false);
     final netWorth = useState('0.00');
     final totalAssets = useState('0.00');
@@ -160,48 +162,46 @@ class AssetsPage extends HookWidget {
 
               // NetWorthDisplay
               NetWorthDisplay(
-                leftLabel: '总净资产(元)',
+                leftLabel: l10n.netAssets,
                 leftValue: isLoading.value ? '—' : netWorth.value,
-                rightLabel: '本月收益(元)',
+                rightLabel: l10n.monthlyReturn,
                 rightValue: isLoading.value ? '—' : monthlyChange.value,
               ),
               const SizedBox(height: TokenSpacing.xl),
 
               // Charts row (gap: 12)
-              IntrinsicHeight(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Expanded(
-                      child: DonutChartCard(
-                        title: '资产分布',
-                        centerText:
-                            isLoading.value ? '—' : '${accounts.value.length}',
-                        sections: _buildDonutSections(accounts.value),
-                        legends: _buildDonutLegends(accounts.value),
-                      ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: DonutChartCard(
+                      title: l10n.assetDistribution,
+                      centerText:
+                          isLoading.value ? '—' : '${accounts.value.length}',
+                      sections: _buildDonutSections(accounts.value),
+                      legends: _buildDonutLegends(accounts.value),
                     ),
-                    const SizedBox(width: TokenSpacing.lg),
-                    Expanded(
-                      child: ChartCard(
-                        title: '资产变化',
-                        chartWidget: _buildLineChart(netWorthHistory.value),
-                        bottomLeftLabel: _getPeriodLabel(),
-                        bottomRightLabel: isLoading.value
-                            ? null
-                            : _getChangePercent(netWorthHistory.value),
-                      ),
+                  ),
+                  const SizedBox(width: TokenSpacing.lg),
+                  Expanded(
+                    child: ChartCard(
+                      title: l10n.assetChange,
+                      chartWidget: _buildLineChart(netWorthHistory.value),
+                      bottomLeftLabel: _getPeriodLabel(l10n),
+                      bottomRightLabel: isLoading.value
+                          ? null
+                          : _getChangePercent(netWorthHistory.value),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
               const SizedBox(height: TokenSpacing.xl),
 
               // AssetBar
               AssetBar(
-                leftLabel: '资产',
+                leftLabel: l10n.assets,
                 leftValue: totalAssets.value,
-                rightLabel: '负债',
+                rightLabel: l10n.liabilities,
                 rightValue: totalLiabilities.value == '0.00'
                     ? '0.00'
                     : '-${totalLiabilities.value}',
@@ -210,11 +210,11 @@ class AssetsPage extends HookWidget {
 
               // Section header + grouped account list
               if (isLoading.value && accounts.value.isEmpty)
-                ..._buildSkeleton()
+                ..._buildSkeleton(l10n)
               else if (accounts.value.isNotEmpty) ...[
                 SectionHeader(
-                  title: '账户',
-                  trailing: '查看全部',
+                  title: l10n.accountsTitle,
+                  trailing: l10n.viewAll,
                   onTrailingTap: () => context.push(RouteNames.assetsDetails),
                 ),
                 const SizedBox(height: TokenSpacing.lg),
@@ -333,16 +333,16 @@ class AssetsPage extends HookWidget {
     }).toList();
   }
 
-  String _getPeriodLabel() {
+  String _getPeriodLabel(AppLocalizations l10n) {
     switch (6) {
       case 1:
-        return '近1月';
+        return l10n.recent1Month;
       case 3:
-        return '近3月';
+        return l10n.recent3Months;
       case 12:
-        return '近1年';
+        return l10n.recent1Year;
       default:
-        return '近6月';
+        return l10n.recent6Months;
     }
   }
 
@@ -463,9 +463,9 @@ class AssetsPage extends HookWidget {
 
   // --- Skeleton ---
 
-  List<Widget> _buildSkeleton() {
+  List<Widget> _buildSkeleton(AppLocalizations l10n) {
     return [
-      const SectionHeader(title: '账户'),
+      SectionHeader(title: l10n.accountsTitle),
       const SizedBox(height: TokenSpacing.lg),
       for (int i = 0; i < 3; i++)
         Padding(

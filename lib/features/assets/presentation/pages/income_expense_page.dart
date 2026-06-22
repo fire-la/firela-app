@@ -49,6 +49,7 @@ class IncomeExpensePage extends StatelessWidget {
 
               // DonutChartCard + ChartCard row
               Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(
                     child: DonutChartCard(

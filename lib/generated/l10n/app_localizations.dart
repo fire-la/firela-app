@@ -346,6 +346,18 @@ abstract class AppLocalizations {
   /// **'Asset Change Trend'**
   String get assetChange;
 
+  /// Monthly return label
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly Return (CNY)'**
+  String get monthlyReturn;
+
+  /// View all trailing button
+  ///
+  /// In en, this message translates to:
+  /// **'View All'**
+  String get viewAll;
+
   /// Monthly increase amount
   ///
   /// In en, this message translates to:
@@ -417,6 +429,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Last 6 months'**
   String get recent6Months;
+
+  /// Chart period label for last month
+  ///
+  /// In en, this message translates to:
+  /// **'Last month'**
+  String get recent1Month;
+
+  /// Chart period label for last 3 months
+  ///
+  /// In en, this message translates to:
+  /// **'Last 3 months'**
+  String get recent3Months;
+
+  /// Chart period label for last year
+  ///
+  /// In en, this message translates to:
+  /// **'Last year'**
+  String get recent1Year;
 
   /// A category's share of total spending
   ///
@@ -2913,6 +2943,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Add tag'**
   String get txAddTag;
+
+  /// Add tag input placeholder
+  ///
+  /// In en, this message translates to:
+  /// **'Tag name'**
+  String get txAddTagPlaceholder;
 
   /// Postings section title
   ///

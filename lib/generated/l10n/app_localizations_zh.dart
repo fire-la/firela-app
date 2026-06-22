@@ -136,6 +136,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get assetChange => '资产变化趋势';
 
   @override
+  String get monthlyReturn => '本月收益(元)';
+
+  @override
+  String get viewAll => '查看全部';
+
+  @override
   String monthlyIncrease(String month, String amount) {
     return '$month +$amount';
   }
@@ -176,6 +182,15 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get recent6Months => '近6月';
+
+  @override
+  String get recent1Month => '近1月';
+
+  @override
+  String get recent3Months => '近3月';
+
+  @override
+  String get recent1Year => '近1年';
 
   @override
   String expenseShare(int percent) {
@@ -1457,6 +1472,9 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get txAddTag => '添加标签';
+
+  @override
+  String get txAddTagPlaceholder => '标签名称';
 
   @override
   String get txPostingsTitle => '分录';
@@ -1706,6 +1724,12 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get assetChange => '资产变化趋势';
 
   @override
+  String get monthlyReturn => '本月收益(元)';
+
+  @override
+  String get viewAll => '查看全部';
+
+  @override
   String monthlyIncrease(String month, String amount) {
     return '$month +$amount';
   }
@@ -1746,6 +1770,15 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
 
   @override
   String get recent6Months => '近6月';
+
+  @override
+  String get recent1Month => '近1月';
+
+  @override
+  String get recent3Months => '近3月';
+
+  @override
+  String get recent1Year => '近1年';
 
   @override
   String expenseShare(int percent) {
@@ -3029,6 +3062,9 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get txAddTag => '添加标签';
 
   @override
+  String get txAddTagPlaceholder => '标签名称';
+
+  @override
   String get txPostingsTitle => '分录';
 
   @override
@@ -3276,6 +3312,12 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
   String get assetChange => '資產變化趨勢';
 
   @override
+  String get monthlyReturn => '本月收益(元)';
+
+  @override
+  String get viewAll => '查看全部';
+
+  @override
   String monthlyIncrease(String month, String amount) {
     return '$month +$amount';
   }
@@ -3316,6 +3358,15 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get recent6Months => '近6月';
+
+  @override
+  String get recent1Month => '近1月';
+
+  @override
+  String get recent3Months => '近3月';
+
+  @override
+  String get recent1Year => '近1年';
 
   @override
   String expenseShare(int percent) {
@@ -4597,6 +4648,9 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get txAddTag => '新增標籤';
+
+  @override
+  String get txAddTagPlaceholder => '標籤名稱';
 
   @override
   String get txPostingsTitle => '分錄';

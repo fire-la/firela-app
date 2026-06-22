@@ -129,28 +129,26 @@ class ExpenseTabPage extends HookWidget {
               const SizedBox(height: TokenSpacing.xl),
 
               // Charts row
-              IntrinsicHeight(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Expanded(
-                      child: DonutChartCard(
-                        title: l10n.expenseCategories,
-                        centerText: '${categories.value.length}',
-                        sections: _buildDonutSections(categories.value),
-                        legends: _buildDonutLegends(categories.value),
-                      ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: DonutChartCard(
+                      title: l10n.expenseCategories,
+                      centerText: '${categories.value.length}',
+                      sections: _buildDonutSections(categories.value),
+                      legends: _buildDonutLegends(categories.value),
                     ),
-                    const SizedBox(width: TokenSpacing.lg),
-                    Expanded(
-                      child: ChartCard(
-                        title: l10n.expenseTrend,
-                        chartWidget: _buildLineChart(),
-                        bottomLeftLabel: l10n.recent6Months,
-                      ),
+                  ),
+                  const SizedBox(width: TokenSpacing.lg),
+                  Expanded(
+                    child: ChartCard(
+                      title: l10n.expenseTrend,
+                      chartWidget: _buildLineChart(),
+                      bottomLeftLabel: l10n.recent6Months,
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
               const SizedBox(height: TokenSpacing.xl),
 

@@ -140,6 +140,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get assetChange => 'Asset Change Trend';
 
   @override
+  String get monthlyReturn => 'Monthly Return (CNY)';
+
+  @override
+  String get viewAll => 'View All';
+
+  @override
   String monthlyIncrease(String month, String amount) {
     return '$month +$amount';
   }
@@ -180,6 +186,15 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get recent6Months => 'Last 6 months';
+
+  @override
+  String get recent1Month => 'Last month';
+
+  @override
+  String get recent3Months => 'Last 3 months';
+
+  @override
+  String get recent1Year => 'Last year';
 
   @override
   String expenseShare(int percent) {
@@ -1494,6 +1509,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get txAddTag => 'Add tag';
+
+  @override
+  String get txAddTagPlaceholder => 'Tag name';
 
   @override
   String get txPostingsTitle => 'Postings';

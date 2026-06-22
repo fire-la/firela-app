@@ -1,9 +1,52 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class TokenTypography {
   TokenTypography._();
 
-  static const String _fontFamily = 'Inter';
+  // ponytail: GoogleFonts.inter() does a Map lookup + TextStyle alloc on every
+  // call; these methods sit in 200+ build() sites. Cache one base per size at
+  // class-init, return cheap .copyWith() for the per-call fontWeight/color.
+  static final TextStyle _displayBase = GoogleFonts.inter(
+    fontSize: 32,
+    fontWeight: FontWeight.w700,
+    height: 1.2,
+  );
+  static final TextStyle _h1Base = GoogleFonts.inter(
+    fontSize: 28,
+    fontWeight: FontWeight.w700,
+    height: 1.3,
+  );
+  static final TextStyle _h2Base = GoogleFonts.inter(
+    fontSize: 24,
+    fontWeight: FontWeight.w700,
+    height: 1.3,
+  );
+  static final TextStyle _h3Base = GoogleFonts.inter(
+    fontSize: 18,
+    fontWeight: FontWeight.w600,
+    height: 1.4,
+  );
+  static final TextStyle _h4Base = GoogleFonts.inter(
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
+    height: 1.4,
+  );
+  static final TextStyle _bodyBase = GoogleFonts.inter(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    height: 1.5,
+  );
+  static final TextStyle _captionBase = GoogleFonts.inter(
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    height: 1.4,
+  );
+  static final TextStyle _microBase = GoogleFonts.inter(
+    fontSize: 10,
+    fontWeight: FontWeight.w400,
+    height: 1.3,
+  );
 
   // font.display — 32px
   /// font.display
@@ -11,13 +54,7 @@ class TokenTypography {
     FontWeight fontWeight = FontWeight.w700,
     Color? color,
   }) =>
-      TextStyle(
-        fontFamily: _fontFamily,
-        fontSize: 32,
-        fontWeight: fontWeight,
-        height: 1.2,
-        color: color,
-      );
+      _displayBase.copyWith(fontWeight: fontWeight, color: color);
 
   // font.h1 — 28px
   /// font.h1
@@ -25,13 +62,7 @@ class TokenTypography {
     FontWeight fontWeight = FontWeight.w700,
     Color? color,
   }) =>
-      TextStyle(
-        fontFamily: _fontFamily,
-        fontSize: 28,
-        fontWeight: fontWeight,
-        height: 1.3,
-        color: color,
-      );
+      _h1Base.copyWith(fontWeight: fontWeight, color: color);
 
   // font.h2 — 24px
   /// font.h2
@@ -39,13 +70,7 @@ class TokenTypography {
     FontWeight fontWeight = FontWeight.w700,
     Color? color,
   }) =>
-      TextStyle(
-        fontFamily: _fontFamily,
-        fontSize: 24,
-        fontWeight: fontWeight,
-        height: 1.3,
-        color: color,
-      );
+      _h2Base.copyWith(fontWeight: fontWeight, color: color);
 
   // font.h3 — 18px
   /// font.h3
@@ -53,13 +78,7 @@ class TokenTypography {
     FontWeight fontWeight = FontWeight.w600,
     Color? color,
   }) =>
-      TextStyle(
-        fontFamily: _fontFamily,
-        fontSize: 18,
-        fontWeight: fontWeight,
-        height: 1.4,
-        color: color,
-      );
+      _h3Base.copyWith(fontWeight: fontWeight, color: color);
 
   // font.h4 — 16px
   /// font.h4
@@ -67,13 +86,7 @@ class TokenTypography {
     FontWeight fontWeight = FontWeight.w600,
     Color? color,
   }) =>
-      TextStyle(
-        fontFamily: _fontFamily,
-        fontSize: 16,
-        fontWeight: fontWeight,
-        height: 1.4,
-        color: color,
-      );
+      _h4Base.copyWith(fontWeight: fontWeight, color: color);
 
   // font.body — 14px
   /// font.body
@@ -81,13 +94,7 @@ class TokenTypography {
     FontWeight fontWeight = FontWeight.w400,
     Color? color,
   }) =>
-      TextStyle(
-        fontFamily: _fontFamily,
-        fontSize: 14,
-        fontWeight: fontWeight,
-        height: 1.5,
-        color: color,
-      );
+      _bodyBase.copyWith(fontWeight: fontWeight, color: color);
 
   // font.caption — 12px
   /// font.caption
@@ -95,13 +102,7 @@ class TokenTypography {
     FontWeight fontWeight = FontWeight.w400,
     Color? color,
   }) =>
-      TextStyle(
-        fontFamily: _fontFamily,
-        fontSize: 12,
-        fontWeight: fontWeight,
-        height: 1.4,
-        color: color,
-      );
+      _captionBase.copyWith(fontWeight: fontWeight, color: color);
 
   // font.micro — 10px
   /// font.micro
@@ -109,13 +110,7 @@ class TokenTypography {
     FontWeight fontWeight = FontWeight.w400,
     Color? color,
   }) =>
-      TextStyle(
-        fontFamily: _fontFamily,
-        fontSize: 10,
-        fontWeight: fontWeight,
-        height: 1.3,
-        color: color,
-      );
+      _microBase.copyWith(fontWeight: fontWeight, color: color);
 
   // Material TextTheme mapping
   static TextTheme get textTheme => TextTheme(
