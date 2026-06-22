@@ -4,14 +4,10 @@ import 'package:firela_app/generated/l10n/app_localizations.dart';
 
 /// Read-only posting row (.pen o5L0Q).
 ///
-/// Two states:
-///  - has units  → renders the numeric amount + currency.
-///  - units null → interpolated by the backend; renders an "Auto" badge
-///                 (accent capsule, not tappable). No editor affordance.
-///
-/// Read-only by design: postings are immutable after entry (ADR-0001),
-/// and the declarative MISSING edit UX only happens at creation time
-/// (no manual entry form exists yet).
+/// Numeric state (amount + currency) is the only one reachable from persisted
+/// data — postings are immutable after entry (ADR-0001) and always filled.
+/// The "Auto" capsule branch is reserved for interpolated rows; see the
+/// ponytail note at `interpolated` (unreachable today).
 class PostingEditorRow extends StatelessWidget {
   const PostingEditorRow({super.key, required this.posting, required this.l10n});
 
@@ -26,6 +22,12 @@ class PostingEditorRow extends StatelessWidget {
     final leaf = account.isEmpty ? '—' : account.split(':').last;
     final units = posting['units']?.toString();
     final currency = (posting['currency'] as String?) ?? '';
+    // ponytail: `units == null` is unreachable for persisted data — interpolation
+    // fills MISSING before persist, and persistence skips any residual null-units
+    // posting. So the "Auto" badge never renders today. When a manual entry form
+    // produces real MISSING postings, re-key this on
+    // `posting['meta']?['__automatic__'] == true` (official beancount's per-posting
+    // interpolated marker, AUTOMATIC_META) instead of `units == null`.
     final interpolated = units == null;
 
     return Padding(
