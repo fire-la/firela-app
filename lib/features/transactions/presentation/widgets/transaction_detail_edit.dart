@@ -5,6 +5,8 @@ import 'package:firela_app/generated/l10n/app_localizations.dart';
 import '../../../../core/components/components.dart';
 import '../../../../core/design_tokens/design_tokens.dart';
 import '../../../../shared/widgets/section_header.dart';
+import '../../domain/models/tag_suggestion.dart';
+import '../../../../shared/hooks/use_debounce.dart';
 import '../providers/use_transaction_detail.dart';
 import 'posting_editor_row.dart';
 
@@ -20,68 +22,7 @@ class TransactionDetailEdit extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final tokens = ThemeTokens.of(context);
     final state = useTransactionDetail(id);
-    final addTagController = useTextEditingController();
-    final addTagFocusNode = useFocusNode();
-
-    // addTag: opens an input dialog, returns the entered tag, then merges it
-    // into the CURRENT state.tags (closure captures the live state, so adding
-    // several tags in a row does not clobber earlier ones via a stale snapshot).
-    Future<void> addTag() async {
-      addTagController.clear();
-      // Guard: the dialog builder can run more than once (overlay/keyboard
-      // rebuilds); focus the field only on the first build so the cursor
-      // doesn't jump back mid-entry.
-      var focused = false;
-      final result = await showDialog<String>(
-        context: context,
-        builder: (dialogContext) {
-          if (!focused) {
-            focused = true;
-            WidgetsBinding.instance.addPostFrameCallback(
-              (_) => addTagFocusNode.requestFocus(),
-            );
-          }
-          return Dialog(
-            backgroundColor: tokens.bgCard,
-            child: Padding(
-              padding: const EdgeInsets.all(TokenSpacing.lg),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text(
-                    l10n.txAddTag,
-                    style: TokenTypography.h3(fontWeight: FontWeight.w600),
-                  ),
-                  const SizedBox(height: TokenSpacing.lg),
-                  InputField(
-                    controller: addTagController,
-                    focusNode: addTagFocusNode,
-                    placeholder: l10n.txAddTagPlaceholder,
-                  ),
-                  const SizedBox(height: TokenSpacing.lg),
-                  ButtonRow(
-                    primaryLabel: l10n.txAddTag,
-                    primaryOnTap: () => Navigator.of(dialogContext)
-                        .pop(addTagController.text.trim()),
-                    secondaryLabel: l10n.txCancel,
-                    secondaryOnTap: () => Navigator.of(dialogContext).pop(),
-                  ),
-                ],
-              ),
-            ),
-          );
-        },
-      );
-      if (!context.mounted) return;
-      if (result != null &&
-          result.isNotEmpty &&
-          !state.tags.contains(result)) {
-        state.setTags([...state.tags, result]);
-      }
-    }
 
     if (state.isLoading) {
       return const Center(child: CircularProgressIndicator());
@@ -136,7 +77,7 @@ class TransactionDetailEdit extends HookWidget {
           ),
           const SizedBox(height: TokenSpacing.xl),
           // tagsSection
-          _TagsSection(tags: state.tags, l10n: l10n, onAddTag: addTag),
+          _TagsSection(state: state, l10n: l10n),
           const SizedBox(height: TokenSpacing.xl),
           // postingsSection — postings list + inline balance indicator
           _PostingsSection(state: state, postings: postings, l10n: l10n),
@@ -245,20 +186,64 @@ class _InfoCard extends StatelessWidget {
   }
 }
 
-class _TagsSection extends StatelessWidget {
-  const _TagsSection({
-    required this.tags,
-    required this.l10n,
-    required this.onAddTag,
-  });
+class _TagsSection extends HookWidget {
+  const _TagsSection({required this.state, required this.l10n});
 
-  final List<String> tags;
+  final TransactionDetailState state;
   final AppLocalizations l10n;
-  final VoidCallback onAddTag;
 
   @override
   Widget build(BuildContext context) {
     final tokens = ThemeTokens.of(context);
+    final inputController = useTextEditingController();
+    final inputFocusNode = useFocusNode();
+    final inputText = useState('');
+    final suggestions = useState<List<TagSuggestion>>(const []);
+    final isLoading = useState(false);
+    final isFocused = useState(false);
+
+    useEffect(() {
+      void listener() {
+        inputText.value = inputController.text;
+      }
+      inputController.addListener(listener);
+      return () => inputController.removeListener(listener);
+    }, [inputController]);
+
+    useEffect(() {
+      void focusListener() {
+        isFocused.value = inputFocusNode.hasFocus;
+      }
+      inputFocusNode.addListener(focusListener);
+      return () => inputFocusNode.removeListener(focusListener);
+    }, [inputFocusNode]);
+
+    final debounced = useDebounce(
+      inputText.value,
+      const Duration(milliseconds: 300),
+    );
+    useEffect(() {
+      if (!isFocused.value) return null;
+      final q = debounced.trim();
+      isLoading.value = true;
+      state.suggestTags(q).then((result) {
+        suggestions.value = result;
+        isLoading.value = false;
+      });
+      return null;
+    }, [debounced, isFocused.value]);
+
+    void addTag(String tag) {
+      final t = tag.trim();
+      if (t.isNotEmpty && !state.tags.contains(t)) {
+        state.setTags([...state.tags, t]);
+      }
+      inputController.clear();
+      inputText.value = '';
+      inputFocusNode.requestFocus();
+    }
+
+    final showPanel = isFocused.value;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -268,22 +253,309 @@ class _TagsSection extends StatelessWidget {
           spacing: TokenSpacing.sm,
           runSpacing: TokenSpacing.sm,
           children: [
-            for (final tag in tags) Tag(label: tag),
-            // addTag button
-            GestureDetector(
-              onTap: onAddTag,
-              child: Container(
-                padding: const EdgeInsets.symmetric(vertical: TokenSpacing.xs, horizontal: TokenSpacing.lg),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(11),
-                  border: Border.all(color: TokenColors.borderTag, width: 0.5),
+            for (final tag in state.tags)
+              _RemovableTag(
+                label: tag,
+                onRemove: () {
+                  state.setTags(state.tags.where((t) => t != tag).toList());
+                  inputFocusNode.requestFocus();
+                },
+              ),
+            _TagInputChip(
+              controller: inputController,
+              focusNode: inputFocusNode,
+              placeholder: l10n.txTagSearchOrNew,
+              onSubmitted: addTag,
+            ),
+          ],
+        ),
+        if (showPanel) ...[
+          const SizedBox(height: TokenSpacing.sm),
+          _TagSuggestionsPanel(
+            query: inputText.value.trim(),
+            suggestions: suggestions.value,
+            isLoading: isLoading.value,
+            existingTags: state.tags,
+            l10n: l10n,
+            onSelect: addTag,
+          ),
+        ],
+      ],
+    );
+  }
+}
+
+/// A tag chip with a trailing × button. Tap × → removed (no confirm — tags
+/// are low-risk, easily re-added). Uses onTapDown so removal fires before the
+/// pointer-up blur can dismiss anything.
+class _RemovableTag extends StatelessWidget {
+  const _RemovableTag({required this.label, required this.onRemove});
+
+  final String label;
+  final VoidCallback onRemove;
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = ThemeTokens.of(context);
+    return Container(
+      height: 26,
+      padding: const EdgeInsets.only(left: TokenSpacing.lg),
+      decoration: BoxDecoration(
+        color: tokens.bgCard,
+        borderRadius: BorderRadius.circular(11),
+        border: Border.all(color: TokenColors.borderTag, width: 0.5),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(label, style: TokenTypography.caption(color: tokens.textPrimary)),
+          const SizedBox(width: TokenSpacing.xs),
+          GestureDetector(
+            onTapDown: (_) => onRemove(),
+            behavior: HitTestBehavior.opaque,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: TokenSpacing.xs,
+                horizontal: TokenSpacing.xs,
+              ),
+              child: Icon(Icons.close, size: 14, color: tokens.textTertiary),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Input chip (.pen addTagInput): rounded chip with search icon + TextField.
+/// Whole chip is tappable to focus the field (a min-size Row + Flexible would
+/// leave dead zones where taps miss the TextField's hit area).
+class _TagInputChip extends StatelessWidget {
+  const _TagInputChip({
+    required this.controller,
+    required this.focusNode,
+    required this.placeholder,
+    required this.onSubmitted,
+  });
+
+  final TextEditingController controller;
+  final FocusNode focusNode;
+  final String placeholder;
+  final void Function(String) onSubmitted;
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = ThemeTokens.of(context);
+    return GestureDetector(
+      onTap: focusNode.requestFocus,
+      behavior: HitTestBehavior.opaque,
+      child: Container(
+        height: 26,
+        padding: const EdgeInsets.symmetric(
+          vertical: TokenSpacing.xs,
+          horizontal: TokenSpacing.lg,
+        ),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(11),
+          border: Border.all(color: TokenColors.borderTag, width: 0.5),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.search, size: 14, color: tokens.textTertiary),
+            const SizedBox(width: TokenSpacing.xs),
+            // IntrinsicWidth makes the field track its content width (design's
+            // fit_content). Flexible/Expanded here would let the field grab the
+            // Wrap's full run width — that was the "still very wide" bug.
+            IntrinsicWidth(
+              child: TextField(
+                controller: controller,
+                focusNode: focusNode,
+                style: TokenTypography.caption(color: tokens.textPrimary),
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  isCollapsed: true,
+                  contentPadding: EdgeInsets.zero,
+                  hintText: placeholder,
+                  hintStyle: TokenTypography.caption(color: tokens.textTertiary),
                 ),
-                child: Text('+', style: TokenTypography.caption(color: tokens.textTertiary)),
+                textInputAction: TextInputAction.done,
+                onSubmitted: onSubmitted,
               ),
             ),
           ],
         ),
-      ],
+      ),
+    );
+  }
+}
+
+/// Suggestions panel (.pen tagSuggestions): inline card below the input chip.
+class _TagSuggestionsPanel extends StatelessWidget {
+  const _TagSuggestionsPanel({
+    required this.query,
+    required this.suggestions,
+    required this.isLoading,
+    required this.existingTags,
+    required this.l10n,
+    required this.onSelect,
+  });
+
+  final String query;
+  final List<TagSuggestion> suggestions;
+  final bool isLoading;
+  final List<String> existingTags;
+  final AppLocalizations l10n;
+  final void Function(String) onSelect;
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = ThemeTokens.of(context);
+    final isCommonMode = query.isEmpty;
+
+    Widget body;
+    if (isLoading && suggestions.isEmpty) {
+      body = Padding(
+        padding: const EdgeInsets.all(TokenSpacing.md),
+        child: Text('…', style: TokenTypography.caption(color: tokens.textTertiary)),
+      );
+    } else if (isCommonMode) {
+      // State 1: focused, no query → recent/common tags (no create-new row)
+      final children = <Widget>[
+        Padding(
+          padding: const EdgeInsets.all(TokenSpacing.md),
+          child: Text(l10n.txTagCommonTags,
+              style: TokenTypography.caption(color: tokens.textTertiary)),
+        ),
+      ];
+      if (suggestions.isEmpty) {
+        children.add(Padding(
+          padding: const EdgeInsets.all(TokenSpacing.md),
+          child: Text(l10n.txTagNoResults,
+              style: TokenTypography.caption(color: tokens.textTertiary)),
+        ));
+      } else {
+        for (final s in suggestions) {
+          children.add(_SuggestionRow(
+            tag: s.tag,
+            count: s.count,
+            isExactMatch: false,
+            isAdded: existingTags.contains(s.tag),
+            onTap: () => onSelect(s.tag),
+          ));
+        }
+      }
+      body = Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: children);
+    } else {
+      // State 2/3: prefix match + create-new
+      final exactExists =
+          existingTags.contains(query) || suggestions.any((s) => s.tag == query);
+      if (suggestions.isEmpty && exactExists) {
+        body = Padding(
+          padding: const EdgeInsets.all(TokenSpacing.md),
+          child: Text(l10n.txTagNoResults,
+              style: TokenTypography.caption(color: tokens.textTertiary)),
+        );
+      } else {
+        body = Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            for (final s in suggestions)
+              _SuggestionRow(
+                tag: s.tag,
+                count: s.count,
+                isExactMatch: s.tag == query,
+                isAdded: existingTags.contains(s.tag),
+                onTap: () => onSelect(s.tag),
+              ),
+            if (!exactExists)
+              _CreateNewRow(
+                label: l10n.txTagCreateNew(query),
+                onTap: () => onSelect(query),
+              ),
+          ],
+        );
+      }
+    }
+
+    return DesignCard(padding: EdgeInsets.zero, child: body);
+  }
+}
+
+class _SuggestionRow extends StatelessWidget {
+  const _SuggestionRow({
+    required this.tag,
+    required this.count,
+    required this.isExactMatch,
+    required this.isAdded,
+    required this.onTap,
+  });
+
+  final String tag;
+  final int count;
+  final bool isExactMatch;
+  final bool isAdded;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = ThemeTokens.of(context);
+    final color = isAdded
+        ? tokens.textTertiary
+        : (isExactMatch ? TokenColors.textAccent : tokens.textPrimary);
+    return GestureDetector(
+      onTapDown: isAdded ? null : (_) => onTap(),
+      behavior: HitTestBehavior.opaque,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+            vertical: TokenSpacing.sm, horizontal: TokenSpacing.md),
+        child: Row(
+          children: [
+            Icon(
+              isExactMatch ? Icons.check : Icons.label_outline,
+              size: 14,
+              color: color,
+            ),
+            const SizedBox(width: TokenSpacing.sm),
+            Expanded(
+                child: Text(tag, style: TokenTypography.body(color: color))),
+            if (!isExactMatch)
+              Text('· $count',
+                  style: TokenTypography.micro(color: tokens.textTertiary)),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _CreateNewRow extends StatelessWidget {
+  const _CreateNewRow({required this.label, required this.onTap});
+
+  final String label;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = ThemeTokens.of(context);
+    return GestureDetector(
+      onTapDown: (_) => onTap(),
+      behavior: HitTestBehavior.opaque,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+            vertical: TokenSpacing.sm, horizontal: TokenSpacing.md),
+        child: Row(
+          children: [
+            const Icon(Icons.add, size: 14, color: TokenColors.textAccent),
+            const SizedBox(width: TokenSpacing.sm),
+            Text(
+              label,
+              style: TokenTypography.body(
+                  fontWeight: FontWeight.w500, color: tokens.textAccent),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

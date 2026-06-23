@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import '../../../../api/src/api_client.dart';
 import '../../../../core/services/ign_api_service.dart';
 import '../../../../core/utils/logger.dart';
+import '../../../../shared/signals/region_signal.dart';
+import '../../domain/models/tag_suggestion.dart';
 import '../signals/transaction_refresh_signal.dart';
 
 class TransactionDetailState {
@@ -23,6 +26,7 @@ class TransactionDetailState {
   final void Function(String) setDate;
   final void Function(String) setPayee;
   final void Function(List<String>) setTags;
+  final Future<List<TagSuggestion>> Function(String) suggestTags;
 
   const TransactionDetailState({
     required this.isLoading,
@@ -43,6 +47,7 @@ class TransactionDetailState {
     required this.setDate,
     required this.setPayee,
     required this.setTags,
+    required this.suggestTags,
   });
 
   /// Per-currency balance deltas for postings.
@@ -155,6 +160,30 @@ TransactionDetailState useTransactionDetail(String id) {
     }
   }
 
+  /// Fetch tag suggestions. Empty query returns the user's most-used tags
+  /// (state-1 "recent/common" picker); non-empty does a prefix match.
+  /// Failures are silent (returns []) so autocomplete outages don't block editing.
+  Future<List<TagSuggestion>> suggestTags(String query) async {
+    final q = query.trim();
+    try {
+      final region = regionSignal.value;
+      final qp = <String, dynamic>{'limit': 10};
+      if (q.isNotEmpty) qp['q'] = q;
+      final resp = await ApiClient().dio.get(
+        '/api/v1/$region/bean/transactions/tags',
+        queryParameters: qp,
+      );
+      final data = resp.data as Map<String, dynamic>?;
+      final list = (data?['data'] as List?) ?? const [];
+      return list
+          .map((e) => TagSuggestion.fromJson(e as Map<String, dynamic>))
+          .toList();
+    } catch (e) {
+      logger.e('[TransactionDetail] suggestTags failed: $e');
+      return [];
+    }
+  }
+
   return TransactionDetailState(
     isLoading: isLoading.value,
     isSaving: isSaving.value,
@@ -174,6 +203,7 @@ TransactionDetailState useTransactionDetail(String id) {
     setDate: (date) => selectedDate.value = date,
     setPayee: (name) => payee.value = name,
     setTags: (list) => tagsState.value = list,
+    suggestTags: suggestTags,
   );
 }
 

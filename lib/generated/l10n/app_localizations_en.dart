@@ -1514,6 +1514,20 @@ class AppLocalizationsEn extends AppLocalizations {
   String get txAddTagPlaceholder => 'Tag name';
 
   @override
+  String get txTagSearchOrNew => 'Search or create tag';
+
+  @override
+  String get txTagCommonTags => 'Recent tags';
+
+  @override
+  String get txTagNoResults => 'No matching tags';
+
+  @override
+  String txTagCreateNew(String tag) {
+    return 'Create new tag \"$tag\"';
+  }
+
+  @override
   String get txPostingsTitle => 'Postings';
 
   @override

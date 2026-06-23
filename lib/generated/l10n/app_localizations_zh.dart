@@ -1477,6 +1477,20 @@ class AppLocalizationsZh extends AppLocalizations {
   String get txAddTagPlaceholder => '标签名称';
 
   @override
+  String get txTagSearchOrNew => 'Search or create tag';
+
+  @override
+  String get txTagCommonTags => 'Recent tags';
+
+  @override
+  String get txTagNoResults => 'No matching tags';
+
+  @override
+  String txTagCreateNew(String tag) {
+    return 'Create new tag \"$tag\"';
+  }
+
+  @override
   String get txPostingsTitle => '分录';
 
   @override
@@ -3063,6 +3077,20 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
 
   @override
   String get txAddTagPlaceholder => '标签名称';
+
+  @override
+  String get txTagSearchOrNew => '搜索或新建标签';
+
+  @override
+  String get txTagCommonTags => '最近常用';
+
+  @override
+  String get txTagNoResults => '无匹配标签';
+
+  @override
+  String txTagCreateNew(String tag) {
+    return '新建标签「$tag」';
+  }
 
   @override
   String get txPostingsTitle => '分录';

@@ -2389,6 +2389,21 @@
   "@txAddTag": { "description": "Add tag button" },
   "txAddTagPlaceholder": "Tag name",
   "@txAddTagPlaceholder": { "description": "Add tag input placeholder" },
+  "txTagSearchOrNew": "Search or create tag",
+  "@txTagSearchOrNew": { "description": "Tag input chip placeholder" },
+  "txTagCommonTags": "Recent tags",
+  "@txTagCommonTags": { "description": "Header shown above common-tag suggestions when the input is empty" },
+  "txTagNoResults": "No matching tags",
+  "@txTagNoResults": { "description": "Shown when no tag suggestions match" },
+  "txTagCreateNew": "Create new tag \"{tag}\"",
+  "@txTagCreateNew": {
+    "description": "Create-new-tag suggestion row",
+    "placeholders": {
+      "tag": {
+        "type": "String"
+      }
+    }
+  },
   "txPostingsTitle": "Postings",
   "@txPostingsTitle": { "description": "Postings section title" },
   "txAddPosting": "Add posting",

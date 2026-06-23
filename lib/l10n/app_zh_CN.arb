@@ -513,6 +513,17 @@
   "txTags": "标签",
   "txAddTag": "添加标签",
   "txAddTagPlaceholder": "标签名称",
+  "txTagSearchOrNew": "搜索或新建标签",
+  "txTagCommonTags": "最近常用",
+  "txTagNoResults": "无匹配标签",
+  "txTagCreateNew": "新建标签「{tag}」",
+  "@txTagCreateNew": {
+    "placeholders": {
+      "tag": {
+        "type": "String"
+      }
+    }
+  },
   "txPostingsTitle": "分录",
   "txAddPosting": "添加分录",
   "txSource": "来源",

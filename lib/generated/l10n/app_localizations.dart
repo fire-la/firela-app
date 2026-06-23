@@ -2950,6 +2950,30 @@ abstract class AppLocalizations {
   /// **'Tag name'**
   String get txAddTagPlaceholder;
 
+  /// Tag input chip placeholder
+  ///
+  /// In en, this message translates to:
+  /// **'Search or create tag'**
+  String get txTagSearchOrNew;
+
+  /// Header shown above common-tag suggestions when the input is empty
+  ///
+  /// In en, this message translates to:
+  /// **'Recent tags'**
+  String get txTagCommonTags;
+
+  /// Shown when no tag suggestions match
+  ///
+  /// In en, this message translates to:
+  /// **'No matching tags'**
+  String get txTagNoResults;
+
+  /// Create-new-tag suggestion row
+  ///
+  /// In en, this message translates to:
+  /// **'Create new tag \"{tag}\"'**
+  String txTagCreateNew(String tag);
+
   /// Postings section title
   ///
   /// In en, this message translates to:
