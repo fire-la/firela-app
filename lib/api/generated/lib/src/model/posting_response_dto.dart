@@ -12,7 +12,7 @@ part 'posting_response_dto.g.dart';
 ///
 /// Properties:
 /// * [account] - Account name
-/// * [units] - Amount (may be null if interpolated)
+/// * [units] - Amount as decimal string. Typed optional but always present in responses: interpolation fills any MISSING posting before it is persisted or returned.
 /// * [currency] - Currency
 @BuiltValue()
 abstract class PostingResponseDto implements Built<PostingResponseDto, PostingResponseDtoBuilder> {
@@ -20,7 +20,7 @@ abstract class PostingResponseDto implements Built<PostingResponseDto, PostingRe
   @BuiltValueField(wireName: r'account')
   String get account;
 
-  /// Amount (may be null if interpolated)
+  /// Amount as decimal string. Typed optional but always present in responses: interpolation fills any MISSING posting before it is persisted or returned.
   @BuiltValueField(wireName: r'units')
   String? get units;
 

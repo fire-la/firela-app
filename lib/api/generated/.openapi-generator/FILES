@@ -160,6 +160,8 @@ lib/src/model/rule_statistics_response_dto.dart
 lib/src/model/rule_statistics_response_dto_rule_stats_inner.dart
 lib/src/model/signup_dto.dart
 lib/src/model/supported_providers_response_dto.dart
+lib/src/model/tag_suggestion_dto.dart
+lib/src/model/tag_suggestions_response_dto.dart
 lib/src/model/template_metadata_dto.dart
 lib/src/model/template_metadata_response_dto.dart
 lib/src/model/test_rule_dto.dart

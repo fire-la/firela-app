@@ -165,6 +165,8 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(RuleStatisticsResponseDtoRuleStatsInner.serializer)
       ..add(SignupDto.serializer)
       ..add(SupportedProvidersResponseDto.serializer)
+      ..add(TagSuggestionDto.serializer)
+      ..add(TagSuggestionsResponseDto.serializer)
       ..add(TemplateMetadataDto.serializer)
       ..add(TemplateMetadataResponseDto.serializer)
       ..add(TestRuleDto.serializer)
@@ -572,6 +574,9 @@ Serializers _$serializers = (new Serializers().toBuilder()
           const FullType(
               BuiltMap, const [const FullType(String), const FullType(String)]),
           () => new MapBuilder<String, String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(TagSuggestionDto)]),
+          () => new ListBuilder<TagSuggestionDto>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(TimeSeriesPointDto)]),
           () => new ListBuilder<TimeSeriesPointDto>())

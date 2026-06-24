@@ -135,6 +135,8 @@ import 'package:firela_api/src/model/rule_statistics_response_dto.dart';
 import 'package:firela_api/src/model/rule_statistics_response_dto_rule_stats_inner.dart';
 import 'package:firela_api/src/model/signup_dto.dart';
 import 'package:firela_api/src/model/supported_providers_response_dto.dart';
+import 'package:firela_api/src/model/tag_suggestion_dto.dart';
+import 'package:firela_api/src/model/tag_suggestions_response_dto.dart';
 import 'package:firela_api/src/model/template_metadata_dto.dart';
 import 'package:firela_api/src/model/template_metadata_response_dto.dart';
 import 'package:firela_api/src/model/test_rule_dto.dart';
@@ -289,6 +291,8 @@ part 'serializers.g.dart';
   RuleStatisticsResponseDtoRuleStatsInner,
   SignupDto,
   SupportedProvidersResponseDto,
+  TagSuggestionDto,
+  TagSuggestionsResponseDto,
   TemplateMetadataDto,
   TemplateMetadataResponseDto,
   TestRuleDto,

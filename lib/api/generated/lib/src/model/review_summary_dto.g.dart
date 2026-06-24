@@ -227,7 +227,7 @@ class _$ReviewSummaryDto extends ReviewSummaryDto {
   @override
   final num confidence;
   @override
-  final ReviewSummaryDtoConfidenceLevelEnum confidenceLevel;
+  final ReviewSummaryDtoConfidenceLevelEnum? confidenceLevel;
   @override
   final String summaryKey;
   @override
@@ -262,7 +262,7 @@ class _$ReviewSummaryDto extends ReviewSummaryDto {
       required this.type,
       required this.status,
       required this.confidence,
-      required this.confidenceLevel,
+      this.confidenceLevel,
       required this.summaryKey,
       this.summaryParams,
       required this.matchReasons,
@@ -282,8 +282,6 @@ class _$ReviewSummaryDto extends ReviewSummaryDto {
         status, r'ReviewSummaryDto', 'status');
     BuiltValueNullFieldError.checkNotNull(
         confidence, r'ReviewSummaryDto', 'confidence');
-    BuiltValueNullFieldError.checkNotNull(
-        confidenceLevel, r'ReviewSummaryDto', 'confidenceLevel');
     BuiltValueNullFieldError.checkNotNull(
         summaryKey, r'ReviewSummaryDto', 'summaryKey');
     BuiltValueNullFieldError.checkNotNull(
@@ -511,8 +509,7 @@ class ReviewSummaryDtoBuilder
                   status, r'ReviewSummaryDto', 'status'),
               confidence: BuiltValueNullFieldError.checkNotNull(
                   confidence, r'ReviewSummaryDto', 'confidence'),
-              confidenceLevel: BuiltValueNullFieldError.checkNotNull(
-                  confidenceLevel, r'ReviewSummaryDto', 'confidenceLevel'),
+              confidenceLevel: confidenceLevel,
               summaryKey: BuiltValueNullFieldError.checkNotNull(
                   summaryKey, r'ReviewSummaryDto', 'summaryKey'),
               summaryParams: _summaryParams?.build(),

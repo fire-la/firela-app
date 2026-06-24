@@ -214,6 +214,7 @@ Class | Method | HTTP request | Description
 [*BeanTransactionsApi*](doc/BeanTransactionsApi.md) | [**transactionControllerDelete**](doc/BeanTransactionsApi.md#transactioncontrollerdelete) | **DELETE** /api/v1/{region}/bean/transactions/{id} | Void transaction
 [*BeanTransactionsApi*](doc/BeanTransactionsApi.md) | [**transactionControllerGetDetail**](doc/BeanTransactionsApi.md#transactioncontrollergetdetail) | **GET** /api/v1/{region}/bean/transactions/{id} | Get transaction detail
 [*BeanTransactionsApi*](doc/BeanTransactionsApi.md) | [**transactionControllerList**](doc/BeanTransactionsApi.md#transactioncontrollerlist) | **GET** /api/v1/{region}/bean/transactions | List transactions
+[*BeanTransactionsApi*](doc/BeanTransactionsApi.md) | [**transactionControllerSuggestTags**](doc/BeanTransactionsApi.md#transactioncontrollersuggesttags) | **GET** /api/v1/{region}/bean/transactions/tags | Suggest transaction tags
 [*BeanTransactionsApi*](doc/BeanTransactionsApi.md) | [**transactionControllerUpdate**](doc/BeanTransactionsApi.md#transactioncontrollerupdate) | **PATCH** /api/v1/{region}/bean/transactions/{id} | Update transaction metadata
 [*DashboardApi*](doc/DashboardApi.md) | [**dashboardControllerGetAccounts**](doc/DashboardApi.md#dashboardcontrollergetaccounts) | **GET** /api/v1/{region}/dashboard/accounts | Get accounts grouped by platform
 [*DashboardApi*](doc/DashboardApi.md) | [**dashboardControllerGetCashFlow**](doc/DashboardApi.md#dashboardcontrollergetcashflow) | **GET** /api/v1/{region}/dashboard/cash-flow | Get cash flow summary
@@ -388,6 +389,8 @@ Class | Method | HTTP request | Description
  - [RuleStatisticsResponseDtoRuleStatsInner](doc/RuleStatisticsResponseDtoRuleStatsInner.md)
  - [SignupDto](doc/SignupDto.md)
  - [SupportedProvidersResponseDto](doc/SupportedProvidersResponseDto.md)
+ - [TagSuggestionDto](doc/TagSuggestionDto.md)
+ - [TagSuggestionsResponseDto](doc/TagSuggestionsResponseDto.md)
  - [TemplateMetadataDto](doc/TemplateMetadataDto.md)
  - [TemplateMetadataResponseDto](doc/TemplateMetadataResponseDto.md)
  - [TestRuleDto](doc/TestRuleDto.md)

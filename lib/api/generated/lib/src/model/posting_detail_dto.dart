@@ -15,7 +15,7 @@ part 'posting_detail_dto.g.dart';
 /// * [id] - Posting ID
 /// * [accountId] - Account ID
 /// * [accountName] - Account name
-/// * [units] - Amount (may be null if interpolated)
+/// * [units] - Amount as decimal string. Typed optional but always present in responses: interpolation fills any MISSING posting before it is persisted or returned.
 /// * [currency] - Currency
 /// * [costAmount] - Cost amount
 /// * [costCurrency] - Cost currency
@@ -38,7 +38,7 @@ abstract class PostingDetailDto implements Built<PostingDetailDto, PostingDetail
   @BuiltValueField(wireName: r'accountName')
   String get accountName;
 
-  /// Amount (may be null if interpolated)
+  /// Amount as decimal string. Typed optional but always present in responses: interpolation fills any MISSING posting before it is persisted or returned.
   @BuiltValueField(wireName: r'units')
   String? get units;
 
