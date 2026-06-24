@@ -17,7 +17,7 @@ part 'review_summary_dto.g.dart';
 /// * [type] - Review type
 /// * [status] - Review status
 /// * [confidence] - Confidence score (0-1)
-/// * [confidenceLevel] - Confidence level derived from score
+/// * [confidenceLevel] - Confidence level derived from score. Null for error-type reviews (ACCOUNT_VALIDATION/PIPELINE_ERROR) which carry no confidence.
 /// * [summaryKey] - i18n message key for summary (e.g., review.summary.duplicate). Translate on frontend with summaryParams.
 /// * [summaryParams] - Parameters for summary message interpolation (e.g., { date: \"2024-01-15\", amount: \"50\" })
 /// * [matchReasons] - Human-readable reasons for branching
@@ -50,9 +50,9 @@ abstract class ReviewSummaryDto implements Built<ReviewSummaryDto, ReviewSummary
   @BuiltValueField(wireName: r'confidence')
   num get confidence;
 
-  /// Confidence level derived from score
+  /// Confidence level derived from score. Null for error-type reviews (ACCOUNT_VALIDATION/PIPELINE_ERROR) which carry no confidence.
   @BuiltValueField(wireName: r'confidenceLevel')
-  ReviewSummaryDtoConfidenceLevelEnum get confidenceLevel;
+  ReviewSummaryDtoConfidenceLevelEnum? get confidenceLevel;
   // enum confidenceLevelEnum {  HIGH,  MEDIUM,  LOW,  };
 
   /// i18n message key for summary (e.g., review.summary.duplicate). Translate on frontend with summaryParams.
@@ -146,9 +146,9 @@ class _$ReviewSummaryDtoSerializer implements PrimitiveSerializer<ReviewSummaryD
       specifiedType: const FullType(num),
     );
     yield r'confidenceLevel';
-    yield serializers.serialize(
+    yield object.confidenceLevel == null ? null : serializers.serialize(
       object.confidenceLevel,
-      specifiedType: const FullType(ReviewSummaryDtoConfidenceLevelEnum),
+      specifiedType: const FullType.nullable(ReviewSummaryDtoConfidenceLevelEnum),
     );
     yield r'summaryKey';
     yield serializers.serialize(
@@ -280,8 +280,9 @@ class _$ReviewSummaryDtoSerializer implements PrimitiveSerializer<ReviewSummaryD
         case r'confidenceLevel':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(ReviewSummaryDtoConfidenceLevelEnum),
-          ) as ReviewSummaryDtoConfidenceLevelEnum;
+            specifiedType: const FullType.nullable(ReviewSummaryDtoConfidenceLevelEnum),
+          ) as ReviewSummaryDtoConfidenceLevelEnum?;
+          if (valueDes == null) continue;
           result.confidenceLevel = valueDes;
           break;
         case r'summaryKey':
@@ -449,13 +450,13 @@ class ReviewSummaryDtoStatusEnum extends EnumClass {
 
 class ReviewSummaryDtoConfidenceLevelEnum extends EnumClass {
 
-  /// Confidence level derived from score
+  /// Confidence level derived from score. Null for error-type reviews (ACCOUNT_VALIDATION/PIPELINE_ERROR) which carry no confidence.
   @BuiltValueEnumConst(wireName: r'HIGH')
   static const ReviewSummaryDtoConfidenceLevelEnum HIGH = _$reviewSummaryDtoConfidenceLevelEnum_HIGH;
-  /// Confidence level derived from score
+  /// Confidence level derived from score. Null for error-type reviews (ACCOUNT_VALIDATION/PIPELINE_ERROR) which carry no confidence.
   @BuiltValueEnumConst(wireName: r'MEDIUM')
   static const ReviewSummaryDtoConfidenceLevelEnum MEDIUM = _$reviewSummaryDtoConfidenceLevelEnum_MEDIUM;
-  /// Confidence level derived from score
+  /// Confidence level derived from score. Null for error-type reviews (ACCOUNT_VALIDATION/PIPELINE_ERROR) which carry no confidence.
   @BuiltValueEnumConst(wireName: r'LOW')
   static const ReviewSummaryDtoConfidenceLevelEnum LOW = _$reviewSummaryDtoConfidenceLevelEnum_LOW;
 
