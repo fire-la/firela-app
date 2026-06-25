@@ -17,10 +17,7 @@ part 'account_exchange_rate_warning_dto.g.dart';
 /// * [accounts] - Affected account paths
 /// * [totalAmount] - Total amount in this currency
 @BuiltValue()
-abstract class AccountExchangeRateWarningDto
-    implements
-        Built<AccountExchangeRateWarningDto,
-            AccountExchangeRateWarningDtoBuilder> {
+abstract class AccountExchangeRateWarningDto implements Built<AccountExchangeRateWarningDto, AccountExchangeRateWarningDtoBuilder> {
   /// Warning type
   @BuiltValueField(wireName: r'type')
   String get type;
@@ -39,25 +36,18 @@ abstract class AccountExchangeRateWarningDto
 
   AccountExchangeRateWarningDto._();
 
-  factory AccountExchangeRateWarningDto(
-          [void updates(AccountExchangeRateWarningDtoBuilder b)]) =
-      _$AccountExchangeRateWarningDto;
+  factory AccountExchangeRateWarningDto([void updates(AccountExchangeRateWarningDtoBuilder b)]) = _$AccountExchangeRateWarningDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(AccountExchangeRateWarningDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<AccountExchangeRateWarningDto> get serializer =>
-      _$AccountExchangeRateWarningDtoSerializer();
+  static Serializer<AccountExchangeRateWarningDto> get serializer => _$AccountExchangeRateWarningDtoSerializer();
 }
 
-class _$AccountExchangeRateWarningDtoSerializer
-    implements PrimitiveSerializer<AccountExchangeRateWarningDto> {
+class _$AccountExchangeRateWarningDtoSerializer implements PrimitiveSerializer<AccountExchangeRateWarningDto> {
   @override
-  final Iterable<Type> types = const [
-    AccountExchangeRateWarningDto,
-    _$AccountExchangeRateWarningDto
-  ];
+  final Iterable<Type> types = const [AccountExchangeRateWarningDto, _$AccountExchangeRateWarningDto];
 
   @override
   final String wireName = r'AccountExchangeRateWarningDto';
@@ -95,9 +85,7 @@ class _$AccountExchangeRateWarningDtoSerializer
     AccountExchangeRateWarningDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -168,3 +156,4 @@ class _$AccountExchangeRateWarningDtoSerializer
     return result.build();
   }
 }
+

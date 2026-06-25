@@ -14,10 +14,9 @@ part 'versioned_config_dto.g.dart';
 /// Properties:
 /// * [version] - Configuration version (semver)
 /// * [schema] - Configuration schema identifier
-/// * [data]
+/// * [data] 
 @BuiltValue()
-abstract class VersionedConfigDto
-    implements Built<VersionedConfigDto, VersionedConfigDtoBuilder> {
+abstract class VersionedConfigDto implements Built<VersionedConfigDto, VersionedConfigDtoBuilder> {
   /// Configuration version (semver)
   @BuiltValueField(wireName: r'version')
   String get version;
@@ -31,19 +30,16 @@ abstract class VersionedConfigDto
 
   VersionedConfigDto._();
 
-  factory VersionedConfigDto([void updates(VersionedConfigDtoBuilder b)]) =
-      _$VersionedConfigDto;
+  factory VersionedConfigDto([void updates(VersionedConfigDtoBuilder b)]) = _$VersionedConfigDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(VersionedConfigDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<VersionedConfigDto> get serializer =>
-      _$VersionedConfigDtoSerializer();
+  static Serializer<VersionedConfigDto> get serializer => _$VersionedConfigDtoSerializer();
 }
 
-class _$VersionedConfigDtoSerializer
-    implements PrimitiveSerializer<VersionedConfigDto> {
+class _$VersionedConfigDtoSerializer implements PrimitiveSerializer<VersionedConfigDto> {
   @override
   final Iterable<Type> types = const [VersionedConfigDto, _$VersionedConfigDto];
 
@@ -78,9 +74,7 @@ class _$VersionedConfigDtoSerializer
     VersionedConfigDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -144,3 +138,4 @@ class _$VersionedConfigDtoSerializer
     return result.build();
   }
 }
+

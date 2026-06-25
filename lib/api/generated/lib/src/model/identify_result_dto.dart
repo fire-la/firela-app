@@ -17,8 +17,7 @@ part 'identify_result_dto.g.dart';
 /// * [account] - Default account used by this importer
 /// * [message] - Message when file cannot be identified
 @BuiltValue()
-abstract class IdentifyResultDto
-    implements Built<IdentifyResultDto, IdentifyResultDtoBuilder> {
+abstract class IdentifyResultDto implements Built<IdentifyResultDto, IdentifyResultDtoBuilder> {
   /// Whether the file was successfully identified
   @BuiltValueField(wireName: r'identified')
   bool get identified;
@@ -41,19 +40,16 @@ abstract class IdentifyResultDto
 
   IdentifyResultDto._();
 
-  factory IdentifyResultDto([void updates(IdentifyResultDtoBuilder b)]) =
-      _$IdentifyResultDto;
+  factory IdentifyResultDto([void updates(IdentifyResultDtoBuilder b)]) = _$IdentifyResultDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(IdentifyResultDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<IdentifyResultDto> get serializer =>
-      _$IdentifyResultDtoSerializer();
+  static Serializer<IdentifyResultDto> get serializer => _$IdentifyResultDtoSerializer();
 }
 
-class _$IdentifyResultDtoSerializer
-    implements PrimitiveSerializer<IdentifyResultDto> {
+class _$IdentifyResultDtoSerializer implements PrimitiveSerializer<IdentifyResultDto> {
   @override
   final Iterable<Type> types = const [IdentifyResultDto, _$IdentifyResultDto];
 
@@ -106,9 +102,7 @@ class _$IdentifyResultDtoSerializer
     IdentifyResultDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -186,3 +180,4 @@ class _$IdentifyResultDtoSerializer
     return result.build();
   }
 }
+

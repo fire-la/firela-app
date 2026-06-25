@@ -14,14 +14,13 @@ part 'recurring_match_info_dto.g.dart';
 /// * [expectedId] - Expected transaction ID
 /// * [ruleId] - Recurring rule ID
 /// * [ruleName] - Rule name for display
+/// * [ruleIcon] - Rule icon
 /// * [expectedDate] - Expected date (YYYY-MM-DD)
 /// * [expectedAmount] - Expected amount
 /// * [confidence] - Match confidence score (0-1)
 /// * [isAutoMatched] - Whether auto-matched (confidence >= 0.82)
-/// * [ruleIcon] - Rule icon
 @BuiltValue()
-abstract class RecurringMatchInfoDto
-    implements Built<RecurringMatchInfoDto, RecurringMatchInfoDtoBuilder> {
+abstract class RecurringMatchInfoDto implements Built<RecurringMatchInfoDto, RecurringMatchInfoDtoBuilder> {
   /// Expected transaction ID
   @BuiltValueField(wireName: r'expectedId')
   String get expectedId;
@@ -33,6 +32,10 @@ abstract class RecurringMatchInfoDto
   /// Rule name for display
   @BuiltValueField(wireName: r'ruleName')
   String get ruleName;
+
+  /// Rule icon
+  @BuiltValueField(wireName: r'ruleIcon')
+  String? get ruleIcon;
 
   /// Expected date (YYYY-MM-DD)
   @BuiltValueField(wireName: r'expectedDate')
@@ -50,30 +53,20 @@ abstract class RecurringMatchInfoDto
   @BuiltValueField(wireName: r'isAutoMatched')
   bool get isAutoMatched;
 
-  /// Rule icon
-  @BuiltValueField(wireName: r'ruleIcon')
-  String? get ruleIcon;
-
   RecurringMatchInfoDto._();
 
-  factory RecurringMatchInfoDto(
-      [void updates(RecurringMatchInfoDtoBuilder b)]) = _$RecurringMatchInfoDto;
+  factory RecurringMatchInfoDto([void updates(RecurringMatchInfoDtoBuilder b)]) = _$RecurringMatchInfoDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(RecurringMatchInfoDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<RecurringMatchInfoDto> get serializer =>
-      _$RecurringMatchInfoDtoSerializer();
+  static Serializer<RecurringMatchInfoDto> get serializer => _$RecurringMatchInfoDtoSerializer();
 }
 
-class _$RecurringMatchInfoDtoSerializer
-    implements PrimitiveSerializer<RecurringMatchInfoDto> {
+class _$RecurringMatchInfoDtoSerializer implements PrimitiveSerializer<RecurringMatchInfoDto> {
   @override
-  final Iterable<Type> types = const [
-    RecurringMatchInfoDto,
-    _$RecurringMatchInfoDto
-  ];
+  final Iterable<Type> types = const [RecurringMatchInfoDto, _$RecurringMatchInfoDto];
 
   @override
   final String wireName = r'RecurringMatchInfoDto';
@@ -98,6 +91,13 @@ class _$RecurringMatchInfoDtoSerializer
       object.ruleName,
       specifiedType: const FullType(String),
     );
+    if (object.ruleIcon != null) {
+      yield r'ruleIcon';
+      yield serializers.serialize(
+        object.ruleIcon,
+        specifiedType: const FullType(String),
+      );
+    }
     yield r'expectedDate';
     yield serializers.serialize(
       object.expectedDate,
@@ -118,13 +118,6 @@ class _$RecurringMatchInfoDtoSerializer
       object.isAutoMatched,
       specifiedType: const FullType(bool),
     );
-    if (object.ruleIcon != null) {
-      yield r'ruleIcon';
-      yield serializers.serialize(
-        object.ruleIcon,
-        specifiedType: const FullType(String),
-      );
-    }
   }
 
   @override
@@ -133,9 +126,7 @@ class _$RecurringMatchInfoDtoSerializer
     RecurringMatchInfoDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -171,6 +162,13 @@ class _$RecurringMatchInfoDtoSerializer
           ) as String;
           result.ruleName = valueDes;
           break;
+        case r'ruleIcon':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.ruleIcon = valueDes;
+          break;
         case r'expectedDate':
           final valueDes = serializers.deserialize(
             value,
@@ -198,13 +196,6 @@ class _$RecurringMatchInfoDtoSerializer
             specifiedType: const FullType(bool),
           ) as bool;
           result.isAutoMatched = valueDes;
-          break;
-        case r'ruleIcon':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.ruleIcon = valueDes;
           break;
         default:
           unhandled.add(key);
@@ -234,3 +225,4 @@ class _$RecurringMatchInfoDtoSerializer
     return result.build();
   }
 }
+

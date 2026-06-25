@@ -18,8 +18,7 @@ part 'converted_cash_flow_dto.g.dart';
 /// * [netSavings] - Converted net savings
 /// * [exchangeRates] - Exchange rates used for conversion
 @BuiltValue()
-abstract class ConvertedCashFlowDto
-    implements Built<ConvertedCashFlowDto, ConvertedCashFlowDtoBuilder> {
+abstract class ConvertedCashFlowDto implements Built<ConvertedCashFlowDto, ConvertedCashFlowDtoBuilder> {
   /// Base currency for conversion
   @BuiltValueField(wireName: r'baseCurrency')
   String get baseCurrency;
@@ -42,24 +41,18 @@ abstract class ConvertedCashFlowDto
 
   ConvertedCashFlowDto._();
 
-  factory ConvertedCashFlowDto([void updates(ConvertedCashFlowDtoBuilder b)]) =
-      _$ConvertedCashFlowDto;
+  factory ConvertedCashFlowDto([void updates(ConvertedCashFlowDtoBuilder b)]) = _$ConvertedCashFlowDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(ConvertedCashFlowDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<ConvertedCashFlowDto> get serializer =>
-      _$ConvertedCashFlowDtoSerializer();
+  static Serializer<ConvertedCashFlowDto> get serializer => _$ConvertedCashFlowDtoSerializer();
 }
 
-class _$ConvertedCashFlowDtoSerializer
-    implements PrimitiveSerializer<ConvertedCashFlowDto> {
+class _$ConvertedCashFlowDtoSerializer implements PrimitiveSerializer<ConvertedCashFlowDto> {
   @override
-  final Iterable<Type> types = const [
-    ConvertedCashFlowDto,
-    _$ConvertedCashFlowDto
-  ];
+  final Iterable<Type> types = const [ConvertedCashFlowDto, _$ConvertedCashFlowDto];
 
   @override
   final String wireName = r'ConvertedCashFlowDto';
@@ -102,9 +95,7 @@ class _$ConvertedCashFlowDtoSerializer
     ConvertedCashFlowDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -182,3 +173,4 @@ class _$ConvertedCashFlowDtoSerializer
     return result.build();
   }
 }
+

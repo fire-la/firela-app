@@ -13,6 +13,7 @@ import 'package:firela_api/src/model/dashboard_controller_get_accounts200_respon
 import 'package:firela_api/src/model/net_worth_response_dto.dart';
 
 class DashboardApi {
+
   final Dio _dio;
 
   final Serializers _serializers;
@@ -23,7 +24,7 @@ class DashboardApi {
   /// Returns accounts with balances grouped by financial platform
   ///
   /// Parameters:
-  /// * [region] - Region code (cn, us, de)
+  /// * [region] - Region code for tenant context
   /// * [groupBy] - Grouping strategy
   /// * [date] - Date for balance calculation (ISO 8601 format)
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
@@ -35,8 +36,7 @@ class DashboardApi {
   ///
   /// Returns a [Future] containing a [Response] with a [DashboardControllerGetAccounts200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<DashboardControllerGetAccounts200Response>>
-      dashboardControllerGetAccounts({
+  Future<Response<DashboardControllerGetAccounts200Response>> dashboardControllerGetAccounts({ 
     required String region,
     String? groupBy,
     String? date,
@@ -47,10 +47,7 @@ class DashboardApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/{region}/dashboard/accounts'.replaceAll(
-        '{' r'region' '}',
-        encodeQueryParameter(_serializers, region, const FullType(String))
-            .toString());
+    final _path = r'/api/v1/{region}/dashboard/accounts'.replaceAll('{' r'region' '}', encodeQueryParameter(_serializers, region, const FullType(String)).toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -64,12 +61,8 @@ class DashboardApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      if (groupBy != null)
-        r'groupBy':
-            encodeQueryParameter(_serializers, groupBy, const FullType(String)),
-      if (date != null)
-        r'date':
-            encodeQueryParameter(_serializers, date, const FullType(String)),
+      if (groupBy != null) r'groupBy': encodeQueryParameter(_serializers, groupBy, const FullType(String)),
+      if (date != null) r'date': encodeQueryParameter(_serializers, date, const FullType(String)),
     };
 
     final _response = await _dio.request<Object>(
@@ -85,13 +78,11 @@ class DashboardApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null
-          ? null
-          : _serializers.deserialize(
-              rawResponse,
-              specifiedType:
-                  const FullType(DashboardControllerGetAccounts200Response),
-            ) as DashboardControllerGetAccounts200Response;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(DashboardControllerGetAccounts200Response),
+      ) as DashboardControllerGetAccounts200Response;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -119,7 +110,7 @@ class DashboardApi {
   ///
   /// Parameters:
   /// * [period] - Period in YYYY-MM format
-  /// * [region] - Region code (cn, us, de)
+  /// * [region] - Region code for tenant context
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -129,7 +120,7 @@ class DashboardApi {
   ///
   /// Returns a [Future] containing a [Response] with a [CashFlowResponseDto] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<CashFlowResponseDto>> dashboardControllerGetCashFlow({
+  Future<Response<CashFlowResponseDto>> dashboardControllerGetCashFlow({ 
     required String period,
     required String region,
     CancelToken? cancelToken,
@@ -139,10 +130,7 @@ class DashboardApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/{region}/dashboard/cash-flow'.replaceAll(
-        '{' r'region' '}',
-        encodeQueryParameter(_serializers, region, const FullType(String))
-            .toString());
+    final _path = r'/api/v1/{region}/dashboard/cash-flow'.replaceAll('{' r'region' '}', encodeQueryParameter(_serializers, region, const FullType(String)).toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -156,8 +144,7 @@ class DashboardApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      r'period':
-          encodeQueryParameter(_serializers, period, const FullType(String)),
+      r'period': encodeQueryParameter(_serializers, period, const FullType(String)),
     };
 
     final _response = await _dio.request<Object>(
@@ -173,12 +160,11 @@ class DashboardApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null
-          ? null
-          : _serializers.deserialize(
-              rawResponse,
-              specifiedType: const FullType(CashFlowResponseDto),
-            ) as CashFlowResponseDto;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(CashFlowResponseDto),
+      ) as CashFlowResponseDto;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -205,7 +191,7 @@ class DashboardApi {
   /// Returns total net worth with breakdown of assets and liabilities
   ///
   /// Parameters:
-  /// * [region] - Region code (cn, us, de)
+  /// * [region] - Region code for tenant context
   /// * [date] - Date for balance calculation (ISO 8601 format)
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
@@ -216,7 +202,7 @@ class DashboardApi {
   ///
   /// Returns a [Future] containing a [Response] with a [NetWorthResponseDto] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<NetWorthResponseDto>> dashboardControllerGetNetWorth({
+  Future<Response<NetWorthResponseDto>> dashboardControllerGetNetWorth({ 
     required String region,
     String? date,
     CancelToken? cancelToken,
@@ -226,10 +212,7 @@ class DashboardApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/{region}/dashboard/net-worth'.replaceAll(
-        '{' r'region' '}',
-        encodeQueryParameter(_serializers, region, const FullType(String))
-            .toString());
+    final _path = r'/api/v1/{region}/dashboard/net-worth'.replaceAll('{' r'region' '}', encodeQueryParameter(_serializers, region, const FullType(String)).toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -243,9 +226,7 @@ class DashboardApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      if (date != null)
-        r'date':
-            encodeQueryParameter(_serializers, date, const FullType(String)),
+      if (date != null) r'date': encodeQueryParameter(_serializers, date, const FullType(String)),
     };
 
     final _response = await _dio.request<Object>(
@@ -261,12 +242,11 @@ class DashboardApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null
-          ? null
-          : _serializers.deserialize(
-              rawResponse,
-              specifiedType: const FullType(NetWorthResponseDto),
-            ) as NetWorthResponseDto;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(NetWorthResponseDto),
+      ) as NetWorthResponseDto;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -288,4 +268,5 @@ class DashboardApi {
       extra: _response.extra,
     );
   }
+
 }

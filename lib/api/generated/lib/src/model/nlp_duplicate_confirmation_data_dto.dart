@@ -16,15 +16,12 @@ part 'nlp_duplicate_confirmation_data_dto.g.dart';
 ///
 /// Properties:
 /// * [confidence] - Duplicate detection confidence score (0.5-0.89)
-/// * [sourceTransaction]
-/// * [targetTransaction]
-/// * [similarity]
+/// * [sourceTransaction] 
+/// * [targetTransaction] 
+/// * [similarity] 
 /// * [reasons] - Human-readable reasons for duplicate detection
 @BuiltValue()
-abstract class NlpDuplicateConfirmationDataDto
-    implements
-        Built<NlpDuplicateConfirmationDataDto,
-            NlpDuplicateConfirmationDataDtoBuilder> {
+abstract class NlpDuplicateConfirmationDataDto implements Built<NlpDuplicateConfirmationDataDto, NlpDuplicateConfirmationDataDtoBuilder> {
   /// Duplicate detection confidence score (0.5-0.89)
   @BuiltValueField(wireName: r'confidence')
   num get confidence;
@@ -44,25 +41,18 @@ abstract class NlpDuplicateConfirmationDataDto
 
   NlpDuplicateConfirmationDataDto._();
 
-  factory NlpDuplicateConfirmationDataDto(
-          [void updates(NlpDuplicateConfirmationDataDtoBuilder b)]) =
-      _$NlpDuplicateConfirmationDataDto;
+  factory NlpDuplicateConfirmationDataDto([void updates(NlpDuplicateConfirmationDataDtoBuilder b)]) = _$NlpDuplicateConfirmationDataDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(NlpDuplicateConfirmationDataDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<NlpDuplicateConfirmationDataDto> get serializer =>
-      _$NlpDuplicateConfirmationDataDtoSerializer();
+  static Serializer<NlpDuplicateConfirmationDataDto> get serializer => _$NlpDuplicateConfirmationDataDtoSerializer();
 }
 
-class _$NlpDuplicateConfirmationDataDtoSerializer
-    implements PrimitiveSerializer<NlpDuplicateConfirmationDataDto> {
+class _$NlpDuplicateConfirmationDataDtoSerializer implements PrimitiveSerializer<NlpDuplicateConfirmationDataDto> {
   @override
-  final Iterable<Type> types = const [
-    NlpDuplicateConfirmationDataDto,
-    _$NlpDuplicateConfirmationDataDto
-  ];
+  final Iterable<Type> types = const [NlpDuplicateConfirmationDataDto, _$NlpDuplicateConfirmationDataDto];
 
   @override
   final String wireName = r'NlpDuplicateConfirmationDataDto';
@@ -105,9 +95,7 @@ class _$NlpDuplicateConfirmationDataDtoSerializer
     NlpDuplicateConfirmationDataDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -185,3 +173,4 @@ class _$NlpDuplicateConfirmationDataDtoSerializer
     return result.build();
   }
 }
+

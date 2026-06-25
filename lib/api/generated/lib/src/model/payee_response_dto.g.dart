@@ -14,6 +14,10 @@ class _$PayeeResponseDto extends PayeeResponseDto {
   @override
   final String payee;
   @override
+  final String? payeeProfileId;
+  @override
+  final String? customCategory;
+  @override
   final BuiltList<String> customTags;
   @override
   final num useCount;
@@ -27,10 +31,6 @@ class _$PayeeResponseDto extends PayeeResponseDto {
   final DateTime createdAt;
   @override
   final DateTime updatedAt;
-  @override
-  final JsonObject? payeeProfileId;
-  @override
-  final JsonObject? customCategory;
 
   factory _$PayeeResponseDto(
           [void Function(PayeeResponseDtoBuilder)? updates]) =>
@@ -40,15 +40,15 @@ class _$PayeeResponseDto extends PayeeResponseDto {
       {required this.id,
       required this.userId,
       required this.payee,
+      this.payeeProfileId,
+      this.customCategory,
       required this.customTags,
       required this.useCount,
       required this.lastUsedAt,
       required this.meta,
       required this.isActive,
       required this.createdAt,
-      required this.updatedAt,
-      this.payeeProfileId,
-      this.customCategory})
+      required this.updatedAt})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(id, r'PayeeResponseDto', 'id');
     BuiltValueNullFieldError.checkNotNull(
@@ -84,15 +84,15 @@ class _$PayeeResponseDto extends PayeeResponseDto {
         id == other.id &&
         userId == other.userId &&
         payee == other.payee &&
+        payeeProfileId == other.payeeProfileId &&
+        customCategory == other.customCategory &&
         customTags == other.customTags &&
         useCount == other.useCount &&
         lastUsedAt == other.lastUsedAt &&
         meta == other.meta &&
         isActive == other.isActive &&
         createdAt == other.createdAt &&
-        updatedAt == other.updatedAt &&
-        payeeProfileId == other.payeeProfileId &&
-        customCategory == other.customCategory;
+        updatedAt == other.updatedAt;
   }
 
   @override
@@ -101,6 +101,8 @@ class _$PayeeResponseDto extends PayeeResponseDto {
     _$hash = $jc(_$hash, id.hashCode);
     _$hash = $jc(_$hash, userId.hashCode);
     _$hash = $jc(_$hash, payee.hashCode);
+    _$hash = $jc(_$hash, payeeProfileId.hashCode);
+    _$hash = $jc(_$hash, customCategory.hashCode);
     _$hash = $jc(_$hash, customTags.hashCode);
     _$hash = $jc(_$hash, useCount.hashCode);
     _$hash = $jc(_$hash, lastUsedAt.hashCode);
@@ -108,8 +110,6 @@ class _$PayeeResponseDto extends PayeeResponseDto {
     _$hash = $jc(_$hash, isActive.hashCode);
     _$hash = $jc(_$hash, createdAt.hashCode);
     _$hash = $jc(_$hash, updatedAt.hashCode);
-    _$hash = $jc(_$hash, payeeProfileId.hashCode);
-    _$hash = $jc(_$hash, customCategory.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -120,15 +120,15 @@ class _$PayeeResponseDto extends PayeeResponseDto {
           ..add('id', id)
           ..add('userId', userId)
           ..add('payee', payee)
+          ..add('payeeProfileId', payeeProfileId)
+          ..add('customCategory', customCategory)
           ..add('customTags', customTags)
           ..add('useCount', useCount)
           ..add('lastUsedAt', lastUsedAt)
           ..add('meta', meta)
           ..add('isActive', isActive)
           ..add('createdAt', createdAt)
-          ..add('updatedAt', updatedAt)
-          ..add('payeeProfileId', payeeProfileId)
-          ..add('customCategory', customCategory))
+          ..add('updatedAt', updatedAt))
         .toString();
   }
 }
@@ -148,6 +148,16 @@ class PayeeResponseDtoBuilder
   String? _payee;
   String? get payee => _$this._payee;
   set payee(String? payee) => _$this._payee = payee;
+
+  String? _payeeProfileId;
+  String? get payeeProfileId => _$this._payeeProfileId;
+  set payeeProfileId(String? payeeProfileId) =>
+      _$this._payeeProfileId = payeeProfileId;
+
+  String? _customCategory;
+  String? get customCategory => _$this._customCategory;
+  set customCategory(String? customCategory) =>
+      _$this._customCategory = customCategory;
 
   ListBuilder<String>? _customTags;
   ListBuilder<String> get customTags =>
@@ -179,16 +189,6 @@ class PayeeResponseDtoBuilder
   DateTime? get updatedAt => _$this._updatedAt;
   set updatedAt(DateTime? updatedAt) => _$this._updatedAt = updatedAt;
 
-  JsonObject? _payeeProfileId;
-  JsonObject? get payeeProfileId => _$this._payeeProfileId;
-  set payeeProfileId(JsonObject? payeeProfileId) =>
-      _$this._payeeProfileId = payeeProfileId;
-
-  JsonObject? _customCategory;
-  JsonObject? get customCategory => _$this._customCategory;
-  set customCategory(JsonObject? customCategory) =>
-      _$this._customCategory = customCategory;
-
   PayeeResponseDtoBuilder() {
     PayeeResponseDto._defaults(this);
   }
@@ -199,6 +199,8 @@ class PayeeResponseDtoBuilder
       _id = $v.id;
       _userId = $v.userId;
       _payee = $v.payee;
+      _payeeProfileId = $v.payeeProfileId;
+      _customCategory = $v.customCategory;
       _customTags = $v.customTags.toBuilder();
       _useCount = $v.useCount;
       _lastUsedAt = $v.lastUsedAt;
@@ -206,8 +208,6 @@ class PayeeResponseDtoBuilder
       _isActive = $v.isActive;
       _createdAt = $v.createdAt;
       _updatedAt = $v.updatedAt;
-      _payeeProfileId = $v.payeeProfileId;
-      _customCategory = $v.customCategory;
       _$v = null;
     }
     return this;
@@ -238,6 +238,8 @@ class PayeeResponseDtoBuilder
                   userId, r'PayeeResponseDto', 'userId'),
               payee: BuiltValueNullFieldError.checkNotNull(
                   payee, r'PayeeResponseDto', 'payee'),
+              payeeProfileId: payeeProfileId,
+              customCategory: customCategory,
               customTags: customTags.build(),
               useCount: BuiltValueNullFieldError.checkNotNull(
                   useCount, r'PayeeResponseDto', 'useCount'),
@@ -250,9 +252,7 @@ class PayeeResponseDtoBuilder
               createdAt: BuiltValueNullFieldError.checkNotNull(
                   createdAt, r'PayeeResponseDto', 'createdAt'),
               updatedAt: BuiltValueNullFieldError.checkNotNull(
-                  updatedAt, r'PayeeResponseDto', 'updatedAt'),
-              payeeProfileId: payeeProfileId,
-              customCategory: customCategory);
+                  updatedAt, r'PayeeResponseDto', 'updatedAt'));
     } catch (_) {
       late String _$failedField;
       try {

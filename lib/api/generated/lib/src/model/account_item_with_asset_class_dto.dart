@@ -21,10 +21,7 @@ part 'account_item_with_asset_class_dto.g.dart';
 /// * [regionalSubClass] - Regional sub-class (region-specific, for display)
 /// * [riskLevel] - Risk level
 @BuiltValue()
-abstract class AccountItemWithAssetClassDto
-    implements
-        Built<AccountItemWithAssetClassDto,
-            AccountItemWithAssetClassDtoBuilder> {
+abstract class AccountItemWithAssetClassDto implements Built<AccountItemWithAssetClassDto, AccountItemWithAssetClassDtoBuilder> {
   /// Account ID
   @BuiltValueField(wireName: r'id')
   String get id;
@@ -63,25 +60,18 @@ abstract class AccountItemWithAssetClassDto
 
   AccountItemWithAssetClassDto._();
 
-  factory AccountItemWithAssetClassDto(
-          [void updates(AccountItemWithAssetClassDtoBuilder b)]) =
-      _$AccountItemWithAssetClassDto;
+  factory AccountItemWithAssetClassDto([void updates(AccountItemWithAssetClassDtoBuilder b)]) = _$AccountItemWithAssetClassDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(AccountItemWithAssetClassDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<AccountItemWithAssetClassDto> get serializer =>
-      _$AccountItemWithAssetClassDtoSerializer();
+  static Serializer<AccountItemWithAssetClassDto> get serializer => _$AccountItemWithAssetClassDtoSerializer();
 }
 
-class _$AccountItemWithAssetClassDtoSerializer
-    implements PrimitiveSerializer<AccountItemWithAssetClassDto> {
+class _$AccountItemWithAssetClassDtoSerializer implements PrimitiveSerializer<AccountItemWithAssetClassDto> {
   @override
-  final Iterable<Type> types = const [
-    AccountItemWithAssetClassDto,
-    _$AccountItemWithAssetClassDto
-  ];
+  final Iterable<Type> types = const [AccountItemWithAssetClassDto, _$AccountItemWithAssetClassDto];
 
   @override
   final String wireName = r'AccountItemWithAssetClassDto';
@@ -150,9 +140,7 @@ class _$AccountItemWithAssetClassDtoSerializer
     AccountItemWithAssetClassDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -258,3 +246,4 @@ class _$AccountItemWithAssetClassDtoSerializer
     return result.build();
   }
 }
+

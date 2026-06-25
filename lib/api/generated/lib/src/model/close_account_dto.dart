@@ -15,8 +15,7 @@ part 'close_account_dto.g.dart';
 /// * [closeDate] - Account close date
 /// * [closeMeta] - Close directive metadata
 @BuiltValue()
-abstract class CloseAccountDto
-    implements Built<CloseAccountDto, CloseAccountDtoBuilder> {
+abstract class CloseAccountDto implements Built<CloseAccountDto, CloseAccountDtoBuilder> {
   /// Account close date
   @BuiltValueField(wireName: r'closeDate')
   DateTime get closeDate;
@@ -27,19 +26,16 @@ abstract class CloseAccountDto
 
   CloseAccountDto._();
 
-  factory CloseAccountDto([void updates(CloseAccountDtoBuilder b)]) =
-      _$CloseAccountDto;
+  factory CloseAccountDto([void updates(CloseAccountDtoBuilder b)]) = _$CloseAccountDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(CloseAccountDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<CloseAccountDto> get serializer =>
-      _$CloseAccountDtoSerializer();
+  static Serializer<CloseAccountDto> get serializer => _$CloseAccountDtoSerializer();
 }
 
-class _$CloseAccountDtoSerializer
-    implements PrimitiveSerializer<CloseAccountDto> {
+class _$CloseAccountDtoSerializer implements PrimitiveSerializer<CloseAccountDto> {
   @override
   final Iterable<Type> types = const [CloseAccountDto, _$CloseAccountDto];
 
@@ -71,9 +67,7 @@ class _$CloseAccountDtoSerializer
     CloseAccountDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -130,3 +124,4 @@ class _$CloseAccountDtoSerializer
     return result.build();
   }
 }
+

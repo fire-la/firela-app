@@ -13,27 +13,23 @@ part 'anonymous_login_dto.g.dart';
 /// Properties:
 /// * [accessToken] - Access token for anonymous login
 @BuiltValue()
-abstract class AnonymousLoginDto
-    implements Built<AnonymousLoginDto, AnonymousLoginDtoBuilder> {
+abstract class AnonymousLoginDto implements Built<AnonymousLoginDto, AnonymousLoginDtoBuilder> {
   /// Access token for anonymous login
   @BuiltValueField(wireName: r'accessToken')
   String get accessToken;
 
   AnonymousLoginDto._();
 
-  factory AnonymousLoginDto([void updates(AnonymousLoginDtoBuilder b)]) =
-      _$AnonymousLoginDto;
+  factory AnonymousLoginDto([void updates(AnonymousLoginDtoBuilder b)]) = _$AnonymousLoginDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(AnonymousLoginDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<AnonymousLoginDto> get serializer =>
-      _$AnonymousLoginDtoSerializer();
+  static Serializer<AnonymousLoginDto> get serializer => _$AnonymousLoginDtoSerializer();
 }
 
-class _$AnonymousLoginDtoSerializer
-    implements PrimitiveSerializer<AnonymousLoginDto> {
+class _$AnonymousLoginDtoSerializer implements PrimitiveSerializer<AnonymousLoginDto> {
   @override
   final Iterable<Type> types = const [AnonymousLoginDto, _$AnonymousLoginDto];
 
@@ -58,9 +54,7 @@ class _$AnonymousLoginDtoSerializer
     AnonymousLoginDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -110,3 +104,4 @@ class _$AnonymousLoginDtoSerializer
     return result.build();
   }
 }
+

@@ -8,22 +8,22 @@ part of 'provider_sync_dto.dart';
 
 class _$ProviderSyncDto extends ProviderSyncDto {
   @override
-  final ProviderSyncConfigDto config;
-  @override
-  final BuiltList<dynamic> transactions;
-  @override
   final String? provider;
   @override
   final String? syncId;
+  @override
+  final ProviderSyncConfigDto config;
+  @override
+  final BuiltList<dynamic> transactions;
 
   factory _$ProviderSyncDto([void Function(ProviderSyncDtoBuilder)? updates]) =>
       (new ProviderSyncDtoBuilder()..update(updates))._build();
 
   _$ProviderSyncDto._(
-      {required this.config,
-      required this.transactions,
-      this.provider,
-      this.syncId})
+      {this.provider,
+      this.syncId,
+      required this.config,
+      required this.transactions})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(config, r'ProviderSyncDto', 'config');
     BuiltValueNullFieldError.checkNotNull(
@@ -42,19 +42,19 @@ class _$ProviderSyncDto extends ProviderSyncDto {
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
     return other is ProviderSyncDto &&
-        config == other.config &&
-        transactions == other.transactions &&
         provider == other.provider &&
-        syncId == other.syncId;
+        syncId == other.syncId &&
+        config == other.config &&
+        transactions == other.transactions;
   }
 
   @override
   int get hashCode {
     var _$hash = 0;
-    _$hash = $jc(_$hash, config.hashCode);
-    _$hash = $jc(_$hash, transactions.hashCode);
     _$hash = $jc(_$hash, provider.hashCode);
     _$hash = $jc(_$hash, syncId.hashCode);
+    _$hash = $jc(_$hash, config.hashCode);
+    _$hash = $jc(_$hash, transactions.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -62,10 +62,10 @@ class _$ProviderSyncDto extends ProviderSyncDto {
   @override
   String toString() {
     return (newBuiltValueToStringHelper(r'ProviderSyncDto')
-          ..add('config', config)
-          ..add('transactions', transactions)
           ..add('provider', provider)
-          ..add('syncId', syncId))
+          ..add('syncId', syncId)
+          ..add('config', config)
+          ..add('transactions', transactions))
         .toString();
   }
 }
@@ -73,6 +73,14 @@ class _$ProviderSyncDto extends ProviderSyncDto {
 class ProviderSyncDtoBuilder
     implements Builder<ProviderSyncDto, ProviderSyncDtoBuilder> {
   _$ProviderSyncDto? _$v;
+
+  String? _provider;
+  String? get provider => _$this._provider;
+  set provider(String? provider) => _$this._provider = provider;
+
+  String? _syncId;
+  String? get syncId => _$this._syncId;
+  set syncId(String? syncId) => _$this._syncId = syncId;
 
   ProviderSyncConfigDtoBuilder? _config;
   ProviderSyncConfigDtoBuilder get config =>
@@ -85,14 +93,6 @@ class ProviderSyncDtoBuilder
   set transactions(ListBuilder<dynamic>? transactions) =>
       _$this._transactions = transactions;
 
-  String? _provider;
-  String? get provider => _$this._provider;
-  set provider(String? provider) => _$this._provider = provider;
-
-  String? _syncId;
-  String? get syncId => _$this._syncId;
-  set syncId(String? syncId) => _$this._syncId = syncId;
-
   ProviderSyncDtoBuilder() {
     ProviderSyncDto._defaults(this);
   }
@@ -100,10 +100,10 @@ class ProviderSyncDtoBuilder
   ProviderSyncDtoBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
-      _config = $v.config.toBuilder();
-      _transactions = $v.transactions.toBuilder();
       _provider = $v.provider;
       _syncId = $v.syncId;
+      _config = $v.config.toBuilder();
+      _transactions = $v.transactions.toBuilder();
       _$v = null;
     }
     return this;
@@ -128,10 +128,10 @@ class ProviderSyncDtoBuilder
     try {
       _$result = _$v ??
           new _$ProviderSyncDto._(
-              config: config.build(),
-              transactions: transactions.build(),
               provider: provider,
-              syncId: syncId);
+              syncId: syncId,
+              config: config.build(),
+              transactions: transactions.build());
     } catch (_) {
       late String _$failedField;
       try {

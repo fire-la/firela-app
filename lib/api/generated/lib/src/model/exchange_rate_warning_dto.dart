@@ -15,8 +15,7 @@ part 'exchange_rate_warning_dto.g.dart';
 /// * [currency] - Currency without exchange rate
 /// * [totalAmount] - Total amount affected
 @BuiltValue()
-abstract class ExchangeRateWarningDto
-    implements Built<ExchangeRateWarningDto, ExchangeRateWarningDtoBuilder> {
+abstract class ExchangeRateWarningDto implements Built<ExchangeRateWarningDto, ExchangeRateWarningDtoBuilder> {
   /// Warning type
   @BuiltValueField(wireName: r'type')
   String get type;
@@ -31,25 +30,18 @@ abstract class ExchangeRateWarningDto
 
   ExchangeRateWarningDto._();
 
-  factory ExchangeRateWarningDto(
-          [void updates(ExchangeRateWarningDtoBuilder b)]) =
-      _$ExchangeRateWarningDto;
+  factory ExchangeRateWarningDto([void updates(ExchangeRateWarningDtoBuilder b)]) = _$ExchangeRateWarningDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(ExchangeRateWarningDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<ExchangeRateWarningDto> get serializer =>
-      _$ExchangeRateWarningDtoSerializer();
+  static Serializer<ExchangeRateWarningDto> get serializer => _$ExchangeRateWarningDtoSerializer();
 }
 
-class _$ExchangeRateWarningDtoSerializer
-    implements PrimitiveSerializer<ExchangeRateWarningDto> {
+class _$ExchangeRateWarningDtoSerializer implements PrimitiveSerializer<ExchangeRateWarningDto> {
   @override
-  final Iterable<Type> types = const [
-    ExchangeRateWarningDto,
-    _$ExchangeRateWarningDto
-  ];
+  final Iterable<Type> types = const [ExchangeRateWarningDto, _$ExchangeRateWarningDto];
 
   @override
   final String wireName = r'ExchangeRateWarningDto';
@@ -82,9 +74,7 @@ class _$ExchangeRateWarningDtoSerializer
     ExchangeRateWarningDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -148,3 +138,4 @@ class _$ExchangeRateWarningDtoSerializer
     return result.build();
   }
 }
+

@@ -10,8 +10,10 @@ import 'package:dio/dio.dart';
 import 'package:firela_api/src/api_util.dart';
 import 'package:firela_api/src/model/account_standard_list_response_dto.dart';
 import 'package:firela_api/src/model/regions_metadata_response_dto.dart';
+import 'package:firela_api/src/model/template_metadata_response_dto.dart';
 
 class BeanAccountStandardsApi {
+
   final Dio _dio;
 
   final Serializers _serializers;
@@ -22,7 +24,7 @@ class BeanAccountStandardsApi {
   /// Returns supported regions with inheritance metadata
   ///
   /// Parameters:
-  /// * [region] - Region code (cn, us, de)
+  /// * [region] - Region code for tenant context
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -32,8 +34,7 @@ class BeanAccountStandardsApi {
   ///
   /// Returns a [Future] containing a [Response] with a [RegionsMetadataResponseDto] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<RegionsMetadataResponseDto>>
-      accountStandardsControllerGetRegions({
+  Future<Response<RegionsMetadataResponseDto>> accountStandardsControllerGetRegions({ 
     required String region,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -42,10 +43,7 @@ class BeanAccountStandardsApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/{region}/bean/account-standards/regions'.replaceAll(
-        '{' r'region' '}',
-        encodeQueryParameter(_serializers, region, const FullType(String))
-            .toString());
+    final _path = r'/api/v1/{region}/bean/account-standards/regions'.replaceAll('{' r'region' '}', encodeQueryParameter(_serializers, region, const FullType(String)).toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -70,12 +68,11 @@ class BeanAccountStandardsApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null
-          ? null
-          : _serializers.deserialize(
-              rawResponse,
-              specifiedType: const FullType(RegionsMetadataResponseDto),
-            ) as RegionsMetadataResponseDto;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(RegionsMetadataResponseDto),
+      ) as RegionsMetadataResponseDto;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -87,6 +84,88 @@ class BeanAccountStandardsApi {
     }
 
     return Response<RegionsMetadataResponseDto>(
+      data: _responseData,
+      headers: _response.headers,
+      isRedirect: _response.isRedirect,
+      requestOptions: _response.requestOptions,
+      redirects: _response.redirects,
+      statusCode: _response.statusCode,
+      statusMessage: _response.statusMessage,
+      extra: _response.extra,
+    );
+  }
+
+  /// Get template metadata for an account path
+  /// Returns extendable status and root type for a template path.
+  ///
+  /// Parameters:
+  /// * [region] - Region code for tenant context
+  /// * [path] - Account path to check
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future] containing a [Response] with a [TemplateMetadataResponseDto] as data
+  /// Throws [DioException] if API call or serialization fails
+  Future<Response<TemplateMetadataResponseDto>> accountStandardsControllerGetTemplateMetadata({ 
+    required String region,
+    required String path,
+    CancelToken? cancelToken,
+    Map<String, dynamic>? headers,
+    Map<String, dynamic>? extra,
+    ValidateStatus? validateStatus,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {
+    final _path = r'/api/v1/{region}/bean/account-standards/template-metadata'.replaceAll('{' r'region' '}', encodeQueryParameter(_serializers, region, const FullType(String)).toString());
+    final _options = Options(
+      method: r'GET',
+      headers: <String, dynamic>{
+        ...?headers,
+      },
+      extra: <String, dynamic>{
+        'secure': <Map<String, String>>[],
+        ...?extra,
+      },
+      validateStatus: validateStatus,
+    );
+
+    final _queryParameters = <String, dynamic>{
+      r'path': encodeQueryParameter(_serializers, path, const FullType(String)),
+    };
+
+    final _response = await _dio.request<Object>(
+      _path,
+      options: _options,
+      queryParameters: _queryParameters,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+    );
+
+    TemplateMetadataResponseDto? _responseData;
+
+    try {
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(TemplateMetadataResponseDto),
+      ) as TemplateMetadataResponseDto;
+
+    } catch (error, stackTrace) {
+      throw DioException(
+        requestOptions: _response.requestOptions,
+        response: _response,
+        type: DioExceptionType.unknown,
+        error: error,
+        stackTrace: stackTrace,
+      );
+    }
+
+    return Response<TemplateMetadataResponseDto>(
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,
@@ -114,8 +193,7 @@ class BeanAccountStandardsApi {
   ///
   /// Returns a [Future] containing a [Response] with a [AccountStandardListResponseDto] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<AccountStandardListResponseDto>>
-      accountStandardsControllerGetTemplates({
+  Future<Response<AccountStandardListResponseDto>> accountStandardsControllerGetTemplates({ 
     required String region,
     String? type,
     String? search,
@@ -126,10 +204,7 @@ class BeanAccountStandardsApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/{region}/bean/account-standards'.replaceAll(
-        '{' r'region' '}',
-        encodeQueryParameter(_serializers, region, const FullType(String))
-            .toString());
+    final _path = r'/api/v1/{region}/bean/account-standards'.replaceAll('{' r'region' '}', encodeQueryParameter(_serializers, region, const FullType(String)).toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -143,12 +218,8 @@ class BeanAccountStandardsApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      if (type != null)
-        r'type':
-            encodeQueryParameter(_serializers, type, const FullType(String)),
-      if (search != null)
-        r'search':
-            encodeQueryParameter(_serializers, search, const FullType(String)),
+      if (type != null) r'type': encodeQueryParameter(_serializers, type, const FullType(String)),
+      if (search != null) r'search': encodeQueryParameter(_serializers, search, const FullType(String)),
     };
 
     final _response = await _dio.request<Object>(
@@ -164,12 +235,11 @@ class BeanAccountStandardsApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null
-          ? null
-          : _serializers.deserialize(
-              rawResponse,
-              specifiedType: const FullType(AccountStandardListResponseDto),
-            ) as AccountStandardListResponseDto;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(AccountStandardListResponseDto),
+      ) as AccountStandardListResponseDto;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -191,4 +261,5 @@ class BeanAccountStandardsApi {
       extra: _response.extra,
     );
   }
+
 }

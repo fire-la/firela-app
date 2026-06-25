@@ -15,29 +15,20 @@ part 'create_transaction_dto.g.dart';
 ///
 /// Properties:
 /// * [date] - Transaction date (ISO 8601 format)
-/// * [narration] - Transaction narration/description
-/// * [postings] - Transaction postings (minimum 1, typically 2 for double-entry)
 /// * [flag] - Transaction flag: * (cleared), ! (pending)
 /// * [payee] - Payee name
+/// * [narration] - Transaction narration/description
 /// * [tags] - Transaction tags (without # prefix)
 /// * [links] - Transaction links (without ^ prefix)
+/// * [postings] - Transaction postings (minimum 1, typically 2 for double-entry)
 /// * [meta] - Transaction-level metadata
 /// * [idempotencyKey] - Unique key for idempotent transaction creation. If provided, duplicate requests with the same key will return the existing transaction.
 /// * [autoCreateAccounts] - Auto-create accounts if not found. When true, missing accounts will be automatically created. When false (default for API), missing accounts will cause a validation error. Set to true for quick entry scenarios where you want to create accounts on-the-fly.
 @BuiltValue()
-abstract class CreateTransactionDto
-    implements Built<CreateTransactionDto, CreateTransactionDtoBuilder> {
+abstract class CreateTransactionDto implements Built<CreateTransactionDto, CreateTransactionDtoBuilder> {
   /// Transaction date (ISO 8601 format)
   @BuiltValueField(wireName: r'date')
   String get date;
-
-  /// Transaction narration/description
-  @BuiltValueField(wireName: r'narration')
-  String get narration;
-
-  /// Transaction postings (minimum 1, typically 2 for double-entry)
-  @BuiltValueField(wireName: r'postings')
-  BuiltList<CreatePostingDto> get postings;
 
   /// Transaction flag: * (cleared), ! (pending)
   @BuiltValueField(wireName: r'flag')
@@ -48,6 +39,10 @@ abstract class CreateTransactionDto
   @BuiltValueField(wireName: r'payee')
   String? get payee;
 
+  /// Transaction narration/description
+  @BuiltValueField(wireName: r'narration')
+  String get narration;
+
   /// Transaction tags (without # prefix)
   @BuiltValueField(wireName: r'tags')
   BuiltList<String>? get tags;
@@ -55,6 +50,10 @@ abstract class CreateTransactionDto
   /// Transaction links (without ^ prefix)
   @BuiltValueField(wireName: r'links')
   BuiltList<String>? get links;
+
+  /// Transaction postings (minimum 1, typically 2 for double-entry)
+  @BuiltValueField(wireName: r'postings')
+  BuiltList<CreatePostingDto> get postings;
 
   /// Transaction-level metadata
   @BuiltValueField(wireName: r'meta')
@@ -70,25 +69,19 @@ abstract class CreateTransactionDto
 
   CreateTransactionDto._();
 
-  factory CreateTransactionDto([void updates(CreateTransactionDtoBuilder b)]) =
-      _$CreateTransactionDto;
+  factory CreateTransactionDto([void updates(CreateTransactionDtoBuilder b)]) = _$CreateTransactionDto;
 
   @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(CreateTransactionDtoBuilder b) =>
-      b..autoCreateAccounts = true;
+  static void _defaults(CreateTransactionDtoBuilder b) => b
+      ..autoCreateAccounts = true;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<CreateTransactionDto> get serializer =>
-      _$CreateTransactionDtoSerializer();
+  static Serializer<CreateTransactionDto> get serializer => _$CreateTransactionDtoSerializer();
 }
 
-class _$CreateTransactionDtoSerializer
-    implements PrimitiveSerializer<CreateTransactionDto> {
+class _$CreateTransactionDtoSerializer implements PrimitiveSerializer<CreateTransactionDto> {
   @override
-  final Iterable<Type> types = const [
-    CreateTransactionDto,
-    _$CreateTransactionDto
-  ];
+  final Iterable<Type> types = const [CreateTransactionDto, _$CreateTransactionDto];
 
   @override
   final String wireName = r'CreateTransactionDto';
@@ -102,16 +95,6 @@ class _$CreateTransactionDtoSerializer
     yield serializers.serialize(
       object.date,
       specifiedType: const FullType(String),
-    );
-    yield r'narration';
-    yield serializers.serialize(
-      object.narration,
-      specifiedType: const FullType(String),
-    );
-    yield r'postings';
-    yield serializers.serialize(
-      object.postings,
-      specifiedType: const FullType(BuiltList, [FullType(CreatePostingDto)]),
     );
     if (object.flag != null) {
       yield r'flag';
@@ -127,6 +110,11 @@ class _$CreateTransactionDtoSerializer
         specifiedType: const FullType(String),
       );
     }
+    yield r'narration';
+    yield serializers.serialize(
+      object.narration,
+      specifiedType: const FullType(String),
+    );
     if (object.tags != null) {
       yield r'tags';
       yield serializers.serialize(
@@ -141,6 +129,11 @@ class _$CreateTransactionDtoSerializer
         specifiedType: const FullType(BuiltList, [FullType(String)]),
       );
     }
+    yield r'postings';
+    yield serializers.serialize(
+      object.postings,
+      specifiedType: const FullType(BuiltList, [FullType(CreatePostingDto)]),
+    );
     if (object.meta != null) {
       yield r'meta';
       yield serializers.serialize(
@@ -170,9 +163,7 @@ class _$CreateTransactionDtoSerializer
     CreateTransactionDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -194,21 +185,6 @@ class _$CreateTransactionDtoSerializer
           ) as String;
           result.date = valueDes;
           break;
-        case r'narration':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.narration = valueDes;
-          break;
-        case r'postings':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType:
-                const FullType(BuiltList, [FullType(CreatePostingDto)]),
-          ) as BuiltList<CreatePostingDto>;
-          result.postings.replace(valueDes);
-          break;
         case r'flag':
           final valueDes = serializers.deserialize(
             value,
@@ -223,6 +199,13 @@ class _$CreateTransactionDtoSerializer
           ) as String;
           result.payee = valueDes;
           break;
+        case r'narration':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.narration = valueDes;
+          break;
         case r'tags':
           final valueDes = serializers.deserialize(
             value,
@@ -236,6 +219,13 @@ class _$CreateTransactionDtoSerializer
             specifiedType: const FullType(BuiltList, [FullType(String)]),
           ) as BuiltList<String>;
           result.links.replace(valueDes);
+          break;
+        case r'postings':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(BuiltList, [FullType(CreatePostingDto)]),
+          ) as BuiltList<CreatePostingDto>;
+          result.postings.replace(valueDes);
           break;
         case r'meta':
           final valueDes = serializers.deserialize(
@@ -288,23 +278,19 @@ class _$CreateTransactionDtoSerializer
 }
 
 class CreateTransactionDtoFlagEnum extends EnumClass {
+
   /// Transaction flag: * (cleared), ! (pending)
   @BuiltValueEnumConst(wireName: r'*')
-  static const CreateTransactionDtoFlagEnum star =
-      _$createTransactionDtoFlagEnum_star;
-
+  static const CreateTransactionDtoFlagEnum star = _$createTransactionDtoFlagEnum_star;
   /// Transaction flag: * (cleared), ! (pending)
-  @BuiltValueEnumConst(wireName: r'!', fallback: true)
-  static const CreateTransactionDtoFlagEnum exclamation =
-      _$createTransactionDtoFlagEnum_exclamation;
+  @BuiltValueEnumConst(wireName: r'!')
+  static const CreateTransactionDtoFlagEnum exclamation = _$createTransactionDtoFlagEnum_exclamation;
 
-  static Serializer<CreateTransactionDtoFlagEnum> get serializer =>
-      _$createTransactionDtoFlagEnumSerializer;
+  static Serializer<CreateTransactionDtoFlagEnum> get serializer => _$createTransactionDtoFlagEnumSerializer;
 
-  const CreateTransactionDtoFlagEnum._(String name) : super(name);
+  const CreateTransactionDtoFlagEnum._(String name): super(name);
 
-  static BuiltSet<CreateTransactionDtoFlagEnum> get values =>
-      _$createTransactionDtoFlagEnumValues;
-  static CreateTransactionDtoFlagEnum valueOf(String name) =>
-      _$createTransactionDtoFlagEnumValueOf(name);
+  static BuiltSet<CreateTransactionDtoFlagEnum> get values => _$createTransactionDtoFlagEnumValues;
+  static CreateTransactionDtoFlagEnum valueOf(String name) => _$createTransactionDtoFlagEnumValueOf(name);
 }
+

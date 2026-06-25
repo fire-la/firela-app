@@ -17,16 +17,14 @@ part 'portfolio_trends_response_dto.g.dart';
 ///
 /// Properties:
 /// * [series] - Time series data points
-/// * [summary]
+/// * [summary] 
 /// * [period] - Period requested
 /// * [granularity] - Data granularity
 /// * [currency] - Base currency for converted values
 /// * [byCurrency] - Multi-currency time series (each point has currency breakdown)
 /// * [warnings] - Exchange rate warnings
 @BuiltValue()
-abstract class PortfolioTrendsResponseDto
-    implements
-        Built<PortfolioTrendsResponseDto, PortfolioTrendsResponseDtoBuilder> {
+abstract class PortfolioTrendsResponseDto implements Built<PortfolioTrendsResponseDto, PortfolioTrendsResponseDtoBuilder> {
   /// Time series data points
   @BuiltValueField(wireName: r'series')
   BuiltList<TimeSeriesPointDto> get series;
@@ -56,25 +54,18 @@ abstract class PortfolioTrendsResponseDto
 
   PortfolioTrendsResponseDto._();
 
-  factory PortfolioTrendsResponseDto(
-          [void updates(PortfolioTrendsResponseDtoBuilder b)]) =
-      _$PortfolioTrendsResponseDto;
+  factory PortfolioTrendsResponseDto([void updates(PortfolioTrendsResponseDtoBuilder b)]) = _$PortfolioTrendsResponseDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(PortfolioTrendsResponseDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<PortfolioTrendsResponseDto> get serializer =>
-      _$PortfolioTrendsResponseDtoSerializer();
+  static Serializer<PortfolioTrendsResponseDto> get serializer => _$PortfolioTrendsResponseDtoSerializer();
 }
 
-class _$PortfolioTrendsResponseDtoSerializer
-    implements PrimitiveSerializer<PortfolioTrendsResponseDto> {
+class _$PortfolioTrendsResponseDtoSerializer implements PrimitiveSerializer<PortfolioTrendsResponseDto> {
   @override
-  final Iterable<Type> types = const [
-    PortfolioTrendsResponseDto,
-    _$PortfolioTrendsResponseDto
-  ];
+  final Iterable<Type> types = const [PortfolioTrendsResponseDto, _$PortfolioTrendsResponseDto];
 
   @override
   final String wireName = r'PortfolioTrendsResponseDto';
@@ -113,16 +104,14 @@ class _$PortfolioTrendsResponseDtoSerializer
       yield r'byCurrency';
       yield serializers.serialize(
         object.byCurrency,
-        specifiedType:
-            const FullType(BuiltList, [FullType(MultiCurrencyPointDto)]),
+        specifiedType: const FullType(BuiltList, [FullType(MultiCurrencyPointDto)]),
       );
     }
     if (object.warnings != null) {
       yield r'warnings';
       yield serializers.serialize(
         object.warnings,
-        specifiedType:
-            const FullType(BuiltList, [FullType(ExchangeRateWarningDto)]),
+        specifiedType: const FullType(BuiltList, [FullType(ExchangeRateWarningDto)]),
       );
     }
   }
@@ -133,9 +122,7 @@ class _$PortfolioTrendsResponseDtoSerializer
     PortfolioTrendsResponseDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -153,8 +140,7 @@ class _$PortfolioTrendsResponseDtoSerializer
         case r'series':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType:
-                const FullType(BuiltList, [FullType(TimeSeriesPointDto)]),
+            specifiedType: const FullType(BuiltList, [FullType(TimeSeriesPointDto)]),
           ) as BuiltList<TimeSeriesPointDto>;
           result.series.replace(valueDes);
           break;
@@ -189,16 +175,14 @@ class _$PortfolioTrendsResponseDtoSerializer
         case r'byCurrency':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType:
-                const FullType(BuiltList, [FullType(MultiCurrencyPointDto)]),
+            specifiedType: const FullType(BuiltList, [FullType(MultiCurrencyPointDto)]),
           ) as BuiltList<MultiCurrencyPointDto>;
           result.byCurrency.replace(valueDes);
           break;
         case r'warnings':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType:
-                const FullType(BuiltList, [FullType(ExchangeRateWarningDto)]),
+            specifiedType: const FullType(BuiltList, [FullType(ExchangeRateWarningDto)]),
           ) as BuiltList<ExchangeRateWarningDto>;
           result.warnings.replace(valueDes);
           break;
@@ -230,3 +214,4 @@ class _$PortfolioTrendsResponseDtoSerializer
     return result.build();
   }
 }
+

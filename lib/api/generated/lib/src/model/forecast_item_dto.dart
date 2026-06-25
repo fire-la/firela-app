@@ -3,7 +3,6 @@
 //
 
 // ignore_for_file: unused_element
-import 'package:built_value/json_object.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
@@ -19,8 +18,7 @@ part 'forecast_item_dto.g.dart';
 /// * [icon] - Rule icon emoji
 /// * [currency] - Currency code
 @BuiltValue()
-abstract class ForecastItemDto
-    implements Built<ForecastItemDto, ForecastItemDtoBuilder> {
+abstract class ForecastItemDto implements Built<ForecastItemDto, ForecastItemDtoBuilder> {
   /// Rule name
   @BuiltValueField(wireName: r'rule')
   String get rule;
@@ -39,7 +37,7 @@ abstract class ForecastItemDto
 
   /// Rule icon emoji
   @BuiltValueField(wireName: r'icon')
-  JsonObject? get icon;
+  String? get icon;
 
   /// Currency code
   @BuiltValueField(wireName: r'currency')
@@ -47,19 +45,16 @@ abstract class ForecastItemDto
 
   ForecastItemDto._();
 
-  factory ForecastItemDto([void updates(ForecastItemDtoBuilder b)]) =
-      _$ForecastItemDto;
+  factory ForecastItemDto([void updates(ForecastItemDtoBuilder b)]) = _$ForecastItemDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(ForecastItemDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<ForecastItemDto> get serializer =>
-      _$ForecastItemDtoSerializer();
+  static Serializer<ForecastItemDto> get serializer => _$ForecastItemDtoSerializer();
 }
 
-class _$ForecastItemDtoSerializer
-    implements PrimitiveSerializer<ForecastItemDto> {
+class _$ForecastItemDtoSerializer implements PrimitiveSerializer<ForecastItemDto> {
   @override
   final Iterable<Type> types = const [ForecastItemDto, _$ForecastItemDto];
 
@@ -92,12 +87,10 @@ class _$ForecastItemDtoSerializer
       specifiedType: const FullType(String),
     );
     yield r'icon';
-    yield object.icon == null
-        ? null
-        : serializers.serialize(
-            object.icon,
-            specifiedType: const FullType.nullable(JsonObject),
-          );
+    yield object.icon == null ? null : serializers.serialize(
+      object.icon,
+      specifiedType: const FullType.nullable(String),
+    );
     yield r'currency';
     yield serializers.serialize(
       object.currency,
@@ -111,9 +104,7 @@ class _$ForecastItemDtoSerializer
     ForecastItemDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -159,8 +150,8 @@ class _$ForecastItemDtoSerializer
         case r'icon':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType.nullable(JsonObject),
-          ) as JsonObject?;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
           if (valueDes == null) continue;
           result.icon = valueDes;
           break;
@@ -199,3 +190,4 @@ class _$ForecastItemDtoSerializer
     return result.build();
   }
 }
+

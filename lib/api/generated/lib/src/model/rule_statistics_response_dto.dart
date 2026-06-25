@@ -20,9 +20,7 @@ part 'rule_statistics_response_dto.g.dart';
 /// * [averageConfidence] - Average confidence score across all matches
 /// * [ruleStats] - Per-rule statistics
 @BuiltValue()
-abstract class RuleStatisticsResponseDto
-    implements
-        Built<RuleStatisticsResponseDto, RuleStatisticsResponseDtoBuilder> {
+abstract class RuleStatisticsResponseDto implements Built<RuleStatisticsResponseDto, RuleStatisticsResponseDtoBuilder> {
   /// Statistics time period
   @BuiltValueField(wireName: r'period')
   RuleStatisticsResponseDtoPeriodEnum get period;
@@ -50,25 +48,18 @@ abstract class RuleStatisticsResponseDto
 
   RuleStatisticsResponseDto._();
 
-  factory RuleStatisticsResponseDto(
-          [void updates(RuleStatisticsResponseDtoBuilder b)]) =
-      _$RuleStatisticsResponseDto;
+  factory RuleStatisticsResponseDto([void updates(RuleStatisticsResponseDtoBuilder b)]) = _$RuleStatisticsResponseDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(RuleStatisticsResponseDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<RuleStatisticsResponseDto> get serializer =>
-      _$RuleStatisticsResponseDtoSerializer();
+  static Serializer<RuleStatisticsResponseDto> get serializer => _$RuleStatisticsResponseDtoSerializer();
 }
 
-class _$RuleStatisticsResponseDtoSerializer
-    implements PrimitiveSerializer<RuleStatisticsResponseDto> {
+class _$RuleStatisticsResponseDtoSerializer implements PrimitiveSerializer<RuleStatisticsResponseDto> {
   @override
-  final Iterable<Type> types = const [
-    RuleStatisticsResponseDto,
-    _$RuleStatisticsResponseDto
-  ];
+  final Iterable<Type> types = const [RuleStatisticsResponseDto, _$RuleStatisticsResponseDto];
 
   @override
   final String wireName = r'RuleStatisticsResponseDto';
@@ -106,8 +97,7 @@ class _$RuleStatisticsResponseDtoSerializer
     yield r'ruleStats';
     yield serializers.serialize(
       object.ruleStats,
-      specifiedType: const FullType(
-          BuiltList, [FullType(RuleStatisticsResponseDtoRuleStatsInner)]),
+      specifiedType: const FullType(BuiltList, [FullType(RuleStatisticsResponseDtoRuleStatsInner)]),
     );
   }
 
@@ -117,9 +107,7 @@ class _$RuleStatisticsResponseDtoSerializer
     RuleStatisticsResponseDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -172,8 +160,7 @@ class _$RuleStatisticsResponseDtoSerializer
         case r'ruleStats':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(
-                BuiltList, [FullType(RuleStatisticsResponseDtoRuleStatsInner)]),
+            specifiedType: const FullType(BuiltList, [FullType(RuleStatisticsResponseDtoRuleStatsInner)]),
           ) as BuiltList<RuleStatisticsResponseDtoRuleStatsInner>;
           result.ruleStats.replace(valueDes);
           break;
@@ -207,28 +194,22 @@ class _$RuleStatisticsResponseDtoSerializer
 }
 
 class RuleStatisticsResponseDtoPeriodEnum extends EnumClass {
+
   /// Statistics time period
   @BuiltValueEnumConst(wireName: r'7d')
-  static const RuleStatisticsResponseDtoPeriodEnum n7d =
-      _$ruleStatisticsResponseDtoPeriodEnum_n7d;
-
+  static const RuleStatisticsResponseDtoPeriodEnum n7d = _$ruleStatisticsResponseDtoPeriodEnum_n7d;
   /// Statistics time period
   @BuiltValueEnumConst(wireName: r'30d')
-  static const RuleStatisticsResponseDtoPeriodEnum n30d =
-      _$ruleStatisticsResponseDtoPeriodEnum_n30d;
-
+  static const RuleStatisticsResponseDtoPeriodEnum n30d = _$ruleStatisticsResponseDtoPeriodEnum_n30d;
   /// Statistics time period
-  @BuiltValueEnumConst(wireName: r'90d', fallback: true)
-  static const RuleStatisticsResponseDtoPeriodEnum n90d =
-      _$ruleStatisticsResponseDtoPeriodEnum_n90d;
+  @BuiltValueEnumConst(wireName: r'90d')
+  static const RuleStatisticsResponseDtoPeriodEnum n90d = _$ruleStatisticsResponseDtoPeriodEnum_n90d;
 
-  static Serializer<RuleStatisticsResponseDtoPeriodEnum> get serializer =>
-      _$ruleStatisticsResponseDtoPeriodEnumSerializer;
+  static Serializer<RuleStatisticsResponseDtoPeriodEnum> get serializer => _$ruleStatisticsResponseDtoPeriodEnumSerializer;
 
-  const RuleStatisticsResponseDtoPeriodEnum._(String name) : super(name);
+  const RuleStatisticsResponseDtoPeriodEnum._(String name): super(name);
 
-  static BuiltSet<RuleStatisticsResponseDtoPeriodEnum> get values =>
-      _$ruleStatisticsResponseDtoPeriodEnumValues;
-  static RuleStatisticsResponseDtoPeriodEnum valueOf(String name) =>
-      _$ruleStatisticsResponseDtoPeriodEnumValueOf(name);
+  static BuiltSet<RuleStatisticsResponseDtoPeriodEnum> get values => _$ruleStatisticsResponseDtoPeriodEnumValues;
+  static RuleStatisticsResponseDtoPeriodEnum valueOf(String name) => _$ruleStatisticsResponseDtoPeriodEnumValueOf(name);
 }
+

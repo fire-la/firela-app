@@ -38,8 +38,12 @@ const ImporterConfigDtoImporterIdEnum _$importerConfigDtoImporterIdEnum_icbc =
 const ImporterConfigDtoImporterIdEnum
     _$importerConfigDtoImporterIdEnum_icbcCredit =
     const ImporterConfigDtoImporterIdEnum._('icbcCredit');
-const ImporterConfigDtoImporterIdEnum _$importerConfigDtoImporterIdEnum_hsbcHk =
-    const ImporterConfigDtoImporterIdEnum._('hsbcHk');
+const ImporterConfigDtoImporterIdEnum
+    _$importerConfigDtoImporterIdEnum_hsbcHkCredit =
+    const ImporterConfigDtoImporterIdEnum._('hsbcHkCredit');
+const ImporterConfigDtoImporterIdEnum
+    _$importerConfigDtoImporterIdEnum_hsbcHkDebit =
+    const ImporterConfigDtoImporterIdEnum._('hsbcHkDebit');
 
 ImporterConfigDtoImporterIdEnum _$importerConfigDtoImporterIdEnumValueOf(
     String name) {
@@ -70,10 +74,12 @@ ImporterConfigDtoImporterIdEnum _$importerConfigDtoImporterIdEnumValueOf(
       return _$importerConfigDtoImporterIdEnum_icbc;
     case 'icbcCredit':
       return _$importerConfigDtoImporterIdEnum_icbcCredit;
-    case 'hsbcHk':
-      return _$importerConfigDtoImporterIdEnum_hsbcHk;
+    case 'hsbcHkCredit':
+      return _$importerConfigDtoImporterIdEnum_hsbcHkCredit;
+    case 'hsbcHkDebit':
+      return _$importerConfigDtoImporterIdEnum_hsbcHkDebit;
     default:
-      return _$importerConfigDtoImporterIdEnum_hsbcHk;
+      throw new ArgumentError(name);
   }
 }
 
@@ -93,7 +99,8 @@ final BuiltSet<ImporterConfigDtoImporterIdEnum>
   _$importerConfigDtoImporterIdEnum_cmbcCredit,
   _$importerConfigDtoImporterIdEnum_icbc,
   _$importerConfigDtoImporterIdEnum_icbcCredit,
-  _$importerConfigDtoImporterIdEnum_hsbcHk,
+  _$importerConfigDtoImporterIdEnum_hsbcHkCredit,
+  _$importerConfigDtoImporterIdEnum_hsbcHkDebit,
 ]);
 
 Serializer<ImporterConfigDtoImporterIdEnum>
@@ -116,7 +123,8 @@ class _$ImporterConfigDtoImporterIdEnumSerializer
     'cmbcCredit': 'cmbc-credit',
     'icbc': 'icbc',
     'icbcCredit': 'icbc-credit',
-    'hsbcHk': 'hsbc-hk',
+    'hsbcHkCredit': 'hsbc-hk-credit',
+    'hsbcHkDebit': 'hsbc-hk-debit',
   };
   static const Map<Object, String> _fromWire = const <Object, String>{
     'alipay': 'alipay',
@@ -132,7 +140,8 @@ class _$ImporterConfigDtoImporterIdEnumSerializer
     'cmbc-credit': 'cmbcCredit',
     'icbc': 'icbc',
     'icbc-credit': 'icbcCredit',
-    'hsbc-hk': 'hsbcHk',
+    'hsbc-hk-credit': 'hsbcHkCredit',
+    'hsbc-hk-debit': 'hsbcHkDebit',
   };
 
   @override

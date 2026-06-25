@@ -13,19 +13,21 @@ part 'region_info_dto.g.dart';
 /// RegionInfoDto
 ///
 /// Properties:
-/// * [code]
-/// * [displayName]
-/// * [chain]
-/// * [config]
-/// * [parent]
+/// * [code] 
+/// * [displayName] 
+/// * [parent] 
+/// * [chain] 
+/// * [config] 
 @BuiltValue()
-abstract class RegionInfoDto
-    implements Built<RegionInfoDto, RegionInfoDtoBuilder> {
+abstract class RegionInfoDto implements Built<RegionInfoDto, RegionInfoDtoBuilder> {
   @BuiltValueField(wireName: r'code')
   String get code;
 
   @BuiltValueField(wireName: r'displayName')
   String get displayName;
+
+  @BuiltValueField(wireName: r'parent')
+  String? get parent;
 
   @BuiltValueField(wireName: r'chain')
   BuiltList<String> get chain;
@@ -33,20 +35,15 @@ abstract class RegionInfoDto
   @BuiltValueField(wireName: r'config')
   RegionConfigDto get config;
 
-  @BuiltValueField(wireName: r'parent')
-  String? get parent;
-
   RegionInfoDto._();
 
-  factory RegionInfoDto([void updates(RegionInfoDtoBuilder b)]) =
-      _$RegionInfoDto;
+  factory RegionInfoDto([void updates(RegionInfoDtoBuilder b)]) = _$RegionInfoDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(RegionInfoDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<RegionInfoDto> get serializer =>
-      _$RegionInfoDtoSerializer();
+  static Serializer<RegionInfoDto> get serializer => _$RegionInfoDtoSerializer();
 }
 
 class _$RegionInfoDtoSerializer implements PrimitiveSerializer<RegionInfoDto> {
@@ -71,6 +68,13 @@ class _$RegionInfoDtoSerializer implements PrimitiveSerializer<RegionInfoDto> {
       object.displayName,
       specifiedType: const FullType(String),
     );
+    if (object.parent != null) {
+      yield r'parent';
+      yield serializers.serialize(
+        object.parent,
+        specifiedType: const FullType(String),
+      );
+    }
     yield r'chain';
     yield serializers.serialize(
       object.chain,
@@ -81,13 +85,6 @@ class _$RegionInfoDtoSerializer implements PrimitiveSerializer<RegionInfoDto> {
       object.config,
       specifiedType: const FullType(RegionConfigDto),
     );
-    if (object.parent != null) {
-      yield r'parent';
-      yield serializers.serialize(
-        object.parent,
-        specifiedType: const FullType(String),
-      );
-    }
   }
 
   @override
@@ -96,9 +93,7 @@ class _$RegionInfoDtoSerializer implements PrimitiveSerializer<RegionInfoDto> {
     RegionInfoDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -127,6 +122,13 @@ class _$RegionInfoDtoSerializer implements PrimitiveSerializer<RegionInfoDto> {
           ) as String;
           result.displayName = valueDes;
           break;
+        case r'parent':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.parent = valueDes;
+          break;
         case r'chain':
           final valueDes = serializers.deserialize(
             value,
@@ -140,13 +142,6 @@ class _$RegionInfoDtoSerializer implements PrimitiveSerializer<RegionInfoDto> {
             specifiedType: const FullType(RegionConfigDto),
           ) as RegionConfigDto;
           result.config.replace(valueDes);
-          break;
-        case r'parent':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.parent = valueDes;
           break;
         default:
           unhandled.add(key);
@@ -176,3 +171,4 @@ class _$RegionInfoDtoSerializer implements PrimitiveSerializer<RegionInfoDto> {
     return result.build();
   }
 }
+

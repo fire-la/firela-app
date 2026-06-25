@@ -15,27 +15,38 @@ part 'transaction_response_dto.g.dart';
 ///
 /// Properties:
 /// * [transactionId] - Database transaction ID
+/// * [idempotencyKey] - Idempotency key if provided during creation
 /// * [date] - Transaction date
+/// * [flag] - Transaction flag
+/// * [payee] - Payee name
 /// * [narration] - Transaction narration
 /// * [postings] - Transaction postings
 /// * [interpolated] - Whether interpolation was applied to balance the transaction
 /// * [booked] - Whether booking (cost resolution) was applied
-/// * [createdAccountIds] - Account IDs auto-created for this transaction (empty for API source)
-/// * [idempotencyKey] - Idempotency key if provided during creation
-/// * [flag] - Transaction flag
-/// * [payee] - Payee name
 /// * [warnings] - Non-blocking warnings from pipeline processing
-/// * [recurringSuggestion]
+/// * [createdAccountIds] - Account IDs auto-created for this transaction (empty for API source)
+/// * [recurringSuggestion] 
 @BuiltValue()
-abstract class TransactionResponseDto
-    implements Built<TransactionResponseDto, TransactionResponseDtoBuilder> {
+abstract class TransactionResponseDto implements Built<TransactionResponseDto, TransactionResponseDtoBuilder> {
   /// Database transaction ID
   @BuiltValueField(wireName: r'transactionId')
   String get transactionId;
 
+  /// Idempotency key if provided during creation
+  @BuiltValueField(wireName: r'idempotencyKey')
+  String? get idempotencyKey;
+
   /// Transaction date
   @BuiltValueField(wireName: r'date')
   String get date;
+
+  /// Transaction flag
+  @BuiltValueField(wireName: r'flag')
+  String? get flag;
+
+  /// Payee name
+  @BuiltValueField(wireName: r'payee')
+  String? get payee;
 
   /// Transaction narration
   @BuiltValueField(wireName: r'narration')
@@ -53,50 +64,31 @@ abstract class TransactionResponseDto
   @BuiltValueField(wireName: r'booked')
   bool get booked;
 
-  /// Account IDs auto-created for this transaction (empty for API source)
-  @BuiltValueField(wireName: r'createdAccountIds')
-  BuiltList<String> get createdAccountIds;
-
-  /// Idempotency key if provided during creation
-  @BuiltValueField(wireName: r'idempotencyKey')
-  String? get idempotencyKey;
-
-  /// Transaction flag
-  @BuiltValueField(wireName: r'flag')
-  String? get flag;
-
-  /// Payee name
-  @BuiltValueField(wireName: r'payee')
-  String? get payee;
-
   /// Non-blocking warnings from pipeline processing
   @BuiltValueField(wireName: r'warnings')
   BuiltList<String>? get warnings;
+
+  /// Account IDs auto-created for this transaction (empty for API source)
+  @BuiltValueField(wireName: r'createdAccountIds')
+  BuiltList<String> get createdAccountIds;
 
   @BuiltValueField(wireName: r'recurringSuggestion')
   RecurringSuggestionDto? get recurringSuggestion;
 
   TransactionResponseDto._();
 
-  factory TransactionResponseDto(
-          [void updates(TransactionResponseDtoBuilder b)]) =
-      _$TransactionResponseDto;
+  factory TransactionResponseDto([void updates(TransactionResponseDtoBuilder b)]) = _$TransactionResponseDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(TransactionResponseDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<TransactionResponseDto> get serializer =>
-      _$TransactionResponseDtoSerializer();
+  static Serializer<TransactionResponseDto> get serializer => _$TransactionResponseDtoSerializer();
 }
 
-class _$TransactionResponseDtoSerializer
-    implements PrimitiveSerializer<TransactionResponseDto> {
+class _$TransactionResponseDtoSerializer implements PrimitiveSerializer<TransactionResponseDto> {
   @override
-  final Iterable<Type> types = const [
-    TransactionResponseDto,
-    _$TransactionResponseDto
-  ];
+  final Iterable<Type> types = const [TransactionResponseDto, _$TransactionResponseDto];
 
   @override
   final String wireName = r'TransactionResponseDto';
@@ -111,11 +103,32 @@ class _$TransactionResponseDtoSerializer
       object.transactionId,
       specifiedType: const FullType(String),
     );
+    if (object.idempotencyKey != null) {
+      yield r'idempotencyKey';
+      yield serializers.serialize(
+        object.idempotencyKey,
+        specifiedType: const FullType(String),
+      );
+    }
     yield r'date';
     yield serializers.serialize(
       object.date,
       specifiedType: const FullType(String),
     );
+    if (object.flag != null) {
+      yield r'flag';
+      yield serializers.serialize(
+        object.flag,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.payee != null) {
+      yield r'payee';
+      yield serializers.serialize(
+        object.payee,
+        specifiedType: const FullType(String),
+      );
+    }
     yield r'narration';
     yield serializers.serialize(
       object.narration,
@@ -136,32 +149,6 @@ class _$TransactionResponseDtoSerializer
       object.booked,
       specifiedType: const FullType(bool),
     );
-    yield r'createdAccountIds';
-    yield serializers.serialize(
-      object.createdAccountIds,
-      specifiedType: const FullType(BuiltList, [FullType(String)]),
-    );
-    if (object.idempotencyKey != null) {
-      yield r'idempotencyKey';
-      yield serializers.serialize(
-        object.idempotencyKey,
-        specifiedType: const FullType(String),
-      );
-    }
-    if (object.flag != null) {
-      yield r'flag';
-      yield serializers.serialize(
-        object.flag,
-        specifiedType: const FullType(String),
-      );
-    }
-    if (object.payee != null) {
-      yield r'payee';
-      yield serializers.serialize(
-        object.payee,
-        specifiedType: const FullType(String),
-      );
-    }
     if (object.warnings != null) {
       yield r'warnings';
       yield serializers.serialize(
@@ -169,6 +156,11 @@ class _$TransactionResponseDtoSerializer
         specifiedType: const FullType(BuiltList, [FullType(String)]),
       );
     }
+    yield r'createdAccountIds';
+    yield serializers.serialize(
+      object.createdAccountIds,
+      specifiedType: const FullType(BuiltList, [FullType(String)]),
+    );
     if (object.recurringSuggestion != null) {
       yield r'recurringSuggestion';
       yield serializers.serialize(
@@ -184,9 +176,7 @@ class _$TransactionResponseDtoSerializer
     TransactionResponseDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -208,12 +198,33 @@ class _$TransactionResponseDtoSerializer
           ) as String;
           result.transactionId = valueDes;
           break;
+        case r'idempotencyKey':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.idempotencyKey = valueDes;
+          break;
         case r'date':
           final valueDes = serializers.deserialize(
             value,
             specifiedType: const FullType(String),
           ) as String;
           result.date = valueDes;
+          break;
+        case r'flag':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.flag = valueDes;
+          break;
+        case r'payee':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.payee = valueDes;
           break;
         case r'narration':
           final valueDes = serializers.deserialize(
@@ -225,8 +236,7 @@ class _$TransactionResponseDtoSerializer
         case r'postings':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType:
-                const FullType(BuiltList, [FullType(PostingResponseDto)]),
+            specifiedType: const FullType(BuiltList, [FullType(PostingResponseDto)]),
           ) as BuiltList<PostingResponseDto>;
           result.postings.replace(valueDes);
           break;
@@ -244,40 +254,19 @@ class _$TransactionResponseDtoSerializer
           ) as bool;
           result.booked = valueDes;
           break;
-        case r'createdAccountIds':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(BuiltList, [FullType(String)]),
-          ) as BuiltList<String>;
-          result.createdAccountIds.replace(valueDes);
-          break;
-        case r'idempotencyKey':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.idempotencyKey = valueDes;
-          break;
-        case r'flag':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.flag = valueDes;
-          break;
-        case r'payee':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.payee = valueDes;
-          break;
         case r'warnings':
           final valueDes = serializers.deserialize(
             value,
             specifiedType: const FullType(BuiltList, [FullType(String)]),
           ) as BuiltList<String>;
           result.warnings.replace(valueDes);
+          break;
+        case r'createdAccountIds':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(BuiltList, [FullType(String)]),
+          ) as BuiltList<String>;
+          result.createdAccountIds.replace(valueDes);
           break;
         case r'recurringSuggestion':
           final valueDes = serializers.deserialize(
@@ -314,3 +303,4 @@ class _$TransactionResponseDtoSerializer
     return result.build();
   }
 }
+

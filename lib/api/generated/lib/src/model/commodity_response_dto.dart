@@ -14,19 +14,21 @@ part 'commodity_response_dto.g.dart';
 ///
 /// Properties:
 /// * [id] - Unique identifier
+/// * [userId] - User ID (owner of the commodity)
 /// * [symbol] - Commodity symbol (corresponds to Beancount currency field)
 /// * [date] - Commodity definition date (required per Beancount spec). Represents when this commodity was first defined in the accounting system.
 /// * [metadata] - Metadata (corresponds to Beancount meta field). Contains name, assetClass, precision, note, tags, etc.
 /// * [createdAt] - Creation timestamp
 /// * [updatedAt] - Last update timestamp
-/// * [userId] - User ID (owner of the commodity)
-/// * [symbolProfileId] - Reference to SymbolProfile (market data integration, SaaS feature)
 @BuiltValue()
-abstract class CommodityResponseDto
-    implements Built<CommodityResponseDto, CommodityResponseDtoBuilder> {
+abstract class CommodityResponseDto implements Built<CommodityResponseDto, CommodityResponseDtoBuilder> {
   /// Unique identifier
   @BuiltValueField(wireName: r'id')
   String get id;
+
+  /// User ID (owner of the commodity)
+  @BuiltValueField(wireName: r'userId')
+  String? get userId;
 
   /// Commodity symbol (corresponds to Beancount currency field)
   @BuiltValueField(wireName: r'symbol')
@@ -48,34 +50,20 @@ abstract class CommodityResponseDto
   @BuiltValueField(wireName: r'updatedAt')
   DateTime get updatedAt;
 
-  /// User ID (owner of the commodity)
-  @BuiltValueField(wireName: r'userId')
-  JsonObject? get userId;
-
-  /// Reference to SymbolProfile (market data integration, SaaS feature)
-  @BuiltValueField(wireName: r'symbolProfileId')
-  JsonObject? get symbolProfileId;
-
   CommodityResponseDto._();
 
-  factory CommodityResponseDto([void updates(CommodityResponseDtoBuilder b)]) =
-      _$CommodityResponseDto;
+  factory CommodityResponseDto([void updates(CommodityResponseDtoBuilder b)]) = _$CommodityResponseDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(CommodityResponseDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<CommodityResponseDto> get serializer =>
-      _$CommodityResponseDtoSerializer();
+  static Serializer<CommodityResponseDto> get serializer => _$CommodityResponseDtoSerializer();
 }
 
-class _$CommodityResponseDtoSerializer
-    implements PrimitiveSerializer<CommodityResponseDto> {
+class _$CommodityResponseDtoSerializer implements PrimitiveSerializer<CommodityResponseDto> {
   @override
-  final Iterable<Type> types = const [
-    CommodityResponseDto,
-    _$CommodityResponseDto
-  ];
+  final Iterable<Type> types = const [CommodityResponseDto, _$CommodityResponseDto];
 
   @override
   final String wireName = r'CommodityResponseDto';
@@ -90,6 +78,13 @@ class _$CommodityResponseDtoSerializer
       object.id,
       specifiedType: const FullType(String),
     );
+    if (object.userId != null) {
+      yield r'userId';
+      yield serializers.serialize(
+        object.userId,
+        specifiedType: const FullType.nullable(String),
+      );
+    }
     yield r'symbol';
     yield serializers.serialize(
       object.symbol,
@@ -115,20 +110,6 @@ class _$CommodityResponseDtoSerializer
       object.updatedAt,
       specifiedType: const FullType(DateTime),
     );
-    if (object.userId != null) {
-      yield r'userId';
-      yield serializers.serialize(
-        object.userId,
-        specifiedType: const FullType.nullable(JsonObject),
-      );
-    }
-    if (object.symbolProfileId != null) {
-      yield r'symbolProfileId';
-      yield serializers.serialize(
-        object.symbolProfileId,
-        specifiedType: const FullType.nullable(JsonObject),
-      );
-    }
   }
 
   @override
@@ -137,9 +118,7 @@ class _$CommodityResponseDtoSerializer
     CommodityResponseDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -160,6 +139,14 @@ class _$CommodityResponseDtoSerializer
             specifiedType: const FullType(String),
           ) as String;
           result.id = valueDes;
+          break;
+        case r'userId':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
+          result.userId = valueDes;
           break;
         case r'symbol':
           final valueDes = serializers.deserialize(
@@ -196,22 +183,6 @@ class _$CommodityResponseDtoSerializer
           ) as DateTime;
           result.updatedAt = valueDes;
           break;
-        case r'userId':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType.nullable(JsonObject),
-          ) as JsonObject?;
-          if (valueDes == null) continue;
-          result.userId = valueDes;
-          break;
-        case r'symbolProfileId':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType.nullable(JsonObject),
-          ) as JsonObject?;
-          if (valueDes == null) continue;
-          result.symbolProfileId = valueDes;
-          break;
         default:
           unhandled.add(key);
           unhandled.add(value);
@@ -240,3 +211,4 @@ class _$CommodityResponseDtoSerializer
     return result.build();
   }
 }
+

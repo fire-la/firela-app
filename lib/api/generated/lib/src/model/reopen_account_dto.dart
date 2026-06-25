@@ -13,27 +13,23 @@ part 'reopen_account_dto.g.dart';
 /// Properties:
 /// * [reopenDate] - New open date (optional)
 @BuiltValue()
-abstract class ReopenAccountDto
-    implements Built<ReopenAccountDto, ReopenAccountDtoBuilder> {
+abstract class ReopenAccountDto implements Built<ReopenAccountDto, ReopenAccountDtoBuilder> {
   /// New open date (optional)
   @BuiltValueField(wireName: r'reopenDate')
   DateTime? get reopenDate;
 
   ReopenAccountDto._();
 
-  factory ReopenAccountDto([void updates(ReopenAccountDtoBuilder b)]) =
-      _$ReopenAccountDto;
+  factory ReopenAccountDto([void updates(ReopenAccountDtoBuilder b)]) = _$ReopenAccountDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(ReopenAccountDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<ReopenAccountDto> get serializer =>
-      _$ReopenAccountDtoSerializer();
+  static Serializer<ReopenAccountDto> get serializer => _$ReopenAccountDtoSerializer();
 }
 
-class _$ReopenAccountDtoSerializer
-    implements PrimitiveSerializer<ReopenAccountDto> {
+class _$ReopenAccountDtoSerializer implements PrimitiveSerializer<ReopenAccountDto> {
   @override
   final Iterable<Type> types = const [ReopenAccountDto, _$ReopenAccountDto];
 
@@ -60,9 +56,7 @@ class _$ReopenAccountDtoSerializer
     ReopenAccountDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -112,3 +106,4 @@ class _$ReopenAccountDtoSerializer
     return result.build();
   }
 }
+

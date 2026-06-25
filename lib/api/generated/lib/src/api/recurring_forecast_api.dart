@@ -11,6 +11,7 @@ import 'package:firela_api/src/api_util.dart';
 import 'package:firela_api/src/model/forecast_response_dto.dart';
 
 class RecurringForecastApi {
+
   final Dio _dio;
 
   final Serializers _serializers;
@@ -21,7 +22,7 @@ class RecurringForecastApi {
   /// Returns predicted outflows for the next N months based on active recurring rules
   ///
   /// Parameters:
-  /// * [region] - Region code (cn, us, de)
+  /// * [region] - Region code for tenant context
   /// * [months] - Number of months to forecast (1-12, default 3)
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
@@ -32,7 +33,7 @@ class RecurringForecastApi {
   ///
   /// Returns a [Future] containing a [Response] with a [ForecastResponseDto] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<ForecastResponseDto>> forecastControllerGetForecast({
+  Future<Response<ForecastResponseDto>> forecastControllerGetForecast({ 
     required String region,
     num? months,
     CancelToken? cancelToken,
@@ -42,10 +43,7 @@ class RecurringForecastApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/{region}/bean/recurring/forecast'.replaceAll(
-        '{' r'region' '}',
-        encodeQueryParameter(_serializers, region, const FullType(String))
-            .toString());
+    final _path = r'/api/v1/{region}/bean/recurring/forecast'.replaceAll('{' r'region' '}', encodeQueryParameter(_serializers, region, const FullType(String)).toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -59,9 +57,7 @@ class RecurringForecastApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      if (months != null)
-        r'months':
-            encodeQueryParameter(_serializers, months, const FullType(num)),
+      if (months != null) r'months': encodeQueryParameter(_serializers, months, const FullType(num)),
     };
 
     final _response = await _dio.request<Object>(
@@ -77,12 +73,11 @@ class RecurringForecastApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null
-          ? null
-          : _serializers.deserialize(
-              rawResponse,
-              specifiedType: const FullType(ForecastResponseDto),
-            ) as ForecastResponseDto;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(ForecastResponseDto),
+      ) as ForecastResponseDto;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -104,4 +99,5 @@ class RecurringForecastApi {
       extra: _response.extra,
     );
   }
+
 }

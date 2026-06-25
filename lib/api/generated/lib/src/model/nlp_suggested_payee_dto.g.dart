@@ -19,7 +19,7 @@ NlpSuggestedPayeeDtoSource_Enum _$nlpSuggestedPayeeDtoSourceEnumValueOf(
     case 'global':
       return _$nlpSuggestedPayeeDtoSourceEnum_global;
     default:
-      return _$nlpSuggestedPayeeDtoSourceEnum_global;
+      throw new ArgumentError(name);
   }
 }
 

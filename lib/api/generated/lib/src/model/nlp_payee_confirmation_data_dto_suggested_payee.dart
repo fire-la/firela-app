@@ -19,33 +19,21 @@ part 'nlp_payee_confirmation_data_dto_suggested_payee.g.dart';
 /// * [source_] - Source of the payee
 /// * [payeeProfileId] - PayeeProfile ID (if matched from global)
 @BuiltValue()
-abstract class NlpPayeeConfirmationDataDtoSuggestedPayee
-    implements
-        NlpSuggestedPayeeDto,
-        Built<NlpPayeeConfirmationDataDtoSuggestedPayee,
-            NlpPayeeConfirmationDataDtoSuggestedPayeeBuilder> {
+abstract class NlpPayeeConfirmationDataDtoSuggestedPayee implements NlpSuggestedPayeeDto, Built<NlpPayeeConfirmationDataDtoSuggestedPayee, NlpPayeeConfirmationDataDtoSuggestedPayeeBuilder> {
   NlpPayeeConfirmationDataDtoSuggestedPayee._();
 
-  factory NlpPayeeConfirmationDataDtoSuggestedPayee(
-          [void updates(NlpPayeeConfirmationDataDtoSuggestedPayeeBuilder b)]) =
-      _$NlpPayeeConfirmationDataDtoSuggestedPayee;
+  factory NlpPayeeConfirmationDataDtoSuggestedPayee([void updates(NlpPayeeConfirmationDataDtoSuggestedPayeeBuilder b)]) = _$NlpPayeeConfirmationDataDtoSuggestedPayee;
 
   @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(NlpPayeeConfirmationDataDtoSuggestedPayeeBuilder b) =>
-      b;
+  static void _defaults(NlpPayeeConfirmationDataDtoSuggestedPayeeBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<NlpPayeeConfirmationDataDtoSuggestedPayee> get serializer =>
-      _$NlpPayeeConfirmationDataDtoSuggestedPayeeSerializer();
+  static Serializer<NlpPayeeConfirmationDataDtoSuggestedPayee> get serializer => _$NlpPayeeConfirmationDataDtoSuggestedPayeeSerializer();
 }
 
-class _$NlpPayeeConfirmationDataDtoSuggestedPayeeSerializer
-    implements PrimitiveSerializer<NlpPayeeConfirmationDataDtoSuggestedPayee> {
+class _$NlpPayeeConfirmationDataDtoSuggestedPayeeSerializer implements PrimitiveSerializer<NlpPayeeConfirmationDataDtoSuggestedPayee> {
   @override
-  final Iterable<Type> types = const [
-    NlpPayeeConfirmationDataDtoSuggestedPayee,
-    _$NlpPayeeConfirmationDataDtoSuggestedPayee
-  ];
+  final Iterable<Type> types = const [NlpPayeeConfirmationDataDtoSuggestedPayee, _$NlpPayeeConfirmationDataDtoSuggestedPayee];
 
   @override
   final String wireName = r'NlpPayeeConfirmationDataDtoSuggestedPayee';
@@ -94,9 +82,7 @@ class _$NlpPayeeConfirmationDataDtoSuggestedPayeeSerializer
     NlpPayeeConfirmationDataDtoSuggestedPayee object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -176,26 +162,19 @@ class _$NlpPayeeConfirmationDataDtoSuggestedPayeeSerializer
 }
 
 class NlpPayeeConfirmationDataDtoSuggestedPayeeSource_Enum extends EnumClass {
+
   /// Source of the payee
   @BuiltValueEnumConst(wireName: r'user')
-  static const NlpPayeeConfirmationDataDtoSuggestedPayeeSource_Enum user =
-      _$nlpPayeeConfirmationDataDtoSuggestedPayeeSourceEnum_user;
-
+  static const NlpPayeeConfirmationDataDtoSuggestedPayeeSource_Enum user = _$nlpPayeeConfirmationDataDtoSuggestedPayeeSourceEnum_user;
   /// Source of the payee
-  @BuiltValueEnumConst(wireName: r'global', fallback: true)
-  static const NlpPayeeConfirmationDataDtoSuggestedPayeeSource_Enum global =
-      _$nlpPayeeConfirmationDataDtoSuggestedPayeeSourceEnum_global;
+  @BuiltValueEnumConst(wireName: r'global')
+  static const NlpPayeeConfirmationDataDtoSuggestedPayeeSource_Enum global = _$nlpPayeeConfirmationDataDtoSuggestedPayeeSourceEnum_global;
 
-  static Serializer<NlpPayeeConfirmationDataDtoSuggestedPayeeSource_Enum>
-      get serializer =>
-          _$nlpPayeeConfirmationDataDtoSuggestedPayeeSourceEnumSerializer;
+  static Serializer<NlpPayeeConfirmationDataDtoSuggestedPayeeSource_Enum> get serializer => _$nlpPayeeConfirmationDataDtoSuggestedPayeeSourceEnumSerializer;
 
-  const NlpPayeeConfirmationDataDtoSuggestedPayeeSource_Enum._(String name)
-      : super(name);
+  const NlpPayeeConfirmationDataDtoSuggestedPayeeSource_Enum._(String name): super(name);
 
-  static BuiltSet<NlpPayeeConfirmationDataDtoSuggestedPayeeSource_Enum>
-      get values => _$nlpPayeeConfirmationDataDtoSuggestedPayeeSourceEnumValues;
-  static NlpPayeeConfirmationDataDtoSuggestedPayeeSource_Enum valueOf(
-          String name) =>
-      _$nlpPayeeConfirmationDataDtoSuggestedPayeeSourceEnumValueOf(name);
+  static BuiltSet<NlpPayeeConfirmationDataDtoSuggestedPayeeSource_Enum> get values => _$nlpPayeeConfirmationDataDtoSuggestedPayeeSourceEnumValues;
+  static NlpPayeeConfirmationDataDtoSuggestedPayeeSource_Enum valueOf(String name) => _$nlpPayeeConfirmationDataDtoSuggestedPayeeSourceEnumValueOf(name);
 }
+

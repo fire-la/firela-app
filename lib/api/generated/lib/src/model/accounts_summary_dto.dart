@@ -14,8 +14,7 @@ part 'accounts_summary_dto.g.dart';
 /// * [totalAccounts] - Total number of accounts
 /// * [totalPlatforms] - Total number of platforms
 @BuiltValue()
-abstract class AccountsSummaryDto
-    implements Built<AccountsSummaryDto, AccountsSummaryDtoBuilder> {
+abstract class AccountsSummaryDto implements Built<AccountsSummaryDto, AccountsSummaryDtoBuilder> {
   /// Total number of accounts
   @BuiltValueField(wireName: r'totalAccounts')
   num get totalAccounts;
@@ -26,19 +25,16 @@ abstract class AccountsSummaryDto
 
   AccountsSummaryDto._();
 
-  factory AccountsSummaryDto([void updates(AccountsSummaryDtoBuilder b)]) =
-      _$AccountsSummaryDto;
+  factory AccountsSummaryDto([void updates(AccountsSummaryDtoBuilder b)]) = _$AccountsSummaryDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(AccountsSummaryDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<AccountsSummaryDto> get serializer =>
-      _$AccountsSummaryDtoSerializer();
+  static Serializer<AccountsSummaryDto> get serializer => _$AccountsSummaryDtoSerializer();
 }
 
-class _$AccountsSummaryDtoSerializer
-    implements PrimitiveSerializer<AccountsSummaryDto> {
+class _$AccountsSummaryDtoSerializer implements PrimitiveSerializer<AccountsSummaryDto> {
   @override
   final Iterable<Type> types = const [AccountsSummaryDto, _$AccountsSummaryDto];
 
@@ -68,9 +64,7 @@ class _$AccountsSummaryDtoSerializer
     AccountsSummaryDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -127,3 +121,4 @@ class _$AccountsSummaryDtoSerializer
     return result.build();
   }
 }
+

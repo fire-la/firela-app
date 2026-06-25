@@ -66,7 +66,7 @@ AssetClassGroupDtoAssetClassEnum _$assetClassGroupDtoAssetClassEnumValueOf(
     case 'INDEX':
       return _$assetClassGroupDtoAssetClassEnum_INDEX;
     default:
-      return _$assetClassGroupDtoAssetClassEnum_INDEX;
+      throw new ArgumentError(name);
   }
 }
 
@@ -142,11 +142,11 @@ class _$AssetClassGroupDto extends AssetClassGroupDto {
   @override
   final AssetClassGroupDtoAssetClassEnum assetClass;
   @override
+  final String? assetSubClass;
+  @override
   final BuiltList<AccountItemWithAssetClassDto> accounts;
   @override
   final BuiltList<BalanceByCurrencyDto> balanceByCurrency;
-  @override
-  final String? assetSubClass;
   @override
   final String? convertedBalance;
 
@@ -156,9 +156,9 @@ class _$AssetClassGroupDto extends AssetClassGroupDto {
 
   _$AssetClassGroupDto._(
       {required this.assetClass,
+      this.assetSubClass,
       required this.accounts,
       required this.balanceByCurrency,
-      this.assetSubClass,
       this.convertedBalance})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(
@@ -183,9 +183,9 @@ class _$AssetClassGroupDto extends AssetClassGroupDto {
     if (identical(other, this)) return true;
     return other is AssetClassGroupDto &&
         assetClass == other.assetClass &&
+        assetSubClass == other.assetSubClass &&
         accounts == other.accounts &&
         balanceByCurrency == other.balanceByCurrency &&
-        assetSubClass == other.assetSubClass &&
         convertedBalance == other.convertedBalance;
   }
 
@@ -193,9 +193,9 @@ class _$AssetClassGroupDto extends AssetClassGroupDto {
   int get hashCode {
     var _$hash = 0;
     _$hash = $jc(_$hash, assetClass.hashCode);
+    _$hash = $jc(_$hash, assetSubClass.hashCode);
     _$hash = $jc(_$hash, accounts.hashCode);
     _$hash = $jc(_$hash, balanceByCurrency.hashCode);
-    _$hash = $jc(_$hash, assetSubClass.hashCode);
     _$hash = $jc(_$hash, convertedBalance.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
@@ -205,9 +205,9 @@ class _$AssetClassGroupDto extends AssetClassGroupDto {
   String toString() {
     return (newBuiltValueToStringHelper(r'AssetClassGroupDto')
           ..add('assetClass', assetClass)
+          ..add('assetSubClass', assetSubClass)
           ..add('accounts', accounts)
           ..add('balanceByCurrency', balanceByCurrency)
-          ..add('assetSubClass', assetSubClass)
           ..add('convertedBalance', convertedBalance))
         .toString();
   }
@@ -222,6 +222,11 @@ class AssetClassGroupDtoBuilder
   set assetClass(AssetClassGroupDtoAssetClassEnum? assetClass) =>
       _$this._assetClass = assetClass;
 
+  String? _assetSubClass;
+  String? get assetSubClass => _$this._assetSubClass;
+  set assetSubClass(String? assetSubClass) =>
+      _$this._assetSubClass = assetSubClass;
+
   ListBuilder<AccountItemWithAssetClassDto>? _accounts;
   ListBuilder<AccountItemWithAssetClassDto> get accounts =>
       _$this._accounts ??= new ListBuilder<AccountItemWithAssetClassDto>();
@@ -233,11 +238,6 @@ class AssetClassGroupDtoBuilder
       _$this._balanceByCurrency ??= new ListBuilder<BalanceByCurrencyDto>();
   set balanceByCurrency(ListBuilder<BalanceByCurrencyDto>? balanceByCurrency) =>
       _$this._balanceByCurrency = balanceByCurrency;
-
-  String? _assetSubClass;
-  String? get assetSubClass => _$this._assetSubClass;
-  set assetSubClass(String? assetSubClass) =>
-      _$this._assetSubClass = assetSubClass;
 
   String? _convertedBalance;
   String? get convertedBalance => _$this._convertedBalance;
@@ -252,9 +252,9 @@ class AssetClassGroupDtoBuilder
     final $v = _$v;
     if ($v != null) {
       _assetClass = $v.assetClass;
+      _assetSubClass = $v.assetSubClass;
       _accounts = $v.accounts.toBuilder();
       _balanceByCurrency = $v.balanceByCurrency.toBuilder();
-      _assetSubClass = $v.assetSubClass;
       _convertedBalance = $v.convertedBalance;
       _$v = null;
     }
@@ -282,9 +282,9 @@ class AssetClassGroupDtoBuilder
           new _$AssetClassGroupDto._(
               assetClass: BuiltValueNullFieldError.checkNotNull(
                   assetClass, r'AssetClassGroupDto', 'assetClass'),
+              assetSubClass: assetSubClass,
               accounts: accounts.build(),
               balanceByCurrency: balanceByCurrency.build(),
-              assetSubClass: assetSubClass,
               convertedBalance: convertedBalance);
     } catch (_) {
       late String _$failedField;

@@ -16,8 +16,7 @@ part 'decision_option_dto.g.dart';
 /// * [descriptionKey] - i18n message key for description
 /// * [recommended] - Whether this is the recommended option
 @BuiltValue()
-abstract class DecisionOptionDto
-    implements Built<DecisionOptionDto, DecisionOptionDtoBuilder> {
+abstract class DecisionOptionDto implements Built<DecisionOptionDto, DecisionOptionDtoBuilder> {
   /// The action value to submit (e.g., UPGRADE_REPLACE, ACCEPT)
   @BuiltValueField(wireName: r'value')
   String get value;
@@ -36,19 +35,16 @@ abstract class DecisionOptionDto
 
   DecisionOptionDto._();
 
-  factory DecisionOptionDto([void updates(DecisionOptionDtoBuilder b)]) =
-      _$DecisionOptionDto;
+  factory DecisionOptionDto([void updates(DecisionOptionDtoBuilder b)]) = _$DecisionOptionDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(DecisionOptionDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<DecisionOptionDto> get serializer =>
-      _$DecisionOptionDtoSerializer();
+  static Serializer<DecisionOptionDto> get serializer => _$DecisionOptionDtoSerializer();
 }
 
-class _$DecisionOptionDtoSerializer
-    implements PrimitiveSerializer<DecisionOptionDto> {
+class _$DecisionOptionDtoSerializer implements PrimitiveSerializer<DecisionOptionDto> {
   @override
   final Iterable<Type> types = const [DecisionOptionDto, _$DecisionOptionDto];
 
@@ -92,9 +88,7 @@ class _$DecisionOptionDtoSerializer
     DecisionOptionDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -165,3 +159,4 @@ class _$DecisionOptionDtoSerializer
     return result.build();
   }
 }
+

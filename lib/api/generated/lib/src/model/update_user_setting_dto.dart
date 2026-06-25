@@ -34,8 +34,7 @@ part 'update_user_setting_dto.g.dart';
 /// * [savingsRate] - Savings rate percentage
 /// * [viewMode] - View mode
 @BuiltValue()
-abstract class UpdateUserSettingDto
-    implements Built<UpdateUserSettingDto, UpdateUserSettingDtoBuilder> {
+abstract class UpdateUserSettingDto implements Built<UpdateUserSettingDto, UpdateUserSettingDtoBuilder> {
   /// Security ID
   @BuiltValueField(wireName: r'secId')
   num? get secId;
@@ -124,24 +123,18 @@ abstract class UpdateUserSettingDto
 
   UpdateUserSettingDto._();
 
-  factory UpdateUserSettingDto([void updates(UpdateUserSettingDtoBuilder b)]) =
-      _$UpdateUserSettingDto;
+  factory UpdateUserSettingDto([void updates(UpdateUserSettingDtoBuilder b)]) = _$UpdateUserSettingDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(UpdateUserSettingDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<UpdateUserSettingDto> get serializer =>
-      _$UpdateUserSettingDtoSerializer();
+  static Serializer<UpdateUserSettingDto> get serializer => _$UpdateUserSettingDtoSerializer();
 }
 
-class _$UpdateUserSettingDtoSerializer
-    implements PrimitiveSerializer<UpdateUserSettingDto> {
+class _$UpdateUserSettingDtoSerializer implements PrimitiveSerializer<UpdateUserSettingDto> {
   @override
-  final Iterable<Type> types = const [
-    UpdateUserSettingDto,
-    _$UpdateUserSettingDto
-  ];
+  final Iterable<Type> types = const [UpdateUserSettingDto, _$UpdateUserSettingDto];
 
   @override
   final String wireName = r'UpdateUserSettingDto';
@@ -306,9 +299,7 @@ class _$UpdateUserSettingDtoSerializer
     UpdateUserSettingDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -500,45 +491,36 @@ class _$UpdateUserSettingDtoSerializer
 }
 
 class UpdateUserSettingDtoColorSchemeEnum extends EnumClass {
+
   /// Color scheme
   @BuiltValueEnumConst(wireName: r'DARK')
-  static const UpdateUserSettingDtoColorSchemeEnum DARK =
-      _$updateUserSettingDtoColorSchemeEnum_DARK;
-
+  static const UpdateUserSettingDtoColorSchemeEnum DARK = _$updateUserSettingDtoColorSchemeEnum_DARK;
   /// Color scheme
-  @BuiltValueEnumConst(wireName: r'LIGHT', fallback: true)
-  static const UpdateUserSettingDtoColorSchemeEnum LIGHT =
-      _$updateUserSettingDtoColorSchemeEnum_LIGHT;
+  @BuiltValueEnumConst(wireName: r'LIGHT')
+  static const UpdateUserSettingDtoColorSchemeEnum LIGHT = _$updateUserSettingDtoColorSchemeEnum_LIGHT;
 
-  static Serializer<UpdateUserSettingDtoColorSchemeEnum> get serializer =>
-      _$updateUserSettingDtoColorSchemeEnumSerializer;
+  static Serializer<UpdateUserSettingDtoColorSchemeEnum> get serializer => _$updateUserSettingDtoColorSchemeEnumSerializer;
 
-  const UpdateUserSettingDtoColorSchemeEnum._(String name) : super(name);
+  const UpdateUserSettingDtoColorSchemeEnum._(String name): super(name);
 
-  static BuiltSet<UpdateUserSettingDtoColorSchemeEnum> get values =>
-      _$updateUserSettingDtoColorSchemeEnumValues;
-  static UpdateUserSettingDtoColorSchemeEnum valueOf(String name) =>
-      _$updateUserSettingDtoColorSchemeEnumValueOf(name);
+  static BuiltSet<UpdateUserSettingDtoColorSchemeEnum> get values => _$updateUserSettingDtoColorSchemeEnumValues;
+  static UpdateUserSettingDtoColorSchemeEnum valueOf(String name) => _$updateUserSettingDtoColorSchemeEnumValueOf(name);
 }
 
 class UpdateUserSettingDtoViewModeEnum extends EnumClass {
+
   /// View mode
   @BuiltValueEnumConst(wireName: r'DEFAULT')
-  static const UpdateUserSettingDtoViewModeEnum DEFAULT =
-      _$updateUserSettingDtoViewModeEnum_DEFAULT;
-
+  static const UpdateUserSettingDtoViewModeEnum DEFAULT = _$updateUserSettingDtoViewModeEnum_DEFAULT;
   /// View mode
-  @BuiltValueEnumConst(wireName: r'ZEN', fallback: true)
-  static const UpdateUserSettingDtoViewModeEnum ZEN =
-      _$updateUserSettingDtoViewModeEnum_ZEN;
+  @BuiltValueEnumConst(wireName: r'ZEN')
+  static const UpdateUserSettingDtoViewModeEnum ZEN = _$updateUserSettingDtoViewModeEnum_ZEN;
 
-  static Serializer<UpdateUserSettingDtoViewModeEnum> get serializer =>
-      _$updateUserSettingDtoViewModeEnumSerializer;
+  static Serializer<UpdateUserSettingDtoViewModeEnum> get serializer => _$updateUserSettingDtoViewModeEnumSerializer;
 
-  const UpdateUserSettingDtoViewModeEnum._(String name) : super(name);
+  const UpdateUserSettingDtoViewModeEnum._(String name): super(name);
 
-  static BuiltSet<UpdateUserSettingDtoViewModeEnum> get values =>
-      _$updateUserSettingDtoViewModeEnumValues;
-  static UpdateUserSettingDtoViewModeEnum valueOf(String name) =>
-      _$updateUserSettingDtoViewModeEnumValueOf(name);
+  static BuiltSet<UpdateUserSettingDtoViewModeEnum> get values => _$updateUserSettingDtoViewModeEnumValues;
+  static UpdateUserSettingDtoViewModeEnum valueOf(String name) => _$updateUserSettingDtoViewModeEnumValueOf(name);
 }
+

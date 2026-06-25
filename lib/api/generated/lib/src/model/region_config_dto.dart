@@ -11,12 +11,11 @@ part 'region_config_dto.g.dart';
 /// RegionConfigDto
 ///
 /// Properties:
-/// * [currency]
-/// * [dateFormat]
-/// * [locale]
+/// * [currency] 
+/// * [dateFormat] 
+/// * [locale] 
 @BuiltValue()
-abstract class RegionConfigDto
-    implements Built<RegionConfigDto, RegionConfigDtoBuilder> {
+abstract class RegionConfigDto implements Built<RegionConfigDto, RegionConfigDtoBuilder> {
   @BuiltValueField(wireName: r'currency')
   String get currency;
 
@@ -28,19 +27,16 @@ abstract class RegionConfigDto
 
   RegionConfigDto._();
 
-  factory RegionConfigDto([void updates(RegionConfigDtoBuilder b)]) =
-      _$RegionConfigDto;
+  factory RegionConfigDto([void updates(RegionConfigDtoBuilder b)]) = _$RegionConfigDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(RegionConfigDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<RegionConfigDto> get serializer =>
-      _$RegionConfigDtoSerializer();
+  static Serializer<RegionConfigDto> get serializer => _$RegionConfigDtoSerializer();
 }
 
-class _$RegionConfigDtoSerializer
-    implements PrimitiveSerializer<RegionConfigDto> {
+class _$RegionConfigDtoSerializer implements PrimitiveSerializer<RegionConfigDto> {
   @override
   final Iterable<Type> types = const [RegionConfigDto, _$RegionConfigDto];
 
@@ -75,9 +71,7 @@ class _$RegionConfigDtoSerializer
     RegionConfigDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -141,3 +135,4 @@ class _$RegionConfigDtoSerializer
     return result.build();
   }
 }
+

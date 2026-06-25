@@ -12,6 +12,7 @@ import 'package:firela_api/src/model/balance_response_dto.dart';
 import 'package:firela_api/src/model/multi_currency_balance_response_dto.dart';
 
 class BeanBalancesApi {
+
   final Dio _dio;
 
   final Serializers _serializers;
@@ -23,7 +24,7 @@ class BeanBalancesApi {
   ///
   /// Parameters:
   /// * [account] - Account name (e.g., \"Assets:Bank:Checking\")
-  /// * [region] - Region code (cn, us, de)
+  /// * [region] - Region code for tenant context
   /// * [date] - Date to calculate balance at (ISO 8601 format)
   /// * [currency] - Currency to query (e.g., \"USD\", \"CNY\")
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
@@ -35,7 +36,7 @@ class BeanBalancesApi {
   ///
   /// Returns a [Future] containing a [Response] with a [BalanceResponseDto] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<BalanceResponseDto>> balanceControllerGetBalance({
+  Future<Response<BalanceResponseDto>> balanceControllerGetBalance({ 
     required String account,
     required String region,
     String? date,
@@ -47,10 +48,7 @@ class BeanBalancesApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/{region}/bean/balances'.replaceAll(
-        '{' r'region' '}',
-        encodeQueryParameter(_serializers, region, const FullType(String))
-            .toString());
+    final _path = r'/api/v1/{region}/bean/balances'.replaceAll('{' r'region' '}', encodeQueryParameter(_serializers, region, const FullType(String)).toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -64,14 +62,9 @@ class BeanBalancesApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      r'account':
-          encodeQueryParameter(_serializers, account, const FullType(String)),
-      if (date != null)
-        r'date':
-            encodeQueryParameter(_serializers, date, const FullType(String)),
-      if (currency != null)
-        r'currency': encodeQueryParameter(
-            _serializers, currency, const FullType(String)),
+      r'account': encodeQueryParameter(_serializers, account, const FullType(String)),
+      if (date != null) r'date': encodeQueryParameter(_serializers, date, const FullType(String)),
+      if (currency != null) r'currency': encodeQueryParameter(_serializers, currency, const FullType(String)),
     };
 
     final _response = await _dio.request<Object>(
@@ -87,12 +80,11 @@ class BeanBalancesApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null
-          ? null
-          : _serializers.deserialize(
-              rawResponse,
-              specifiedType: const FullType(BalanceResponseDto),
-            ) as BalanceResponseDto;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(BalanceResponseDto),
+      ) as BalanceResponseDto;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -119,7 +111,7 @@ class BeanBalancesApi {
   /// Calculate account balances for all currencies at a specific date
   ///
   /// Parameters:
-  /// * [region] - Region code (cn, us, de)
+  /// * [region] - Region code for tenant context
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -129,8 +121,7 @@ class BeanBalancesApi {
   ///
   /// Returns a [Future] containing a [Response] with a [MultiCurrencyBalanceResponseDto] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<MultiCurrencyBalanceResponseDto>>
-      balanceControllerGetMultiCurrencyBalance({
+  Future<Response<MultiCurrencyBalanceResponseDto>> balanceControllerGetMultiCurrencyBalance({ 
     required String region,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -139,10 +130,7 @@ class BeanBalancesApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/{region}/bean/balances/multi-currency'.replaceAll(
-        '{' r'region' '}',
-        encodeQueryParameter(_serializers, region, const FullType(String))
-            .toString());
+    final _path = r'/api/v1/{region}/bean/balances/multi-currency'.replaceAll('{' r'region' '}', encodeQueryParameter(_serializers, region, const FullType(String)).toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -167,12 +155,11 @@ class BeanBalancesApi {
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null
-          ? null
-          : _serializers.deserialize(
-              rawResponse,
-              specifiedType: const FullType(MultiCurrencyBalanceResponseDto),
-            ) as MultiCurrencyBalanceResponseDto;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(MultiCurrencyBalanceResponseDto),
+      ) as MultiCurrencyBalanceResponseDto;
+
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -194,4 +181,5 @@ class BeanBalancesApi {
       extra: _response.extra,
     );
   }
+
 }

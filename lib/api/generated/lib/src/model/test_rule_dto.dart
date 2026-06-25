@@ -11,11 +11,11 @@ part 'test_rule_dto.g.dart';
 /// TestRuleDto
 ///
 /// Properties:
-/// * [narration]
-/// * [payee]
-/// * [categoryAccount]
-/// * [amount]
-/// * [currency]
+/// * [narration] 
+/// * [payee] 
+/// * [categoryAccount] 
+/// * [amount] 
+/// * [currency] 
 @BuiltValue()
 abstract class TestRuleDto implements Built<TestRuleDto, TestRuleDtoBuilder> {
   @BuiltValueField(wireName: r'narration')
@@ -97,9 +97,7 @@ class _$TestRuleDtoSerializer implements PrimitiveSerializer<TestRuleDto> {
     TestRuleDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -177,3 +175,4 @@ class _$TestRuleDtoSerializer implements PrimitiveSerializer<TestRuleDto> {
     return result.build();
   }
 }
+

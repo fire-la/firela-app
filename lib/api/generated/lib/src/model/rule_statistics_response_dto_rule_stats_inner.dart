@@ -11,15 +11,12 @@ part 'rule_statistics_response_dto_rule_stats_inner.g.dart';
 /// RuleStatisticsResponseDtoRuleStatsInner
 ///
 /// Properties:
-/// * [ruleId]
-/// * [ruleName]
-/// * [matchCount]
-/// * [averageConfidence]
+/// * [ruleId] 
+/// * [ruleName] 
+/// * [matchCount] 
+/// * [averageConfidence] 
 @BuiltValue()
-abstract class RuleStatisticsResponseDtoRuleStatsInner
-    implements
-        Built<RuleStatisticsResponseDtoRuleStatsInner,
-            RuleStatisticsResponseDtoRuleStatsInnerBuilder> {
+abstract class RuleStatisticsResponseDtoRuleStatsInner implements Built<RuleStatisticsResponseDtoRuleStatsInner, RuleStatisticsResponseDtoRuleStatsInnerBuilder> {
   @BuiltValueField(wireName: r'ruleId')
   String? get ruleId;
 
@@ -34,25 +31,18 @@ abstract class RuleStatisticsResponseDtoRuleStatsInner
 
   RuleStatisticsResponseDtoRuleStatsInner._();
 
-  factory RuleStatisticsResponseDtoRuleStatsInner(
-          [void updates(RuleStatisticsResponseDtoRuleStatsInnerBuilder b)]) =
-      _$RuleStatisticsResponseDtoRuleStatsInner;
+  factory RuleStatisticsResponseDtoRuleStatsInner([void updates(RuleStatisticsResponseDtoRuleStatsInnerBuilder b)]) = _$RuleStatisticsResponseDtoRuleStatsInner;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(RuleStatisticsResponseDtoRuleStatsInnerBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<RuleStatisticsResponseDtoRuleStatsInner> get serializer =>
-      _$RuleStatisticsResponseDtoRuleStatsInnerSerializer();
+  static Serializer<RuleStatisticsResponseDtoRuleStatsInner> get serializer => _$RuleStatisticsResponseDtoRuleStatsInnerSerializer();
 }
 
-class _$RuleStatisticsResponseDtoRuleStatsInnerSerializer
-    implements PrimitiveSerializer<RuleStatisticsResponseDtoRuleStatsInner> {
+class _$RuleStatisticsResponseDtoRuleStatsInnerSerializer implements PrimitiveSerializer<RuleStatisticsResponseDtoRuleStatsInner> {
   @override
-  final Iterable<Type> types = const [
-    RuleStatisticsResponseDtoRuleStatsInner,
-    _$RuleStatisticsResponseDtoRuleStatsInner
-  ];
+  final Iterable<Type> types = const [RuleStatisticsResponseDtoRuleStatsInner, _$RuleStatisticsResponseDtoRuleStatsInner];
 
   @override
   final String wireName = r'RuleStatisticsResponseDtoRuleStatsInner';
@@ -98,9 +88,7 @@ class _$RuleStatisticsResponseDtoRuleStatsInnerSerializer
     RuleStatisticsResponseDtoRuleStatsInner object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -171,3 +159,4 @@ class _$RuleStatisticsResponseDtoRuleStatsInnerSerializer
     return result.build();
   }
 }
+

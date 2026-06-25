@@ -30,7 +30,7 @@ ReviewDetailDtoTypeEnum _$reviewDetailDtoTypeEnumValueOf(String name) {
     case 'PIPELINE_ERROR':
       return _$reviewDetailDtoTypeEnum_PIPELINE_ERROR;
     default:
-      return _$reviewDetailDtoTypeEnum_PIPELINE_ERROR;
+      throw new ArgumentError(name);
   }
 }
 
@@ -63,7 +63,7 @@ ReviewDetailDtoStatusEnum _$reviewDetailDtoStatusEnumValueOf(String name) {
     case 'CANCELLED':
       return _$reviewDetailDtoStatusEnum_CANCELLED;
     default:
-      return _$reviewDetailDtoStatusEnum_CANCELLED;
+      throw new ArgumentError(name);
   }
 }
 
@@ -95,7 +95,7 @@ ReviewDetailDtoConfidenceLevelEnum _$reviewDetailDtoConfidenceLevelEnumValueOf(
     case 'LOW':
       return _$reviewDetailDtoConfidenceLevelEnum_LOW;
     default:
-      return _$reviewDetailDtoConfidenceLevelEnum_LOW;
+      throw new ArgumentError(name);
   }
 }
 
@@ -225,21 +225,19 @@ class _$ReviewDetailDto extends ReviewDetailDto {
   @override
   final num confidence;
   @override
-  final ReviewDetailDtoConfidenceLevelEnum confidenceLevel;
+  final ReviewDetailDtoConfidenceLevelEnum? confidenceLevel;
   @override
-  final String summary;
+  final String summaryKey;
+  @override
+  final BuiltMap<String, String>? summaryParams;
   @override
   final BuiltList<String> matchReasons;
   @override
   final String sourceType;
   @override
-  final DateTime createdAt;
-  @override
-  final JsonObject reviewData;
-  @override
-  final BuiltList<DecisionOptionDto> decisionOptions;
-  @override
   final String? sourcePlatform;
+  @override
+  final DateTime createdAt;
   @override
   final ReviewSummaryDtoTransaction? transaction;
   @override
@@ -253,6 +251,10 @@ class _$ReviewDetailDto extends ReviewDetailDto {
   @override
   final String? transactionTime;
   @override
+  final JsonObject reviewData;
+  @override
+  final BuiltList<DecisionOptionDto> decisionOptions;
+  @override
   final String? transactionId;
 
   factory _$ReviewDetailDto([void Function(ReviewDetailDtoBuilder)? updates]) =>
@@ -263,20 +265,21 @@ class _$ReviewDetailDto extends ReviewDetailDto {
       required this.type,
       required this.status,
       required this.confidence,
-      required this.confidenceLevel,
-      required this.summary,
+      this.confidenceLevel,
+      required this.summaryKey,
+      this.summaryParams,
       required this.matchReasons,
       required this.sourceType,
-      required this.createdAt,
-      required this.reviewData,
-      required this.decisionOptions,
       this.sourcePlatform,
+      required this.createdAt,
       this.transaction,
       this.amount,
       this.currency,
       this.merchantName,
       this.accountName,
       this.transactionTime,
+      required this.reviewData,
+      required this.decisionOptions,
       this.transactionId})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(id, r'ReviewDetailDto', 'id');
@@ -285,9 +288,7 @@ class _$ReviewDetailDto extends ReviewDetailDto {
     BuiltValueNullFieldError.checkNotNull(
         confidence, r'ReviewDetailDto', 'confidence');
     BuiltValueNullFieldError.checkNotNull(
-        confidenceLevel, r'ReviewDetailDto', 'confidenceLevel');
-    BuiltValueNullFieldError.checkNotNull(
-        summary, r'ReviewDetailDto', 'summary');
+        summaryKey, r'ReviewDetailDto', 'summaryKey');
     BuiltValueNullFieldError.checkNotNull(
         matchReasons, r'ReviewDetailDto', 'matchReasons');
     BuiltValueNullFieldError.checkNotNull(
@@ -317,19 +318,20 @@ class _$ReviewDetailDto extends ReviewDetailDto {
         status == other.status &&
         confidence == other.confidence &&
         confidenceLevel == other.confidenceLevel &&
-        summary == other.summary &&
+        summaryKey == other.summaryKey &&
+        summaryParams == other.summaryParams &&
         matchReasons == other.matchReasons &&
         sourceType == other.sourceType &&
-        createdAt == other.createdAt &&
-        reviewData == other.reviewData &&
-        decisionOptions == other.decisionOptions &&
         sourcePlatform == other.sourcePlatform &&
+        createdAt == other.createdAt &&
         transaction == other.transaction &&
         amount == other.amount &&
         currency == other.currency &&
         merchantName == other.merchantName &&
         accountName == other.accountName &&
         transactionTime == other.transactionTime &&
+        reviewData == other.reviewData &&
+        decisionOptions == other.decisionOptions &&
         transactionId == other.transactionId;
   }
 
@@ -341,19 +343,20 @@ class _$ReviewDetailDto extends ReviewDetailDto {
     _$hash = $jc(_$hash, status.hashCode);
     _$hash = $jc(_$hash, confidence.hashCode);
     _$hash = $jc(_$hash, confidenceLevel.hashCode);
-    _$hash = $jc(_$hash, summary.hashCode);
+    _$hash = $jc(_$hash, summaryKey.hashCode);
+    _$hash = $jc(_$hash, summaryParams.hashCode);
     _$hash = $jc(_$hash, matchReasons.hashCode);
     _$hash = $jc(_$hash, sourceType.hashCode);
-    _$hash = $jc(_$hash, createdAt.hashCode);
-    _$hash = $jc(_$hash, reviewData.hashCode);
-    _$hash = $jc(_$hash, decisionOptions.hashCode);
     _$hash = $jc(_$hash, sourcePlatform.hashCode);
+    _$hash = $jc(_$hash, createdAt.hashCode);
     _$hash = $jc(_$hash, transaction.hashCode);
     _$hash = $jc(_$hash, amount.hashCode);
     _$hash = $jc(_$hash, currency.hashCode);
     _$hash = $jc(_$hash, merchantName.hashCode);
     _$hash = $jc(_$hash, accountName.hashCode);
     _$hash = $jc(_$hash, transactionTime.hashCode);
+    _$hash = $jc(_$hash, reviewData.hashCode);
+    _$hash = $jc(_$hash, decisionOptions.hashCode);
     _$hash = $jc(_$hash, transactionId.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
@@ -367,19 +370,20 @@ class _$ReviewDetailDto extends ReviewDetailDto {
           ..add('status', status)
           ..add('confidence', confidence)
           ..add('confidenceLevel', confidenceLevel)
-          ..add('summary', summary)
+          ..add('summaryKey', summaryKey)
+          ..add('summaryParams', summaryParams)
           ..add('matchReasons', matchReasons)
           ..add('sourceType', sourceType)
-          ..add('createdAt', createdAt)
-          ..add('reviewData', reviewData)
-          ..add('decisionOptions', decisionOptions)
           ..add('sourcePlatform', sourcePlatform)
+          ..add('createdAt', createdAt)
           ..add('transaction', transaction)
           ..add('amount', amount)
           ..add('currency', currency)
           ..add('merchantName', merchantName)
           ..add('accountName', accountName)
           ..add('transactionTime', transactionTime)
+          ..add('reviewData', reviewData)
+          ..add('decisionOptions', decisionOptions)
           ..add('transactionId', transactionId))
         .toString();
   }
@@ -411,9 +415,15 @@ class ReviewDetailDtoBuilder
   set confidenceLevel(ReviewDetailDtoConfidenceLevelEnum? confidenceLevel) =>
       _$this._confidenceLevel = confidenceLevel;
 
-  String? _summary;
-  String? get summary => _$this._summary;
-  set summary(String? summary) => _$this._summary = summary;
+  String? _summaryKey;
+  String? get summaryKey => _$this._summaryKey;
+  set summaryKey(String? summaryKey) => _$this._summaryKey = summaryKey;
+
+  MapBuilder<String, String>? _summaryParams;
+  MapBuilder<String, String> get summaryParams =>
+      _$this._summaryParams ??= new MapBuilder<String, String>();
+  set summaryParams(MapBuilder<String, String>? summaryParams) =>
+      _$this._summaryParams = summaryParams;
 
   ListBuilder<String>? _matchReasons;
   ListBuilder<String> get matchReasons =>
@@ -425,24 +435,14 @@ class ReviewDetailDtoBuilder
   String? get sourceType => _$this._sourceType;
   set sourceType(String? sourceType) => _$this._sourceType = sourceType;
 
-  DateTime? _createdAt;
-  DateTime? get createdAt => _$this._createdAt;
-  set createdAt(DateTime? createdAt) => _$this._createdAt = createdAt;
-
-  JsonObject? _reviewData;
-  JsonObject? get reviewData => _$this._reviewData;
-  set reviewData(JsonObject? reviewData) => _$this._reviewData = reviewData;
-
-  ListBuilder<DecisionOptionDto>? _decisionOptions;
-  ListBuilder<DecisionOptionDto> get decisionOptions =>
-      _$this._decisionOptions ??= new ListBuilder<DecisionOptionDto>();
-  set decisionOptions(ListBuilder<DecisionOptionDto>? decisionOptions) =>
-      _$this._decisionOptions = decisionOptions;
-
   String? _sourcePlatform;
   String? get sourcePlatform => _$this._sourcePlatform;
   set sourcePlatform(String? sourcePlatform) =>
       _$this._sourcePlatform = sourcePlatform;
+
+  DateTime? _createdAt;
+  DateTime? get createdAt => _$this._createdAt;
+  set createdAt(DateTime? createdAt) => _$this._createdAt = createdAt;
 
   ReviewSummaryDtoTransactionBuilder? _transaction;
   ReviewSummaryDtoTransactionBuilder get transaction =>
@@ -471,6 +471,16 @@ class ReviewDetailDtoBuilder
   set transactionTime(String? transactionTime) =>
       _$this._transactionTime = transactionTime;
 
+  JsonObject? _reviewData;
+  JsonObject? get reviewData => _$this._reviewData;
+  set reviewData(JsonObject? reviewData) => _$this._reviewData = reviewData;
+
+  ListBuilder<DecisionOptionDto>? _decisionOptions;
+  ListBuilder<DecisionOptionDto> get decisionOptions =>
+      _$this._decisionOptions ??= new ListBuilder<DecisionOptionDto>();
+  set decisionOptions(ListBuilder<DecisionOptionDto>? decisionOptions) =>
+      _$this._decisionOptions = decisionOptions;
+
   String? _transactionId;
   String? get transactionId => _$this._transactionId;
   set transactionId(String? transactionId) =>
@@ -488,19 +498,20 @@ class ReviewDetailDtoBuilder
       _status = $v.status;
       _confidence = $v.confidence;
       _confidenceLevel = $v.confidenceLevel;
-      _summary = $v.summary;
+      _summaryKey = $v.summaryKey;
+      _summaryParams = $v.summaryParams?.toBuilder();
       _matchReasons = $v.matchReasons.toBuilder();
       _sourceType = $v.sourceType;
-      _createdAt = $v.createdAt;
-      _reviewData = $v.reviewData;
-      _decisionOptions = $v.decisionOptions.toBuilder();
       _sourcePlatform = $v.sourcePlatform;
+      _createdAt = $v.createdAt;
       _transaction = $v.transaction?.toBuilder();
       _amount = $v.amount;
       _currency = $v.currency;
       _merchantName = $v.merchantName;
       _accountName = $v.accountName;
       _transactionTime = $v.transactionTime;
+      _reviewData = $v.reviewData;
+      _decisionOptions = $v.decisionOptions.toBuilder();
       _transactionId = $v.transactionId;
       _$v = null;
     }
@@ -534,37 +545,39 @@ class ReviewDetailDtoBuilder
                   status, r'ReviewDetailDto', 'status'),
               confidence: BuiltValueNullFieldError.checkNotNull(
                   confidence, r'ReviewDetailDto', 'confidence'),
-              confidenceLevel: BuiltValueNullFieldError.checkNotNull(
-                  confidenceLevel, r'ReviewDetailDto', 'confidenceLevel'),
-              summary: BuiltValueNullFieldError.checkNotNull(
-                  summary, r'ReviewDetailDto', 'summary'),
+              confidenceLevel: confidenceLevel,
+              summaryKey: BuiltValueNullFieldError.checkNotNull(
+                  summaryKey, r'ReviewDetailDto', 'summaryKey'),
+              summaryParams: _summaryParams?.build(),
               matchReasons: matchReasons.build(),
               sourceType: BuiltValueNullFieldError.checkNotNull(
                   sourceType, r'ReviewDetailDto', 'sourceType'),
+              sourcePlatform: sourcePlatform,
               createdAt: BuiltValueNullFieldError.checkNotNull(
                   createdAt, r'ReviewDetailDto', 'createdAt'),
-              reviewData: BuiltValueNullFieldError.checkNotNull(
-                  reviewData, r'ReviewDetailDto', 'reviewData'),
-              decisionOptions: decisionOptions.build(),
-              sourcePlatform: sourcePlatform,
               transaction: _transaction?.build(),
               amount: amount,
               currency: currency,
               merchantName: merchantName,
               accountName: accountName,
               transactionTime: transactionTime,
+              reviewData: BuiltValueNullFieldError.checkNotNull(
+                  reviewData, r'ReviewDetailDto', 'reviewData'),
+              decisionOptions: decisionOptions.build(),
               transactionId: transactionId);
     } catch (_) {
       late String _$failedField;
       try {
+        _$failedField = 'summaryParams';
+        _summaryParams?.build();
         _$failedField = 'matchReasons';
         matchReasons.build();
 
-        _$failedField = 'decisionOptions';
-        decisionOptions.build();
-
         _$failedField = 'transaction';
         _transaction?.build();
+
+        _$failedField = 'decisionOptions';
+        decisionOptions.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             r'ReviewDetailDto', _$failedField, e.toString());

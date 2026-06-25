@@ -21,7 +21,7 @@ TransactionRuleResponseDtoMatchLogicEnum
     case 'AND':
       return _$transactionRuleResponseDtoMatchLogicEnum_AND;
     default:
-      return _$transactionRuleResponseDtoMatchLogicEnum_AND;
+      throw new ArgumentError(name);
   }
 }
 
@@ -47,7 +47,7 @@ TransactionRuleResponseDtoLearningSourceEnum
     case 'REVIEW_CENTER':
       return _$transactionRuleResponseDtoLearningSourceEnum_REVIEW_CENTER;
     default:
-      return _$transactionRuleResponseDtoLearningSourceEnum_REVIEW_CENTER;
+      throw new ArgumentError(name);
   }
 }
 
@@ -136,6 +136,8 @@ class _$TransactionRuleResponseDto extends TransactionRuleResponseDto {
   @override
   final String name;
   @override
+  final String? description;
+  @override
   final BuiltList<String> narrationKeywords;
   @override
   final BuiltList<String> payeeKeywords;
@@ -144,11 +146,17 @@ class _$TransactionRuleResponseDto extends TransactionRuleResponseDto {
   @override
   final BuiltList<String> methodKeywords;
   @override
+  final String? categoryAccount;
+  @override
   final TransactionRuleResponseDtoMatchLogicEnum matchLogic;
+  @override
+  final AmountRangeDto? amountRange;
   @override
   final num priority;
   @override
   final bool enabled;
+  @override
+  final TransactionRuleResponseDtoLearningSourceEnum? learningSource;
   @override
   final bool autoApplyEnabled;
   @override
@@ -156,19 +164,11 @@ class _$TransactionRuleResponseDto extends TransactionRuleResponseDto {
   @override
   final BuiltList<String> additionalTags;
   @override
+  final BuiltMap<String, String>? additionalMetadata;
+  @override
   final DateTime createdAt;
   @override
   final DateTime updatedAt;
-  @override
-  final String? description;
-  @override
-  final String? categoryAccount;
-  @override
-  final JsonObject? amountRange;
-  @override
-  final TransactionRuleResponseDtoLearningSourceEnum? learningSource;
-  @override
-  final JsonObject? additionalMetadata;
 
   factory _$TransactionRuleResponseDto(
           [void Function(TransactionRuleResponseDtoBuilder)? updates]) =>
@@ -177,23 +177,23 @@ class _$TransactionRuleResponseDto extends TransactionRuleResponseDto {
   _$TransactionRuleResponseDto._(
       {required this.id,
       required this.name,
+      this.description,
       required this.narrationKeywords,
       required this.payeeKeywords,
       required this.categoryKeywords,
       required this.methodKeywords,
+      this.categoryAccount,
       required this.matchLogic,
+      this.amountRange,
       required this.priority,
       required this.enabled,
+      this.learningSource,
       required this.autoApplyEnabled,
       required this.confirmationCount,
       required this.additionalTags,
+      this.additionalMetadata,
       required this.createdAt,
-      required this.updatedAt,
-      this.description,
-      this.categoryAccount,
-      this.amountRange,
-      this.learningSource,
-      this.additionalMetadata})
+      required this.updatedAt})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(
         id, r'TransactionRuleResponseDto', 'id');
@@ -240,23 +240,23 @@ class _$TransactionRuleResponseDto extends TransactionRuleResponseDto {
     return other is TransactionRuleResponseDto &&
         id == other.id &&
         name == other.name &&
+        description == other.description &&
         narrationKeywords == other.narrationKeywords &&
         payeeKeywords == other.payeeKeywords &&
         categoryKeywords == other.categoryKeywords &&
         methodKeywords == other.methodKeywords &&
+        categoryAccount == other.categoryAccount &&
         matchLogic == other.matchLogic &&
+        amountRange == other.amountRange &&
         priority == other.priority &&
         enabled == other.enabled &&
+        learningSource == other.learningSource &&
         autoApplyEnabled == other.autoApplyEnabled &&
         confirmationCount == other.confirmationCount &&
         additionalTags == other.additionalTags &&
+        additionalMetadata == other.additionalMetadata &&
         createdAt == other.createdAt &&
-        updatedAt == other.updatedAt &&
-        description == other.description &&
-        categoryAccount == other.categoryAccount &&
-        amountRange == other.amountRange &&
-        learningSource == other.learningSource &&
-        additionalMetadata == other.additionalMetadata;
+        updatedAt == other.updatedAt;
   }
 
   @override
@@ -264,23 +264,23 @@ class _$TransactionRuleResponseDto extends TransactionRuleResponseDto {
     var _$hash = 0;
     _$hash = $jc(_$hash, id.hashCode);
     _$hash = $jc(_$hash, name.hashCode);
+    _$hash = $jc(_$hash, description.hashCode);
     _$hash = $jc(_$hash, narrationKeywords.hashCode);
     _$hash = $jc(_$hash, payeeKeywords.hashCode);
     _$hash = $jc(_$hash, categoryKeywords.hashCode);
     _$hash = $jc(_$hash, methodKeywords.hashCode);
+    _$hash = $jc(_$hash, categoryAccount.hashCode);
     _$hash = $jc(_$hash, matchLogic.hashCode);
+    _$hash = $jc(_$hash, amountRange.hashCode);
     _$hash = $jc(_$hash, priority.hashCode);
     _$hash = $jc(_$hash, enabled.hashCode);
+    _$hash = $jc(_$hash, learningSource.hashCode);
     _$hash = $jc(_$hash, autoApplyEnabled.hashCode);
     _$hash = $jc(_$hash, confirmationCount.hashCode);
     _$hash = $jc(_$hash, additionalTags.hashCode);
+    _$hash = $jc(_$hash, additionalMetadata.hashCode);
     _$hash = $jc(_$hash, createdAt.hashCode);
     _$hash = $jc(_$hash, updatedAt.hashCode);
-    _$hash = $jc(_$hash, description.hashCode);
-    _$hash = $jc(_$hash, categoryAccount.hashCode);
-    _$hash = $jc(_$hash, amountRange.hashCode);
-    _$hash = $jc(_$hash, learningSource.hashCode);
-    _$hash = $jc(_$hash, additionalMetadata.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -290,23 +290,23 @@ class _$TransactionRuleResponseDto extends TransactionRuleResponseDto {
     return (newBuiltValueToStringHelper(r'TransactionRuleResponseDto')
           ..add('id', id)
           ..add('name', name)
+          ..add('description', description)
           ..add('narrationKeywords', narrationKeywords)
           ..add('payeeKeywords', payeeKeywords)
           ..add('categoryKeywords', categoryKeywords)
           ..add('methodKeywords', methodKeywords)
+          ..add('categoryAccount', categoryAccount)
           ..add('matchLogic', matchLogic)
+          ..add('amountRange', amountRange)
           ..add('priority', priority)
           ..add('enabled', enabled)
+          ..add('learningSource', learningSource)
           ..add('autoApplyEnabled', autoApplyEnabled)
           ..add('confirmationCount', confirmationCount)
           ..add('additionalTags', additionalTags)
+          ..add('additionalMetadata', additionalMetadata)
           ..add('createdAt', createdAt)
-          ..add('updatedAt', updatedAt)
-          ..add('description', description)
-          ..add('categoryAccount', categoryAccount)
-          ..add('amountRange', amountRange)
-          ..add('learningSource', learningSource)
-          ..add('additionalMetadata', additionalMetadata))
+          ..add('updatedAt', updatedAt))
         .toString();
   }
 }
@@ -323,6 +323,10 @@ class TransactionRuleResponseDtoBuilder
   String? _name;
   String? get name => _$this._name;
   set name(String? name) => _$this._name = name;
+
+  String? _description;
+  String? get description => _$this._description;
+  set description(String? description) => _$this._description = description;
 
   ListBuilder<String>? _narrationKeywords;
   ListBuilder<String> get narrationKeywords =>
@@ -348,11 +352,22 @@ class TransactionRuleResponseDtoBuilder
   set methodKeywords(ListBuilder<String>? methodKeywords) =>
       _$this._methodKeywords = methodKeywords;
 
+  String? _categoryAccount;
+  String? get categoryAccount => _$this._categoryAccount;
+  set categoryAccount(String? categoryAccount) =>
+      _$this._categoryAccount = categoryAccount;
+
   TransactionRuleResponseDtoMatchLogicEnum? _matchLogic;
   TransactionRuleResponseDtoMatchLogicEnum? get matchLogic =>
       _$this._matchLogic;
   set matchLogic(TransactionRuleResponseDtoMatchLogicEnum? matchLogic) =>
       _$this._matchLogic = matchLogic;
+
+  AmountRangeDtoBuilder? _amountRange;
+  AmountRangeDtoBuilder get amountRange =>
+      _$this._amountRange ??= new AmountRangeDtoBuilder();
+  set amountRange(AmountRangeDtoBuilder? amountRange) =>
+      _$this._amountRange = amountRange;
 
   num? _priority;
   num? get priority => _$this._priority;
@@ -361,6 +376,13 @@ class TransactionRuleResponseDtoBuilder
   bool? _enabled;
   bool? get enabled => _$this._enabled;
   set enabled(bool? enabled) => _$this._enabled = enabled;
+
+  TransactionRuleResponseDtoLearningSourceEnum? _learningSource;
+  TransactionRuleResponseDtoLearningSourceEnum? get learningSource =>
+      _$this._learningSource;
+  set learningSource(
+          TransactionRuleResponseDtoLearningSourceEnum? learningSource) =>
+      _$this._learningSource = learningSource;
 
   bool? _autoApplyEnabled;
   bool? get autoApplyEnabled => _$this._autoApplyEnabled;
@@ -378,6 +400,12 @@ class TransactionRuleResponseDtoBuilder
   set additionalTags(ListBuilder<String>? additionalTags) =>
       _$this._additionalTags = additionalTags;
 
+  MapBuilder<String, String>? _additionalMetadata;
+  MapBuilder<String, String> get additionalMetadata =>
+      _$this._additionalMetadata ??= new MapBuilder<String, String>();
+  set additionalMetadata(MapBuilder<String, String>? additionalMetadata) =>
+      _$this._additionalMetadata = additionalMetadata;
+
   DateTime? _createdAt;
   DateTime? get createdAt => _$this._createdAt;
   set createdAt(DateTime? createdAt) => _$this._createdAt = createdAt;
@@ -385,31 +413,6 @@ class TransactionRuleResponseDtoBuilder
   DateTime? _updatedAt;
   DateTime? get updatedAt => _$this._updatedAt;
   set updatedAt(DateTime? updatedAt) => _$this._updatedAt = updatedAt;
-
-  String? _description;
-  String? get description => _$this._description;
-  set description(String? description) => _$this._description = description;
-
-  String? _categoryAccount;
-  String? get categoryAccount => _$this._categoryAccount;
-  set categoryAccount(String? categoryAccount) =>
-      _$this._categoryAccount = categoryAccount;
-
-  JsonObject? _amountRange;
-  JsonObject? get amountRange => _$this._amountRange;
-  set amountRange(JsonObject? amountRange) => _$this._amountRange = amountRange;
-
-  TransactionRuleResponseDtoLearningSourceEnum? _learningSource;
-  TransactionRuleResponseDtoLearningSourceEnum? get learningSource =>
-      _$this._learningSource;
-  set learningSource(
-          TransactionRuleResponseDtoLearningSourceEnum? learningSource) =>
-      _$this._learningSource = learningSource;
-
-  JsonObject? _additionalMetadata;
-  JsonObject? get additionalMetadata => _$this._additionalMetadata;
-  set additionalMetadata(JsonObject? additionalMetadata) =>
-      _$this._additionalMetadata = additionalMetadata;
 
   TransactionRuleResponseDtoBuilder() {
     TransactionRuleResponseDto._defaults(this);
@@ -420,23 +423,23 @@ class TransactionRuleResponseDtoBuilder
     if ($v != null) {
       _id = $v.id;
       _name = $v.name;
+      _description = $v.description;
       _narrationKeywords = $v.narrationKeywords.toBuilder();
       _payeeKeywords = $v.payeeKeywords.toBuilder();
       _categoryKeywords = $v.categoryKeywords.toBuilder();
       _methodKeywords = $v.methodKeywords.toBuilder();
+      _categoryAccount = $v.categoryAccount;
       _matchLogic = $v.matchLogic;
+      _amountRange = $v.amountRange?.toBuilder();
       _priority = $v.priority;
       _enabled = $v.enabled;
+      _learningSource = $v.learningSource;
       _autoApplyEnabled = $v.autoApplyEnabled;
       _confirmationCount = $v.confirmationCount;
       _additionalTags = $v.additionalTags.toBuilder();
+      _additionalMetadata = $v.additionalMetadata?.toBuilder();
       _createdAt = $v.createdAt;
       _updatedAt = $v.updatedAt;
-      _description = $v.description;
-      _categoryAccount = $v.categoryAccount;
-      _amountRange = $v.amountRange;
-      _learningSource = $v.learningSource;
-      _additionalMetadata = $v.additionalMetadata;
       _$v = null;
     }
     return this;
@@ -465,29 +468,29 @@ class TransactionRuleResponseDtoBuilder
                   id, r'TransactionRuleResponseDto', 'id'),
               name: BuiltValueNullFieldError.checkNotNull(
                   name, r'TransactionRuleResponseDto', 'name'),
+              description: description,
               narrationKeywords: narrationKeywords.build(),
               payeeKeywords: payeeKeywords.build(),
               categoryKeywords: categoryKeywords.build(),
               methodKeywords: methodKeywords.build(),
+              categoryAccount: categoryAccount,
               matchLogic: BuiltValueNullFieldError.checkNotNull(
                   matchLogic, r'TransactionRuleResponseDto', 'matchLogic'),
+              amountRange: _amountRange?.build(),
               priority: BuiltValueNullFieldError.checkNotNull(
                   priority, r'TransactionRuleResponseDto', 'priority'),
               enabled: BuiltValueNullFieldError.checkNotNull(
                   enabled, r'TransactionRuleResponseDto', 'enabled'),
+              learningSource: learningSource,
               autoApplyEnabled: BuiltValueNullFieldError.checkNotNull(
                   autoApplyEnabled, r'TransactionRuleResponseDto', 'autoApplyEnabled'),
               confirmationCount: BuiltValueNullFieldError.checkNotNull(
                   confirmationCount, r'TransactionRuleResponseDto', 'confirmationCount'),
               additionalTags: additionalTags.build(),
+              additionalMetadata: _additionalMetadata?.build(),
               createdAt: BuiltValueNullFieldError.checkNotNull(
                   createdAt, r'TransactionRuleResponseDto', 'createdAt'),
-              updatedAt: BuiltValueNullFieldError.checkNotNull(updatedAt, r'TransactionRuleResponseDto', 'updatedAt'),
-              description: description,
-              categoryAccount: categoryAccount,
-              amountRange: amountRange,
-              learningSource: learningSource,
-              additionalMetadata: additionalMetadata);
+              updatedAt: BuiltValueNullFieldError.checkNotNull(updatedAt, r'TransactionRuleResponseDto', 'updatedAt'));
     } catch (_) {
       late String _$failedField;
       try {
@@ -500,8 +503,13 @@ class TransactionRuleResponseDtoBuilder
         _$failedField = 'methodKeywords';
         methodKeywords.build();
 
+        _$failedField = 'amountRange';
+        _amountRange?.build();
+
         _$failedField = 'additionalTags';
         additionalTags.build();
+        _$failedField = 'additionalMetadata';
+        _additionalMetadata?.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             r'TransactionRuleResponseDto', _$failedField, e.toString());

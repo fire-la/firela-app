@@ -14,8 +14,7 @@ part 'balance_by_currency_dto.g.dart';
 /// * [currency] - ISO 4217 currency code
 /// * [balance] - Balance amount
 @BuiltValue()
-abstract class BalanceByCurrencyDto
-    implements Built<BalanceByCurrencyDto, BalanceByCurrencyDtoBuilder> {
+abstract class BalanceByCurrencyDto implements Built<BalanceByCurrencyDto, BalanceByCurrencyDtoBuilder> {
   /// ISO 4217 currency code
   @BuiltValueField(wireName: r'currency')
   String get currency;
@@ -26,24 +25,18 @@ abstract class BalanceByCurrencyDto
 
   BalanceByCurrencyDto._();
 
-  factory BalanceByCurrencyDto([void updates(BalanceByCurrencyDtoBuilder b)]) =
-      _$BalanceByCurrencyDto;
+  factory BalanceByCurrencyDto([void updates(BalanceByCurrencyDtoBuilder b)]) = _$BalanceByCurrencyDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(BalanceByCurrencyDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<BalanceByCurrencyDto> get serializer =>
-      _$BalanceByCurrencyDtoSerializer();
+  static Serializer<BalanceByCurrencyDto> get serializer => _$BalanceByCurrencyDtoSerializer();
 }
 
-class _$BalanceByCurrencyDtoSerializer
-    implements PrimitiveSerializer<BalanceByCurrencyDto> {
+class _$BalanceByCurrencyDtoSerializer implements PrimitiveSerializer<BalanceByCurrencyDto> {
   @override
-  final Iterable<Type> types = const [
-    BalanceByCurrencyDto,
-    _$BalanceByCurrencyDto
-  ];
+  final Iterable<Type> types = const [BalanceByCurrencyDto, _$BalanceByCurrencyDto];
 
   @override
   final String wireName = r'BalanceByCurrencyDto';
@@ -71,9 +64,7 @@ class _$BalanceByCurrencyDtoSerializer
     BalanceByCurrencyDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -130,3 +121,4 @@ class _$BalanceByCurrencyDtoSerializer
     return result.build();
   }
 }
+

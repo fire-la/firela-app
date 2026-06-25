@@ -15,8 +15,7 @@ part 'payee_stats_response_dto.g.dart';
 /// * [transactionCount] - Total transaction count
 /// * [lastUsedAt] - Last used timestamp
 @BuiltValue()
-abstract class PayeeStatsResponseDto
-    implements Built<PayeeStatsResponseDto, PayeeStatsResponseDtoBuilder> {
+abstract class PayeeStatsResponseDto implements Built<PayeeStatsResponseDto, PayeeStatsResponseDtoBuilder> {
   /// Payee name
   @BuiltValueField(wireName: r'payee')
   String get payee;
@@ -31,24 +30,18 @@ abstract class PayeeStatsResponseDto
 
   PayeeStatsResponseDto._();
 
-  factory PayeeStatsResponseDto(
-      [void updates(PayeeStatsResponseDtoBuilder b)]) = _$PayeeStatsResponseDto;
+  factory PayeeStatsResponseDto([void updates(PayeeStatsResponseDtoBuilder b)]) = _$PayeeStatsResponseDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(PayeeStatsResponseDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<PayeeStatsResponseDto> get serializer =>
-      _$PayeeStatsResponseDtoSerializer();
+  static Serializer<PayeeStatsResponseDto> get serializer => _$PayeeStatsResponseDtoSerializer();
 }
 
-class _$PayeeStatsResponseDtoSerializer
-    implements PrimitiveSerializer<PayeeStatsResponseDto> {
+class _$PayeeStatsResponseDtoSerializer implements PrimitiveSerializer<PayeeStatsResponseDto> {
   @override
-  final Iterable<Type> types = const [
-    PayeeStatsResponseDto,
-    _$PayeeStatsResponseDto
-  ];
+  final Iterable<Type> types = const [PayeeStatsResponseDto, _$PayeeStatsResponseDto];
 
   @override
   final String wireName = r'PayeeStatsResponseDto';
@@ -81,9 +74,7 @@ class _$PayeeStatsResponseDtoSerializer
     PayeeStatsResponseDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -147,3 +138,4 @@ class _$PayeeStatsResponseDtoSerializer
     return result.build();
   }
 }
+

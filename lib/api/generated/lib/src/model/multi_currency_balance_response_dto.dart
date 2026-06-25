@@ -16,10 +16,7 @@ part 'multi_currency_balance_response_dto.g.dart';
 /// * [balances] - Balances by currency
 /// * [date] - Date of the balance calculation (ISO 8601)
 @BuiltValue()
-abstract class MultiCurrencyBalanceResponseDto
-    implements
-        Built<MultiCurrencyBalanceResponseDto,
-            MultiCurrencyBalanceResponseDtoBuilder> {
+abstract class MultiCurrencyBalanceResponseDto implements Built<MultiCurrencyBalanceResponseDto, MultiCurrencyBalanceResponseDtoBuilder> {
   /// Account name
   @BuiltValueField(wireName: r'account')
   String get account;
@@ -34,25 +31,18 @@ abstract class MultiCurrencyBalanceResponseDto
 
   MultiCurrencyBalanceResponseDto._();
 
-  factory MultiCurrencyBalanceResponseDto(
-          [void updates(MultiCurrencyBalanceResponseDtoBuilder b)]) =
-      _$MultiCurrencyBalanceResponseDto;
+  factory MultiCurrencyBalanceResponseDto([void updates(MultiCurrencyBalanceResponseDtoBuilder b)]) = _$MultiCurrencyBalanceResponseDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(MultiCurrencyBalanceResponseDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<MultiCurrencyBalanceResponseDto> get serializer =>
-      _$MultiCurrencyBalanceResponseDtoSerializer();
+  static Serializer<MultiCurrencyBalanceResponseDto> get serializer => _$MultiCurrencyBalanceResponseDtoSerializer();
 }
 
-class _$MultiCurrencyBalanceResponseDtoSerializer
-    implements PrimitiveSerializer<MultiCurrencyBalanceResponseDto> {
+class _$MultiCurrencyBalanceResponseDtoSerializer implements PrimitiveSerializer<MultiCurrencyBalanceResponseDto> {
   @override
-  final Iterable<Type> types = const [
-    MultiCurrencyBalanceResponseDto,
-    _$MultiCurrencyBalanceResponseDto
-  ];
+  final Iterable<Type> types = const [MultiCurrencyBalanceResponseDto, _$MultiCurrencyBalanceResponseDto];
 
   @override
   final String wireName = r'MultiCurrencyBalanceResponseDto';
@@ -85,9 +75,7 @@ class _$MultiCurrencyBalanceResponseDtoSerializer
     MultiCurrencyBalanceResponseDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -151,3 +139,4 @@ class _$MultiCurrencyBalanceResponseDtoSerializer
     return result.build();
   }
 }
+

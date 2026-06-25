@@ -19,10 +19,7 @@ part 'nlp_account_confirmation_data_dto.g.dart';
 /// * [errorMessage] - Error message explaining the issue
 /// * [transactionContext] - Transaction context for reference
 @BuiltValue()
-abstract class NlpAccountConfirmationDataDto
-    implements
-        Built<NlpAccountConfirmationDataDto,
-            NlpAccountConfirmationDataDtoBuilder> {
+abstract class NlpAccountConfirmationDataDto implements Built<NlpAccountConfirmationDataDto, NlpAccountConfirmationDataDtoBuilder> {
   /// The invalid account name
   @BuiltValueField(wireName: r'invalidAccount')
   String get invalidAccount;
@@ -45,25 +42,18 @@ abstract class NlpAccountConfirmationDataDto
 
   NlpAccountConfirmationDataDto._();
 
-  factory NlpAccountConfirmationDataDto(
-          [void updates(NlpAccountConfirmationDataDtoBuilder b)]) =
-      _$NlpAccountConfirmationDataDto;
+  factory NlpAccountConfirmationDataDto([void updates(NlpAccountConfirmationDataDtoBuilder b)]) = _$NlpAccountConfirmationDataDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(NlpAccountConfirmationDataDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<NlpAccountConfirmationDataDto> get serializer =>
-      _$NlpAccountConfirmationDataDtoSerializer();
+  static Serializer<NlpAccountConfirmationDataDto> get serializer => _$NlpAccountConfirmationDataDtoSerializer();
 }
 
-class _$NlpAccountConfirmationDataDtoSerializer
-    implements PrimitiveSerializer<NlpAccountConfirmationDataDto> {
+class _$NlpAccountConfirmationDataDtoSerializer implements PrimitiveSerializer<NlpAccountConfirmationDataDto> {
   @override
-  final Iterable<Type> types = const [
-    NlpAccountConfirmationDataDto,
-    _$NlpAccountConfirmationDataDto
-  ];
+  final Iterable<Type> types = const [NlpAccountConfirmationDataDto, _$NlpAccountConfirmationDataDto];
 
   @override
   final String wireName = r'NlpAccountConfirmationDataDto';
@@ -106,9 +96,7 @@ class _$NlpAccountConfirmationDataDtoSerializer
     NlpAccountConfirmationDataDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -186,3 +174,4 @@ class _$NlpAccountConfirmationDataDtoSerializer
     return result.build();
   }
 }
+

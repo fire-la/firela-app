@@ -14,35 +14,25 @@ part 'payee_autocomplete_response_dto.g.dart';
 /// Properties:
 /// * [suggestions] - List of matching payee names
 @BuiltValue()
-abstract class PayeeAutocompleteResponseDto
-    implements
-        Built<PayeeAutocompleteResponseDto,
-            PayeeAutocompleteResponseDtoBuilder> {
+abstract class PayeeAutocompleteResponseDto implements Built<PayeeAutocompleteResponseDto, PayeeAutocompleteResponseDtoBuilder> {
   /// List of matching payee names
   @BuiltValueField(wireName: r'suggestions')
   BuiltList<String> get suggestions;
 
   PayeeAutocompleteResponseDto._();
 
-  factory PayeeAutocompleteResponseDto(
-          [void updates(PayeeAutocompleteResponseDtoBuilder b)]) =
-      _$PayeeAutocompleteResponseDto;
+  factory PayeeAutocompleteResponseDto([void updates(PayeeAutocompleteResponseDtoBuilder b)]) = _$PayeeAutocompleteResponseDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(PayeeAutocompleteResponseDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<PayeeAutocompleteResponseDto> get serializer =>
-      _$PayeeAutocompleteResponseDtoSerializer();
+  static Serializer<PayeeAutocompleteResponseDto> get serializer => _$PayeeAutocompleteResponseDtoSerializer();
 }
 
-class _$PayeeAutocompleteResponseDtoSerializer
-    implements PrimitiveSerializer<PayeeAutocompleteResponseDto> {
+class _$PayeeAutocompleteResponseDtoSerializer implements PrimitiveSerializer<PayeeAutocompleteResponseDto> {
   @override
-  final Iterable<Type> types = const [
-    PayeeAutocompleteResponseDto,
-    _$PayeeAutocompleteResponseDto
-  ];
+  final Iterable<Type> types = const [PayeeAutocompleteResponseDto, _$PayeeAutocompleteResponseDto];
 
   @override
   final String wireName = r'PayeeAutocompleteResponseDto';
@@ -65,9 +55,7 @@ class _$PayeeAutocompleteResponseDtoSerializer
     PayeeAutocompleteResponseDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -117,3 +105,4 @@ class _$PayeeAutocompleteResponseDtoSerializer
     return result.build();
   }
 }
+

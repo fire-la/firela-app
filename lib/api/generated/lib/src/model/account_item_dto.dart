@@ -17,8 +17,7 @@ part 'account_item_dto.g.dart';
 /// * [balance] - Account balance
 /// * [currency] - Currency code
 @BuiltValue()
-abstract class AccountItemDto
-    implements Built<AccountItemDto, AccountItemDtoBuilder> {
+abstract class AccountItemDto implements Built<AccountItemDto, AccountItemDtoBuilder> {
   /// Account ID
   @BuiltValueField(wireName: r'id')
   String get id;
@@ -41,19 +40,16 @@ abstract class AccountItemDto
 
   AccountItemDto._();
 
-  factory AccountItemDto([void updates(AccountItemDtoBuilder b)]) =
-      _$AccountItemDto;
+  factory AccountItemDto([void updates(AccountItemDtoBuilder b)]) = _$AccountItemDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(AccountItemDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<AccountItemDto> get serializer =>
-      _$AccountItemDtoSerializer();
+  static Serializer<AccountItemDto> get serializer => _$AccountItemDtoSerializer();
 }
 
-class _$AccountItemDtoSerializer
-    implements PrimitiveSerializer<AccountItemDto> {
+class _$AccountItemDtoSerializer implements PrimitiveSerializer<AccountItemDto> {
   @override
   final Iterable<Type> types = const [AccountItemDto, _$AccountItemDto];
 
@@ -98,9 +94,7 @@ class _$AccountItemDtoSerializer
     AccountItemDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -178,3 +172,4 @@ class _$AccountItemDtoSerializer
     return result.build();
   }
 }
+

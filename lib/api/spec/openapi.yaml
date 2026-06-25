@@ -698,6 +698,75 @@ paths:
         - Bean Transactions
       security:
         - bearer: []
+  /api/v1/{region}/bean/transactions/tags:
+    get:
+      operationId: TransactionController_suggestTags
+      summary: Suggest transaction tags
+      description: >-
+        Returns distinct tags from the user ACTIVE transactions, sorted by
+        usage, for autocomplete. Optional q performs a case-insensitive prefix
+        match.
+      parameters:
+        - name: q
+          required: false
+          in: query
+          description: Prefix match, case-insensitive (max 50 chars)
+          schema:
+            example: mo
+            type: string
+        - name: sort
+          required: false
+          in: query
+          description: usage (default) or name
+          schema:
+            enum:
+              - usage
+              - name
+            type: string
+        - name: limit
+          required: false
+          in: query
+          description: Max suggestions (1-100, default 10)
+          schema:
+            minimum: 1
+            maximum: 100
+            default: 10
+            example: 10
+            type: number
+        - name: region
+          required: true
+          in: path
+          description: Region code for tenant context
+          schema:
+            enum:
+              - cn
+              - us
+              - de
+              - gb
+            type: string
+      responses:
+        '200':
+          description: Tag suggestions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TagSuggestionsResponseDto'
+        '400':
+          description: Validation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiProblemResponseDto'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiProblemResponseDto'
+      tags:
+        - Bean Transactions
+      security:
+        - bearer: []
   /api/v1/{region}/bean/transactions/{id}:
     get:
       operationId: TransactionController_getDetail
@@ -5323,7 +5392,10 @@ components:
       required:
         - path
         - type
+        - i18nKey
         - description
+        - tags
+        - icon
     AccountStandardListResponseDto:
       type: object
       properties:
@@ -5519,7 +5591,10 @@ components:
           example: Assets:Bank:Checking
         units:
           type: string
-          description: Amount (may be null if interpolated)
+          description: >-
+            Amount as decimal string. Typed optional but always present in
+            responses: interpolation fills any MISSING posting before it is
+            persisted or returned.
           example: '100.50'
         currency:
           type: string
@@ -5738,7 +5813,10 @@ components:
           example: Assets:Bank:Checking
         units:
           type: string
-          description: Amount (may be null if interpolated)
+          description: >-
+            Amount as decimal string. Typed optional but always present in
+            responses: interpolation fills any MISSING posting before it is
+            persisted or returned.
           example: '100.50'
         currency:
           type: string
@@ -5925,6 +6003,30 @@ components:
         - total
         - limit
         - offset
+    TagSuggestionDto:
+      type: object
+      properties:
+        tag:
+          type: string
+          description: Tag name
+          example: Monthly
+        count:
+          type: number
+          description: Usage count across ACTIVE transactions
+          example: 12
+      required:
+        - tag
+        - count
+    TagSuggestionsResponseDto:
+      type: object
+      properties:
+        data:
+          description: Tag suggestions sorted as requested
+          type: array
+          items:
+            $ref: '#/components/schemas/TagSuggestionDto'
+      required:
+        - data
     UpdateTransactionDto:
       type: object
       properties:
@@ -6094,11 +6196,14 @@ components:
           description: Confidence score (0-1)
         confidenceLevel:
           type: string
-          description: Confidence level derived from score
+          description: >-
+            Confidence level derived from score. Null for error-type reviews
+            (ACCOUNT_VALIDATION/PIPELINE_ERROR) which carry no confidence.
           enum:
             - HIGH
             - MEDIUM
             - LOW
+          nullable: true
         summaryKey:
           type: string
           description: >-
@@ -6243,11 +6348,14 @@ components:
           description: Confidence score (0-1)
         confidenceLevel:
           type: string
-          description: Confidence level derived from score
+          description: >-
+            Confidence level derived from score. Null for error-type reviews
+            (ACCOUNT_VALIDATION/PIPELINE_ERROR) which carry no confidence.
           enum:
             - HIGH
             - MEDIUM
             - LOW
+          nullable: true
         summaryKey:
           type: string
           description: >-

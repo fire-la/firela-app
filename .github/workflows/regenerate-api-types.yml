@@ -134,7 +134,10 @@ jobs:
         id: create-pr
         uses: peter-evans/create-pull-request@v8
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          # PAT (not GITHUB_TOKEN): pushes made by GITHUB_TOKEN don't trigger
+          # pull_request workflows, so the analyze-sanitizer check would never
+          # run and the PR couldn't auto-merge. The PAT-authored push triggers it.
+          token: ${{ secrets.FIRELA_APP_PR_TOKEN }}
           branch: sync/api-types
           title: "chore: regenerate Dart API types from OpenAPI spec"
           commit-message: "chore: regenerate Dart API types from OpenAPI spec"
@@ -147,7 +150,7 @@ jobs:
       - name: Enable auto-merge
         if: steps.create-pr.outputs.pull-request-operation == 'created' || steps.create-pr.outputs.pull-request-operation == 'updated'
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.FIRELA_APP_PR_TOKEN }}
         run: gh pr merge --auto --squash "${{ steps.create-pr.outputs.pull-request-url }}"
 
       - name: Report failure

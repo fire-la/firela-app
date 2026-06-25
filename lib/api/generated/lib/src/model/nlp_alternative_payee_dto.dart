@@ -15,8 +15,7 @@ part 'nlp_alternative_payee_dto.g.dart';
 /// * [name] - Payee name
 /// * [similarity] - Similarity score (0-1)
 @BuiltValue()
-abstract class NlpAlternativePayeeDto
-    implements Built<NlpAlternativePayeeDto, NlpAlternativePayeeDtoBuilder> {
+abstract class NlpAlternativePayeeDto implements Built<NlpAlternativePayeeDto, NlpAlternativePayeeDtoBuilder> {
   /// Payee ID
   @BuiltValueField(wireName: r'id')
   String get id;
@@ -31,25 +30,18 @@ abstract class NlpAlternativePayeeDto
 
   NlpAlternativePayeeDto._();
 
-  factory NlpAlternativePayeeDto(
-          [void updates(NlpAlternativePayeeDtoBuilder b)]) =
-      _$NlpAlternativePayeeDto;
+  factory NlpAlternativePayeeDto([void updates(NlpAlternativePayeeDtoBuilder b)]) = _$NlpAlternativePayeeDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(NlpAlternativePayeeDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<NlpAlternativePayeeDto> get serializer =>
-      _$NlpAlternativePayeeDtoSerializer();
+  static Serializer<NlpAlternativePayeeDto> get serializer => _$NlpAlternativePayeeDtoSerializer();
 }
 
-class _$NlpAlternativePayeeDtoSerializer
-    implements PrimitiveSerializer<NlpAlternativePayeeDto> {
+class _$NlpAlternativePayeeDtoSerializer implements PrimitiveSerializer<NlpAlternativePayeeDto> {
   @override
-  final Iterable<Type> types = const [
-    NlpAlternativePayeeDto,
-    _$NlpAlternativePayeeDto
-  ];
+  final Iterable<Type> types = const [NlpAlternativePayeeDto, _$NlpAlternativePayeeDto];
 
   @override
   final String wireName = r'NlpAlternativePayeeDto';
@@ -82,9 +74,7 @@ class _$NlpAlternativePayeeDtoSerializer
     NlpAlternativePayeeDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -148,3 +138,4 @@ class _$NlpAlternativePayeeDtoSerializer
     return result.build();
   }
 }
+

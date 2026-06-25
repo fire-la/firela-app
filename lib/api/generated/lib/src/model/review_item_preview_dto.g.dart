@@ -36,7 +36,7 @@ ReviewItemPreviewDtoBranchTypeEnum _$reviewItemPreviewDtoBranchTypeEnumValueOf(
     case 'PIPELINE_ERROR':
       return _$reviewItemPreviewDtoBranchTypeEnum_PIPELINE_ERROR;
     default:
-      return _$reviewItemPreviewDtoBranchTypeEnum_PIPELINE_ERROR;
+      throw new ArgumentError(name);
   }
 }
 
@@ -96,11 +96,11 @@ class _$ReviewItemPreviewDto extends ReviewItemPreviewDto {
   @override
   final String date;
   @override
-  final String narration;
-  @override
   final num? amount;
   @override
   final String? currency;
+  @override
+  final String narration;
   @override
   final String? payee;
   @override
@@ -119,9 +119,9 @@ class _$ReviewItemPreviewDto extends ReviewItemPreviewDto {
   _$ReviewItemPreviewDto._(
       {required this.index,
       required this.date,
-      required this.narration,
       this.amount,
       this.currency,
+      required this.narration,
       this.payee,
       this.category,
       this.confidence,
@@ -151,9 +151,9 @@ class _$ReviewItemPreviewDto extends ReviewItemPreviewDto {
     return other is ReviewItemPreviewDto &&
         index == other.index &&
         date == other.date &&
-        narration == other.narration &&
         amount == other.amount &&
         currency == other.currency &&
+        narration == other.narration &&
         payee == other.payee &&
         category == other.category &&
         confidence == other.confidence &&
@@ -166,9 +166,9 @@ class _$ReviewItemPreviewDto extends ReviewItemPreviewDto {
     var _$hash = 0;
     _$hash = $jc(_$hash, index.hashCode);
     _$hash = $jc(_$hash, date.hashCode);
-    _$hash = $jc(_$hash, narration.hashCode);
     _$hash = $jc(_$hash, amount.hashCode);
     _$hash = $jc(_$hash, currency.hashCode);
+    _$hash = $jc(_$hash, narration.hashCode);
     _$hash = $jc(_$hash, payee.hashCode);
     _$hash = $jc(_$hash, category.hashCode);
     _$hash = $jc(_$hash, confidence.hashCode);
@@ -183,9 +183,9 @@ class _$ReviewItemPreviewDto extends ReviewItemPreviewDto {
     return (newBuiltValueToStringHelper(r'ReviewItemPreviewDto')
           ..add('index', index)
           ..add('date', date)
-          ..add('narration', narration)
           ..add('amount', amount)
           ..add('currency', currency)
+          ..add('narration', narration)
           ..add('payee', payee)
           ..add('category', category)
           ..add('confidence', confidence)
@@ -207,10 +207,6 @@ class ReviewItemPreviewDtoBuilder
   String? get date => _$this._date;
   set date(String? date) => _$this._date = date;
 
-  String? _narration;
-  String? get narration => _$this._narration;
-  set narration(String? narration) => _$this._narration = narration;
-
   num? _amount;
   num? get amount => _$this._amount;
   set amount(num? amount) => _$this._amount = amount;
@@ -218,6 +214,10 @@ class ReviewItemPreviewDtoBuilder
   String? _currency;
   String? get currency => _$this._currency;
   set currency(String? currency) => _$this._currency = currency;
+
+  String? _narration;
+  String? get narration => _$this._narration;
+  set narration(String? narration) => _$this._narration = narration;
 
   String? _payee;
   String? get payee => _$this._payee;
@@ -250,9 +250,9 @@ class ReviewItemPreviewDtoBuilder
     if ($v != null) {
       _index = $v.index;
       _date = $v.date;
-      _narration = $v.narration;
       _amount = $v.amount;
       _currency = $v.currency;
+      _narration = $v.narration;
       _payee = $v.payee;
       _category = $v.category;
       _confidence = $v.confidence;
@@ -286,10 +286,10 @@ class ReviewItemPreviewDtoBuilder
                   index, r'ReviewItemPreviewDto', 'index'),
               date: BuiltValueNullFieldError.checkNotNull(
                   date, r'ReviewItemPreviewDto', 'date'),
-              narration: BuiltValueNullFieldError.checkNotNull(
-                  narration, r'ReviewItemPreviewDto', 'narration'),
               amount: amount,
               currency: currency,
+              narration: BuiltValueNullFieldError.checkNotNull(
+                  narration, r'ReviewItemPreviewDto', 'narration'),
               payee: payee,
               category: category,
               confidence: confidence,

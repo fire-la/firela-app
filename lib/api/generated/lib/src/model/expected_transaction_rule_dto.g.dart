@@ -10,11 +10,11 @@ class _$ExpectedTransactionRuleDto extends ExpectedTransactionRuleDto {
   @override
   final String name;
   @override
+  final JsonObject? icon;
+  @override
   final String frequency;
   @override
   final String currency;
-  @override
-  final JsonObject? icon;
 
   factory _$ExpectedTransactionRuleDto(
           [void Function(ExpectedTransactionRuleDtoBuilder)? updates]) =>
@@ -22,9 +22,9 @@ class _$ExpectedTransactionRuleDto extends ExpectedTransactionRuleDto {
 
   _$ExpectedTransactionRuleDto._(
       {required this.name,
+      this.icon,
       required this.frequency,
-      required this.currency,
-      this.icon})
+      required this.currency})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(
         name, r'ExpectedTransactionRuleDto', 'name');
@@ -48,18 +48,18 @@ class _$ExpectedTransactionRuleDto extends ExpectedTransactionRuleDto {
     if (identical(other, this)) return true;
     return other is ExpectedTransactionRuleDto &&
         name == other.name &&
+        icon == other.icon &&
         frequency == other.frequency &&
-        currency == other.currency &&
-        icon == other.icon;
+        currency == other.currency;
   }
 
   @override
   int get hashCode {
     var _$hash = 0;
     _$hash = $jc(_$hash, name.hashCode);
+    _$hash = $jc(_$hash, icon.hashCode);
     _$hash = $jc(_$hash, frequency.hashCode);
     _$hash = $jc(_$hash, currency.hashCode);
-    _$hash = $jc(_$hash, icon.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -68,9 +68,9 @@ class _$ExpectedTransactionRuleDto extends ExpectedTransactionRuleDto {
   String toString() {
     return (newBuiltValueToStringHelper(r'ExpectedTransactionRuleDto')
           ..add('name', name)
+          ..add('icon', icon)
           ..add('frequency', frequency)
-          ..add('currency', currency)
-          ..add('icon', icon))
+          ..add('currency', currency))
         .toString();
   }
 }
@@ -84,6 +84,10 @@ class ExpectedTransactionRuleDtoBuilder
   String? get name => _$this._name;
   set name(String? name) => _$this._name = name;
 
+  JsonObject? _icon;
+  JsonObject? get icon => _$this._icon;
+  set icon(JsonObject? icon) => _$this._icon = icon;
+
   String? _frequency;
   String? get frequency => _$this._frequency;
   set frequency(String? frequency) => _$this._frequency = frequency;
@@ -91,10 +95,6 @@ class ExpectedTransactionRuleDtoBuilder
   String? _currency;
   String? get currency => _$this._currency;
   set currency(String? currency) => _$this._currency = currency;
-
-  JsonObject? _icon;
-  JsonObject? get icon => _$this._icon;
-  set icon(JsonObject? icon) => _$this._icon = icon;
 
   ExpectedTransactionRuleDtoBuilder() {
     ExpectedTransactionRuleDto._defaults(this);
@@ -104,9 +104,9 @@ class ExpectedTransactionRuleDtoBuilder
     final $v = _$v;
     if ($v != null) {
       _name = $v.name;
+      _icon = $v.icon;
       _frequency = $v.frequency;
       _currency = $v.currency;
-      _icon = $v.icon;
       _$v = null;
     }
     return this;
@@ -131,11 +131,11 @@ class ExpectedTransactionRuleDtoBuilder
         new _$ExpectedTransactionRuleDto._(
             name: BuiltValueNullFieldError.checkNotNull(
                 name, r'ExpectedTransactionRuleDto', 'name'),
+            icon: icon,
             frequency: BuiltValueNullFieldError.checkNotNull(
                 frequency, r'ExpectedTransactionRuleDto', 'frequency'),
             currency: BuiltValueNullFieldError.checkNotNull(
-                currency, r'ExpectedTransactionRuleDto', 'currency'),
-            icon: icon);
+                currency, r'ExpectedTransactionRuleDto', 'currency'));
     replace(_$result);
     return _$result;
   }

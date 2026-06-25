@@ -30,7 +30,7 @@ ReviewSummaryDtoTypeEnum _$reviewSummaryDtoTypeEnumValueOf(String name) {
     case 'PIPELINE_ERROR':
       return _$reviewSummaryDtoTypeEnum_PIPELINE_ERROR;
     default:
-      return _$reviewSummaryDtoTypeEnum_PIPELINE_ERROR;
+      throw new ArgumentError(name);
   }
 }
 
@@ -63,7 +63,7 @@ ReviewSummaryDtoStatusEnum _$reviewSummaryDtoStatusEnumValueOf(String name) {
     case 'CANCELLED':
       return _$reviewSummaryDtoStatusEnum_CANCELLED;
     default:
-      return _$reviewSummaryDtoStatusEnum_CANCELLED;
+      throw new ArgumentError(name);
   }
 }
 
@@ -95,7 +95,7 @@ ReviewSummaryDtoConfidenceLevelEnum
     case 'LOW':
       return _$reviewSummaryDtoConfidenceLevelEnum_LOW;
     default:
-      return _$reviewSummaryDtoConfidenceLevelEnum_LOW;
+      throw new ArgumentError(name);
   }
 }
 
@@ -227,17 +227,19 @@ class _$ReviewSummaryDto extends ReviewSummaryDto {
   @override
   final num confidence;
   @override
-  final ReviewSummaryDtoConfidenceLevelEnum confidenceLevel;
+  final ReviewSummaryDtoConfidenceLevelEnum? confidenceLevel;
   @override
-  final String summary;
+  final String summaryKey;
+  @override
+  final BuiltMap<String, String>? summaryParams;
   @override
   final BuiltList<String> matchReasons;
   @override
   final String sourceType;
   @override
-  final DateTime createdAt;
-  @override
   final String? sourcePlatform;
+  @override
+  final DateTime createdAt;
   @override
   final ReviewSummaryDtoTransaction? transaction;
   @override
@@ -260,12 +262,13 @@ class _$ReviewSummaryDto extends ReviewSummaryDto {
       required this.type,
       required this.status,
       required this.confidence,
-      required this.confidenceLevel,
-      required this.summary,
+      this.confidenceLevel,
+      required this.summaryKey,
+      this.summaryParams,
       required this.matchReasons,
       required this.sourceType,
-      required this.createdAt,
       this.sourcePlatform,
+      required this.createdAt,
       this.transaction,
       this.amount,
       this.currency,
@@ -280,9 +283,7 @@ class _$ReviewSummaryDto extends ReviewSummaryDto {
     BuiltValueNullFieldError.checkNotNull(
         confidence, r'ReviewSummaryDto', 'confidence');
     BuiltValueNullFieldError.checkNotNull(
-        confidenceLevel, r'ReviewSummaryDto', 'confidenceLevel');
-    BuiltValueNullFieldError.checkNotNull(
-        summary, r'ReviewSummaryDto', 'summary');
+        summaryKey, r'ReviewSummaryDto', 'summaryKey');
     BuiltValueNullFieldError.checkNotNull(
         matchReasons, r'ReviewSummaryDto', 'matchReasons');
     BuiltValueNullFieldError.checkNotNull(
@@ -308,11 +309,12 @@ class _$ReviewSummaryDto extends ReviewSummaryDto {
         status == other.status &&
         confidence == other.confidence &&
         confidenceLevel == other.confidenceLevel &&
-        summary == other.summary &&
+        summaryKey == other.summaryKey &&
+        summaryParams == other.summaryParams &&
         matchReasons == other.matchReasons &&
         sourceType == other.sourceType &&
-        createdAt == other.createdAt &&
         sourcePlatform == other.sourcePlatform &&
+        createdAt == other.createdAt &&
         transaction == other.transaction &&
         amount == other.amount &&
         currency == other.currency &&
@@ -329,11 +331,12 @@ class _$ReviewSummaryDto extends ReviewSummaryDto {
     _$hash = $jc(_$hash, status.hashCode);
     _$hash = $jc(_$hash, confidence.hashCode);
     _$hash = $jc(_$hash, confidenceLevel.hashCode);
-    _$hash = $jc(_$hash, summary.hashCode);
+    _$hash = $jc(_$hash, summaryKey.hashCode);
+    _$hash = $jc(_$hash, summaryParams.hashCode);
     _$hash = $jc(_$hash, matchReasons.hashCode);
     _$hash = $jc(_$hash, sourceType.hashCode);
-    _$hash = $jc(_$hash, createdAt.hashCode);
     _$hash = $jc(_$hash, sourcePlatform.hashCode);
+    _$hash = $jc(_$hash, createdAt.hashCode);
     _$hash = $jc(_$hash, transaction.hashCode);
     _$hash = $jc(_$hash, amount.hashCode);
     _$hash = $jc(_$hash, currency.hashCode);
@@ -352,11 +355,12 @@ class _$ReviewSummaryDto extends ReviewSummaryDto {
           ..add('status', status)
           ..add('confidence', confidence)
           ..add('confidenceLevel', confidenceLevel)
-          ..add('summary', summary)
+          ..add('summaryKey', summaryKey)
+          ..add('summaryParams', summaryParams)
           ..add('matchReasons', matchReasons)
           ..add('sourceType', sourceType)
-          ..add('createdAt', createdAt)
           ..add('sourcePlatform', sourcePlatform)
+          ..add('createdAt', createdAt)
           ..add('transaction', transaction)
           ..add('amount', amount)
           ..add('currency', currency)
@@ -393,9 +397,15 @@ class ReviewSummaryDtoBuilder
   set confidenceLevel(ReviewSummaryDtoConfidenceLevelEnum? confidenceLevel) =>
       _$this._confidenceLevel = confidenceLevel;
 
-  String? _summary;
-  String? get summary => _$this._summary;
-  set summary(String? summary) => _$this._summary = summary;
+  String? _summaryKey;
+  String? get summaryKey => _$this._summaryKey;
+  set summaryKey(String? summaryKey) => _$this._summaryKey = summaryKey;
+
+  MapBuilder<String, String>? _summaryParams;
+  MapBuilder<String, String> get summaryParams =>
+      _$this._summaryParams ??= new MapBuilder<String, String>();
+  set summaryParams(MapBuilder<String, String>? summaryParams) =>
+      _$this._summaryParams = summaryParams;
 
   ListBuilder<String>? _matchReasons;
   ListBuilder<String> get matchReasons =>
@@ -407,14 +417,14 @@ class ReviewSummaryDtoBuilder
   String? get sourceType => _$this._sourceType;
   set sourceType(String? sourceType) => _$this._sourceType = sourceType;
 
-  DateTime? _createdAt;
-  DateTime? get createdAt => _$this._createdAt;
-  set createdAt(DateTime? createdAt) => _$this._createdAt = createdAt;
-
   String? _sourcePlatform;
   String? get sourcePlatform => _$this._sourcePlatform;
   set sourcePlatform(String? sourcePlatform) =>
       _$this._sourcePlatform = sourcePlatform;
+
+  DateTime? _createdAt;
+  DateTime? get createdAt => _$this._createdAt;
+  set createdAt(DateTime? createdAt) => _$this._createdAt = createdAt;
 
   ReviewSummaryDtoTransactionBuilder? _transaction;
   ReviewSummaryDtoTransactionBuilder get transaction =>
@@ -455,11 +465,12 @@ class ReviewSummaryDtoBuilder
       _status = $v.status;
       _confidence = $v.confidence;
       _confidenceLevel = $v.confidenceLevel;
-      _summary = $v.summary;
+      _summaryKey = $v.summaryKey;
+      _summaryParams = $v.summaryParams?.toBuilder();
       _matchReasons = $v.matchReasons.toBuilder();
       _sourceType = $v.sourceType;
-      _createdAt = $v.createdAt;
       _sourcePlatform = $v.sourcePlatform;
+      _createdAt = $v.createdAt;
       _transaction = $v.transaction?.toBuilder();
       _amount = $v.amount;
       _currency = $v.currency;
@@ -498,16 +509,16 @@ class ReviewSummaryDtoBuilder
                   status, r'ReviewSummaryDto', 'status'),
               confidence: BuiltValueNullFieldError.checkNotNull(
                   confidence, r'ReviewSummaryDto', 'confidence'),
-              confidenceLevel: BuiltValueNullFieldError.checkNotNull(
-                  confidenceLevel, r'ReviewSummaryDto', 'confidenceLevel'),
-              summary: BuiltValueNullFieldError.checkNotNull(
-                  summary, r'ReviewSummaryDto', 'summary'),
+              confidenceLevel: confidenceLevel,
+              summaryKey: BuiltValueNullFieldError.checkNotNull(
+                  summaryKey, r'ReviewSummaryDto', 'summaryKey'),
+              summaryParams: _summaryParams?.build(),
               matchReasons: matchReasons.build(),
               sourceType: BuiltValueNullFieldError.checkNotNull(
                   sourceType, r'ReviewSummaryDto', 'sourceType'),
+              sourcePlatform: sourcePlatform,
               createdAt: BuiltValueNullFieldError.checkNotNull(
                   createdAt, r'ReviewSummaryDto', 'createdAt'),
-              sourcePlatform: sourcePlatform,
               transaction: _transaction?.build(),
               amount: amount,
               currency: currency,
@@ -517,6 +528,8 @@ class ReviewSummaryDtoBuilder
     } catch (_) {
       late String _$failedField;
       try {
+        _$failedField = 'summaryParams';
+        _summaryParams?.build();
         _$failedField = 'matchReasons';
         matchReasons.build();
 

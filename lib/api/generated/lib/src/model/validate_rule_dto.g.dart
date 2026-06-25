@@ -19,7 +19,7 @@ ValidateRuleDtoMatchLogicEnum _$validateRuleDtoMatchLogicEnumValueOf(
     case 'AND':
       return _$validateRuleDtoMatchLogicEnum_AND;
     default:
-      return _$validateRuleDtoMatchLogicEnum_AND;
+      throw new ArgumentError(name);
   }
 }
 
@@ -68,10 +68,6 @@ class _$ValidateRuleDto extends ValidateRuleDto {
   @override
   final String name;
   @override
-  final ValidateRuleDtoMatchLogicEnum matchLogic;
-  @override
-  final num priority;
-  @override
   final String? description;
   @override
   final BuiltList<BuiltList<dynamic>>? narrationKeywords;
@@ -84,9 +80,13 @@ class _$ValidateRuleDto extends ValidateRuleDto {
   @override
   final String? categoryAccount;
   @override
+  final ValidateRuleDtoMatchLogicEnum matchLogic;
+  @override
   final num? amountMin;
   @override
   final num? amountMax;
+  @override
+  final num priority;
   @override
   final BuiltList<BuiltList<dynamic>>? additionalTags;
   @override
@@ -99,16 +99,16 @@ class _$ValidateRuleDto extends ValidateRuleDto {
 
   _$ValidateRuleDto._(
       {required this.name,
-      required this.matchLogic,
-      required this.priority,
       this.description,
       this.narrationKeywords,
       this.payeeKeywords,
       this.categoryKeywords,
       this.methodKeywords,
       this.categoryAccount,
+      required this.matchLogic,
       this.amountMin,
       this.amountMax,
+      required this.priority,
       this.additionalTags,
       this.additionalMetadata,
       this.upsertByPayee})
@@ -133,16 +133,16 @@ class _$ValidateRuleDto extends ValidateRuleDto {
     if (identical(other, this)) return true;
     return other is ValidateRuleDto &&
         name == other.name &&
-        matchLogic == other.matchLogic &&
-        priority == other.priority &&
         description == other.description &&
         narrationKeywords == other.narrationKeywords &&
         payeeKeywords == other.payeeKeywords &&
         categoryKeywords == other.categoryKeywords &&
         methodKeywords == other.methodKeywords &&
         categoryAccount == other.categoryAccount &&
+        matchLogic == other.matchLogic &&
         amountMin == other.amountMin &&
         amountMax == other.amountMax &&
+        priority == other.priority &&
         additionalTags == other.additionalTags &&
         additionalMetadata == other.additionalMetadata &&
         upsertByPayee == other.upsertByPayee;
@@ -152,16 +152,16 @@ class _$ValidateRuleDto extends ValidateRuleDto {
   int get hashCode {
     var _$hash = 0;
     _$hash = $jc(_$hash, name.hashCode);
-    _$hash = $jc(_$hash, matchLogic.hashCode);
-    _$hash = $jc(_$hash, priority.hashCode);
     _$hash = $jc(_$hash, description.hashCode);
     _$hash = $jc(_$hash, narrationKeywords.hashCode);
     _$hash = $jc(_$hash, payeeKeywords.hashCode);
     _$hash = $jc(_$hash, categoryKeywords.hashCode);
     _$hash = $jc(_$hash, methodKeywords.hashCode);
     _$hash = $jc(_$hash, categoryAccount.hashCode);
+    _$hash = $jc(_$hash, matchLogic.hashCode);
     _$hash = $jc(_$hash, amountMin.hashCode);
     _$hash = $jc(_$hash, amountMax.hashCode);
+    _$hash = $jc(_$hash, priority.hashCode);
     _$hash = $jc(_$hash, additionalTags.hashCode);
     _$hash = $jc(_$hash, additionalMetadata.hashCode);
     _$hash = $jc(_$hash, upsertByPayee.hashCode);
@@ -173,16 +173,16 @@ class _$ValidateRuleDto extends ValidateRuleDto {
   String toString() {
     return (newBuiltValueToStringHelper(r'ValidateRuleDto')
           ..add('name', name)
-          ..add('matchLogic', matchLogic)
-          ..add('priority', priority)
           ..add('description', description)
           ..add('narrationKeywords', narrationKeywords)
           ..add('payeeKeywords', payeeKeywords)
           ..add('categoryKeywords', categoryKeywords)
           ..add('methodKeywords', methodKeywords)
           ..add('categoryAccount', categoryAccount)
+          ..add('matchLogic', matchLogic)
           ..add('amountMin', amountMin)
           ..add('amountMax', amountMax)
+          ..add('priority', priority)
           ..add('additionalTags', additionalTags)
           ..add('additionalMetadata', additionalMetadata)
           ..add('upsertByPayee', upsertByPayee))
@@ -197,15 +197,6 @@ class ValidateRuleDtoBuilder
   String? _name;
   String? get name => _$this._name;
   set name(String? name) => _$this._name = name;
-
-  ValidateRuleDtoMatchLogicEnum? _matchLogic;
-  ValidateRuleDtoMatchLogicEnum? get matchLogic => _$this._matchLogic;
-  set matchLogic(ValidateRuleDtoMatchLogicEnum? matchLogic) =>
-      _$this._matchLogic = matchLogic;
-
-  num? _priority;
-  num? get priority => _$this._priority;
-  set priority(num? priority) => _$this._priority = priority;
 
   String? _description;
   String? get description => _$this._description;
@@ -240,6 +231,11 @@ class ValidateRuleDtoBuilder
   set categoryAccount(String? categoryAccount) =>
       _$this._categoryAccount = categoryAccount;
 
+  ValidateRuleDtoMatchLogicEnum? _matchLogic;
+  ValidateRuleDtoMatchLogicEnum? get matchLogic => _$this._matchLogic;
+  set matchLogic(ValidateRuleDtoMatchLogicEnum? matchLogic) =>
+      _$this._matchLogic = matchLogic;
+
   num? _amountMin;
   num? get amountMin => _$this._amountMin;
   set amountMin(num? amountMin) => _$this._amountMin = amountMin;
@@ -247,6 +243,10 @@ class ValidateRuleDtoBuilder
   num? _amountMax;
   num? get amountMax => _$this._amountMax;
   set amountMax(num? amountMax) => _$this._amountMax = amountMax;
+
+  num? _priority;
+  num? get priority => _$this._priority;
+  set priority(num? priority) => _$this._priority = priority;
 
   ListBuilder<BuiltList<dynamic>>? _additionalTags;
   ListBuilder<BuiltList<dynamic>> get additionalTags =>
@@ -272,16 +272,16 @@ class ValidateRuleDtoBuilder
     final $v = _$v;
     if ($v != null) {
       _name = $v.name;
-      _matchLogic = $v.matchLogic;
-      _priority = $v.priority;
       _description = $v.description;
       _narrationKeywords = $v.narrationKeywords?.toBuilder();
       _payeeKeywords = $v.payeeKeywords?.toBuilder();
       _categoryKeywords = $v.categoryKeywords?.toBuilder();
       _methodKeywords = $v.methodKeywords?.toBuilder();
       _categoryAccount = $v.categoryAccount;
+      _matchLogic = $v.matchLogic;
       _amountMin = $v.amountMin;
       _amountMax = $v.amountMax;
+      _priority = $v.priority;
       _additionalTags = $v.additionalTags?.toBuilder();
       _additionalMetadata = $v.additionalMetadata;
       _upsertByPayee = $v.upsertByPayee;
@@ -311,18 +311,18 @@ class ValidateRuleDtoBuilder
           new _$ValidateRuleDto._(
               name: BuiltValueNullFieldError.checkNotNull(
                   name, r'ValidateRuleDto', 'name'),
-              matchLogic: BuiltValueNullFieldError.checkNotNull(
-                  matchLogic, r'ValidateRuleDto', 'matchLogic'),
-              priority: BuiltValueNullFieldError.checkNotNull(
-                  priority, r'ValidateRuleDto', 'priority'),
               description: description,
               narrationKeywords: _narrationKeywords?.build(),
               payeeKeywords: _payeeKeywords?.build(),
               categoryKeywords: _categoryKeywords?.build(),
               methodKeywords: _methodKeywords?.build(),
               categoryAccount: categoryAccount,
+              matchLogic: BuiltValueNullFieldError.checkNotNull(
+                  matchLogic, r'ValidateRuleDto', 'matchLogic'),
               amountMin: amountMin,
               amountMax: amountMax,
+              priority: BuiltValueNullFieldError.checkNotNull(
+                  priority, r'ValidateRuleDto', 'priority'),
               additionalTags: _additionalTags?.build(),
               additionalMetadata: additionalMetadata,
               upsertByPayee: upsertByPayee);

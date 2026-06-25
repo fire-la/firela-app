@@ -127,12 +127,11 @@ import 'package:firela_api/firela_api.dart';
 
 
 final api = FirelaApi().getAPIKeysApi();
-final String region = region_example; // String | Region code (cn, us, de)
 
 try {
-    api.apiKeysController(region);
+    api.apiKeysControllerCreateApiKey();
 } catch on DioException (e) {
-    print("Exception when calling APIKeysApi->apiKeysController: $e\n");
+    print("Exception when calling APIKeysApi->apiKeysControllerCreateApiKey: $e\n");
 }
 
 ```
@@ -143,16 +142,17 @@ All URIs are relative to *http://localhost*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-[*APIKeysApi*](doc/APIKeysApi.md) | [**apiKeysController**](doc/APIKeysApi.md#apikeyscontroller) | **POST** /api/v1/auth/api-keys | 
-[*AdminPayeeProfilesApi*](doc/AdminPayeeProfilesApi.md) | [**payeeProfileAdminController**](doc/AdminPayeeProfilesApi.md#payeeprofileadmincontroller) | **POST** /api/v1/admin/payee-profiles | 
+[*APIKeysApi*](doc/APIKeysApi.md) | [**apiKeysControllerCreateApiKey**](doc/APIKeysApi.md#apikeyscontrollercreateapikey) | **POST** /api/v1/auth/api-keys | Create API key
+[*AdminPayeeProfilesApi*](doc/AdminPayeeProfilesApi.md) | [**payeeProfileAdminControllerCreate**](doc/AdminPayeeProfilesApi.md#payeeprofileadmincontrollercreate) | **POST** /api/v1/admin/payee-profiles | Create payee profile (Admin only)
+[*AdminPayeeProfilesApi*](doc/AdminPayeeProfilesApi.md) | [**payeeProfileAdminControllerDelete**](doc/AdminPayeeProfilesApi.md#payeeprofileadmincontrollerdelete) | **DELETE** /api/v1/admin/payee-profiles/{id} | Soft delete payee profile (Admin only)
 [*AdminPayeeProfilesApi*](doc/AdminPayeeProfilesApi.md) | [**payeeProfileAdminControllerFindAll**](doc/AdminPayeeProfilesApi.md#payeeprofileadmincontrollerfindall) | **GET** /api/v1/admin/payee-profiles | List payee profiles (Admin only)
 [*AdminPayeeProfilesApi*](doc/AdminPayeeProfilesApi.md) | [**payeeProfileAdminControllerFindOne**](doc/AdminPayeeProfilesApi.md#payeeprofileadmincontrollerfindone) | **GET** /api/v1/admin/payee-profiles/{id} | Get payee profile by ID (Admin only)
-[*AdminPayeeProfilesApi*](doc/AdminPayeeProfilesApi.md) | [**payeeProfileAdminController_0**](doc/AdminPayeeProfilesApi.md#payeeprofileadmincontroller_0) | **PUT** /api/v1/admin/payee-profiles/{id} | 
-[*AdminPayeeProfilesApi*](doc/AdminPayeeProfilesApi.md) | [**payeeProfileAdminController_1**](doc/AdminPayeeProfilesApi.md#payeeprofileadmincontroller_1) | **DELETE** /api/v1/admin/payee-profiles/{id} | 
-[*AdminPayeeProfilesApi*](doc/AdminPayeeProfilesApi.md) | [**payeeProfileAdminController_2**](doc/AdminPayeeProfilesApi.md#payeeprofileadmincontroller_2) | **POST** /api/v1/admin/payee-profiles/{id}/verify | 
-[*AdminPayeeProfilesApi*](doc/AdminPayeeProfilesApi.md) | [**payeeProfileAdminController_3**](doc/AdminPayeeProfilesApi.md#payeeprofileadmincontroller_3) | **DELETE** /api/v1/admin/payee-profiles/{id}/verify | 
+[*AdminPayeeProfilesApi*](doc/AdminPayeeProfilesApi.md) | [**payeeProfileAdminControllerUnverify**](doc/AdminPayeeProfilesApi.md#payeeprofileadmincontrollerunverify) | **DELETE** /api/v1/admin/payee-profiles/{id}/verify | Unverify payee profile (Admin only)
+[*AdminPayeeProfilesApi*](doc/AdminPayeeProfilesApi.md) | [**payeeProfileAdminControllerUpdate**](doc/AdminPayeeProfilesApi.md#payeeprofileadmincontrollerupdate) | **PUT** /api/v1/admin/payee-profiles/{id} | Update payee profile (Admin only)
+[*AdminPayeeProfilesApi*](doc/AdminPayeeProfilesApi.md) | [**payeeProfileAdminControllerVerify**](doc/AdminPayeeProfilesApi.md#payeeprofileadmincontrollerverify) | **POST** /api/v1/admin/payee-profiles/{id}/verify | Verify payee profile (Admin only)
 [*AuthApi*](doc/AuthApi.md) | [**authControllerAccessTokenLogin**](doc/AuthApi.md#authcontrolleraccesstokenlogin) | **POST** /api/v1/auth/sessions/anonymous | Anonymous login with access token
 [*BeanAccountStandardsApi*](doc/BeanAccountStandardsApi.md) | [**accountStandardsControllerGetRegions**](doc/BeanAccountStandardsApi.md#accountstandardscontrollergetregions) | **GET** /api/v1/{region}/bean/account-standards/regions | Get available regions with hierarchy
+[*BeanAccountStandardsApi*](doc/BeanAccountStandardsApi.md) | [**accountStandardsControllerGetTemplateMetadata**](doc/BeanAccountStandardsApi.md#accountstandardscontrollergettemplatemetadata) | **GET** /api/v1/{region}/bean/account-standards/template-metadata | Get template metadata for an account path
 [*BeanAccountStandardsApi*](doc/BeanAccountStandardsApi.md) | [**accountStandardsControllerGetTemplates**](doc/BeanAccountStandardsApi.md#accountstandardscontrollergettemplates) | **GET** /api/v1/{region}/bean/account-standards | Get account templates
 [*BeanAccountsApi*](doc/BeanAccountsApi.md) | [**accountControllerClose**](doc/BeanAccountsApi.md#accountcontrollerclose) | **POST** /api/v1/{region}/bean/accounts/{id}/close | Close account
 [*BeanAccountsApi*](doc/BeanAccountsApi.md) | [**accountControllerCreate**](doc/BeanAccountsApi.md#accountcontrollercreate) | **POST** /api/v1/{region}/bean/accounts | Create a new account
@@ -163,104 +163,99 @@ Class | Method | HTTP request | Description
 [*BeanAccountsApi*](doc/BeanAccountsApi.md) | [**accountControllerUpdate**](doc/BeanAccountsApi.md#accountcontrollerupdate) | **PUT** /api/v1/{region}/bean/accounts/{id} | Update account
 [*BeanBalancesApi*](doc/BeanBalancesApi.md) | [**balanceControllerGetBalance**](doc/BeanBalancesApi.md#balancecontrollergetbalance) | **GET** /api/v1/{region}/bean/balances | Query account balance
 [*BeanBalancesApi*](doc/BeanBalancesApi.md) | [**balanceControllerGetMultiCurrencyBalance**](doc/BeanBalancesApi.md#balancecontrollergetmulticurrencybalance) | **GET** /api/v1/{region}/bean/balances/multi-currency | Query multi-currency account balance
-[*BeanCommoditiesApi*](doc/BeanCommoditiesApi.md) | [**commodityController**](doc/BeanCommoditiesApi.md#commoditycontroller) | **POST** /api/v1/{region}/bean/commodities | 
+[*BeanCommoditiesApi*](doc/BeanCommoditiesApi.md) | [**commodityControllerBulkCreate**](doc/BeanCommoditiesApi.md#commoditycontrollerbulkcreate) | **POST** /api/v1/{region}/bean/commodities/bulk | Bulk create commodities
+[*BeanCommoditiesApi*](doc/BeanCommoditiesApi.md) | [**commodityControllerCreate**](doc/BeanCommoditiesApi.md#commoditycontrollercreate) | **POST** /api/v1/{region}/bean/commodities | Create a new commodity
+[*BeanCommoditiesApi*](doc/BeanCommoditiesApi.md) | [**commodityControllerDelete**](doc/BeanCommoditiesApi.md#commoditycontrollerdelete) | **DELETE** /api/v1/{region}/bean/commodities/{symbol} | Delete commodity
 [*BeanCommoditiesApi*](doc/BeanCommoditiesApi.md) | [**commodityControllerFindAll**](doc/BeanCommoditiesApi.md#commoditycontrollerfindall) | **GET** /api/v1/{region}/bean/commodities | List user commodities
 [*BeanCommoditiesApi*](doc/BeanCommoditiesApi.md) | [**commodityControllerFindOne**](doc/BeanCommoditiesApi.md#commoditycontrollerfindone) | **GET** /api/v1/{region}/bean/commodities/{symbol} | Get commodity by symbol
-[*BeanCommoditiesApi*](doc/BeanCommoditiesApi.md) | [**commodityController_0**](doc/BeanCommoditiesApi.md#commoditycontroller_0) | **PUT** /api/v1/{region}/bean/commodities/{symbol} | 
-[*BeanCommoditiesApi*](doc/BeanCommoditiesApi.md) | [**commodityController_1**](doc/BeanCommoditiesApi.md#commoditycontroller_1) | **DELETE** /api/v1/{region}/bean/commodities/{symbol} | 
-[*BeanCommoditiesApi*](doc/BeanCommoditiesApi.md) | [**commodityController_2**](doc/BeanCommoditiesApi.md#commoditycontroller_2) | **POST** /api/v1/{region}/bean/commodities/{symbol}/ensure | 
-[*BeanCommoditiesApi*](doc/BeanCommoditiesApi.md) | [**commodityController_3**](doc/BeanCommoditiesApi.md#commoditycontroller_3) | **POST** /api/v1/{region}/bean/commodities/bulk | 
+[*BeanCommoditiesApi*](doc/BeanCommoditiesApi.md) | [**commodityControllerGetOrCreate**](doc/BeanCommoditiesApi.md#commoditycontrollergetorcreate) | **POST** /api/v1/{region}/bean/commodities/{symbol}/ensure | Ensure commodity exists
+[*BeanCommoditiesApi*](doc/BeanCommoditiesApi.md) | [**commodityControllerUpdate**](doc/BeanCommoditiesApi.md#commoditycontrollerupdate) | **PUT** /api/v1/{region}/bean/commodities/{symbol} | Update commodity
+[*BeanExportApi*](doc/BeanExportApi.md) | [**exportControllerExportBeancount**](doc/BeanExportApi.md#exportcontrollerexportbeancount) | **GET** /api/v1/{region}/bean/export/beancount | Export Beancount ledger as ZIP
 [*BeanImportApi*](doc/BeanImportApi.md) | [**fileImportControllerIdentifyFile**](doc/BeanImportApi.md#fileimportcontrolleridentifyfile) | **POST** /api/v1/{region}/bean/import/identify | Identify file type
+[*BeanImportApi*](doc/BeanImportApi.md) | [**fileImportControllerImportBeancount**](doc/BeanImportApi.md#fileimportcontrollerimportbeancount) | **POST** /api/v1/{region}/bean/import/beancount | Import a Beancount file in community format
 [*BeanImportApi*](doc/BeanImportApi.md) | [**fileImportControllerImportFile**](doc/BeanImportApi.md#fileimportcontrollerimportfile) | **POST** /api/v1/{region}/bean/import/file | Import a bill file
-[*BeanImportApi*](doc/BeanImportApi.md) | [**importerConfigController**](doc/BeanImportApi.md#importerconfigcontroller) | **PUT** /api/v1/{region}/bean/import/config/{importerId} | 
 [*BeanImportApi*](doc/BeanImportApi.md) | [**importerConfigControllerGetConfig**](doc/BeanImportApi.md#importerconfigcontrollergetconfig) | **GET** /api/v1/{region}/bean/import/config/{importerId} | Get importer configuration
-[*BeanImportApi*](doc/BeanImportApi.md) | [**importerConfigController_0**](doc/BeanImportApi.md#importerconfigcontroller_0) | **POST** /api/v1/{region}/bean/import/config/{importerId}/reset | 
+[*BeanImportApi*](doc/BeanImportApi.md) | [**importerConfigControllerResetConfig**](doc/BeanImportApi.md#importerconfigcontrollerresetconfig) | **POST** /api/v1/{region}/bean/import/config/{importerId}/reset | Reset configuration to default
+[*BeanImportApi*](doc/BeanImportApi.md) | [**importerConfigControllerUpdateConfig**](doc/BeanImportApi.md#importerconfigcontrollerupdateconfig) | **PUT** /api/v1/{region}/bean/import/config/{importerId} | Update importer configuration
 [*BeanNLPApi*](doc/BeanNLPApi.md) | [**nlpControllerClearSession**](doc/BeanNLPApi.md#nlpcontrollerclearsession) | **DELETE** /api/v1/{region}/bean/nlp/session | Clear dialogue session
 [*BeanNLPApi*](doc/BeanNLPApi.md) | [**nlpControllerGetSession**](doc/BeanNLPApi.md#nlpcontrollergetsession) | **GET** /api/v1/{region}/bean/nlp/session | Get current session state
 [*BeanNLPApi*](doc/BeanNLPApi.md) | [**nlpControllerProcessNaturalLanguage**](doc/BeanNLPApi.md#nlpcontrollerprocessnaturallanguage) | **POST** /api/v1/{region}/bean/nlp/process | Process natural language input
-[*BeanPayeesApi*](doc/BeanPayeesApi.md) | [**payeeController**](doc/BeanPayeesApi.md#payeecontroller) | **POST** /api/v1/bean/payees | 
 [*BeanPayeesApi*](doc/BeanPayeesApi.md) | [**payeeControllerAutocomplete**](doc/BeanPayeesApi.md#payeecontrollerautocomplete) | **GET** /api/v1/bean/payees/autocomplete | Get payee autocomplete suggestions
+[*BeanPayeesApi*](doc/BeanPayeesApi.md) | [**payeeControllerCreate**](doc/BeanPayeesApi.md#payeecontrollercreate) | **POST** /api/v1/bean/payees | Create a new payee
+[*BeanPayeesApi*](doc/BeanPayeesApi.md) | [**payeeControllerDelete**](doc/BeanPayeesApi.md#payeecontrollerdelete) | **DELETE** /api/v1/bean/payees/{id} | Delete payee
 [*BeanPayeesApi*](doc/BeanPayeesApi.md) | [**payeeControllerFindAll**](doc/BeanPayeesApi.md#payeecontrollerfindall) | **GET** /api/v1/bean/payees | List user payees
 [*BeanPayeesApi*](doc/BeanPayeesApi.md) | [**payeeControllerFindOne**](doc/BeanPayeesApi.md#payeecontrollerfindone) | **GET** /api/v1/bean/payees/{id} | Get payee by ID
 [*BeanPayeesApi*](doc/BeanPayeesApi.md) | [**payeeControllerGetTopPayees**](doc/BeanPayeesApi.md#payeecontrollergettoppayees) | **GET** /api/v1/bean/payees/top | Get top payees by usage
-[*BeanPayeesApi*](doc/BeanPayeesApi.md) | [**payeeController_0**](doc/BeanPayeesApi.md#payeecontroller_0) | **PUT** /api/v1/bean/payees/{id} | 
-[*BeanPayeesApi*](doc/BeanPayeesApi.md) | [**payeeController_1**](doc/BeanPayeesApi.md#payeecontroller_1) | **DELETE** /api/v1/bean/payees/{id} | 
-[*BeanPlatformsApi*](doc/BeanPlatformsApi.md) | [**platformController**](doc/BeanPlatformsApi.md#platformcontroller) | **POST** /api/v1/bean/platforms | 
+[*BeanPayeesApi*](doc/BeanPayeesApi.md) | [**payeeControllerUpdate**](doc/BeanPayeesApi.md#payeecontrollerupdate) | **PUT** /api/v1/bean/payees/{id} | Update payee
+[*BeanPlatformsApi*](doc/BeanPlatformsApi.md) | [**platformControllerCreate**](doc/BeanPlatformsApi.md#platformcontrollercreate) | **POST** /api/v1/bean/platforms | Create a new platform
+[*BeanPlatformsApi*](doc/BeanPlatformsApi.md) | [**platformControllerDelete**](doc/BeanPlatformsApi.md#platformcontrollerdelete) | **DELETE** /api/v1/bean/platforms/{id} | Delete a platform
 [*BeanPlatformsApi*](doc/BeanPlatformsApi.md) | [**platformControllerFindAll**](doc/BeanPlatformsApi.md#platformcontrollerfindall) | **GET** /api/v1/bean/platforms | Get all platforms with statistics
 [*BeanPlatformsApi*](doc/BeanPlatformsApi.md) | [**platformControllerGetPlatformList**](doc/BeanPlatformsApi.md#platformcontrollergetplatformlist) | **GET** /api/v1/bean/platforms/list | Get platform list for current user
-[*BeanPlatformsApi*](doc/BeanPlatformsApi.md) | [**platformController_0**](doc/BeanPlatformsApi.md#platformcontroller_0) | **PUT** /api/v1/bean/platforms/{id} | 
-[*BeanPlatformsApi*](doc/BeanPlatformsApi.md) | [**platformController_1**](doc/BeanPlatformsApi.md#platformcontroller_1) | **DELETE** /api/v1/bean/platforms/{id} | 
-[*BeanReviewsApi*](doc/BeanReviewsApi.md) | [**reviewController**](doc/BeanReviewsApi.md#reviewcontroller) | **POST** /api/v1/{region}/bean/reviews/{id}/resolve | 
+[*BeanPlatformsApi*](doc/BeanPlatformsApi.md) | [**platformControllerMatchPlatforms**](doc/BeanPlatformsApi.md#platformcontrollermatchplatforms) | **GET** /api/v1/bean/platforms/match | Match platforms by name or alias
+[*BeanPlatformsApi*](doc/BeanPlatformsApi.md) | [**platformControllerUpdate**](doc/BeanPlatformsApi.md#platformcontrollerupdate) | **PUT** /api/v1/bean/platforms/{id} | Update a platform
+[*BeanReviewsApi*](doc/BeanReviewsApi.md) | [**reviewControllerBatchResolve**](doc/BeanReviewsApi.md#reviewcontrollerbatchresolve) | **POST** /api/v1/{region}/bean/reviews/batch-resolve | Batch resolve multiple reviews
 [*BeanReviewsApi*](doc/BeanReviewsApi.md) | [**reviewControllerFindAll**](doc/BeanReviewsApi.md#reviewcontrollerfindall) | **GET** /api/v1/{region}/bean/reviews | List pending reviews
 [*BeanReviewsApi*](doc/BeanReviewsApi.md) | [**reviewControllerFindOne**](doc/BeanReviewsApi.md#reviewcontrollerfindone) | **GET** /api/v1/{region}/bean/reviews/{id} | Get review by ID
 [*BeanReviewsApi*](doc/BeanReviewsApi.md) | [**reviewControllerGetStats**](doc/BeanReviewsApi.md#reviewcontrollergetstats) | **GET** /api/v1/{region}/bean/reviews/stats | Get review statistics
-[*BeanReviewsApi*](doc/BeanReviewsApi.md) | [**reviewController_0**](doc/BeanReviewsApi.md#reviewcontroller_0) | **POST** /api/v1/{region}/bean/reviews/{id}/undo | 
-[*BeanReviewsApi*](doc/BeanReviewsApi.md) | [**reviewController_1**](doc/BeanReviewsApi.md#reviewcontroller_1) | **POST** /api/v1/{region}/bean/reviews/batch-resolve | 
-[*BeanTransactionRulesApi*](doc/BeanTransactionRulesApi.md) | [**transactionRuleController**](doc/BeanTransactionRulesApi.md#transactionrulecontroller) | **POST** /api/v1/{region}/bean/transaction-rules | 
+[*BeanReviewsApi*](doc/BeanReviewsApi.md) | [**reviewControllerResolve**](doc/BeanReviewsApi.md#reviewcontrollerresolve) | **POST** /api/v1/{region}/bean/reviews/{id}/resolve | Resolve a review item
+[*BeanReviewsApi*](doc/BeanReviewsApi.md) | [**reviewControllerUndo**](doc/BeanReviewsApi.md#reviewcontrollerundo) | **POST** /api/v1/{region}/bean/reviews/{id}/undo | Undo a resolution (within 24h)
+[*BeanTransactionRulesApi*](doc/BeanTransactionRulesApi.md) | [**transactionRuleControllerBulkCreate**](doc/BeanTransactionRulesApi.md#transactionrulecontrollerbulkcreate) | **POST** /api/v1/{region}/bean/transaction-rules/bulk | Bulk create transaction rules
+[*BeanTransactionRulesApi*](doc/BeanTransactionRulesApi.md) | [**transactionRuleControllerCreate**](doc/BeanTransactionRulesApi.md#transactionrulecontrollercreate) | **POST** /api/v1/{region}/bean/transaction-rules | Create a new transaction rule (or upsert if upsertByPayee&#x3D;true)
+[*BeanTransactionRulesApi*](doc/BeanTransactionRulesApi.md) | [**transactionRuleControllerDelete**](doc/BeanTransactionRulesApi.md#transactionrulecontrollerdelete) | **DELETE** /api/v1/{region}/bean/transaction-rules/{ruleId} | Delete a transaction rule
 [*BeanTransactionRulesApi*](doc/BeanTransactionRulesApi.md) | [**transactionRuleControllerExport**](doc/BeanTransactionRulesApi.md#transactionrulecontrollerexport) | **GET** /api/v1/{region}/bean/transaction-rules/export/{format} | Export transaction rules
 [*BeanTransactionRulesApi*](doc/BeanTransactionRulesApi.md) | [**transactionRuleControllerGetDetail**](doc/BeanTransactionRulesApi.md#transactionrulecontrollergetdetail) | **GET** /api/v1/{region}/bean/transaction-rules/{ruleId} | Get transaction rule detail
 [*BeanTransactionRulesApi*](doc/BeanTransactionRulesApi.md) | [**transactionRuleControllerGetStatistics**](doc/BeanTransactionRulesApi.md#transactionrulecontrollergetstatistics) | **GET** /api/v1/{region}/bean/transaction-rules/statistics/{period} | Get transaction rule statistics
 [*BeanTransactionRulesApi*](doc/BeanTransactionRulesApi.md) | [**transactionRuleControllerList**](doc/BeanTransactionRulesApi.md#transactionrulecontrollerlist) | **GET** /api/v1/{region}/bean/transaction-rules | Get all transaction rules for user
 [*BeanTransactionRulesApi*](doc/BeanTransactionRulesApi.md) | [**transactionRuleControllerTest**](doc/BeanTransactionRulesApi.md#transactionrulecontrollertest) | **POST** /api/v1/{region}/bean/transaction-rules/{ruleId}/test | Test rule matching
+[*BeanTransactionRulesApi*](doc/BeanTransactionRulesApi.md) | [**transactionRuleControllerUpdate**](doc/BeanTransactionRulesApi.md#transactionrulecontrollerupdate) | **PUT** /api/v1/{region}/bean/transaction-rules/{ruleId} | Update a transaction rule
 [*BeanTransactionRulesApi*](doc/BeanTransactionRulesApi.md) | [**transactionRuleControllerValidate**](doc/BeanTransactionRulesApi.md#transactionrulecontrollervalidate) | **POST** /api/v1/{region}/bean/transaction-rules/validate | Validate transaction rule configuration
-[*BeanTransactionRulesApi*](doc/BeanTransactionRulesApi.md) | [**transactionRuleController_0**](doc/BeanTransactionRulesApi.md#transactionrulecontroller_0) | **POST** /api/v1/{region}/bean/transaction-rules/bulk | 
-[*BeanTransactionRulesApi*](doc/BeanTransactionRulesApi.md) | [**transactionRuleController_1**](doc/BeanTransactionRulesApi.md#transactionrulecontroller_1) | **PUT** /api/v1/{region}/bean/transaction-rules/{ruleId} | 
-[*BeanTransactionRulesApi*](doc/BeanTransactionRulesApi.md) | [**transactionRuleController_2**](doc/BeanTransactionRulesApi.md#transactionrulecontroller_2) | **DELETE** /api/v1/{region}/bean/transaction-rules/{ruleId} | 
-[*BeanTransactionsApi*](doc/BeanTransactionsApi.md) | [**transactionController**](doc/BeanTransactionsApi.md#transactioncontroller) | **POST** /api/v1/{region}/bean/transactions/batch | Batch create transactions (DEPRECATED)
 [*BeanTransactionsApi*](doc/BeanTransactionsApi.md) | [**transactionControllerCreate**](doc/BeanTransactionsApi.md#transactioncontrollercreate) | **POST** /api/v1/{region}/bean/transactions | Create transaction (DEPRECATED)
+[*BeanTransactionsApi*](doc/BeanTransactionsApi.md) | [**transactionControllerCreateBatch**](doc/BeanTransactionsApi.md#transactioncontrollercreatebatch) | **POST** /api/v1/{region}/bean/transactions/batch | Batch create transactions (DEPRECATED)
+[*BeanTransactionsApi*](doc/BeanTransactionsApi.md) | [**transactionControllerDelete**](doc/BeanTransactionsApi.md#transactioncontrollerdelete) | **DELETE** /api/v1/{region}/bean/transactions/{id} | Void transaction
 [*BeanTransactionsApi*](doc/BeanTransactionsApi.md) | [**transactionControllerGetDetail**](doc/BeanTransactionsApi.md#transactioncontrollergetdetail) | **GET** /api/v1/{region}/bean/transactions/{id} | Get transaction detail
 [*BeanTransactionsApi*](doc/BeanTransactionsApi.md) | [**transactionControllerList**](doc/BeanTransactionsApi.md#transactioncontrollerlist) | **GET** /api/v1/{region}/bean/transactions | List transactions
+[*BeanTransactionsApi*](doc/BeanTransactionsApi.md) | [**transactionControllerSuggestTags**](doc/BeanTransactionsApi.md#transactioncontrollersuggesttags) | **GET** /api/v1/{region}/bean/transactions/tags | Suggest transaction tags
 [*BeanTransactionsApi*](doc/BeanTransactionsApi.md) | [**transactionControllerUpdate**](doc/BeanTransactionsApi.md#transactioncontrollerupdate) | **PATCH** /api/v1/{region}/bean/transactions/{id} | Update transaction metadata
-[*BeanTransactionsApi*](doc/BeanTransactionsApi.md) | [**transactionController_0**](doc/BeanTransactionsApi.md#transactioncontroller_0) | **DELETE** /api/v1/{region}/bean/transactions/{id} | 
 [*DashboardApi*](doc/DashboardApi.md) | [**dashboardControllerGetAccounts**](doc/DashboardApi.md#dashboardcontrollergetaccounts) | **GET** /api/v1/{region}/dashboard/accounts | Get accounts grouped by platform
 [*DashboardApi*](doc/DashboardApi.md) | [**dashboardControllerGetCashFlow**](doc/DashboardApi.md#dashboardcontrollergetcashflow) | **GET** /api/v1/{region}/dashboard/cash-flow | Get cash flow summary
 [*DashboardApi*](doc/DashboardApi.md) | [**dashboardControllerGetNetWorth**](doc/DashboardApi.md#dashboardcontrollergetnetworth) | **GET** /api/v1/{region}/dashboard/net-worth | Get net worth overview
 [*DefaultApi*](doc/DefaultApi.md) | [**cacheControllerFlushCache**](doc/DefaultApi.md#cachecontrollerflushcache) | **POST** /api/v1/cache/flush | 
 [*ExchangeRateApi*](doc/ExchangeRateApi.md) | [**exchangeRateControllerGetExchangeRate**](doc/ExchangeRateApi.md#exchangeratecontrollergetexchangerate) | **GET** /api/v1/market/exchange-rates/{symbol}/{dateString} | Get exchange rate for currency pair
-[*ExpectedTransactionsApi*](doc/ExpectedTransactionsApi.md) | [**expectedTransactionController**](doc/ExpectedTransactionsApi.md#expectedtransactioncontroller) | **POST** /api/v1/{region}/bean/expected-transactions/{id}/skip | 
+[*ExpectedTransactionsApi*](doc/ExpectedTransactionsApi.md) | [**expectedTransactionControllerConfirmMatch**](doc/ExpectedTransactionsApi.md#expectedtransactioncontrollerconfirmmatch) | **POST** /api/v1/{region}/bean/expected-transactions/{id}/match | Confirm transaction match
+[*ExpectedTransactionsApi*](doc/ExpectedTransactionsApi.md) | [**expectedTransactionControllerEnterNow**](doc/ExpectedTransactionsApi.md#expectedtransactioncontrollerenternow) | **POST** /api/v1/{region}/bean/expected-transactions/{id}/enter | Enter Now
 [*ExpectedTransactionsApi*](doc/ExpectedTransactionsApi.md) | [**expectedTransactionControllerFindAll**](doc/ExpectedTransactionsApi.md#expectedtransactioncontrollerfindall) | **GET** /api/v1/{region}/bean/expected-transactions | List expected transactions
 [*ExpectedTransactionsApi*](doc/ExpectedTransactionsApi.md) | [**expectedTransactionControllerFindOne**](doc/ExpectedTransactionsApi.md#expectedtransactioncontrollerfindone) | **GET** /api/v1/{region}/bean/expected-transactions/{id} | Get expected transaction by ID
 [*ExpectedTransactionsApi*](doc/ExpectedTransactionsApi.md) | [**expectedTransactionControllerFindOverdue**](doc/ExpectedTransactionsApi.md#expectedtransactioncontrollerfindoverdue) | **GET** /api/v1/{region}/bean/expected-transactions/overdue | List overdue expected transactions
-[*ExpectedTransactionsApi*](doc/ExpectedTransactionsApi.md) | [**expectedTransactionController_0**](doc/ExpectedTransactionsApi.md#expectedtransactioncontroller_0) | **DELETE** /api/v1/{region}/bean/expected-transactions/{id}/skip | 
-[*ExpectedTransactionsApi*](doc/ExpectedTransactionsApi.md) | [**expectedTransactionController_1**](doc/ExpectedTransactionsApi.md#expectedtransactioncontroller_1) | **POST** /api/v1/{region}/bean/expected-transactions/{id}/match | 
-[*ExpectedTransactionsApi*](doc/ExpectedTransactionsApi.md) | [**expectedTransactionController_2**](doc/ExpectedTransactionsApi.md#expectedtransactioncontroller_2) | **DELETE** /api/v1/{region}/bean/expected-transactions/{id}/match | 
-[*ExpectedTransactionsApi*](doc/ExpectedTransactionsApi.md) | [**expectedTransactionController_3**](doc/ExpectedTransactionsApi.md#expectedtransactioncontroller_3) | **POST** /api/v1/{region}/bean/expected-transactions/{id}/enter | 
-[*HealthApi*](doc/HealthApi.md) | [**healthControllerCheckDataProviders**](doc/HealthApi.md#healthcontrollercheckdataproviders) | **GET** /api/v1/health/data-providers | Check health of all data providers
+[*ExpectedTransactionsApi*](doc/ExpectedTransactionsApi.md) | [**expectedTransactionControllerSkip**](doc/ExpectedTransactionsApi.md#expectedtransactioncontrollerskip) | **POST** /api/v1/{region}/bean/expected-transactions/{id}/skip | Skip expected transaction
+[*ExpectedTransactionsApi*](doc/ExpectedTransactionsApi.md) | [**expectedTransactionControllerUndoSkip**](doc/ExpectedTransactionsApi.md#expectedtransactioncontrollerundoskip) | **DELETE** /api/v1/{region}/bean/expected-transactions/{id}/skip | Undo skip
+[*ExpectedTransactionsApi*](doc/ExpectedTransactionsApi.md) | [**expectedTransactionControllerUnmatch**](doc/ExpectedTransactionsApi.md#expectedtransactioncontrollerunmatch) | **DELETE** /api/v1/{region}/bean/expected-transactions/{id}/match | Unmatch transaction
 [*HealthApi*](doc/HealthApi.md) | [**healthControllerCheckDatabase**](doc/HealthApi.md#healthcontrollercheckdatabase) | **GET** /api/v1/health/database | Check database connection health
+[*HealthApi*](doc/HealthApi.md) | [**healthControllerCheckOpenBB**](doc/HealthApi.md#healthcontrollercheckopenbb) | **GET** /api/v1/health/openbb | Check OpenBB schema status
 [*HealthApi*](doc/HealthApi.md) | [**healthControllerCheckRedis**](doc/HealthApi.md#healthcontrollercheckredis) | **GET** /api/v1/health/redis | Check Redis connection health
 [*HealthApi*](doc/HealthApi.md) | [**healthControllerGetCircuitBreakersHealth**](doc/HealthApi.md#healthcontrollergetcircuitbreakershealth) | **GET** /api/v1/health/circuit-breakers | Get status of all circuit breakers
 [*HealthApi*](doc/HealthApi.md) | [**healthControllerGetHealth**](doc/HealthApi.md#healthcontrollergethealth) | **GET** /api/v1/health | Basic health check for K8s/load balancer probes
-[*HealthApi*](doc/HealthApi.md) | [**healthControllerGetHealthOfDataEnhancer**](doc/HealthApi.md#healthcontrollergethealthofdataenhancer) | **GET** /api/v1/health/data-enhancer/{name} | Check health of a specific data enhancer
-[*HealthApi*](doc/HealthApi.md) | [**healthControllerGetHealthOfDataProvider**](doc/HealthApi.md#healthcontrollergethealthofdataprovider) | **GET** /api/v1/health/data-provider/{dataSource} | Check health of a specific data provider
 [*HealthApi*](doc/HealthApi.md) | [**healthControllerGetMetrics**](doc/HealthApi.md#healthcontrollergetmetrics) | **GET** /api/v1/health/metrics | Get health check metrics and statistics
 [*HealthApi*](doc/HealthApi.md) | [**healthControllerResetCircuitBreaker**](doc/HealthApi.md#healthcontrollerresetcircuitbreaker) | **POST** /api/v1/health/circuit-breakers/{name}/reset | Reset a circuit breaker to CLOSED state
+[*ImportTelemetryApi*](doc/ImportTelemetryApi.md) | [**telemetryControllerReportTelemetry**](doc/ImportTelemetryApi.md#telemetrycontrollerreporttelemetry) | **POST** /api/v1/{region}/bean/import/parser-telemetry | Receive anonymous parser failure telemetry
 [*InfoApi*](doc/InfoApi.md) | [**infoControllerGetInfo**](doc/InfoApi.md#infocontrollergetinfo) | **GET** /api/v1/system/info | Get system information
-[*LogosApi*](doc/LogosApi.md) | [**logoControllerGetLogoByDataSourceAndSymbol**](doc/LogosApi.md#logocontrollergetlogobydatasourceandsymbol) | **GET** /api/v1/market/logos/{dataSource}/{symbol} | Get asset logo by data source and symbol
-[*LogosApi*](doc/LogosApi.md) | [**logoControllerGetLogoByUrl**](doc/LogosApi.md#logocontrollergetlogobyurl) | **GET** /api/v1/market/logos | Get website favicon by URL
-[*MarketDataApi*](doc/MarketDataApi.md) | [**marketDataController**](doc/MarketDataApi.md#marketdatacontroller) | **POST** /api/v1/market-data/{dataSource}/{symbol} | 
-[*MarketDataApi*](doc/MarketDataApi.md) | [**marketDataControllerGetMarketDataBySymbol**](doc/MarketDataApi.md#marketdatacontrollergetmarketdatabysymbol) | **GET** /api/v1/market-data/{dataSource}/{symbol} | Get market data by symbol
-[*PropertiesApi*](doc/PropertiesApi.md) | [**propertyController**](doc/PropertiesApi.md#propertycontroller) | **PUT** /api/v1/admin/properties/{key} | 
+[*PropertiesApi*](doc/PropertiesApi.md) | [**propertyControllerDelete**](doc/PropertiesApi.md#propertycontrollerdelete) | **DELETE** /api/v1/admin/properties/{key} | Delete a system property
 [*PropertiesApi*](doc/PropertiesApi.md) | [**propertyControllerGetAll**](doc/PropertiesApi.md#propertycontrollergetall) | **GET** /api/v1/admin/properties | Get all system properties
 [*PropertiesApi*](doc/PropertiesApi.md) | [**propertyControllerGetByKey**](doc/PropertiesApi.md#propertycontrollergetbykey) | **GET** /api/v1/admin/properties/{key} | Get property by key
-[*PropertiesApi*](doc/PropertiesApi.md) | [**propertyController_0**](doc/PropertiesApi.md#propertycontroller_0) | **DELETE** /api/v1/admin/properties/{key} | 
+[*PropertiesApi*](doc/PropertiesApi.md) | [**propertyControllerUpdate**](doc/PropertiesApi.md#propertycontrollerupdate) | **PUT** /api/v1/admin/properties/{key} | Update a system property
 [*ProviderSyncApi*](doc/ProviderSyncApi.md) | [**providerSyncControllerGetSupportedProviders**](doc/ProviderSyncApi.md#providersynccontrollergetsupportedproviders) | **GET** /api/v1/{region}/bean/import/provider/supported | Get supported providers
 [*ProviderSyncApi*](doc/ProviderSyncApi.md) | [**providerSyncControllerIsProviderSupported**](doc/ProviderSyncApi.md#providersynccontrollerisprovidersupported) | **GET** /api/v1/{region}/bean/import/provider/{providerName}/supported | Check if provider is supported
 [*ProviderSyncApi*](doc/ProviderSyncApi.md) | [**providerSyncControllerSync**](doc/ProviderSyncApi.md#providersynccontrollersync) | **POST** /api/v1/{region}/bean/import/provider/{providerName}/sync | Sync transactions from financial data provider
 [*RecurringForecastApi*](doc/RecurringForecastApi.md) | [**forecastControllerGetForecast**](doc/RecurringForecastApi.md#forecastcontrollergetforecast) | **GET** /api/v1/{region}/bean/recurring/forecast | Get cash flow forecast
-[*RecurringRulesApi*](doc/RecurringRulesApi.md) | [**recurringRuleController**](doc/RecurringRulesApi.md#recurringrulecontroller) | **POST** /api/v1/{region}/bean/recurring-rules | 
+[*RecurringRulesApi*](doc/RecurringRulesApi.md) | [**recurringRuleControllerCreate**](doc/RecurringRulesApi.md#recurringrulecontrollercreate) | **POST** /api/v1/{region}/bean/recurring-rules | Create a new recurring rule
+[*RecurringRulesApi*](doc/RecurringRulesApi.md) | [**recurringRuleControllerCreateFromTransaction**](doc/RecurringRulesApi.md#recurringrulecontrollercreatefromtransaction) | **POST** /api/v1/{region}/bean/recurring-rules/from-transaction/{transactionId} | Create recurring rule from transaction
+[*RecurringRulesApi*](doc/RecurringRulesApi.md) | [**recurringRuleControllerDelete**](doc/RecurringRulesApi.md#recurringrulecontrollerdelete) | **DELETE** /api/v1/{region}/bean/recurring-rules/{id} | Delete recurring rule
 [*RecurringRulesApi*](doc/RecurringRulesApi.md) | [**recurringRuleControllerFindAll**](doc/RecurringRulesApi.md#recurringrulecontrollerfindall) | **GET** /api/v1/{region}/bean/recurring-rules | List recurring rules
 [*RecurringRulesApi*](doc/RecurringRulesApi.md) | [**recurringRuleControllerFindOne**](doc/RecurringRulesApi.md#recurringrulecontrollerfindone) | **GET** /api/v1/{region}/bean/recurring-rules/{id} | Get recurring rule by ID
 [*RecurringRulesApi*](doc/RecurringRulesApi.md) | [**recurringRuleControllerGetWithStats**](doc/RecurringRulesApi.md#recurringrulecontrollergetwithstats) | **GET** /api/v1/{region}/bean/recurring-rules/{id}/stats | Get rule with statistics
-[*RecurringRulesApi*](doc/RecurringRulesApi.md) | [**recurringRuleController_0**](doc/RecurringRulesApi.md#recurringrulecontroller_0) | **POST** /api/v1/{region}/bean/recurring-rules/from-transaction/{transactionId} | 
-[*RecurringRulesApi*](doc/RecurringRulesApi.md) | [**recurringRuleController_1**](doc/RecurringRulesApi.md#recurringrulecontroller_1) | **DELETE** /api/v1/{region}/bean/recurring-rules/{id} | 
-[*RecurringRulesApi*](doc/RecurringRulesApi.md) | [**recurringRuleController_2**](doc/RecurringRulesApi.md#recurringrulecontroller_2) | **PATCH** /api/v1/{region}/bean/recurring-rules/{id} | 
+[*RecurringRulesApi*](doc/RecurringRulesApi.md) | [**recurringRuleControllerUpdate**](doc/RecurringRulesApi.md#recurringrulecontrollerupdate) | **PATCH** /api/v1/{region}/bean/recurring-rules/{id} | Update recurring rule
 [*ReportingApi*](doc/ReportingApi.md) | [**reportingControllerBackfillSnapshots**](doc/ReportingApi.md#reportingcontrollerbackfillsnapshots) | **POST** /api/v1/{region}/reporting/snapshots/backfill | Backfill portfolio snapshots
 [*ReportingApi*](doc/ReportingApi.md) | [**reportingControllerGenerateSnapshot**](doc/ReportingApi.md#reportingcontrollergeneratesnapshot) | **POST** /api/v1/{region}/reporting/snapshots/generate | Generate portfolio snapshot
 [*ReportingApi*](doc/ReportingApi.md) | [**reportingControllerGetPortfolioTrends**](doc/ReportingApi.md#reportingcontrollergetportfoliotrends) | **GET** /api/v1/{region}/reporting/portfolio/trends | Get portfolio value trends
-[*SymbolsApi*](doc/SymbolsApi.md) | [**symbolController**](doc/SymbolsApi.md#symbolcontroller) | **PUT** /api/v1/market/symbols/yahoo/batch-update | 
-[*SymbolsApi*](doc/SymbolsApi.md) | [**symbolControllerGatherSymbolForDate**](doc/SymbolsApi.md#symbolcontrollergathersymbolfordate) | **GET** /api/v1/market/symbols/{dataSource}/{symbol}/{dateString} | Gather symbol data for specific date
-[*SymbolsApi*](doc/SymbolsApi.md) | [**symbolControllerGetSymbolData**](doc/SymbolsApi.md#symbolcontrollergetsymboldata) | **GET** /api/v1/market/symbols/{dataSource}/{symbol} | Get symbol data
-[*SymbolsApi*](doc/SymbolsApi.md) | [**symbolControllerLookupSymbol**](doc/SymbolsApi.md#symbolcontrollerlookupsymbol) | **GET** /api/v1/market/symbols/lookup | Search for symbols
 [*UsersApi*](doc/UsersApi.md) | [**userControllerDeleteOwnUser**](doc/UsersApi.md#usercontrollerdeleteownuser) | **DELETE** /api/v1/users | Delete own user account
 [*UsersApi*](doc/UsersApi.md) | [**userControllerDeleteUser**](doc/UsersApi.md#usercontrollerdeleteuser) | **DELETE** /api/v1/users/{id} | Delete user by ID (admin only)
 [*UsersApi*](doc/UsersApi.md) | [**userControllerGetAllUserSettingsByPage**](doc/UsersApi.md#usercontrollergetallusersettingsbypage) | **GET** /api/v1/users/settings-by-page | Get all user settings paginated (admin only)
@@ -282,6 +277,7 @@ Class | Method | HTTP request | Description
  - [AccountStandardResponseDto](doc/AccountStandardResponseDto.md)
  - [AccountsResponseDto](doc/AccountsResponseDto.md)
  - [AccountsSummaryDto](doc/AccountsSummaryDto.md)
+ - [AmountRangeDto](doc/AmountRangeDto.md)
  - [AnonymousLoginDto](doc/AnonymousLoginDto.md)
  - [ApiProblemResponseDto](doc/ApiProblemResponseDto.md)
  - [AssetClassAccountsResponseDto](doc/AssetClassAccountsResponseDto.md)
@@ -289,26 +285,44 @@ Class | Method | HTTP request | Description
  - [AssetClassSummaryDto](doc/AssetClassSummaryDto.md)
  - [BalanceByCurrencyDto](doc/BalanceByCurrencyDto.md)
  - [BalanceResponseDto](doc/BalanceResponseDto.md)
+ - [BatchCreateTransactionDto](doc/BatchCreateTransactionDto.md)
+ - [BatchResolveDto](doc/BatchResolveDto.md)
+ - [BatchResolveResultDto](doc/BatchResolveResultDto.md)
+ - [BatchTransactionErrorDto](doc/BatchTransactionErrorDto.md)
+ - [BatchTransactionResponseDto](doc/BatchTransactionResponseDto.md)
+ - [BulkCreateRulesDto](doc/BulkCreateRulesDto.md)
+ - [BulkCreateRulesResponseDto](doc/BulkCreateRulesResponseDto.md)
+ - [BulkCreateRulesResponseDtoErrorsInner](doc/BulkCreateRulesResponseDtoErrorsInner.md)
  - [CashFlowByCurrencyDto](doc/CashFlowByCurrencyDto.md)
  - [CashFlowResponseDto](doc/CashFlowResponseDto.md)
  - [CloseAccountDto](doc/CloseAccountDto.md)
  - [CommodityListResponseDto](doc/CommodityListResponseDto.md)
  - [CommodityResponseDto](doc/CommodityResponseDto.md)
+ - [ConfirmMatchDto](doc/ConfirmMatchDto.md)
  - [ConvertedCashFlowDto](doc/ConvertedCashFlowDto.md)
  - [ConvertedNetWorthDto](doc/ConvertedNetWorthDto.md)
  - [CreateAccountDto](doc/CreateAccountDto.md)
+ - [CreateCommodityDto](doc/CreateCommodityDto.md)
+ - [CreatePayeeDto](doc/CreatePayeeDto.md)
+ - [CreatePayeeProfileDto](doc/CreatePayeeProfileDto.md)
+ - [CreatePlatformDto](doc/CreatePlatformDto.md)
  - [CreatePostingDto](doc/CreatePostingDto.md)
+ - [CreateRecurringRuleDto](doc/CreateRecurringRuleDto.md)
+ - [CreateRuleFromTransactionDto](doc/CreateRuleFromTransactionDto.md)
  - [CreateTransactionDto](doc/CreateTransactionDto.md)
+ - [CreateTransactionRuleDto](doc/CreateTransactionRuleDto.md)
  - [CurrencyBalanceDto](doc/CurrencyBalanceDto.md)
  - [DashboardControllerGetAccounts200Response](doc/DashboardControllerGetAccounts200Response.md)
  - [DecisionOptionDto](doc/DecisionOptionDto.md)
  - [DeleteOwnUserDto](doc/DeleteOwnUserDto.md)
+ - [EnterNowDto](doc/EnterNowDto.md)
  - [ExchangeRateWarningDto](doc/ExchangeRateWarningDto.md)
  - [ExpectedTransactionListResponseDto](doc/ExpectedTransactionListResponseDto.md)
  - [ExpectedTransactionResponseDto](doc/ExpectedTransactionResponseDto.md)
  - [ExpectedTransactionRuleDto](doc/ExpectedTransactionRuleDto.md)
  - [ExportRulesResponseDto](doc/ExportRulesResponseDto.md)
  - [FileImportControllerIdentifyFile400Response](doc/FileImportControllerIdentifyFile400Response.md)
+ - [FileImportControllerImportBeancount200Response](doc/FileImportControllerImportBeancount200Response.md)
  - [FileImportControllerImportFile400Response](doc/FileImportControllerImportFile400Response.md)
  - [FileImportControllerImportFile413Response](doc/FileImportControllerImportFile413Response.md)
  - [FileImportControllerImportFile429Response](doc/FileImportControllerImportFile429Response.md)
@@ -363,6 +377,8 @@ Class | Method | HTTP request | Description
  - [RegionInfoDto](doc/RegionInfoDto.md)
  - [RegionsMetadataResponseDto](doc/RegionsMetadataResponseDto.md)
  - [ReopenAccountDto](doc/ReopenAccountDto.md)
+ - [ResolveResultDto](doc/ResolveResultDto.md)
+ - [ResolveReviewDto](doc/ResolveReviewDto.md)
  - [ReviewDetailDto](doc/ReviewDetailDto.md)
  - [ReviewItemPreviewDto](doc/ReviewItemPreviewDto.md)
  - [ReviewListResponseDto](doc/ReviewListResponseDto.md)
@@ -373,6 +389,10 @@ Class | Method | HTTP request | Description
  - [RuleStatisticsResponseDtoRuleStatsInner](doc/RuleStatisticsResponseDtoRuleStatsInner.md)
  - [SignupDto](doc/SignupDto.md)
  - [SupportedProvidersResponseDto](doc/SupportedProvidersResponseDto.md)
+ - [TagSuggestionDto](doc/TagSuggestionDto.md)
+ - [TagSuggestionsResponseDto](doc/TagSuggestionsResponseDto.md)
+ - [TemplateMetadataDto](doc/TemplateMetadataDto.md)
+ - [TemplateMetadataResponseDto](doc/TemplateMetadataResponseDto.md)
  - [TestRuleDto](doc/TestRuleDto.md)
  - [TestRuleResponseDto](doc/TestRuleResponseDto.md)
  - [TimeSeriesPointDto](doc/TimeSeriesPointDto.md)
@@ -383,8 +403,19 @@ Class | Method | HTTP request | Description
  - [TransactionRuleResponseDto](doc/TransactionRuleResponseDto.md)
  - [TransactionSummaryDto](doc/TransactionSummaryDto.md)
  - [TrendSummaryDto](doc/TrendSummaryDto.md)
+ - [UndoResultDto](doc/UndoResultDto.md)
  - [UpdateAccountDto](doc/UpdateAccountDto.md)
+ - [UpdateCommodityDto](doc/UpdateCommodityDto.md)
+ - [UpdateConfigDataDto](doc/UpdateConfigDataDto.md)
+ - [UpdateImporterConfigDto](doc/UpdateImporterConfigDto.md)
+ - [UpdateMapperDefaultsDto](doc/UpdateMapperDefaultsDto.md)
+ - [UpdatePayeeDto](doc/UpdatePayeeDto.md)
+ - [UpdatePayeeProfileDto](doc/UpdatePayeeProfileDto.md)
+ - [UpdatePlatformDto](doc/UpdatePlatformDto.md)
+ - [UpdatePropertyDto](doc/UpdatePropertyDto.md)
+ - [UpdateRecurringRuleDto](doc/UpdateRecurringRuleDto.md)
  - [UpdateTransactionDto](doc/UpdateTransactionDto.md)
+ - [UpdateTransactionRuleDto](doc/UpdateTransactionRuleDto.md)
  - [UpdateUserSettingDto](doc/UpdateUserSettingDto.md)
  - [ValidateRuleDto](doc/ValidateRuleDto.md)
  - [ValidateRuleResponseDto](doc/ValidateRuleResponseDto.md)

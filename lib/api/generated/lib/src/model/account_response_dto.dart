@@ -15,24 +15,24 @@ part 'account_response_dto.g.dart';
 /// Properties:
 /// * [id] - Account UUID
 /// * [path] - Account path (hierarchical, colon-separated)
+/// * [displayName] - Display name distinguishing multiple accounts at the same path
 /// * [type] - Account type (root segment)
 /// * [status] - Account status
 /// * [openDate] - Account open date
-/// * [bookingMethod] - Booking method
-/// * [isCustom] - Whether this is a custom (user-created) account
-/// * [createdAt] - Created timestamp
-/// * [updatedAt] - Updated timestamp
 /// * [closeDate] - Account close date (if closed)
 /// * [currencies] - Allowed currencies (null = no restriction)
+/// * [bookingMethod] - Booking method
 /// * [templatePath] - Template path reference
+/// * [isCustom] - Whether this is a custom (user-created) account
 /// * [i18nKey] - i18n key for display name
 /// * [icon] - Icon identifier
 /// * [openMeta] - Account metadata
 /// * [platformId] - Platform ID (null if unbound)
 /// * [platform] - Platform details (populated if platformId is set)
+/// * [createdAt] - Created timestamp
+/// * [updatedAt] - Updated timestamp
 @BuiltValue()
-abstract class AccountResponseDto
-    implements Built<AccountResponseDto, AccountResponseDtoBuilder> {
+abstract class AccountResponseDto implements Built<AccountResponseDto, AccountResponseDtoBuilder> {
   /// Account UUID
   @BuiltValueField(wireName: r'id')
   String get id;
@@ -40,6 +40,10 @@ abstract class AccountResponseDto
   /// Account path (hierarchical, colon-separated)
   @BuiltValueField(wireName: r'path')
   String get path;
+
+  /// Display name distinguishing multiple accounts at the same path
+  @BuiltValueField(wireName: r'displayName')
+  String get displayName;
 
   /// Account type (root segment)
   @BuiltValueField(wireName: r'type')
@@ -55,23 +59,6 @@ abstract class AccountResponseDto
   @BuiltValueField(wireName: r'openDate')
   String get openDate;
 
-  /// Booking method
-  @BuiltValueField(wireName: r'bookingMethod')
-  AccountResponseDtoBookingMethodEnum get bookingMethod;
-  // enum bookingMethodEnum {  FIFO,  LIFO,  HIFO,  AVERAGE,  STRICT,  STRICT_WITH_SIZE,  NONE,  };
-
-  /// Whether this is a custom (user-created) account
-  @BuiltValueField(wireName: r'isCustom')
-  bool get isCustom;
-
-  /// Created timestamp
-  @BuiltValueField(wireName: r'createdAt')
-  String get createdAt;
-
-  /// Updated timestamp
-  @BuiltValueField(wireName: r'updatedAt')
-  String get updatedAt;
-
   /// Account close date (if closed)
   @BuiltValueField(wireName: r'closeDate')
   String? get closeDate;
@@ -80,9 +67,18 @@ abstract class AccountResponseDto
   @BuiltValueField(wireName: r'currencies')
   BuiltList<String>? get currencies;
 
+  /// Booking method
+  @BuiltValueField(wireName: r'bookingMethod')
+  AccountResponseDtoBookingMethodEnum get bookingMethod;
+  // enum bookingMethodEnum {  FIFO,  LIFO,  HIFO,  AVERAGE,  STRICT,  STRICT_WITH_SIZE,  NONE,  };
+
   /// Template path reference
   @BuiltValueField(wireName: r'templatePath')
   String? get templatePath;
+
+  /// Whether this is a custom (user-created) account
+  @BuiltValueField(wireName: r'isCustom')
+  bool get isCustom;
 
   /// i18n key for display name
   @BuiltValueField(wireName: r'i18nKey')
@@ -104,21 +100,26 @@ abstract class AccountResponseDto
   @BuiltValueField(wireName: r'platform')
   JsonObject? get platform;
 
+  /// Created timestamp
+  @BuiltValueField(wireName: r'createdAt')
+  String get createdAt;
+
+  /// Updated timestamp
+  @BuiltValueField(wireName: r'updatedAt')
+  String get updatedAt;
+
   AccountResponseDto._();
 
-  factory AccountResponseDto([void updates(AccountResponseDtoBuilder b)]) =
-      _$AccountResponseDto;
+  factory AccountResponseDto([void updates(AccountResponseDtoBuilder b)]) = _$AccountResponseDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(AccountResponseDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<AccountResponseDto> get serializer =>
-      _$AccountResponseDtoSerializer();
+  static Serializer<AccountResponseDto> get serializer => _$AccountResponseDtoSerializer();
 }
 
-class _$AccountResponseDtoSerializer
-    implements PrimitiveSerializer<AccountResponseDto> {
+class _$AccountResponseDtoSerializer implements PrimitiveSerializer<AccountResponseDto> {
   @override
   final Iterable<Type> types = const [AccountResponseDto, _$AccountResponseDto];
 
@@ -140,6 +141,11 @@ class _$AccountResponseDtoSerializer
       object.path,
       specifiedType: const FullType(String),
     );
+    yield r'displayName';
+    yield serializers.serialize(
+      object.displayName,
+      specifiedType: const FullType(String),
+    );
     yield r'type';
     yield serializers.serialize(
       object.type,
@@ -153,26 +159,6 @@ class _$AccountResponseDtoSerializer
     yield r'openDate';
     yield serializers.serialize(
       object.openDate,
-      specifiedType: const FullType(String),
-    );
-    yield r'bookingMethod';
-    yield serializers.serialize(
-      object.bookingMethod,
-      specifiedType: const FullType(AccountResponseDtoBookingMethodEnum),
-    );
-    yield r'isCustom';
-    yield serializers.serialize(
-      object.isCustom,
-      specifiedType: const FullType(bool),
-    );
-    yield r'createdAt';
-    yield serializers.serialize(
-      object.createdAt,
-      specifiedType: const FullType(String),
-    );
-    yield r'updatedAt';
-    yield serializers.serialize(
-      object.updatedAt,
       specifiedType: const FullType(String),
     );
     if (object.closeDate != null) {
@@ -189,6 +175,11 @@ class _$AccountResponseDtoSerializer
         specifiedType: const FullType(BuiltList, [FullType(String)]),
       );
     }
+    yield r'bookingMethod';
+    yield serializers.serialize(
+      object.bookingMethod,
+      specifiedType: const FullType(AccountResponseDtoBookingMethodEnum),
+    );
     if (object.templatePath != null) {
       yield r'templatePath';
       yield serializers.serialize(
@@ -196,6 +187,11 @@ class _$AccountResponseDtoSerializer
         specifiedType: const FullType(String),
       );
     }
+    yield r'isCustom';
+    yield serializers.serialize(
+      object.isCustom,
+      specifiedType: const FullType(bool),
+    );
     if (object.i18nKey != null) {
       yield r'i18nKey';
       yield serializers.serialize(
@@ -231,6 +227,16 @@ class _$AccountResponseDtoSerializer
         specifiedType: const FullType(JsonObject),
       );
     }
+    yield r'createdAt';
+    yield serializers.serialize(
+      object.createdAt,
+      specifiedType: const FullType(String),
+    );
+    yield r'updatedAt';
+    yield serializers.serialize(
+      object.updatedAt,
+      specifiedType: const FullType(String),
+    );
   }
 
   @override
@@ -239,9 +245,7 @@ class _$AccountResponseDtoSerializer
     AccountResponseDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -270,6 +274,13 @@ class _$AccountResponseDtoSerializer
           ) as String;
           result.path = valueDes;
           break;
+        case r'displayName':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.displayName = valueDes;
+          break;
         case r'type':
           final valueDes = serializers.deserialize(
             value,
@@ -291,34 +302,6 @@ class _$AccountResponseDtoSerializer
           ) as String;
           result.openDate = valueDes;
           break;
-        case r'bookingMethod':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(AccountResponseDtoBookingMethodEnum),
-          ) as AccountResponseDtoBookingMethodEnum;
-          result.bookingMethod = valueDes;
-          break;
-        case r'isCustom':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(bool),
-          ) as bool;
-          result.isCustom = valueDes;
-          break;
-        case r'createdAt':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.createdAt = valueDes;
-          break;
-        case r'updatedAt':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.updatedAt = valueDes;
-          break;
         case r'closeDate':
           final valueDes = serializers.deserialize(
             value,
@@ -333,12 +316,26 @@ class _$AccountResponseDtoSerializer
           ) as BuiltList<String>;
           result.currencies.replace(valueDes);
           break;
+        case r'bookingMethod':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(AccountResponseDtoBookingMethodEnum),
+          ) as AccountResponseDtoBookingMethodEnum;
+          result.bookingMethod = valueDes;
+          break;
         case r'templatePath':
           final valueDes = serializers.deserialize(
             value,
             specifiedType: const FullType(String),
           ) as String;
           result.templatePath = valueDes;
+          break;
+        case r'isCustom':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(bool),
+          ) as bool;
+          result.isCustom = valueDes;
           break;
         case r'i18nKey':
           final valueDes = serializers.deserialize(
@@ -375,6 +372,20 @@ class _$AccountResponseDtoSerializer
           ) as JsonObject;
           result.platform = valueDes;
           break;
+        case r'createdAt':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.createdAt = valueDes;
+          break;
+        case r'updatedAt':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.updatedAt = valueDes;
+          break;
         default:
           unhandled.add(key);
           unhandled.add(value);
@@ -405,112 +416,80 @@ class _$AccountResponseDtoSerializer
 }
 
 class AccountResponseDtoTypeEnum extends EnumClass {
+
   /// Account type (root segment)
   @BuiltValueEnumConst(wireName: r'Assets')
-  static const AccountResponseDtoTypeEnum assets =
-      _$accountResponseDtoTypeEnum_assets;
-
+  static const AccountResponseDtoTypeEnum assets = _$accountResponseDtoTypeEnum_assets;
   /// Account type (root segment)
   @BuiltValueEnumConst(wireName: r'Liabilities')
-  static const AccountResponseDtoTypeEnum liabilities =
-      _$accountResponseDtoTypeEnum_liabilities;
-
+  static const AccountResponseDtoTypeEnum liabilities = _$accountResponseDtoTypeEnum_liabilities;
   /// Account type (root segment)
   @BuiltValueEnumConst(wireName: r'Income')
-  static const AccountResponseDtoTypeEnum income =
-      _$accountResponseDtoTypeEnum_income;
-
+  static const AccountResponseDtoTypeEnum income = _$accountResponseDtoTypeEnum_income;
   /// Account type (root segment)
   @BuiltValueEnumConst(wireName: r'Expenses')
-  static const AccountResponseDtoTypeEnum expenses =
-      _$accountResponseDtoTypeEnum_expenses;
-
+  static const AccountResponseDtoTypeEnum expenses = _$accountResponseDtoTypeEnum_expenses;
   /// Account type (root segment)
-  @BuiltValueEnumConst(wireName: r'Equity', fallback: true)
-  static const AccountResponseDtoTypeEnum equity =
-      _$accountResponseDtoTypeEnum_equity;
+  @BuiltValueEnumConst(wireName: r'Equity')
+  static const AccountResponseDtoTypeEnum equity = _$accountResponseDtoTypeEnum_equity;
 
-  static Serializer<AccountResponseDtoTypeEnum> get serializer =>
-      _$accountResponseDtoTypeEnumSerializer;
+  static Serializer<AccountResponseDtoTypeEnum> get serializer => _$accountResponseDtoTypeEnumSerializer;
 
-  const AccountResponseDtoTypeEnum._(String name) : super(name);
+  const AccountResponseDtoTypeEnum._(String name): super(name);
 
-  static BuiltSet<AccountResponseDtoTypeEnum> get values =>
-      _$accountResponseDtoTypeEnumValues;
-  static AccountResponseDtoTypeEnum valueOf(String name) =>
-      _$accountResponseDtoTypeEnumValueOf(name);
+  static BuiltSet<AccountResponseDtoTypeEnum> get values => _$accountResponseDtoTypeEnumValues;
+  static AccountResponseDtoTypeEnum valueOf(String name) => _$accountResponseDtoTypeEnumValueOf(name);
 }
 
 class AccountResponseDtoStatusEnum extends EnumClass {
+
   /// Account status
   @BuiltValueEnumConst(wireName: r'OPEN')
-  static const AccountResponseDtoStatusEnum OPEN =
-      _$accountResponseDtoStatusEnum_OPEN;
-
+  static const AccountResponseDtoStatusEnum OPEN = _$accountResponseDtoStatusEnum_OPEN;
   /// Account status
   @BuiltValueEnumConst(wireName: r'CLOSED')
-  static const AccountResponseDtoStatusEnum CLOSED =
-      _$accountResponseDtoStatusEnum_CLOSED;
-
+  static const AccountResponseDtoStatusEnum CLOSED = _$accountResponseDtoStatusEnum_CLOSED;
   /// Account status
-  @BuiltValueEnumConst(wireName: r'SUSPENDED', fallback: true)
-  static const AccountResponseDtoStatusEnum SUSPENDED =
-      _$accountResponseDtoStatusEnum_SUSPENDED;
+  @BuiltValueEnumConst(wireName: r'SUSPENDED')
+  static const AccountResponseDtoStatusEnum SUSPENDED = _$accountResponseDtoStatusEnum_SUSPENDED;
 
-  static Serializer<AccountResponseDtoStatusEnum> get serializer =>
-      _$accountResponseDtoStatusEnumSerializer;
+  static Serializer<AccountResponseDtoStatusEnum> get serializer => _$accountResponseDtoStatusEnumSerializer;
 
-  const AccountResponseDtoStatusEnum._(String name) : super(name);
+  const AccountResponseDtoStatusEnum._(String name): super(name);
 
-  static BuiltSet<AccountResponseDtoStatusEnum> get values =>
-      _$accountResponseDtoStatusEnumValues;
-  static AccountResponseDtoStatusEnum valueOf(String name) =>
-      _$accountResponseDtoStatusEnumValueOf(name);
+  static BuiltSet<AccountResponseDtoStatusEnum> get values => _$accountResponseDtoStatusEnumValues;
+  static AccountResponseDtoStatusEnum valueOf(String name) => _$accountResponseDtoStatusEnumValueOf(name);
 }
 
 class AccountResponseDtoBookingMethodEnum extends EnumClass {
+
   /// Booking method
   @BuiltValueEnumConst(wireName: r'FIFO')
-  static const AccountResponseDtoBookingMethodEnum FIFO =
-      _$accountResponseDtoBookingMethodEnum_FIFO;
-
+  static const AccountResponseDtoBookingMethodEnum FIFO = _$accountResponseDtoBookingMethodEnum_FIFO;
   /// Booking method
   @BuiltValueEnumConst(wireName: r'LIFO')
-  static const AccountResponseDtoBookingMethodEnum LIFO =
-      _$accountResponseDtoBookingMethodEnum_LIFO;
-
+  static const AccountResponseDtoBookingMethodEnum LIFO = _$accountResponseDtoBookingMethodEnum_LIFO;
   /// Booking method
   @BuiltValueEnumConst(wireName: r'HIFO')
-  static const AccountResponseDtoBookingMethodEnum HIFO =
-      _$accountResponseDtoBookingMethodEnum_HIFO;
-
+  static const AccountResponseDtoBookingMethodEnum HIFO = _$accountResponseDtoBookingMethodEnum_HIFO;
   /// Booking method
   @BuiltValueEnumConst(wireName: r'AVERAGE')
-  static const AccountResponseDtoBookingMethodEnum AVERAGE =
-      _$accountResponseDtoBookingMethodEnum_AVERAGE;
-
+  static const AccountResponseDtoBookingMethodEnum AVERAGE = _$accountResponseDtoBookingMethodEnum_AVERAGE;
   /// Booking method
   @BuiltValueEnumConst(wireName: r'STRICT')
-  static const AccountResponseDtoBookingMethodEnum STRICT =
-      _$accountResponseDtoBookingMethodEnum_STRICT;
-
+  static const AccountResponseDtoBookingMethodEnum STRICT = _$accountResponseDtoBookingMethodEnum_STRICT;
   /// Booking method
   @BuiltValueEnumConst(wireName: r'STRICT_WITH_SIZE')
-  static const AccountResponseDtoBookingMethodEnum STRICT_WITH_SIZE =
-      _$accountResponseDtoBookingMethodEnum_STRICT_WITH_SIZE;
-
+  static const AccountResponseDtoBookingMethodEnum STRICT_WITH_SIZE = _$accountResponseDtoBookingMethodEnum_STRICT_WITH_SIZE;
   /// Booking method
-  @BuiltValueEnumConst(wireName: r'NONE', fallback: true)
-  static const AccountResponseDtoBookingMethodEnum NONE =
-      _$accountResponseDtoBookingMethodEnum_NONE;
+  @BuiltValueEnumConst(wireName: r'NONE')
+  static const AccountResponseDtoBookingMethodEnum NONE = _$accountResponseDtoBookingMethodEnum_NONE;
 
-  static Serializer<AccountResponseDtoBookingMethodEnum> get serializer =>
-      _$accountResponseDtoBookingMethodEnumSerializer;
+  static Serializer<AccountResponseDtoBookingMethodEnum> get serializer => _$accountResponseDtoBookingMethodEnumSerializer;
 
-  const AccountResponseDtoBookingMethodEnum._(String name) : super(name);
+  const AccountResponseDtoBookingMethodEnum._(String name): super(name);
 
-  static BuiltSet<AccountResponseDtoBookingMethodEnum> get values =>
-      _$accountResponseDtoBookingMethodEnumValues;
-  static AccountResponseDtoBookingMethodEnum valueOf(String name) =>
-      _$accountResponseDtoBookingMethodEnumValueOf(name);
+  static BuiltSet<AccountResponseDtoBookingMethodEnum> get values => _$accountResponseDtoBookingMethodEnumValues;
+  static AccountResponseDtoBookingMethodEnum valueOf(String name) => _$accountResponseDtoBookingMethodEnumValueOf(name);
 }
+

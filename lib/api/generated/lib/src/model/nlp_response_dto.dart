@@ -36,21 +36,20 @@ part 'nlp_response_dto.g.dart';
 /// * [messageParams] - Parameters for message interpolation. Used with messageKey for dynamic values in translated messages.
 /// * [sessionId] - Session ID for multi-turn dialogue. Must be included in subsequent requests to continue the conversation.
 /// * [waitingFor] - Which slot is waiting for user input
-/// * [transaction]
-/// * [parsedData]
-/// * [duplicateData]
-/// * [ruleData]
-/// * [accountData]
-/// * [payeeData]
+/// * [transaction] 
+/// * [parsedData] 
+/// * [duplicateData] 
+/// * [ruleData] 
+/// * [accountData] 
+/// * [payeeData] 
 /// * [confidence] - Overall confidence score (0-1)
 /// * [confidenceThreshold] - Confidence threshold for automatic creation (default: 0.75). When confidence < threshold, action will be \"confirm\" requiring user verification.
-/// * [recurringMatch]
-/// * [recurringSuggestion]
-/// * [suggestedAccounts]
-/// * [defaultAccounts]
+/// * [recurringMatch] 
+/// * [recurringSuggestion] 
+/// * [suggestedAccounts] 
+/// * [defaultAccounts] 
 @BuiltValue()
-abstract class NlpResponseDto
-    implements Built<NlpResponseDto, NlpResponseDtoBuilder> {
+abstract class NlpResponseDto implements Built<NlpResponseDto, NlpResponseDtoBuilder> {
   /// Response status
   @BuiltValueField(wireName: r'status')
   NlpResponseDtoStatusEnum get status;
@@ -151,19 +150,16 @@ abstract class NlpResponseDto
 
   NlpResponseDto._();
 
-  factory NlpResponseDto([void updates(NlpResponseDtoBuilder b)]) =
-      _$NlpResponseDto;
+  factory NlpResponseDto([void updates(NlpResponseDtoBuilder b)]) = _$NlpResponseDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(NlpResponseDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<NlpResponseDto> get serializer =>
-      _$NlpResponseDtoSerializer();
+  static Serializer<NlpResponseDto> get serializer => _$NlpResponseDtoSerializer();
 }
 
-class _$NlpResponseDtoSerializer
-    implements PrimitiveSerializer<NlpResponseDto> {
+class _$NlpResponseDtoSerializer implements PrimitiveSerializer<NlpResponseDto> {
   @override
   final Iterable<Type> types = const [NlpResponseDto, _$NlpResponseDto];
 
@@ -354,9 +350,7 @@ class _$NlpResponseDtoSerializer
     NlpResponseDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -576,209 +570,154 @@ class _$NlpResponseDtoSerializer
 }
 
 class NlpResponseDtoStatusEnum extends EnumClass {
+
   /// Response status
   @BuiltValueEnumConst(wireName: r'success')
-  static const NlpResponseDtoStatusEnum success =
-      _$nlpResponseDtoStatusEnum_success;
-
+  static const NlpResponseDtoStatusEnum success = _$nlpResponseDtoStatusEnum_success;
   /// Response status
   @BuiltValueEnumConst(wireName: r'pending')
-  static const NlpResponseDtoStatusEnum pending =
-      _$nlpResponseDtoStatusEnum_pending;
-
+  static const NlpResponseDtoStatusEnum pending = _$nlpResponseDtoStatusEnum_pending;
   /// Response status
-  @BuiltValueEnumConst(wireName: r'error', fallback: true)
-  static const NlpResponseDtoStatusEnum error =
-      _$nlpResponseDtoStatusEnum_error;
+  @BuiltValueEnumConst(wireName: r'error')
+  static const NlpResponseDtoStatusEnum error = _$nlpResponseDtoStatusEnum_error;
 
-  static Serializer<NlpResponseDtoStatusEnum> get serializer =>
-      _$nlpResponseDtoStatusEnumSerializer;
+  static Serializer<NlpResponseDtoStatusEnum> get serializer => _$nlpResponseDtoStatusEnumSerializer;
 
-  const NlpResponseDtoStatusEnum._(String name) : super(name);
+  const NlpResponseDtoStatusEnum._(String name): super(name);
 
-  static BuiltSet<NlpResponseDtoStatusEnum> get values =>
-      _$nlpResponseDtoStatusEnumValues;
-  static NlpResponseDtoStatusEnum valueOf(String name) =>
-      _$nlpResponseDtoStatusEnumValueOf(name);
+  static BuiltSet<NlpResponseDtoStatusEnum> get values => _$nlpResponseDtoStatusEnumValues;
+  static NlpResponseDtoStatusEnum valueOf(String name) => _$nlpResponseDtoStatusEnumValueOf(name);
 }
 
 class NlpResponseDtoActionEnum extends EnumClass {
+
   /// Action taken or requested
   @BuiltValueEnumConst(wireName: r'created')
-  static const NlpResponseDtoActionEnum created =
-      _$nlpResponseDtoActionEnum_created;
-
+  static const NlpResponseDtoActionEnum created = _$nlpResponseDtoActionEnum_created;
   /// Action taken or requested
   @BuiltValueEnumConst(wireName: r'ask')
   static const NlpResponseDtoActionEnum ask = _$nlpResponseDtoActionEnum_ask;
-
   /// Action taken or requested
   @BuiltValueEnumConst(wireName: r'confirm')
-  static const NlpResponseDtoActionEnum confirm =
-      _$nlpResponseDtoActionEnum_confirm;
-
+  static const NlpResponseDtoActionEnum confirm = _$nlpResponseDtoActionEnum_confirm;
   /// Action taken or requested
   @BuiltValueEnumConst(wireName: r'confirm_duplicate')
-  static const NlpResponseDtoActionEnum confirmDuplicate =
-      _$nlpResponseDtoActionEnum_confirmDuplicate;
-
+  static const NlpResponseDtoActionEnum confirmDuplicate = _$nlpResponseDtoActionEnum_confirmDuplicate;
   /// Action taken or requested
   @BuiltValueEnumConst(wireName: r'confirm_rule')
-  static const NlpResponseDtoActionEnum confirmRule =
-      _$nlpResponseDtoActionEnum_confirmRule;
-
+  static const NlpResponseDtoActionEnum confirmRule = _$nlpResponseDtoActionEnum_confirmRule;
   /// Action taken or requested
   @BuiltValueEnumConst(wireName: r'confirm_account')
-  static const NlpResponseDtoActionEnum confirmAccount =
-      _$nlpResponseDtoActionEnum_confirmAccount;
-
+  static const NlpResponseDtoActionEnum confirmAccount = _$nlpResponseDtoActionEnum_confirmAccount;
   /// Action taken or requested
   @BuiltValueEnumConst(wireName: r'confirm_payee')
-  static const NlpResponseDtoActionEnum confirmPayee =
-      _$nlpResponseDtoActionEnum_confirmPayee;
-
+  static const NlpResponseDtoActionEnum confirmPayee = _$nlpResponseDtoActionEnum_confirmPayee;
   /// Action taken or requested
-  @BuiltValueEnumConst(wireName: r'cancel', fallback: true)
-  static const NlpResponseDtoActionEnum cancel =
-      _$nlpResponseDtoActionEnum_cancel;
+  @BuiltValueEnumConst(wireName: r'cancel')
+  static const NlpResponseDtoActionEnum cancel = _$nlpResponseDtoActionEnum_cancel;
 
-  static Serializer<NlpResponseDtoActionEnum> get serializer =>
-      _$nlpResponseDtoActionEnumSerializer;
+  static Serializer<NlpResponseDtoActionEnum> get serializer => _$nlpResponseDtoActionEnumSerializer;
 
-  const NlpResponseDtoActionEnum._(String name) : super(name);
+  const NlpResponseDtoActionEnum._(String name): super(name);
 
-  static BuiltSet<NlpResponseDtoActionEnum> get values =>
-      _$nlpResponseDtoActionEnumValues;
-  static NlpResponseDtoActionEnum valueOf(String name) =>
-      _$nlpResponseDtoActionEnumValueOf(name);
+  static BuiltSet<NlpResponseDtoActionEnum> get values => _$nlpResponseDtoActionEnumValues;
+  static NlpResponseDtoActionEnum valueOf(String name) => _$nlpResponseDtoActionEnumValueOf(name);
 }
 
 class NlpResponseDtoIntentEnum extends EnumClass {
+
   /// Transaction intent detected by EntityRouter (v6.0: 5 core intents). Frontend uses this to render scenario-specific form fields.
   @BuiltValueEnumConst(wireName: r'expense')
-  static const NlpResponseDtoIntentEnum expense =
-      _$nlpResponseDtoIntentEnum_expense;
-
+  static const NlpResponseDtoIntentEnum expense = _$nlpResponseDtoIntentEnum_expense;
   /// Transaction intent detected by EntityRouter (v6.0: 5 core intents). Frontend uses this to render scenario-specific form fields.
   @BuiltValueEnumConst(wireName: r'asset')
-  static const NlpResponseDtoIntentEnum asset =
-      _$nlpResponseDtoIntentEnum_asset;
-
+  static const NlpResponseDtoIntentEnum asset = _$nlpResponseDtoIntentEnum_asset;
   /// Transaction intent detected by EntityRouter (v6.0: 5 core intents). Frontend uses this to render scenario-specific form fields.
   @BuiltValueEnumConst(wireName: r'income')
-  static const NlpResponseDtoIntentEnum income =
-      _$nlpResponseDtoIntentEnum_income;
-
+  static const NlpResponseDtoIntentEnum income = _$nlpResponseDtoIntentEnum_income;
   /// Transaction intent detected by EntityRouter (v6.0: 5 core intents). Frontend uses this to render scenario-specific form fields.
   @BuiltValueEnumConst(wireName: r'liability')
-  static const NlpResponseDtoIntentEnum liability =
-      _$nlpResponseDtoIntentEnum_liability;
-
+  static const NlpResponseDtoIntentEnum liability = _$nlpResponseDtoIntentEnum_liability;
   /// Transaction intent detected by EntityRouter (v6.0: 5 core intents). Frontend uses this to render scenario-specific form fields.
-  @BuiltValueEnumConst(wireName: r'equity', fallback: true)
-  static const NlpResponseDtoIntentEnum equity =
-      _$nlpResponseDtoIntentEnum_equity;
+  @BuiltValueEnumConst(wireName: r'equity')
+  static const NlpResponseDtoIntentEnum equity = _$nlpResponseDtoIntentEnum_equity;
 
-  static Serializer<NlpResponseDtoIntentEnum> get serializer =>
-      _$nlpResponseDtoIntentEnumSerializer;
+  static Serializer<NlpResponseDtoIntentEnum> get serializer => _$nlpResponseDtoIntentEnumSerializer;
 
-  const NlpResponseDtoIntentEnum._(String name) : super(name);
+  const NlpResponseDtoIntentEnum._(String name): super(name);
 
-  static BuiltSet<NlpResponseDtoIntentEnum> get values =>
-      _$nlpResponseDtoIntentEnumValues;
-  static NlpResponseDtoIntentEnum valueOf(String name) =>
-      _$nlpResponseDtoIntentEnumValueOf(name);
+  static BuiltSet<NlpResponseDtoIntentEnum> get values => _$nlpResponseDtoIntentEnumValues;
+  static NlpResponseDtoIntentEnum valueOf(String name) => _$nlpResponseDtoIntentEnumValueOf(name);
 }
 
 class NlpResponseDtoAssetSubTypeEnum extends EnumClass {
+
   /// Asset sub-type (only present when intent is \"asset\"). Determines which asset-related form to render.
   @BuiltValueEnumConst(wireName: r'transfer')
-  static const NlpResponseDtoAssetSubTypeEnum transfer =
-      _$nlpResponseDtoAssetSubTypeEnum_transfer;
-
+  static const NlpResponseDtoAssetSubTypeEnum transfer = _$nlpResponseDtoAssetSubTypeEnum_transfer;
   /// Asset sub-type (only present when intent is \"asset\"). Determines which asset-related form to render.
   @BuiltValueEnumConst(wireName: r'banking')
-  static const NlpResponseDtoAssetSubTypeEnum banking =
-      _$nlpResponseDtoAssetSubTypeEnum_banking;
-
+  static const NlpResponseDtoAssetSubTypeEnum banking = _$nlpResponseDtoAssetSubTypeEnum_banking;
   /// Asset sub-type (only present when intent is \"asset\"). Determines which asset-related form to render.
-  @BuiltValueEnumConst(wireName: r'investment', fallback: true)
-  static const NlpResponseDtoAssetSubTypeEnum investment =
-      _$nlpResponseDtoAssetSubTypeEnum_investment;
+  @BuiltValueEnumConst(wireName: r'investment')
+  static const NlpResponseDtoAssetSubTypeEnum investment = _$nlpResponseDtoAssetSubTypeEnum_investment;
 
-  static Serializer<NlpResponseDtoAssetSubTypeEnum> get serializer =>
-      _$nlpResponseDtoAssetSubTypeEnumSerializer;
+  static Serializer<NlpResponseDtoAssetSubTypeEnum> get serializer => _$nlpResponseDtoAssetSubTypeEnumSerializer;
 
-  const NlpResponseDtoAssetSubTypeEnum._(String name) : super(name);
+  const NlpResponseDtoAssetSubTypeEnum._(String name): super(name);
 
-  static BuiltSet<NlpResponseDtoAssetSubTypeEnum> get values =>
-      _$nlpResponseDtoAssetSubTypeEnumValues;
-  static NlpResponseDtoAssetSubTypeEnum valueOf(String name) =>
-      _$nlpResponseDtoAssetSubTypeEnumValueOf(name);
+  static BuiltSet<NlpResponseDtoAssetSubTypeEnum> get values => _$nlpResponseDtoAssetSubTypeEnumValues;
+  static NlpResponseDtoAssetSubTypeEnum valueOf(String name) => _$nlpResponseDtoAssetSubTypeEnumValueOf(name);
 }
 
 class NlpResponseDtoLiabilitySubTypeEnum extends EnumClass {
+
   /// Liability sub-type (only present when intent is \"liability\"). borrow: borrowing money (Liabilities → Assets), repay: repaying debt (Assets → Liabilities).
   @BuiltValueEnumConst(wireName: r'borrow')
-  static const NlpResponseDtoLiabilitySubTypeEnum borrow =
-      _$nlpResponseDtoLiabilitySubTypeEnum_borrow;
-
+  static const NlpResponseDtoLiabilitySubTypeEnum borrow = _$nlpResponseDtoLiabilitySubTypeEnum_borrow;
   /// Liability sub-type (only present when intent is \"liability\"). borrow: borrowing money (Liabilities → Assets), repay: repaying debt (Assets → Liabilities).
-  @BuiltValueEnumConst(wireName: r'repay', fallback: true)
-  static const NlpResponseDtoLiabilitySubTypeEnum repay =
-      _$nlpResponseDtoLiabilitySubTypeEnum_repay;
+  @BuiltValueEnumConst(wireName: r'repay')
+  static const NlpResponseDtoLiabilitySubTypeEnum repay = _$nlpResponseDtoLiabilitySubTypeEnum_repay;
 
-  static Serializer<NlpResponseDtoLiabilitySubTypeEnum> get serializer =>
-      _$nlpResponseDtoLiabilitySubTypeEnumSerializer;
+  static Serializer<NlpResponseDtoLiabilitySubTypeEnum> get serializer => _$nlpResponseDtoLiabilitySubTypeEnumSerializer;
 
-  const NlpResponseDtoLiabilitySubTypeEnum._(String name) : super(name);
+  const NlpResponseDtoLiabilitySubTypeEnum._(String name): super(name);
 
-  static BuiltSet<NlpResponseDtoLiabilitySubTypeEnum> get values =>
-      _$nlpResponseDtoLiabilitySubTypeEnumValues;
-  static NlpResponseDtoLiabilitySubTypeEnum valueOf(String name) =>
-      _$nlpResponseDtoLiabilitySubTypeEnumValueOf(name);
+  static BuiltSet<NlpResponseDtoLiabilitySubTypeEnum> get values => _$nlpResponseDtoLiabilitySubTypeEnumValues;
+  static NlpResponseDtoLiabilitySubTypeEnum valueOf(String name) => _$nlpResponseDtoLiabilitySubTypeEnumValueOf(name);
 }
 
 class NlpResponseDtoEquitySubTypeEnum extends EnumClass {
+
   /// Equity sub-type (only present when intent is \"equity\"). opening: account opening balance (Equity → Assets), adjustment: balance correction.
   @BuiltValueEnumConst(wireName: r'opening')
-  static const NlpResponseDtoEquitySubTypeEnum opening =
-      _$nlpResponseDtoEquitySubTypeEnum_opening;
-
+  static const NlpResponseDtoEquitySubTypeEnum opening = _$nlpResponseDtoEquitySubTypeEnum_opening;
   /// Equity sub-type (only present when intent is \"equity\"). opening: account opening balance (Equity → Assets), adjustment: balance correction.
-  @BuiltValueEnumConst(wireName: r'adjustment', fallback: true)
-  static const NlpResponseDtoEquitySubTypeEnum adjustment =
-      _$nlpResponseDtoEquitySubTypeEnum_adjustment;
+  @BuiltValueEnumConst(wireName: r'adjustment')
+  static const NlpResponseDtoEquitySubTypeEnum adjustment = _$nlpResponseDtoEquitySubTypeEnum_adjustment;
 
-  static Serializer<NlpResponseDtoEquitySubTypeEnum> get serializer =>
-      _$nlpResponseDtoEquitySubTypeEnumSerializer;
+  static Serializer<NlpResponseDtoEquitySubTypeEnum> get serializer => _$nlpResponseDtoEquitySubTypeEnumSerializer;
 
-  const NlpResponseDtoEquitySubTypeEnum._(String name) : super(name);
+  const NlpResponseDtoEquitySubTypeEnum._(String name): super(name);
 
-  static BuiltSet<NlpResponseDtoEquitySubTypeEnum> get values =>
-      _$nlpResponseDtoEquitySubTypeEnumValues;
-  static NlpResponseDtoEquitySubTypeEnum valueOf(String name) =>
-      _$nlpResponseDtoEquitySubTypeEnumValueOf(name);
+  static BuiltSet<NlpResponseDtoEquitySubTypeEnum> get values => _$nlpResponseDtoEquitySubTypeEnumValues;
+  static NlpResponseDtoEquitySubTypeEnum valueOf(String name) => _$nlpResponseDtoEquitySubTypeEnumValueOf(name);
 }
 
 class NlpResponseDtoPaymentSourceEnum extends EnumClass {
+
   /// Payment source for expense transactions (v6.1). Indicates whether payment comes from asset or liability account. Only present when intent is \"expense\".
   @BuiltValueEnumConst(wireName: r'asset')
-  static const NlpResponseDtoPaymentSourceEnum asset =
-      _$nlpResponseDtoPaymentSourceEnum_asset;
-
+  static const NlpResponseDtoPaymentSourceEnum asset = _$nlpResponseDtoPaymentSourceEnum_asset;
   /// Payment source for expense transactions (v6.1). Indicates whether payment comes from asset or liability account. Only present when intent is \"expense\".
-  @BuiltValueEnumConst(wireName: r'liability', fallback: true)
-  static const NlpResponseDtoPaymentSourceEnum liability =
-      _$nlpResponseDtoPaymentSourceEnum_liability;
+  @BuiltValueEnumConst(wireName: r'liability')
+  static const NlpResponseDtoPaymentSourceEnum liability = _$nlpResponseDtoPaymentSourceEnum_liability;
 
-  static Serializer<NlpResponseDtoPaymentSourceEnum> get serializer =>
-      _$nlpResponseDtoPaymentSourceEnumSerializer;
+  static Serializer<NlpResponseDtoPaymentSourceEnum> get serializer => _$nlpResponseDtoPaymentSourceEnumSerializer;
 
-  const NlpResponseDtoPaymentSourceEnum._(String name) : super(name);
+  const NlpResponseDtoPaymentSourceEnum._(String name): super(name);
 
-  static BuiltSet<NlpResponseDtoPaymentSourceEnum> get values =>
-      _$nlpResponseDtoPaymentSourceEnumValues;
-  static NlpResponseDtoPaymentSourceEnum valueOf(String name) =>
-      _$nlpResponseDtoPaymentSourceEnumValueOf(name);
+  static BuiltSet<NlpResponseDtoPaymentSourceEnum> get values => _$nlpResponseDtoPaymentSourceEnumValues;
+  static NlpResponseDtoPaymentSourceEnum valueOf(String name) => _$nlpResponseDtoPaymentSourceEnumValueOf(name);
 }
+

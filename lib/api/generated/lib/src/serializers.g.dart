@@ -22,6 +22,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(AccountStandardResponseDtoTypeEnum.serializer)
       ..add(AccountsResponseDto.serializer)
       ..add(AccountsSummaryDto.serializer)
+      ..add(AmountRangeDto.serializer)
       ..add(AnonymousLoginDto.serializer)
       ..add(ApiProblemResponseDto.serializer)
       ..add(AssetClassAccountsResponseDto.serializer)
@@ -30,28 +31,53 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(AssetClassSummaryDto.serializer)
       ..add(BalanceByCurrencyDto.serializer)
       ..add(BalanceResponseDto.serializer)
+      ..add(BatchCreateTransactionDto.serializer)
+      ..add(BatchResolveDto.serializer)
+      ..add(BatchResolveResultDto.serializer)
+      ..add(BatchTransactionErrorDto.serializer)
+      ..add(BatchTransactionResponseDto.serializer)
+      ..add(BulkCreateRulesDto.serializer)
+      ..add(BulkCreateRulesDtoConflictStrategyEnum.serializer)
+      ..add(BulkCreateRulesResponseDto.serializer)
+      ..add(BulkCreateRulesResponseDtoErrorsInner.serializer)
       ..add(CashFlowByCurrencyDto.serializer)
       ..add(CashFlowResponseDto.serializer)
       ..add(CloseAccountDto.serializer)
       ..add(CommodityListResponseDto.serializer)
       ..add(CommodityResponseDto.serializer)
+      ..add(ConfirmMatchDto.serializer)
       ..add(ConvertedCashFlowDto.serializer)
       ..add(ConvertedNetWorthDto.serializer)
       ..add(CreateAccountDto.serializer)
       ..add(CreateAccountDtoBookingMethodEnum.serializer)
+      ..add(CreateCommodityDto.serializer)
+      ..add(CreatePayeeDto.serializer)
+      ..add(CreatePayeeProfileDto.serializer)
+      ..add(CreatePayeeProfileDtoCategoryEnum.serializer)
+      ..add(CreatePayeeProfileDtoDataSourceEnum.serializer)
+      ..add(CreatePlatformDto.serializer)
+      ..add(CreatePlatformDtoTypeEnum.serializer)
       ..add(CreatePostingDto.serializer)
+      ..add(CreateRecurringRuleDto.serializer)
+      ..add(CreateRecurringRuleDtoFrequencyEnum.serializer)
+      ..add(CreateRuleFromTransactionDto.serializer)
+      ..add(CreateRuleFromTransactionDtoFrequencyEnum.serializer)
       ..add(CreateTransactionDto.serializer)
       ..add(CreateTransactionDtoFlagEnum.serializer)
+      ..add(CreateTransactionRuleDto.serializer)
+      ..add(CreateTransactionRuleDtoMatchLogicEnum.serializer)
       ..add(CurrencyBalanceDto.serializer)
       ..add(DashboardControllerGetAccounts200Response.serializer)
       ..add(DecisionOptionDto.serializer)
       ..add(DeleteOwnUserDto.serializer)
+      ..add(EnterNowDto.serializer)
       ..add(ExchangeRateWarningDto.serializer)
       ..add(ExpectedTransactionListResponseDto.serializer)
       ..add(ExpectedTransactionResponseDto.serializer)
       ..add(ExpectedTransactionRuleDto.serializer)
       ..add(ExportRulesResponseDto.serializer)
       ..add(FileImportControllerIdentifyFile400Response.serializer)
+      ..add(FileImportControllerImportBeancount200Response.serializer)
       ..add(FileImportControllerImportFile400Response.serializer)
       ..add(FileImportControllerImportFile413Response.serializer)
       ..add(FileImportControllerImportFile429Response.serializer)
@@ -119,6 +145,8 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(RegionInfoDto.serializer)
       ..add(RegionsMetadataResponseDto.serializer)
       ..add(ReopenAccountDto.serializer)
+      ..add(ResolveResultDto.serializer)
+      ..add(ResolveReviewDto.serializer)
       ..add(ReviewDetailDto.serializer)
       ..add(ReviewDetailDtoConfidenceLevelEnum.serializer)
       ..add(ReviewDetailDtoStatusEnum.serializer)
@@ -137,6 +165,10 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(RuleStatisticsResponseDtoRuleStatsInner.serializer)
       ..add(SignupDto.serializer)
       ..add(SupportedProvidersResponseDto.serializer)
+      ..add(TagSuggestionDto.serializer)
+      ..add(TagSuggestionsResponseDto.serializer)
+      ..add(TemplateMetadataDto.serializer)
+      ..add(TemplateMetadataResponseDto.serializer)
       ..add(TestRuleDto.serializer)
       ..add(TestRuleResponseDto.serializer)
       ..add(TimeSeriesPointDto.serializer)
@@ -152,10 +184,26 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(TransactionRuleResponseDtoMatchLogicEnum.serializer)
       ..add(TransactionSummaryDtoSourceTypeEnum.serializer)
       ..add(TrendSummaryDto.serializer)
+      ..add(UndoResultDto.serializer)
       ..add(UpdateAccountDto.serializer)
       ..add(UpdateAccountDtoBookingMethodEnum.serializer)
+      ..add(UpdateCommodityDto.serializer)
+      ..add(UpdateConfigDataDto.serializer)
+      ..add(UpdateImporterConfigDto.serializer)
+      ..add(UpdateMapperDefaultsDto.serializer)
+      ..add(UpdatePayeeDto.serializer)
+      ..add(UpdatePayeeProfileDto.serializer)
+      ..add(UpdatePayeeProfileDtoCategoryEnum.serializer)
+      ..add(UpdatePayeeProfileDtoDataSourceEnum.serializer)
+      ..add(UpdatePlatformDto.serializer)
+      ..add(UpdatePlatformDtoTypeEnum.serializer)
+      ..add(UpdatePropertyDto.serializer)
+      ..add(UpdateRecurringRuleDto.serializer)
+      ..add(UpdateRecurringRuleDtoFrequencyEnum.serializer)
       ..add(UpdateTransactionDto.serializer)
       ..add(UpdateTransactionDtoFlagEnum.serializer)
+      ..add(UpdateTransactionRuleDto.serializer)
+      ..add(UpdateTransactionRuleDtoMatchLogicEnum.serializer)
       ..add(UpdateUserSettingDto.serializer)
       ..add(UpdateUserSettingDtoColorSchemeEnum.serializer)
       ..add(UpdateUserSettingDtoViewModeEnum.serializer)
@@ -248,18 +296,75 @@ Serializers _$serializers = (new Serializers().toBuilder()
           ]),
           () => new ListBuilder<BuiltList<dynamic>>())
       ..addBuilderFactory(
+          const FullType(BuiltList, const [
+            const FullType(BuiltList, const [const FullType(dynamic)])
+          ]),
+          () => new ListBuilder<BuiltList<dynamic>>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [
+            const FullType(BuiltList, const [const FullType(dynamic)])
+          ]),
+          () => new ListBuilder<BuiltList<dynamic>>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [
+            const FullType(BuiltList, const [const FullType(dynamic)])
+          ]),
+          () => new ListBuilder<BuiltList<dynamic>>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [
+            const FullType(BuiltList, const [const FullType(dynamic)])
+          ]),
+          () => new ListBuilder<BuiltList<dynamic>>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [
+            const FullType(BuiltList, const [const FullType(dynamic)])
+          ]),
+          () => new ListBuilder<BuiltList<dynamic>>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [
+            const FullType(BuiltList, const [const FullType(dynamic)])
+          ]),
+          () => new ListBuilder<BuiltList<dynamic>>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [
+            const FullType(BuiltList, const [const FullType(dynamic)])
+          ]),
+          () => new ListBuilder<BuiltList<dynamic>>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [
+            const FullType(BuiltList, const [const FullType(dynamic)])
+          ]),
+          () => new ListBuilder<BuiltList<dynamic>>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [
+            const FullType(BuiltList, const [const FullType(dynamic)])
+          ]),
+          () => new ListBuilder<BuiltList<dynamic>>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [
+            const FullType(BuiltList, const [const FullType(dynamic)])
+          ]),
+          () => new ListBuilder<BuiltList<dynamic>>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [
+            const FullType(BuiltList, const [const FullType(dynamic)])
+          ]),
+          () => new ListBuilder<BuiltList<dynamic>>())
+      ..addBuilderFactory(
+          const FullType(BuiltList,
+              const [const FullType(BulkCreateRulesResponseDtoErrorsInner)]),
+          () => new ListBuilder<BulkCreateRulesResponseDtoErrorsInner>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
           const FullType(
               BuiltList, const [const FullType(CommodityResponseDto)]),
           () => new ListBuilder<CommodityResponseDto>())
       ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(CreatePostingDto)]),
-          () => new ListBuilder<CreatePostingDto>())
-      ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(String)]),
-          () => new ListBuilder<String>())
-      ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(String)]),
-          () => new ListBuilder<String>())
+          const FullType(
+              BuiltList, const [const FullType(CreateTransactionDto)]),
+          () => new ListBuilder<CreateTransactionDto>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(CurrencyBalanceDto)]),
           () => new ListBuilder<CurrencyBalanceDto>())
@@ -288,6 +393,9 @@ Serializers _$serializers = (new Serializers().toBuilder()
           const FullType(
               BuiltList, const [const FullType(ReviewItemPreviewDto)]),
           () => new ListBuilder<ReviewItemPreviewDto>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(JsonObject)]),
+          () => new ListBuilder<JsonObject>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(MonthlyForecastDto)]),
           () => new ListBuilder<MonthlyForecastDto>())
@@ -370,8 +478,17 @@ Serializers _$serializers = (new Serializers().toBuilder()
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())
       ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(DecisionOptionDto)]),
-          () => new ListBuilder<DecisionOptionDto>())
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())
@@ -384,6 +501,15 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(CreatePostingDto)]),
+          () => new ListBuilder<CreatePostingDto>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())
@@ -427,6 +553,31 @@ Serializers _$serializers = (new Serializers().toBuilder()
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())
       ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(
+              BuiltMap, const [const FullType(String), const FullType(String)]),
+          () => new MapBuilder<String, String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(TagSuggestionDto)]),
+          () => new ListBuilder<TagSuggestionDto>())
+      ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(TimeSeriesPointDto)]),
           () => new ListBuilder<TimeSeriesPointDto>())
       ..addBuilderFactory(
@@ -443,6 +594,14 @@ Serializers _$serializers = (new Serializers().toBuilder()
           () => new ListBuilder<TransactionDetailDto>())
       ..addBuilderFactory(
           const FullType(
+              BuiltList, const [const FullType(TransactionResponseDto)]),
+          () => new ListBuilder<TransactionResponseDto>())
+      ..addBuilderFactory(
+          const FullType(
+              BuiltList, const [const FullType(BatchTransactionErrorDto)]),
+          () => new ListBuilder<BatchTransactionErrorDto>())
+      ..addBuilderFactory(
+          const FullType(
               BuiltList, const [const FullType(TransactionRuleResponseDto)]),
           () => new ListBuilder<TransactionRuleResponseDto>())
       ..addBuilderFactory(
@@ -456,7 +615,28 @@ Serializers _$serializers = (new Serializers().toBuilder()
           () => new ListBuilder<dynamic>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
-          () => new ListBuilder<String>()))
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(
+              BuiltMap, const [const FullType(String), const FullType(String)]),
+          () => new MapBuilder<String, String>())
+      ..addBuilderFactory(
+          const FullType(
+              BuiltMap, const [const FullType(String), const FullType(String)]),
+          () => new MapBuilder<String, String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(
+              BuiltMap, const [const FullType(String), const FullType(String)]),
+          () => new MapBuilder<String, String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(DecisionOptionDto)]),
+          () => new ListBuilder<DecisionOptionDto>()))
     .build();
 
 // ignore_for_file: deprecated_member_use_from_same_package,type=lint

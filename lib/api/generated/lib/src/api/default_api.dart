@@ -7,9 +7,9 @@ import 'dart:async';
 import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
 
-import 'package:firela_api/src/api_util.dart';
 
 class DefaultApi {
+
   final Dio _dio;
 
   final Serializers _serializers;
@@ -17,10 +17,9 @@ class DefaultApi {
   const DefaultApi(this._dio, this._serializers);
 
   /// cacheControllerFlushCache
-  ///
+  /// 
   ///
   /// Parameters:
-  /// * [region] - Region code (cn, us, de)
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -30,8 +29,7 @@ class DefaultApi {
   ///
   /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<void>> cacheControllerFlushCache({
-    required String region,
+  Future<Response<void>> cacheControllerFlushCache({ 
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -39,10 +37,7 @@ class DefaultApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/cache/flush'.replaceAll(
-        '{' r'region' '}',
-        encodeQueryParameter(_serializers, region, const FullType(String))
-            .toString());
+    final _path = r'/api/v1/cache/flush';
     final _options = Options(
       method: r'POST',
       headers: <String, dynamic>{
@@ -65,4 +60,5 @@ class DefaultApi {
 
     return _response;
   }
+
 }

@@ -28,8 +28,7 @@ part 'nlp_parsed_data_dto.g.dart';
 /// * [liabilityHint] - Liability account hint (CreditCard/Huabei/Baitiao)
 /// * [warning] - Warning message for special scenarios (e.g., cross-currency settlement)
 @BuiltValue()
-abstract class NlpParsedDataDto
-    implements Built<NlpParsedDataDto, NlpParsedDataDtoBuilder> {
+abstract class NlpParsedDataDto implements Built<NlpParsedDataDto, NlpParsedDataDtoBuilder> {
   /// Extracted amount
   @BuiltValueField(wireName: r'amount')
   num? get amount;
@@ -94,19 +93,17 @@ abstract class NlpParsedDataDto
 
   NlpParsedDataDto._();
 
-  factory NlpParsedDataDto([void updates(NlpParsedDataDtoBuilder b)]) =
-      _$NlpParsedDataDto;
+  factory NlpParsedDataDto([void updates(NlpParsedDataDtoBuilder b)]) = _$NlpParsedDataDto;
 
   @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(NlpParsedDataDtoBuilder b) => b..currency = 'CNY';
+  static void _defaults(NlpParsedDataDtoBuilder b) => b
+      ..currency = 'CNY';
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<NlpParsedDataDto> get serializer =>
-      _$NlpParsedDataDtoSerializer();
+  static Serializer<NlpParsedDataDto> get serializer => _$NlpParsedDataDtoSerializer();
 }
 
-class _$NlpParsedDataDtoSerializer
-    implements PrimitiveSerializer<NlpParsedDataDto> {
+class _$NlpParsedDataDtoSerializer implements PrimitiveSerializer<NlpParsedDataDto> {
   @override
   final Iterable<Type> types = const [NlpParsedDataDto, _$NlpParsedDataDto];
 
@@ -231,9 +228,7 @@ class _$NlpParsedDataDtoSerializer
     NlpParsedDataDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -383,45 +378,36 @@ class _$NlpParsedDataDtoSerializer
 }
 
 class NlpParsedDataDtoInvestmentActionEnum extends EnumClass {
+
   /// Investment action
   @BuiltValueEnumConst(wireName: r'buy')
-  static const NlpParsedDataDtoInvestmentActionEnum buy =
-      _$nlpParsedDataDtoInvestmentActionEnum_buy;
-
+  static const NlpParsedDataDtoInvestmentActionEnum buy = _$nlpParsedDataDtoInvestmentActionEnum_buy;
   /// Investment action
-  @BuiltValueEnumConst(wireName: r'sell', fallback: true)
-  static const NlpParsedDataDtoInvestmentActionEnum sell =
-      _$nlpParsedDataDtoInvestmentActionEnum_sell;
+  @BuiltValueEnumConst(wireName: r'sell')
+  static const NlpParsedDataDtoInvestmentActionEnum sell = _$nlpParsedDataDtoInvestmentActionEnum_sell;
 
-  static Serializer<NlpParsedDataDtoInvestmentActionEnum> get serializer =>
-      _$nlpParsedDataDtoInvestmentActionEnumSerializer;
+  static Serializer<NlpParsedDataDtoInvestmentActionEnum> get serializer => _$nlpParsedDataDtoInvestmentActionEnumSerializer;
 
-  const NlpParsedDataDtoInvestmentActionEnum._(String name) : super(name);
+  const NlpParsedDataDtoInvestmentActionEnum._(String name): super(name);
 
-  static BuiltSet<NlpParsedDataDtoInvestmentActionEnum> get values =>
-      _$nlpParsedDataDtoInvestmentActionEnumValues;
-  static NlpParsedDataDtoInvestmentActionEnum valueOf(String name) =>
-      _$nlpParsedDataDtoInvestmentActionEnumValueOf(name);
+  static BuiltSet<NlpParsedDataDtoInvestmentActionEnum> get values => _$nlpParsedDataDtoInvestmentActionEnumValues;
+  static NlpParsedDataDtoInvestmentActionEnum valueOf(String name) => _$nlpParsedDataDtoInvestmentActionEnumValueOf(name);
 }
 
 class NlpParsedDataDtoPaymentSourceEnum extends EnumClass {
+
   /// Payment source: asset (default) or liability (credit card)
   @BuiltValueEnumConst(wireName: r'asset')
-  static const NlpParsedDataDtoPaymentSourceEnum asset =
-      _$nlpParsedDataDtoPaymentSourceEnum_asset;
-
+  static const NlpParsedDataDtoPaymentSourceEnum asset = _$nlpParsedDataDtoPaymentSourceEnum_asset;
   /// Payment source: asset (default) or liability (credit card)
-  @BuiltValueEnumConst(wireName: r'liability', fallback: true)
-  static const NlpParsedDataDtoPaymentSourceEnum liability =
-      _$nlpParsedDataDtoPaymentSourceEnum_liability;
+  @BuiltValueEnumConst(wireName: r'liability')
+  static const NlpParsedDataDtoPaymentSourceEnum liability = _$nlpParsedDataDtoPaymentSourceEnum_liability;
 
-  static Serializer<NlpParsedDataDtoPaymentSourceEnum> get serializer =>
-      _$nlpParsedDataDtoPaymentSourceEnumSerializer;
+  static Serializer<NlpParsedDataDtoPaymentSourceEnum> get serializer => _$nlpParsedDataDtoPaymentSourceEnumSerializer;
 
-  const NlpParsedDataDtoPaymentSourceEnum._(String name) : super(name);
+  const NlpParsedDataDtoPaymentSourceEnum._(String name): super(name);
 
-  static BuiltSet<NlpParsedDataDtoPaymentSourceEnum> get values =>
-      _$nlpParsedDataDtoPaymentSourceEnumValues;
-  static NlpParsedDataDtoPaymentSourceEnum valueOf(String name) =>
-      _$nlpParsedDataDtoPaymentSourceEnumValueOf(name);
+  static BuiltSet<NlpParsedDataDtoPaymentSourceEnum> get values => _$nlpParsedDataDtoPaymentSourceEnumValues;
+  static NlpParsedDataDtoPaymentSourceEnum valueOf(String name) => _$nlpParsedDataDtoPaymentSourceEnumValueOf(name);
 }
+

@@ -12,16 +12,15 @@ part 'posting_response_dto.g.dart';
 ///
 /// Properties:
 /// * [account] - Account name
-/// * [units] - Amount (may be null if interpolated)
+/// * [units] - Amount as decimal string. Typed optional but always present in responses: interpolation fills any MISSING posting before it is persisted or returned.
 /// * [currency] - Currency
 @BuiltValue()
-abstract class PostingResponseDto
-    implements Built<PostingResponseDto, PostingResponseDtoBuilder> {
+abstract class PostingResponseDto implements Built<PostingResponseDto, PostingResponseDtoBuilder> {
   /// Account name
   @BuiltValueField(wireName: r'account')
   String get account;
 
-  /// Amount (may be null if interpolated)
+  /// Amount as decimal string. Typed optional but always present in responses: interpolation fills any MISSING posting before it is persisted or returned.
   @BuiltValueField(wireName: r'units')
   String? get units;
 
@@ -31,19 +30,16 @@ abstract class PostingResponseDto
 
   PostingResponseDto._();
 
-  factory PostingResponseDto([void updates(PostingResponseDtoBuilder b)]) =
-      _$PostingResponseDto;
+  factory PostingResponseDto([void updates(PostingResponseDtoBuilder b)]) = _$PostingResponseDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(PostingResponseDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<PostingResponseDto> get serializer =>
-      _$PostingResponseDtoSerializer();
+  static Serializer<PostingResponseDto> get serializer => _$PostingResponseDtoSerializer();
 }
 
-class _$PostingResponseDtoSerializer
-    implements PrimitiveSerializer<PostingResponseDto> {
+class _$PostingResponseDtoSerializer implements PrimitiveSerializer<PostingResponseDto> {
   @override
   final Iterable<Type> types = const [PostingResponseDto, _$PostingResponseDto];
 
@@ -82,9 +78,7 @@ class _$PostingResponseDtoSerializer
     PostingResponseDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -148,3 +142,4 @@ class _$PostingResponseDtoSerializer
     return result.build();
   }
 }
+

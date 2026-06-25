@@ -18,12 +18,11 @@ part 'importer_config_dto.g.dart';
 /// * [importerId] - Importer identifier
 /// * [version] - Configuration version (semver)
 /// * [schema] - Configuration schema identifier
-/// * [config]
+/// * [config] 
 /// * [createdAt] - Creation timestamp
 /// * [updatedAt] - Last update timestamp
 @BuiltValue()
-abstract class ImporterConfigDto
-    implements Built<ImporterConfigDto, ImporterConfigDtoBuilder> {
+abstract class ImporterConfigDto implements Built<ImporterConfigDto, ImporterConfigDtoBuilder> {
   /// Configuration ID
   @BuiltValueField(wireName: r'id')
   String get id;
@@ -35,7 +34,7 @@ abstract class ImporterConfigDto
   /// Importer identifier
   @BuiltValueField(wireName: r'importerId')
   ImporterConfigDtoImporterIdEnum get importerId;
-  // enum importerIdEnum {  alipay,  alipay-web,  alipay-yuebao,  wechat,  wechat-xlsx,  boc,  boc-credit,  ccb,  cmb,  cmbc,  cmbc-credit,  icbc,  icbc-credit,  hsbc-hk,  };
+  // enum importerIdEnum {  alipay,  alipay-web,  alipay-yuebao,  wechat,  wechat-xlsx,  boc,  boc-credit,  ccb,  cmb,  cmbc,  cmbc-credit,  icbc,  icbc-credit,  hsbc-hk-credit,  hsbc-hk-debit,  };
 
   /// Configuration version (semver)
   @BuiltValueField(wireName: r'version')
@@ -58,19 +57,16 @@ abstract class ImporterConfigDto
 
   ImporterConfigDto._();
 
-  factory ImporterConfigDto([void updates(ImporterConfigDtoBuilder b)]) =
-      _$ImporterConfigDto;
+  factory ImporterConfigDto([void updates(ImporterConfigDtoBuilder b)]) = _$ImporterConfigDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(ImporterConfigDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<ImporterConfigDto> get serializer =>
-      _$ImporterConfigDtoSerializer();
+  static Serializer<ImporterConfigDto> get serializer => _$ImporterConfigDtoSerializer();
 }
 
-class _$ImporterConfigDtoSerializer
-    implements PrimitiveSerializer<ImporterConfigDto> {
+class _$ImporterConfigDtoSerializer implements PrimitiveSerializer<ImporterConfigDto> {
   @override
   final Iterable<Type> types = const [ImporterConfigDto, _$ImporterConfigDto];
 
@@ -130,9 +126,7 @@ class _$ImporterConfigDtoSerializer
     ImporterConfigDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -233,83 +227,58 @@ class _$ImporterConfigDtoSerializer
 }
 
 class ImporterConfigDtoImporterIdEnum extends EnumClass {
+
   /// Importer identifier
   @BuiltValueEnumConst(wireName: r'alipay')
-  static const ImporterConfigDtoImporterIdEnum alipay =
-      _$importerConfigDtoImporterIdEnum_alipay;
-
+  static const ImporterConfigDtoImporterIdEnum alipay = _$importerConfigDtoImporterIdEnum_alipay;
   /// Importer identifier
   @BuiltValueEnumConst(wireName: r'alipay-web')
-  static const ImporterConfigDtoImporterIdEnum alipayWeb =
-      _$importerConfigDtoImporterIdEnum_alipayWeb;
-
+  static const ImporterConfigDtoImporterIdEnum alipayWeb = _$importerConfigDtoImporterIdEnum_alipayWeb;
   /// Importer identifier
   @BuiltValueEnumConst(wireName: r'alipay-yuebao')
-  static const ImporterConfigDtoImporterIdEnum alipayYuebao =
-      _$importerConfigDtoImporterIdEnum_alipayYuebao;
-
+  static const ImporterConfigDtoImporterIdEnum alipayYuebao = _$importerConfigDtoImporterIdEnum_alipayYuebao;
   /// Importer identifier
   @BuiltValueEnumConst(wireName: r'wechat')
-  static const ImporterConfigDtoImporterIdEnum wechat =
-      _$importerConfigDtoImporterIdEnum_wechat;
-
+  static const ImporterConfigDtoImporterIdEnum wechat = _$importerConfigDtoImporterIdEnum_wechat;
   /// Importer identifier
   @BuiltValueEnumConst(wireName: r'wechat-xlsx')
-  static const ImporterConfigDtoImporterIdEnum wechatXlsx =
-      _$importerConfigDtoImporterIdEnum_wechatXlsx;
-
+  static const ImporterConfigDtoImporterIdEnum wechatXlsx = _$importerConfigDtoImporterIdEnum_wechatXlsx;
   /// Importer identifier
   @BuiltValueEnumConst(wireName: r'boc')
-  static const ImporterConfigDtoImporterIdEnum boc =
-      _$importerConfigDtoImporterIdEnum_boc;
-
+  static const ImporterConfigDtoImporterIdEnum boc = _$importerConfigDtoImporterIdEnum_boc;
   /// Importer identifier
   @BuiltValueEnumConst(wireName: r'boc-credit')
-  static const ImporterConfigDtoImporterIdEnum bocCredit =
-      _$importerConfigDtoImporterIdEnum_bocCredit;
-
+  static const ImporterConfigDtoImporterIdEnum bocCredit = _$importerConfigDtoImporterIdEnum_bocCredit;
   /// Importer identifier
   @BuiltValueEnumConst(wireName: r'ccb')
-  static const ImporterConfigDtoImporterIdEnum ccb =
-      _$importerConfigDtoImporterIdEnum_ccb;
-
+  static const ImporterConfigDtoImporterIdEnum ccb = _$importerConfigDtoImporterIdEnum_ccb;
   /// Importer identifier
   @BuiltValueEnumConst(wireName: r'cmb')
-  static const ImporterConfigDtoImporterIdEnum cmb =
-      _$importerConfigDtoImporterIdEnum_cmb;
-
+  static const ImporterConfigDtoImporterIdEnum cmb = _$importerConfigDtoImporterIdEnum_cmb;
   /// Importer identifier
   @BuiltValueEnumConst(wireName: r'cmbc')
-  static const ImporterConfigDtoImporterIdEnum cmbc =
-      _$importerConfigDtoImporterIdEnum_cmbc;
-
+  static const ImporterConfigDtoImporterIdEnum cmbc = _$importerConfigDtoImporterIdEnum_cmbc;
   /// Importer identifier
   @BuiltValueEnumConst(wireName: r'cmbc-credit')
-  static const ImporterConfigDtoImporterIdEnum cmbcCredit =
-      _$importerConfigDtoImporterIdEnum_cmbcCredit;
-
+  static const ImporterConfigDtoImporterIdEnum cmbcCredit = _$importerConfigDtoImporterIdEnum_cmbcCredit;
   /// Importer identifier
   @BuiltValueEnumConst(wireName: r'icbc')
-  static const ImporterConfigDtoImporterIdEnum icbc =
-      _$importerConfigDtoImporterIdEnum_icbc;
-
+  static const ImporterConfigDtoImporterIdEnum icbc = _$importerConfigDtoImporterIdEnum_icbc;
   /// Importer identifier
   @BuiltValueEnumConst(wireName: r'icbc-credit')
-  static const ImporterConfigDtoImporterIdEnum icbcCredit =
-      _$importerConfigDtoImporterIdEnum_icbcCredit;
-
+  static const ImporterConfigDtoImporterIdEnum icbcCredit = _$importerConfigDtoImporterIdEnum_icbcCredit;
   /// Importer identifier
-  @BuiltValueEnumConst(wireName: r'hsbc-hk', fallback: true)
-  static const ImporterConfigDtoImporterIdEnum hsbcHk =
-      _$importerConfigDtoImporterIdEnum_hsbcHk;
+  @BuiltValueEnumConst(wireName: r'hsbc-hk-credit')
+  static const ImporterConfigDtoImporterIdEnum hsbcHkCredit = _$importerConfigDtoImporterIdEnum_hsbcHkCredit;
+  /// Importer identifier
+  @BuiltValueEnumConst(wireName: r'hsbc-hk-debit')
+  static const ImporterConfigDtoImporterIdEnum hsbcHkDebit = _$importerConfigDtoImporterIdEnum_hsbcHkDebit;
 
-  static Serializer<ImporterConfigDtoImporterIdEnum> get serializer =>
-      _$importerConfigDtoImporterIdEnumSerializer;
+  static Serializer<ImporterConfigDtoImporterIdEnum> get serializer => _$importerConfigDtoImporterIdEnumSerializer;
 
-  const ImporterConfigDtoImporterIdEnum._(String name) : super(name);
+  const ImporterConfigDtoImporterIdEnum._(String name): super(name);
 
-  static BuiltSet<ImporterConfigDtoImporterIdEnum> get values =>
-      _$importerConfigDtoImporterIdEnumValues;
-  static ImporterConfigDtoImporterIdEnum valueOf(String name) =>
-      _$importerConfigDtoImporterIdEnumValueOf(name);
+  static BuiltSet<ImporterConfigDtoImporterIdEnum> get values => _$importerConfigDtoImporterIdEnumValues;
+  static ImporterConfigDtoImporterIdEnum valueOf(String name) => _$importerConfigDtoImporterIdEnumValueOf(name);
 }
+

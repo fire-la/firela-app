@@ -20,8 +20,7 @@ part 'update_transaction_dto.g.dart';
 /// * [links] - Transaction links
 /// * [meta] - Transaction metadata (JSON object)
 @BuiltValue()
-abstract class UpdateTransactionDto
-    implements Built<UpdateTransactionDto, UpdateTransactionDtoBuilder> {
+abstract class UpdateTransactionDto implements Built<UpdateTransactionDto, UpdateTransactionDtoBuilder> {
   /// Transaction flag (CLEARED, PENDING, etc.)
   @BuiltValueField(wireName: r'flag')
   UpdateTransactionDtoFlagEnum? get flag;
@@ -49,24 +48,18 @@ abstract class UpdateTransactionDto
 
   UpdateTransactionDto._();
 
-  factory UpdateTransactionDto([void updates(UpdateTransactionDtoBuilder b)]) =
-      _$UpdateTransactionDto;
+  factory UpdateTransactionDto([void updates(UpdateTransactionDtoBuilder b)]) = _$UpdateTransactionDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(UpdateTransactionDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<UpdateTransactionDto> get serializer =>
-      _$UpdateTransactionDtoSerializer();
+  static Serializer<UpdateTransactionDto> get serializer => _$UpdateTransactionDtoSerializer();
 }
 
-class _$UpdateTransactionDtoSerializer
-    implements PrimitiveSerializer<UpdateTransactionDto> {
+class _$UpdateTransactionDtoSerializer implements PrimitiveSerializer<UpdateTransactionDto> {
   @override
-  final Iterable<Type> types = const [
-    UpdateTransactionDto,
-    _$UpdateTransactionDto
-  ];
+  final Iterable<Type> types = const [UpdateTransactionDto, _$UpdateTransactionDto];
 
   @override
   final String wireName = r'UpdateTransactionDto';
@@ -126,9 +119,7 @@ class _$UpdateTransactionDtoSerializer
     UpdateTransactionDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -215,43 +206,31 @@ class _$UpdateTransactionDtoSerializer
 }
 
 class UpdateTransactionDtoFlagEnum extends EnumClass {
+
   /// Transaction flag (CLEARED, PENDING, etc.)
   @BuiltValueEnumConst(wireName: r'CLEARED')
-  static const UpdateTransactionDtoFlagEnum CLEARED =
-      _$updateTransactionDtoFlagEnum_CLEARED;
-
+  static const UpdateTransactionDtoFlagEnum CLEARED = _$updateTransactionDtoFlagEnum_CLEARED;
   /// Transaction flag (CLEARED, PENDING, etc.)
   @BuiltValueEnumConst(wireName: r'PENDING')
-  static const UpdateTransactionDtoFlagEnum PENDING =
-      _$updateTransactionDtoFlagEnum_PENDING;
-
+  static const UpdateTransactionDtoFlagEnum PENDING = _$updateTransactionDtoFlagEnum_PENDING;
   /// Transaction flag (CLEARED, PENDING, etc.)
   @BuiltValueEnumConst(wireName: r'PADDING')
-  static const UpdateTransactionDtoFlagEnum PADDING =
-      _$updateTransactionDtoFlagEnum_PADDING;
-
+  static const UpdateTransactionDtoFlagEnum PADDING = _$updateTransactionDtoFlagEnum_PADDING;
   /// Transaction flag (CLEARED, PENDING, etc.)
   @BuiltValueEnumConst(wireName: r'SUMMARIZE')
-  static const UpdateTransactionDtoFlagEnum SUMMARIZE =
-      _$updateTransactionDtoFlagEnum_SUMMARIZE;
-
+  static const UpdateTransactionDtoFlagEnum SUMMARIZE = _$updateTransactionDtoFlagEnum_SUMMARIZE;
   /// Transaction flag (CLEARED, PENDING, etc.)
   @BuiltValueEnumConst(wireName: r'TRANSFER')
-  static const UpdateTransactionDtoFlagEnum TRANSFER =
-      _$updateTransactionDtoFlagEnum_TRANSFER;
-
+  static const UpdateTransactionDtoFlagEnum TRANSFER = _$updateTransactionDtoFlagEnum_TRANSFER;
   /// Transaction flag (CLEARED, PENDING, etc.)
-  @BuiltValueEnumConst(wireName: r'CONVERSIONS', fallback: true)
-  static const UpdateTransactionDtoFlagEnum CONVERSIONS =
-      _$updateTransactionDtoFlagEnum_CONVERSIONS;
+  @BuiltValueEnumConst(wireName: r'CONVERSIONS')
+  static const UpdateTransactionDtoFlagEnum CONVERSIONS = _$updateTransactionDtoFlagEnum_CONVERSIONS;
 
-  static Serializer<UpdateTransactionDtoFlagEnum> get serializer =>
-      _$updateTransactionDtoFlagEnumSerializer;
+  static Serializer<UpdateTransactionDtoFlagEnum> get serializer => _$updateTransactionDtoFlagEnumSerializer;
 
-  const UpdateTransactionDtoFlagEnum._(String name) : super(name);
+  const UpdateTransactionDtoFlagEnum._(String name): super(name);
 
-  static BuiltSet<UpdateTransactionDtoFlagEnum> get values =>
-      _$updateTransactionDtoFlagEnumValues;
-  static UpdateTransactionDtoFlagEnum valueOf(String name) =>
-      _$updateTransactionDtoFlagEnumValueOf(name);
+  static BuiltSet<UpdateTransactionDtoFlagEnum> get values => _$updateTransactionDtoFlagEnumValues;
+  static UpdateTransactionDtoFlagEnum valueOf(String name) => _$updateTransactionDtoFlagEnumValueOf(name);
 }
+

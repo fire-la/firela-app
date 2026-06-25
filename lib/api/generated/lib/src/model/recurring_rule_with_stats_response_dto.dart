@@ -15,40 +15,37 @@ part 'recurring_rule_with_stats_response_dto.g.dart';
 /// * [id] - Rule ID
 /// * [userId] - User ID
 /// * [name] - Rule name
+/// * [icon] - Icon emoji
 /// * [frequency] - Recurring frequency
 /// * [expectedAmount] - Expected amount
+/// * [expectedDay] - Expected day of month
+/// * [customIntervalDays] - Custom interval in days
 /// * [currency] - Currency code
+/// * [matchPayeePattern] - Payee matching pattern
 /// * [matchAmountTolerance] - Amount tolerance percentage
+/// * [defaultExpenseAccount] - Default expense account
+/// * [defaultPaymentAccount] - Default payment account
+/// * [defaultPayee] - Default payee
 /// * [isActive] - Whether rule is active
 /// * [startDate] - Rule start date (YYYY-MM-DD)
+/// * [endDate] - Rule end date (YYYY-MM-DD)
 /// * [autoCreate] - Auto-create transaction on expected date
+/// * [lastOccurrence] - Last matched occurrence date (YYYY-MM-DD)
 /// * [totalCount] - Total matched transactions count
 /// * [createdAt] - Created at timestamp
 /// * [updatedAt] - Updated at timestamp
 /// * [pendingCount] - Number of pending expected transactions
 /// * [overdueCount] - Number of overdue expected transactions
+/// * [nextExpectedDate] - Next expected date (YYYY-MM-DD)
 /// * [totalAmount] - Total amount of all matched transactions
 /// * [averageAmount] - Average amount per transaction
 /// * [transactionCount] - Number of matched transactions
-/// * [variance] - Amount variance (standard deviation squared)
-/// * [upcomingCount] - Number of upcoming expected transactions
-/// * [icon] - Icon emoji
-/// * [expectedDay] - Expected day of month
-/// * [customIntervalDays] - Custom interval in days
-/// * [matchPayeePattern] - Payee matching pattern
-/// * [defaultExpenseAccount] - Default expense account
-/// * [defaultPaymentAccount] - Default payment account
-/// * [defaultPayee] - Default payee
-/// * [endDate] - Rule end date (YYYY-MM-DD)
-/// * [lastOccurrence] - Last matched occurrence date (YYYY-MM-DD)
-/// * [nextExpectedDate] - Next expected date (YYYY-MM-DD)
 /// * [firstDate] - First matched transaction date (YYYY-MM-DD)
 /// * [lastDate] - Last matched transaction date (YYYY-MM-DD)
+/// * [variance] - Amount variance (standard deviation squared)
+/// * [upcomingCount] - Number of upcoming expected transactions
 @BuiltValue()
-abstract class RecurringRuleWithStatsResponseDto
-    implements
-        Built<RecurringRuleWithStatsResponseDto,
-            RecurringRuleWithStatsResponseDtoBuilder> {
+abstract class RecurringRuleWithStatsResponseDto implements Built<RecurringRuleWithStatsResponseDto, RecurringRuleWithStatsResponseDtoBuilder> {
   /// Rule ID
   @BuiltValueField(wireName: r'id')
   String get id;
@@ -61,6 +58,10 @@ abstract class RecurringRuleWithStatsResponseDto
   @BuiltValueField(wireName: r'name')
   String get name;
 
+  /// Icon emoji
+  @BuiltValueField(wireName: r'icon')
+  JsonObject? get icon;
+
   /// Recurring frequency
   @BuiltValueField(wireName: r'frequency')
   String get frequency;
@@ -69,13 +70,37 @@ abstract class RecurringRuleWithStatsResponseDto
   @BuiltValueField(wireName: r'expectedAmount')
   num get expectedAmount;
 
+  /// Expected day of month
+  @BuiltValueField(wireName: r'expectedDay')
+  JsonObject? get expectedDay;
+
+  /// Custom interval in days
+  @BuiltValueField(wireName: r'customIntervalDays')
+  JsonObject? get customIntervalDays;
+
   /// Currency code
   @BuiltValueField(wireName: r'currency')
   String get currency;
 
+  /// Payee matching pattern
+  @BuiltValueField(wireName: r'matchPayeePattern')
+  JsonObject? get matchPayeePattern;
+
   /// Amount tolerance percentage
   @BuiltValueField(wireName: r'matchAmountTolerance')
   num get matchAmountTolerance;
+
+  /// Default expense account
+  @BuiltValueField(wireName: r'defaultExpenseAccount')
+  JsonObject? get defaultExpenseAccount;
+
+  /// Default payment account
+  @BuiltValueField(wireName: r'defaultPaymentAccount')
+  JsonObject? get defaultPaymentAccount;
+
+  /// Default payee
+  @BuiltValueField(wireName: r'defaultPayee')
+  JsonObject? get defaultPayee;
 
   /// Whether rule is active
   @BuiltValueField(wireName: r'isActive')
@@ -85,9 +110,17 @@ abstract class RecurringRuleWithStatsResponseDto
   @BuiltValueField(wireName: r'startDate')
   String get startDate;
 
+  /// Rule end date (YYYY-MM-DD)
+  @BuiltValueField(wireName: r'endDate')
+  JsonObject? get endDate;
+
   /// Auto-create transaction on expected date
   @BuiltValueField(wireName: r'autoCreate')
   bool get autoCreate;
+
+  /// Last matched occurrence date (YYYY-MM-DD)
+  @BuiltValueField(wireName: r'lastOccurrence')
+  JsonObject? get lastOccurrence;
 
   /// Total matched transactions count
   @BuiltValueField(wireName: r'totalCount')
@@ -109,6 +142,10 @@ abstract class RecurringRuleWithStatsResponseDto
   @BuiltValueField(wireName: r'overdueCount')
   num get overdueCount;
 
+  /// Next expected date (YYYY-MM-DD)
+  @BuiltValueField(wireName: r'nextExpectedDate')
+  JsonObject? get nextExpectedDate;
+
   /// Total amount of all matched transactions
   @BuiltValueField(wireName: r'totalAmount')
   num get totalAmount;
@@ -121,54 +158,6 @@ abstract class RecurringRuleWithStatsResponseDto
   @BuiltValueField(wireName: r'transactionCount')
   num get transactionCount;
 
-  /// Amount variance (standard deviation squared)
-  @BuiltValueField(wireName: r'variance')
-  num get variance;
-
-  /// Number of upcoming expected transactions
-  @BuiltValueField(wireName: r'upcomingCount')
-  num get upcomingCount;
-
-  /// Icon emoji
-  @BuiltValueField(wireName: r'icon')
-  JsonObject? get icon;
-
-  /// Expected day of month
-  @BuiltValueField(wireName: r'expectedDay')
-  JsonObject? get expectedDay;
-
-  /// Custom interval in days
-  @BuiltValueField(wireName: r'customIntervalDays')
-  JsonObject? get customIntervalDays;
-
-  /// Payee matching pattern
-  @BuiltValueField(wireName: r'matchPayeePattern')
-  JsonObject? get matchPayeePattern;
-
-  /// Default expense account
-  @BuiltValueField(wireName: r'defaultExpenseAccount')
-  JsonObject? get defaultExpenseAccount;
-
-  /// Default payment account
-  @BuiltValueField(wireName: r'defaultPaymentAccount')
-  JsonObject? get defaultPaymentAccount;
-
-  /// Default payee
-  @BuiltValueField(wireName: r'defaultPayee')
-  JsonObject? get defaultPayee;
-
-  /// Rule end date (YYYY-MM-DD)
-  @BuiltValueField(wireName: r'endDate')
-  JsonObject? get endDate;
-
-  /// Last matched occurrence date (YYYY-MM-DD)
-  @BuiltValueField(wireName: r'lastOccurrence')
-  JsonObject? get lastOccurrence;
-
-  /// Next expected date (YYYY-MM-DD)
-  @BuiltValueField(wireName: r'nextExpectedDate')
-  JsonObject? get nextExpectedDate;
-
   /// First matched transaction date (YYYY-MM-DD)
   @BuiltValueField(wireName: r'firstDate')
   JsonObject? get firstDate;
@@ -177,27 +166,28 @@ abstract class RecurringRuleWithStatsResponseDto
   @BuiltValueField(wireName: r'lastDate')
   JsonObject? get lastDate;
 
+  /// Amount variance (standard deviation squared)
+  @BuiltValueField(wireName: r'variance')
+  num get variance;
+
+  /// Number of upcoming expected transactions
+  @BuiltValueField(wireName: r'upcomingCount')
+  num get upcomingCount;
+
   RecurringRuleWithStatsResponseDto._();
 
-  factory RecurringRuleWithStatsResponseDto(
-          [void updates(RecurringRuleWithStatsResponseDtoBuilder b)]) =
-      _$RecurringRuleWithStatsResponseDto;
+  factory RecurringRuleWithStatsResponseDto([void updates(RecurringRuleWithStatsResponseDtoBuilder b)]) = _$RecurringRuleWithStatsResponseDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(RecurringRuleWithStatsResponseDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<RecurringRuleWithStatsResponseDto> get serializer =>
-      _$RecurringRuleWithStatsResponseDtoSerializer();
+  static Serializer<RecurringRuleWithStatsResponseDto> get serializer => _$RecurringRuleWithStatsResponseDtoSerializer();
 }
 
-class _$RecurringRuleWithStatsResponseDtoSerializer
-    implements PrimitiveSerializer<RecurringRuleWithStatsResponseDto> {
+class _$RecurringRuleWithStatsResponseDtoSerializer implements PrimitiveSerializer<RecurringRuleWithStatsResponseDto> {
   @override
-  final Iterable<Type> types = const [
-    RecurringRuleWithStatsResponseDto,
-    _$RecurringRuleWithStatsResponseDto
-  ];
+  final Iterable<Type> types = const [RecurringRuleWithStatsResponseDto, _$RecurringRuleWithStatsResponseDto];
 
   @override
   final String wireName = r'RecurringRuleWithStatsResponseDto';
@@ -222,6 +212,13 @@ class _$RecurringRuleWithStatsResponseDtoSerializer
       object.name,
       specifiedType: const FullType(String),
     );
+    if (object.icon != null) {
+      yield r'icon';
+      yield serializers.serialize(
+        object.icon,
+        specifiedType: const FullType(JsonObject),
+      );
+    }
     yield r'frequency';
     yield serializers.serialize(
       object.frequency,
@@ -232,16 +229,58 @@ class _$RecurringRuleWithStatsResponseDtoSerializer
       object.expectedAmount,
       specifiedType: const FullType(num),
     );
+    if (object.expectedDay != null) {
+      yield r'expectedDay';
+      yield serializers.serialize(
+        object.expectedDay,
+        specifiedType: const FullType(JsonObject),
+      );
+    }
+    if (object.customIntervalDays != null) {
+      yield r'customIntervalDays';
+      yield serializers.serialize(
+        object.customIntervalDays,
+        specifiedType: const FullType(JsonObject),
+      );
+    }
     yield r'currency';
     yield serializers.serialize(
       object.currency,
       specifiedType: const FullType(String),
     );
+    if (object.matchPayeePattern != null) {
+      yield r'matchPayeePattern';
+      yield serializers.serialize(
+        object.matchPayeePattern,
+        specifiedType: const FullType(JsonObject),
+      );
+    }
     yield r'matchAmountTolerance';
     yield serializers.serialize(
       object.matchAmountTolerance,
       specifiedType: const FullType(num),
     );
+    if (object.defaultExpenseAccount != null) {
+      yield r'defaultExpenseAccount';
+      yield serializers.serialize(
+        object.defaultExpenseAccount,
+        specifiedType: const FullType(JsonObject),
+      );
+    }
+    if (object.defaultPaymentAccount != null) {
+      yield r'defaultPaymentAccount';
+      yield serializers.serialize(
+        object.defaultPaymentAccount,
+        specifiedType: const FullType(JsonObject),
+      );
+    }
+    if (object.defaultPayee != null) {
+      yield r'defaultPayee';
+      yield serializers.serialize(
+        object.defaultPayee,
+        specifiedType: const FullType(JsonObject),
+      );
+    }
     yield r'isActive';
     yield serializers.serialize(
       object.isActive,
@@ -252,11 +291,25 @@ class _$RecurringRuleWithStatsResponseDtoSerializer
       object.startDate,
       specifiedType: const FullType(String),
     );
+    if (object.endDate != null) {
+      yield r'endDate';
+      yield serializers.serialize(
+        object.endDate,
+        specifiedType: const FullType(JsonObject),
+      );
+    }
     yield r'autoCreate';
     yield serializers.serialize(
       object.autoCreate,
       specifiedType: const FullType(bool),
     );
+    if (object.lastOccurrence != null) {
+      yield r'lastOccurrence';
+      yield serializers.serialize(
+        object.lastOccurrence,
+        specifiedType: const FullType(JsonObject),
+      );
+    }
     yield r'totalCount';
     yield serializers.serialize(
       object.totalCount,
@@ -282,6 +335,13 @@ class _$RecurringRuleWithStatsResponseDtoSerializer
       object.overdueCount,
       specifiedType: const FullType(num),
     );
+    if (object.nextExpectedDate != null) {
+      yield r'nextExpectedDate';
+      yield serializers.serialize(
+        object.nextExpectedDate,
+        specifiedType: const FullType(JsonObject),
+      );
+    }
     yield r'totalAmount';
     yield serializers.serialize(
       object.totalAmount,
@@ -297,86 +357,6 @@ class _$RecurringRuleWithStatsResponseDtoSerializer
       object.transactionCount,
       specifiedType: const FullType(num),
     );
-    yield r'variance';
-    yield serializers.serialize(
-      object.variance,
-      specifiedType: const FullType(num),
-    );
-    yield r'upcomingCount';
-    yield serializers.serialize(
-      object.upcomingCount,
-      specifiedType: const FullType(num),
-    );
-    if (object.icon != null) {
-      yield r'icon';
-      yield serializers.serialize(
-        object.icon,
-        specifiedType: const FullType(JsonObject),
-      );
-    }
-    if (object.expectedDay != null) {
-      yield r'expectedDay';
-      yield serializers.serialize(
-        object.expectedDay,
-        specifiedType: const FullType(JsonObject),
-      );
-    }
-    if (object.customIntervalDays != null) {
-      yield r'customIntervalDays';
-      yield serializers.serialize(
-        object.customIntervalDays,
-        specifiedType: const FullType(JsonObject),
-      );
-    }
-    if (object.matchPayeePattern != null) {
-      yield r'matchPayeePattern';
-      yield serializers.serialize(
-        object.matchPayeePattern,
-        specifiedType: const FullType(JsonObject),
-      );
-    }
-    if (object.defaultExpenseAccount != null) {
-      yield r'defaultExpenseAccount';
-      yield serializers.serialize(
-        object.defaultExpenseAccount,
-        specifiedType: const FullType(JsonObject),
-      );
-    }
-    if (object.defaultPaymentAccount != null) {
-      yield r'defaultPaymentAccount';
-      yield serializers.serialize(
-        object.defaultPaymentAccount,
-        specifiedType: const FullType(JsonObject),
-      );
-    }
-    if (object.defaultPayee != null) {
-      yield r'defaultPayee';
-      yield serializers.serialize(
-        object.defaultPayee,
-        specifiedType: const FullType(JsonObject),
-      );
-    }
-    if (object.endDate != null) {
-      yield r'endDate';
-      yield serializers.serialize(
-        object.endDate,
-        specifiedType: const FullType(JsonObject),
-      );
-    }
-    if (object.lastOccurrence != null) {
-      yield r'lastOccurrence';
-      yield serializers.serialize(
-        object.lastOccurrence,
-        specifiedType: const FullType(JsonObject),
-      );
-    }
-    if (object.nextExpectedDate != null) {
-      yield r'nextExpectedDate';
-      yield serializers.serialize(
-        object.nextExpectedDate,
-        specifiedType: const FullType(JsonObject),
-      );
-    }
     if (object.firstDate != null) {
       yield r'firstDate';
       yield serializers.serialize(
@@ -391,6 +371,16 @@ class _$RecurringRuleWithStatsResponseDtoSerializer
         specifiedType: const FullType(JsonObject),
       );
     }
+    yield r'variance';
+    yield serializers.serialize(
+      object.variance,
+      specifiedType: const FullType(num),
+    );
+    yield r'upcomingCount';
+    yield serializers.serialize(
+      object.upcomingCount,
+      specifiedType: const FullType(num),
+    );
   }
 
   @override
@@ -399,9 +389,7 @@ class _$RecurringRuleWithStatsResponseDtoSerializer
     RecurringRuleWithStatsResponseDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -437,6 +425,13 @@ class _$RecurringRuleWithStatsResponseDtoSerializer
           ) as String;
           result.name = valueDes;
           break;
+        case r'icon':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(JsonObject),
+          ) as JsonObject;
+          result.icon = valueDes;
+          break;
         case r'frequency':
           final valueDes = serializers.deserialize(
             value,
@@ -451,6 +446,20 @@ class _$RecurringRuleWithStatsResponseDtoSerializer
           ) as num;
           result.expectedAmount = valueDes;
           break;
+        case r'expectedDay':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(JsonObject),
+          ) as JsonObject;
+          result.expectedDay = valueDes;
+          break;
+        case r'customIntervalDays':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(JsonObject),
+          ) as JsonObject;
+          result.customIntervalDays = valueDes;
+          break;
         case r'currency':
           final valueDes = serializers.deserialize(
             value,
@@ -458,12 +467,40 @@ class _$RecurringRuleWithStatsResponseDtoSerializer
           ) as String;
           result.currency = valueDes;
           break;
+        case r'matchPayeePattern':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(JsonObject),
+          ) as JsonObject;
+          result.matchPayeePattern = valueDes;
+          break;
         case r'matchAmountTolerance':
           final valueDes = serializers.deserialize(
             value,
             specifiedType: const FullType(num),
           ) as num;
           result.matchAmountTolerance = valueDes;
+          break;
+        case r'defaultExpenseAccount':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(JsonObject),
+          ) as JsonObject;
+          result.defaultExpenseAccount = valueDes;
+          break;
+        case r'defaultPaymentAccount':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(JsonObject),
+          ) as JsonObject;
+          result.defaultPaymentAccount = valueDes;
+          break;
+        case r'defaultPayee':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(JsonObject),
+          ) as JsonObject;
+          result.defaultPayee = valueDes;
           break;
         case r'isActive':
           final valueDes = serializers.deserialize(
@@ -479,12 +516,26 @@ class _$RecurringRuleWithStatsResponseDtoSerializer
           ) as String;
           result.startDate = valueDes;
           break;
+        case r'endDate':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(JsonObject),
+          ) as JsonObject;
+          result.endDate = valueDes;
+          break;
         case r'autoCreate':
           final valueDes = serializers.deserialize(
             value,
             specifiedType: const FullType(bool),
           ) as bool;
           result.autoCreate = valueDes;
+          break;
+        case r'lastOccurrence':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(JsonObject),
+          ) as JsonObject;
+          result.lastOccurrence = valueDes;
           break;
         case r'totalCount':
           final valueDes = serializers.deserialize(
@@ -521,6 +572,13 @@ class _$RecurringRuleWithStatsResponseDtoSerializer
           ) as num;
           result.overdueCount = valueDes;
           break;
+        case r'nextExpectedDate':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(JsonObject),
+          ) as JsonObject;
+          result.nextExpectedDate = valueDes;
+          break;
         case r'totalAmount':
           final valueDes = serializers.deserialize(
             value,
@@ -542,90 +600,6 @@ class _$RecurringRuleWithStatsResponseDtoSerializer
           ) as num;
           result.transactionCount = valueDes;
           break;
-        case r'variance':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(num),
-          ) as num;
-          result.variance = valueDes;
-          break;
-        case r'upcomingCount':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(num),
-          ) as num;
-          result.upcomingCount = valueDes;
-          break;
-        case r'icon':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(JsonObject),
-          ) as JsonObject;
-          result.icon = valueDes;
-          break;
-        case r'expectedDay':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(JsonObject),
-          ) as JsonObject;
-          result.expectedDay = valueDes;
-          break;
-        case r'customIntervalDays':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(JsonObject),
-          ) as JsonObject;
-          result.customIntervalDays = valueDes;
-          break;
-        case r'matchPayeePattern':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(JsonObject),
-          ) as JsonObject;
-          result.matchPayeePattern = valueDes;
-          break;
-        case r'defaultExpenseAccount':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(JsonObject),
-          ) as JsonObject;
-          result.defaultExpenseAccount = valueDes;
-          break;
-        case r'defaultPaymentAccount':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(JsonObject),
-          ) as JsonObject;
-          result.defaultPaymentAccount = valueDes;
-          break;
-        case r'defaultPayee':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(JsonObject),
-          ) as JsonObject;
-          result.defaultPayee = valueDes;
-          break;
-        case r'endDate':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(JsonObject),
-          ) as JsonObject;
-          result.endDate = valueDes;
-          break;
-        case r'lastOccurrence':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(JsonObject),
-          ) as JsonObject;
-          result.lastOccurrence = valueDes;
-          break;
-        case r'nextExpectedDate':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(JsonObject),
-          ) as JsonObject;
-          result.nextExpectedDate = valueDes;
-          break;
         case r'firstDate':
           final valueDes = serializers.deserialize(
             value,
@@ -639,6 +613,20 @@ class _$RecurringRuleWithStatsResponseDtoSerializer
             specifiedType: const FullType(JsonObject),
           ) as JsonObject;
           result.lastDate = valueDes;
+          break;
+        case r'variance':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(num),
+          ) as num;
+          result.variance = valueDes;
+          break;
+        case r'upcomingCount':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(num),
+          ) as num;
+          result.upcomingCount = valueDes;
           break;
         default:
           unhandled.add(key);
@@ -668,3 +656,4 @@ class _$RecurringRuleWithStatsResponseDtoSerializer
     return result.build();
   }
 }
+

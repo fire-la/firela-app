@@ -14,6 +14,7 @@ part 'create_account_dto.g.dart';
 ///
 /// Properties:
 /// * [path] - Account path (hierarchical, colon-separated)
+/// * [displayName] - Display name to distinguish accounts at the same path (default: \"\")
 /// * [openDate] - Account open date
 /// * [currencies] - Allowed currencies (null = no restriction)
 /// * [bookingMethod] - Booking method for cost basis
@@ -24,11 +25,14 @@ part 'create_account_dto.g.dart';
 /// * [openMeta] - Additional metadata
 /// * [platformId] - Platform ID (references Platform.id)
 @BuiltValue()
-abstract class CreateAccountDto
-    implements Built<CreateAccountDto, CreateAccountDtoBuilder> {
+abstract class CreateAccountDto implements Built<CreateAccountDto, CreateAccountDtoBuilder> {
   /// Account path (hierarchical, colon-separated)
   @BuiltValueField(wireName: r'path')
   String get path;
+
+  /// Display name to distinguish accounts at the same path (default: \"\")
+  @BuiltValueField(wireName: r'displayName')
+  String? get displayName;
 
   /// Account open date
   @BuiltValueField(wireName: r'openDate')
@@ -69,21 +73,18 @@ abstract class CreateAccountDto
 
   CreateAccountDto._();
 
-  factory CreateAccountDto([void updates(CreateAccountDtoBuilder b)]) =
-      _$CreateAccountDto;
+  factory CreateAccountDto([void updates(CreateAccountDtoBuilder b)]) = _$CreateAccountDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(CreateAccountDtoBuilder b) => b
-    ..bookingMethod = const CreateAccountDtoBookingMethodEnum._('FIFO')
-    ..isCustom = false;
+      ..bookingMethod = const CreateAccountDtoBookingMethodEnum._('FIFO')
+      ..isCustom = false;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<CreateAccountDto> get serializer =>
-      _$CreateAccountDtoSerializer();
+  static Serializer<CreateAccountDto> get serializer => _$CreateAccountDtoSerializer();
 }
 
-class _$CreateAccountDtoSerializer
-    implements PrimitiveSerializer<CreateAccountDto> {
+class _$CreateAccountDtoSerializer implements PrimitiveSerializer<CreateAccountDto> {
   @override
   final Iterable<Type> types = const [CreateAccountDto, _$CreateAccountDto];
 
@@ -100,6 +101,13 @@ class _$CreateAccountDtoSerializer
       object.path,
       specifiedType: const FullType(String),
     );
+    if (object.displayName != null) {
+      yield r'displayName';
+      yield serializers.serialize(
+        object.displayName,
+        specifiedType: const FullType(String),
+      );
+    }
     yield r'openDate';
     yield serializers.serialize(
       object.openDate,
@@ -169,9 +177,7 @@ class _$CreateAccountDtoSerializer
     CreateAccountDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -192,6 +198,13 @@ class _$CreateAccountDtoSerializer
             specifiedType: const FullType(String),
           ) as String;
           result.path = valueDes;
+          break;
+        case r'displayName':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.displayName = valueDes;
           break;
         case r'openDate':
           final valueDes = serializers.deserialize(
@@ -286,48 +299,34 @@ class _$CreateAccountDtoSerializer
 }
 
 class CreateAccountDtoBookingMethodEnum extends EnumClass {
+
   /// Booking method for cost basis
   @BuiltValueEnumConst(wireName: r'FIFO')
-  static const CreateAccountDtoBookingMethodEnum FIFO =
-      _$createAccountDtoBookingMethodEnum_FIFO;
-
+  static const CreateAccountDtoBookingMethodEnum FIFO = _$createAccountDtoBookingMethodEnum_FIFO;
   /// Booking method for cost basis
   @BuiltValueEnumConst(wireName: r'LIFO')
-  static const CreateAccountDtoBookingMethodEnum LIFO =
-      _$createAccountDtoBookingMethodEnum_LIFO;
-
+  static const CreateAccountDtoBookingMethodEnum LIFO = _$createAccountDtoBookingMethodEnum_LIFO;
   /// Booking method for cost basis
   @BuiltValueEnumConst(wireName: r'HIFO')
-  static const CreateAccountDtoBookingMethodEnum HIFO =
-      _$createAccountDtoBookingMethodEnum_HIFO;
-
+  static const CreateAccountDtoBookingMethodEnum HIFO = _$createAccountDtoBookingMethodEnum_HIFO;
   /// Booking method for cost basis
   @BuiltValueEnumConst(wireName: r'AVERAGE')
-  static const CreateAccountDtoBookingMethodEnum AVERAGE =
-      _$createAccountDtoBookingMethodEnum_AVERAGE;
-
+  static const CreateAccountDtoBookingMethodEnum AVERAGE = _$createAccountDtoBookingMethodEnum_AVERAGE;
   /// Booking method for cost basis
   @BuiltValueEnumConst(wireName: r'STRICT')
-  static const CreateAccountDtoBookingMethodEnum STRICT =
-      _$createAccountDtoBookingMethodEnum_STRICT;
-
+  static const CreateAccountDtoBookingMethodEnum STRICT = _$createAccountDtoBookingMethodEnum_STRICT;
   /// Booking method for cost basis
   @BuiltValueEnumConst(wireName: r'STRICT_WITH_SIZE')
-  static const CreateAccountDtoBookingMethodEnum STRICT_WITH_SIZE =
-      _$createAccountDtoBookingMethodEnum_STRICT_WITH_SIZE;
-
+  static const CreateAccountDtoBookingMethodEnum STRICT_WITH_SIZE = _$createAccountDtoBookingMethodEnum_STRICT_WITH_SIZE;
   /// Booking method for cost basis
-  @BuiltValueEnumConst(wireName: r'NONE', fallback: true)
-  static const CreateAccountDtoBookingMethodEnum NONE =
-      _$createAccountDtoBookingMethodEnum_NONE;
+  @BuiltValueEnumConst(wireName: r'NONE')
+  static const CreateAccountDtoBookingMethodEnum NONE = _$createAccountDtoBookingMethodEnum_NONE;
 
-  static Serializer<CreateAccountDtoBookingMethodEnum> get serializer =>
-      _$createAccountDtoBookingMethodEnumSerializer;
+  static Serializer<CreateAccountDtoBookingMethodEnum> get serializer => _$createAccountDtoBookingMethodEnumSerializer;
 
-  const CreateAccountDtoBookingMethodEnum._(String name) : super(name);
+  const CreateAccountDtoBookingMethodEnum._(String name): super(name);
 
-  static BuiltSet<CreateAccountDtoBookingMethodEnum> get values =>
-      _$createAccountDtoBookingMethodEnumValues;
-  static CreateAccountDtoBookingMethodEnum valueOf(String name) =>
-      _$createAccountDtoBookingMethodEnumValueOf(name);
+  static BuiltSet<CreateAccountDtoBookingMethodEnum> get values => _$createAccountDtoBookingMethodEnumValues;
+  static CreateAccountDtoBookingMethodEnum valueOf(String name) => _$createAccountDtoBookingMethodEnumValueOf(name);
 }
+
