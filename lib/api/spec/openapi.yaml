@@ -6439,9 +6439,10 @@ components:
           type: string
           description: >-
             Decision action. Available actions vary by review type: DUPLICATE:
-            UPGRADE_REPLACE, KEEP_EXISTING, KEEP_BOTH | PAYEE_MATCH: ACCEPT,
-            REJECT, ACCEPT_AND_LEARN | ACCOUNT_VALIDATION: FIX, REJECT |
-            RULE_MATCH: ACCEPT, REJECT, ACCEPT_AND_LEARN
+            UPGRADE_REPLACE, LINK_KEEP_BOTH, IGNORE_NEW, CONFIRM_DIFFERENT |
+            RULE_MATCH: ACCEPT, REJECT, ACCEPT_AND_LEARN | PAYEE_MATCH: ACCEPT,
+            REJECT, ACCEPT_AND_LEARN | ACCOUNT_VALIDATION: ACCEPT, CHOOSE_OTHER,
+            CANCEL | PIPELINE_ERROR: FIX, IGNORE, CANCEL
           example: ACCEPT
         data:
           type: object

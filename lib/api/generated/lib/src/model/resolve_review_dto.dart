@@ -12,11 +12,11 @@ part 'resolve_review_dto.g.dart';
 /// ResolveReviewDto
 ///
 /// Properties:
-/// * [action] - Decision action. Available actions vary by review type: DUPLICATE: UPGRADE_REPLACE, KEEP_EXISTING, KEEP_BOTH | PAYEE_MATCH: ACCEPT, REJECT, ACCEPT_AND_LEARN | ACCOUNT_VALIDATION: FIX, REJECT | RULE_MATCH: ACCEPT, REJECT, ACCEPT_AND_LEARN
+/// * [action] - Decision action. Available actions vary by review type: DUPLICATE: UPGRADE_REPLACE, LINK_KEEP_BOTH, IGNORE_NEW, CONFIRM_DIFFERENT | RULE_MATCH: ACCEPT, REJECT, ACCEPT_AND_LEARN | PAYEE_MATCH: ACCEPT, REJECT, ACCEPT_AND_LEARN | ACCOUNT_VALIDATION: ACCEPT, CHOOSE_OTHER, CANCEL | PIPELINE_ERROR: FIX, IGNORE, CANCEL
 /// * [data] - Additional data for the decision (e.g., selected account ID)
 @BuiltValue()
 abstract class ResolveReviewDto implements Built<ResolveReviewDto, ResolveReviewDtoBuilder> {
-  /// Decision action. Available actions vary by review type: DUPLICATE: UPGRADE_REPLACE, KEEP_EXISTING, KEEP_BOTH | PAYEE_MATCH: ACCEPT, REJECT, ACCEPT_AND_LEARN | ACCOUNT_VALIDATION: FIX, REJECT | RULE_MATCH: ACCEPT, REJECT, ACCEPT_AND_LEARN
+  /// Decision action. Available actions vary by review type: DUPLICATE: UPGRADE_REPLACE, LINK_KEEP_BOTH, IGNORE_NEW, CONFIRM_DIFFERENT | RULE_MATCH: ACCEPT, REJECT, ACCEPT_AND_LEARN | PAYEE_MATCH: ACCEPT, REJECT, ACCEPT_AND_LEARN | ACCOUNT_VALIDATION: ACCEPT, CHOOSE_OTHER, CANCEL | PIPELINE_ERROR: FIX, IGNORE, CANCEL
   @BuiltValueField(wireName: r'action')
   String get action;
 
