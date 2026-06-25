@@ -604,35 +604,15 @@
     "description": "Delete transaction button"
   },
 
-  "reviewCenterSave": "Save",
-  "@reviewCenterSave": {
-    "description": "Save transaction button"
-  },
 
-  "reviewCenterConfirmDelete": "Confirm Delete",
-  "@reviewCenterConfirmDelete": {
-    "description": "Delete confirmation title"
-  },
 
-  "reviewCenterConfirmDeleteMessage": "Are you sure you want to delete this transaction? This action cannot be undone.",
-  "@reviewCenterConfirmDeleteMessage": {
-    "description": "Delete confirmation message"
-  },
 
   "reviewCenterConfirmSuccess": "Transaction confirmed",
   "@reviewCenterConfirmSuccess": {
     "description": "Transaction confirmed toast"
   },
 
-  "reviewCenterDeleteSuccess": "Transaction deleted",
-  "@reviewCenterDeleteSuccess": {
-    "description": "Transaction deleted toast"
-  },
 
-  "reviewCenterSaveSuccess": "Saved successfully",
-  "@reviewCenterSaveSuccess": {
-    "description": "Save success toast"
-  },
 
   "reviewCenterLoading": "Loading...",
   "@reviewCenterLoading": {
@@ -654,10 +634,6 @@
     "description": "AI chat tab placeholder text"
   },
 
-  "reviewCenterConfidence": "AI Confidence Level",
-  "@reviewCenterConfidence": {
-    "description": "Confidence level label"
-  },
 
   "reviewCenterAccount": "Account",
   "@reviewCenterAccount": {
@@ -673,16 +649,101 @@
   "@reviewCenterAmount": {
     "description": "Amount field label"
   },
-
-  "reviewCenterDateTime": "Date & Time",
-  "@reviewCenterDateTime": {
-    "description": "Date time field label"
+  "reviewCenterTxInfo": "Transaction Info",
+  "@reviewCenterTxInfo": {
+    "description": "Review detail transaction info section title"
+  },
+  "reviewCenterReasonHeader": "Why does this need review?",
+  "@reviewCenterReasonHeader": {
+    "description": "Review detail match reasons section title"
+  },
+  "reviewCenterDecisionHeader": "How to handle?",
+  "@reviewCenterDecisionHeader": {
+    "description": "Review detail decision section title"
+  },
+  "reviewCenterResolved": "Resolved",
+  "@reviewCenterResolved": {
+    "description": "Review resolved success toast"
+  },
+  "reviewCenterResolveFailed": "Failed to resolve, please retry",
+  "@reviewCenterResolveFailed": {
+    "description": "Review resolve failure toast"
+  },
+  "reviewCenterConfidenceScore": "· {percent}%",
+  "@reviewCenterConfidenceScore": {
+    "description": "Confidence percentage in detail header",
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "reviewTypeDuplicate": "Duplicate",
+  "@reviewTypeDuplicate": {
+    "description": "Review type: duplicate"
+  },
+  "reviewTypeRuleMatch": "Rule Match",
+  "@reviewTypeRuleMatch": {
+    "description": "Review type: rule match"
+  },
+  "reviewTypePayeeMatch": "Payee Match",
+  "@reviewTypePayeeMatch": {
+    "description": "Review type: payee match"
+  },
+  "reviewTypeAccountValidation": "Account Validation",
+  "@reviewTypeAccountValidation": {
+    "description": "Review type: account validation"
+  },
+  "reviewTypePipelineError": "Pipeline Error",
+  "@reviewTypePipelineError": {
+    "description": "Review type: pipeline error"
+  },
+  "reviewActionUpgradeReplace": "Upgrade & Replace",
+  "@reviewActionUpgradeReplace": {
+    "description": "Decision action: upgrade and replace"
+  },
+  "reviewActionLinkKeepBoth": "Link & Keep Both",
+  "@reviewActionLinkKeepBoth": {
+    "description": "Decision action: link and keep both"
+  },
+  "reviewActionIgnoreNew": "Skip New",
+  "@reviewActionIgnoreNew": {
+    "description": "Decision action: skip the new import"
+  },
+  "reviewActionConfirmDifferent": "Not a Duplicate",
+  "@reviewActionConfirmDifferent": {
+    "description": "Decision action: confirm they are different"
+  },
+  "reviewActionAccept": "Accept",
+  "@reviewActionAccept": {
+    "description": "Decision action: accept"
+  },
+  "reviewActionReject": "Reject",
+  "@reviewActionReject": {
+    "description": "Decision action: reject"
+  },
+  "reviewActionAcceptAndLearn": "Accept & Learn",
+  "@reviewActionAcceptAndLearn": {
+    "description": "Decision action: accept and learn a rule"
+  },
+  "reviewActionChooseOther": "Choose Other Account",
+  "@reviewActionChooseOther": {
+    "description": "Decision action: choose another account"
+  },
+  "reviewActionCancel": "Cancel",
+  "@reviewActionCancel": {
+    "description": "Decision action: cancel"
+  },
+  "reviewActionFix": "Fix",
+  "@reviewActionFix": {
+    "description": "Decision action: fix"
+  },
+  "reviewActionIgnore": "Ignore",
+  "@reviewActionIgnore": {
+    "description": "Decision action: ignore"
   },
 
-  "reviewCenterNotes": "Notes",
-  "@reviewCenterNotes": {
-    "description": "Notes field label"
-  },
+
 
   "reviewCenterExpense": "Expense",
   "@reviewCenterExpense": {
@@ -704,30 +765,10 @@
     "description": "Load failed error"
   },
 
-  "reviewCenterDeleteFailed": "Failed to delete, please retry",
-  "@reviewCenterDeleteFailed": {
-    "description": "Delete failed error"
-  },
 
-  "reviewCenterSaveFailed": "Failed to save, please retry",
-  "@reviewCenterSaveFailed": {
-    "description": "Save failed error"
-  },
 
-  "reviewCenterEnterAccount": "Please enter account name",
-  "@reviewCenterEnterAccount": {
-    "description": "Enter account validation"
-  },
 
-  "reviewCenterEnterMerchant": "Please enter merchant name",
-  "@reviewCenterEnterMerchant": {
-    "description": "Enter merchant validation"
-  },
 
-  "reviewCenterEnterValidAmount": "Please enter a valid amount",
-  "@reviewCenterEnterValidAmount": {
-    "description": "Enter valid amount validation"
-  },
 
   "region": "Region",
   "@region": {

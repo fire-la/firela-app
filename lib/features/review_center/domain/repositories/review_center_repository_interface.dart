@@ -16,8 +16,13 @@ abstract class ReviewCenterRepositoryInterface {
   /// Confirm a pending transaction (records it as a regular transaction)
   Future<void> confirmTransaction(String id);
 
-  /// Update a pending transaction
-  Future<void> updateTransaction(String id, Map<String, dynamic> data);
+  /// Resolve a review with a decision action.
+  /// Returns the ResolveResultDto map (success, messageKey, canUndo, ...).
+  Future<Map<String, dynamic>> resolveReview(
+    String id, {
+    required String action,
+    Map<String, dynamic>? data,
+  });
 
   /// Delete a pending transaction
   Future<void> deleteTransaction(String id);

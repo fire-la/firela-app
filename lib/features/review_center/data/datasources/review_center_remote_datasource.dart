@@ -70,10 +70,21 @@ class ReviewCenterRemoteDatasource {
     return await _client.post('$_basePath/$id/resolve', body: {'action': 'REJECT'});
   }
 
-  /// Update a pending transaction
-  Future<dynamic> updateTransaction(String id, Map<String, dynamic> data) async {
-    logger.i('[ReviewCenter] Updating transaction: $id');
-    return await _client.put('$_basePath/$id', body: data);
+  /// Resolve a review with a decision action.
+  /// POST /bean/reviews/:id/resolve {action, data?} → ResolveResultDto.
+  /// `data` carries type-specific payload (e.g. chosenAccount for CHOOSE_OTHER).
+  Future<Map<String, dynamic>> resolveReview(
+    String id, {
+    required String action,
+    Map<String, dynamic>? data,
+  }) async {
+    logger.i('[ReviewCenter] Resolving review: $id action=$action');
+    final body = <String, dynamic>{'action': action};
+    if (data != null) body['data'] = data;
+    final response = await _client.post('$_basePath/$id/resolve', body: body);
+    return response is Map<String, dynamic>
+        ? response
+        : <String, dynamic>{};
   }
 
   /// Delete a pending transaction (reject)

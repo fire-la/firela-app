@@ -63,12 +63,21 @@ class ReviewCenterRepository implements ReviewCenterRepositoryInterface {
   }
 
   @override
-  Future<void> updateTransaction(String id, Map<String, dynamic> data) async {
+  Future<Map<String, dynamic>> resolveReview(
+    String id, {
+    required String action,
+    Map<String, dynamic>? data,
+  }) async {
     try {
-      await _datasource.updateTransaction(id, data);
-      logger.i('[ReviewCenterRepository] Transaction updated: $id');
+      final result = await _datasource.resolveReview(
+        id,
+        action: action,
+        data: data,
+      );
+      logger.i('[ReviewCenterRepository] Review resolved: $id action=$action');
+      return result;
     } catch (e) {
-      logger.e('[ReviewCenterRepository] Failed to update transaction: $e');
+      logger.e('[ReviewCenterRepository] Failed to resolve review: $e');
       rethrow;
     }
   }

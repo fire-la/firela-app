@@ -132,9 +132,10 @@ class ReviewCenterPage extends HookWidget {
       }
     }
 
-    // Navigate to detail
-    void navigateToDetail(String id) {
-      context.push('/review-center/$id');
+    // Navigate to detail; refresh current tab on return so a resolved item disappears.
+    Future<void> navigateToDetail(String id) async {
+      await context.push('/review-center/$id');
+      state.loadTransactions(refresh: true);
     }
 
     return Scaffold(

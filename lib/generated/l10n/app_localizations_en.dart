@@ -370,23 +370,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get reviewCenterDelete => 'Delete';
 
   @override
-  String get reviewCenterSave => 'Save';
-
-  @override
-  String get reviewCenterConfirmDelete => 'Confirm Delete';
-
-  @override
-  String get reviewCenterConfirmDeleteMessage =>
-      'Are you sure you want to delete this transaction? This action cannot be undone.';
-
-  @override
   String get reviewCenterConfirmSuccess => 'Transaction confirmed';
-
-  @override
-  String get reviewCenterDeleteSuccess => 'Transaction deleted';
-
-  @override
-  String get reviewCenterSaveSuccess => 'Saved successfully';
 
   @override
   String get reviewCenterLoading => 'Loading...';
@@ -401,9 +385,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get aiChatComingSoon => 'AI Chat (Coming Soon)';
 
   @override
-  String get reviewCenterConfidence => 'AI Confidence Level';
-
-  @override
   String get reviewCenterAccount => 'Account';
 
   @override
@@ -413,10 +394,72 @@ class AppLocalizationsEn extends AppLocalizations {
   String get reviewCenterAmount => 'Amount';
 
   @override
-  String get reviewCenterDateTime => 'Date & Time';
+  String get reviewCenterTxInfo => 'Transaction Info';
 
   @override
-  String get reviewCenterNotes => 'Notes';
+  String get reviewCenterReasonHeader => 'Why does this need review?';
+
+  @override
+  String get reviewCenterDecisionHeader => 'How to handle?';
+
+  @override
+  String get reviewCenterResolved => 'Resolved';
+
+  @override
+  String get reviewCenterResolveFailed => 'Failed to resolve, please retry';
+
+  @override
+  String reviewCenterConfidenceScore(int percent) {
+    return '· $percent%';
+  }
+
+  @override
+  String get reviewTypeDuplicate => 'Duplicate';
+
+  @override
+  String get reviewTypeRuleMatch => 'Rule Match';
+
+  @override
+  String get reviewTypePayeeMatch => 'Payee Match';
+
+  @override
+  String get reviewTypeAccountValidation => 'Account Validation';
+
+  @override
+  String get reviewTypePipelineError => 'Pipeline Error';
+
+  @override
+  String get reviewActionUpgradeReplace => 'Upgrade & Replace';
+
+  @override
+  String get reviewActionLinkKeepBoth => 'Link & Keep Both';
+
+  @override
+  String get reviewActionIgnoreNew => 'Skip New';
+
+  @override
+  String get reviewActionConfirmDifferent => 'Not a Duplicate';
+
+  @override
+  String get reviewActionAccept => 'Accept';
+
+  @override
+  String get reviewActionReject => 'Reject';
+
+  @override
+  String get reviewActionAcceptAndLearn => 'Accept & Learn';
+
+  @override
+  String get reviewActionChooseOther => 'Choose Other Account';
+
+  @override
+  String get reviewActionCancel => 'Cancel';
+
+  @override
+  String get reviewActionFix => 'Fix';
+
+  @override
+  String get reviewActionIgnore => 'Ignore';
 
   @override
   String get reviewCenterExpense => 'Expense';
@@ -429,21 +472,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get reviewCenterLoadFailed => 'Failed to load, please retry';
-
-  @override
-  String get reviewCenterDeleteFailed => 'Failed to delete, please retry';
-
-  @override
-  String get reviewCenterSaveFailed => 'Failed to save, please retry';
-
-  @override
-  String get reviewCenterEnterAccount => 'Please enter account name';
-
-  @override
-  String get reviewCenterEnterMerchant => 'Please enter merchant name';
-
-  @override
-  String get reviewCenterEnterValidAmount => 'Please enter a valid amount';
 
   @override
   String get region => 'Region';

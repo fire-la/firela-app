@@ -778,41 +778,11 @@ abstract class AppLocalizations {
   /// **'Delete'**
   String get reviewCenterDelete;
 
-  /// Save transaction button
-  ///
-  /// In en, this message translates to:
-  /// **'Save'**
-  String get reviewCenterSave;
-
-  /// Delete confirmation title
-  ///
-  /// In en, this message translates to:
-  /// **'Confirm Delete'**
-  String get reviewCenterConfirmDelete;
-
-  /// Delete confirmation message
-  ///
-  /// In en, this message translates to:
-  /// **'Are you sure you want to delete this transaction? This action cannot be undone.'**
-  String get reviewCenterConfirmDeleteMessage;
-
   /// Transaction confirmed toast
   ///
   /// In en, this message translates to:
   /// **'Transaction confirmed'**
   String get reviewCenterConfirmSuccess;
-
-  /// Transaction deleted toast
-  ///
-  /// In en, this message translates to:
-  /// **'Transaction deleted'**
-  String get reviewCenterDeleteSuccess;
-
-  /// Save success toast
-  ///
-  /// In en, this message translates to:
-  /// **'Saved successfully'**
-  String get reviewCenterSaveSuccess;
 
   /// Loading message
   ///
@@ -838,12 +808,6 @@ abstract class AppLocalizations {
   /// **'AI Chat (Coming Soon)'**
   String get aiChatComingSoon;
 
-  /// Confidence level label
-  ///
-  /// In en, this message translates to:
-  /// **'AI Confidence Level'**
-  String get reviewCenterConfidence;
-
   /// Account field label
   ///
   /// In en, this message translates to:
@@ -862,17 +826,137 @@ abstract class AppLocalizations {
   /// **'Amount'**
   String get reviewCenterAmount;
 
-  /// Date time field label
+  /// Review detail transaction info section title
   ///
   /// In en, this message translates to:
-  /// **'Date & Time'**
-  String get reviewCenterDateTime;
+  /// **'Transaction Info'**
+  String get reviewCenterTxInfo;
 
-  /// Notes field label
+  /// Review detail match reasons section title
   ///
   /// In en, this message translates to:
-  /// **'Notes'**
-  String get reviewCenterNotes;
+  /// **'Why does this need review?'**
+  String get reviewCenterReasonHeader;
+
+  /// Review detail decision section title
+  ///
+  /// In en, this message translates to:
+  /// **'How to handle?'**
+  String get reviewCenterDecisionHeader;
+
+  /// Review resolved success toast
+  ///
+  /// In en, this message translates to:
+  /// **'Resolved'**
+  String get reviewCenterResolved;
+
+  /// Review resolve failure toast
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to resolve, please retry'**
+  String get reviewCenterResolveFailed;
+
+  /// Confidence percentage in detail header
+  ///
+  /// In en, this message translates to:
+  /// **'· {percent}%'**
+  String reviewCenterConfidenceScore(int percent);
+
+  /// Review type: duplicate
+  ///
+  /// In en, this message translates to:
+  /// **'Duplicate'**
+  String get reviewTypeDuplicate;
+
+  /// Review type: rule match
+  ///
+  /// In en, this message translates to:
+  /// **'Rule Match'**
+  String get reviewTypeRuleMatch;
+
+  /// Review type: payee match
+  ///
+  /// In en, this message translates to:
+  /// **'Payee Match'**
+  String get reviewTypePayeeMatch;
+
+  /// Review type: account validation
+  ///
+  /// In en, this message translates to:
+  /// **'Account Validation'**
+  String get reviewTypeAccountValidation;
+
+  /// Review type: pipeline error
+  ///
+  /// In en, this message translates to:
+  /// **'Pipeline Error'**
+  String get reviewTypePipelineError;
+
+  /// Decision action: upgrade and replace
+  ///
+  /// In en, this message translates to:
+  /// **'Upgrade & Replace'**
+  String get reviewActionUpgradeReplace;
+
+  /// Decision action: link and keep both
+  ///
+  /// In en, this message translates to:
+  /// **'Link & Keep Both'**
+  String get reviewActionLinkKeepBoth;
+
+  /// Decision action: skip the new import
+  ///
+  /// In en, this message translates to:
+  /// **'Skip New'**
+  String get reviewActionIgnoreNew;
+
+  /// Decision action: confirm they are different
+  ///
+  /// In en, this message translates to:
+  /// **'Not a Duplicate'**
+  String get reviewActionConfirmDifferent;
+
+  /// Decision action: accept
+  ///
+  /// In en, this message translates to:
+  /// **'Accept'**
+  String get reviewActionAccept;
+
+  /// Decision action: reject
+  ///
+  /// In en, this message translates to:
+  /// **'Reject'**
+  String get reviewActionReject;
+
+  /// Decision action: accept and learn a rule
+  ///
+  /// In en, this message translates to:
+  /// **'Accept & Learn'**
+  String get reviewActionAcceptAndLearn;
+
+  /// Decision action: choose another account
+  ///
+  /// In en, this message translates to:
+  /// **'Choose Other Account'**
+  String get reviewActionChooseOther;
+
+  /// Decision action: cancel
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get reviewActionCancel;
+
+  /// Decision action: fix
+  ///
+  /// In en, this message translates to:
+  /// **'Fix'**
+  String get reviewActionFix;
+
+  /// Decision action: ignore
+  ///
+  /// In en, this message translates to:
+  /// **'Ignore'**
+  String get reviewActionIgnore;
 
   /// Expense label
   ///
@@ -897,36 +981,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Failed to load, please retry'**
   String get reviewCenterLoadFailed;
-
-  /// Delete failed error
-  ///
-  /// In en, this message translates to:
-  /// **'Failed to delete, please retry'**
-  String get reviewCenterDeleteFailed;
-
-  /// Save failed error
-  ///
-  /// In en, this message translates to:
-  /// **'Failed to save, please retry'**
-  String get reviewCenterSaveFailed;
-
-  /// Enter account validation
-  ///
-  /// In en, this message translates to:
-  /// **'Please enter account name'**
-  String get reviewCenterEnterAccount;
-
-  /// Enter merchant validation
-  ///
-  /// In en, this message translates to:
-  /// **'Please enter merchant name'**
-  String get reviewCenterEnterMerchant;
-
-  /// Enter valid amount validation
-  ///
-  /// In en, this message translates to:
-  /// **'Please enter a valid amount'**
-  String get reviewCenterEnterValidAmount;
 
   /// Region label
   ///

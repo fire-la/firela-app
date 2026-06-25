@@ -362,22 +362,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get reviewCenterDelete => '删除';
 
   @override
-  String get reviewCenterSave => '保存';
-
-  @override
-  String get reviewCenterConfirmDelete => '确认删除';
-
-  @override
-  String get reviewCenterConfirmDeleteMessage => '确定要删除这笔交易吗？此操作不可撤销。';
-
-  @override
   String get reviewCenterConfirmSuccess => '已保留该交易';
-
-  @override
-  String get reviewCenterDeleteSuccess => '已删除该交易';
-
-  @override
-  String get reviewCenterSaveSuccess => '保存成功';
 
   @override
   String get reviewCenterLoading => '加载中...';
@@ -392,9 +377,6 @@ class AppLocalizationsZh extends AppLocalizations {
   String get aiChatComingSoon => 'AI 对话（开发中）';
 
   @override
-  String get reviewCenterConfidence => 'AI 识别置信度';
-
-  @override
   String get reviewCenterAccount => '账户';
 
   @override
@@ -404,10 +386,72 @@ class AppLocalizationsZh extends AppLocalizations {
   String get reviewCenterAmount => '金额';
 
   @override
-  String get reviewCenterDateTime => '日期时间';
+  String get reviewCenterTxInfo => '交易信息';
 
   @override
-  String get reviewCenterNotes => '备注';
+  String get reviewCenterReasonHeader => '为什么需要审核？';
+
+  @override
+  String get reviewCenterDecisionHeader => '如何处理？';
+
+  @override
+  String get reviewCenterResolved => '已处理';
+
+  @override
+  String get reviewCenterResolveFailed => '处理失败，请重试';
+
+  @override
+  String reviewCenterConfidenceScore(int percent) {
+    return '· $percent%';
+  }
+
+  @override
+  String get reviewTypeDuplicate => '去重';
+
+  @override
+  String get reviewTypeRuleMatch => '规则匹配';
+
+  @override
+  String get reviewTypePayeeMatch => '商户匹配';
+
+  @override
+  String get reviewTypeAccountValidation => '账户校验';
+
+  @override
+  String get reviewTypePipelineError => '流水错误';
+
+  @override
+  String get reviewActionUpgradeReplace => '升级替换';
+
+  @override
+  String get reviewActionLinkKeepBoth => '关联保留';
+
+  @override
+  String get reviewActionIgnoreNew => '跳过新导入';
+
+  @override
+  String get reviewActionConfirmDifferent => '不是同一笔';
+
+  @override
+  String get reviewActionAccept => '接受';
+
+  @override
+  String get reviewActionReject => '拒绝';
+
+  @override
+  String get reviewActionAcceptAndLearn => '接受并学习';
+
+  @override
+  String get reviewActionChooseOther => '选择其他账户';
+
+  @override
+  String get reviewActionCancel => '取消';
+
+  @override
+  String get reviewActionFix => '修复';
+
+  @override
+  String get reviewActionIgnore => '忽略';
 
   @override
   String get reviewCenterExpense => '支出';
@@ -420,21 +464,6 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get reviewCenterLoadFailed => '加载失败，请重试';
-
-  @override
-  String get reviewCenterDeleteFailed => '删除失败，请重试';
-
-  @override
-  String get reviewCenterSaveFailed => '保存失败，请重试';
-
-  @override
-  String get reviewCenterEnterAccount => '请输入账户名称';
-
-  @override
-  String get reviewCenterEnterMerchant => '请输入商户名称';
-
-  @override
-  String get reviewCenterEnterValidAmount => '请输入有效金额';
 
   @override
   String get region => '地域';
@@ -1964,22 +1993,7 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get reviewCenterDelete => '删除';
 
   @override
-  String get reviewCenterSave => '保存';
-
-  @override
-  String get reviewCenterConfirmDelete => '确认删除';
-
-  @override
-  String get reviewCenterConfirmDeleteMessage => '确定要删除这笔交易吗？此操作不可撤销。';
-
-  @override
   String get reviewCenterConfirmSuccess => '已保留该交易';
-
-  @override
-  String get reviewCenterDeleteSuccess => '已删除该交易';
-
-  @override
-  String get reviewCenterSaveSuccess => '保存成功';
 
   @override
   String get reviewCenterLoading => '加载中...';
@@ -1994,9 +2008,6 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get aiChatComingSoon => 'AI 对话（开发中）';
 
   @override
-  String get reviewCenterConfidence => 'AI 识别置信度';
-
-  @override
   String get reviewCenterAccount => '账户';
 
   @override
@@ -2006,10 +2017,72 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get reviewCenterAmount => '金额';
 
   @override
-  String get reviewCenterDateTime => '日期时间';
+  String get reviewCenterTxInfo => '交易信息';
 
   @override
-  String get reviewCenterNotes => '备注';
+  String get reviewCenterReasonHeader => '为什么需要审核？';
+
+  @override
+  String get reviewCenterDecisionHeader => '如何处理？';
+
+  @override
+  String get reviewCenterResolved => '已处理';
+
+  @override
+  String get reviewCenterResolveFailed => '处理失败，请重试';
+
+  @override
+  String reviewCenterConfidenceScore(int percent) {
+    return '· $percent%';
+  }
+
+  @override
+  String get reviewTypeDuplicate => '去重';
+
+  @override
+  String get reviewTypeRuleMatch => '规则匹配';
+
+  @override
+  String get reviewTypePayeeMatch => '商户匹配';
+
+  @override
+  String get reviewTypeAccountValidation => '账户校验';
+
+  @override
+  String get reviewTypePipelineError => '流水错误';
+
+  @override
+  String get reviewActionUpgradeReplace => '升级替换';
+
+  @override
+  String get reviewActionLinkKeepBoth => '关联保留';
+
+  @override
+  String get reviewActionIgnoreNew => '跳过新导入';
+
+  @override
+  String get reviewActionConfirmDifferent => '不是同一笔';
+
+  @override
+  String get reviewActionAccept => '接受';
+
+  @override
+  String get reviewActionReject => '拒绝';
+
+  @override
+  String get reviewActionAcceptAndLearn => '接受并学习';
+
+  @override
+  String get reviewActionChooseOther => '选择其他账户';
+
+  @override
+  String get reviewActionCancel => '取消';
+
+  @override
+  String get reviewActionFix => '修复';
+
+  @override
+  String get reviewActionIgnore => '忽略';
 
   @override
   String get reviewCenterExpense => '支出';
@@ -2022,21 +2095,6 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
 
   @override
   String get reviewCenterLoadFailed => '加载失败，请重试';
-
-  @override
-  String get reviewCenterDeleteFailed => '删除失败，请重试';
-
-  @override
-  String get reviewCenterSaveFailed => '保存失败，请重试';
-
-  @override
-  String get reviewCenterEnterAccount => '请输入账户名称';
-
-  @override
-  String get reviewCenterEnterMerchant => '请输入商户名称';
-
-  @override
-  String get reviewCenterEnterValidAmount => '请输入有效金额';
 
   @override
   String get region => '地域';
@@ -3566,22 +3624,7 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
   String get reviewCenterDelete => '刪除';
 
   @override
-  String get reviewCenterSave => '儲存';
-
-  @override
-  String get reviewCenterConfirmDelete => '確認刪除';
-
-  @override
-  String get reviewCenterConfirmDeleteMessage => '確定要刪除這筆交易嗎？此操作不可撤銷。';
-
-  @override
   String get reviewCenterConfirmSuccess => '已保留該交易';
-
-  @override
-  String get reviewCenterDeleteSuccess => '已刪除該交易';
-
-  @override
-  String get reviewCenterSaveSuccess => '儲存成功';
 
   @override
   String get reviewCenterLoading => '載入中...';
@@ -3596,9 +3639,6 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
   String get aiChatComingSoon => 'AI 對話（開發中）';
 
   @override
-  String get reviewCenterConfidence => 'AI 識別置信度';
-
-  @override
   String get reviewCenterAccount => '帳戶';
 
   @override
@@ -3608,10 +3648,72 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
   String get reviewCenterAmount => '金額';
 
   @override
-  String get reviewCenterDateTime => '日期時間';
+  String get reviewCenterTxInfo => '交易資訊';
 
   @override
-  String get reviewCenterNotes => '備註';
+  String get reviewCenterReasonHeader => '為什麼需要審核？';
+
+  @override
+  String get reviewCenterDecisionHeader => '如何處理？';
+
+  @override
+  String get reviewCenterResolved => '已處理';
+
+  @override
+  String get reviewCenterResolveFailed => '處理失敗，請重試';
+
+  @override
+  String reviewCenterConfidenceScore(int percent) {
+    return '· $percent%';
+  }
+
+  @override
+  String get reviewTypeDuplicate => '去重';
+
+  @override
+  String get reviewTypeRuleMatch => '規則比對';
+
+  @override
+  String get reviewTypePayeeMatch => '商家比對';
+
+  @override
+  String get reviewTypeAccountValidation => '帳戶驗證';
+
+  @override
+  String get reviewTypePipelineError => '流水錯誤';
+
+  @override
+  String get reviewActionUpgradeReplace => '升級取代';
+
+  @override
+  String get reviewActionLinkKeepBoth => '關聯保留';
+
+  @override
+  String get reviewActionIgnoreNew => '略過新匯入';
+
+  @override
+  String get reviewActionConfirmDifferent => '不是同一筆';
+
+  @override
+  String get reviewActionAccept => '接受';
+
+  @override
+  String get reviewActionReject => '拒絕';
+
+  @override
+  String get reviewActionAcceptAndLearn => '接受並學習';
+
+  @override
+  String get reviewActionChooseOther => '選擇其他帳戶';
+
+  @override
+  String get reviewActionCancel => '取消';
+
+  @override
+  String get reviewActionFix => '修復';
+
+  @override
+  String get reviewActionIgnore => '忽略';
 
   @override
   String get reviewCenterExpense => '支出';
@@ -3624,21 +3726,6 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get reviewCenterLoadFailed => '載入失敗，請重試';
-
-  @override
-  String get reviewCenterDeleteFailed => '刪除失敗，請重試';
-
-  @override
-  String get reviewCenterSaveFailed => '儲存失敗，請重試';
-
-  @override
-  String get reviewCenterEnterAccount => '請輸入帳戶名稱';
-
-  @override
-  String get reviewCenterEnterMerchant => '請輸入商戶名稱';
-
-  @override
-  String get reviewCenterEnterValidAmount => '請輸入有效金額';
 
   @override
   String get region => '地域';

@@ -1,7 +1,13 @@
 import '../../domain/entities/pending_transaction.dart';
+import '../../domain/entities/decision_option.dart';
 import '../../domain/models/confidence_level.dart';
 
-/// Data model for pending transaction with JSON serialization
+/// Data model for pending transaction with JSON serialization.
+///
+/// Parses both the list (`ReviewSummaryDto`) and detail (`ReviewDetailDto`)
+/// wire shapes — both use camelCase convenience fields. Detail-only fields
+/// (`reviewType`, `decisionOptions`, `matchReasons`, `summaryKey`/`summaryParams`)
+/// default empty when absent.
 class PendingTransactionModel extends PendingTransaction {
   const PendingTransactionModel({
     required super.id,
@@ -13,6 +19,11 @@ class PendingTransactionModel extends PendingTransaction {
     required super.confidenceLevel,
     required super.confidenceScore,
     required super.createdAt,
+    super.reviewType,
+    super.decisionOptions,
+    super.matchReasons,
+    super.summaryKey,
+    super.summaryParams,
   });
 
   /// Create from JSON map
@@ -25,9 +36,42 @@ class PendingTransactionModel extends PendingTransaction {
       currency: json['currency'] as String? ?? 'CNY',
       transactionTime: _parseDateTime(json['transaction_time'] ?? json['transactionTime']),
       confidenceLevel: _parseConfidenceLevel(json['confidence_level'] ?? json['confidenceLevel']),
-      confidenceScore: (json['confidence_score'] as num?)?.toDouble() ?? (json['confidenceScore'] as num?)?.toDouble() ?? 0.0,
+      // DTO field is `confidence` (0-1); keep legacy snake/camel fallbacks.
+      confidenceScore: (json['confidence'] as num?)?.toDouble() ??
+          (json['confidence_score'] as num?)?.toDouble() ??
+          (json['confidenceScore'] as num?)?.toDouble() ??
+          0.0,
       createdAt: _parseDateTime(json['created_at'] ?? json['createdAt']),
+      reviewType: json['type'] as String?,
+      decisionOptions: _parseDecisionOptions(json['decisionOptions']),
+      matchReasons: _parseStringList(json['matchReasons']),
+      summaryKey: json['summaryKey'] as String?,
+      summaryParams: _parseStringMap(json['summaryParams']),
     );
+  }
+
+  static List<DecisionOption> _parseDecisionOptions(dynamic value) {
+    if (value is! List) return const [];
+    return value
+        .whereType<Map<String, dynamic>>()
+        .map((o) => DecisionOption(
+              value: o['value'] as String? ?? '',
+              labelKey: o['labelKey'] as String? ?? '',
+              recommended: o['recommended'] as bool? ?? false,
+              descriptionKey: o['descriptionKey'] as String?,
+            ))
+        .where((o) => o.value.isNotEmpty)
+        .toList();
+  }
+
+  static List<String> _parseStringList(dynamic value) {
+    if (value is! List) return const [];
+    return value.whereType<String>().toList();
+  }
+
+  static Map<String, String>? _parseStringMap(dynamic value) {
+    if (value is! Map) return null;
+    return value.map((k, v) => MapEntry(k.toString(), v.toString()));
   }
 
   /// Parse amount from various formats
@@ -87,6 +131,18 @@ class PendingTransactionModel extends PendingTransaction {
       'confidence_level': confidenceLevel.name.toUpperCase(),
       'confidence_score': confidenceScore,
       'created_at': createdAt.toIso8601String(),
+      if (reviewType != null) 'type': reviewType,
+      'decisionOptions': decisionOptions
+          .map((o) => {
+                'value': o.value,
+                'labelKey': o.labelKey,
+                if (o.recommended) 'recommended': true,
+                if (o.descriptionKey != null) 'descriptionKey': o.descriptionKey,
+              })
+          .toList(),
+      'matchReasons': matchReasons,
+      if (summaryKey != null) 'summaryKey': summaryKey,
+      if (summaryParams != null) 'summaryParams': summaryParams,
     };
   }
 
@@ -102,6 +158,11 @@ class PendingTransactionModel extends PendingTransaction {
       confidenceLevel: entity.confidenceLevel,
       confidenceScore: entity.confidenceScore,
       createdAt: entity.createdAt,
+      reviewType: entity.reviewType,
+      decisionOptions: entity.decisionOptions,
+      matchReasons: entity.matchReasons,
+      summaryKey: entity.summaryKey,
+      summaryParams: entity.summaryParams,
     );
   }
 
@@ -117,6 +178,11 @@ class PendingTransactionModel extends PendingTransaction {
     ConfidenceLevel? confidenceLevel,
     double? confidenceScore,
     DateTime? createdAt,
+    String? reviewType,
+    List<DecisionOption>? decisionOptions,
+    List<String>? matchReasons,
+    String? summaryKey,
+    Map<String, String>? summaryParams,
   }) {
     return PendingTransactionModel(
       id: id ?? this.id,
@@ -128,6 +194,11 @@ class PendingTransactionModel extends PendingTransaction {
       confidenceLevel: confidenceLevel ?? this.confidenceLevel,
       confidenceScore: confidenceScore ?? this.confidenceScore,
       createdAt: createdAt ?? this.createdAt,
+      reviewType: reviewType ?? this.reviewType,
+      decisionOptions: decisionOptions ?? this.decisionOptions,
+      matchReasons: matchReasons ?? this.matchReasons,
+      summaryKey: summaryKey ?? this.summaryKey,
+      summaryParams: summaryParams ?? this.summaryParams,
     );
   }
 }
