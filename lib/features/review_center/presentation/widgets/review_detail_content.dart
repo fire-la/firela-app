@@ -19,6 +19,7 @@ import 'confidence_badge.dart';
 import 'decision_button_group.dart';
 import 'duplicate_compare_card.dart';
 import 'review_helpers.dart';
+import 'rule_suggestion_card.dart';
 
 /// ReviewDetailContent business component (.pen POCuA).
 ///
@@ -94,10 +95,13 @@ class ReviewDetailContent extends HookWidget {
     }
 
     Future<void> handleResolve(DecisionOption option) async {
-      // CHOOSE_OTHER / ACCEPT_AND_LEARN consume a chosen account from the
-      // candidate list (ACCOUNT_VALIDATION). Other actions take no data.
-      final needsAccount = option.value == 'CHOOSE_OTHER' ||
-          option.value == 'ACCEPT_AND_LEARN';
+      // Only ACCOUNT_VALIDATION decisions consume a chosen account from the
+      // picker. Other types' ACCEPT_AND_LEARN (RULE_MATCH / PAYEE_MATCH) learn
+      // patterns/aliases, not accounts — they take no `data` payload.
+      final needsAccount =
+          transaction.value?.reviewType == 'ACCOUNT_VALIDATION' &&
+              (option.value == 'CHOOSE_OTHER' ||
+                  option.value == 'ACCEPT_AND_LEARN');
       Map<String, dynamic>? data;
       if (needsAccount) {
         final chosen = selectedAccount.value;
@@ -287,6 +291,16 @@ class ReviewDetailContent extends HookWidget {
               source: tx.duplicateData!.sourceTransaction,
               target: tx.duplicateData!.targetTransaction,
               similarityPct:
+                  (ConfidenceLevel.normalize(tx.confidenceScore) * 100).round(),
+            ),
+          ],
+          // ruleSuggestionCard (.pen yiJrC) — RULE_MATCH type card.
+          if (tx.reviewType == 'RULE_MATCH' && tx.ruleMatchData != null) ...[
+            const SizedBox(height: TokenSpacing.xl),
+            RuleSuggestionCard(
+              ruleName: tx.ruleMatchData!.matchedRule.name,
+              destination: tx.ruleMatchData!.destination,
+              matchPct:
                   (ConfidenceLevel.normalize(tx.confidenceScore) * 100).round(),
             ),
           ],

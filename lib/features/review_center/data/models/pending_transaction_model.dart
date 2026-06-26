@@ -2,6 +2,8 @@ import '../../domain/entities/pending_transaction.dart';
 import '../../domain/entities/account_validation_data.dart';
 import '../../domain/entities/decision_option.dart';
 import '../../domain/entities/duplicate_data.dart';
+import '../../domain/entities/matched_rule.dart';
+import '../../domain/entities/rule_match_data.dart';
 import '../../domain/entities/similar_account.dart';
 import '../../domain/entities/transaction_summary.dart';
 import '../../domain/models/confidence_level.dart';
@@ -31,6 +33,7 @@ class PendingTransactionModel extends PendingTransaction {
     super.summaryParams,
     super.accountValidation,
     super.duplicateData,
+    super.ruleMatchData,
   });
 
   /// Create from JSON map
@@ -60,6 +63,8 @@ class PendingTransactionModel extends PendingTransaction {
           _parseAccountValidation(json['reviewData'], reviewType: reviewType),
       duplicateData:
           _parseDuplicateData(json['reviewData'], reviewType: reviewType),
+      ruleMatchData:
+          _parseRuleMatchData(json['reviewData'], reviewType: reviewType),
     );
   }
 
@@ -135,6 +140,35 @@ class PendingTransactionModel extends PendingTransaction {
       currency: value['currency'] as String? ?? '',
       payee: value['payee'] as String?,
       narration: value['narration'] as String? ?? '',
+    );
+  }
+
+  /// Parse RULE_MATCH branch data from `reviewData` JSONB.
+  /// Returns null for other review types or when no matched rule is present.
+  static RuleMatchData? _parseRuleMatchData(
+    dynamic value, {
+    String? reviewType,
+  }) {
+    if (reviewType != null && reviewType != 'RULE_MATCH') return null;
+    if (value is! Map) return null;
+    final rule = _parseMatchedRule(value['matchedRule']);
+    if (rule == null) return null;
+    String? destination;
+    final suggested = value['suggestedAccounts'];
+    if (suggested is Map) {
+      final dest = suggested['destination'];
+      if (dest is String && dest.isNotEmpty) destination = dest;
+    }
+    return RuleMatchData(matchedRule: rule, destination: destination);
+  }
+
+  static MatchedRule? _parseMatchedRule(dynamic value) {
+    if (value is! Map) return null;
+    final name = value['name'] as String?;
+    if (name == null || name.isEmpty) return null;
+    return MatchedRule(
+      id: value['id']?.toString() ?? '',
+      name: name,
     );
   }
 
@@ -255,6 +289,7 @@ class PendingTransactionModel extends PendingTransaction {
       summaryParams: entity.summaryParams,
       accountValidation: entity.accountValidation,
       duplicateData: entity.duplicateData,
+      ruleMatchData: entity.ruleMatchData,
     );
   }
 
@@ -278,6 +313,7 @@ class PendingTransactionModel extends PendingTransaction {
     Map<String, String>? summaryParams,
     AccountValidationData? accountValidation,
     DuplicateData? duplicateData,
+    RuleMatchData? ruleMatchData,
   }) {
     return PendingTransactionModel(
       id: id ?? this.id,
@@ -297,6 +333,7 @@ class PendingTransactionModel extends PendingTransaction {
       summaryParams: summaryParams ?? this.summaryParams,
       accountValidation: accountValidation ?? this.accountValidation,
       duplicateData: duplicateData ?? this.duplicateData,
+      ruleMatchData: ruleMatchData ?? this.ruleMatchData,
     );
   }
 }

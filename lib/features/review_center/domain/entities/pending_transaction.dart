@@ -2,6 +2,7 @@ import '../models/confidence_level.dart';
 import 'account_validation_data.dart';
 import 'decision_option.dart';
 import 'duplicate_data.dart';
+import 'rule_match_data.dart';
 
 /// Pending transaction entity (domain model)
 /// Represents a transaction imported from bill files that requires user review.
@@ -29,6 +30,7 @@ class PendingTransaction {
     this.summaryParams,
     this.accountValidation,
     this.duplicateData,
+    this.ruleMatchData,
   });
 
   final String id;
@@ -64,6 +66,9 @@ class PendingTransaction {
   /// DUPLICATE branch data (detail only). Drives the compare card.
   final DuplicateData? duplicateData;
 
+  /// RULE_MATCH branch data (detail only). Drives the rule suggestion card.
+  final RuleMatchData? ruleMatchData;
+
   /// Copy with method for immutability
   PendingTransaction copyWith({
     String? id,
@@ -83,6 +88,7 @@ class PendingTransaction {
     Map<String, String>? summaryParams,
     AccountValidationData? accountValidation,
     DuplicateData? duplicateData,
+    RuleMatchData? ruleMatchData,
   }) {
     return PendingTransaction(
       id: id ?? this.id,
@@ -102,6 +108,7 @@ class PendingTransaction {
       summaryParams: summaryParams ?? this.summaryParams,
       accountValidation: accountValidation ?? this.accountValidation,
       duplicateData: duplicateData ?? this.duplicateData,
+      ruleMatchData: ruleMatchData ?? this.ruleMatchData,
     );
   }
 

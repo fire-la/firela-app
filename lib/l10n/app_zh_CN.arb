@@ -401,6 +401,10 @@
   "reviewCenterNewImport": "新导入",
   "reviewCenterExistingRecord": "已有记录",
   "reviewCenterNoCandidates": "无候选账户",
+  "reviewCenterRuleMatchTitle": "匹配规则",
+  "reviewCenterRuleTargetLabel": "归类至",
+  "reviewCenterRuleConfidence": "规则匹配度 {pct}%",
+  "reviewCenterRuleNoTarget": "未指定目标账户",
 
   "reviewCenterExpense": "支出",
   "reviewCenterIncome": "收入",

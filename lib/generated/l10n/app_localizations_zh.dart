@@ -480,6 +480,20 @@ class AppLocalizationsZh extends AppLocalizations {
   String get reviewCenterNoCandidates => '无候选账户';
 
   @override
+  String get reviewCenterRuleMatchTitle => '匹配规则';
+
+  @override
+  String get reviewCenterRuleTargetLabel => '归类至';
+
+  @override
+  String reviewCenterRuleConfidence(int pct) {
+    return '规则匹配度 $pct%';
+  }
+
+  @override
+  String get reviewCenterRuleNoTarget => '未指定目标账户';
+
+  @override
   String get reviewCenterExpense => '支出';
 
   @override
@@ -2264,6 +2278,20 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get reviewCenterNoCandidates => '无候选账户';
 
   @override
+  String get reviewCenterRuleMatchTitle => '匹配规则';
+
+  @override
+  String get reviewCenterRuleTargetLabel => '归类至';
+
+  @override
+  String reviewCenterRuleConfidence(int pct) {
+    return '规则匹配度 $pct%';
+  }
+
+  @override
+  String get reviewCenterRuleNoTarget => '未指定目标账户';
+
+  @override
   String get reviewCenterExpense => '支出';
 
   @override
@@ -4046,6 +4074,20 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get reviewCenterNoCandidates => '無候選帳戶';
+
+  @override
+  String get reviewCenterRuleMatchTitle => '匹配規則';
+
+  @override
+  String get reviewCenterRuleTargetLabel => '歸類至';
+
+  @override
+  String reviewCenterRuleConfidence(int pct) {
+    return '規則匹配度 $pct%';
+  }
+
+  @override
+  String get reviewCenterRuleNoTarget => '未指定目標帳戶';
 
   @override
   String get reviewCenterExpense => '支出';

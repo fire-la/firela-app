@@ -488,6 +488,20 @@ class AppLocalizationsEn extends AppLocalizations {
   String get reviewCenterNoCandidates => 'No candidate accounts';
 
   @override
+  String get reviewCenterRuleMatchTitle => 'Matched Rule';
+
+  @override
+  String get reviewCenterRuleTargetLabel => 'Classify to';
+
+  @override
+  String reviewCenterRuleConfidence(int pct) {
+    return 'Rule match $pct%';
+  }
+
+  @override
+  String get reviewCenterRuleNoTarget => 'No target account';
+
+  @override
   String get reviewCenterExpense => 'Expense';
 
   @override

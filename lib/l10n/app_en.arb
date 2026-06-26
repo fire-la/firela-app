@@ -779,6 +779,27 @@
   "@reviewCenterNoCandidates": {
     "description": "Shown when ACCOUNT_VALIDATION has no similar accounts"
   },
+  "reviewCenterRuleMatchTitle": "Matched Rule",
+  "@reviewCenterRuleMatchTitle": {
+    "description": "RULE_MATCH card: header title"
+  },
+  "reviewCenterRuleTargetLabel": "Classify to",
+  "@reviewCenterRuleTargetLabel": {
+    "description": "RULE_MATCH card: target account row label"
+  },
+  "reviewCenterRuleConfidence": "Rule match {pct}%",
+  "@reviewCenterRuleConfidence": {
+    "description": "RULE_MATCH card: match score row",
+    "placeholders": {
+      "pct": {
+        "type": "int"
+      }
+    }
+  },
+  "reviewCenterRuleNoTarget": "No target account",
+  "@reviewCenterRuleNoTarget": {
+    "description": "RULE_MATCH card: shown when destination is unset"
+  },
 
 
 

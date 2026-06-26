@@ -1006,6 +1006,30 @@ abstract class AppLocalizations {
   /// **'No candidate accounts'**
   String get reviewCenterNoCandidates;
 
+  /// RULE_MATCH card: header title
+  ///
+  /// In en, this message translates to:
+  /// **'Matched Rule'**
+  String get reviewCenterRuleMatchTitle;
+
+  /// RULE_MATCH card: target account row label
+  ///
+  /// In en, this message translates to:
+  /// **'Classify to'**
+  String get reviewCenterRuleTargetLabel;
+
+  /// RULE_MATCH card: match score row
+  ///
+  /// In en, this message translates to:
+  /// **'Rule match {pct}%'**
+  String reviewCenterRuleConfidence(int pct);
+
+  /// RULE_MATCH card: shown when destination is unset
+  ///
+  /// In en, this message translates to:
+  /// **'No target account'**
+  String get reviewCenterRuleNoTarget;
+
   /// Expense label
   ///
   /// In en, this message translates to:
