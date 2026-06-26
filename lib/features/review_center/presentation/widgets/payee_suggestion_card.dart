@@ -9,6 +9,9 @@ import '../../../../core/design_tokens/design_tokens.dart';
 /// (ACCEPT / REJECT / ACCEPT_AND_LEARN) take no `data` payload, so this card has
 /// no selection state. When the backend has no confident suggestion
 /// ([suggestedPayee] is null), the mapping row degrades to a placeholder.
+///
+/// Surface/text colors use `ThemeTokens.of(context)` so the card adapts to dark
+/// mode (static `TokenColors.*` would stay light).
 class PayeeSuggestionCard extends StatelessWidget {
   const PayeeSuggestionCard({
     super.key,
@@ -26,14 +29,15 @@ class PayeeSuggestionCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final tokens = ThemeTokens.of(context);
     final hasSuggestion = suggestedPayee != null && suggestedPayee!.isNotEmpty;
     return Container(
       padding: const EdgeInsets.all(TokenSpacing.lg),
       decoration: BoxDecoration(
-        color: TokenColors.bgCard,
+        color: tokens.bgCard,
         borderRadius: BorderRadius.circular(TokenRadius.lg),
         border: Border.all(
-          color: TokenColors.borderCard,
+          color: tokens.borderCard,
           width: TokenSize.strokeThin,
         ),
       ),
@@ -41,29 +45,29 @@ class PayeeSuggestionCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
         children: [
-          _headerRow(l10n),
+          _headerRow(l10n, tokens),
           const SizedBox(height: TokenSpacing.md),
           if (hasSuggestion)
-            _mappingRow()
+            _mappingRow(tokens)
           else
             Text(
               l10n.reviewCenterPayeeNoSuggestion,
-              style: TokenTypography.caption(color: TokenColors.textTertiary),
+              style: TokenTypography.caption(color: tokens.textTertiary),
             ),
           const SizedBox(height: TokenSpacing.md),
           // payeeDivider (.pen c9L3B) — full-width hairline.
           Container(
             height: TokenSize.strokeNormal,
-            color: TokenColors.borderCard,
+            color: tokens.borderCard,
           ),
           const SizedBox(height: TokenSpacing.md),
-          _hintRow(l10n),
+          _hintRow(l10n, tokens),
         ],
       ),
     );
   }
 
-  Widget _headerRow(AppLocalizations l10n) {
+  Widget _headerRow(AppLocalizations l10n, ThemeTokens tokens) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -73,14 +77,14 @@ class PayeeSuggestionCard extends StatelessWidget {
           l10n.reviewCenterPayeeMatchTitle,
           style: TokenTypography.body(
             fontWeight: FontWeight.w600,
-            color: TokenColors.textPrimary,
+            color: tokens.textPrimary,
           ),
         ),
       ],
     );
   }
 
-  Widget _mappingRow() {
+  Widget _mappingRow(ThemeTokens tokens) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -88,12 +92,11 @@ class PayeeSuggestionCard extends StatelessWidget {
           child: Text(
             originalPayee,
             overflow: TextOverflow.ellipsis,
-            style: TokenTypography.caption(color: TokenColors.textSecondary),
+            style: TokenTypography.caption(color: tokens.textSecondary),
           ),
         ),
         const SizedBox(width: TokenSpacing.sm),
-        const Icon(Icons.arrow_forward,
-            size: 14, color: TokenColors.textTertiary),
+        Icon(Icons.arrow_forward, size: 14, color: tokens.textTertiary),
         const SizedBox(width: TokenSpacing.sm),
         Flexible(
           child: Text(
@@ -109,7 +112,7 @@ class PayeeSuggestionCard extends StatelessWidget {
     );
   }
 
-  Widget _hintRow(AppLocalizations l10n) {
+  Widget _hintRow(AppLocalizations l10n, ThemeTokens tokens) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -117,7 +120,7 @@ class PayeeSuggestionCard extends StatelessWidget {
         const SizedBox(width: TokenSpacing.sm),
         Text(
           l10n.reviewCenterPayeeMatchHint,
-          style: TokenTypography.caption(color: TokenColors.textTertiary),
+          style: TokenTypography.caption(color: tokens.textTertiary),
         ),
       ],
     );

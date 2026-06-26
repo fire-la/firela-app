@@ -11,6 +11,9 @@ import 'review_helpers.dart';
 /// existing). The new import is emphasized (primary), the existing record muted
 /// (secondary). DUPLICATE decisions take no `data` payload, so this card has no
 /// selection state.
+///
+/// Surface/text colors use `ThemeTokens.of(context)` so the card adapts to dark
+/// mode (static `TokenColors.*` would stay light).
 class DuplicateCompareCard extends StatelessWidget {
   const DuplicateCompareCard({
     super.key,
@@ -31,13 +34,14 @@ class DuplicateCompareCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final tokens = ThemeTokens.of(context);
     return Container(
       padding: const EdgeInsets.all(TokenSpacing.lg),
       decoration: BoxDecoration(
-        color: TokenColors.bgCard,
+        color: tokens.bgCard,
         borderRadius: BorderRadius.circular(TokenRadius.lg),
         border: Border.all(
-          color: TokenColors.borderCard,
+          color: tokens.borderCard,
           width: TokenSize.strokeThin,
         ),
       ),
@@ -58,13 +62,13 @@ class DuplicateCompareCard extends StatelessWidget {
               ),
               Text(
                 l10n.reviewCenterSimilarity(similarityPct),
-                style: TokenTypography.caption(color: TokenColors.textSecondary),
+                style: TokenTypography.caption(color: tokens.textSecondary),
               ),
               Text(
                 l10n.reviewCenterExistingRecord,
                 style: TokenTypography.caption(
                   fontWeight: FontWeight.w600,
-                  color: TokenColors.textTertiary,
+                  color: tokens.textTertiary,
                 ),
               ),
             ],
@@ -75,14 +79,14 @@ class DuplicateCompareCard extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Expanded(child: _column(source, emphasized: true)),
+                Expanded(child: _column(source, tokens, emphasized: true)),
                 const SizedBox(width: TokenSpacing.md),
                 Container(
                   width: TokenSize.strokeNormal,
-                  color: TokenColors.borderCard,
+                  color: tokens.borderCard,
                 ),
                 const SizedBox(width: TokenSpacing.md),
-                Expanded(child: _column(target, emphasized: false)),
+                Expanded(child: _column(target, tokens, emphasized: false)),
               ],
             ),
           ),
@@ -91,9 +95,10 @@ class DuplicateCompareCard extends StatelessWidget {
     );
   }
 
-  Widget _column(TransactionSummary tx, {required bool emphasized}) {
+  Widget _column(TransactionSummary tx, ThemeTokens tokens,
+      {required bool emphasized}) {
     final nameColor =
-        emphasized ? TokenColors.textPrimary : TokenColors.textSecondary;
+        emphasized ? tokens.textPrimary : tokens.textSecondary;
     // Title = payee, falling back to narration. The footer repeats narration
     // only when a payee is present, so narration never appears twice in a column.
     final hasPayee = tx.payee != null && tx.payee!.isNotEmpty;
@@ -127,7 +132,7 @@ class DuplicateCompareCard extends StatelessWidget {
           footer,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
-          style: TokenTypography.micro(color: TokenColors.textTertiary),
+          style: TokenTypography.micro(color: tokens.textTertiary),
         ),
       ],
     );

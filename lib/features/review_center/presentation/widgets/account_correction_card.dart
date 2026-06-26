@@ -14,6 +14,9 @@ import '../../domain/entities/similar_account.dart';
 ///
 /// Selection state is owned by the parent (pre-set to `suggestedAccount`); this
 /// widget is presentational and reports taps via [onSelect].
+///
+/// Surface/text colors use `ThemeTokens.of(context)` so the card adapts to dark
+/// mode (static `TokenColors.*` would stay light).
 class AccountCorrectionCard extends StatelessWidget {
   const AccountCorrectionCard({
     super.key,
@@ -43,16 +46,17 @@ class AccountCorrectionCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final tokens = ThemeTokens.of(context);
     final hasSuggested =
         suggestedAccount != null && suggestedAccount!.isNotEmpty;
 
     return Container(
       padding: const EdgeInsets.all(TokenSpacing.lg),
       decoration: BoxDecoration(
-        color: TokenColors.bgCard,
+        color: tokens.bgCard,
         borderRadius: BorderRadius.circular(TokenRadius.lg),
         border: Border.all(
-          color: TokenColors.borderCard,
+          color: tokens.borderCard,
           width: TokenSize.strokeThin,
         ),
       ),
@@ -60,30 +64,30 @@ class AccountCorrectionCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
         children: [
-          _titleRow(l10n),
+          _titleRow(l10n, tokens),
           const SizedBox(height: TokenSpacing.md),
-          _correctionRow(hasSuggested),
+          _correctionRow(l10n, tokens, hasSuggested),
           if (hasSuggested) ...[
             const SizedBox(height: TokenSpacing.md),
-            _reasonLine(l10n),
+            _reasonLine(l10n, tokens),
           ],
           const SizedBox(height: TokenSpacing.md),
           // divider
           Container(
-              height: TokenSize.strokeNormal, color: TokenColors.borderCard),
+              height: TokenSize.strokeNormal, color: tokens.borderCard),
           const SizedBox(height: TokenSpacing.md),
           Text(
             l10n.reviewCenterOtherSimilarAccounts,
-            style: TokenTypography.caption(color: TokenColors.textSecondary),
+            style: TokenTypography.caption(color: tokens.textSecondary),
           ),
           const SizedBox(height: TokenSpacing.md),
-          _candidatesList(l10n),
+          _candidatesList(l10n, tokens),
         ],
       ),
     );
   }
 
-  Widget _titleRow(AppLocalizations l10n) {
+  Widget _titleRow(AppLocalizations l10n, ThemeTokens tokens) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -93,14 +97,14 @@ class AccountCorrectionCard extends StatelessWidget {
           l10n.reviewCenterAccountIssue,
           style: TokenTypography.body(
             fontWeight: FontWeight.w600,
-            color: TokenColors.textPrimary,
+            color: tokens.textPrimary,
           ),
         ),
       ],
     );
   }
 
-  Widget _correctionRow(bool hasSuggested) {
+  Widget _correctionRow(AppLocalizations l10n, ThemeTokens tokens, bool hasSuggested) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -113,8 +117,7 @@ class AccountCorrectionCard extends StatelessWidget {
         ),
         if (hasSuggested) ...[
           const SizedBox(width: TokenSpacing.sm),
-          const Icon(Icons.arrow_forward,
-              size: 14, color: TokenColors.textTertiary),
+          Icon(Icons.arrow_forward, size: 14, color: tokens.textTertiary),
           const SizedBox(width: TokenSpacing.sm),
           Flexible(
             child: Text(
@@ -131,7 +134,7 @@ class AccountCorrectionCard extends StatelessWidget {
     );
   }
 
-  Widget _reasonLine(AppLocalizations l10n) {
+  Widget _reasonLine(AppLocalizations l10n, ThemeTokens tokens) {
     // Similarity reflects the suggested account's match score. The spec sends
     // account names without a score, so hide the line when there's none.
     final match = _findCandidate(suggestedAccount);
@@ -139,15 +142,15 @@ class AccountCorrectionCard extends StatelessWidget {
     final pct = (match.similarity * 100).round();
     return Text(
       l10n.reviewCenterSimilarity(pct),
-      style: TokenTypography.micro(color: TokenColors.textTertiary),
+      style: TokenTypography.micro(color: tokens.textTertiary),
     );
   }
 
-  Widget _candidatesList(AppLocalizations l10n) {
+  Widget _candidatesList(AppLocalizations l10n, ThemeTokens tokens) {
     if (candidates.isEmpty) {
       return Text(
         l10n.reviewCenterNoCandidates,
-        style: TokenTypography.body(color: TokenColors.textTertiary),
+        style: TokenTypography.body(color: tokens.textTertiary),
       );
     }
     return Column(
@@ -156,13 +159,14 @@ class AccountCorrectionCard extends StatelessWidget {
       children: [
         for (var i = 0; i < candidates.length; i++) ...[
           if (i > 0) const SizedBox(height: TokenSpacing.md),
-          _candidateRow(l10n, candidates[i]),
+          _candidateRow(l10n, tokens, candidates[i]),
         ],
       ],
     );
   }
 
-  Widget _candidateRow(AppLocalizations l10n, SimilarAccount candidate) {
+  Widget _candidateRow(
+      AppLocalizations l10n, ThemeTokens tokens, SimilarAccount candidate) {
     final isSelected = selectedAccount == candidate.name;
     final isSuggested = candidate.name == suggestedAccount;
     return GestureDetector(
@@ -183,8 +187,8 @@ class AccountCorrectionCard extends StatelessWidget {
                 fontWeight:
                     isSelected ? FontWeight.w600 : FontWeight.w400,
                 color: isSelected
-                    ? TokenColors.textPrimary
-                    : TokenColors.textSecondary,
+                    ? tokens.textPrimary
+                    : tokens.textSecondary,
               ),
             ),
           ),
@@ -201,7 +205,7 @@ class AccountCorrectionCard extends StatelessWidget {
             const SizedBox(width: TokenSpacing.sm),
             Text(
               l10n.reviewCenterFallbackAccount,
-              style: TokenTypography.micro(color: TokenColors.textTertiary),
+              style: TokenTypography.micro(color: tokens.textTertiary),
             ),
           ],
         ],

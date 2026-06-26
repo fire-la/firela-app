@@ -351,7 +351,7 @@ class ReviewDetailContent extends HookWidget {
                 for (final reason in reasons)
                   Tag(
                     label: reason,
-                    backgroundColor: TokenColors.neutral100,
+                    backgroundColor: tokens.neutral100,
                   ),
               ],
             ),

@@ -25,10 +25,11 @@ class PipelineErrorCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final tokens = ThemeTokens.of(context);
     return Container(
       padding: const EdgeInsets.all(TokenSpacing.lg),
       decoration: BoxDecoration(
-        color: TokenColors.bgCard,
+        color: tokens.bgCard,
         borderRadius: BorderRadius.circular(TokenRadius.lg),
         border: Border.all(
           color: TokenColors.error,
@@ -44,7 +45,7 @@ class PipelineErrorCard extends StatelessWidget {
           // pipeErrorMessage (.pen O0sVP) — fixed-width, wraps.
           Text(
             errorMessage,
-            style: TokenTypography.body(color: TokenColors.textPrimary),
+            style: TokenTypography.body(color: tokens.textPrimary),
           ),
         ],
       ),

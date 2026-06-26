@@ -8,6 +8,9 @@ import '../../../../core/design_tokens/design_tokens.dart';
 /// destination account the rule would classify to, and the rule match score.
 /// RULE_MATCH decisions (ACCEPT / REJECT / ACCEPT_AND_LEARN) take no `data`
 /// payload, so this card has no selection state.
+///
+/// Surface/text colors use `ThemeTokens.of(context)` so the card adapts to dark
+/// mode (static `TokenColors.*` would stay light).
 class RuleSuggestionCard extends StatelessWidget {
   const RuleSuggestionCard({
     super.key,
@@ -29,14 +32,15 @@ class RuleSuggestionCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final tokens = ThemeTokens.of(context);
     final hasDestination = destination != null && destination!.isNotEmpty;
     return Container(
       padding: const EdgeInsets.all(TokenSpacing.lg),
       decoration: BoxDecoration(
-        color: TokenColors.bgCard,
+        color: tokens.bgCard,
         borderRadius: BorderRadius.circular(TokenRadius.lg),
         border: Border.all(
-          color: TokenColors.borderCard,
+          color: tokens.borderCard,
           width: TokenSize.strokeThin,
         ),
       ),
@@ -44,7 +48,7 @@ class RuleSuggestionCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
         children: [
-          _headerRow(l10n),
+          _headerRow(l10n, tokens),
           const SizedBox(height: TokenSpacing.md),
           Text(
             ruleName,
@@ -52,23 +56,23 @@ class RuleSuggestionCard extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: TokenTypography.h4(
               fontWeight: FontWeight.w700,
-              color: TokenColors.textPrimary,
+              color: tokens.textPrimary,
             ),
           ),
           const SizedBox(height: TokenSpacing.md),
           // ruleDivider (.pen Wcegm) — full-width hairline.
           Container(
-              height: TokenSize.strokeNormal, color: TokenColors.borderCard),
+              height: TokenSize.strokeNormal, color: tokens.borderCard),
           const SizedBox(height: TokenSpacing.md),
-          _targetRow(l10n, hasDestination),
+          _targetRow(l10n, tokens, hasDestination),
           const SizedBox(height: TokenSpacing.md),
-          _confRow(l10n),
+          _confRow(l10n, tokens),
         ],
       ),
     );
   }
 
-  Widget _headerRow(AppLocalizations l10n) {
+  Widget _headerRow(AppLocalizations l10n, ThemeTokens tokens) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -78,20 +82,20 @@ class RuleSuggestionCard extends StatelessWidget {
           l10n.reviewCenterRuleMatchTitle,
           style: TokenTypography.body(
             fontWeight: FontWeight.w600,
-            color: TokenColors.textPrimary,
+            color: tokens.textPrimary,
           ),
         ),
       ],
     );
   }
 
-  Widget _targetRow(AppLocalizations l10n, bool hasDestination) {
+  Widget _targetRow(AppLocalizations l10n, ThemeTokens tokens, bool hasDestination) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
           l10n.reviewCenterRuleTargetLabel,
-          style: TokenTypography.caption(color: TokenColors.textTertiary),
+          style: TokenTypography.caption(color: tokens.textTertiary),
         ),
         const SizedBox(width: TokenSpacing.sm),
         Flexible(
@@ -102,7 +106,7 @@ class RuleSuggestionCard extends StatelessWidget {
               fontWeight: FontWeight.w600,
               color: hasDestination
                   ? TokenColors.textAccent
-                  : TokenColors.textTertiary,
+                  : tokens.textTertiary,
             ),
           ),
         ),
@@ -110,16 +114,15 @@ class RuleSuggestionCard extends StatelessWidget {
     );
   }
 
-  Widget _confRow(AppLocalizations l10n) {
+  Widget _confRow(AppLocalizations l10n, ThemeTokens tokens) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const Icon(Icons.speed_outlined,
-            size: 14, color: TokenColors.textTertiary),
+        Icon(Icons.speed_outlined, size: 14, color: tokens.textTertiary),
         const SizedBox(width: TokenSpacing.sm),
         Text(
           l10n.reviewCenterRuleConfidence(matchPct),
-          style: TokenTypography.caption(color: TokenColors.textTertiary),
+          style: TokenTypography.caption(color: tokens.textTertiary),
         ),
       ],
     );
