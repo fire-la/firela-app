@@ -579,6 +579,15 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get reviewCenterErrorTypeBooking => 'Booking Error';
+
+  @override
+  String get reviewCenterErrorTypeBalance => 'Balance Error';
+
+  @override
+  String get reviewCenterErrorTypeValidation => 'Validation Error';
+
+  @override
   String reviewBatchCount(String type, int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

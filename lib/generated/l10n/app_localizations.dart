@@ -1156,6 +1156,24 @@ abstract class AppLocalizations {
   /// **'{error}'**
   String reviewSummaryPipelineError(String error);
 
+  /// PIPELINE_ERROR type badge: booking error
+  ///
+  /// In en, this message translates to:
+  /// **'Booking Error'**
+  String get reviewCenterErrorTypeBooking;
+
+  /// PIPELINE_ERROR type badge: balance error
+  ///
+  /// In en, this message translates to:
+  /// **'Balance Error'**
+  String get reviewCenterErrorTypeBalance;
+
+  /// PIPELINE_ERROR type badge: validation error
+  ///
+  /// In en, this message translates to:
+  /// **'Validation Error'**
+  String get reviewCenterErrorTypeValidation;
+
   /// Batch bar count label
   ///
   /// In en, this message translates to:

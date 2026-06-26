@@ -2,6 +2,7 @@ import '../models/confidence_level.dart';
 import 'account_validation_data.dart';
 import 'decision_option.dart';
 import 'duplicate_data.dart';
+import 'pipeline_error_data.dart';
 import 'rule_match_data.dart';
 
 /// Pending transaction entity (domain model)
@@ -31,6 +32,7 @@ class PendingTransaction {
     this.accountValidation,
     this.duplicateData,
     this.ruleMatchData,
+    this.pipelineErrorData,
   });
 
   final String id;
@@ -69,6 +71,9 @@ class PendingTransaction {
   /// RULE_MATCH branch data (detail only). Drives the rule suggestion card.
   final RuleMatchData? ruleMatchData;
 
+  /// PIPELINE_ERROR branch data (detail only). Drives the pipeline error card.
+  final PipelineErrorData? pipelineErrorData;
+
   /// Copy with method for immutability
   PendingTransaction copyWith({
     String? id,
@@ -89,6 +94,7 @@ class PendingTransaction {
     AccountValidationData? accountValidation,
     DuplicateData? duplicateData,
     RuleMatchData? ruleMatchData,
+    PipelineErrorData? pipelineErrorData,
   }) {
     return PendingTransaction(
       id: id ?? this.id,
@@ -109,6 +115,7 @@ class PendingTransaction {
       accountValidation: accountValidation ?? this.accountValidation,
       duplicateData: duplicateData ?? this.duplicateData,
       ruleMatchData: ruleMatchData ?? this.ruleMatchData,
+      pipelineErrorData: pipelineErrorData ?? this.pipelineErrorData,
     );
   }
 

@@ -3,6 +3,7 @@ import '../../domain/entities/account_validation_data.dart';
 import '../../domain/entities/decision_option.dart';
 import '../../domain/entities/duplicate_data.dart';
 import '../../domain/entities/matched_rule.dart';
+import '../../domain/entities/pipeline_error_data.dart';
 import '../../domain/entities/rule_match_data.dart';
 import '../../domain/entities/similar_account.dart';
 import '../../domain/entities/transaction_summary.dart';
@@ -34,6 +35,7 @@ class PendingTransactionModel extends PendingTransaction {
     super.accountValidation,
     super.duplicateData,
     super.ruleMatchData,
+    super.pipelineErrorData,
   });
 
   /// Create from JSON map
@@ -41,12 +43,18 @@ class PendingTransactionModel extends PendingTransaction {
     final reviewType = json['type'] as String?;
     return PendingTransactionModel(
       id: json['id'] as String? ?? '',
-      accountName: json['account_name'] as String? ?? json['accountName'] as String? ?? '',
-      merchantName: json['merchant_name'] as String? ?? json['merchantName'] as String? ?? '',
+      accountName: json['account_name'] as String? ??
+          json['accountName'] as String? ??
+          '',
+      merchantName: json['merchant_name'] as String? ??
+          json['merchantName'] as String? ??
+          '',
       amount: _parseAmount(json['amount']),
       currency: json['currency'] as String? ?? 'CNY',
-      transactionTime: _parseDateTime(json['transaction_time'] ?? json['transactionTime']),
-      confidenceLevel: _parseConfidenceLevel(json['confidence_level'] ?? json['confidenceLevel']),
+      transactionTime:
+          _parseDateTime(json['transaction_time'] ?? json['transactionTime']),
+      confidenceLevel: _parseConfidenceLevel(
+          json['confidence_level'] ?? json['confidenceLevel']),
       // DTO field is `confidence` (0-1); keep legacy snake/camel fallbacks.
       confidenceScore: (json['confidence'] as num?)?.toDouble() ??
           (json['confidence_score'] as num?)?.toDouble() ??
@@ -54,7 +62,8 @@ class PendingTransactionModel extends PendingTransaction {
           0.0,
       createdAt: _parseDateTime(json['created_at'] ?? json['createdAt']),
       reviewType: reviewType,
-      sourceType: json['sourceType'] as String? ?? json['source_type'] as String?,
+      sourceType:
+          json['sourceType'] as String? ?? json['source_type'] as String?,
       decisionOptions: _parseDecisionOptions(json['decisionOptions']),
       matchReasons: _parseStringList(json['matchReasons']),
       summaryKey: json['summaryKey'] as String?,
@@ -65,6 +74,8 @@ class PendingTransactionModel extends PendingTransaction {
           _parseDuplicateData(json['reviewData'], reviewType: reviewType),
       ruleMatchData:
           _parseRuleMatchData(json['reviewData'], reviewType: reviewType),
+      pipelineErrorData:
+          _parsePipelineErrorData(json['reviewData'], reviewType: reviewType),
     );
   }
 
@@ -172,6 +183,22 @@ class PendingTransactionModel extends PendingTransaction {
     );
   }
 
+  /// Parse PIPELINE_ERROR branch data from `reviewData` JSONB.
+  /// Returns null for other review types or when no error message is present.
+  static PipelineErrorData? _parsePipelineErrorData(
+    dynamic value, {
+    String? reviewType,
+  }) {
+    if (reviewType != null && reviewType != 'PIPELINE_ERROR') return null;
+    if (value is! Map) return null;
+    final message = value['errorMessage'] as String?;
+    if (message == null || message.isEmpty) return null;
+    return PipelineErrorData(
+      errorType: value['errorType'] as String? ?? '',
+      errorMessage: message,
+    );
+  }
+
   static List<DecisionOption> _parseDecisionOptions(dynamic value) {
     if (value is! List) return const [];
     return value
@@ -259,7 +286,8 @@ class PendingTransactionModel extends PendingTransaction {
                 'value': o.value,
                 'labelKey': o.labelKey,
                 if (o.recommended) 'recommended': true,
-                if (o.descriptionKey != null) 'descriptionKey': o.descriptionKey,
+                if (o.descriptionKey != null)
+                  'descriptionKey': o.descriptionKey,
               })
           .toList(),
       'matchReasons': matchReasons,
@@ -290,6 +318,7 @@ class PendingTransactionModel extends PendingTransaction {
       accountValidation: entity.accountValidation,
       duplicateData: entity.duplicateData,
       ruleMatchData: entity.ruleMatchData,
+      pipelineErrorData: entity.pipelineErrorData,
     );
   }
 
@@ -314,6 +343,7 @@ class PendingTransactionModel extends PendingTransaction {
     AccountValidationData? accountValidation,
     DuplicateData? duplicateData,
     RuleMatchData? ruleMatchData,
+    PipelineErrorData? pipelineErrorData,
   }) {
     return PendingTransactionModel(
       id: id ?? this.id,
@@ -334,6 +364,7 @@ class PendingTransactionModel extends PendingTransaction {
       accountValidation: accountValidation ?? this.accountValidation,
       duplicateData: duplicateData ?? this.duplicateData,
       ruleMatchData: ruleMatchData ?? this.ruleMatchData,
+      pipelineErrorData: pipelineErrorData ?? this.pipelineErrorData,
     );
   }
 }

@@ -571,6 +571,15 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
+  String get reviewCenterErrorTypeBooking => '簿记错误';
+
+  @override
+  String get reviewCenterErrorTypeBalance => '余额错误';
+
+  @override
+  String get reviewCenterErrorTypeValidation => '校验错误';
+
+  @override
   String reviewBatchCount(String type, int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -1673,17 +1682,17 @@ class AppLocalizationsZh extends AppLocalizations {
   String get txAddTagPlaceholder => '标签名称';
 
   @override
-  String get txTagSearchOrNew => 'Search or create tag';
+  String get txTagSearchOrNew => '搜索或新建标签';
 
   @override
-  String get txTagCommonTags => 'Recent tags';
+  String get txTagCommonTags => '最近常用';
 
   @override
-  String get txTagNoResults => 'No matching tags';
+  String get txTagNoResults => '无匹配标签';
 
   @override
   String txTagCreateNew(String tag) {
-    return 'Create new tag \"$tag\"';
+    return '新建标签「$tag」';
   }
 
   @override
@@ -2367,6 +2376,15 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String reviewSummaryPipelineError(String error) {
     return '$error';
   }
+
+  @override
+  String get reviewCenterErrorTypeBooking => '簿记错误';
+
+  @override
+  String get reviewCenterErrorTypeBalance => '余额错误';
+
+  @override
+  String get reviewCenterErrorTypeValidation => '校验错误';
 
   @override
   String reviewBatchCount(String type, int count) {
@@ -4167,6 +4185,15 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
   }
 
   @override
+  String get reviewCenterErrorTypeBooking => '簿記錯誤';
+
+  @override
+  String get reviewCenterErrorTypeBalance => '餘額錯誤';
+
+  @override
+  String get reviewCenterErrorTypeValidation => '校驗錯誤';
+
+  @override
   String reviewBatchCount(String type, int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -5267,6 +5294,20 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get txAddTagPlaceholder => '標籤名稱';
+
+  @override
+  String get txTagSearchOrNew => '搜尋或新增標籤';
+
+  @override
+  String get txTagCommonTags => '最近常用';
+
+  @override
+  String get txTagNoResults => '無匹配標籤';
+
+  @override
+  String txTagCreateNew(String tag) {
+    return '新增標籤「$tag」';
+  }
 
   @override
   String get txPostingsTitle => '分錄';

@@ -18,6 +18,7 @@ import 'account_correction_card.dart';
 import 'confidence_badge.dart';
 import 'decision_button_group.dart';
 import 'duplicate_compare_card.dart';
+import 'pipeline_error_card.dart';
 import 'review_helpers.dart';
 import 'rule_suggestion_card.dart';
 
@@ -170,9 +171,12 @@ class ReviewDetailContent extends HookWidget {
     }
 
     final tx = transaction.value!;
-    final hasConfidence = tx.confidenceLevel != ConfidenceLevel.low ||
-        tx.confidenceScore > 0;
+    final hasConfidence =
+        tx.confidenceLevel != ConfidenceLevel.low || tx.confidenceScore > 0;
     final reasons = tx.matchReasons;
+    // PIPELINE_ERROR's header icon frame uses the error theme (.pen T7fVHn);
+    // every other type uses the accent theme.
+    final isPipelineError = tx.reviewType == 'PIPELINE_ERROR';
 
     return SingleChildScrollView(
       padding: const EdgeInsets.all(TokenSpacing.xl),
@@ -187,14 +191,18 @@ class ReviewDetailContent extends HookWidget {
                 width: 44,
                 height: 44,
                 decoration: BoxDecoration(
-                  color: TokenColors.accentBg,
+                  color: isPipelineError
+                      ? TokenColors.errorBg
+                      : TokenColors.accentBg,
                   borderRadius: TokenRadius.borderMd,
                 ),
                 alignment: Alignment.center,
                 child: Icon(
                   reviewTypeIcon(tx.reviewType),
                   size: 22,
-                  color: TokenColors.textAccent,
+                  color: isPipelineError
+                      ? TokenColors.error
+                      : TokenColors.textAccent,
                 ),
               ),
               const SizedBox(width: TokenSpacing.md),
@@ -302,6 +310,15 @@ class ReviewDetailContent extends HookWidget {
               destination: tx.ruleMatchData!.destination,
               matchPct:
                   (ConfidenceLevel.normalize(tx.confidenceScore) * 100).round(),
+            ),
+          ],
+          // pipelineErrorCard (.pen lXQEi) — PIPELINE_ERROR type card.
+          if (tx.reviewType == 'PIPELINE_ERROR' &&
+              tx.pipelineErrorData != null) ...[
+            const SizedBox(height: TokenSpacing.xl),
+            PipelineErrorCard(
+              errorType: tx.pipelineErrorData!.errorType,
+              errorMessage: tx.pipelineErrorData!.errorMessage,
             ),
           ],
           // reasonHeader + reasonsRow (.pen X6Z1W + s0og6F) — match reasons

@@ -887,6 +887,18 @@
     "description": "PIPELINE_ERROR row summary",
     "placeholders": { "error": { "type": "String" } }
   },
+  "reviewCenterErrorTypeBooking": "Booking Error",
+  "@reviewCenterErrorTypeBooking": {
+    "description": "PIPELINE_ERROR type badge: booking error"
+  },
+  "reviewCenterErrorTypeBalance": "Balance Error",
+  "@reviewCenterErrorTypeBalance": {
+    "description": "PIPELINE_ERROR type badge: balance error"
+  },
+  "reviewCenterErrorTypeValidation": "Validation Error",
+  "@reviewCenterErrorTypeValidation": {
+    "description": "PIPELINE_ERROR type badge: validation error"
+  },
   "reviewBatchCount": "{type} · {count, plural, one{{count} item} other{{count} items}}",
   "@reviewBatchCount": {
     "description": "Batch bar count label",
