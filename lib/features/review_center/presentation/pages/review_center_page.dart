@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
@@ -40,6 +41,10 @@ class ReviewCenterPage extends HookWidget {
     final tokens = ThemeTokens.of(context);
     final state = useReviewCenter();
     final scrollController = useScrollController();
+    // Horizontal scroll controller for the type-chip strip (.pen vrZAl).
+    // Used to translate a vertical mouse wheel into horizontal scroll on web
+    // (see the Listener wrapping the strip below).
+    final chipScrollController = useScrollController();
     // Subscribe to stats so chips/header rebuild on count changes.
     final stats = pendingCountByTypeSignal.watch(context);
 
@@ -228,22 +233,43 @@ class ReviewCenterPage extends HookWidget {
                     TokenSpacing.xl,
                   ),
                   children: [
-                    // statsRow (.pen vrZAl): type chips
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: [
-                          for (final t in _types) ...[
-                            ReviewTypeChip(
-                              icon: reviewTypeIcon(t),
-                              label: reviewTypeChipLabel(l10n, t),
-                              count: t == null ? total : (stats[t] ?? 0),
-                              selected: state.currentType == t,
-                              onTap: () => state.changeType(t),
-                            ),
-                            const SizedBox(width: TokenSpacing.sm),
+                    // statsRow (.pen vrZAl): type chips.
+                    // Translate a vertical mouse wheel into horizontal scroll:
+                    // a horizontal Scrollable ignores a vertical wheel on web,
+                    // and the parent ListView would otherwise steal the event
+                    // and scroll the page instead (verified). Registering the
+                    // signal claims it so the page stays put while the cursor
+                    // is over the chips.
+                    Listener(
+                      onPointerSignal: (event) {
+                        if (event is! PointerScrollEvent) return;
+                        if (!chipScrollController.hasClients) return;
+                        final pos = chipScrollController.position;
+                        final target = (pos.pixels + event.scrollDelta.dy)
+                            .clamp(pos.minScrollExtent, pos.maxScrollExtent)
+                            .toDouble();
+                        GestureBinding.instance.pointerSignalResolver.register(
+                          event,
+                          (_) => chipScrollController.jumpTo(target),
+                        );
+                      },
+                      child: SingleChildScrollView(
+                        controller: chipScrollController,
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            for (final t in _types) ...[
+                              ReviewTypeChip(
+                                icon: reviewTypeIcon(t),
+                                label: reviewTypeChipLabel(l10n, t),
+                                count: t == null ? total : (stats[t] ?? 0),
+                                selected: state.currentType == t,
+                                onTap: () => state.changeType(t),
+                              ),
+                              const SizedBox(width: TokenSpacing.sm),
+                            ],
                           ],
-                        ],
+                        ),
                       ),
                     ),
                     const SizedBox(height: TokenSpacing.md),
