@@ -454,6 +454,32 @@ class AppLocalizationsZh extends AppLocalizations {
   String get reviewActionIgnore => '忽略';
 
   @override
+  String get reviewCenterAccountIssue => '账户问题';
+
+  @override
+  String get reviewCenterOtherSimilarAccounts => '其他相似账户';
+
+  @override
+  String get reviewCenterRecommended => '推荐';
+
+  @override
+  String get reviewCenterFallbackAccount => '兜底账户';
+
+  @override
+  String reviewCenterSimilarity(int pct) {
+    return '相似度 $pct%';
+  }
+
+  @override
+  String get reviewCenterNewImport => '新导入';
+
+  @override
+  String get reviewCenterExistingRecord => '已有记录';
+
+  @override
+  String get reviewCenterNoCandidates => '无候选账户';
+
+  @override
   String get reviewCenterExpense => '支出';
 
   @override
@@ -464,6 +490,133 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get reviewCenterLoadFailed => '加载失败，请重试';
+
+  @override
+  String get reviewChipAll => '全部';
+
+  @override
+  String get reviewChipDuplicate => '去重';
+
+  @override
+  String get reviewChipRule => '规则';
+
+  @override
+  String get reviewChipPayee => '商户';
+
+  @override
+  String get reviewChipAccount => '账户';
+
+  @override
+  String get reviewChipPipeline => '错误';
+
+  @override
+  String get reviewConfidenceHigh => '很有把握';
+
+  @override
+  String get reviewConfidenceMedium => '基本确定';
+
+  @override
+  String get reviewConfidenceLow => '不太确定';
+
+  @override
+  String get reviewConfidencePendingFix => '待修复';
+
+  @override
+  String reviewPendingCount(int count) {
+    return '共 $count 项待审核';
+  }
+
+  @override
+  String reviewSourceTag(String type, String source) {
+    return '$type · $source';
+  }
+
+  @override
+  String reviewSummaryDuplicate(String amount) {
+    return '$amount 可能与已有交易重复';
+  }
+
+  @override
+  String reviewSummaryRuleMatch(String ruleName) {
+    return '规则 $ruleName 待应用';
+  }
+
+  @override
+  String reviewSummaryPayeeMatch(String suggested) {
+    return '商户“$suggested”待识别';
+  }
+
+  @override
+  String reviewSummaryAccountValidation(String account) {
+    return '账户“$account”疑似拼写错误';
+  }
+
+  @override
+  String reviewSummaryPipelineError(String error) {
+    return '$error';
+  }
+
+  @override
+  String reviewBatchCount(String type, int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 项',
+    );
+    return '$type · $_temp0';
+  }
+
+  @override
+  String reviewBatchApply(int count, String action) {
+    return '应用 $count 项 · $action';
+  }
+
+  @override
+  String get reviewBatchTitle => '批量处理';
+
+  @override
+  String get reviewActionSkip => '跳过';
+
+  @override
+  String get reviewActionReplace => '覆盖';
+
+  @override
+  String get reviewActionSkipHint => '忽略新导入的重复，保留已记账交易';
+
+  @override
+  String get reviewActionReplaceHint => '用新交易替换已有交易（不可批量撤销）';
+
+  @override
+  String get reviewInlineApply => '应用';
+
+  @override
+  String get reviewInlineSelect => '选择';
+
+  @override
+  String reviewResolvedUndoHint(int count) {
+    return '已处理 $count 笔 · 24h 内逐条撤销';
+  }
+
+  @override
+  String get reviewUndo => '撤销';
+
+  @override
+  String get reviewUndoFailed => '撤销失败，请重试';
+
+  @override
+  String reviewBatchApplied(int success) {
+    String _temp0 = intl.Intl.pluralLogic(
+      success,
+      locale: localeName,
+      other: '已处理 $success 项',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String reviewBatchPartial(int success, int failed) {
+    return '已处理 $success 项，$failed 项失败';
+  }
 
   @override
   String get region => '地域';
@@ -2085,6 +2238,32 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get reviewActionIgnore => '忽略';
 
   @override
+  String get reviewCenterAccountIssue => '账户问题';
+
+  @override
+  String get reviewCenterOtherSimilarAccounts => '其他相似账户';
+
+  @override
+  String get reviewCenterRecommended => '推荐';
+
+  @override
+  String get reviewCenterFallbackAccount => '兜底账户';
+
+  @override
+  String reviewCenterSimilarity(int pct) {
+    return '相似度 $pct%';
+  }
+
+  @override
+  String get reviewCenterNewImport => '新导入';
+
+  @override
+  String get reviewCenterExistingRecord => '已有记录';
+
+  @override
+  String get reviewCenterNoCandidates => '无候选账户';
+
+  @override
   String get reviewCenterExpense => '支出';
 
   @override
@@ -2095,6 +2274,133 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
 
   @override
   String get reviewCenterLoadFailed => '加载失败，请重试';
+
+  @override
+  String get reviewChipAll => '全部';
+
+  @override
+  String get reviewChipDuplicate => '去重';
+
+  @override
+  String get reviewChipRule => '规则';
+
+  @override
+  String get reviewChipPayee => '商户';
+
+  @override
+  String get reviewChipAccount => '账户';
+
+  @override
+  String get reviewChipPipeline => '错误';
+
+  @override
+  String get reviewConfidenceHigh => '很有把握';
+
+  @override
+  String get reviewConfidenceMedium => '基本确定';
+
+  @override
+  String get reviewConfidenceLow => '不太确定';
+
+  @override
+  String get reviewConfidencePendingFix => '待修复';
+
+  @override
+  String reviewPendingCount(int count) {
+    return '共 $count 项待审核';
+  }
+
+  @override
+  String reviewSourceTag(String type, String source) {
+    return '$type · $source';
+  }
+
+  @override
+  String reviewSummaryDuplicate(String amount) {
+    return '$amount 可能与已有交易重复';
+  }
+
+  @override
+  String reviewSummaryRuleMatch(String ruleName) {
+    return '规则 $ruleName 待应用';
+  }
+
+  @override
+  String reviewSummaryPayeeMatch(String suggested) {
+    return '商户“$suggested”待识别';
+  }
+
+  @override
+  String reviewSummaryAccountValidation(String account) {
+    return '账户“$account”疑似拼写错误';
+  }
+
+  @override
+  String reviewSummaryPipelineError(String error) {
+    return '$error';
+  }
+
+  @override
+  String reviewBatchCount(String type, int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 项',
+    );
+    return '$type · $_temp0';
+  }
+
+  @override
+  String reviewBatchApply(int count, String action) {
+    return '应用 $count 项 · $action';
+  }
+
+  @override
+  String get reviewBatchTitle => '批量处理';
+
+  @override
+  String get reviewActionSkip => '跳过';
+
+  @override
+  String get reviewActionReplace => '覆盖';
+
+  @override
+  String get reviewActionSkipHint => '忽略新导入的重复，保留已记账交易';
+
+  @override
+  String get reviewActionReplaceHint => '用新交易替换已有交易（不可批量撤销）';
+
+  @override
+  String get reviewInlineApply => '应用';
+
+  @override
+  String get reviewInlineSelect => '选择';
+
+  @override
+  String reviewResolvedUndoHint(int count) {
+    return '已处理 $count 笔 · 24h 内逐条撤销';
+  }
+
+  @override
+  String get reviewUndo => '撤销';
+
+  @override
+  String get reviewUndoFailed => '撤销失败，请重试';
+
+  @override
+  String reviewBatchApplied(int success) {
+    String _temp0 = intl.Intl.pluralLogic(
+      success,
+      locale: localeName,
+      other: '已处理 $success 项',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String reviewBatchPartial(int success, int failed) {
+    return '已处理 $success 项，$failed 项失败';
+  }
 
   @override
   String get region => '地域';
@@ -3716,6 +4022,32 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
   String get reviewActionIgnore => '忽略';
 
   @override
+  String get reviewCenterAccountIssue => '帳戶問題';
+
+  @override
+  String get reviewCenterOtherSimilarAccounts => '其他相似帳戶';
+
+  @override
+  String get reviewCenterRecommended => '推薦';
+
+  @override
+  String get reviewCenterFallbackAccount => '兜底帳戶';
+
+  @override
+  String reviewCenterSimilarity(int pct) {
+    return '相似度 $pct%';
+  }
+
+  @override
+  String get reviewCenterNewImport => '新匯入';
+
+  @override
+  String get reviewCenterExistingRecord => '已有記錄';
+
+  @override
+  String get reviewCenterNoCandidates => '無候選帳戶';
+
+  @override
   String get reviewCenterExpense => '支出';
 
   @override
@@ -3726,6 +4058,133 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get reviewCenterLoadFailed => '載入失敗，請重試';
+
+  @override
+  String get reviewChipAll => '全部';
+
+  @override
+  String get reviewChipDuplicate => '去重';
+
+  @override
+  String get reviewChipRule => '規則';
+
+  @override
+  String get reviewChipPayee => '商戶';
+
+  @override
+  String get reviewChipAccount => '帳戶';
+
+  @override
+  String get reviewChipPipeline => '錯誤';
+
+  @override
+  String get reviewConfidenceHigh => '很有把握';
+
+  @override
+  String get reviewConfidenceMedium => '基本確定';
+
+  @override
+  String get reviewConfidenceLow => '不太確定';
+
+  @override
+  String get reviewConfidencePendingFix => '待修復';
+
+  @override
+  String reviewPendingCount(int count) {
+    return '共 $count 項待審核';
+  }
+
+  @override
+  String reviewSourceTag(String type, String source) {
+    return '$type · $source';
+  }
+
+  @override
+  String reviewSummaryDuplicate(String amount) {
+    return '$amount 可能與已有交易重複';
+  }
+
+  @override
+  String reviewSummaryRuleMatch(String ruleName) {
+    return '規則 $ruleName 待套用';
+  }
+
+  @override
+  String reviewSummaryPayeeMatch(String suggested) {
+    return '商戶「$suggested」待識別';
+  }
+
+  @override
+  String reviewSummaryAccountValidation(String account) {
+    return '帳戶「$account」疑似拼寫錯誤';
+  }
+
+  @override
+  String reviewSummaryPipelineError(String error) {
+    return '$error';
+  }
+
+  @override
+  String reviewBatchCount(String type, int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 項',
+    );
+    return '$type · $_temp0';
+  }
+
+  @override
+  String reviewBatchApply(int count, String action) {
+    return '套用 $count 項 · $action';
+  }
+
+  @override
+  String get reviewBatchTitle => '批次處理';
+
+  @override
+  String get reviewActionSkip => '略過';
+
+  @override
+  String get reviewActionReplace => '覆蓋';
+
+  @override
+  String get reviewActionSkipHint => '略過新匯入的重複，保留已記帳交易';
+
+  @override
+  String get reviewActionReplaceHint => '用新交易取代已有交易（不可批次撤銷）';
+
+  @override
+  String get reviewInlineApply => '套用';
+
+  @override
+  String get reviewInlineSelect => '選擇';
+
+  @override
+  String reviewResolvedUndoHint(int count) {
+    return '已處理 $count 筆 · 24h 內逐筆撤銷';
+  }
+
+  @override
+  String get reviewUndo => '復原';
+
+  @override
+  String get reviewUndoFailed => '復原失敗，請重試';
+
+  @override
+  String reviewBatchApplied(int success) {
+    String _temp0 = intl.Intl.pluralLogic(
+      success,
+      locale: localeName,
+      other: '已處理 $success 項',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String reviewBatchPartial(int success, int failed) {
+    return '已處理 $success 項，$failed 項失敗';
+  }
 
   @override
   String get region => '地域';

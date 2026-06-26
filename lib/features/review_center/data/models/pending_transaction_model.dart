@@ -1,5 +1,9 @@
 import '../../domain/entities/pending_transaction.dart';
+import '../../domain/entities/account_validation_data.dart';
 import '../../domain/entities/decision_option.dart';
+import '../../domain/entities/duplicate_data.dart';
+import '../../domain/entities/similar_account.dart';
+import '../../domain/entities/transaction_summary.dart';
 import '../../domain/models/confidence_level.dart';
 
 /// Data model for pending transaction with JSON serialization.
@@ -20,14 +24,18 @@ class PendingTransactionModel extends PendingTransaction {
     required super.confidenceScore,
     required super.createdAt,
     super.reviewType,
+    super.sourceType,
     super.decisionOptions,
     super.matchReasons,
     super.summaryKey,
     super.summaryParams,
+    super.accountValidation,
+    super.duplicateData,
   });
 
   /// Create from JSON map
   factory PendingTransactionModel.fromJson(Map<String, dynamic> json) {
+    final reviewType = json['type'] as String?;
     return PendingTransactionModel(
       id: json['id'] as String? ?? '',
       accountName: json['account_name'] as String? ?? json['accountName'] as String? ?? '',
@@ -42,11 +50,91 @@ class PendingTransactionModel extends PendingTransaction {
           (json['confidenceScore'] as num?)?.toDouble() ??
           0.0,
       createdAt: _parseDateTime(json['created_at'] ?? json['createdAt']),
-      reviewType: json['type'] as String?,
+      reviewType: reviewType,
+      sourceType: json['sourceType'] as String? ?? json['source_type'] as String?,
       decisionOptions: _parseDecisionOptions(json['decisionOptions']),
       matchReasons: _parseStringList(json['matchReasons']),
       summaryKey: json['summaryKey'] as String?,
       summaryParams: _parseStringMap(json['summaryParams']),
+      accountValidation:
+          _parseAccountValidation(json['reviewData'], reviewType: reviewType),
+      duplicateData:
+          _parseDuplicateData(json['reviewData'], reviewType: reviewType),
+    );
+  }
+
+  /// Parse ACCOUNT_VALIDATION branch data from `reviewData` JSONB.
+  /// Returns null for other review types (their reviewData lacks these fields).
+  static AccountValidationData? _parseAccountValidation(
+    dynamic value, {
+    String? reviewType,
+  }) {
+    if (value is! Map) return null;
+    // Gate on review type: only ACCOUNT_VALIDATION carries this shape. Other
+    // types' reviewData may share key names, so don't parse them as accounts.
+    if (reviewType != null && reviewType != 'ACCOUNT_VALIDATION') return null;
+    final invalid = value['invalidAccount'] as String?;
+    final similar = value['similarAccounts'];
+    if (invalid == null && similar is! List) return null;
+    return AccountValidationData(
+      invalidAccount: invalid ?? '',
+      suggestedAccount: value['suggestedAccount'] as String?,
+      similarAccounts: _parseSimilarAccounts(similar),
+      errorMessage: value['errorMessage'] as String?,
+    );
+  }
+
+  static List<SimilarAccount> _parseSimilarAccounts(dynamic value) {
+    if (value is! List) return const [];
+    // Spec (NlpAccountConfirmationDataDto) sends `similarAccounts` as a plain
+    // string[]; the object shape (name/similarity/reason/isFallback) is parsed
+    // defensively in case richer payloads appear.
+    SimilarAccount? parse(dynamic item) {
+      if (item is String) return SimilarAccount(name: item);
+      if (item is Map<String, dynamic>) {
+        return SimilarAccount(
+          name: item['name'] as String? ?? '',
+          similarity: (item['similarity'] as num?)?.toDouble() ?? 0.0,
+          reason: item['reason'] as String?,
+          isFallback: item['isFallback'] as bool? ?? false,
+        );
+      }
+      return null;
+    }
+
+    return value
+        .map(parse)
+        .whereType<SimilarAccount>()
+        .where((a) => a.name.isNotEmpty)
+        .toList();
+  }
+
+  /// Parse DUPLICATE branch data from `reviewData` JSONB.
+  /// Returns null for other review types or if either transaction is absent.
+  static DuplicateData? _parseDuplicateData(
+    dynamic value, {
+    String? reviewType,
+  }) {
+    if (reviewType != null && reviewType != 'DUPLICATE') return null;
+    if (value is! Map) return null;
+    final source = _parseTransactionSummary(value['sourceTransaction']);
+    final target = _parseTransactionSummary(value['targetTransaction']);
+    if (source == null || target == null) return null;
+    return DuplicateData(
+      sourceTransaction: source,
+      targetTransaction: target,
+    );
+  }
+
+  static TransactionSummary? _parseTransactionSummary(dynamic value) {
+    if (value is! Map) return null;
+    return TransactionSummary(
+      id: value['id'] as String?,
+      date: value['date'] as String? ?? '',
+      amount: _parseAmount(value['amount']),
+      currency: value['currency'] as String? ?? '',
+      payee: value['payee'] as String?,
+      narration: value['narration'] as String? ?? '',
     );
   }
 
@@ -143,6 +231,7 @@ class PendingTransactionModel extends PendingTransaction {
       'matchReasons': matchReasons,
       if (summaryKey != null) 'summaryKey': summaryKey,
       if (summaryParams != null) 'summaryParams': summaryParams,
+      if (sourceType != null) 'sourceType': sourceType,
     };
   }
 
@@ -159,10 +248,13 @@ class PendingTransactionModel extends PendingTransaction {
       confidenceScore: entity.confidenceScore,
       createdAt: entity.createdAt,
       reviewType: entity.reviewType,
+      sourceType: entity.sourceType,
       decisionOptions: entity.decisionOptions,
       matchReasons: entity.matchReasons,
       summaryKey: entity.summaryKey,
       summaryParams: entity.summaryParams,
+      accountValidation: entity.accountValidation,
+      duplicateData: entity.duplicateData,
     );
   }
 
@@ -179,10 +271,13 @@ class PendingTransactionModel extends PendingTransaction {
     double? confidenceScore,
     DateTime? createdAt,
     String? reviewType,
+    String? sourceType,
     List<DecisionOption>? decisionOptions,
     List<String>? matchReasons,
     String? summaryKey,
     Map<String, String>? summaryParams,
+    AccountValidationData? accountValidation,
+    DuplicateData? duplicateData,
   }) {
     return PendingTransactionModel(
       id: id ?? this.id,
@@ -195,10 +290,13 @@ class PendingTransactionModel extends PendingTransaction {
       confidenceScore: confidenceScore ?? this.confidenceScore,
       createdAt: createdAt ?? this.createdAt,
       reviewType: reviewType ?? this.reviewType,
+      sourceType: sourceType ?? this.sourceType,
       decisionOptions: decisionOptions ?? this.decisionOptions,
       matchReasons: matchReasons ?? this.matchReasons,
       summaryKey: summaryKey ?? this.summaryKey,
       summaryParams: summaryParams ?? this.summaryParams,
+      accountValidation: accountValidation ?? this.accountValidation,
+      duplicateData: duplicateData ?? this.duplicateData,
     );
   }
 }

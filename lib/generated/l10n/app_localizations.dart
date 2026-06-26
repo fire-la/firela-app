@@ -958,6 +958,54 @@ abstract class AppLocalizations {
   /// **'Ignore'**
   String get reviewActionIgnore;
 
+  /// ACCOUNT_VALIDATION card title
+  ///
+  /// In en, this message translates to:
+  /// **'Account Issue'**
+  String get reviewCenterAccountIssue;
+
+  /// ACCOUNT_VALIDATION candidate list label
+  ///
+  /// In en, this message translates to:
+  /// **'Other similar accounts'**
+  String get reviewCenterOtherSimilarAccounts;
+
+  /// Tag on the suggested account candidate
+  ///
+  /// In en, this message translates to:
+  /// **'Recommended'**
+  String get reviewCenterRecommended;
+
+  /// Tag on a fallback account candidate
+  ///
+  /// In en, this message translates to:
+  /// **'Fallback account'**
+  String get reviewCenterFallbackAccount;
+
+  /// Similarity percentage for review compare/score
+  ///
+  /// In en, this message translates to:
+  /// **'{pct}% match'**
+  String reviewCenterSimilarity(int pct);
+
+  /// DUPLICATE compare card: new import label
+  ///
+  /// In en, this message translates to:
+  /// **'New Import'**
+  String get reviewCenterNewImport;
+
+  /// DUPLICATE compare card: existing record label
+  ///
+  /// In en, this message translates to:
+  /// **'Existing Record'**
+  String get reviewCenterExistingRecord;
+
+  /// Shown when ACCOUNT_VALIDATION has no similar accounts
+  ///
+  /// In en, this message translates to:
+  /// **'No candidate accounts'**
+  String get reviewCenterNoCandidates;
+
   /// Expense label
   ///
   /// In en, this message translates to:
@@ -981,6 +1029,192 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Failed to load, please retry'**
   String get reviewCenterLoadFailed;
+
+  /// Type filter chip: all types
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get reviewChipAll;
+
+  /// Type filter chip: duplicate
+  ///
+  /// In en, this message translates to:
+  /// **'Duplicate'**
+  String get reviewChipDuplicate;
+
+  /// Type filter chip: rule match
+  ///
+  /// In en, this message translates to:
+  /// **'Rule'**
+  String get reviewChipRule;
+
+  /// Type filter chip: payee match
+  ///
+  /// In en, this message translates to:
+  /// **'Payee'**
+  String get reviewChipPayee;
+
+  /// Type filter chip: account validation
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get reviewChipAccount;
+
+  /// Type filter chip: pipeline error
+  ///
+  /// In en, this message translates to:
+  /// **'Error'**
+  String get reviewChipPipeline;
+
+  /// ConfidenceBadge label: high (>=85%)
+  ///
+  /// In en, this message translates to:
+  /// **'Very Confident'**
+  String get reviewConfidenceHigh;
+
+  /// ConfidenceBadge label: medium (60-84%)
+  ///
+  /// In en, this message translates to:
+  /// **'Likely'**
+  String get reviewConfidenceMedium;
+
+  /// ConfidenceBadge label: low (<60%)
+  ///
+  /// In en, this message translates to:
+  /// **'Uncertain'**
+  String get reviewConfidenceLow;
+
+  /// ConfidenceBadge label: pipeline error
+  ///
+  /// In en, this message translates to:
+  /// **'Needs Fix'**
+  String get reviewConfidencePendingFix;
+
+  /// Section header: total pending count
+  ///
+  /// In en, this message translates to:
+  /// **'{count} pending'**
+  String reviewPendingCount(int count);
+
+  /// Row source tag: type label and import source
+  ///
+  /// In en, this message translates to:
+  /// **'{type} · {source}'**
+  String reviewSourceTag(String type, String source);
+
+  /// DUPLICATE row summary
+  ///
+  /// In en, this message translates to:
+  /// **'{amount} may duplicate an existing entry'**
+  String reviewSummaryDuplicate(String amount);
+
+  /// RULE_MATCH row summary
+  ///
+  /// In en, this message translates to:
+  /// **'Rule {ruleName} to apply'**
+  String reviewSummaryRuleMatch(String ruleName);
+
+  /// PAYEE_MATCH row summary
+  ///
+  /// In en, this message translates to:
+  /// **'Payee \"{suggested}\" to identify'**
+  String reviewSummaryPayeeMatch(String suggested);
+
+  /// ACCOUNT_VALIDATION row summary
+  ///
+  /// In en, this message translates to:
+  /// **'Account \"{account}\" looks like a typo'**
+  String reviewSummaryAccountValidation(String account);
+
+  /// PIPELINE_ERROR row summary
+  ///
+  /// In en, this message translates to:
+  /// **'{error}'**
+  String reviewSummaryPipelineError(String error);
+
+  /// Batch bar count label
+  ///
+  /// In en, this message translates to:
+  /// **'{type} · {count, plural, one{{count} item} other{{count} items}}'**
+  String reviewBatchCount(String type, int count);
+
+  /// Batch bar apply button
+  ///
+  /// In en, this message translates to:
+  /// **'Apply {count} · {action}'**
+  String reviewBatchApply(int count, String action);
+
+  /// Batch action sheet title
+  ///
+  /// In en, this message translates to:
+  /// **'Batch resolve'**
+  String get reviewBatchTitle;
+
+  /// Batch/inline action: skip
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get reviewActionSkip;
+
+  /// Batch/inline action: replace
+  ///
+  /// In en, this message translates to:
+  /// **'Replace'**
+  String get reviewActionReplace;
+
+  /// Skip action hint
+  ///
+  /// In en, this message translates to:
+  /// **'Skip the new import, keep the existing entry'**
+  String get reviewActionSkipHint;
+
+  /// Replace action hint
+  ///
+  /// In en, this message translates to:
+  /// **'Replace the existing entry with the new one (no batch undo)'**
+  String get reviewActionReplaceHint;
+
+  /// Inline action label for RULE_MATCH
+  ///
+  /// In en, this message translates to:
+  /// **'Apply'**
+  String get reviewInlineApply;
+
+  /// Inline action label for PAYEE_MATCH
+  ///
+  /// In en, this message translates to:
+  /// **'Select'**
+  String get reviewInlineSelect;
+
+  /// Resolved/undo bar hint
+  ///
+  /// In en, this message translates to:
+  /// **'{count} resolved · undo one-by-one within 24h'**
+  String reviewResolvedUndoHint(int count);
+
+  /// Undo button
+  ///
+  /// In en, this message translates to:
+  /// **'Undo'**
+  String get reviewUndo;
+
+  /// Undo failure toast
+  ///
+  /// In en, this message translates to:
+  /// **'Undo failed, please retry'**
+  String get reviewUndoFailed;
+
+  /// Batch success toast
+  ///
+  /// In en, this message translates to:
+  /// **'{success, plural, one{{success} item resolved} other{{success} items resolved}}'**
+  String reviewBatchApplied(int success);
+
+  /// Batch partial-failure toast
+  ///
+  /// In en, this message translates to:
+  /// **'{success} resolved, {failed} failed'**
+  String reviewBatchPartial(int success, int failed);
 
   /// Region label
   ///

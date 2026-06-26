@@ -1,5 +1,7 @@
 import '../models/confidence_level.dart';
+import 'account_validation_data.dart';
 import 'decision_option.dart';
+import 'duplicate_data.dart';
 
 /// Pending transaction entity (domain model)
 /// Represents a transaction imported from bill files that requires user review.
@@ -20,10 +22,13 @@ class PendingTransaction {
     required this.confidenceScore,
     required this.createdAt,
     this.reviewType,
+    this.sourceType,
     this.decisionOptions = const [],
     this.matchReasons = const [],
     this.summaryKey,
     this.summaryParams,
+    this.accountValidation,
+    this.duplicateData,
   });
 
   final String id;
@@ -40,6 +45,9 @@ class PendingTransaction {
   /// ACCOUNT_VALIDATION / PIPELINE_ERROR). Null for list items.
   final String? reviewType;
 
+  /// Import source type (CSV / NLP / OCR / API). Drives the row's source tag.
+  final String? sourceType;
+
   /// Decision options to render as action buttons (detail only).
   final List<DecisionOption> decisionOptions;
 
@@ -49,6 +57,12 @@ class PendingTransaction {
   /// Backend i18n key + params for a one-line summary (detail only).
   final String? summaryKey;
   final Map<String, String>? summaryParams;
+
+  /// ACCOUNT_VALIDATION branch data (detail only). Drives the account picker.
+  final AccountValidationData? accountValidation;
+
+  /// DUPLICATE branch data (detail only). Drives the compare card.
+  final DuplicateData? duplicateData;
 
   /// Copy with method for immutability
   PendingTransaction copyWith({
@@ -62,10 +76,13 @@ class PendingTransaction {
     double? confidenceScore,
     DateTime? createdAt,
     String? reviewType,
+    String? sourceType,
     List<DecisionOption>? decisionOptions,
     List<String>? matchReasons,
     String? summaryKey,
     Map<String, String>? summaryParams,
+    AccountValidationData? accountValidation,
+    DuplicateData? duplicateData,
   }) {
     return PendingTransaction(
       id: id ?? this.id,
@@ -78,10 +95,13 @@ class PendingTransaction {
       confidenceScore: confidenceScore ?? this.confidenceScore,
       createdAt: createdAt ?? this.createdAt,
       reviewType: reviewType ?? this.reviewType,
+      sourceType: sourceType ?? this.sourceType,
       decisionOptions: decisionOptions ?? this.decisionOptions,
       matchReasons: matchReasons ?? this.matchReasons,
       summaryKey: summaryKey ?? this.summaryKey,
       summaryParams: summaryParams ?? this.summaryParams,
+      accountValidation: accountValidation ?? this.accountValidation,
+      duplicateData: duplicateData ?? this.duplicateData,
     );
   }
 

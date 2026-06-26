@@ -742,6 +742,44 @@
   "@reviewActionIgnore": {
     "description": "Decision action: ignore"
   },
+  "reviewCenterAccountIssue": "Account Issue",
+  "@reviewCenterAccountIssue": {
+    "description": "ACCOUNT_VALIDATION card title"
+  },
+  "reviewCenterOtherSimilarAccounts": "Other similar accounts",
+  "@reviewCenterOtherSimilarAccounts": {
+    "description": "ACCOUNT_VALIDATION candidate list label"
+  },
+  "reviewCenterRecommended": "Recommended",
+  "@reviewCenterRecommended": {
+    "description": "Tag on the suggested account candidate"
+  },
+  "reviewCenterFallbackAccount": "Fallback account",
+  "@reviewCenterFallbackAccount": {
+    "description": "Tag on a fallback account candidate"
+  },
+  "reviewCenterSimilarity": "{pct}% match",
+  "@reviewCenterSimilarity": {
+    "description": "Similarity percentage for review compare/score",
+    "placeholders": {
+      "pct": {
+        "type": "int"
+      }
+    }
+  },
+  "reviewCenterNewImport": "New Import",
+  "@reviewCenterNewImport": {
+    "description": "DUPLICATE compare card: new import label"
+  },
+  "reviewCenterExistingRecord": "Existing Record",
+  "@reviewCenterExistingRecord": {
+    "description": "DUPLICATE compare card: existing record label"
+  },
+  "reviewCenterNoCandidates": "No candidate accounts",
+  "@reviewCenterNoCandidates": {
+    "description": "Shown when ACCOUNT_VALIDATION has no similar accounts"
+  },
+
 
 
 
@@ -769,6 +807,117 @@
 
 
 
+
+  "reviewChipAll": "All",
+  "@reviewChipAll": { "description": "Type filter chip: all types" },
+  "reviewChipDuplicate": "Duplicate",
+  "@reviewChipDuplicate": { "description": "Type filter chip: duplicate" },
+  "reviewChipRule": "Rule",
+  "@reviewChipRule": { "description": "Type filter chip: rule match" },
+  "reviewChipPayee": "Payee",
+  "@reviewChipPayee": { "description": "Type filter chip: payee match" },
+  "reviewChipAccount": "Account",
+  "@reviewChipAccount": { "description": "Type filter chip: account validation" },
+  "reviewChipPipeline": "Error",
+  "@reviewChipPipeline": { "description": "Type filter chip: pipeline error" },
+  "reviewConfidenceHigh": "Very Confident",
+  "@reviewConfidenceHigh": { "description": "ConfidenceBadge label: high (>=85%)" },
+  "reviewConfidenceMedium": "Likely",
+  "@reviewConfidenceMedium": { "description": "ConfidenceBadge label: medium (60-84%)" },
+  "reviewConfidenceLow": "Uncertain",
+  "@reviewConfidenceLow": { "description": "ConfidenceBadge label: low (<60%)" },
+  "reviewConfidencePendingFix": "Needs Fix",
+  "@reviewConfidencePendingFix": { "description": "ConfidenceBadge label: pipeline error" },
+  "reviewPendingCount": "{count} pending",
+  "@reviewPendingCount": {
+    "description": "Section header: total pending count",
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "reviewSourceTag": "{type} · {source}",
+  "@reviewSourceTag": {
+    "description": "Row source tag: type label and import source",
+    "placeholders": {
+      "type": { "type": "String" },
+      "source": { "type": "String" }
+    }
+  },
+  "reviewSummaryDuplicate": "{amount} may duplicate an existing entry",
+  "@reviewSummaryDuplicate": {
+    "description": "DUPLICATE row summary",
+    "placeholders": { "amount": { "type": "String" } }
+  },
+  "reviewSummaryRuleMatch": "Rule {ruleName} to apply",
+  "@reviewSummaryRuleMatch": {
+    "description": "RULE_MATCH row summary",
+    "placeholders": { "ruleName": { "type": "String" } }
+  },
+  "reviewSummaryPayeeMatch": "Payee \"{suggested}\" to identify",
+  "@reviewSummaryPayeeMatch": {
+    "description": "PAYEE_MATCH row summary",
+    "placeholders": { "suggested": { "type": "String" } }
+  },
+  "reviewSummaryAccountValidation": "Account \"{account}\" looks like a typo",
+  "@reviewSummaryAccountValidation": {
+    "description": "ACCOUNT_VALIDATION row summary",
+    "placeholders": { "account": { "type": "String" } }
+  },
+  "reviewSummaryPipelineError": "{error}",
+  "@reviewSummaryPipelineError": {
+    "description": "PIPELINE_ERROR row summary",
+    "placeholders": { "error": { "type": "String" } }
+  },
+  "reviewBatchCount": "{type} · {count, plural, one{{count} item} other{{count} items}}",
+  "@reviewBatchCount": {
+    "description": "Batch bar count label",
+    "placeholders": {
+      "type": { "type": "String" },
+      "count": { "type": "int" }
+    }
+  },
+  "reviewBatchApply": "Apply {count} · {action}",
+  "@reviewBatchApply": {
+    "description": "Batch bar apply button",
+    "placeholders": {
+      "count": { "type": "int" },
+      "action": { "type": "String" }
+    }
+  },
+  "reviewBatchTitle": "Batch resolve",
+  "@reviewBatchTitle": { "description": "Batch action sheet title" },
+  "reviewActionSkip": "Skip",
+  "@reviewActionSkip": { "description": "Batch/inline action: skip" },
+  "reviewActionReplace": "Replace",
+  "@reviewActionReplace": { "description": "Batch/inline action: replace" },
+  "reviewActionSkipHint": "Skip the new import, keep the existing entry",
+  "@reviewActionSkipHint": { "description": "Skip action hint" },
+  "reviewActionReplaceHint": "Replace the existing entry with the new one (no batch undo)",
+  "@reviewActionReplaceHint": { "description": "Replace action hint" },
+  "reviewInlineApply": "Apply",
+  "@reviewInlineApply": { "description": "Inline action label for RULE_MATCH" },
+  "reviewInlineSelect": "Select",
+  "@reviewInlineSelect": { "description": "Inline action label for PAYEE_MATCH" },
+  "reviewResolvedUndoHint": "{count} resolved · undo one-by-one within 24h",
+  "@reviewResolvedUndoHint": {
+    "description": "Resolved/undo bar hint",
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "reviewUndo": "Undo",
+  "@reviewUndo": { "description": "Undo button" },
+  "reviewUndoFailed": "Undo failed, please retry",
+  "@reviewUndoFailed": { "description": "Undo failure toast" },
+  "reviewBatchApplied": "{success, plural, one{{success} item resolved} other{{success} items resolved}}",
+  "@reviewBatchApplied": {
+    "description": "Batch success toast",
+    "placeholders": { "success": { "type": "int" } }
+  },
+  "reviewBatchPartial": "{success} resolved, {failed} failed",
+  "@reviewBatchPartial": {
+    "description": "Batch partial-failure toast",
+    "placeholders": {
+      "success": { "type": "int" },
+      "failed": { "type": "int" }
+    }
+  },
 
   "region": "Region",
   "@region": {

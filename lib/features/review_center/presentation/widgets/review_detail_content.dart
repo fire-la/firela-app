@@ -11,9 +11,14 @@ import '../../../../core/utils/logger.dart';
 import '../../data/repositories/review_center_repository.dart';
 import '../../domain/entities/decision_option.dart';
 import '../../domain/entities/pending_transaction.dart';
+import '../../domain/entities/similar_account.dart';
 import '../../domain/models/confidence_level.dart';
 import '../signals/review_center_signal.dart';
+import 'account_correction_card.dart';
+import 'confidence_badge.dart';
 import 'decision_button_group.dart';
+import 'duplicate_compare_card.dart';
+import 'review_helpers.dart';
 
 /// ReviewDetailContent business component (.pen POCuA).
 ///
@@ -36,6 +41,9 @@ class ReviewDetailContent extends HookWidget {
     final error = useState<String?>(null);
     final transaction = useState<PendingTransaction?>(null);
 
+    // Selected candidate account for ACCOUNT_VALIDATION (CHOOSE_OTHER payload).
+    final selectedAccount = useState<String?>(null);
+
     // Read-only display controllers (no editing — the decision model has no PUT).
     final accountController = useTextEditingController();
     final merchantController = useTextEditingController();
@@ -53,6 +61,16 @@ class ReviewDetailContent extends HookWidget {
         final detail = await ReviewCenterRepository.instance
             .getPendingTransactionDetail(id);
         transaction.value = detail;
+        // Pre-select the suggested account for ACCOUNT_VALIDATION — but only
+        // if it is actually in the candidate list (the resolve endpoint
+        // requires chosenAccount to come from similarAccounts, ADR-0027).
+        final av = detail.accountValidation;
+        final candidates = av?.similarAccounts ?? const <SimilarAccount>[];
+        final suggested = av?.suggestedAccount;
+        selectedAccount.value =
+            (suggested != null && candidates.any((c) => c.name == suggested))
+                ? suggested
+                : (candidates.isNotEmpty ? candidates.first.name : null);
         accountController.text = detail.accountName;
         merchantController.text = detail.merchantName;
         amountController.text =
@@ -76,11 +94,26 @@ class ReviewDetailContent extends HookWidget {
     }
 
     Future<void> handleResolve(DecisionOption option) async {
+      // CHOOSE_OTHER / ACCEPT_AND_LEARN consume a chosen account from the
+      // candidate list (ACCOUNT_VALIDATION). Other actions take no data.
+      final needsAccount = option.value == 'CHOOSE_OTHER' ||
+          option.value == 'ACCEPT_AND_LEARN';
+      Map<String, dynamic>? data;
+      if (needsAccount) {
+        final chosen = selectedAccount.value;
+        if (chosen == null || chosen.isEmpty) {
+          showToast(l10n.reviewCenterNoCandidates, isError: true);
+          return;
+        }
+        data = {'chosenAccount': chosen};
+      }
+
       submittingOption.value = option;
       try {
         await ReviewCenterRepository.instance.resolveReview(
           id,
           action: option.value,
+          data: data,
         );
         AnalyticsService().trackReviewCenter(
           eventType: option.recommended
@@ -177,7 +210,12 @@ class ReviewDetailContent extends HookWidget {
                       const SizedBox(height: TokenSpacing.xs),
                       Row(
                         children: [
-                          _ConfidenceBadge(level: tx.confidenceLevel),
+                          ConfidenceBadge(
+                            kind: resolveReviewBadgeKind(
+                              tx.reviewType,
+                              tx.confidenceLevel,
+                            ),
+                          ),
                           const SizedBox(width: TokenSpacing.sm),
                           Flexible(
                             child: Text(
@@ -230,6 +268,28 @@ class ReviewDetailContent extends HookWidget {
             readOnly: true,
             label: l10n.reviewCenterAmount,
           ),
+          // accountCorrectionCard (.pen LW39J) — ACCOUNT_VALIDATION type card.
+          if (tx.reviewType == 'ACCOUNT_VALIDATION' &&
+              tx.accountValidation != null) ...[
+            const SizedBox(height: TokenSpacing.xl),
+            AccountCorrectionCard(
+              invalidAccount: tx.accountValidation!.invalidAccount,
+              suggestedAccount: tx.accountValidation!.suggestedAccount,
+              candidates: tx.accountValidation!.similarAccounts,
+              selectedAccount: selectedAccount.value,
+              onSelect: (name) => selectedAccount.value = name,
+            ),
+          ],
+          // duplicateCompareCard (.pen umtLO) — DUPLICATE type card.
+          if (tx.reviewType == 'DUPLICATE' && tx.duplicateData != null) ...[
+            const SizedBox(height: TokenSpacing.xl),
+            DuplicateCompareCard(
+              source: tx.duplicateData!.sourceTransaction,
+              target: tx.duplicateData!.targetTransaction,
+              similarityPct:
+                  (ConfidenceLevel.normalize(tx.confidenceScore) * 100).round(),
+            ),
+          ],
           // reasonHeader + reasonsRow (.pen X6Z1W + s0og6F) — match reasons
           if (reasons.isNotEmpty) ...[
             const SizedBox(height: TokenSpacing.xl),
@@ -280,92 +340,7 @@ class ReviewDetailContent extends HookWidget {
   }
 }
 
-/// ConfidenceBadge (.pen PMjgX) — pill with level-colored icon + label.
-/// Inline here because it is currently single-use in the detail header.
-class _ConfidenceBadge extends StatelessWidget {
-  const _ConfidenceBadge({required this.level});
-
-  final ConfidenceLevel level;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-    final (color, bg, label) = switch (level) {
-      ConfidenceLevel.high => (
-          TokenColors.success,
-          TokenColors.successBg,
-          l10n.reviewCenterHigh,
-        ),
-      ConfidenceLevel.medium => (
-          TokenColors.info,
-          TokenColors.infoBg,
-          l10n.reviewCenterMedium,
-        ),
-      ConfidenceLevel.low => (
-          TokenColors.neutral700,
-          TokenColors.neutral100,
-          l10n.reviewCenterLow,
-        ),
-    };
-    return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: TokenSpacing.md,
-        vertical: TokenSpacing.xs,
-      ),
-      decoration: BoxDecoration(
-        color: bg,
-        borderRadius: TokenRadius.borderPill,
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(Icons.check_circle, size: 14, color: color),
-          const SizedBox(width: TokenSpacing.sm),
-          Text(
-            label,
-            style: TokenTypography.caption(
-              fontWeight: FontWeight.w600,
-              color: color,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-/// Review type wire value → localized title.
-String reviewTypeTitle(AppLocalizations l10n, String? type) {
-  switch (type) {
-    case 'DUPLICATE':
-      return l10n.reviewTypeDuplicate;
-    case 'RULE_MATCH':
-      return l10n.reviewTypeRuleMatch;
-    case 'PAYEE_MATCH':
-      return l10n.reviewTypePayeeMatch;
-    case 'ACCOUNT_VALIDATION':
-      return l10n.reviewTypeAccountValidation;
-    case 'PIPELINE_ERROR':
-      return l10n.reviewTypePipelineError;
-    default:
-      return l10n.reviewCenterDetailTitle;
-  }
-}
-
-/// Review type wire value → leading icon (Material, .pen uses lucide).
-IconData reviewTypeIcon(String? type) {
-  switch (type) {
-    case 'DUPLICATE':
-      return Icons.copy_outlined;
-    case 'RULE_MATCH':
-      return Icons.auto_awesome_outlined;
-    case 'PAYEE_MATCH':
-      return Icons.storefront_outlined;
-    case 'ACCOUNT_VALIDATION':
-      return Icons.account_balance_outlined;
-    case 'PIPELINE_ERROR':
-      return Icons.error_outline;
-    default:
-      return Icons.fact_check_outlined;
-  }
-}
+/// ConfidenceBadge (.pen PMjgX) lives in confidence_badge.dart and is shared
+/// with the summary row; do not re-inline it here.
+/// reviewTypeIcon / reviewTypeTitle live in review_helpers.dart (shared with
+/// the summary row).

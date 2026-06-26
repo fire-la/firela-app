@@ -462,6 +462,32 @@ class AppLocalizationsEn extends AppLocalizations {
   String get reviewActionIgnore => 'Ignore';
 
   @override
+  String get reviewCenterAccountIssue => 'Account Issue';
+
+  @override
+  String get reviewCenterOtherSimilarAccounts => 'Other similar accounts';
+
+  @override
+  String get reviewCenterRecommended => 'Recommended';
+
+  @override
+  String get reviewCenterFallbackAccount => 'Fallback account';
+
+  @override
+  String reviewCenterSimilarity(int pct) {
+    return '$pct% match';
+  }
+
+  @override
+  String get reviewCenterNewImport => 'New Import';
+
+  @override
+  String get reviewCenterExistingRecord => 'Existing Record';
+
+  @override
+  String get reviewCenterNoCandidates => 'No candidate accounts';
+
+  @override
   String get reviewCenterExpense => 'Expense';
 
   @override
@@ -472,6 +498,137 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get reviewCenterLoadFailed => 'Failed to load, please retry';
+
+  @override
+  String get reviewChipAll => 'All';
+
+  @override
+  String get reviewChipDuplicate => 'Duplicate';
+
+  @override
+  String get reviewChipRule => 'Rule';
+
+  @override
+  String get reviewChipPayee => 'Payee';
+
+  @override
+  String get reviewChipAccount => 'Account';
+
+  @override
+  String get reviewChipPipeline => 'Error';
+
+  @override
+  String get reviewConfidenceHigh => 'Very Confident';
+
+  @override
+  String get reviewConfidenceMedium => 'Likely';
+
+  @override
+  String get reviewConfidenceLow => 'Uncertain';
+
+  @override
+  String get reviewConfidencePendingFix => 'Needs Fix';
+
+  @override
+  String reviewPendingCount(int count) {
+    return '$count pending';
+  }
+
+  @override
+  String reviewSourceTag(String type, String source) {
+    return '$type · $source';
+  }
+
+  @override
+  String reviewSummaryDuplicate(String amount) {
+    return '$amount may duplicate an existing entry';
+  }
+
+  @override
+  String reviewSummaryRuleMatch(String ruleName) {
+    return 'Rule $ruleName to apply';
+  }
+
+  @override
+  String reviewSummaryPayeeMatch(String suggested) {
+    return 'Payee \"$suggested\" to identify';
+  }
+
+  @override
+  String reviewSummaryAccountValidation(String account) {
+    return 'Account \"$account\" looks like a typo';
+  }
+
+  @override
+  String reviewSummaryPipelineError(String error) {
+    return '$error';
+  }
+
+  @override
+  String reviewBatchCount(String type, int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count items',
+      one: '$count item',
+    );
+    return '$type · $_temp0';
+  }
+
+  @override
+  String reviewBatchApply(int count, String action) {
+    return 'Apply $count · $action';
+  }
+
+  @override
+  String get reviewBatchTitle => 'Batch resolve';
+
+  @override
+  String get reviewActionSkip => 'Skip';
+
+  @override
+  String get reviewActionReplace => 'Replace';
+
+  @override
+  String get reviewActionSkipHint =>
+      'Skip the new import, keep the existing entry';
+
+  @override
+  String get reviewActionReplaceHint =>
+      'Replace the existing entry with the new one (no batch undo)';
+
+  @override
+  String get reviewInlineApply => 'Apply';
+
+  @override
+  String get reviewInlineSelect => 'Select';
+
+  @override
+  String reviewResolvedUndoHint(int count) {
+    return '$count resolved · undo one-by-one within 24h';
+  }
+
+  @override
+  String get reviewUndo => 'Undo';
+
+  @override
+  String get reviewUndoFailed => 'Undo failed, please retry';
+
+  @override
+  String reviewBatchApplied(int success) {
+    String _temp0 = intl.Intl.pluralLogic(
+      success,
+      locale: localeName,
+      other: '$success items resolved',
+      one: '$success item resolved',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String reviewBatchPartial(int success, int failed) {
+    return '$success resolved, $failed failed';
+  }
 
   @override
   String get region => 'Region';
