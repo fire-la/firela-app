@@ -17,6 +17,7 @@ class ReviewCenterRemoteDatasource {
   /// API returns {"data": [...], "total": N} — we normalize to {"items": [...]}
   Future<Map<String, dynamic>> getRawPendingTransactions({
     ConfidenceLevel? level,
+    String? type,
     int page = 1,
     int limit = 20,
   }) async {
@@ -28,8 +29,11 @@ class ReviewCenterRemoteDatasource {
     if (level != null) {
       queryParams['confidenceLevel'] = level.name.toLowerCase();
     }
+    if (type != null && type.isNotEmpty) {
+      queryParams['type'] = type;
+    }
 
-    logger.i('[ReviewCenter] Fetching raw pending transactions: level=$level, page=$page');
+    logger.i('[ReviewCenter] Fetching raw pending transactions: type=$type, level=$level, page=$page');
 
     final response = await _client.get(_basePath, queryParams: queryParams);
 
@@ -87,37 +91,79 @@ class ReviewCenterRemoteDatasource {
         : <String, dynamic>{};
   }
 
+  /// Batch-resolve reviews of one type with a single action.
+  /// POST /bean/reviews/batch-resolve {reviewIds[], action, data?}.
+  /// Rate-limited (5/min, max 50) — caller chunks larger sets.
+  Future<({int successCount, int failedCount})> batchResolve({
+    required List<String> reviewIds,
+    required String action,
+    Map<String, dynamic>? data,
+  }) async {
+    logger.i('[ReviewCenter] Batch resolving ${reviewIds.length} reviews: action=$action');
+    final body = <String, dynamic>{
+      'reviewIds': reviewIds,
+      'action': action,
+      if (data != null) 'data': data,
+    };
+    final response = await _client.post('$_basePath/batch-resolve', body: body);
+    if (response is Map<String, dynamic>) {
+      return (
+        successCount: (response['successCount'] as num?)?.toInt() ?? 0,
+        failedCount: (response['failedCount'] as num?)?.toInt() ?? 0,
+      );
+    }
+    logger.w('[ReviewCenter] Unexpected batch-resolve response for $action: $response');
+    return (successCount: 0, failedCount: reviewIds.length);
+  }
+
+  /// Undo a single resolution within the 24h window.
+  /// POST /bean/reviews/:id/undo.
+  ///
+  /// Unlike [batchResolve], this swallows exceptions and returns `false` on
+  /// failure — callers get a simple boolean. (Chosen because the caller only
+  /// needs success/failure, not the error detail.)
+  Future<bool> undoReview(String id) async {
+    logger.i('[ReviewCenter] Undoing review: $id');
+    try {
+      await _client.post('$_basePath/$id/undo');
+      return true;
+    } catch (e) {
+      logger.e('[ReviewCenter] Failed to undo review $id: $e');
+      return false;
+    }
+  }
+
   /// Delete a pending transaction (reject)
   Future<void> deleteTransaction(String id) async {
     logger.i('[ReviewCenter] Deleting (rejecting) transaction: $id');
     await _client.post('$_basePath/$id/resolve', body: {'action': 'REJECT'});
   }
 
-  /// Get pending count for badge
-  /// GET /bean/reviews/stats
+  /// Get pending review stats for badges/chips.
+  /// GET /bean/reviews/stats → {total, byType}. Returned as a flat map:
+  /// {'total': N, 'DUPLICATE': n, 'RULE_MATCH': n, ...}.
   Future<Map<String, int>> getPendingCount() async {
-    logger.i('[ReviewCenter] Fetching pending count');
+    logger.i('[ReviewCenter] Fetching pending stats');
 
     try {
       final response = await _client.get('$_basePath/stats');
+      final result = <String, int>{'total': 0};
 
       if (response is Map<String, dynamic>) {
-        final byType = response['byType'] as Map<String, dynamic>? ?? {};
-        return {
-          'total': response['total'] as int? ?? 0,
-          'high': byType['DUPLICATE'] as int? ?? 0,
-          'medium': byType['RULE_MATCH'] as int? ?? byType['PAYEE_MATCH'] as int? ?? 0,
-          'low': byType['ACCOUNT_VALIDATION'] as int? ?? byType['PIPELINE_ERROR'] as int? ?? 0,
-        };
+        result['total'] = (response['total'] as num?)?.toInt() ?? 0;
+        final byType = response['byType'];
+        if (byType is Map) {
+          for (final entry in byType.entries) {
+            result[entry.key.toString()] = (entry.value as num?)?.toInt() ?? 0;
+          }
+        }
+      } else if (response is num) {
+        result['total'] = response.toInt();
       }
 
-      if (response is int) {
-        return {'total': response, 'high': 0, 'medium': 0, 'low': 0};
-      }
-
-      return {'total': 0, 'high': 0, 'medium': 0, 'low': 0};
+      return result;
     } catch (e) {
-      logger.e('[ReviewCenter] Failed to fetch pending count: $e');
+      logger.e('[ReviewCenter] Failed to fetch pending stats: $e');
       rethrow;
     }
   }

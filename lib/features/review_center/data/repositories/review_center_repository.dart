@@ -15,6 +15,7 @@ class ReviewCenterRepository implements ReviewCenterRepositoryInterface {
   @override
   Future<List<PendingTransaction>> getPendingTransactions({
     ConfidenceLevel? level,
+    String? type,
     int page = 1,
     int pageSize = 20,
   }) async {
@@ -22,6 +23,7 @@ class ReviewCenterRepository implements ReviewCenterRepositoryInterface {
       // Use raw API response for correct field mapping
       final response = await _datasource.getRawPendingTransactions(
         level: level,
+        type: type,
         page: page,
         limit: pageSize,
       );
@@ -80,6 +82,35 @@ class ReviewCenterRepository implements ReviewCenterRepositoryInterface {
       logger.e('[ReviewCenterRepository] Failed to resolve review: $e');
       rethrow;
     }
+  }
+
+  @override
+  Future<({int successCount, int failedCount})> batchResolve({
+    required List<String> reviewIds,
+    required String action,
+    Map<String, dynamic>? data,
+  }) async {
+    try {
+      final result = await _datasource.batchResolve(
+        reviewIds: reviewIds,
+        action: action,
+        data: data,
+      );
+      logger.i('[ReviewCenterRepository] Batch resolved: '
+          '${result.successCount} ok, ${result.failedCount} failed');
+      return result;
+    } catch (e) {
+      logger.e('[ReviewCenterRepository] Failed to batch resolve: $e');
+      rethrow;
+    }
+  }
+
+  @override
+  Future<bool> undoReview(String id) async {
+    // The datasource swallows exceptions and returns false here, so no try/catch.
+    final ok = await _datasource.undoReview(id);
+    logger.i('[ReviewCenterRepository] Undo $id: ${ok ? "ok" : "failed"}');
+    return ok;
   }
 
   @override

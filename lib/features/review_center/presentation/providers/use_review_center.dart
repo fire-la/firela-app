@@ -1,249 +1,212 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import '../../domain/entities/pending_transaction.dart';
-import '../../domain/models/confidence_level.dart';
 import '../../data/repositories/review_center_repository.dart';
 import '../signals/review_center_signal.dart';
 import '../../../../core/utils/logger.dart';
 
-/// State for a single tab's transactions
-class TabState {
-  const TabState({
-    this.transactions = const [],
-    this.isLoading = false,
-    this.hasMore = true,
-    this.page = 1,
-    this.error,
+/// Review Center list state.
+///
+/// Filters by review type (`currentType`, null = all) instead of confidence
+/// tabs, tracks recently-resolved ids for the per-item undo bar, and exposes
+/// batch + single-inline resolution. The page reads [pendingCountByTypeSignal]
+/// directly for chip counts.
+class ReviewCenterState {
+  const ReviewCenterState({
+    required this.transactions,
+    required this.isLoading,
+    required this.hasMore,
+    required this.currentType,
+    required this.resolvedIds,
+    required this.isBatchApplying,
+    required this.hasError,
+    required this.loadTransactions,
+    required this.loadMore,
+    required this.changeType,
+    required this.resolveInline,
+    required this.applyBatch,
+    required this.undoLastResolved,
   });
 
   final List<PendingTransaction> transactions;
   final bool isLoading;
   final bool hasMore;
-  final int page;
-  final String? error;
+  final String? currentType;
+  final List<String> resolvedIds;
+  final bool isBatchApplying;
+  final bool hasError;
 
-  TabState copyWith({
-    List<PendingTransaction>? transactions,
-    bool? isLoading,
-    bool? hasMore,
-    int? page,
-    String? error,
-  }) {
-    return TabState(
-      transactions: transactions ?? this.transactions,
-      isLoading: isLoading ?? this.isLoading,
-      hasMore: hasMore ?? this.hasMore,
-      page: page ?? this.page,
-      error: error,
-    );
-  }
+  final Future<void> Function({bool refresh}) loadTransactions;
+  final Future<void> Function() loadMore;
+  final void Function(String?) changeType;
+  final Future<bool> Function(String id, {required String action})
+      resolveInline;
+  final Future<({int successCount, int failedCount})> Function(String action)
+      applyBatch;
+  final Future<bool> Function() undoLastResolved;
 }
 
-/// Helper to remove transaction from state
-TabState removeTransaction(TabState state, String id) {
-  return state.copyWith(
-    transactions: state.transactions.where((t) => t.id != id).toList(),
-  );
-}
-
-/// Hook for managing Review Center state
+/// Hook for managing Review Center list state.
 ReviewCenterState useReviewCenter() {
-  // State for each tab (null = all, then HIGH/MEDIUM/LOW)
-  final allState = useState(const TabState());
-  final highState = useState(const TabState());
-  final mediumState = useState(const TabState());
-  final lowState = useState(const TabState());
+  final transactions = useState<List<PendingTransaction>>(const []);
+  final isLoading = useState(false);
+  final hasMore = useState(true);
+  final page = useState(1);
+  final hasError = useState(false);
+  final currentType = useState<String?>(null);
+  final resolvedIds = useState<List<String>>(const []);
+  final isBatchApplying = useState(false);
+  final isUndoing = useState(false);
+  // Monotonic request token: a forced refresh (applyBatch) supersedes an
+  // in-flight scroll-triggered loadMore; the stale response is discarded so
+  // its writes can't corrupt the refreshed list. `force` bypasses the guard
+  // above but does NOT serialize — only this staleness check does.
+  final generation = useState(0);
 
-  // Current active tab
-  final currentLevel = useState<ConfidenceLevel?>(null);
-
-  // Get state for current tab
-  ValueNotifier<TabState> getCurrentStateNotifier() {
-    switch (currentLevel.value) {
-      case ConfidenceLevel.high:
-        return highState;
-      case ConfidenceLevel.medium:
-        return mediumState;
-      case ConfidenceLevel.low:
-        return lowState;
-      case null:
-        return allState;
-    }
-  }
-
-  TabState getCurrentState() => getCurrentStateNotifier().value;
-
-  // Update state for current tab
-  void updateCurrentState(TabState newState) {
-    getCurrentStateNotifier().value = newState;
-  }
-
-  // Load transactions (initial or refresh)
-  Future<void> loadTransactions({bool refresh = false}) async {
-    final state = getCurrentState();
-    if (state.isLoading) return;
-
-    updateCurrentState(state.copyWith(isLoading: true, error: null));
-
+  Future<void> loadTransactions(
+      {bool refresh = false, bool force = false}) async {
+    if (isLoading.value && !force) return;
+    generation.value++;
+    final myGen = generation.value;
+    isLoading.value = true;
+    hasError.value = false;
+    final nextPage = refresh ? 1 : page.value;
     try {
-      final page = refresh ? 1 : state.page;
-      final transactions = await ReviewCenterRepository.instance.getPendingTransactions(
-        level: currentLevel.value,
-        page: page,
+      final items =
+          await ReviewCenterRepository.instance.getPendingTransactions(
+        type: currentType.value,
+        page: nextPage,
         pageSize: 20,
       );
-
-      final newTransactions = refresh
-          ? transactions
-          : [...state.transactions, ...transactions];
-
-      updateCurrentState(state.copyWith(
-        transactions: newTransactions,
-        isLoading: false,
-        hasMore: transactions.length >= 20,
-        page: page + 1,
-        error: null,
-      ));
-
-      // Update counts on refresh
-      if (refresh || page == 1) {
+      // A newer load (e.g. applyBatch's forced refresh) superseded this one —
+      // discard our writes and leave isLoading to the newest owner.
+      if (myGen != generation.value) return;
+      transactions.value = refresh ? items : [...transactions.value, ...items];
+      hasMore.value = items.length >= 20;
+      page.value = nextPage + 1;
+      if (refresh || nextPage == 1) {
         await fetchPendingCount();
       }
     } catch (e) {
       logger.e('[ReviewCenter] Failed to load transactions: $e');
-      updateCurrentState(state.copyWith(
-        isLoading: false,
-        error: '加载失败，请重试',
-      ));
+      if (myGen == generation.value) hasError.value = true;
+    } finally {
+      if (myGen == generation.value) isLoading.value = false;
     }
   }
 
-  // Load more (pagination)
   Future<void> loadMore() async {
-    final state = getCurrentState();
-    if (state.isLoading || !state.hasMore) return;
+    if (isLoading.value || !hasMore.value) return;
     await loadTransactions();
   }
 
-  // Change tab
-  void changeTab(ConfidenceLevel? level) {
-    if (currentLevel.value == level) return;
-    currentLevel.value = level;
-
-    // Load data for new tab if empty
-    final state = getCurrentState();
-    if (state.transactions.isEmpty && !state.isLoading) {
-      loadTransactions(refresh: true);
-    }
+  void changeType(String? type) {
+    if (currentType.value == type) return;
+    currentType.value = type;
+    transactions.value = const [];
+    hasMore.value = true;
+    page.value = 1;
+    loadTransactions(refresh: true);
   }
 
-  // Confirm transaction
-  Future<bool> confirmTransaction(String id) async {
+  /// Resolve a single review inline (high-confidence light action). On success
+  /// the item leaves the list and becomes undoable.
+  Future<bool> resolveInline(String id, {required String action}) async {
     try {
-      await ReviewCenterRepository.instance.confirmTransaction(id);
-
-      // Remove from all tabs
-      allState.value = removeTransaction(allState.value, id);
-      highState.value = removeTransaction(highState.value, id);
-      mediumState.value = removeTransaction(mediumState.value, id);
-      lowState.value = removeTransaction(lowState.value, id);
-
-      // Update counts
+      await ReviewCenterRepository.instance.resolveReview(id, action: action);
+      transactions.value = transactions.value.where((t) => t.id != id).toList();
+      resolvedIds.value = [...resolvedIds.value, id];
       await fetchPendingCount();
-
       return true;
     } catch (e) {
-      logger.e('[ReviewCenter] Failed to confirm transaction: $e');
+      logger.e('[ReviewCenter] Inline resolve failed: $e');
       return false;
     }
   }
 
-  // Delete transaction
-  Future<bool> deleteTransaction(String id) async {
+  /// Batch-resolve every item in the current filter with one action. Chunks
+  /// >50 (backend limit). Undo is offered only when the whole batch succeeded.
+  Future<({int successCount, int failedCount})> applyBatch(
+      String action) async {
+    final ids = transactions.value.map((t) => t.id).toList();
+    if (ids.isEmpty) return (successCount: 0, failedCount: 0);
+
+    isBatchApplying.value = true;
+    var success = 0;
+    var failed = 0;
     try {
-      await ReviewCenterRepository.instance.deleteTransaction(id);
-
-      // Remove from all tabs
-      allState.value = removeTransaction(allState.value, id);
-      highState.value = removeTransaction(highState.value, id);
-      mediumState.value = removeTransaction(mediumState.value, id);
-      lowState.value = removeTransaction(lowState.value, id);
-
-      // Update counts
+      for (var i = 0; i < ids.length; i += 50) {
+        final chunk = ids.skip(i).take(50).toList();
+        final r = await ReviewCenterRepository.instance.batchResolve(
+          reviewIds: chunk,
+          action: action,
+        );
+        success += r.successCount;
+        failed += r.failedCount;
+      }
+      if (success == ids.length) {
+        resolvedIds.value = [...resolvedIds.value, ...ids];
+      }
+      // Optimistically clear so resolved items leave the UI immediately. The
+      // force-refresh bypasses the isLoading guard; a generation counter in
+      // loadTransactions then discards any in-flight loadMore so its stale
+      // writes can't corrupt the refreshed list.
+      transactions.value = const [];
       await fetchPendingCount();
-
-      return true;
+      await loadTransactions(refresh: true, force: true);
+      return (successCount: success, failedCount: failed);
     } catch (e) {
-      logger.e('[ReviewCenter] Failed to delete transaction: $e');
-      return false;
+      logger.e('[ReviewCenter] Batch resolve failed: $e');
+      // Count any never-attempted ids as failed so the caller's
+      // failedCount > 0 partial-failure toast still fires on a mid-loop throw.
+      failed += ids.length - success - failed;
+      await loadTransactions(refresh: true, force: true);
+      return (successCount: success, failedCount: failed);
+    } finally {
+      isBatchApplying.value = false;
     }
   }
 
-  // Get count for a specific level
-  int getCountForLevel(ConfidenceLevel? level) {
-    final counts = pendingCountByLevelSignal.value;
-    switch (level) {
-      case ConfidenceLevel.high:
-        return counts['high'] ?? 0;
-      case ConfidenceLevel.medium:
-        return counts['medium'] ?? 0;
-      case ConfidenceLevel.low:
-        return counts['low'] ?? 0;
-      case null:
-        return counts['total'] ?? 0;
+  /// Undo the most recently resolved item (one at a time). Backend has no batch undo.
+  Future<bool> undoLastResolved() async {
+    // Guard against rapid double-taps: both would read `.last` and undo the
+    // same id twice. The bar has no per-tap loading state, so serialize here.
+    if (resolvedIds.value.isEmpty || isUndoing.value) return false;
+    isUndoing.value = true;
+    try {
+      final id = resolvedIds.value.last;
+      final ok = await ReviewCenterRepository.instance.undoReview(id);
+      if (ok) {
+        // Reload before trimming so the restored item reappears in the list.
+        // If the reload fails, the id stays in resolvedIds — the undo bar
+        // remains visible and the user can pull-to-refresh to retry.
+        await loadTransactions(refresh: true);
+        resolvedIds.value =
+            resolvedIds.value.sublist(0, resolvedIds.value.length - 1);
+      }
+      return ok;
+    } finally {
+      isUndoing.value = false;
     }
   }
 
-  // Initial load
   useEffect(() {
     loadTransactions(refresh: true);
     return null;
   }, []);
 
   return ReviewCenterState(
-    currentState: getCurrentState(),
-    currentLevel: currentLevel.value,
-    isLoading: getCurrentState().isLoading,
-    hasMore: getCurrentState().hasMore,
-    transactions: getCurrentState().transactions,
-    error: getCurrentState().error,
+    transactions: transactions.value,
+    isLoading: isLoading.value,
+    hasMore: hasMore.value,
+    currentType: currentType.value,
+    resolvedIds: resolvedIds.value,
+    isBatchApplying: isBatchApplying.value,
+    hasError: hasError.value,
     loadTransactions: loadTransactions,
     loadMore: loadMore,
-    changeTab: changeTab,
-    confirmTransaction: confirmTransaction,
-    deleteTransaction: deleteTransaction,
-    getCountForLevel: getCountForLevel,
+    changeType: changeType,
+    resolveInline: resolveInline,
+    applyBatch: applyBatch,
+    undoLastResolved: undoLastResolved,
   );
-}
-
-/// Return type for the hook
-class ReviewCenterState {
-  const ReviewCenterState({
-    required this.currentState,
-    required this.currentLevel,
-    required this.isLoading,
-    required this.hasMore,
-    required this.transactions,
-    this.error,
-    required this.loadTransactions,
-    required this.loadMore,
-    required this.changeTab,
-    required this.confirmTransaction,
-    required this.deleteTransaction,
-    required this.getCountForLevel,
-  });
-
-  final TabState currentState;
-  final ConfidenceLevel? currentLevel;
-  final bool isLoading;
-  final bool hasMore;
-  final List<PendingTransaction> transactions;
-  final String? error;
-
-  final Future<void> Function({bool refresh}) loadTransactions;
-  final Future<void> Function() loadMore;
-  final void Function(ConfidenceLevel?) changeTab;
-  final Future<bool> Function(String) confirmTransaction;
-  final Future<bool> Function(String) deleteTransaction;
-  final int Function(ConfidenceLevel?) getCountForLevel;
 }
