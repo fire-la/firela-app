@@ -38,7 +38,10 @@ class ConfidenceBadge extends StatelessWidget {
         ),
       ReviewBadgeKind.low => (
           TokenColors.chartAmber,
-          TokenColors.accentPeach,
+          // Translucent amber tint (matches the *Bg pattern of the other kinds)
+          // so the badge adapts to dark mode via translucency — the opaque
+          // accentPeach stayed light in dark mode.
+          TokenColors.chartAmber.withValues(alpha: 0.1),
           Icons.warning,
           l10n.reviewConfidenceLow,
         ),
