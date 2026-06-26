@@ -2,6 +2,7 @@ import '../models/confidence_level.dart';
 import 'account_validation_data.dart';
 import 'decision_option.dart';
 import 'duplicate_data.dart';
+import 'payee_match_data.dart';
 import 'pipeline_error_data.dart';
 import 'rule_match_data.dart';
 
@@ -33,6 +34,7 @@ class PendingTransaction {
     this.duplicateData,
     this.ruleMatchData,
     this.pipelineErrorData,
+    this.payeeMatchData,
   });
 
   final String id;
@@ -74,6 +76,9 @@ class PendingTransaction {
   /// PIPELINE_ERROR branch data (detail only). Drives the pipeline error card.
   final PipelineErrorData? pipelineErrorData;
 
+  /// PAYEE_MATCH branch data (detail only). Drives the payee suggestion card.
+  final PayeeMatchData? payeeMatchData;
+
   /// Copy with method for immutability
   PendingTransaction copyWith({
     String? id,
@@ -95,6 +100,7 @@ class PendingTransaction {
     DuplicateData? duplicateData,
     RuleMatchData? ruleMatchData,
     PipelineErrorData? pipelineErrorData,
+    PayeeMatchData? payeeMatchData,
   }) {
     return PendingTransaction(
       id: id ?? this.id,
@@ -116,6 +122,7 @@ class PendingTransaction {
       duplicateData: duplicateData ?? this.duplicateData,
       ruleMatchData: ruleMatchData ?? this.ruleMatchData,
       pipelineErrorData: pipelineErrorData ?? this.pipelineErrorData,
+      payeeMatchData: payeeMatchData ?? this.payeeMatchData,
     );
   }
 

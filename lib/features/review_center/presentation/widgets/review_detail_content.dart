@@ -18,6 +18,7 @@ import 'account_correction_card.dart';
 import 'confidence_badge.dart';
 import 'decision_button_group.dart';
 import 'duplicate_compare_card.dart';
+import 'payee_suggestion_card.dart';
 import 'pipeline_error_card.dart';
 import 'review_helpers.dart';
 import 'rule_suggestion_card.dart';
@@ -319,6 +320,14 @@ class ReviewDetailContent extends HookWidget {
             PipelineErrorCard(
               errorType: tx.pipelineErrorData!.errorType,
               errorMessage: tx.pipelineErrorData!.errorMessage,
+            ),
+          ],
+          // payeeSuggestionCard (.pen hTdDw) — PAYEE_MATCH type card.
+          if (tx.reviewType == 'PAYEE_MATCH' && tx.payeeMatchData != null) ...[
+            const SizedBox(height: TokenSpacing.xl),
+            PayeeSuggestionCard(
+              originalPayee: tx.payeeMatchData!.originalPayee,
+              suggestedPayee: tx.payeeMatchData!.suggestedPayee,
             ),
           ],
           // reasonHeader + reasonsRow (.pen X6Z1W + s0og6F) — match reasons

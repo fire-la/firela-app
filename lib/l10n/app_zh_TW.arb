@@ -406,6 +406,9 @@
   "reviewCenterRuleTargetLabel": "歸類至",
   "reviewCenterRuleConfidence": "規則匹配度 {pct}%",
   "reviewCenterRuleNoTarget": "未指定目標帳戶",
+  "reviewCenterPayeeMatchTitle": "商戶匹配",
+  "reviewCenterPayeeMatchHint": "選擇後將記住此商戶別名",
+  "reviewCenterPayeeNoSuggestion": "無建議商戶",
 
   "reviewCenterExpense": "支出",
   "reviewCenterIncome": "收入",

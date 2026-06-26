@@ -494,6 +494,15 @@ class AppLocalizationsZh extends AppLocalizations {
   String get reviewCenterRuleNoTarget => '未指定目标账户';
 
   @override
+  String get reviewCenterPayeeMatchTitle => '商户匹配';
+
+  @override
+  String get reviewCenterPayeeMatchHint => '选择后将记住此商户别名';
+
+  @override
+  String get reviewCenterPayeeNoSuggestion => '无建议商户';
+
+  @override
   String get reviewCenterExpense => '支出';
 
   @override
@@ -2301,6 +2310,15 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get reviewCenterRuleNoTarget => '未指定目标账户';
 
   @override
+  String get reviewCenterPayeeMatchTitle => '商户匹配';
+
+  @override
+  String get reviewCenterPayeeMatchHint => '选择后将记住此商户别名';
+
+  @override
+  String get reviewCenterPayeeNoSuggestion => '无建议商户';
+
+  @override
   String get reviewCenterExpense => '支出';
 
   @override
@@ -4106,6 +4124,15 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get reviewCenterRuleNoTarget => '未指定目標帳戶';
+
+  @override
+  String get reviewCenterPayeeMatchTitle => '商戶匹配';
+
+  @override
+  String get reviewCenterPayeeMatchHint => '選擇後將記住此商戶別名';
+
+  @override
+  String get reviewCenterPayeeNoSuggestion => '無建議商戶';
 
   @override
   String get reviewCenterExpense => '支出';

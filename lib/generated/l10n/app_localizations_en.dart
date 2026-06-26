@@ -502,6 +502,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get reviewCenterRuleNoTarget => 'No target account';
 
   @override
+  String get reviewCenterPayeeMatchTitle => 'Payee Match';
+
+  @override
+  String get reviewCenterPayeeMatchHint =>
+      'This payee alias will be remembered';
+
+  @override
+  String get reviewCenterPayeeNoSuggestion => 'No suggested payee';
+
+  @override
   String get reviewCenterExpense => 'Expense';
 
   @override

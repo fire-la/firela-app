@@ -405,6 +405,9 @@
   "reviewCenterRuleTargetLabel": "归类至",
   "reviewCenterRuleConfidence": "规则匹配度 {pct}%",
   "reviewCenterRuleNoTarget": "未指定目标账户",
+  "reviewCenterPayeeMatchTitle": "商户匹配",
+  "reviewCenterPayeeMatchHint": "选择后将记住此商户别名",
+  "reviewCenterPayeeNoSuggestion": "无建议商户",
 
   "reviewCenterExpense": "支出",
   "reviewCenterIncome": "收入",

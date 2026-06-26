@@ -800,6 +800,18 @@
   "@reviewCenterRuleNoTarget": {
     "description": "RULE_MATCH card: shown when destination is unset"
   },
+  "reviewCenterPayeeMatchTitle": "Payee Match",
+  "@reviewCenterPayeeMatchTitle": {
+    "description": "PAYEE_MATCH card: header title"
+  },
+  "reviewCenterPayeeMatchHint": "This payee alias will be remembered",
+  "@reviewCenterPayeeMatchHint": {
+    "description": "PAYEE_MATCH card: alias hint row"
+  },
+  "reviewCenterPayeeNoSuggestion": "No suggested payee",
+  "@reviewCenterPayeeNoSuggestion": {
+    "description": "PAYEE_MATCH card: shown when suggestedPayee is null"
+  },
 
 
 

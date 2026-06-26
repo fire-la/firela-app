@@ -3,6 +3,7 @@ import '../../domain/entities/account_validation_data.dart';
 import '../../domain/entities/decision_option.dart';
 import '../../domain/entities/duplicate_data.dart';
 import '../../domain/entities/matched_rule.dart';
+import '../../domain/entities/payee_match_data.dart';
 import '../../domain/entities/pipeline_error_data.dart';
 import '../../domain/entities/rule_match_data.dart';
 import '../../domain/entities/similar_account.dart';
@@ -36,6 +37,7 @@ class PendingTransactionModel extends PendingTransaction {
     super.duplicateData,
     super.ruleMatchData,
     super.pipelineErrorData,
+    super.payeeMatchData,
   });
 
   /// Create from JSON map
@@ -76,6 +78,8 @@ class PendingTransactionModel extends PendingTransaction {
           _parseRuleMatchData(json['reviewData'], reviewType: reviewType),
       pipelineErrorData:
           _parsePipelineErrorData(json['reviewData'], reviewType: reviewType),
+      payeeMatchData:
+          _parsePayeeMatchData(json['reviewData'], reviewType: reviewType),
     );
   }
 
@@ -199,6 +203,28 @@ class PendingTransactionModel extends PendingTransaction {
     );
   }
 
+  /// Parse PAYEE_MATCH branch data from `reviewData` JSONB.
+  /// Returns null for other review types or when no original payee is present.
+  static PayeeMatchData? _parsePayeeMatchData(
+    dynamic value, {
+    String? reviewType,
+  }) {
+    if (reviewType != null && reviewType != 'PAYEE_MATCH') return null;
+    if (value is! Map) return null;
+    final original = value['originalPayee'] as String?;
+    if (original == null || original.isEmpty) return null;
+    String? suggestedName;
+    final suggested = value['suggestedPayee'];
+    if (suggested is Map) {
+      final name = suggested['name'] as String?;
+      if (name != null && name.isNotEmpty) suggestedName = name;
+    }
+    return PayeeMatchData(
+      originalPayee: original,
+      suggestedPayee: suggestedName,
+    );
+  }
+
   static List<DecisionOption> _parseDecisionOptions(dynamic value) {
     if (value is! List) return const [];
     return value
@@ -319,6 +345,7 @@ class PendingTransactionModel extends PendingTransaction {
       duplicateData: entity.duplicateData,
       ruleMatchData: entity.ruleMatchData,
       pipelineErrorData: entity.pipelineErrorData,
+      payeeMatchData: entity.payeeMatchData,
     );
   }
 
@@ -344,6 +371,7 @@ class PendingTransactionModel extends PendingTransaction {
     DuplicateData? duplicateData,
     RuleMatchData? ruleMatchData,
     PipelineErrorData? pipelineErrorData,
+    PayeeMatchData? payeeMatchData,
   }) {
     return PendingTransactionModel(
       id: id ?? this.id,
@@ -365,6 +393,7 @@ class PendingTransactionModel extends PendingTransaction {
       duplicateData: duplicateData ?? this.duplicateData,
       ruleMatchData: ruleMatchData ?? this.ruleMatchData,
       pipelineErrorData: pipelineErrorData ?? this.pipelineErrorData,
+      payeeMatchData: payeeMatchData ?? this.payeeMatchData,
     );
   }
 }

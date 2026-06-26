@@ -1030,6 +1030,24 @@ abstract class AppLocalizations {
   /// **'No target account'**
   String get reviewCenterRuleNoTarget;
 
+  /// PAYEE_MATCH card: header title
+  ///
+  /// In en, this message translates to:
+  /// **'Payee Match'**
+  String get reviewCenterPayeeMatchTitle;
+
+  /// PAYEE_MATCH card: alias hint row
+  ///
+  /// In en, this message translates to:
+  /// **'This payee alias will be remembered'**
+  String get reviewCenterPayeeMatchHint;
+
+  /// PAYEE_MATCH card: shown when suggestedPayee is null
+  ///
+  /// In en, this message translates to:
+  /// **'No suggested payee'**
+  String get reviewCenterPayeeNoSuggestion;
+
   /// Expense label
   ///
   /// In en, this message translates to:
