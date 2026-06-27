@@ -23,7 +23,7 @@ part 'review_detail_dto.g.dart';
 /// * [summaryKey] - i18n message key for summary (e.g., review.summary.duplicate). Translate on frontend with summaryParams.
 /// * [summaryParams] - Parameters for summary message interpolation (e.g., { date: \"2024-01-15\", amount: \"50\" })
 /// * [matchReasons] - Human-readable reasons for branching
-/// * [sourceType] - Source type (NLP, CSV, OCR, API)
+/// * [sourceType] - Source type (free-form string from transaction metadata, e.g. import, api)
 /// * [sourcePlatform] - Source platform (e.g., alipay, wechat)
 /// * [createdAt] - Creation timestamp
 /// * [transaction] 
@@ -72,7 +72,7 @@ abstract class ReviewDetailDto implements Built<ReviewDetailDto, ReviewDetailDto
   @BuiltValueField(wireName: r'matchReasons')
   BuiltList<String> get matchReasons;
 
-  /// Source type (NLP, CSV, OCR, API)
+  /// Source type (free-form string from transaction metadata, e.g. import, api)
   @BuiltValueField(wireName: r'sourceType')
   String get sourceType;
 

@@ -24,7 +24,7 @@ part 'transaction_detail_dto.g.dart';
 /// * [links] - Transaction links
 /// * [meta] - Transaction metadata
 /// * [status] - Transaction status
-/// * [sourceType] - Source type (how the transaction was created)
+/// * [sourceType] - Source type (free-form string from transaction metadata, e.g. import, api)
 /// * [sourcePlatform] - Source platform (e.g., alipay, wechat)
 /// * [postings] - Transaction postings
 /// * [createdAt] - Created at timestamp
@@ -75,10 +75,9 @@ abstract class TransactionDetailDto implements Built<TransactionDetailDto, Trans
   TransactionDetailDtoStatusEnum get status;
   // enum statusEnum {  ACTIVE,  VOIDED,  SUPERSEDED,  };
 
-  /// Source type (how the transaction was created)
+  /// Source type (free-form string from transaction metadata, e.g. import, api)
   @BuiltValueField(wireName: r'sourceType')
-  TransactionDetailDtoSourceTypeEnum? get sourceType;
-  // enum sourceTypeEnum {  NLP,  CSV,  OCR,  API,  };
+  String? get sourceType;
 
   /// Source platform (e.g., alipay, wechat)
   @BuiltValueField(wireName: r'sourcePlatform')
@@ -189,7 +188,7 @@ class _$TransactionDetailDtoSerializer implements PrimitiveSerializer<Transactio
       yield r'sourceType';
       yield serializers.serialize(
         object.sourceType,
-        specifiedType: const FullType(TransactionDetailDtoSourceTypeEnum),
+        specifiedType: const FullType(String),
       );
     }
     if (object.sourcePlatform != null) {
@@ -326,8 +325,8 @@ class _$TransactionDetailDtoSerializer implements PrimitiveSerializer<Transactio
         case r'sourceType':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(TransactionDetailDtoSourceTypeEnum),
-          ) as TransactionDetailDtoSourceTypeEnum;
+            specifiedType: const FullType(String),
+          ) as String;
           result.sourceType = valueDes;
           break;
         case r'sourcePlatform':
@@ -448,28 +447,5 @@ class TransactionDetailDtoStatusEnum extends EnumClass {
 
   static BuiltSet<TransactionDetailDtoStatusEnum> get values => _$transactionDetailDtoStatusEnumValues;
   static TransactionDetailDtoStatusEnum valueOf(String name) => _$transactionDetailDtoStatusEnumValueOf(name);
-}
-
-class TransactionDetailDtoSourceTypeEnum extends EnumClass {
-
-  /// Source type (how the transaction was created)
-  @BuiltValueEnumConst(wireName: r'NLP')
-  static const TransactionDetailDtoSourceTypeEnum NLP = _$transactionDetailDtoSourceTypeEnum_NLP;
-  /// Source type (how the transaction was created)
-  @BuiltValueEnumConst(wireName: r'CSV')
-  static const TransactionDetailDtoSourceTypeEnum CSV = _$transactionDetailDtoSourceTypeEnum_CSV;
-  /// Source type (how the transaction was created)
-  @BuiltValueEnumConst(wireName: r'OCR')
-  static const TransactionDetailDtoSourceTypeEnum OCR = _$transactionDetailDtoSourceTypeEnum_OCR;
-  /// Source type (how the transaction was created)
-  @BuiltValueEnumConst(wireName: r'API')
-  static const TransactionDetailDtoSourceTypeEnum API = _$transactionDetailDtoSourceTypeEnum_API;
-
-  static Serializer<TransactionDetailDtoSourceTypeEnum> get serializer => _$transactionDetailDtoSourceTypeEnumSerializer;
-
-  const TransactionDetailDtoSourceTypeEnum._(String name): super(name);
-
-  static BuiltSet<TransactionDetailDtoSourceTypeEnum> get values => _$transactionDetailDtoSourceTypeEnumValues;
-  static TransactionDetailDtoSourceTypeEnum valueOf(String name) => _$transactionDetailDtoSourceTypeEnumValueOf(name);
 }
 
