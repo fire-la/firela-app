@@ -40,8 +40,13 @@ class ApiClient {
     ));
 
     // Inject auth token on every request; clear on 401 (mirrors IgnApiService).
+    // Refresh an expired/missing JWT from the saved access token first — the
+    // raw-http IgnApiClient does this per-request, so without it the typed path
+    // (review center) 401s once the JWT expires while other features recover.
+    // ensureLoggedIn is a no-op when already logged in and never throws.
     _dio.interceptors.add(InterceptorsWrapper(
-      onRequest: (options, handler) {
+      onRequest: (options, handler) async {
+        await AuthManager.instance.ensureLoggedIn();
         final token = AuthManager.instance.authToken;
         if (token != null) {
           options.headers['Authorization'] = 'Bearer $token';
