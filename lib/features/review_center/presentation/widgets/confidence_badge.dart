@@ -68,6 +68,8 @@ class ConfidenceBadge extends StatelessWidget {
           const SizedBox(width: TokenSpacing.sm),
           Text(
             label,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: TokenTypography.caption(
               fontWeight: FontWeight.w600,
               color: color,

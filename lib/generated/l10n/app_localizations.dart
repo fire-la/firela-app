@@ -1111,25 +1111,25 @@ abstract class AppLocalizations {
   /// ConfidenceBadge label: high (>=85%)
   ///
   /// In en, this message translates to:
-  /// **'Very Confident'**
+  /// **'High'**
   String get reviewConfidenceHigh;
 
   /// ConfidenceBadge label: medium (60-84%)
   ///
   /// In en, this message translates to:
-  /// **'Likely'**
+  /// **'Medium'**
   String get reviewConfidenceMedium;
 
   /// ConfidenceBadge label: low (<60%)
   ///
   /// In en, this message translates to:
-  /// **'Uncertain'**
+  /// **'Low'**
   String get reviewConfidenceLow;
 
   /// ConfidenceBadge label: pipeline error
   ///
   /// In en, this message translates to:
-  /// **'Needs Fix'**
+  /// **'Fix'**
   String get reviewConfidencePendingFix;
 
   /// Section header: total pending count

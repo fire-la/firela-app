@@ -223,10 +223,12 @@ class ReviewDetailContent extends HookWidget {
                       const SizedBox(height: TokenSpacing.xs),
                       Row(
                         children: [
-                          ConfidenceBadge(
-                            kind: resolveReviewBadgeKind(
-                              tx.reviewType,
-                              tx.confidenceLevel,
+                          Flexible(
+                            child: ConfidenceBadge(
+                              kind: resolveReviewBadgeKind(
+                                tx.reviewType,
+                                tx.confidenceLevel,
+                              ),
                             ),
                           ),
                           const SizedBox(width: TokenSpacing.sm),

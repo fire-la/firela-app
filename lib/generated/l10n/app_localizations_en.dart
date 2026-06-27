@@ -542,16 +542,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get reviewChipPipeline => 'Error';
 
   @override
-  String get reviewConfidenceHigh => 'Very Confident';
+  String get reviewConfidenceHigh => 'High';
 
   @override
-  String get reviewConfidenceMedium => 'Likely';
+  String get reviewConfidenceMedium => 'Medium';
 
   @override
-  String get reviewConfidenceLow => 'Uncertain';
+  String get reviewConfidenceLow => 'Low';
 
   @override
-  String get reviewConfidencePendingFix => 'Needs Fix';
+  String get reviewConfidencePendingFix => 'Fix';
 
   @override
   String reviewPendingCount(int count) {

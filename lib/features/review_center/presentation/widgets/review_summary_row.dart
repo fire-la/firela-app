@@ -40,6 +40,15 @@ class ReviewSummaryRow extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
     final tokens = ThemeTokens.of(context);
     final tx = transaction;
+    // The inline one-tap action (ButtonSmall ≈ 80px) plus the amount, icon and
+    // gaps can't all fit on a narrow screen — it squeezes midCol below the
+    // confidence badge's minimum width and overflows. Drop the inline action on
+    // narrow screens (users tap the row → detail). 360 ≈ the threshold below
+    // which the row overflows; standard phones (≥375) keep the inline action.
+    final showInlineAction = showInline &&
+        inlineLabel != null &&
+        onInline != null &&
+        MediaQuery.of(context).size.width >= 360;
 
     return GestureDetector(
       onTap: onTap,
@@ -88,7 +97,7 @@ class ReviewSummaryRow extends StatelessWidget {
                   // metaRow (.pen lQ9AP): confidence + source tag
                   Row(
                     children: [
-                      ConfidenceBadge(kind: badgeKind),
+                      Flexible(child: ConfidenceBadge(kind: badgeKind)),
                       const SizedBox(width: TokenSpacing.sm),
                       Flexible(
                         child: Text(
@@ -125,8 +134,9 @@ class ReviewSummaryRow extends StatelessWidget {
                 ),
               ],
             ),
-            // inlineRight (.pen m8HVIh): single fixed action only
-            if (showInline && inlineLabel != null && onInline != null) ...[
+            // inlineRight (.pen m8HVIh): single fixed action only (narrow screens
+            // drop it — see showInlineAction above).
+            if (showInlineAction) ...[
               const SizedBox(width: TokenSpacing.sm),
               ButtonSmall(label: inlineLabel!, onPressed: onInline),
             ],

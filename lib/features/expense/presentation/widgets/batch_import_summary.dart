@@ -151,28 +151,34 @@ class BatchImportSummary extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               if (result.hasSuccess)
-                _buildStatItem(
-                  theme,
-                  l10n.batchImportSuccessfullyImported,
-                  result.successfullyImported.toString(),
-                  TokenColors.success,
-                  Icons.check_circle_outline,
+                Flexible(
+                  child: _buildStatItem(
+                    theme,
+                    l10n.batchImportSuccessfullyImported,
+                    result.successfullyImported.toString(),
+                    TokenColors.success,
+                    Icons.check_circle_outline,
+                  ),
                 ),
               if (result.hasDuplicates)
-                _buildStatItem(
-                  theme,
-                  l10n.batchImportDuplicatesSkipped,
-                  result.duplicatesSkipped.toString(),
-                  TokenColors.primary,
-                  Icons.content_copy,
+                Flexible(
+                  child: _buildStatItem(
+                    theme,
+                    l10n.batchImportDuplicatesSkipped,
+                    result.duplicatesSkipped.toString(),
+                    TokenColors.primary,
+                    Icons.content_copy,
+                  ),
                 ),
               if (result.hasReviewItems)
-                _buildStatItem(
-                  theme,
-                  l10n.batchImportRequiresReview,
-                  result.requiresReview.toString(),
-                  TokenColors.info,
-                  Icons.rate_review_outlined,
+                Flexible(
+                  child: _buildStatItem(
+                    theme,
+                    l10n.batchImportRequiresReview,
+                    result.requiresReview.toString(),
+                    TokenColors.info,
+                    Icons.rate_review_outlined,
+                  ),
                 ),
             ],
           ),

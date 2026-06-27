@@ -26,41 +26,52 @@ class DesignBottomNav extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // Nav bar
-          Container(
-            width: 260,
-            height: 56,
-            decoration: BoxDecoration(
-              color: tokens.bgCard,
-              borderRadius: BorderRadius.circular(28),
-              boxShadow: [
-                BoxShadow(
-                  color: tokens.shadow,
-                  blurRadius: 8,
-                  offset: const Offset(0, 2),
-                ),
-              ],
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: List.generate(items.length, (index) {
-                final item = items[index];
-                final isSelected = index == currentIndex;
-                return GestureDetector(
-                  onTap: () => onTap(index),
-                  behavior: HitTestBehavior.opaque,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xxl),
-                    child: Icon(
-                      isSelected ? item.activeIcon : item.icon,
-                      size: 24,
-                      color: isSelected
-                          ? tokens.textAccent
-                          : tokens.textTertiary,
+          // Nav bar. The design pins this to 260, but on narrow screens
+          // (344px / 320px) 260 + gap + 56 FAB overflows the row. Wrap it in a
+          // Flexible capped at 260 so it stays 260 on normal/wide screens and
+          // shrinks to fit on narrow ones; the space-around icons reflow.
+          Flexible(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 260),
+              child: Container(
+                width: double.infinity,
+                height: 56,
+                decoration: BoxDecoration(
+                  color: tokens.bgCard,
+                  borderRadius: BorderRadius.circular(28),
+                  boxShadow: [
+                    BoxShadow(
+                      color: tokens.shadow,
+                      blurRadius: 8,
+                      offset: const Offset(0, 2),
                     ),
-                  ),
-                );
-              }),
+                  ],
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: List.generate(items.length, (index) {
+                    final item = items[index];
+                    final isSelected = index == currentIndex;
+                    return Flexible(
+                      child: GestureDetector(
+                        onTap: () => onTap(index),
+                        behavior: HitTestBehavior.opaque,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: TokenSpacing.xxl),
+                          child: Icon(
+                            isSelected ? item.activeIcon : item.icon,
+                            size: 24,
+                            color: isSelected
+                                ? tokens.textAccent
+                                : tokens.textTertiary,
+                          ),
+                        ),
+                      ),
+                    );
+                  }),
+                ),
+              ),
             ),
           ),
           const SizedBox(width: TokenSpacing.lg),
