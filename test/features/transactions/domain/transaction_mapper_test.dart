@@ -11,7 +11,7 @@ void main() {
       ..payee = 'Cafe'
       ..createdAt = '2026-06-19T00:00:00Z'
       ..status = TransactionDetailDtoStatusEnum.ACTIVE
-      ..sourceType = TransactionDetailDtoSourceTypeEnum.NLP
+      ..sourceType = 'NLP'
       ..postings.add(PostingDetailDto((p) => p
         ..id = 'p1'
         ..accountId = 'acc1'

@@ -16,7 +16,7 @@ Transaction toTransaction(TransactionDetailDto dto) {
     date: dto.date,
     narration: dto.narration,
     payee: dto.payee,
-    sourceType: dto.sourceType?.name,
+    sourceType: dto.sourceType,
     status: dto.status.name,
     displayAmount: amount,
     currency: posting?.currency ?? '',
