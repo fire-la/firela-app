@@ -5847,12 +5847,9 @@ components:
           example: ACTIVE
         sourceType:
           type: string
-          description: Source type (how the transaction was created)
-          enum:
-            - NLP
-            - CSV
-            - OCR
-            - API
+          description: >-
+            Source type (free-form string from transaction metadata, e.g.
+            import, api)
         sourcePlatform:
           type: string
           description: Source platform (e.g., alipay, wechat)
@@ -6062,12 +6059,9 @@ components:
           example: Assets:Bank:Checking
         sourceType:
           type: string
-          description: Source type (NLP, CSV, OCR, API)
-          enum:
-            - NLP
-            - CSV
-            - OCR
-            - API
+          description: >-
+            Source type (free-form string from transaction metadata, e.g.
+            import, api)
         sourcePlatform:
           type: string
           description: Source platform (e.g., alipay, wechat)
@@ -6132,7 +6126,9 @@ components:
             type: string
         sourceType:
           type: string
-          description: Source type (NLP, CSV, OCR, API)
+          description: >-
+            Source type (free-form string from transaction metadata, e.g.
+            import, api)
         sourcePlatform:
           type: string
           description: Source platform (e.g., alipay, wechat)
@@ -6284,7 +6280,9 @@ components:
             type: string
         sourceType:
           type: string
-          description: Source type (NLP, CSV, OCR, API)
+          description: >-
+            Source type (free-form string from transaction metadata, e.g.
+            import, api)
         sourcePlatform:
           type: string
           description: Source platform (e.g., alipay, wechat)
