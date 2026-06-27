@@ -19,39 +19,40 @@ enum ReviewType {
   /// Wire value shared with the backend enum and the `byType` stats keys.
   final String wireValue;
 
-  /// Resolve from a `byType` stats key (or any wire string). Unknown → null
-  /// (stats may carry keys we don't model yet; skip them rather than crash).
-  static ReviewType? fromWire(String? wire) => switch (wire) {
-        'DUPLICATE' => duplicate,
-        'RULE_MATCH' => ruleMatch,
-        'PAYEE_MATCH' => payeeMatch,
-        'ACCOUNT_VALIDATION' => accountValidation,
-        'PIPELINE_ERROR' => pipelineError,
-        _ => null,
-      };
+  /// Resolve from a wire string by matching [wireValue] (single source — no
+  /// duplicated literals). Unknown/absent → null (e.g. a `byType` key we don't
+  /// model yet is skipped rather than crashing).
+  static ReviewType? fromWire(String? wire) {
+    if (wire == null) return null;
+    for (final t in ReviewType.values) {
+      if (t.wireValue == wire) return t;
+    }
+    return null;
+  }
 
   /// Map the list DTO's typed enum. The generated [EnumClass] isn't a sealed
-  /// Dart enum, so Dart can't prove exhaustiveness — the `_` case is
-  /// unreachable while the spec seals the type to these 5 values. Referencing
-  /// the constants (not strings) means a backend rename breaks at compile time;
-  /// a newly added type throws here, surfacing the need to extend [ReviewType].
-  static ReviewType fromSummary(gen.ReviewSummaryDtoTypeEnum t) => switch (t) {
+  /// Dart enum, so Dart can't prove exhaustiveness. The named cases reference
+  /// the generated constants directly — a backend rename breaks this at compile
+  /// time. A value outside the known 5 (e.g. a new type added before
+  /// [ReviewType] is extended) degrades to null instead of throwing, so one
+  /// unknown item can't crash the whole list load.
+  static ReviewType? fromSummary(gen.ReviewSummaryDtoTypeEnum t) => switch (t) {
         gen.ReviewSummaryDtoTypeEnum.DUPLICATE => duplicate,
         gen.ReviewSummaryDtoTypeEnum.RULE_MATCH => ruleMatch,
         gen.ReviewSummaryDtoTypeEnum.PAYEE_MATCH => payeeMatch,
         gen.ReviewSummaryDtoTypeEnum.ACCOUNT_VALIDATION => accountValidation,
         gen.ReviewSummaryDtoTypeEnum.PIPELINE_ERROR => pipelineError,
-        _ => throw StateError('Unhandled ReviewSummaryDto type: $t'),
+        _ => null,
       };
 
   /// Map the detail DTO's typed enum (same 5 values, separate generated type).
-  static ReviewType fromDetail(gen.ReviewDetailDtoTypeEnum t) => switch (t) {
+  static ReviewType? fromDetail(gen.ReviewDetailDtoTypeEnum t) => switch (t) {
         gen.ReviewDetailDtoTypeEnum.DUPLICATE => duplicate,
         gen.ReviewDetailDtoTypeEnum.RULE_MATCH => ruleMatch,
         gen.ReviewDetailDtoTypeEnum.PAYEE_MATCH => payeeMatch,
         gen.ReviewDetailDtoTypeEnum.ACCOUNT_VALIDATION => accountValidation,
         gen.ReviewDetailDtoTypeEnum.PIPELINE_ERROR => pipelineError,
-        _ => throw StateError('Unhandled ReviewDetailDto type: $t'),
+        _ => null,
       };
 }
 
@@ -76,16 +77,12 @@ enum ReviewAction {
   /// Wire value sent to `POST /reviews/:id/resolve` and `batch-resolve`.
   final String wireValue;
 
-  /// Resolve from a wire string (e.g. a `decisionOptions[].value`). Unknown → null.
-  static ReviewAction? fromWire(String? wire) => switch (wire) {
-        'IGNORE_NEW' => ignoreNew,
-        'ACCEPT' => accept,
-        'FIX' => fix,
-        'REJECT' => reject,
-        'UPGRADE_REPLACE' => upgradeReplace,
-        'CHOOSE_OTHER' => chooseOther,
-        'LINK_KEEP_BOTH' => linkKeepBoth,
-        'CONFIRM_DIFFERENT' => confirmDifferent,
-        _ => null,
-      };
+  /// Resolve from a wire string by matching [wireValue]. Unknown → null.
+  static ReviewAction? fromWire(String? wire) {
+    if (wire == null) return null;
+    for (final a in ReviewAction.values) {
+      if (a.wireValue == wire) return a;
+    }
+    return null;
+  }
 }

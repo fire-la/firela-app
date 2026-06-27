@@ -22,7 +22,7 @@ PendingTransaction toPendingTransaction(gen.ReviewSummaryDto dto) {
     id: dto.id,
     accountName: dto.accountName ?? '',
     merchantName: dto.merchantName ?? '',
-    amount: double.tryParse(dto.amount ?? '') ?? 0.0,
+    amount: _parseAmount(dto.amount),
     currency: dto.currency ?? 'CNY',
     transactionTime: _parseDateTime(dto.transactionTime) ?? dto.createdAt,
     confidenceLevel: _confidenceLevel(dto.confidenceLevel?.name, score),
@@ -48,7 +48,7 @@ PendingTransaction toPendingTransactionFromDetail(gen.ReviewDetailDto dto) {
     id: dto.id,
     accountName: dto.accountName ?? '',
     merchantName: dto.merchantName ?? '',
-    amount: double.tryParse(dto.amount ?? '') ?? 0.0,
+    amount: _parseAmount(dto.amount),
     currency: dto.currency ?? 'CNY',
     transactionTime: _parseDateTime(dto.transactionTime) ?? dto.createdAt,
     confidenceLevel: _confidenceLevel(dto.confidenceLevel?.name, score),
@@ -129,7 +129,9 @@ List<SimilarAccount> _parseSimilarAccounts(dynamic value) {
   // (name/similarity/reason/isFallback) is parsed defensively if present.
   SimilarAccount? parse(dynamic item) {
     if (item is String) return SimilarAccount(name: item);
-    if (item is Map<String, dynamic>) {
+    // JsonObject.asMap yields Map<dynamic, dynamic>, so match on `Map` (not
+    // Map<String, dynamic>) or object-shaped candidates get silently dropped.
+    if (item is Map) {
       return SimilarAccount(
         name: item['name'] as String? ?? '',
         similarity: (item['similarity'] as num?)?.toDouble() ?? 0.0,

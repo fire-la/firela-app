@@ -3,6 +3,7 @@ import '../../domain/mappers/review_mappers.dart';
 import '../../domain/models/confidence_level.dart';
 import '../../domain/models/review_type.dart';
 import '../../domain/repositories/review_center_repository_interface.dart';
+import '../../../../core/errors/exceptions.dart';
 import '../../../../core/utils/logger.dart';
 import '../datasources/review_center_remote_datasource.dart';
 
@@ -45,7 +46,7 @@ class ReviewCenterRepository implements ReviewCenterRepositoryInterface {
     try {
       final dto = await _datasource.getPendingTransactionDetail(id);
       if (dto == null) {
-        throw Exception('Review $id not found');
+        throw NotFoundException('Review $id not found');
       }
       return toPendingTransactionFromDetail(dto);
     } catch (e) {

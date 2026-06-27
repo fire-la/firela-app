@@ -93,6 +93,8 @@ class ReviewCenterRemoteDatasource {
     required String action,
     Map<String, dynamic>? data,
   }) async {
+    logger.i('[ReviewCenter] Batch resolving ${reviewIds.length} reviews: '
+        'action=$action');
     try {
       final response = await FirelaApi().reviews.reviewControllerBatchResolve(
         region: _region,
@@ -111,8 +113,12 @@ class ReviewCenterRemoteDatasource {
       }
       final success = dto.successCount.toInt();
       final results = dto.results.toList();
+      // Trust `results` only when it's a subset of the requested ids AND its
+      // length matches successCount — guards against the backend echoing
+      // unrelated/duplicate ids into the undo set.
+      final valid = results.where((id) => reviewIds.contains(id)).toList();
       final successIds =
-          results.length == success ? results : const <String>[];
+          valid.length == success ? valid : const <String>[];
       return (
         successCount: success,
         failedCount: dto.failedCount.toInt(),

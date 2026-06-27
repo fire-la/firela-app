@@ -34,6 +34,7 @@ void main() {
     test('every value round-trips through its wire value', () {
       for (final a in ReviewAction.values) {
         expect(ReviewAction.fromWire(a.wireValue), same(a));
+        expect(a.wireValue, isNotEmpty);
       }
     });
 
@@ -42,13 +43,19 @@ void main() {
       expect(ReviewAction.fromWire('NOT_AN_ACTION'), isNull);
     });
 
-    test('covers the hardcoded list/batch actions', () {
+    test('covers the known decision set', () {
       // The list page hardcodes these via defaultBatchAction/inlineConfig.
       expect(ReviewAction.fromWire('IGNORE_NEW'), ReviewAction.ignoreNew);
       expect(ReviewAction.fromWire('ACCEPT'), ReviewAction.accept);
       expect(ReviewAction.fromWire('FIX'), ReviewAction.fix);
       expect(ReviewAction.fromWire('UPGRADE_REPLACE'),
           ReviewAction.upgradeReplace);
+      // Detail-page decisionOptions can carry the rest.
+      expect(ReviewAction.fromWire('REJECT'), ReviewAction.reject);
+      expect(ReviewAction.fromWire('CHOOSE_OTHER'), ReviewAction.chooseOther);
+      expect(ReviewAction.fromWire('LINK_KEEP_BOTH'), ReviewAction.linkKeepBoth);
+      expect(ReviewAction.fromWire('CONFIRM_DIFFERENT'),
+          ReviewAction.confirmDifferent);
     });
   });
 }

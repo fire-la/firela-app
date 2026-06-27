@@ -125,7 +125,9 @@ ReviewCenterState useReviewCenter() {
   }
 
   /// Batch-resolve every item in the current filter with one action. Chunks
-  /// >50 (backend limit). Undo is offered only when the whole batch succeeded.
+  /// >50 (backend limit, 5/min). Undo is offered for the actually-resolved ids
+  /// when the backend returns usable per-item results, or for all ids when the
+  /// whole batch succeeds; partial success with no per-item results → no undo.
   Future<({int successCount, int failedCount})> applyBatch(
       String action) async {
     final ids = transactions.value.map((t) => t.id).toList();
@@ -146,10 +148,12 @@ ReviewCenterState useReviewCenter() {
         failed += r.failedCount;
         successIds.addAll(r.successIds);
       }
-      // Record undo for the actually-resolved ids. Prefer the per-item results
-      // (IGN-287 item C); fall back to full-success-only when the backend
-      // didn't return usable `results` (empty → conservative, no undo offered).
-      if (successIds.isNotEmpty) {
+      // Record undo for the actually-resolved ids (IGN-287 item C). Trust the
+      // per-item results only when they cover the whole batch
+      // (successIds.length == success); otherwise fall back to full-success-only
+      // (success == ids.length). Partial success with incomplete results → no
+      // undo offered (can't tell which items resolved).
+      if (successIds.length == success) {
         resolvedIds.value = [...resolvedIds.value, ...successIds];
       } else if (success == ids.length) {
         resolvedIds.value = [...resolvedIds.value, ...ids];
