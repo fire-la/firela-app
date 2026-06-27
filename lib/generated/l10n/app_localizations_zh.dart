@@ -651,6 +651,9 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
+  String get reviewBatchTooMany => '一次批量处理的项目过多（最多 250 项）。请先逐条处理部分项目。';
+
+  @override
   String get region => '地域';
 
   @override
@@ -2467,6 +2470,9 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   }
 
   @override
+  String get reviewBatchTooMany => '一次批量处理的项目过多（最多 250 项）。请先逐条处理部分项目。';
+
+  @override
   String get region => '地域';
 
   @override
@@ -4281,6 +4287,9 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
   String reviewBatchPartial(int success, int failed) {
     return '已處理 $success 項，$failed 項失敗';
   }
+
+  @override
+  String get reviewBatchTooMany => '一次批次處理的項目過多（最多 250 項）。請先逐條處理部分項目。';
 
   @override
   String get region => '地域';

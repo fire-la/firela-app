@@ -664,6 +664,10 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get reviewBatchTooMany =>
+      'Too many items to batch at once (max 250). Resolve some individually first.';
+
+  @override
   String get region => 'Region';
 
   @override

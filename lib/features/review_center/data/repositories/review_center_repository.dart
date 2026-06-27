@@ -1,42 +1,41 @@
 import '../../domain/entities/pending_transaction.dart';
-import '../../domain/repositories/review_center_repository_interface.dart';
-import '../datasources/review_center_remote_datasource.dart';
+import '../../domain/mappers/review_mappers.dart';
 import '../../domain/models/confidence_level.dart';
+import '../../domain/models/review_type.dart';
+import '../../domain/repositories/review_center_repository_interface.dart';
 import '../../../../core/utils/logger.dart';
-import '../models/pending_transaction_model.dart';
+import '../datasources/review_center_remote_datasource.dart';
 
-/// Repository implementation for Review Center
+/// Repository implementation for Review Center.
+///
+/// Maps generated DTOs (from the typed [ReviewCenterRemoteDatasource]) to domain
+/// [PendingTransaction] entities via [review_mappers]. No raw Map handling — the
+/// data layer is fully typed (IGN-287 clean migration).
 class ReviewCenterRepository implements ReviewCenterRepositoryInterface {
   ReviewCenterRepository._();
   static final ReviewCenterRepository instance = ReviewCenterRepository._();
 
-  final ReviewCenterRemoteDatasource _datasource = ReviewCenterRemoteDatasource.instance;
+  final ReviewCenterRemoteDatasource _datasource =
+      ReviewCenterRemoteDatasource.instance;
 
   @override
   Future<List<PendingTransaction>> getPendingTransactions({
     ConfidenceLevel? level,
-    String? type,
+    ReviewType? type,
     int page = 1,
     int pageSize = 20,
   }) async {
     try {
-      // Use raw API response for correct field mapping
-      final response = await _datasource.getRawPendingTransactions(
-        level: level,
+      final dto = await _datasource.getPendingTransactions(
         type: type,
+        confidenceLevel: level?.name.toLowerCase(),
         page: page,
         limit: pageSize,
       );
-
-      // Parse items array
-      final items = response['items'] as List<dynamic>? ?? [];
-      final models = items
-          .whereType<Map<String, dynamic>>()
-          .map((json) => PendingTransactionModel.fromJson(json))
-          .toList();
-      return models.map((model) => model as PendingTransaction).toList();
+      if (dto == null) return const [];
+      return dto.items.map(toPendingTransaction).toList();
     } catch (e) {
-      logger.e('[ReviewCenterRepository] Failed to get pending transactions: $e');
+      logger.e('[ReviewCenterRepository] Failed to get transactions: $e');
       rethrow;
     }
   }
@@ -44,11 +43,13 @@ class ReviewCenterRepository implements ReviewCenterRepositoryInterface {
   @override
   Future<PendingTransaction> getPendingTransactionDetail(String id) async {
     try {
-      // Use raw API response for correct field mapping
-      final response = await _datasource.getRawPendingTransactionDetail(id);
-      return PendingTransactionModel.fromJson(response);
+      final dto = await _datasource.getPendingTransactionDetail(id);
+      if (dto == null) {
+        throw Exception('Review $id not found');
+      }
+      return toPendingTransactionFromDetail(dto);
     } catch (e) {
-      logger.e('[ReviewCenterRepository] Failed to get transaction detail: $e');
+      logger.e('[ReviewCenterRepository] Failed to get detail $id: $e');
       rethrow;
     }
   }
@@ -59,33 +60,29 @@ class ReviewCenterRepository implements ReviewCenterRepositoryInterface {
       await _datasource.confirmTransaction(id);
       logger.i('[ReviewCenterRepository] Transaction confirmed: $id');
     } catch (e) {
-      logger.e('[ReviewCenterRepository] Failed to confirm transaction: $e');
+      logger.e('[ReviewCenterRepository] Failed to confirm $id: $e');
       rethrow;
     }
   }
 
   @override
-  Future<Map<String, dynamic>> resolveReview(
+  Future<void> resolveReview(
     String id, {
     required String action,
     Map<String, dynamic>? data,
   }) async {
     try {
-      final result = await _datasource.resolveReview(
-        id,
-        action: action,
-        data: data,
-      );
-      logger.i('[ReviewCenterRepository] Review resolved: $id action=$action');
-      return result;
+      await _datasource.resolveReview(id, action: action, data: data);
+      logger.i('[ReviewCenterRepository] Resolved $id action=$action');
     } catch (e) {
-      logger.e('[ReviewCenterRepository] Failed to resolve review: $e');
+      logger.e('[ReviewCenterRepository] Failed to resolve $id: $e');
       rethrow;
     }
   }
 
   @override
-  Future<({int successCount, int failedCount})> batchResolve({
+  Future<({int successCount, int failedCount, List<String> successIds})>
+      batchResolve({
     required List<String> reviewIds,
     required String action,
     Map<String, dynamic>? data,
@@ -96,8 +93,8 @@ class ReviewCenterRepository implements ReviewCenterRepositoryInterface {
         action: action,
         data: data,
       );
-      logger.i('[ReviewCenterRepository] Batch resolved: '
-          '${result.successCount} ok, ${result.failedCount} failed');
+      logger.i('[ReviewCenterRepository] Batch resolved (${result.successCount} '
+          'ok, ${result.failedCount} failed)');
       return result;
     } catch (e) {
       logger.e('[ReviewCenterRepository] Failed to batch resolve: $e');
@@ -119,7 +116,7 @@ class ReviewCenterRepository implements ReviewCenterRepositoryInterface {
       await _datasource.deleteTransaction(id);
       logger.i('[ReviewCenterRepository] Transaction deleted: $id');
     } catch (e) {
-      logger.e('[ReviewCenterRepository] Failed to delete transaction: $e');
+      logger.e('[ReviewCenterRepository] Failed to delete $id: $e');
       rethrow;
     }
   }
@@ -127,9 +124,20 @@ class ReviewCenterRepository implements ReviewCenterRepositoryInterface {
   @override
   Future<Map<String, int>> getPendingCount() async {
     try {
-      return await _datasource.getPendingCount();
+      final stats = await _datasource.getStats();
+      final result = <String, int>{'total': 0};
+      if (stats == null) return result;
+      result['total'] = stats.total.toInt();
+      // byType is a free-form JSON object; read it as a plain map. Keys are
+      // ReviewType wire values (DUPLICATE, RULE_MATCH, ...).
+      if (stats.byType.isMap) {
+        for (final entry in stats.byType.asMap.entries) {
+          result[entry.key.toString()] = (entry.value as num?)?.toInt() ?? 0;
+        }
+      }
+      return result;
     } catch (e) {
-      logger.e('[ReviewCenterRepository] Failed to get pending count: $e');
+      logger.e('[ReviewCenterRepository] Failed to get stats: $e');
       rethrow;
     }
   }

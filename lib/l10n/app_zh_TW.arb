@@ -449,6 +449,7 @@
   "reviewUndoFailed": "復原失敗，請重試",
   "reviewBatchApplied": "{success, plural, other{已處理 {success} 項}}",
   "reviewBatchPartial": "已處理 {success} 項，{failed} 項失敗",
+  "reviewBatchTooMany": "一次批次處理的項目過多（最多 250 項）。請先逐條處理部分項目。",
 
   "nlpTitleCreated": "AI 已為您填寫",
   "nlpTitleConfirm": "AI 解析結果，請確認",

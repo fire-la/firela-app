@@ -13,6 +13,7 @@ import '../../domain/entities/decision_option.dart';
 import '../../domain/entities/pending_transaction.dart';
 import '../../domain/entities/similar_account.dart';
 import '../../domain/models/confidence_level.dart';
+import '../../domain/models/review_type.dart';
 import '../signals/review_center_signal.dart';
 import 'account_correction_card.dart';
 import 'confidence_badge.dart';
@@ -101,7 +102,7 @@ class ReviewDetailContent extends HookWidget {
       // picker. Other types' ACCEPT_AND_LEARN (RULE_MATCH / PAYEE_MATCH) learn
       // patterns/aliases, not accounts — they take no `data` payload.
       final needsAccount =
-          transaction.value?.reviewType == 'ACCOUNT_VALIDATION' &&
+          transaction.value?.reviewType == ReviewType.accountValidation &&
               (option.value == 'CHOOSE_OTHER' ||
                   option.value == 'ACCEPT_AND_LEARN');
       Map<String, dynamic>? data;
@@ -177,7 +178,7 @@ class ReviewDetailContent extends HookWidget {
     final reasons = tx.matchReasons;
     // PIPELINE_ERROR's header icon frame uses the error theme (.pen T7fVHn);
     // every other type uses the accent theme.
-    final isPipelineError = tx.reviewType == 'PIPELINE_ERROR';
+    final isPipelineError = tx.reviewType == ReviewType.pipelineError;
 
     return SingleChildScrollView(
       padding: const EdgeInsets.all(TokenSpacing.xl),
@@ -282,7 +283,7 @@ class ReviewDetailContent extends HookWidget {
             label: l10n.reviewCenterAmount,
           ),
           // accountCorrectionCard (.pen LW39J) — ACCOUNT_VALIDATION type card.
-          if (tx.reviewType == 'ACCOUNT_VALIDATION' &&
+          if (tx.reviewType == ReviewType.accountValidation &&
               tx.accountValidation != null) ...[
             const SizedBox(height: TokenSpacing.xl),
             AccountCorrectionCard(
@@ -294,7 +295,7 @@ class ReviewDetailContent extends HookWidget {
             ),
           ],
           // duplicateCompareCard (.pen umtLO) — DUPLICATE type card.
-          if (tx.reviewType == 'DUPLICATE' && tx.duplicateData != null) ...[
+          if (tx.reviewType == ReviewType.duplicate && tx.duplicateData != null) ...[
             const SizedBox(height: TokenSpacing.xl),
             DuplicateCompareCard(
               source: tx.duplicateData!.sourceTransaction,
@@ -304,7 +305,7 @@ class ReviewDetailContent extends HookWidget {
             ),
           ],
           // ruleSuggestionCard (.pen yiJrC) — RULE_MATCH type card.
-          if (tx.reviewType == 'RULE_MATCH' && tx.ruleMatchData != null) ...[
+          if (tx.reviewType == ReviewType.ruleMatch && tx.ruleMatchData != null) ...[
             const SizedBox(height: TokenSpacing.xl),
             RuleSuggestionCard(
               ruleName: tx.ruleMatchData!.matchedRule.name,
@@ -314,7 +315,7 @@ class ReviewDetailContent extends HookWidget {
             ),
           ],
           // pipelineErrorCard (.pen lXQEi) — PIPELINE_ERROR type card.
-          if (tx.reviewType == 'PIPELINE_ERROR' &&
+          if (tx.reviewType == ReviewType.pipelineError &&
               tx.pipelineErrorData != null) ...[
             const SizedBox(height: TokenSpacing.xl),
             PipelineErrorCard(
@@ -323,7 +324,7 @@ class ReviewDetailContent extends HookWidget {
             ),
           ],
           // payeeSuggestionCard (.pen hTdDw) — PAYEE_MATCH type card.
-          if (tx.reviewType == 'PAYEE_MATCH' && tx.payeeMatchData != null) ...[
+          if (tx.reviewType == ReviewType.payeeMatch && tx.payeeMatchData != null) ...[
             const SizedBox(height: TokenSpacing.xl),
             PayeeSuggestionCard(
               originalPayee: tx.payeeMatchData!.originalPayee,

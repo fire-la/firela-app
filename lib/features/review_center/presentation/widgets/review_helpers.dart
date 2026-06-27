@@ -2,63 +2,63 @@ import 'package:flutter/material.dart';
 import 'package:firela_app/generated/l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import '../../domain/entities/pending_transaction.dart';
+import '../../domain/models/review_type.dart';
 
 /// Shared review display helpers (icon, labels, summary/amount/time/source
 /// formatting). Used by both the summary row and the detail content — keep them
 /// here to avoid duplication (Rule 0).
 
-/// Review type wire value → leading icon (Material; .pen uses lucide).
-IconData reviewTypeIcon(String? type) {
+/// Review type → leading icon (Material; .pen uses lucide).
+IconData reviewTypeIcon(ReviewType? type) {
   switch (type) {
-    case 'DUPLICATE':
+    case ReviewType.duplicate:
       return Icons.copy_outlined;
-    case 'RULE_MATCH':
+    case ReviewType.ruleMatch:
       return Icons.auto_awesome_outlined;
-    case 'PAYEE_MATCH':
+    case ReviewType.payeeMatch:
       return Icons.storefront_outlined;
-    case 'ACCOUNT_VALIDATION':
+    case ReviewType.accountValidation:
       return Icons.account_balance_outlined;
-    case 'PIPELINE_ERROR':
+    case ReviewType.pipelineError:
       return Icons.error_outline;
-    default:
+    case null:
       return Icons.fact_check_outlined;
   }
 }
 
-/// Review type wire value → localized title (used in the detail header and the
-/// row's source tag).
-String reviewTypeTitle(AppLocalizations l10n, String? type) {
+/// Review type → localized title (used in the detail header and the row's
+/// source tag).
+String reviewTypeTitle(AppLocalizations l10n, ReviewType? type) {
   switch (type) {
-    case 'DUPLICATE':
+    case ReviewType.duplicate:
       return l10n.reviewTypeDuplicate;
-    case 'RULE_MATCH':
+    case ReviewType.ruleMatch:
       return l10n.reviewTypeRuleMatch;
-    case 'PAYEE_MATCH':
+    case ReviewType.payeeMatch:
       return l10n.reviewTypePayeeMatch;
-    case 'ACCOUNT_VALIDATION':
+    case ReviewType.accountValidation:
       return l10n.reviewTypeAccountValidation;
-    case 'PIPELINE_ERROR':
+    case ReviewType.pipelineError:
       return l10n.reviewTypePipelineError;
-    default:
+    case null:
       return l10n.reviewCenterDetailTitle;
   }
 }
 
-/// Review type wire value → short chip label (null → "All"). Drives the type
-/// filter chips on the review list.
-String reviewTypeChipLabel(AppLocalizations l10n, String? type) {
+/// Review type → short chip label (null → "All"). Drives the type filter chips.
+String reviewTypeChipLabel(AppLocalizations l10n, ReviewType? type) {
   switch (type) {
-    case 'DUPLICATE':
+    case ReviewType.duplicate:
       return l10n.reviewChipDuplicate;
-    case 'RULE_MATCH':
+    case ReviewType.ruleMatch:
       return l10n.reviewChipRule;
-    case 'PAYEE_MATCH':
+    case ReviewType.payeeMatch:
       return l10n.reviewChipPayee;
-    case 'ACCOUNT_VALIDATION':
+    case ReviewType.accountValidation:
       return l10n.reviewChipAccount;
-    case 'PIPELINE_ERROR':
+    case ReviewType.pipelineError:
       return l10n.reviewChipPipeline;
-    default:
+    case null:
       return l10n.reviewChipAll;
   }
 }
@@ -100,35 +100,37 @@ String formatReviewTime(PendingTransaction tx) {
 String formatReviewSummary(AppLocalizations l10n, PendingTransaction tx) {
   final p = tx.summaryParams ?? const <String, String>{};
   switch (tx.reviewType) {
-    case 'DUPLICATE':
+    case ReviewType.duplicate:
       final amount = p['amount'];
       if (amount != null && amount.isNotEmpty) {
         return l10n.reviewSummaryDuplicate(amount);
       }
       break;
-    case 'RULE_MATCH':
+    case ReviewType.ruleMatch:
       final rule = p['ruleName'];
       if (rule != null && rule.isNotEmpty) {
         return l10n.reviewSummaryRuleMatch(rule);
       }
       break;
-    case 'PAYEE_MATCH':
+    case ReviewType.payeeMatch:
       final suggested = p['suggested'];
       if (suggested != null && suggested.isNotEmpty) {
         return l10n.reviewSummaryPayeeMatch(suggested);
       }
       break;
-    case 'ACCOUNT_VALIDATION':
+    case ReviewType.accountValidation:
       final account = p['account'];
       if (account != null && account.isNotEmpty) {
         return l10n.reviewSummaryAccountValidation(account);
       }
       break;
-    case 'PIPELINE_ERROR':
+    case ReviewType.pipelineError:
       final error = p['error'];
       if (error != null && error.isNotEmpty) {
         return l10n.reviewSummaryPipelineError(error);
       }
+      break;
+    case null:
       break;
   }
   if (tx.merchantName.isNotEmpty) return tx.merchantName;

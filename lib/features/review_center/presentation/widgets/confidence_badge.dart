@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firela_app/generated/l10n/app_localizations.dart';
 import '../../../../core/design_tokens/design_tokens.dart';
 import '../../domain/models/confidence_level.dart';
+import '../../domain/models/review_type.dart';
 
 /// Visual kinds for [ConfidenceBadge] (.pen PMjgX).
 ///
@@ -88,10 +89,10 @@ class ConfidenceBadge extends StatelessWidget {
 /// no confidence) reads as `low`. This only drives the *badge display* — the
 /// inline-vs-detail gate is the separate `confidence >= 0.85` rule (ADR-0002).
 ReviewBadgeKind resolveReviewBadgeKind(
-  String? reviewType,
+  ReviewType? reviewType,
   ConfidenceLevel? level,
 ) {
-  if (reviewType == 'PIPELINE_ERROR') return ReviewBadgeKind.error;
+  if (reviewType == ReviewType.pipelineError) return ReviewBadgeKind.error;
   return switch (level) {
     ConfidenceLevel.high => ReviewBadgeKind.high,
     ConfidenceLevel.medium => ReviewBadgeKind.medium,

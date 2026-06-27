@@ -1,169 +1,156 @@
-import '../../../../core/network/api_client.dart' as core;
-import '../../../../core/utils/logger.dart';
-import '../../domain/models/confidence_level.dart';
+import 'package:built_value/json_object.dart';
+import 'package:firela_api/firela_api.dart' as gen;
 
-/// Remote datasource for Review Center API calls
-/// Uses the core ApiClient with correct base URL and region routing.
+import '../../../../api/api.dart';
+import '../../../../core/utils/logger.dart';
+import '../../domain/models/review_type.dart';
+
+/// Remote datasource for Review Center API calls.
+///
+/// Typed facade over the generated [gen.BeanReviewsApi] (via [FirelaApi]).
+/// Region is pinned to the dev single-region (`cn`), matching the transactions
+/// feature; a multi-region selector is a separate task.
 class ReviewCenterRemoteDatasource {
   ReviewCenterRemoteDatasource._();
-  static final ReviewCenterRemoteDatasource instance = ReviewCenterRemoteDatasource._();
+  static final ReviewCenterRemoteDatasource instance =
+      ReviewCenterRemoteDatasource._();
 
-  final _client = core.ApiClient.instance;
+  static const String _region = 'cn';
 
-  /// Base path for Review Center endpoints (region-scoped, auto-routed)
-  static const String _basePath = '/bean/reviews';
-
-  /// Get raw pending transactions response
-  /// API returns {"data": [...], "total": N} — we normalize to {"items": [...]}
-  Future<Map<String, dynamic>> getRawPendingTransactions({
-    ConfidenceLevel? level,
-    String? type,
+  /// GET /bean/reviews → ReviewListResponseDto (typed). Null when the backend
+  /// responds with an empty body.
+  Future<gen.ReviewListResponseDto?> getPendingTransactions({
+    ReviewType? type,
+    String? confidenceLevel,
     int page = 1,
     int limit = 20,
   }) async {
-    final queryParams = <String, String>{
-      'page': page.toString(),
-      'limit': limit.toString(),
-    };
-
-    if (level != null) {
-      queryParams['confidenceLevel'] = level.name.toLowerCase();
+    try {
+      final response = await FirelaApi().reviews.reviewControllerFindAll(
+        region: _region,
+        type: type?.wireValue,
+        confidenceLevel: confidenceLevel,
+        page: page,
+        limit: limit,
+      );
+      return response.data;
+    } catch (e) {
+      logger.e('[ReviewCenter] Failed to fetch list: $e');
+      rethrow;
     }
-    if (type != null && type.isNotEmpty) {
-      queryParams['type'] = type;
-    }
-
-    logger.i('[ReviewCenter] Fetching raw pending transactions: type=$type, level=$level, page=$page');
-
-    final response = await _client.get(_basePath, queryParams: queryParams);
-
-    if (response is Map<String, dynamic>) {
-      // Normalize: API may return "data" or "items" key
-      final items = response['items'] ?? response['data'] ?? response['transactions'];
-      return {
-        'items': items is List ? items : [],
-        'total': response['total'] ?? (items is List ? items.length : 0),
-      };
-    }
-
-    if (response is List) {
-      return {'items': response, 'total': response.length};
-    }
-
-    return {'items': [], 'total': 0};
   }
 
-  /// Get raw pending transaction detail
-  Future<Map<String, dynamic>> getRawPendingTransactionDetail(String id) async {
-    logger.i('[ReviewCenter] Fetching raw transaction detail: $id');
-    final response = await _client.get('$_basePath/$id');
-    return response as Map<String, dynamic>;
+  /// GET /bean/reviews/:id → ReviewDetailDto (typed).
+  Future<gen.ReviewDetailDto?> getPendingTransactionDetail(String id) async {
+    try {
+      final response = await FirelaApi()
+          .reviews
+          .reviewControllerFindOne(region: _region, id: id);
+      return response.data;
+    } catch (e) {
+      logger.e('[ReviewCenter] Failed to fetch detail $id: $e');
+      rethrow;
+    }
   }
 
-  /// Confirm a pending transaction (records it as a regular transaction)
-  /// POST /bean/reviews/:id/resolve with action: 'ACCEPT'
-  Future<dynamic> confirmTransaction(String id) async {
-    logger.i('[ReviewCenter] Confirming (accepting) transaction: $id');
-    return await _client.post('$_basePath/$id/resolve', body: {'action': 'ACCEPT'});
-  }
+  /// Confirm a pending transaction (ACCEPT).
+  Future<void> confirmTransaction(String id) =>
+      resolveReview(id, action: ReviewAction.accept.wireValue);
 
-  /// Reject a pending transaction (undo/delete)
-  /// POST /bean/reviews/:id/resolve with action: 'REJECT'
-  Future<dynamic> rejectTransaction(String id) async {
-    logger.i('[ReviewCenter] Rejecting transaction: $id');
-    return await _client.post('$_basePath/$id/resolve', body: {'action': 'REJECT'});
-  }
-
-  /// Resolve a review with a decision action.
   /// POST /bean/reviews/:id/resolve {action, data?} → ResolveResultDto.
   /// `data` carries type-specific payload (e.g. chosenAccount for CHOOSE_OTHER).
-  Future<Map<String, dynamic>> resolveReview(
+  Future<gen.ResolveResultDto?> resolveReview(
     String id, {
     required String action,
     Map<String, dynamic>? data,
   }) async {
-    logger.i('[ReviewCenter] Resolving review: $id action=$action');
-    final body = <String, dynamic>{'action': action};
-    if (data != null) body['data'] = data;
-    final response = await _client.post('$_basePath/$id/resolve', body: body);
-    return response is Map<String, dynamic>
-        ? response
-        : <String, dynamic>{};
+    try {
+      final response = await FirelaApi().reviews.reviewControllerResolve(
+        region: _region,
+        id: id,
+        resolveReviewDto: gen.ResolveReviewDto((b) => b
+          ..action = action
+          ..data = data == null ? null : JsonObject(data)),
+      );
+      logger.i('[ReviewCenter] Resolved $id action=$action');
+      return response.data;
+    } catch (e) {
+      logger.e('[ReviewCenter] Failed to resolve $id: $e');
+      rethrow;
+    }
   }
 
-  /// Batch-resolve reviews of one type with a single action.
-  /// POST /bean/reviews/batch-resolve {reviewIds[], action, data?}.
+  /// POST /bean/reviews/batch-resolve {reviewIds, action, data?}.
   /// Rate-limited (5/min, max 50) — caller chunks larger sets.
-  Future<({int successCount, int failedCount})> batchResolve({
+  ///
+  /// `results` (spec: string[], "Details for each item") is treated as the
+  /// successfully-resolved ids and returned as [successIds] for per-item undo
+  /// (IGN-287 item C). It's only trusted when its length matches `successCount`
+  /// — otherwise callers fall back to full-success-only undo.
+  Future<({int successCount, int failedCount, List<String> successIds})>
+      batchResolve({
     required List<String> reviewIds,
     required String action,
     Map<String, dynamic>? data,
   }) async {
-    logger.i('[ReviewCenter] Batch resolving ${reviewIds.length} reviews: action=$action');
-    final body = <String, dynamic>{
-      'reviewIds': reviewIds,
-      'action': action,
-      if (data != null) 'data': data,
-    };
-    final response = await _client.post('$_basePath/batch-resolve', body: body);
-    if (response is Map<String, dynamic>) {
-      return (
-        successCount: (response['successCount'] as num?)?.toInt() ?? 0,
-        failedCount: (response['failedCount'] as num?)?.toInt() ?? 0,
+    try {
+      final response = await FirelaApi().reviews.reviewControllerBatchResolve(
+        region: _region,
+        batchResolveDto: gen.BatchResolveDto((b) => b
+          ..reviewIds.replace(reviewIds)
+          ..action = action
+          ..data = data == null ? null : JsonObject(data)),
       );
+      final dto = response.data;
+      if (dto == null) {
+        return (
+          successCount: 0,
+          failedCount: reviewIds.length,
+          successIds: const <String>[],
+        );
+      }
+      final success = dto.successCount.toInt();
+      final results = dto.results.toList();
+      final successIds =
+          results.length == success ? results : const <String>[];
+      return (
+        successCount: success,
+        failedCount: dto.failedCount.toInt(),
+        successIds: successIds,
+      );
+    } catch (e) {
+      logger.e('[ReviewCenter] Failed to batch resolve ($action): $e');
+      rethrow;
     }
-    logger.w('[ReviewCenter] Unexpected batch-resolve response for $action: $response');
-    return (successCount: 0, failedCount: reviewIds.length);
   }
 
-  /// Undo a single resolution within the 24h window.
-  /// POST /bean/reviews/:id/undo.
-  ///
-  /// Unlike [batchResolve], this swallows exceptions and returns `false` on
-  /// failure — callers get a simple boolean. (Chosen because the caller only
-  /// needs success/failure, not the error detail.)
+  /// POST /bean/reviews/:id/undo. Swallows exceptions and returns false so the
+  /// caller gets a simple boolean (it only needs success/failure).
   Future<bool> undoReview(String id) async {
-    logger.i('[ReviewCenter] Undoing review: $id');
     try {
-      await _client.post('$_basePath/$id/undo');
+      await FirelaApi()
+          .reviews
+          .reviewControllerUndo(region: _region, id: id);
       return true;
     } catch (e) {
-      logger.e('[ReviewCenter] Failed to undo review $id: $e');
+      logger.e('[ReviewCenter] Failed to undo $id: $e');
       return false;
     }
   }
 
-  /// Delete a pending transaction (reject)
-  Future<void> deleteTransaction(String id) async {
-    logger.i('[ReviewCenter] Deleting (rejecting) transaction: $id');
-    await _client.post('$_basePath/$id/resolve', body: {'action': 'REJECT'});
-  }
+  /// Delete a pending transaction (REJECT).
+  Future<void> deleteTransaction(String id) =>
+      resolveReview(id, action: ReviewAction.reject.wireValue);
 
-  /// Get pending review stats for badges/chips.
-  /// GET /bean/reviews/stats → {total, byType}. Returned as a flat map:
-  /// {'total': N, 'DUPLICATE': n, 'RULE_MATCH': n, ...}.
-  Future<Map<String, int>> getPendingCount() async {
-    logger.i('[ReviewCenter] Fetching pending stats');
-
+  /// GET /bean/reviews/stats → ReviewStatsDto (typed).
+  Future<gen.ReviewStatsDto?> getStats() async {
     try {
-      final response = await _client.get('$_basePath/stats');
-      final result = <String, int>{'total': 0};
-
-      if (response is Map<String, dynamic>) {
-        result['total'] = (response['total'] as num?)?.toInt() ?? 0;
-        final byType = response['byType'];
-        if (byType is Map) {
-          for (final entry in byType.entries) {
-            result[entry.key.toString()] = (entry.value as num?)?.toInt() ?? 0;
-          }
-        }
-      } else if (response is num) {
-        result['total'] = response.toInt();
-      }
-
-      return result;
+      final response = await FirelaApi()
+          .reviews
+          .reviewControllerGetStats(region: _region);
+      return response.data;
     } catch (e) {
-      logger.e('[ReviewCenter] Failed to fetch pending stats: $e');
+      logger.e('[ReviewCenter] Failed to fetch stats: $e');
       rethrow;
     }
   }

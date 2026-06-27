@@ -7,8 +7,11 @@ import '../../../../core/components/components.dart';
 import 'package:firela_app/generated/l10n/app_localizations.dart';
 import '../../../../shared/widgets/section_header.dart';
 import '../../../../core/design_tokens/design_tokens.dart';
+import '../../../../core/services/analytics_events.dart';
+import '../../../../core/services/analytics_service.dart';
 import '../../domain/entities/pending_transaction.dart';
 import '../../domain/models/confidence_level.dart';
+import '../../domain/models/review_type.dart';
 import '../providers/use_review_center.dart';
 import '../signals/review_center_signal.dart';
 import '../widgets/confidence_badge.dart';
@@ -26,13 +29,13 @@ class ReviewCenterPage extends HookWidget {
   const ReviewCenterPage({super.key});
 
   /// Type filter order (null = all).
-  static const List<String?> _types = [
+  static const List<ReviewType?> _types = [
     null,
-    'DUPLICATE',
-    'RULE_MATCH',
-    'PAYEE_MATCH',
-    'ACCOUNT_VALIDATION',
-    'PIPELINE_ERROR',
+    ReviewType.duplicate,
+    ReviewType.ruleMatch,
+    ReviewType.payeeMatch,
+    ReviewType.accountValidation,
+    ReviewType.pipelineError,
   ];
 
   @override
@@ -74,32 +77,43 @@ class ReviewCenterPage extends HookWidget {
     ({bool show, String label, String action}) inlineConfig(
       PendingTransaction tx,
     ) {
+      final t = tx.reviewType;
       final canInline = ConfidenceLevel.normalize(tx.confidenceScore) >= 0.85 &&
-          (tx.reviewType == 'DUPLICATE' ||
-              tx.reviewType == 'RULE_MATCH' ||
-              tx.reviewType == 'PAYEE_MATCH');
+          (t == ReviewType.duplicate ||
+              t == ReviewType.ruleMatch ||
+              t == ReviewType.payeeMatch);
       if (!canInline) return (show: false, label: '', action: '');
-      return switch (tx.reviewType) {
-        'DUPLICATE' => (
+      return switch (t) {
+        ReviewType.duplicate => (
             show: true,
             label: l10n.reviewActionSkip,
-            action: 'IGNORE_NEW',
+            action: ReviewAction.ignoreNew.wireValue,
           ),
-        'RULE_MATCH' => (
+        ReviewType.ruleMatch => (
             show: true,
             label: l10n.reviewInlineApply,
-            action: 'ACCEPT',
+            action: ReviewAction.accept.wireValue,
           ),
-        'PAYEE_MATCH' => (
+        ReviewType.payeeMatch => (
             show: true,
             label: l10n.reviewInlineSelect,
-            action: 'ACCEPT',
+            action: ReviewAction.accept.wireValue,
           ),
         _ => (show: false, label: '', action: ''),
       };
     }
 
     Future<void> handleInline(PendingTransaction tx, String action) async {
+      // IGN-286: single inline decision chosen
+      await AnalyticsService().capture(
+        AnalyticsEvents.duplicateDecisionChosen,
+        properties: {
+          AnalyticsProps.decisionAction: action,
+          AnalyticsProps.decisionSource: 'single',
+          if (tx.reviewType != null)
+            AnalyticsProps.reviewType: tx.reviewType!.wireValue,
+        },
+      );
       final ok = await state.resolveInline(tx.id, action: action);
       if (!context.mounted) return;
       showToast(ok ? l10n.reviewCenterResolved : l10n.reviewCenterResolveFailed,
@@ -113,21 +127,51 @@ class ReviewCenterPage extends HookWidget {
 
     // Batch defaults are hardcoded safe actions — NEVER read `recommended`
     // (IGN-285: it statically points to a destructive action).
-    String defaultBatchAction(String? type) => switch (type) {
-          'DUPLICATE' => 'IGNORE_NEW',
-          'RULE_MATCH' || 'PAYEE_MATCH' || 'ACCOUNT_VALIDATION' => 'ACCEPT',
-          'PIPELINE_ERROR' => 'FIX',
-          _ => 'IGNORE_NEW',
+    String defaultBatchAction(ReviewType? type) => switch (type) {
+          ReviewType.duplicate => ReviewAction.ignoreNew.wireValue,
+          ReviewType.ruleMatch ||
+          ReviewType.payeeMatch ||
+          ReviewType.accountValidation =>
+            ReviewAction.accept.wireValue,
+          ReviewType.pipelineError => ReviewAction.fix.wireValue,
+          null => ReviewAction.ignoreNew.wireValue,
         };
-    String batchActionLabel(String action) => switch (action) {
-          'IGNORE_NEW' => l10n.reviewActionSkip,
-          'UPGRADE_REPLACE' => l10n.reviewActionReplace,
-          'ACCEPT' => l10n.reviewInlineApply,
-          'FIX' => l10n.reviewActionFix,
+    String batchActionLabel(String action) =>
+        switch (ReviewAction.fromWire(action)) {
+          ReviewAction.ignoreNew => l10n.reviewActionSkip,
+          ReviewAction.upgradeReplace => l10n.reviewActionReplace,
+          ReviewAction.accept => l10n.reviewInlineApply,
+          ReviewAction.fix => l10n.reviewActionFix,
           _ => action,
         };
 
     Future<void> applyBatch(String action) async {
+      // IGN-287 item D: batch-resolve is rate-limited (5/min, max 50). The
+      // provider chunks at 50, so up to 250 items (= 5 chunks) fit within the
+      // window; beyond that the burst exceeds the limit. Cap and ask the user
+      // to resolve some individually first.
+      if (state.transactions.length > 250) {
+        showToast(l10n.reviewBatchTooMany, isError: true);
+        return;
+      }
+      // IGN-286: batch decision chosen + batch-size distribution
+      await AnalyticsService().capture(
+        AnalyticsEvents.duplicateDecisionChosen,
+        properties: {
+          AnalyticsProps.decisionAction: action,
+          AnalyticsProps.decisionSource: 'batch',
+          if (state.currentType != null)
+            AnalyticsProps.reviewType: state.currentType!.wireValue,
+        },
+      );
+      await AnalyticsService().capture(
+        AnalyticsEvents.reviewBatchSize,
+        properties: {
+          AnalyticsProps.itemCount: state.transactions.length,
+          if (state.currentType != null)
+            AnalyticsProps.reviewType: state.currentType!.wireValue,
+        },
+      );
       final r = await state.applyBatch(action);
       if (!context.mounted) return;
       if (r.failedCount > 0) {
@@ -140,7 +184,7 @@ class ReviewCenterPage extends HookWidget {
 
     Future<void> onBatchTap() async {
       final type = state.currentType;
-      if (type == 'DUPLICATE') {
+      if (type == ReviewType.duplicate) {
         final chosen = await showModalBottomSheet<String>(
           context: context,
           backgroundColor: tokens.bgCard,
@@ -172,25 +216,43 @@ class ReviewCenterPage extends HookWidget {
                   _SheetOption(
                     label: l10n.reviewActionSkip,
                     hint: l10n.reviewActionSkipHint,
-                    onTap: () => Navigator.pop(ctx, 'IGNORE_NEW'),
+                    onTap: () =>
+                        Navigator.pop(ctx, ReviewAction.ignoreNew.wireValue),
                   ),
                   _SheetOption(
                     label: l10n.reviewActionReplace,
                     hint: l10n.reviewActionReplaceHint,
-                    onTap: () => Navigator.pop(ctx, 'UPGRADE_REPLACE'),
+                    onTap: () => Navigator.pop(
+                        ctx, ReviewAction.upgradeReplace.wireValue),
                   ),
                 ],
               ),
             ),
           ),
         );
-        if (chosen != null) await applyBatch(chosen);
+        if (chosen != null) {
+          // IGN-286: user overrode the safe default (IGNORE_NEW →
+          // UPGRADE_REPLACE) in the batch sheet. No subset selection exists,
+          // so this captures the override-intent signal, not a literal mixed batch.
+          if (chosen != defaultBatchAction(ReviewType.duplicate)) {
+            await AnalyticsService().capture(
+              AnalyticsEvents.duplicateBatchMixedIntent,
+              properties: {
+                AnalyticsProps.decisionAction: chosen,
+                AnalyticsProps.reviewType: ReviewType.duplicate.wireValue,
+              },
+            );
+          }
+          await applyBatch(chosen);
+        }
       } else {
         await applyBatch(defaultBatchAction(type));
       }
     }
 
     Future<void> handleUndo() async {
+      // IGN-286: per-item undo after a batch
+      await AnalyticsService().capture(AnalyticsEvents.duplicateUndoPerItem);
       final ok = await state.undoLastResolved();
       if (!context.mounted) return;
       if (!ok) showToast(l10n.reviewUndoFailed, isError: true);
@@ -262,7 +324,9 @@ class ReviewCenterPage extends HookWidget {
                               ReviewTypeChip(
                                 icon: reviewTypeIcon(t),
                                 label: reviewTypeChipLabel(l10n, t),
-                                count: t == null ? total : (stats[t] ?? 0),
+                                count: t == null
+                                    ? total
+                                    : (stats[t.wireValue] ?? 0),
                                 selected: state.currentType == t,
                                 onTap: () => state.changeType(t),
                               ),

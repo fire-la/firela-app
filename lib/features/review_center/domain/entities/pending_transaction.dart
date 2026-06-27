@@ -1,4 +1,5 @@
 import '../models/confidence_level.dart';
+import '../models/review_type.dart';
 import 'account_validation_data.dart';
 import 'decision_option.dart';
 import 'duplicate_data.dart';
@@ -47,9 +48,9 @@ class PendingTransaction {
   final double confidenceScore; // Raw score (0-100 or 0-1)
   final DateTime createdAt;
 
-  /// Review type wire value (DUPLICATE / RULE_MATCH / PAYEE_MATCH /
-  /// ACCOUNT_VALIDATION / PIPELINE_ERROR). Null for list items.
-  final String? reviewType;
+  /// Review type (typed). Always present for real items (the list and detail
+  /// DTOs carry a non-null type enum); null only on the [empty] placeholder.
+  final ReviewType? reviewType;
 
   /// Import source type (CSV / NLP / OCR / API). Drives the row's source tag.
   final String? sourceType;
@@ -90,7 +91,7 @@ class PendingTransaction {
     ConfidenceLevel? confidenceLevel,
     double? confidenceScore,
     DateTime? createdAt,
-    String? reviewType,
+    ReviewType? reviewType,
     String? sourceType,
     List<DecisionOption>? decisionOptions,
     List<String>? matchReasons,

@@ -153,16 +153,16 @@ static const reviewBatchSize = 'review_batch_size';                   // {count,
 
 ## 6. 验证清单（实现完逐项过）
 
-- [ ] batch-resolve 请求能成功调用（DTO 缺失已解决，3.1）
-- [ ] 默认 action = `IGNORE_NEW`，**全局无一处**读 `recommended` 做默认
-- [ ] 批量栏仅在单一类型 chip 选中时出现；"全部"时不出现
-- [ ] action sheet 暴露 跳过/覆盖；都留/确认不同不在批量里
-- [ ] 无 checkbox、无 select-all、无 indeterminate、无长按多选（Q2）
-- [ ] 批量应用后 toast/撤销栏提示"逐条撤销 24h"，无"撤销整批"按钮
-- [ ] 全部文案走 arb，Dart 源码无中文字面量
-- [ ] 全部用设计系统组件，无 Material 原生控件
-- [ ] 4 个埋点事件已埋
-- [ ] `PendingTransactionCard` 在去重类型下行内 action 用 `DuplicateDecision` 值，非通用"删除/保留"
+- [x] batch-resolve 请求能成功调用（DTO 缺失已解决，3.1）
+- [ ] 默认 action = `IGNORE_NEW`，**全局无一处**读 `recommended` 做默认 — ⚠️ 列表页已硬编码，但详情页 `decision_button_group.dart:37-40` 仍把 recommended 当 Primary（IGN-285 未完成）
+- [x] 批量栏仅在单一类型 chip 选中时出现；"全部"时不出现
+- [x] action sheet 暴露 跳过/覆盖；都留/确认不同不在批量里
+- [x] 无 checkbox、无 select-all、无 indeterminate、无长按多选（Q2）
+- [x] 批量应用后 toast/撤销栏提示"逐条撤销 24h"，无"撤销整批"按钮
+- [ ] 全部文案走 arb，Dart 源码无中文字面量 — ⚠️ 实际 UI 走 l10n，但 `confidence_level.dart:30-34` 有 3 处死代码中文字面量（`displayName`，无调用）
+- [x] 全部用设计系统组件，无 Material 原生控件（口径 = CLAUDE.md §1 禁用的按钮/输入控件）
+- [x] 4 个埋点事件已埋
+- [x] `ReviewSummaryRow`（原 `PendingTransactionCard`，5d23c66 重命名）在去重类型下行内 action 用 `DuplicateDecision` 值，非通用"删除/保留"
 
 ---
 

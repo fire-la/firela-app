@@ -448,6 +448,7 @@
   "reviewUndoFailed": "撤销失败，请重试",
   "reviewBatchApplied": "{success, plural, other{已处理 {success} 项}}",
   "reviewBatchPartial": "已处理 {success} 项，{failed} 项失败",
+  "reviewBatchTooMany": "一次批量处理的项目过多（最多 250 项）。请先逐条处理部分项目。",
 
   "nlpTitleCreated": "AI 已为您填写",
   "nlpTitleConfirm": "AI 解析结果，请确认",

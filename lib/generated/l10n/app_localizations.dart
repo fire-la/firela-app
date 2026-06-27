@@ -1276,6 +1276,12 @@ abstract class AppLocalizations {
   /// **'{success} resolved, {failed} failed'**
   String reviewBatchPartial(int success, int failed);
 
+  /// Shown when the filtered set exceeds the batch rate-limit cap
+  ///
+  /// In en, this message translates to:
+  /// **'Too many items to batch at once (max 250). Resolve some individually first.'**
+  String get reviewBatchTooMany;
+
   /// Region label
   ///
   /// In en, this message translates to:

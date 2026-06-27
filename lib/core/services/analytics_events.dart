@@ -22,6 +22,11 @@ class AnalyticsEvents {
   static const String reviewTransactionApproved = 'review_transaction_approved';
   static const String reviewTransactionRejected = 'review_transaction_rejected';
   static const String reviewTransactionEdited = 'review_transaction_edited';
+  // Batch / duplicate-decision telemetry (IGN-286)
+  static const String duplicateDecisionChosen = 'duplicate_decision_chosen';
+  static const String duplicateBatchMixedIntent = 'duplicate_batch_mixed_intent';
+  static const String duplicateUndoPerItem = 'duplicate_undo_per_item';
+  static const String reviewBatchSize = 'review_batch_size';
 
   // Expense Entry Events
   static const String expenseCreated = 'expense_created';
@@ -60,6 +65,10 @@ class AnalyticsProps {
   static const String tabName = 'tab_name';
   static const String confidenceLevel = 'confidence_level';
   static const String transactionId = 'transaction_id';
+  // Duplicate / batch decisions (IGN-286)
+  static const String decisionAction = 'action'; // IGNORE_NEW, UPGRADE_REPLACE, ACCEPT, ...
+  static const String decisionSource = 'source'; // batch, single
+  static const String reviewType = 'review_type'; // DUPLICATE, RULE_MATCH, ...
 
   // Expense
   static const String amount = 'amount';

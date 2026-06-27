@@ -963,6 +963,10 @@
       "failed": { "type": "int" }
     }
   },
+  "reviewBatchTooMany": "Too many items to batch at once (max 250). Resolve some individually first.",
+  "@reviewBatchTooMany": {
+    "description": "Shown when the filtered set exceeds the batch rate-limit cap"
+  },
 
   "region": "Region",
   "@region": {

@@ -1,5 +1,6 @@
 import 'package:flutter_hooks/flutter_hooks.dart';
 import '../../domain/entities/pending_transaction.dart';
+import '../../domain/models/review_type.dart';
 import '../../data/repositories/review_center_repository.dart';
 import '../signals/review_center_signal.dart';
 import '../../../../core/utils/logger.dart';
@@ -30,14 +31,14 @@ class ReviewCenterState {
   final List<PendingTransaction> transactions;
   final bool isLoading;
   final bool hasMore;
-  final String? currentType;
+  final ReviewType? currentType;
   final List<String> resolvedIds;
   final bool isBatchApplying;
   final bool hasError;
 
   final Future<void> Function({bool refresh}) loadTransactions;
   final Future<void> Function() loadMore;
-  final void Function(String?) changeType;
+  final void Function(ReviewType?) changeType;
   final Future<bool> Function(String id, {required String action})
       resolveInline;
   final Future<({int successCount, int failedCount})> Function(String action)
@@ -52,7 +53,7 @@ ReviewCenterState useReviewCenter() {
   final hasMore = useState(true);
   final page = useState(1);
   final hasError = useState(false);
-  final currentType = useState<String?>(null);
+  final currentType = useState<ReviewType?>(null);
   final resolvedIds = useState<List<String>>(const []);
   final isBatchApplying = useState(false);
   final isUndoing = useState(false);
@@ -99,7 +100,7 @@ ReviewCenterState useReviewCenter() {
     await loadTransactions();
   }
 
-  void changeType(String? type) {
+  void changeType(ReviewType? type) {
     if (currentType.value == type) return;
     currentType.value = type;
     transactions.value = const [];
@@ -134,6 +135,7 @@ ReviewCenterState useReviewCenter() {
     var success = 0;
     var failed = 0;
     try {
+      final successIds = <String>[];
       for (var i = 0; i < ids.length; i += 50) {
         final chunk = ids.skip(i).take(50).toList();
         final r = await ReviewCenterRepository.instance.batchResolve(
@@ -142,8 +144,14 @@ ReviewCenterState useReviewCenter() {
         );
         success += r.successCount;
         failed += r.failedCount;
+        successIds.addAll(r.successIds);
       }
-      if (success == ids.length) {
+      // Record undo for the actually-resolved ids. Prefer the per-item results
+      // (IGN-287 item C); fall back to full-success-only when the backend
+      // didn't return usable `results` (empty → conservative, no undo offered).
+      if (successIds.isNotEmpty) {
+        resolvedIds.value = [...resolvedIds.value, ...successIds];
+      } else if (success == ids.length) {
         resolvedIds.value = [...resolvedIds.value, ...ids];
       }
       // Optimistically clear so resolved items leave the UI immediately. The

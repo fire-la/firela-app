@@ -1,5 +1,6 @@
 import 'package:signals_flutter/signals_flutter.dart';
 import '../../data/repositories/review_center_repository.dart';
+import '../../domain/models/review_type.dart';
 import '../../../../core/utils/logger.dart';
 
 /// Total pending review count (drives the entry-point badge).
@@ -39,12 +40,13 @@ Future<void> fetchPendingCount() async {
       // Fold every type into a level; derive 'low' as the remainder so
       // high + medium + low always == total even if new review types appear
       // on the backend (the explicit list would otherwise drop them silently).
-      'high': stats['DUPLICATE'] ?? 0,
-      'medium': (stats['RULE_MATCH'] ?? 0) + (stats['PAYEE_MATCH'] ?? 0),
+      'high': stats[ReviewType.duplicate.wireValue] ?? 0,
+      'medium': (stats[ReviewType.ruleMatch.wireValue] ?? 0) +
+          (stats[ReviewType.payeeMatch.wireValue] ?? 0),
       'low': total -
-          (stats['DUPLICATE'] ?? 0) -
-          (stats['RULE_MATCH'] ?? 0) -
-          (stats['PAYEE_MATCH'] ?? 0),
+          (stats[ReviewType.duplicate.wireValue] ?? 0) -
+          (stats[ReviewType.ruleMatch.wireValue] ?? 0) -
+          (stats[ReviewType.payeeMatch.wireValue] ?? 0),
     };
     logger.i('[ReviewCenterSignal] Pending count updated: $total');
   } catch (e) {
