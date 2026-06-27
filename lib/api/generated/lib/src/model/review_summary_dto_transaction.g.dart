@@ -6,84 +6,6 @@ part of 'review_summary_dto_transaction.dart';
 // BuiltValueGenerator
 // **************************************************************************
 
-const ReviewSummaryDtoTransactionSourceTypeEnum
-    _$reviewSummaryDtoTransactionSourceTypeEnum_NLP =
-    const ReviewSummaryDtoTransactionSourceTypeEnum._('NLP');
-const ReviewSummaryDtoTransactionSourceTypeEnum
-    _$reviewSummaryDtoTransactionSourceTypeEnum_CSV =
-    const ReviewSummaryDtoTransactionSourceTypeEnum._('CSV');
-const ReviewSummaryDtoTransactionSourceTypeEnum
-    _$reviewSummaryDtoTransactionSourceTypeEnum_OCR =
-    const ReviewSummaryDtoTransactionSourceTypeEnum._('OCR');
-const ReviewSummaryDtoTransactionSourceTypeEnum
-    _$reviewSummaryDtoTransactionSourceTypeEnum_API =
-    const ReviewSummaryDtoTransactionSourceTypeEnum._('API');
-
-ReviewSummaryDtoTransactionSourceTypeEnum
-    _$reviewSummaryDtoTransactionSourceTypeEnumValueOf(String name) {
-  switch (name) {
-    case 'NLP':
-      return _$reviewSummaryDtoTransactionSourceTypeEnum_NLP;
-    case 'CSV':
-      return _$reviewSummaryDtoTransactionSourceTypeEnum_CSV;
-    case 'OCR':
-      return _$reviewSummaryDtoTransactionSourceTypeEnum_OCR;
-    case 'API':
-      return _$reviewSummaryDtoTransactionSourceTypeEnum_API;
-    default:
-      throw new ArgumentError(name);
-  }
-}
-
-final BuiltSet<ReviewSummaryDtoTransactionSourceTypeEnum>
-    _$reviewSummaryDtoTransactionSourceTypeEnumValues = new BuiltSet<
-        ReviewSummaryDtoTransactionSourceTypeEnum>(const <ReviewSummaryDtoTransactionSourceTypeEnum>[
-  _$reviewSummaryDtoTransactionSourceTypeEnum_NLP,
-  _$reviewSummaryDtoTransactionSourceTypeEnum_CSV,
-  _$reviewSummaryDtoTransactionSourceTypeEnum_OCR,
-  _$reviewSummaryDtoTransactionSourceTypeEnum_API,
-]);
-
-Serializer<ReviewSummaryDtoTransactionSourceTypeEnum>
-    _$reviewSummaryDtoTransactionSourceTypeEnumSerializer =
-    new _$ReviewSummaryDtoTransactionSourceTypeEnumSerializer();
-
-class _$ReviewSummaryDtoTransactionSourceTypeEnumSerializer
-    implements PrimitiveSerializer<ReviewSummaryDtoTransactionSourceTypeEnum> {
-  static const Map<String, Object> _toWire = const <String, Object>{
-    'NLP': 'NLP',
-    'CSV': 'CSV',
-    'OCR': 'OCR',
-    'API': 'API',
-  };
-  static const Map<Object, String> _fromWire = const <Object, String>{
-    'NLP': 'NLP',
-    'CSV': 'CSV',
-    'OCR': 'OCR',
-    'API': 'API',
-  };
-
-  @override
-  final Iterable<Type> types = const <Type>[
-    ReviewSummaryDtoTransactionSourceTypeEnum
-  ];
-  @override
-  final String wireName = 'ReviewSummaryDtoTransactionSourceTypeEnum';
-
-  @override
-  Object serialize(Serializers serializers,
-          ReviewSummaryDtoTransactionSourceTypeEnum object,
-          {FullType specifiedType = FullType.unspecified}) =>
-      _toWire[object.name] ?? object.name;
-
-  @override
-  ReviewSummaryDtoTransactionSourceTypeEnum deserialize(
-          Serializers serializers, Object serialized,
-          {FullType specifiedType = FullType.unspecified}) =>
-      ReviewSummaryDtoTransactionSourceTypeEnum.valueOf(
-          _fromWire[serialized] ?? (serialized is String ? serialized : ''));
-}
-
 class _$ReviewSummaryDtoTransaction extends ReviewSummaryDtoTransaction {
   @override
   final String? id;
@@ -100,7 +22,7 @@ class _$ReviewSummaryDtoTransaction extends ReviewSummaryDtoTransaction {
   @override
   final String? accountName;
   @override
-  final TransactionSummaryDtoSourceTypeEnum? sourceType;
+  final String? sourceType;
   @override
   final String? sourcePlatform;
 
@@ -221,9 +143,9 @@ class ReviewSummaryDtoTransactionBuilder
   set accountName(covariant String? accountName) =>
       _$this._accountName = accountName;
 
-  TransactionSummaryDtoSourceTypeEnum? _sourceType;
-  TransactionSummaryDtoSourceTypeEnum? get sourceType => _$this._sourceType;
-  set sourceType(covariant TransactionSummaryDtoSourceTypeEnum? sourceType) =>
+  String? _sourceType;
+  String? get sourceType => _$this._sourceType;
+  set sourceType(covariant String? sourceType) =>
       _$this._sourceType = sourceType;
 
   String? _sourcePlatform;

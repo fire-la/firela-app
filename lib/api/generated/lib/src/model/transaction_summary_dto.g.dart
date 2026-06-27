@@ -6,84 +6,6 @@ part of 'transaction_summary_dto.dart';
 // BuiltValueGenerator
 // **************************************************************************
 
-const TransactionSummaryDtoSourceTypeEnum
-    _$transactionSummaryDtoSourceTypeEnum_NLP =
-    const TransactionSummaryDtoSourceTypeEnum._('NLP');
-const TransactionSummaryDtoSourceTypeEnum
-    _$transactionSummaryDtoSourceTypeEnum_CSV =
-    const TransactionSummaryDtoSourceTypeEnum._('CSV');
-const TransactionSummaryDtoSourceTypeEnum
-    _$transactionSummaryDtoSourceTypeEnum_OCR =
-    const TransactionSummaryDtoSourceTypeEnum._('OCR');
-const TransactionSummaryDtoSourceTypeEnum
-    _$transactionSummaryDtoSourceTypeEnum_API =
-    const TransactionSummaryDtoSourceTypeEnum._('API');
-
-TransactionSummaryDtoSourceTypeEnum
-    _$transactionSummaryDtoSourceTypeEnumValueOf(String name) {
-  switch (name) {
-    case 'NLP':
-      return _$transactionSummaryDtoSourceTypeEnum_NLP;
-    case 'CSV':
-      return _$transactionSummaryDtoSourceTypeEnum_CSV;
-    case 'OCR':
-      return _$transactionSummaryDtoSourceTypeEnum_OCR;
-    case 'API':
-      return _$transactionSummaryDtoSourceTypeEnum_API;
-    default:
-      throw new ArgumentError(name);
-  }
-}
-
-final BuiltSet<TransactionSummaryDtoSourceTypeEnum>
-    _$transactionSummaryDtoSourceTypeEnumValues = new BuiltSet<
-        TransactionSummaryDtoSourceTypeEnum>(const <TransactionSummaryDtoSourceTypeEnum>[
-  _$transactionSummaryDtoSourceTypeEnum_NLP,
-  _$transactionSummaryDtoSourceTypeEnum_CSV,
-  _$transactionSummaryDtoSourceTypeEnum_OCR,
-  _$transactionSummaryDtoSourceTypeEnum_API,
-]);
-
-Serializer<TransactionSummaryDtoSourceTypeEnum>
-    _$transactionSummaryDtoSourceTypeEnumSerializer =
-    new _$TransactionSummaryDtoSourceTypeEnumSerializer();
-
-class _$TransactionSummaryDtoSourceTypeEnumSerializer
-    implements PrimitiveSerializer<TransactionSummaryDtoSourceTypeEnum> {
-  static const Map<String, Object> _toWire = const <String, Object>{
-    'NLP': 'NLP',
-    'CSV': 'CSV',
-    'OCR': 'OCR',
-    'API': 'API',
-  };
-  static const Map<Object, String> _fromWire = const <Object, String>{
-    'NLP': 'NLP',
-    'CSV': 'CSV',
-    'OCR': 'OCR',
-    'API': 'API',
-  };
-
-  @override
-  final Iterable<Type> types = const <Type>[
-    TransactionSummaryDtoSourceTypeEnum
-  ];
-  @override
-  final String wireName = 'TransactionSummaryDtoSourceTypeEnum';
-
-  @override
-  Object serialize(
-          Serializers serializers, TransactionSummaryDtoSourceTypeEnum object,
-          {FullType specifiedType = FullType.unspecified}) =>
-      _toWire[object.name] ?? object.name;
-
-  @override
-  TransactionSummaryDtoSourceTypeEnum deserialize(
-          Serializers serializers, Object serialized,
-          {FullType specifiedType = FullType.unspecified}) =>
-      TransactionSummaryDtoSourceTypeEnum.valueOf(
-          _fromWire[serialized] ?? (serialized is String ? serialized : ''));
-}
-
 abstract mixin class TransactionSummaryDtoBuilder {
   void replace(TransactionSummaryDto other);
   void update(void Function(TransactionSummaryDtoBuilder) updates);
@@ -108,8 +30,8 @@ abstract mixin class TransactionSummaryDtoBuilder {
   String? get accountName;
   set accountName(String? accountName);
 
-  TransactionSummaryDtoSourceTypeEnum? get sourceType;
-  set sourceType(TransactionSummaryDtoSourceTypeEnum? sourceType);
+  String? get sourceType;
+  set sourceType(String? sourceType);
 
   String? get sourcePlatform;
   set sourcePlatform(String? sourcePlatform);
@@ -131,7 +53,7 @@ class _$$TransactionSummaryDto extends $TransactionSummaryDto {
   @override
   final String? accountName;
   @override
-  final TransactionSummaryDtoSourceTypeEnum? sourceType;
+  final String? sourceType;
   @override
   final String? sourcePlatform;
 
@@ -251,9 +173,9 @@ class $TransactionSummaryDtoBuilder
   set accountName(covariant String? accountName) =>
       _$this._accountName = accountName;
 
-  TransactionSummaryDtoSourceTypeEnum? _sourceType;
-  TransactionSummaryDtoSourceTypeEnum? get sourceType => _$this._sourceType;
-  set sourceType(covariant TransactionSummaryDtoSourceTypeEnum? sourceType) =>
+  String? _sourceType;
+  String? get sourceType => _$this._sourceType;
+  set sourceType(covariant String? sourceType) =>
       _$this._sourceType = sourceType;
 
   String? _sourcePlatform;
