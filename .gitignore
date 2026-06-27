@@ -39,8 +39,9 @@ build/
 # Hindsight local config
 .hindsight.json
 
-# OpenAPI Generator CLI config (local tool)
+# OpenAPI Generator CLI (local tool; jar is downloaded fresh by CI, not committed)
 openapitools.json
+openapi-generator-cli.jar
 
 # Claude Code
 CLAUDE.md
