@@ -3,7 +3,6 @@
 //
 
 // ignore_for_file: unused_element
-import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
@@ -19,7 +18,7 @@ part 'transaction_summary_dto.g.dart';
 /// * [payee] - Payee/Merchant name
 /// * [narration] - Transaction narration
 /// * [accountName] - Source account name (first posting)
-/// * [sourceType] - Source type (NLP, CSV, OCR, API)
+/// * [sourceType] - Source type (free-form string from transaction metadata, e.g. import, api)
 /// * [sourcePlatform] - Source platform (e.g., alipay, wechat)
 @BuiltValue(instantiable: false)
 abstract class TransactionSummaryDto  {
@@ -51,10 +50,9 @@ abstract class TransactionSummaryDto  {
   @BuiltValueField(wireName: r'accountName')
   String? get accountName;
 
-  /// Source type (NLP, CSV, OCR, API)
+  /// Source type (free-form string from transaction metadata, e.g. import, api)
   @BuiltValueField(wireName: r'sourceType')
-  TransactionSummaryDtoSourceTypeEnum? get sourceType;
-  // enum sourceTypeEnum {  NLP,  CSV,  OCR,  API,  };
+  String? get sourceType;
 
   /// Source platform (e.g., alipay, wechat)
   @BuiltValueField(wireName: r'sourcePlatform')
@@ -121,7 +119,7 @@ class _$TransactionSummaryDtoSerializer implements PrimitiveSerializer<Transacti
       yield r'sourceType';
       yield serializers.serialize(
         object.sourceType,
-        specifiedType: const FullType(TransactionSummaryDtoSourceTypeEnum),
+        specifiedType: const FullType(String),
       );
     }
     if (object.sourcePlatform != null) {
@@ -247,8 +245,8 @@ class _$$TransactionSummaryDtoSerializer implements PrimitiveSerializer<$Transac
         case r'sourceType':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(TransactionSummaryDtoSourceTypeEnum),
-          ) as TransactionSummaryDtoSourceTypeEnum;
+            specifiedType: const FullType(String),
+          ) as String;
           result.sourceType = valueDes;
           break;
         case r'sourcePlatform':
@@ -285,28 +283,5 @@ class _$$TransactionSummaryDtoSerializer implements PrimitiveSerializer<$Transac
     );
     return result.build();
   }
-}
-
-class TransactionSummaryDtoSourceTypeEnum extends EnumClass {
-
-  /// Source type (NLP, CSV, OCR, API)
-  @BuiltValueEnumConst(wireName: r'NLP')
-  static const TransactionSummaryDtoSourceTypeEnum NLP = _$transactionSummaryDtoSourceTypeEnum_NLP;
-  /// Source type (NLP, CSV, OCR, API)
-  @BuiltValueEnumConst(wireName: r'CSV')
-  static const TransactionSummaryDtoSourceTypeEnum CSV = _$transactionSummaryDtoSourceTypeEnum_CSV;
-  /// Source type (NLP, CSV, OCR, API)
-  @BuiltValueEnumConst(wireName: r'OCR')
-  static const TransactionSummaryDtoSourceTypeEnum OCR = _$transactionSummaryDtoSourceTypeEnum_OCR;
-  /// Source type (NLP, CSV, OCR, API)
-  @BuiltValueEnumConst(wireName: r'API')
-  static const TransactionSummaryDtoSourceTypeEnum API = _$transactionSummaryDtoSourceTypeEnum_API;
-
-  static Serializer<TransactionSummaryDtoSourceTypeEnum> get serializer => _$transactionSummaryDtoSourceTypeEnumSerializer;
-
-  const TransactionSummaryDtoSourceTypeEnum._(String name): super(name);
-
-  static BuiltSet<TransactionSummaryDtoSourceTypeEnum> get values => _$transactionSummaryDtoSourceTypeEnumValues;
-  static TransactionSummaryDtoSourceTypeEnum valueOf(String name) => _$transactionSummaryDtoSourceTypeEnumValueOf(name);
 }
 

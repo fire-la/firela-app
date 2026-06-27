@@ -80,53 +80,12 @@ final BuiltSet<TransactionDetailDtoStatusEnum>
   _$transactionDetailDtoStatusEnum_SUPERSEDED,
 ]);
 
-const TransactionDetailDtoSourceTypeEnum
-    _$transactionDetailDtoSourceTypeEnum_NLP =
-    const TransactionDetailDtoSourceTypeEnum._('NLP');
-const TransactionDetailDtoSourceTypeEnum
-    _$transactionDetailDtoSourceTypeEnum_CSV =
-    const TransactionDetailDtoSourceTypeEnum._('CSV');
-const TransactionDetailDtoSourceTypeEnum
-    _$transactionDetailDtoSourceTypeEnum_OCR =
-    const TransactionDetailDtoSourceTypeEnum._('OCR');
-const TransactionDetailDtoSourceTypeEnum
-    _$transactionDetailDtoSourceTypeEnum_API =
-    const TransactionDetailDtoSourceTypeEnum._('API');
-
-TransactionDetailDtoSourceTypeEnum _$transactionDetailDtoSourceTypeEnumValueOf(
-    String name) {
-  switch (name) {
-    case 'NLP':
-      return _$transactionDetailDtoSourceTypeEnum_NLP;
-    case 'CSV':
-      return _$transactionDetailDtoSourceTypeEnum_CSV;
-    case 'OCR':
-      return _$transactionDetailDtoSourceTypeEnum_OCR;
-    case 'API':
-      return _$transactionDetailDtoSourceTypeEnum_API;
-    default:
-      throw new ArgumentError(name);
-  }
-}
-
-final BuiltSet<TransactionDetailDtoSourceTypeEnum>
-    _$transactionDetailDtoSourceTypeEnumValues = new BuiltSet<
-        TransactionDetailDtoSourceTypeEnum>(const <TransactionDetailDtoSourceTypeEnum>[
-  _$transactionDetailDtoSourceTypeEnum_NLP,
-  _$transactionDetailDtoSourceTypeEnum_CSV,
-  _$transactionDetailDtoSourceTypeEnum_OCR,
-  _$transactionDetailDtoSourceTypeEnum_API,
-]);
-
 Serializer<TransactionDetailDtoFlagEnum>
     _$transactionDetailDtoFlagEnumSerializer =
     new _$TransactionDetailDtoFlagEnumSerializer();
 Serializer<TransactionDetailDtoStatusEnum>
     _$transactionDetailDtoStatusEnumSerializer =
     new _$TransactionDetailDtoStatusEnumSerializer();
-Serializer<TransactionDetailDtoSourceTypeEnum>
-    _$transactionDetailDtoSourceTypeEnumSerializer =
-    new _$TransactionDetailDtoSourceTypeEnumSerializer();
 
 class _$TransactionDetailDtoFlagEnumSerializer
     implements PrimitiveSerializer<TransactionDetailDtoFlagEnum> {
@@ -197,40 +156,6 @@ class _$TransactionDetailDtoStatusEnumSerializer
           _fromWire[serialized] ?? (serialized is String ? serialized : ''));
 }
 
-class _$TransactionDetailDtoSourceTypeEnumSerializer
-    implements PrimitiveSerializer<TransactionDetailDtoSourceTypeEnum> {
-  static const Map<String, Object> _toWire = const <String, Object>{
-    'NLP': 'NLP',
-    'CSV': 'CSV',
-    'OCR': 'OCR',
-    'API': 'API',
-  };
-  static const Map<Object, String> _fromWire = const <Object, String>{
-    'NLP': 'NLP',
-    'CSV': 'CSV',
-    'OCR': 'OCR',
-    'API': 'API',
-  };
-
-  @override
-  final Iterable<Type> types = const <Type>[TransactionDetailDtoSourceTypeEnum];
-  @override
-  final String wireName = 'TransactionDetailDtoSourceTypeEnum';
-
-  @override
-  Object serialize(
-          Serializers serializers, TransactionDetailDtoSourceTypeEnum object,
-          {FullType specifiedType = FullType.unspecified}) =>
-      _toWire[object.name] ?? object.name;
-
-  @override
-  TransactionDetailDtoSourceTypeEnum deserialize(
-          Serializers serializers, Object serialized,
-          {FullType specifiedType = FullType.unspecified}) =>
-      TransactionDetailDtoSourceTypeEnum.valueOf(
-          _fromWire[serialized] ?? (serialized is String ? serialized : ''));
-}
-
 class _$TransactionDetailDto extends TransactionDetailDto {
   @override
   final String id;
@@ -253,7 +178,7 @@ class _$TransactionDetailDto extends TransactionDetailDto {
   @override
   final TransactionDetailDtoStatusEnum status;
   @override
-  final TransactionDetailDtoSourceTypeEnum? sourceType;
+  final String? sourceType;
   @override
   final String? sourcePlatform;
   @override
@@ -431,10 +356,9 @@ class TransactionDetailDtoBuilder
   TransactionDetailDtoStatusEnum? get status => _$this._status;
   set status(TransactionDetailDtoStatusEnum? status) => _$this._status = status;
 
-  TransactionDetailDtoSourceTypeEnum? _sourceType;
-  TransactionDetailDtoSourceTypeEnum? get sourceType => _$this._sourceType;
-  set sourceType(TransactionDetailDtoSourceTypeEnum? sourceType) =>
-      _$this._sourceType = sourceType;
+  String? _sourceType;
+  String? get sourceType => _$this._sourceType;
+  set sourceType(String? sourceType) => _$this._sourceType = sourceType;
 
   String? _sourcePlatform;
   String? get sourcePlatform => _$this._sourcePlatform;
