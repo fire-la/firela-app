@@ -97,7 +97,7 @@ class ReviewSummaryRow extends StatelessWidget {
                   // metaRow (.pen lQ9AP): confidence + source tag
                   Row(
                     children: [
-                      Flexible(child: ConfidenceBadge(kind: badgeKind)),
+                      ConfidenceBadge(kind: badgeKind),
                       const SizedBox(width: TokenSpacing.sm),
                       Flexible(
                         child: Text(
