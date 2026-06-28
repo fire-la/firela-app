@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firela_app/generated/l10n/app_localizations.dart';
+import '../../../../core/components/components.dart';
 import '../../../../core/design_tokens/design_tokens.dart';
 
 import '../../data/services/fire_calculation_service.dart';
@@ -84,11 +85,12 @@ class FireTypeCard extends StatelessWidget {
       annualReturn: annualReturn,
     );
 
-    return GestureDetector(
+    return Tappable(
       onTap: () {
         HapticFeedback.lightImpact();
         onTap?.call();
       },
+      semanticLabel: '${fireTypeInfo.name}, ${fireTypeInfo.description}',
       child: Container(
         width: 160,
         margin: const EdgeInsets.only(right: TokenSpacing.lg),

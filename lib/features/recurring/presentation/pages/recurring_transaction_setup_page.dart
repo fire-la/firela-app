@@ -114,9 +114,9 @@ class _RadioCard extends StatelessWidget {
           const SizedBox(height: TokenSpacing.xl),
           ...List.generate(options.length, (i) => Padding(
             padding: const EdgeInsets.only(bottom: TokenSpacing.lg),
-            child: GestureDetector(
+            child: Tappable(
               onTap: () => onChanged(i),
-              behavior: HitTestBehavior.opaque,
+              semanticLabel: options[i],
               child: Row(
                 children: [
                   DesignRadio(value: i == selectedIndex, onChanged: (_) => onChanged(i)),

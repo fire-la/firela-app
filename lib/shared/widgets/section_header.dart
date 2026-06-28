@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../core/components/components.dart';
 import '../../core/design_tokens/design_tokens.dart';
 
 class SectionHeader extends StatelessWidget {
@@ -28,8 +29,9 @@ class SectionHeader extends StatelessWidget {
             ),
           ),
           if (trailing != null)
-            InkWell(
+            Tappable(
               onTap: onTrailingTap,
+              semanticLabel: trailing!,
               child: Row(
                 children: [
                   Text(

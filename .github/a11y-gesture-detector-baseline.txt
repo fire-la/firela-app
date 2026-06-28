@@ -9,8 +9,6 @@ lib/features/expense/presentation/widgets/expense_recognition_result_sheet.dart
 lib/features/expense/presentation/widgets/import_error_display.dart
 lib/features/expense/presentation/widgets/ocr_result_debug_sheet.dart
 lib/features/fire_journey/presentation/widgets/fire_projection_chart.dart
-lib/features/fire_journey/presentation/widgets/fire_type_card.dart
-lib/features/recurring/presentation/pages/recurring_transaction_setup_page.dart
 lib/features/settings/presentation/dialogs/delete_account_dialog.dart
 lib/features/settings/presentation/pages/about_page.dart
 lib/features/settings/presentation/pages/account_settings_page.dart
@@ -19,4 +17,3 @@ lib/features/settings/presentation/pages/settings_page.dart
 lib/features/settings/presentation/widgets/sync_status_widget.dart
 lib/features/transactions/presentation/widgets/transaction_detail_edit.dart
 lib/shared/widgets/gradient_card.dart
-lib/shared/widgets/section_header.dart
