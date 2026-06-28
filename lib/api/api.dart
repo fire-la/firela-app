@@ -113,14 +113,15 @@ class FirelaApi {
 
   /// POST /transaction-rules — create an auto-categorization rule (ADR-0064).
   /// The caller builds [dto] (`name` required).
-  Future<void> createCategoryRule(
+  Future<gen.TransactionRuleResponseDto> createCategoryRule(
     String region,
     gen.CreateTransactionRuleDto dto,
   ) async {
-    await transactionRules.transactionRuleControllerCreate(
+    final response = await transactionRules.transactionRuleControllerCreate(
       region: region,
       createTransactionRuleDto: dto,
     );
+    return _bodyOrThrow(response, 'createCategoryRule');
   }
 
   /// Unwrap a nullable response body or throw (backend 200 but empty body).

@@ -142,8 +142,12 @@ TransactionListState useTransactionList({
     return effect(() {
       final m = transactionMutationSignal.value;
       if (m == null) return;
+      // Reset synchronously so a rapid second mutation can't overwrite the
+      // signal before this one is applied (m is captured in the microtask
+      // closure). The apply itself is deferred to avoid writing useState
+      // during a build, matching the existing refresh-signal pattern.
+      transactionMutationSignal.value = null;
       Future.microtask(() {
-        transactionMutationSignal.value = null;
         transactions.value = applyTransactionMutation(transactions.value, m);
       });
     });

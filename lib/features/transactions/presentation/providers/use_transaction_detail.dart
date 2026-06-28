@@ -179,16 +179,16 @@ TransactionDetailState useTransactionDetail(String id) {
     }
     try {
       final region = regionSignal.value;
-      // categoryAccount target = the transaction's first posting account.
-      // NOTE: raw posting exposes accountName/accountId (display), not the
-      // beancount-qualified `account`; refine once category derivation lands.
-      final categoryAccount = firstAccount.value.isEmpty ? null : firstAccount.value;
       final dto = CreateTransactionRuleDto((b) => b
         ..name = 'Rule: $payeeStr'
         ..payeeKeywords = ListBuilder<BuiltList>([
           BuiltList<dynamic>([payeeStr]),
         ])
-        ..categoryAccount = categoryAccount
+        // categoryAccount intentionally null: PostingDetailDto exposes only
+        // accountName (display), not the beancount-qualified `account` the
+        // rule DTO wants. Sending a display name would silently misroute
+        // future transactions. TODO: set once account mapping is resolved.
+        ..categoryAccount = null
         ..upsertByPayee = true);
       await FirelaApi().createCategoryRule(region, dto);
       return true;

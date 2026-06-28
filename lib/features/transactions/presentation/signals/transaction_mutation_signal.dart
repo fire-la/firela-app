@@ -47,7 +47,7 @@ List<Transaction> applyTransactionMutation(
     return out;
   }
   if (m is SupersedeTransaction) {
-    final out = list.where((t) => t.id != m.oldId).toList();
+    final out = list.where((t) => t.id != m.oldId && t.id != m.newTx.id).toList();
     out.insert(0, m.newTx);
     return out;
   }

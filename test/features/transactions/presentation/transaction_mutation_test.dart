@@ -44,5 +44,13 @@ void main() {
           list, SupersedeTransaction(oldId: 'x', newTx: _tx('new')));
       expect(out.map((t) => t.id), ['new', 'b']);
     });
+
+    test('SupersedeTransaction dedups when newTx.id already present', () {
+      final list = [_tx('a'), _tx('new')];
+      final out = applyTransactionMutation(
+          list, SupersedeTransaction(oldId: 'a', newTx: _tx('new')));
+      expect(out.map((t) => t.id), ['new']);
+      expect(out.length, 1);
+    });
   });
 }
