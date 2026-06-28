@@ -209,6 +209,7 @@ Class | Method | HTTP request | Description
 [*BeanTransactionRulesApi*](doc/BeanTransactionRulesApi.md) | [**transactionRuleControllerTest**](doc/BeanTransactionRulesApi.md#transactionrulecontrollertest) | **POST** /api/v1/{region}/bean/transaction-rules/{ruleId}/test | Test rule matching
 [*BeanTransactionRulesApi*](doc/BeanTransactionRulesApi.md) | [**transactionRuleControllerUpdate**](doc/BeanTransactionRulesApi.md#transactionrulecontrollerupdate) | **PUT** /api/v1/{region}/bean/transaction-rules/{ruleId} | Update a transaction rule
 [*BeanTransactionRulesApi*](doc/BeanTransactionRulesApi.md) | [**transactionRuleControllerValidate**](doc/BeanTransactionRulesApi.md#transactionrulecontrollervalidate) | **POST** /api/v1/{region}/bean/transaction-rules/validate | Validate transaction rule configuration
+[*BeanTransactionsApi*](doc/BeanTransactionsApi.md) | [**transactionControllerCorrect**](doc/BeanTransactionsApi.md#transactioncontrollercorrect) | **POST** /api/v1/{region}/bean/transactions/{id}/correct | Correct (supersede) a transaction
 [*BeanTransactionsApi*](doc/BeanTransactionsApi.md) | [**transactionControllerCreate**](doc/BeanTransactionsApi.md#transactioncontrollercreate) | **POST** /api/v1/{region}/bean/transactions | Create transaction (DEPRECATED)
 [*BeanTransactionsApi*](doc/BeanTransactionsApi.md) | [**transactionControllerCreateBatch**](doc/BeanTransactionsApi.md#transactioncontrollercreatebatch) | **POST** /api/v1/{region}/bean/transactions/batch | Batch create transactions (DEPRECATED)
 [*BeanTransactionsApi*](doc/BeanTransactionsApi.md) | [**transactionControllerDelete**](doc/BeanTransactionsApi.md#transactioncontrollerdelete) | **DELETE** /api/v1/{region}/bean/transactions/{id} | Void transaction
@@ -301,6 +302,7 @@ Class | Method | HTTP request | Description
  - [ConfirmMatchDto](doc/ConfirmMatchDto.md)
  - [ConvertedCashFlowDto](doc/ConvertedCashFlowDto.md)
  - [ConvertedNetWorthDto](doc/ConvertedNetWorthDto.md)
+ - [CorrectTransactionDto](doc/CorrectTransactionDto.md)
  - [CreateAccountDto](doc/CreateAccountDto.md)
  - [CreateCommodityDto](doc/CreateCommodityDto.md)
  - [CreatePayeeDto](doc/CreatePayeeDto.md)
