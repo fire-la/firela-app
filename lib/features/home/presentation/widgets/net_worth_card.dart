@@ -37,8 +37,9 @@ class NetWorthCard extends HookWidget {
 
       final isPositiveTrend = trend >= 0;
 
-      return GestureDetector(
+      return Tappable(
         onTap: onTap,
+        semanticLabel: '${l10n.homeNetWorth}, ¥$formattedValue, $trendFormatted',
         child: Container(
           width: double.infinity,
           padding: const EdgeInsets.all(TokenSpacing.xl),

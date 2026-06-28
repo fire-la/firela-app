@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:firela_app/generated/l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:signals_flutter/signals_flutter.dart';
+import '../../../../core/components/components.dart';
 import '../../../../core/design_tokens/design_tokens.dart';
 import '../../../../core/router/route_names.dart';
 import '../../../fire_journey/presentation/providers/use_fire_progress.dart';
@@ -174,8 +175,9 @@ class _RecommendationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return Tappable(
       onTap: onTap,
+      semanticLabel: '$title, $description',
       child: Container(
         padding: const EdgeInsets.all(TokenSpacing.lg),
         decoration: BoxDecoration(

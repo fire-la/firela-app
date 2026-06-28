@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:firela_app/generated/l10n/app_localizations.dart';
 import 'package:signals_flutter/signals_flutter.dart';
+import '../../../../core/components/components.dart';
 import '../../../../core/design_tokens/design_tokens.dart';
 import '../../../fire_journey/presentation/providers/use_fire_progress.dart';
 import '../../../../shared/widgets/loading_indicator.dart';
@@ -20,8 +21,10 @@ class FireProgressCard extends HookWidget {
     final l10n = AppLocalizations.of(context)!;
     final fireProgress = useFireProgress();
 
-    return GestureDetector(
+    return Tappable(
       onTap: onTap,
+      semanticLabel: l10n.homeFireProgress,
+      excludeSemantics: false,
       child: Container(
         padding: const EdgeInsets.all(TokenSpacing.xl),
         decoration: BoxDecoration(

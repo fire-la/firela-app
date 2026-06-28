@@ -5,6 +5,7 @@ import '../../../../core/services/receipt_text_parser.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:signals_flutter/signals_flutter.dart';
+import '../../../../core/components/components.dart';
 import '../../../../core/design_tokens/design_tokens.dart';
 import '../../../../core/router/route_names.dart';
 import '../../../../core/network/auth_manager.dart';
@@ -598,8 +599,9 @@ class _QuickActionButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return GestureDetector(
+    return Tappable(
       onTap: onTap,
+      semanticLabel: badge != null ? '$label, $badge' : label,
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: TokenSpacing.lg, horizontal: TokenSpacing.lg),
         decoration: BoxDecoration(

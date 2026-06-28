@@ -10,12 +10,6 @@ lib/features/expense/presentation/widgets/import_error_display.dart
 lib/features/expense/presentation/widgets/ocr_result_debug_sheet.dart
 lib/features/fire_journey/presentation/widgets/fire_projection_chart.dart
 lib/features/fire_journey/presentation/widgets/fire_type_card.dart
-lib/features/home/presentation/widgets/feature_shortcuts_section.dart
-lib/features/home/presentation/widgets/fire_progress_card.dart
-lib/features/home/presentation/widgets/net_worth_card.dart
-lib/features/home/presentation/widgets/pending_reviews_card.dart
-lib/features/home/presentation/widgets/quick_actions_section.dart
-lib/features/home/presentation/widgets/recommendations_section.dart
 lib/features/recurring/presentation/pages/recurring_transaction_setup_page.dart
 lib/features/settings/presentation/dialogs/delete_account_dialog.dart
 lib/features/settings/presentation/pages/about_page.dart

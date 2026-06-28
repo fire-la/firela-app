@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:firela_app/generated/l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:signals_flutter/signals_flutter.dart';
+import '../../../../core/components/components.dart';
 import '../../../../core/design_tokens/design_tokens.dart';
 import '../../../../core/router/route_names.dart';
 import '../../../review_center/presentation/signals/review_center_signal.dart';
@@ -105,8 +106,9 @@ class _ShortcutCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return GestureDetector(
+    return Tappable(
       onTap: onTap,
+      semanticLabel: badge != null ? '$label, $badge' : label,
       child: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:firela_app/generated/l10n/app_localizations.dart';
 import 'package:signals_flutter/signals_flutter.dart';
+import '../../../../core/components/components.dart';
 import '../../../../core/design_tokens/design_tokens.dart';
 import '../../../review_center/presentation/signals/review_center_signal.dart';
 import '../../../../shared/widgets/loading_indicator.dart';
@@ -27,8 +28,13 @@ class PendingReviewsCard extends HookWidget {
       final mediumCount = counts['medium'] ?? 1;
       final lowCount = counts['low'] ?? 1;
 
-      return GestureDetector(
+      return Tappable(
         onTap: onTap,
+        // H/M/L breakdown mirrors the visible chips; excludeSemantics masks
+        // them, so splice into the single label for sighted/screen-reader parity.
+        semanticLabel: total > 0
+            ? '${l10n.homePendingReviews}, $total, H:$highCount, M:$mediumCount, L:$lowCount'
+            : '${l10n.homePendingReviews}, $total',
         child: Container(
           padding: const EdgeInsets.all(TokenSpacing.xl),
           decoration: BoxDecoration(
