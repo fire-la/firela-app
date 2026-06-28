@@ -237,7 +237,8 @@ class BillImportPage extends HookWidget {
           const SizedBox(height: TokenSpacing.xl),
 
           // File Upload Area
-          InkWell(
+          Tappable(
+            semanticLabel: l10n.addFile,
             onTap: () async {
               // 检查登录
               if (!AuthManager.instance.isLoggedIn) {

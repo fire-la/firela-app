@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firela_app/generated/l10n/app_localizations.dart';
+import '../../../../core/components/components.dart';
 import '../../../../core/design_tokens/design_tokens.dart';
 
 /// Enum representing different import error types
@@ -163,12 +164,13 @@ class _ImportErrorDisplayState extends State<ImportErrorDisplay> {
           // View details expansion
           if (widget.technicalDetails != null) ...[
             const SizedBox(height: TokenSpacing.sm),
-            InkWell(
+            Tappable(
               onTap: () {
                 setState(() {
                   _showDetails = !_showDetails;
                 });
               },
+              semanticLabel: l10n.importErrorViewDetails,
               child: Row(
                 children: [
                   Icon(

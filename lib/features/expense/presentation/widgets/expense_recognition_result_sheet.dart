@@ -244,8 +244,9 @@ class ExpenseRecognitionResultSheet extends HookWidget {
       child: Row(
         children: [
           Expanded(
-            child: GestureDetector(
+            child: Tappable(
               onTap: () => isExpense.value = true,
+              semanticLabel: l10n.expense,
               child: Container(
                 decoration: BoxDecoration(
                   color: isExpense.value
@@ -267,8 +268,9 @@ class ExpenseRecognitionResultSheet extends HookWidget {
             ),
           ),
           Expanded(
-            child: GestureDetector(
+            child: Tappable(
               onTap: () => isExpense.value = false,
+              semanticLabel: l10n.income,
               child: Container(
                 decoration: BoxDecoration(
                   color: !isExpense.value
@@ -301,7 +303,7 @@ class ExpenseRecognitionResultSheet extends HookWidget {
     ValueNotifier<DateTime> date,
   ) {
     final tokens = ThemeTokens.of(context);
-    return InkWell(
+    return Tappable(
       onTap: () async {
         final picked = await showDatePicker(
           context: context,
@@ -313,6 +315,7 @@ class ExpenseRecognitionResultSheet extends HookWidget {
           date.value = picked;
         }
       },
+      semanticLabel: l10n.date,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl, vertical: TokenSpacing.xl),
         decoration: BoxDecoration(
@@ -356,7 +359,7 @@ class ExpenseRecognitionResultSheet extends HookWidget {
     bool isMissing,
   ) {
     final tokens = ThemeTokens.of(context);
-    return InkWell(
+    return Tappable(
       onTap: () async {
         final selected = await showModalBottomSheet<String>(
           context: context,
@@ -388,6 +391,7 @@ class ExpenseRecognitionResultSheet extends HookWidget {
           expenseType.value = selected;
         }
       },
+      semanticLabel: l10n.expenseType,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl, vertical: TokenSpacing.xl),
         decoration: BoxDecoration(

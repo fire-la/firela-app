@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firela_app/generated/l10n/app_localizations.dart';
+import '../../../../core/components/components.dart';
 import '../../../../core/design_tokens/design_tokens.dart';
 
 /// Expense entry bottom sheet with AI/Manual toggle
@@ -94,8 +95,9 @@ class _ExpenseEntryBottomSheetState extends State<ExpenseEntryBottomSheet> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   // Mode toggle
-                  GestureDetector(
+                  Tappable(
                     onTap: () => setState(() => _isAiMode = !_isAiMode),
+                    semanticLabel: l10n.aiAccounting,
                     child: Container(
                       padding: const EdgeInsets.symmetric(
                         horizontal: TokenSpacing.lg,
@@ -206,12 +208,13 @@ class _ExpenseEntryBottomSheetState extends State<ExpenseEntryBottomSheet> {
                   ),
                   const Spacer(),
                   // 确认对勾按钮 - 右侧（与操作按钮同高）
-                  GestureDetector(
+                  Tappable(
                           onTap: () {
                             if (_textController.text.trim().isNotEmpty) {
                               widget.onSubmit?.call(_textController.text.trim());
                             }
                           },
+                          semanticLabel: l10n.confirm,
                           child: Container(
                             width: 36,
                             height: 36,
@@ -255,9 +258,9 @@ class _ActionButton extends StatelessWidget {
     final theme = Theme.of(context);
     final tokens = ThemeTokens.of(context);
 
-    return InkWell(
+    return Tappable(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(TokenSpacing.xxl),
+      semanticLabel: label,
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: TokenSpacing.sm, horizontal: 14),
         decoration: BoxDecoration(

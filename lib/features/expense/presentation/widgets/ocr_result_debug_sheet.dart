@@ -216,7 +216,8 @@ class _OcrResultDebugSheetState extends State<OcrResultDebugSheet> {
           Expanded(
             child: SizedBox(
               height: 32,
-              child: GestureDetector(
+              child: Tappable(
+                semanticLabel: l10n.ocrDate,
                 onTap: () async {
                   final picked = await showDatePicker(
                     context: context,
