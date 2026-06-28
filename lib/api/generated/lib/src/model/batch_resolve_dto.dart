@@ -24,7 +24,8 @@ abstract class BatchResolveDto implements Built<BatchResolveDto, BatchResolveDto
 
   /// Decision action to apply to all items
   @BuiltValueField(wireName: r'action')
-  String get action;
+  BatchResolveDtoActionEnum get action;
+  // enum actionEnum {  UPGRADE_REPLACE,  LINK_KEEP_BOTH,  IGNORE_NEW,  CONFIRM_DIFFERENT,  ACCEPT,  REJECT,  ACCEPT_AND_LEARN,  CHOOSE_OTHER,  CANCEL,  FIX,  IGNORE,  };
 
   /// Additional data for the decision
   @BuiltValueField(wireName: r'data')
@@ -61,7 +62,7 @@ class _$BatchResolveDtoSerializer implements PrimitiveSerializer<BatchResolveDto
     yield r'action';
     yield serializers.serialize(
       object.action,
-      specifiedType: const FullType(String),
+      specifiedType: const FullType(BatchResolveDtoActionEnum),
     );
     if (object.data != null) {
       yield r'data';
@@ -103,8 +104,8 @@ class _$BatchResolveDtoSerializer implements PrimitiveSerializer<BatchResolveDto
         case r'action':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType(BatchResolveDtoActionEnum),
+          ) as BatchResolveDtoActionEnum;
           result.action = valueDes;
           break;
         case r'data':
@@ -141,5 +142,49 @@ class _$BatchResolveDtoSerializer implements PrimitiveSerializer<BatchResolveDto
     );
     return result.build();
   }
+}
+
+class BatchResolveDtoActionEnum extends EnumClass {
+
+  /// Decision action to apply to all items
+  @BuiltValueEnumConst(wireName: r'UPGRADE_REPLACE')
+  static const BatchResolveDtoActionEnum UPGRADE_REPLACE = _$batchResolveDtoActionEnum_UPGRADE_REPLACE;
+  /// Decision action to apply to all items
+  @BuiltValueEnumConst(wireName: r'LINK_KEEP_BOTH')
+  static const BatchResolveDtoActionEnum LINK_KEEP_BOTH = _$batchResolveDtoActionEnum_LINK_KEEP_BOTH;
+  /// Decision action to apply to all items
+  @BuiltValueEnumConst(wireName: r'IGNORE_NEW')
+  static const BatchResolveDtoActionEnum IGNORE_NEW = _$batchResolveDtoActionEnum_IGNORE_NEW;
+  /// Decision action to apply to all items
+  @BuiltValueEnumConst(wireName: r'CONFIRM_DIFFERENT')
+  static const BatchResolveDtoActionEnum CONFIRM_DIFFERENT = _$batchResolveDtoActionEnum_CONFIRM_DIFFERENT;
+  /// Decision action to apply to all items
+  @BuiltValueEnumConst(wireName: r'ACCEPT')
+  static const BatchResolveDtoActionEnum ACCEPT = _$batchResolveDtoActionEnum_ACCEPT;
+  /// Decision action to apply to all items
+  @BuiltValueEnumConst(wireName: r'REJECT')
+  static const BatchResolveDtoActionEnum REJECT = _$batchResolveDtoActionEnum_REJECT;
+  /// Decision action to apply to all items
+  @BuiltValueEnumConst(wireName: r'ACCEPT_AND_LEARN')
+  static const BatchResolveDtoActionEnum ACCEPT_AND_LEARN = _$batchResolveDtoActionEnum_ACCEPT_AND_LEARN;
+  /// Decision action to apply to all items
+  @BuiltValueEnumConst(wireName: r'CHOOSE_OTHER')
+  static const BatchResolveDtoActionEnum CHOOSE_OTHER = _$batchResolveDtoActionEnum_CHOOSE_OTHER;
+  /// Decision action to apply to all items
+  @BuiltValueEnumConst(wireName: r'CANCEL')
+  static const BatchResolveDtoActionEnum CANCEL = _$batchResolveDtoActionEnum_CANCEL;
+  /// Decision action to apply to all items
+  @BuiltValueEnumConst(wireName: r'FIX')
+  static const BatchResolveDtoActionEnum FIX = _$batchResolveDtoActionEnum_FIX;
+  /// Decision action to apply to all items
+  @BuiltValueEnumConst(wireName: r'IGNORE')
+  static const BatchResolveDtoActionEnum IGNORE = _$batchResolveDtoActionEnum_IGNORE;
+
+  static Serializer<BatchResolveDtoActionEnum> get serializer => _$batchResolveDtoActionEnumSerializer;
+
+  const BatchResolveDtoActionEnum._(String name): super(name);
+
+  static BuiltSet<BatchResolveDtoActionEnum> get values => _$batchResolveDtoActionEnumValues;
+  static BatchResolveDtoActionEnum valueOf(String name) => _$batchResolveDtoActionEnumValueOf(name);
 }
 
