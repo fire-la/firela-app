@@ -22,6 +22,12 @@ class Tappable extends StatelessWidget {
   /// Screen readers still activate via the Semantics onTap (double-tap).
   /// Default false.
   final bool activateOnPress;
+  /// Conveys state to assistive tech. Null = don't set (state not applicable).
+  /// Maps to Semantics selected/checked/expanded. Use for radio rows (selected),
+  /// checkbox rows (checked), expand toggles (expanded). See IGN-300.
+  final bool? selected;
+  final bool? checked;
+  final bool? expanded;
   final Widget child;
 
   const Tappable({
@@ -31,6 +37,9 @@ class Tappable extends StatelessWidget {
     this.semanticHint,
     this.excludeSemantics = true,
     this.activateOnPress = false,
+    this.selected,
+    this.checked,
+    this.expanded,
     required this.child,
   });
 
@@ -51,6 +60,9 @@ class Tappable extends StatelessWidget {
       label: semanticLabel,
       hint: semanticHint,
       enabled: onTap != null,
+      selected: selected,
+      checked: checked,
+      expanded: expanded,
       container: true,
       excludeSemantics: excludeSemantics,
       child: GestureDetector(

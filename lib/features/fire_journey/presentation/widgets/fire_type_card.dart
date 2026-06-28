@@ -91,6 +91,7 @@ class FireTypeCard extends StatelessWidget {
         onTap?.call();
       },
       semanticLabel: '${fireTypeInfo.name}, ${fireTypeInfo.description}',
+      selected: isSelected,
       child: Container(
         width: 160,
         margin: const EdgeInsets.only(right: TokenSpacing.lg),

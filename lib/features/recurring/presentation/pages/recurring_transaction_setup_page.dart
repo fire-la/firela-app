@@ -117,6 +117,7 @@ class _RadioCard extends StatelessWidget {
             child: Tappable(
               onTap: () => onChanged(i),
               semanticLabel: options[i],
+              selected: i == selectedIndex,
               child: Row(
                 children: [
                   DesignRadio(value: i == selectedIndex, onChanged: (_) => onChanged(i)),

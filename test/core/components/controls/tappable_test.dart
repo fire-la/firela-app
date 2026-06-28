@@ -122,4 +122,51 @@ void main() {
     expect(data.label, 'Add tag');
     expect(data.hasAction(SemanticsAction.tap), isTrue);
   });
+
+  testWidgets('selected/checked/expanded flags convey state (#state, IGN-300)',
+      (tester) async {
+    await tester.pumpWidget(MaterialApp(
+      home: Scaffold(
+        body: Column(
+          children: [
+            Tappable(
+              key: const ValueKey('radio'),
+              onTap: () {},
+              semanticLabel: 'Option A',
+              selected: true,
+              child: const SizedBox(),
+            ),
+            Tappable(
+              key: const ValueKey('check'),
+              onTap: () {},
+              semanticLabel: 'I agree',
+              checked: true,
+              child: const SizedBox(),
+            ),
+            Tappable(
+              key: const ValueKey('expand'),
+              onTap: () {},
+              semanticLabel: 'FAQ',
+              expanded: true,
+              child: const SizedBox(),
+            ),
+          ],
+        ),
+      ),
+    ));
+
+    final radio =
+        tester.getSemantics(find.byKey(const ValueKey('radio'))).getSemanticsData();
+    expect(radio.hasFlag(SemanticsFlag.isSelected), isTrue);
+
+    final check = tester
+        .getSemantics(find.byKey(const ValueKey('check')))
+        .getSemanticsData();
+    expect(check.hasFlag(SemanticsFlag.isChecked), isTrue);
+
+    final expand = tester
+        .getSemantics(find.byKey(const ValueKey('expand')))
+        .getSemanticsData();
+    expect(expand.hasFlag(SemanticsFlag.isExpanded), isTrue);
+  });
 }
