@@ -6,6 +6,7 @@ export 'controls/list_item_arrow.dart';
 export 'controls/list_item_switch.dart';
 export 'controls/segment_control.dart';
 export 'controls/switch_toggle.dart';
+export 'controls/tappable.dart';
 export 'indicators/checkbox.dart';
 export 'indicators/progress_bar.dart';
 export 'indicators/confidence_meter.dart';

@@ -1,0 +1,45 @@
+name: A11y Tap-Target Gate
+
+on:
+  pull_request:
+    # All branches — covers the dev branch (refactor/design-system-alignment)
+    # where IGN-294 migration lands, not just main.
+
+# Least privilege — this gate only reads source and emits annotations.
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Block new bare tap-target widgets outside base components
+        # Blocks NEW bare GestureDetector/InkWell/InkResponse/RawGestureDetector
+        # in business/pages layers — use Tappable instead. Existing violations
+        # are baselined; remove a line as you migrate it. See IGN-294.
+        shell: bash
+        run: |
+          set -euo pipefail
+          baseline_file=.github/a11y-gesture-detector-baseline.txt
+          if [ ! -f "$baseline_file" ]; then
+            echo "::error file=$baseline_file::A11y baseline missing. Commit it (see IGN-294 deliverable 4a) before this gate runs."
+            exit 1
+          fi
+          # `|| true` guards the goal state: once all tap-targets are migrated
+          # and grep finds nothing, the pipeline exits 1 (no match) — under
+          # pipefail that would wrongly fail CI. Treat "no matches" as success.
+          current=$(grep -rlE "GestureDetector\(|InkWell\(|InkResponse\(|RawGestureDetector\(" lib --include="*.dart" \
+              | grep -v "^lib/core/components/" | sort || true)
+          baseline=$(sort "$baseline_file" | grep -v '^$' || true)
+          new=$(comm -13 <(printf '%s\n' "$baseline") <(printf '%s\n' "$current"))
+          if [ -n "$new" ]; then
+            echo "::error::New bare tap-target widget (GestureDetector/InkWell/InkResponse/RawGestureDetector) outside lib/core/components/. Use Tappable (see IGN-294)."
+            echo "$new"
+            echo "Renamed/moved a baselined file? Update $baseline_file (drop old path, add new). Genuinely new? Replace with Tappable."
+            exit 1
+          fi
