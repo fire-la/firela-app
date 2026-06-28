@@ -698,6 +698,66 @@ paths:
         - Bean Transactions
       security:
         - bearer: []
+  /api/v1/{region}/bean/transactions/{id}/correct:
+    post:
+      operationId: TransactionController_correct
+      summary: Correct (supersede) a transaction
+      description: >-
+        Atomically voids the original (SUPERSEDED) and creates a replacement
+        through the full validation pipeline.
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: Original transaction ID to correct
+          schema:
+            type: string
+        - name: region
+          required: true
+          in: path
+          description: Region code for tenant context
+          schema:
+            enum:
+              - cn
+              - us
+              - de
+              - gb
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CorrectTransactionDto'
+      responses:
+        '201':
+          description: Corrected transaction created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionDetailDto'
+        '404':
+          description: Original transaction not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiProblemResponseDto'
+        '409':
+          description: Original no longer ACTIVE (concurrent modification)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiProblemResponseDto'
+        '422':
+          description: Pipeline validation failed (does not balance, invalid accounts)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiProblemResponseDto'
+      tags:
+        - Bean Transactions
+      security:
+        - bearer: []
   /api/v1/{region}/bean/transactions/tags:
     get:
       operationId: TransactionController_suggestTags
@@ -5796,6 +5856,79 @@ components:
       required:
         - succeeded
         - failed
+    CorrectTransactionDto:
+      type: object
+      properties:
+        date:
+          type: string
+          description: Transaction date (ISO 8601 format)
+          example: '2024-11-28'
+        flag:
+          type: string
+          description: 'Transaction flag: * (cleared), ! (pending)'
+          enum:
+            - '*'
+            - '!'
+          example: '*'
+        payee:
+          type: string
+          description: Payee name
+          example: Whole Foods Market
+        narration:
+          type: string
+          description: Transaction narration/description
+          example: Grocery shopping
+        tags:
+          description: 'Transaction tags (without # prefix)'
+          example:
+            - vacation
+            - personal
+          type: array
+          items:
+            type: string
+        links:
+          description: Transaction links (without ^ prefix)
+          example:
+            - invoice-123
+          type: array
+          items:
+            type: string
+        postings:
+          description: Transaction postings (minimum 1, typically 2 for double-entry)
+          type: array
+          items:
+            $ref: '#/components/schemas/CreatePostingDto'
+        meta:
+          type: object
+          description: Transaction-level metadata
+          example:
+            invoice: '12345'
+        idempotencyKey:
+          type: string
+          description: >-
+            Unique key for idempotent transaction creation. If provided,
+            duplicate requests with the same key will return the existing
+            transaction.
+          example: import-2024-01-15-batch-001
+          maxLength: 128
+        autoCreateAccounts:
+          type: boolean
+          description: >-
+            Auto-create accounts if not found. When true, missing accounts will
+            be automatically created. When false (default for API), missing
+            accounts will cause a validation error. Set to true for quick entry
+            scenarios where you want to create accounts on-the-fly.
+          default: true
+          example: true
+        correctionReason:
+          type: string
+          description: Reason for correcting/superseding the original transaction
+          example: Wrong amount — corrected from receipt
+          maxLength: 500
+      required:
+        - date
+        - narration
+        - postings
     PostingDetailDto:
       type: object
       properties:
@@ -5966,6 +6099,18 @@ components:
           type: string
           description: Correction reason (if voided or superseded)
           example: Duplicate entry
+        supersededBy:
+          type: string
+          description: >-
+            ID of the transaction that supersedes this one (set when
+            status=SUPERSEDED)
+          example: clh1234567890abcdef
+        originalTxn:
+          type: string
+          description: >-
+            ID of the transaction this one corrected/replaced (back-link on the
+            replacement)
+          example: clh1234567890abcdef
       required:
         - id
         - date
@@ -6304,6 +6449,18 @@ components:
         value:
           type: string
           description: The action value to submit (e.g., UPGRADE_REPLACE, ACCEPT)
+          enum:
+            - UPGRADE_REPLACE
+            - LINK_KEEP_BOTH
+            - IGNORE_NEW
+            - CONFIRM_DIFFERENT
+            - ACCEPT
+            - REJECT
+            - ACCEPT_AND_LEARN
+            - CHOOSE_OTHER
+            - CANCEL
+            - FIX
+            - IGNORE
         labelKey:
           type: string
           description: i18n message key for display label (e.g., review.payee.accept.label)
@@ -6436,11 +6593,20 @@ components:
         action:
           type: string
           description: >-
-            Decision action. Available actions vary by review type: DUPLICATE:
-            UPGRADE_REPLACE, LINK_KEEP_BOTH, IGNORE_NEW, CONFIRM_DIFFERENT |
-            RULE_MATCH: ACCEPT, REJECT, ACCEPT_AND_LEARN | PAYEE_MATCH: ACCEPT,
-            REJECT, ACCEPT_AND_LEARN | ACCOUNT_VALIDATION: ACCEPT, CHOOSE_OTHER,
-            CANCEL | PIPELINE_ERROR: FIX, IGNORE, CANCEL
+            Decision action. Valid actions vary by review type — see
+            DecisionOptionDto.value returned by the review detail endpoint.
+          enum:
+            - UPGRADE_REPLACE
+            - LINK_KEEP_BOTH
+            - IGNORE_NEW
+            - CONFIRM_DIFFERENT
+            - ACCEPT
+            - REJECT
+            - ACCEPT_AND_LEARN
+            - CHOOSE_OTHER
+            - CANCEL
+            - FIX
+            - IGNORE
           example: ACCEPT
         data:
           type: object
@@ -6516,6 +6682,18 @@ components:
         action:
           type: string
           description: Decision action to apply to all items
+          enum:
+            - UPGRADE_REPLACE
+            - LINK_KEEP_BOTH
+            - IGNORE_NEW
+            - CONFIRM_DIFFERENT
+            - ACCEPT
+            - REJECT
+            - ACCEPT_AND_LEARN
+            - CHOOSE_OTHER
+            - CANCEL
+            - FIX
+            - IGNORE
           example: ACCEPT
         data:
           type: object

@@ -33,6 +33,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(BalanceResponseDto.serializer)
       ..add(BatchCreateTransactionDto.serializer)
       ..add(BatchResolveDto.serializer)
+      ..add(BatchResolveDtoActionEnum.serializer)
       ..add(BatchResolveResultDto.serializer)
       ..add(BatchTransactionErrorDto.serializer)
       ..add(BatchTransactionResponseDto.serializer)
@@ -48,6 +49,8 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(ConfirmMatchDto.serializer)
       ..add(ConvertedCashFlowDto.serializer)
       ..add(ConvertedNetWorthDto.serializer)
+      ..add(CorrectTransactionDto.serializer)
+      ..add(CorrectTransactionDtoFlagEnum.serializer)
       ..add(CreateAccountDto.serializer)
       ..add(CreateAccountDtoBookingMethodEnum.serializer)
       ..add(CreateCommodityDto.serializer)
@@ -69,6 +72,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(CurrencyBalanceDto.serializer)
       ..add(DashboardControllerGetAccounts200Response.serializer)
       ..add(DecisionOptionDto.serializer)
+      ..add(DecisionOptionDtoValueEnum.serializer)
       ..add(DeleteOwnUserDto.serializer)
       ..add(EnterNowDto.serializer)
       ..add(ExchangeRateWarningDto.serializer)
@@ -147,6 +151,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(ReopenAccountDto.serializer)
       ..add(ResolveResultDto.serializer)
       ..add(ResolveReviewDto.serializer)
+      ..add(ResolveReviewDtoActionEnum.serializer)
       ..add(ReviewDetailDto.serializer)
       ..add(ReviewDetailDtoConfidenceLevelEnum.serializer)
       ..add(ReviewDetailDtoStatusEnum.serializer)
@@ -499,6 +504,15 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(CreatePostingDto)]),
+          () => new ListBuilder<CreatePostingDto>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())

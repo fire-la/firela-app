@@ -31,6 +31,8 @@ part 'transaction_detail_dto.g.dart';
 /// * [voidedAt] - Voided at timestamp (if voided)
 /// * [voidedBy] - User ID who voided this transaction
 /// * [correctionReason] - Correction reason (if voided or superseded)
+/// * [supersededBy] - ID of the transaction that supersedes this one (set when status=SUPERSEDED)
+/// * [originalTxn] - ID of the transaction this one corrected/replaced (back-link on the replacement)
 @BuiltValue()
 abstract class TransactionDetailDto implements Built<TransactionDetailDto, TransactionDetailDtoBuilder> {
   /// Transaction ID
@@ -102,6 +104,14 @@ abstract class TransactionDetailDto implements Built<TransactionDetailDto, Trans
   /// Correction reason (if voided or superseded)
   @BuiltValueField(wireName: r'correctionReason')
   String? get correctionReason;
+
+  /// ID of the transaction that supersedes this one (set when status=SUPERSEDED)
+  @BuiltValueField(wireName: r'supersededBy')
+  String? get supersededBy;
+
+  /// ID of the transaction this one corrected/replaced (back-link on the replacement)
+  @BuiltValueField(wireName: r'originalTxn')
+  String? get originalTxn;
 
   TransactionDetailDto._();
 
@@ -226,6 +236,20 @@ class _$TransactionDetailDtoSerializer implements PrimitiveSerializer<Transactio
       yield r'correctionReason';
       yield serializers.serialize(
         object.correctionReason,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.supersededBy != null) {
+      yield r'supersededBy';
+      yield serializers.serialize(
+        object.supersededBy,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.originalTxn != null) {
+      yield r'originalTxn';
+      yield serializers.serialize(
+        object.originalTxn,
         specifiedType: const FullType(String),
       );
     }
@@ -370,6 +394,20 @@ class _$TransactionDetailDtoSerializer implements PrimitiveSerializer<Transactio
             specifiedType: const FullType(String),
           ) as String;
           result.correctionReason = valueDes;
+          break;
+        case r'supersededBy':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.supersededBy = valueDes;
+          break;
+        case r'originalTxn':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.originalTxn = valueDes;
           break;
         default:
           unhandled.add(key);

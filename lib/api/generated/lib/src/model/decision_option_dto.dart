@@ -3,6 +3,7 @@
 //
 
 // ignore_for_file: unused_element
+import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
@@ -19,7 +20,8 @@ part 'decision_option_dto.g.dart';
 abstract class DecisionOptionDto implements Built<DecisionOptionDto, DecisionOptionDtoBuilder> {
   /// The action value to submit (e.g., UPGRADE_REPLACE, ACCEPT)
   @BuiltValueField(wireName: r'value')
-  String get value;
+  DecisionOptionDtoValueEnum get value;
+  // enum valueEnum {  UPGRADE_REPLACE,  LINK_KEEP_BOTH,  IGNORE_NEW,  CONFIRM_DIFFERENT,  ACCEPT,  REJECT,  ACCEPT_AND_LEARN,  CHOOSE_OTHER,  CANCEL,  FIX,  IGNORE,  };
 
   /// i18n message key for display label (e.g., review.payee.accept.label)
   @BuiltValueField(wireName: r'labelKey')
@@ -59,7 +61,7 @@ class _$DecisionOptionDtoSerializer implements PrimitiveSerializer<DecisionOptio
     yield r'value';
     yield serializers.serialize(
       object.value,
-      specifiedType: const FullType(String),
+      specifiedType: const FullType(DecisionOptionDtoValueEnum),
     );
     yield r'labelKey';
     yield serializers.serialize(
@@ -106,8 +108,8 @@ class _$DecisionOptionDtoSerializer implements PrimitiveSerializer<DecisionOptio
         case r'value':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType(DecisionOptionDtoValueEnum),
+          ) as DecisionOptionDtoValueEnum;
           result.value = valueDes;
           break;
         case r'labelKey':
@@ -158,5 +160,49 @@ class _$DecisionOptionDtoSerializer implements PrimitiveSerializer<DecisionOptio
     );
     return result.build();
   }
+}
+
+class DecisionOptionDtoValueEnum extends EnumClass {
+
+  /// The action value to submit (e.g., UPGRADE_REPLACE, ACCEPT)
+  @BuiltValueEnumConst(wireName: r'UPGRADE_REPLACE')
+  static const DecisionOptionDtoValueEnum UPGRADE_REPLACE = _$decisionOptionDtoValueEnum_UPGRADE_REPLACE;
+  /// The action value to submit (e.g., UPGRADE_REPLACE, ACCEPT)
+  @BuiltValueEnumConst(wireName: r'LINK_KEEP_BOTH')
+  static const DecisionOptionDtoValueEnum LINK_KEEP_BOTH = _$decisionOptionDtoValueEnum_LINK_KEEP_BOTH;
+  /// The action value to submit (e.g., UPGRADE_REPLACE, ACCEPT)
+  @BuiltValueEnumConst(wireName: r'IGNORE_NEW')
+  static const DecisionOptionDtoValueEnum IGNORE_NEW = _$decisionOptionDtoValueEnum_IGNORE_NEW;
+  /// The action value to submit (e.g., UPGRADE_REPLACE, ACCEPT)
+  @BuiltValueEnumConst(wireName: r'CONFIRM_DIFFERENT')
+  static const DecisionOptionDtoValueEnum CONFIRM_DIFFERENT = _$decisionOptionDtoValueEnum_CONFIRM_DIFFERENT;
+  /// The action value to submit (e.g., UPGRADE_REPLACE, ACCEPT)
+  @BuiltValueEnumConst(wireName: r'ACCEPT')
+  static const DecisionOptionDtoValueEnum ACCEPT = _$decisionOptionDtoValueEnum_ACCEPT;
+  /// The action value to submit (e.g., UPGRADE_REPLACE, ACCEPT)
+  @BuiltValueEnumConst(wireName: r'REJECT')
+  static const DecisionOptionDtoValueEnum REJECT = _$decisionOptionDtoValueEnum_REJECT;
+  /// The action value to submit (e.g., UPGRADE_REPLACE, ACCEPT)
+  @BuiltValueEnumConst(wireName: r'ACCEPT_AND_LEARN')
+  static const DecisionOptionDtoValueEnum ACCEPT_AND_LEARN = _$decisionOptionDtoValueEnum_ACCEPT_AND_LEARN;
+  /// The action value to submit (e.g., UPGRADE_REPLACE, ACCEPT)
+  @BuiltValueEnumConst(wireName: r'CHOOSE_OTHER')
+  static const DecisionOptionDtoValueEnum CHOOSE_OTHER = _$decisionOptionDtoValueEnum_CHOOSE_OTHER;
+  /// The action value to submit (e.g., UPGRADE_REPLACE, ACCEPT)
+  @BuiltValueEnumConst(wireName: r'CANCEL')
+  static const DecisionOptionDtoValueEnum CANCEL = _$decisionOptionDtoValueEnum_CANCEL;
+  /// The action value to submit (e.g., UPGRADE_REPLACE, ACCEPT)
+  @BuiltValueEnumConst(wireName: r'FIX')
+  static const DecisionOptionDtoValueEnum FIX = _$decisionOptionDtoValueEnum_FIX;
+  /// The action value to submit (e.g., UPGRADE_REPLACE, ACCEPT)
+  @BuiltValueEnumConst(wireName: r'IGNORE')
+  static const DecisionOptionDtoValueEnum IGNORE = _$decisionOptionDtoValueEnum_IGNORE;
+
+  static Serializer<DecisionOptionDtoValueEnum> get serializer => _$decisionOptionDtoValueEnumSerializer;
+
+  const DecisionOptionDtoValueEnum._(String name): super(name);
+
+  static BuiltSet<DecisionOptionDtoValueEnum> get values => _$decisionOptionDtoValueEnumValues;
+  static DecisionOptionDtoValueEnum valueOf(String name) => _$decisionOptionDtoValueEnumValueOf(name);
 }
 
