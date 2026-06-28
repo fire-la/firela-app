@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:firela_app/generated/l10n/app_localizations.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:signals_flutter/signals_flutter.dart';
+import '../../../../core/components/components.dart';
 import '../../../../core/design_tokens/design_tokens.dart';
 import '../signals/review_center_signal.dart';
 
@@ -13,6 +15,7 @@ class ReviewCenterBadge extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     // Fetch count on init
     useEffect(() {
@@ -24,9 +27,13 @@ class ReviewCenterBadge extends HookWidget {
       final count = pendingCountSignal.value;
       final isLoading = isCountLoadingSignal.value;
 
-      return InkWell(
+      return Tappable(
         onTap: () => _handleTap(context),
-        borderRadius: BorderRadius.circular(TokenRadius.pill),
+        semanticLabel: isLoading
+            ? l10n.reviewCenterLoading
+            : count > 0
+                ? l10n.reviewCenterBadgeSemantic(count)
+                : l10n.reviewCenterTitle,
         child: Padding(
           padding: const EdgeInsets.all(TokenSpacing.sm),
           child: Stack(
@@ -44,7 +51,8 @@ class ReviewCenterBadge extends HookWidget {
                   right: -6,
                   top: -4,
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
                     decoration: BoxDecoration(
                       color: TokenColors.error,
                       borderRadius: BorderRadius.circular(TokenRadius.sm),

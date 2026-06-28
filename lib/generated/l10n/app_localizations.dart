@@ -730,6 +730,12 @@ abstract class AppLocalizations {
   /// **'{count} accounting entries completed'**
   String accountingComplete(int count);
 
+  /// Screen-reader label for the Review Center nav badge
+  ///
+  /// In en, this message translates to:
+  /// **'{count} pending reviews'**
+  String reviewCenterBadgeSemantic(int count);
+
   /// Review Center page title
   ///
   /// In en, this message translates to:

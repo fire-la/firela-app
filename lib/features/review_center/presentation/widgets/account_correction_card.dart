@@ -73,8 +73,7 @@ class AccountCorrectionCard extends StatelessWidget {
           ],
           const SizedBox(height: TokenSpacing.md),
           // divider
-          Container(
-              height: TokenSize.strokeNormal, color: tokens.borderCard),
+          Container(height: TokenSize.strokeNormal, color: tokens.borderCard),
           const SizedBox(height: TokenSpacing.md),
           Text(
             l10n.reviewCenterOtherSimilarAccounts,
@@ -104,7 +103,8 @@ class AccountCorrectionCard extends StatelessWidget {
     );
   }
 
-  Widget _correctionRow(AppLocalizations l10n, ThemeTokens tokens, bool hasSuggested) {
+  Widget _correctionRow(
+      AppLocalizations l10n, ThemeTokens tokens, bool hasSuggested) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -169,9 +169,17 @@ class AccountCorrectionCard extends StatelessWidget {
       AppLocalizations l10n, ThemeTokens tokens, SimilarAccount candidate) {
     final isSelected = selectedAccount == candidate.name;
     final isSuggested = candidate.name == suggestedAccount;
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
+    // Screen-reader label = account name + Recommended/Fallback tag. Selected
+    // state isn't conveyed here — DesignRadio (base component) carries no
+    // Semantics; that's a separate base-component a11y fix, not this migration.
+    final tag = isSuggested
+        ? l10n.reviewCenterRecommended
+        : (candidate.isFallback ? l10n.reviewCenterFallbackAccount : null);
+    final semanticLabel =
+        tag == null ? candidate.name : '${candidate.name}, $tag';
+    return Tappable(
       onTap: () => onSelect(candidate.name),
+      semanticLabel: semanticLabel,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -184,11 +192,8 @@ class AccountCorrectionCard extends StatelessWidget {
             child: Text(
               candidate.name,
               style: TokenTypography.body(
-                fontWeight:
-                    isSelected ? FontWeight.w600 : FontWeight.w400,
-                color: isSelected
-                    ? tokens.textPrimary
-                    : tokens.textSecondary,
+                fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+                color: isSelected ? tokens.textPrimary : tokens.textSecondary,
               ),
             ),
           ),

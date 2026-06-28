@@ -338,6 +338,11 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
+  String reviewCenterBadgeSemantic(int count) {
+    return '$count 项待审核';
+  }
+
+  @override
   String get reviewCenterTitle => '审核中心';
 
   @override
@@ -2157,6 +2162,11 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   }
 
   @override
+  String reviewCenterBadgeSemantic(int count) {
+    return '$count 项待审核';
+  }
+
+  @override
   String get reviewCenterTitle => '审核中心';
 
   @override
@@ -3973,6 +3983,11 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
   @override
   String accountingComplete(int count) {
     return '$count筆記賬完成';
+  }
+
+  @override
+  String reviewCenterBadgeSemantic(int count) {
+    return '$count 項待審核';
   }
 
   @override

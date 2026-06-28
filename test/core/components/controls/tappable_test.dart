@@ -59,4 +59,41 @@ void main() {
     ));
     expect(tester.takeException(), isA<AssertionError>());
   });
+
+  testWidgets(
+      'excludeSemantics=false keeps a nested actionable as its own node (#ocr3)',
+      (tester) async {
+    await tester.pumpWidget(MaterialApp(
+      home: Scaffold(
+        body: Tappable(
+          onTap: () {},
+          semanticLabel: 'Row',
+          excludeSemantics: false,
+          child: Column(
+            children: [
+              const Text('content'),
+              ElevatedButton(
+                onPressed: () {},
+                child: const Text('Skip'),
+              ),
+            ],
+          ),
+        ),
+      ),
+    ));
+
+    // The outer Tappable is its own button node.
+    final rowData =
+        tester.getSemantics(find.byType(Tappable)).getSemanticsData();
+    expect(rowData.label, 'Row');
+    expect(rowData.hasAction(SemanticsAction.tap), isTrue);
+
+    // The nested ElevatedButton must NOT fold into the row's semantics node —
+    // it keeps its own label + tap action so VoiceOver/TalkBack can reach and
+    // activate the inline action independently (review_summary_row inline btn).
+    final btnData =
+        tester.getSemantics(find.byType(ElevatedButton)).getSemanticsData();
+    expect(btnData.label, 'Skip');
+    expect(btnData.hasAction(SemanticsAction.tap), isTrue);
+  });
 }

@@ -346,6 +346,11 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String reviewCenterBadgeSemantic(int count) {
+    return '$count pending reviews';
+  }
+
+  @override
   String get reviewCenterTitle => 'Review Center';
 
   @override

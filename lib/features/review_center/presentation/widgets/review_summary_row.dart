@@ -50,9 +50,10 @@ class ReviewSummaryRow extends StatelessWidget {
         onInline != null &&
         MediaQuery.of(context).size.width >= 360;
 
-    return GestureDetector(
+    return Tappable(
       onTap: onTap,
-      behavior: HitTestBehavior.opaque,
+      semanticLabel: l10n.reviewCenterDetailTitle,
+      excludeSemantics: false,
       child: Container(
         padding: const EdgeInsets.all(TokenSpacing.lg),
         decoration: BoxDecoration(
@@ -104,7 +105,8 @@ class ReviewSummaryRow extends StatelessWidget {
                           reviewSourceTag(l10n, tx),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: TokenTypography.micro(color: tokens.textTertiary),
+                          style:
+                              TokenTypography.micro(color: tokens.textTertiary),
                         ),
                       ),
                     ],

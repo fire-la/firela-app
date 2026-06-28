@@ -564,6 +564,11 @@
     }
   },
 
+  "reviewCenterBadgeSemantic": "{count} pending reviews",
+  "@reviewCenterBadgeSemantic": {
+    "description": "Screen-reader label for the Review Center nav badge",
+    "placeholders": { "count": { "type": "int" } }
+  },
   "reviewCenterTitle": "Review Center",
   "@reviewCenterTitle": {
     "description": "Review Center page title"

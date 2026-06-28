@@ -356,6 +356,11 @@
   "pleaseLogin": "請先登入",
   "expenseEntrySuccess": "記帳成功",
 
+  "reviewCenterBadgeSemantic": "{count} 項待審核",
+  "@reviewCenterBadgeSemantic": {
+    "description": "審核中心導覽徽標的讀屏標籤",
+    "placeholders": { "count": { "type": "int" } }
+  },
   "reviewCenterTitle": "審核中心",
   "reviewCenterAll": "全部",
   "reviewCenterHigh": "高置信度",

@@ -107,6 +107,11 @@
   "reupload": "重新上传",
   "accountingComplete": "{count}笔记账完成",
 
+  "reviewCenterBadgeSemantic": "{count} 项待审核",
+  "@reviewCenterBadgeSemantic": {
+    "description": "审核中心导航徽标的读屏标签",
+    "placeholders": { "count": { "type": "int" } }
+  },
   "reviewCenterTitle": "审核中心",
   "reviewCenterAll": "全部",
   "reviewCenterHigh": "高置信度",

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../core/components/components.dart';
 import '../../../../core/design_tokens/design_tokens.dart';
 
 /// ReviewTypeChip business component (.pen RKf1Z).
@@ -31,9 +32,9 @@ class ReviewTypeChip extends StatelessWidget {
     final iconColor = selected ? TokenColors.white : tokens.textSecondary;
     final nameColor = selected ? TokenColors.white : tokens.textPrimary;
 
-    return GestureDetector(
+    return Tappable(
       onTap: onTap,
-      behavior: HitTestBehavior.opaque,
+      semanticLabel: '$label, $count',
       child: Container(
         padding: const EdgeInsets.symmetric(
           horizontal: TokenSpacing.md,

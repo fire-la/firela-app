@@ -355,6 +355,11 @@
   "pleaseLogin": "请先登录",
   "expenseEntrySuccess": "记账成功",
 
+  "reviewCenterBadgeSemantic": "{count} 项待审核",
+  "@reviewCenterBadgeSemantic": {
+    "description": "审核中心导航徽标的读屏标签",
+    "placeholders": { "count": { "type": "int" } }
+  },
   "reviewCenterTitle": "审核中心",
   "reviewCenterAll": "全部",
   "reviewCenterHigh": "高置信度",

@@ -17,11 +17,6 @@ lib/features/home/presentation/widgets/pending_reviews_card.dart
 lib/features/home/presentation/widgets/quick_actions_section.dart
 lib/features/home/presentation/widgets/recommendations_section.dart
 lib/features/recurring/presentation/pages/recurring_transaction_setup_page.dart
-lib/features/review_center/presentation/pages/review_center_page.dart
-lib/features/review_center/presentation/widgets/account_correction_card.dart
-lib/features/review_center/presentation/widgets/review_center_badge.dart
-lib/features/review_center/presentation/widgets/review_summary_row.dart
-lib/features/review_center/presentation/widgets/review_type_chip.dart
 lib/features/settings/presentation/dialogs/delete_account_dialog.dart
 lib/features/settings/presentation/pages/about_page.dart
 lib/features/settings/presentation/pages/account_settings_page.dart

@@ -59,6 +59,7 @@ class ReviewCenterPage extends HookWidget {
           state.loadMore();
         }
       }
+
       scrollController.addListener(onScroll);
       return () => scrollController.removeListener(onScroll);
     }, [scrollController, state]);
@@ -266,9 +267,7 @@ class ReviewCenterPage extends HookWidget {
         onTap: () => navigateToDetail(tx.id),
         showInline: inline.show,
         inlineLabel: inline.show ? inline.label : null,
-        onInline: inline.show
-            ? () => handleInline(tx, inline.action)
-            : null,
+        onInline: inline.show ? () => handleInline(tx, inline.action) : null,
       );
     }
 
@@ -342,8 +341,8 @@ class ReviewCenterPage extends HookWidget {
                       _BatchBar(
                         typeLabel: reviewTypeChipLabel(l10n, state.currentType),
                         count: state.transactions.length,
-                        actionLabel:
-                            batchActionLabel(defaultBatchAction(state.currentType)),
+                        actionLabel: batchActionLabel(
+                            defaultBatchAction(state.currentType)),
                         applying: state.isBatchApplying,
                         onTap: onBatchTap,
                       ),
@@ -497,9 +496,9 @@ class _PillButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final tokens = ThemeTokens.of(context);
     final fg = filled ? TokenColors.white : tokens.textAccent;
-    return GestureDetector(
+    return Tappable(
       onTap: isLoading ? null : onPressed,
-      behavior: HitTestBehavior.opaque,
+      semanticLabel: label,
       child: Container(
         height: 44,
         padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
@@ -507,7 +506,8 @@ class _PillButton extends StatelessWidget {
         decoration: BoxDecoration(
           color: filled ? TokenColors.primary : tokens.bgCard,
           borderRadius: TokenRadius.borderPill,
-          border: filled ? null : Border.all(color: tokens.textAccent, width: 0.5),
+          border:
+              filled ? null : Border.all(color: tokens.textAccent, width: 0.5),
         ),
         child: isLoading
             ? SizedBox(
@@ -542,9 +542,9 @@ class _SheetOption extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tokens = ThemeTokens.of(context);
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
+    return Tappable(
       onTap: onTap,
+      semanticLabel: '$label. $hint',
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: TokenSpacing.md),
         child: Column(
@@ -600,7 +600,9 @@ class _StatusView extends StatelessWidget {
             ),
             if (onRetry != null) ...[
               const SizedBox(height: TokenSpacing.xl),
-              ButtonPrimary(label: AppLocalizations.of(context)!.retry, onPressed: onRetry),
+              ButtonPrimary(
+                  label: AppLocalizations.of(context)!.retry,
+                  onPressed: onRetry),
             ],
           ],
         ),
