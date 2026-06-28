@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firela_app/generated/l10n/app_localizations.dart';
+import '../../../../core/components/components.dart';
 import '../../../../core/design_tokens/design_tokens.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -80,7 +81,7 @@ class _HelpCenterPageState extends State<HelpCenterPage> {
 
                   return Column(
                     children: [
-                      InkWell(
+                      Tappable(
                         onTap: () {
                           setState(() {
                             if (isExpanded) {
@@ -90,6 +91,8 @@ class _HelpCenterPageState extends State<HelpCenterPage> {
                             }
                           });
                         },
+                        semanticLabel: item.question,
+                        expanded: isExpanded,
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                           child: Row(

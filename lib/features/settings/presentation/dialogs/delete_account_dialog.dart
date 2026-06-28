@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firela_app/generated/l10n/app_localizations.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import '../../../../core/components/components.dart';
 import '../../../../core/network/auth_manager.dart';
 import '../../../../core/services/ign_api_service.dart';
 import '../../../../core/utils/logger.dart';
@@ -124,7 +125,7 @@ class _DeleteAccountDialogState extends State<DeleteAccountDialog> {
             const SizedBox(height: 16),
 
             // Understanding checkbox
-            InkWell(
+            Tappable(
               onTap: _isDeleting
                   ? null
                   : () {
@@ -133,6 +134,8 @@ class _DeleteAccountDialogState extends State<DeleteAccountDialog> {
                         _understandChecked = !_understandChecked;
                       });
                     },
+              semanticLabel: l10n.understandWarning,
+              checked: _understandChecked,
               child: Row(
                 children: [
                   Checkbox(

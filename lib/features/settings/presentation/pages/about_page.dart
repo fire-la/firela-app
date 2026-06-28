@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firela_app/generated/l10n/app_localizations.dart';
+import '../../../../core/components/components.dart';
 import '../../../../core/design_tokens/design_tokens.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -176,8 +177,9 @@ class _AboutPageState extends State<AboutPage> {
   ) {
     final theme = Theme.of(context);
 
-    return InkWell(
+    return Tappable(
       onTap: onTap,
+      semanticLabel: title,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         child: Row(

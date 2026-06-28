@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firela_app/generated/l10n/app_localizations.dart';
 import 'package:signals_flutter/signals_flutter.dart';
+import '../../../../core/components/components.dart';
 import '../../../../core/design_tokens/design_tokens.dart';
 import '../../../../core/services/sync_service.dart';
 import '../../../../core/network/auth_manager.dart';
@@ -92,14 +93,14 @@ class _SyncStatusWidgetState extends State<SyncStatusWidget> {
 
     return Material(
       color: Colors.transparent,
-      child: InkWell(
+      child: Tappable(
         onTap: isSyncing
             ? null
             : () async {
                 HapticFeedback.lightImpact();
                 await syncService.syncAll();
               },
-        borderRadius: TokenRadius.borderSm,
+        semanticLabel: isSyncing ? l10n.syncing : l10n.syncNow,
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.lg, vertical: TokenSpacing.sm),
           decoration: BoxDecoration(

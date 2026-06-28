@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:firela_app/generated/l10n/app_localizations.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import '../../../../core/constants/storage_keys.dart';
+import '../../../../core/components/components.dart';
 import '../../../../core/design_tokens/design_tokens.dart';
 import '../../../../core/network/auth_manager.dart';
 import '../../../../core/services/auth_service.dart';
@@ -135,8 +136,9 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
               child: Column(
                 children: [
                   // User ID
-                  InkWell(
+                  Tappable(
                     onTap: _copyUserId,
+                    semanticLabel: l10n.userId,
                     child: Padding(
                       padding: const EdgeInsets.all(16),
                       child: Row(
@@ -175,8 +177,9 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
                   Divider(height: 1, color: theme.colorScheme.outline.withValues(alpha: 0.1)),
 
                   // Display Name
-                  InkWell(
+                  Tappable(
                     onTap: isLoggedIn ? () => _showEditNameDialog(l10n) : null,
+                    semanticLabel: l10n.displayName,
                     child: Padding(
                       padding: const EdgeInsets.all(16),
                       child: Row(
@@ -312,8 +315,9 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
                   Divider(height: 1, color: theme.colorScheme.outline.withValues(alpha: 0.1)),
 
                   // Re-login button
-                  InkWell(
+                  Tappable(
                     onTap: () => _handleReLogin(l10n),
+                    semanticLabel: l10n.reLogin,
                     child: Padding(
                       padding: const EdgeInsets.all(16),
                       child: Row(
@@ -360,8 +364,9 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
                 color: theme.colorScheme.surfaceContainerHighest,
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: InkWell(
+              child: Tappable(
                 onTap: () => _showDeleteAccountDialog(l10n),
+                semanticLabel: l10n.deleteAccount,
                 child: Padding(
                   padding: const EdgeInsets.all(16),
                   child: Row(

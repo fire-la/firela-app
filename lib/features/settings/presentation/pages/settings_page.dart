@@ -238,17 +238,17 @@ class SettingsPageState extends State<SettingsPage> {
       padding: const EdgeInsets.fromLTRB(
           TokenSpacing.xl, TokenSpacing.sm, TokenSpacing.xl, TokenSpacing.xl),
       child: isLoggedIn
-          ? InkWell(
+          ? Tappable(
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(builder: (_) => const AccountSettingsPage()),
               ),
-              borderRadius: TokenRadius.borderSm,
+              semanticLabel: l10n.accountSettings,
               child: profileRow,
             )
-          : InkWell(
+          : Tappable(
               onTap: () => _handleLogin(context),
-              borderRadius: TokenRadius.borderSm,
+              semanticLabel: l10n.loginNow,
               child: profileRow,
             ),
     );
@@ -273,9 +273,9 @@ class SettingsPageState extends State<SettingsPage> {
                       color: theme.colorScheme.surfaceContainerHighest,
                       borderRadius: TokenRadius.borderSm,
                     ),
-                    child: InkWell(
+                    child: Tappable(
                       onTap: toggleTheme,
-                      borderRadius: TokenRadius.borderSm,
+                      semanticLabel: l10n.toggleTheme,
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 20),
                         child: Column(
@@ -305,9 +305,9 @@ class SettingsPageState extends State<SettingsPage> {
                       color: theme.colorScheme.surfaceContainerHighest,
                       borderRadius: TokenRadius.borderSm,
                     ),
-                    child: InkWell(
+                    child: Tappable(
                       onTap: () => _showLanguageDialog(context, l10n),
-                      borderRadius: TokenRadius.borderSm,
+                      semanticLabel: l10n.changeLanguage,
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 20),
                         child: Column(
@@ -337,9 +337,9 @@ class SettingsPageState extends State<SettingsPage> {
                 color: theme.colorScheme.surfaceContainerHighest,
                 borderRadius: TokenRadius.borderSm,
               ),
-              child: InkWell(
+              child: Tappable(
                 onTap: () => _showRegionDialog(context, l10n),
-                borderRadius: TokenRadius.borderSm,
+                semanticLabel: l10n.region,
                 child: Padding(
                   padding:
                       const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
@@ -394,8 +394,9 @@ class SettingsPageState extends State<SettingsPage> {
   ) {
     final theme = Theme.of(context);
 
-    return InkWell(
+    return Tappable(
       onTap: onTap,
+      semanticLabel: title,
       child: Padding(
         padding: const EdgeInsets.all(TokenSpacing.xl),
         child: Row(
