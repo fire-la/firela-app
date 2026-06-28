@@ -16,4 +16,3 @@ lib/features/settings/presentation/pages/help_center_page.dart
 lib/features/settings/presentation/pages/settings_page.dart
 lib/features/settings/presentation/widgets/sync_status_widget.dart
 lib/features/transactions/presentation/widgets/transaction_detail_edit.dart
-lib/shared/widgets/gradient_card.dart
