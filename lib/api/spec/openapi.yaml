@@ -6213,6 +6213,18 @@ components:
         value:
           type: string
           description: The action value to submit (e.g., UPGRADE_REPLACE, ACCEPT)
+          enum:
+            - UPGRADE_REPLACE
+            - LINK_KEEP_BOTH
+            - IGNORE_NEW
+            - CONFIRM_DIFFERENT
+            - ACCEPT
+            - REJECT
+            - ACCEPT_AND_LEARN
+            - CHOOSE_OTHER
+            - CANCEL
+            - FIX
+            - IGNORE
         labelKey:
           type: string
           description: i18n message key for display label (e.g., review.payee.accept.label)
@@ -6345,11 +6357,20 @@ components:
         action:
           type: string
           description: >-
-            Decision action. Available actions vary by review type: DUPLICATE:
-            UPGRADE_REPLACE, LINK_KEEP_BOTH, IGNORE_NEW, CONFIRM_DIFFERENT |
-            RULE_MATCH: ACCEPT, REJECT, ACCEPT_AND_LEARN | PAYEE_MATCH: ACCEPT,
-            REJECT, ACCEPT_AND_LEARN | ACCOUNT_VALIDATION: ACCEPT, CHOOSE_OTHER,
-            CANCEL | PIPELINE_ERROR: FIX, IGNORE, CANCEL
+            Decision action. Valid actions vary by review type — see
+            DecisionOptionDto.value returned by the review detail endpoint.
+          enum:
+            - UPGRADE_REPLACE
+            - LINK_KEEP_BOTH
+            - IGNORE_NEW
+            - CONFIRM_DIFFERENT
+            - ACCEPT
+            - REJECT
+            - ACCEPT_AND_LEARN
+            - CHOOSE_OTHER
+            - CANCEL
+            - FIX
+            - IGNORE
           example: ACCEPT
         data:
           type: object
@@ -6425,6 +6446,18 @@ components:
         action:
           type: string
           description: Decision action to apply to all items
+          enum:
+            - UPGRADE_REPLACE
+            - LINK_KEEP_BOTH
+            - IGNORE_NEW
+            - CONFIRM_DIFFERENT
+            - ACCEPT
+            - REJECT
+            - ACCEPT_AND_LEARN
+            - CHOOSE_OTHER
+            - CANCEL
+            - FIX
+            - IGNORE
           example: ACCEPT
         data:
           type: object
