@@ -3,6 +3,7 @@
 //
 
 // ignore_for_file: unused_element
+import 'package:built_collection/built_collection.dart';
 import 'package:built_value/json_object.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
@@ -12,13 +13,14 @@ part 'resolve_review_dto.g.dart';
 /// ResolveReviewDto
 ///
 /// Properties:
-/// * [action] - Decision action. Available actions vary by review type: DUPLICATE: UPGRADE_REPLACE, LINK_KEEP_BOTH, IGNORE_NEW, CONFIRM_DIFFERENT | RULE_MATCH: ACCEPT, REJECT, ACCEPT_AND_LEARN | PAYEE_MATCH: ACCEPT, REJECT, ACCEPT_AND_LEARN | ACCOUNT_VALIDATION: ACCEPT, CHOOSE_OTHER, CANCEL | PIPELINE_ERROR: FIX, IGNORE, CANCEL
+/// * [action] - Decision action. Valid actions vary by review type — see DecisionOptionDto.value returned by the review detail endpoint.
 /// * [data] - Additional data for the decision (e.g., selected account ID)
 @BuiltValue()
 abstract class ResolveReviewDto implements Built<ResolveReviewDto, ResolveReviewDtoBuilder> {
-  /// Decision action. Available actions vary by review type: DUPLICATE: UPGRADE_REPLACE, LINK_KEEP_BOTH, IGNORE_NEW, CONFIRM_DIFFERENT | RULE_MATCH: ACCEPT, REJECT, ACCEPT_AND_LEARN | PAYEE_MATCH: ACCEPT, REJECT, ACCEPT_AND_LEARN | ACCOUNT_VALIDATION: ACCEPT, CHOOSE_OTHER, CANCEL | PIPELINE_ERROR: FIX, IGNORE, CANCEL
+  /// Decision action. Valid actions vary by review type — see DecisionOptionDto.value returned by the review detail endpoint.
   @BuiltValueField(wireName: r'action')
-  String get action;
+  ResolveReviewDtoActionEnum get action;
+  // enum actionEnum {  UPGRADE_REPLACE,  LINK_KEEP_BOTH,  IGNORE_NEW,  CONFIRM_DIFFERENT,  ACCEPT,  REJECT,  ACCEPT_AND_LEARN,  CHOOSE_OTHER,  CANCEL,  FIX,  IGNORE,  };
 
   /// Additional data for the decision (e.g., selected account ID)
   @BuiltValueField(wireName: r'data')
@@ -50,7 +52,7 @@ class _$ResolveReviewDtoSerializer implements PrimitiveSerializer<ResolveReviewD
     yield r'action';
     yield serializers.serialize(
       object.action,
-      specifiedType: const FullType(String),
+      specifiedType: const FullType(ResolveReviewDtoActionEnum),
     );
     if (object.data != null) {
       yield r'data';
@@ -85,8 +87,8 @@ class _$ResolveReviewDtoSerializer implements PrimitiveSerializer<ResolveReviewD
         case r'action':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType(ResolveReviewDtoActionEnum),
+          ) as ResolveReviewDtoActionEnum;
           result.action = valueDes;
           break;
         case r'data':
@@ -123,5 +125,49 @@ class _$ResolveReviewDtoSerializer implements PrimitiveSerializer<ResolveReviewD
     );
     return result.build();
   }
+}
+
+class ResolveReviewDtoActionEnum extends EnumClass {
+
+  /// Decision action. Valid actions vary by review type — see DecisionOptionDto.value returned by the review detail endpoint.
+  @BuiltValueEnumConst(wireName: r'UPGRADE_REPLACE')
+  static const ResolveReviewDtoActionEnum UPGRADE_REPLACE = _$resolveReviewDtoActionEnum_UPGRADE_REPLACE;
+  /// Decision action. Valid actions vary by review type — see DecisionOptionDto.value returned by the review detail endpoint.
+  @BuiltValueEnumConst(wireName: r'LINK_KEEP_BOTH')
+  static const ResolveReviewDtoActionEnum LINK_KEEP_BOTH = _$resolveReviewDtoActionEnum_LINK_KEEP_BOTH;
+  /// Decision action. Valid actions vary by review type — see DecisionOptionDto.value returned by the review detail endpoint.
+  @BuiltValueEnumConst(wireName: r'IGNORE_NEW')
+  static const ResolveReviewDtoActionEnum IGNORE_NEW = _$resolveReviewDtoActionEnum_IGNORE_NEW;
+  /// Decision action. Valid actions vary by review type — see DecisionOptionDto.value returned by the review detail endpoint.
+  @BuiltValueEnumConst(wireName: r'CONFIRM_DIFFERENT')
+  static const ResolveReviewDtoActionEnum CONFIRM_DIFFERENT = _$resolveReviewDtoActionEnum_CONFIRM_DIFFERENT;
+  /// Decision action. Valid actions vary by review type — see DecisionOptionDto.value returned by the review detail endpoint.
+  @BuiltValueEnumConst(wireName: r'ACCEPT')
+  static const ResolveReviewDtoActionEnum ACCEPT = _$resolveReviewDtoActionEnum_ACCEPT;
+  /// Decision action. Valid actions vary by review type — see DecisionOptionDto.value returned by the review detail endpoint.
+  @BuiltValueEnumConst(wireName: r'REJECT')
+  static const ResolveReviewDtoActionEnum REJECT = _$resolveReviewDtoActionEnum_REJECT;
+  /// Decision action. Valid actions vary by review type — see DecisionOptionDto.value returned by the review detail endpoint.
+  @BuiltValueEnumConst(wireName: r'ACCEPT_AND_LEARN')
+  static const ResolveReviewDtoActionEnum ACCEPT_AND_LEARN = _$resolveReviewDtoActionEnum_ACCEPT_AND_LEARN;
+  /// Decision action. Valid actions vary by review type — see DecisionOptionDto.value returned by the review detail endpoint.
+  @BuiltValueEnumConst(wireName: r'CHOOSE_OTHER')
+  static const ResolveReviewDtoActionEnum CHOOSE_OTHER = _$resolveReviewDtoActionEnum_CHOOSE_OTHER;
+  /// Decision action. Valid actions vary by review type — see DecisionOptionDto.value returned by the review detail endpoint.
+  @BuiltValueEnumConst(wireName: r'CANCEL')
+  static const ResolveReviewDtoActionEnum CANCEL = _$resolveReviewDtoActionEnum_CANCEL;
+  /// Decision action. Valid actions vary by review type — see DecisionOptionDto.value returned by the review detail endpoint.
+  @BuiltValueEnumConst(wireName: r'FIX')
+  static const ResolveReviewDtoActionEnum FIX = _$resolveReviewDtoActionEnum_FIX;
+  /// Decision action. Valid actions vary by review type — see DecisionOptionDto.value returned by the review detail endpoint.
+  @BuiltValueEnumConst(wireName: r'IGNORE')
+  static const ResolveReviewDtoActionEnum IGNORE = _$resolveReviewDtoActionEnum_IGNORE;
+
+  static Serializer<ResolveReviewDtoActionEnum> get serializer => _$resolveReviewDtoActionEnumSerializer;
+
+  const ResolveReviewDtoActionEnum._(String name): super(name);
+
+  static BuiltSet<ResolveReviewDtoActionEnum> get values => _$resolveReviewDtoActionEnumValues;
+  static ResolveReviewDtoActionEnum valueOf(String name) => _$resolveReviewDtoActionEnumValueOf(name);
 }
 

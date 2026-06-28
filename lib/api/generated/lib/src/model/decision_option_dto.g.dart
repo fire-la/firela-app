@@ -6,9 +6,127 @@ part of 'decision_option_dto.dart';
 // BuiltValueGenerator
 // **************************************************************************
 
+const DecisionOptionDtoValueEnum _$decisionOptionDtoValueEnum_UPGRADE_REPLACE =
+    const DecisionOptionDtoValueEnum._('UPGRADE_REPLACE');
+const DecisionOptionDtoValueEnum _$decisionOptionDtoValueEnum_LINK_KEEP_BOTH =
+    const DecisionOptionDtoValueEnum._('LINK_KEEP_BOTH');
+const DecisionOptionDtoValueEnum _$decisionOptionDtoValueEnum_IGNORE_NEW =
+    const DecisionOptionDtoValueEnum._('IGNORE_NEW');
+const DecisionOptionDtoValueEnum
+    _$decisionOptionDtoValueEnum_CONFIRM_DIFFERENT =
+    const DecisionOptionDtoValueEnum._('CONFIRM_DIFFERENT');
+const DecisionOptionDtoValueEnum _$decisionOptionDtoValueEnum_ACCEPT =
+    const DecisionOptionDtoValueEnum._('ACCEPT');
+const DecisionOptionDtoValueEnum _$decisionOptionDtoValueEnum_REJECT =
+    const DecisionOptionDtoValueEnum._('REJECT');
+const DecisionOptionDtoValueEnum _$decisionOptionDtoValueEnum_ACCEPT_AND_LEARN =
+    const DecisionOptionDtoValueEnum._('ACCEPT_AND_LEARN');
+const DecisionOptionDtoValueEnum _$decisionOptionDtoValueEnum_CHOOSE_OTHER =
+    const DecisionOptionDtoValueEnum._('CHOOSE_OTHER');
+const DecisionOptionDtoValueEnum _$decisionOptionDtoValueEnum_CANCEL =
+    const DecisionOptionDtoValueEnum._('CANCEL');
+const DecisionOptionDtoValueEnum _$decisionOptionDtoValueEnum_FIX =
+    const DecisionOptionDtoValueEnum._('FIX');
+const DecisionOptionDtoValueEnum _$decisionOptionDtoValueEnum_IGNORE =
+    const DecisionOptionDtoValueEnum._('IGNORE');
+
+DecisionOptionDtoValueEnum _$decisionOptionDtoValueEnumValueOf(String name) {
+  switch (name) {
+    case 'UPGRADE_REPLACE':
+      return _$decisionOptionDtoValueEnum_UPGRADE_REPLACE;
+    case 'LINK_KEEP_BOTH':
+      return _$decisionOptionDtoValueEnum_LINK_KEEP_BOTH;
+    case 'IGNORE_NEW':
+      return _$decisionOptionDtoValueEnum_IGNORE_NEW;
+    case 'CONFIRM_DIFFERENT':
+      return _$decisionOptionDtoValueEnum_CONFIRM_DIFFERENT;
+    case 'ACCEPT':
+      return _$decisionOptionDtoValueEnum_ACCEPT;
+    case 'REJECT':
+      return _$decisionOptionDtoValueEnum_REJECT;
+    case 'ACCEPT_AND_LEARN':
+      return _$decisionOptionDtoValueEnum_ACCEPT_AND_LEARN;
+    case 'CHOOSE_OTHER':
+      return _$decisionOptionDtoValueEnum_CHOOSE_OTHER;
+    case 'CANCEL':
+      return _$decisionOptionDtoValueEnum_CANCEL;
+    case 'FIX':
+      return _$decisionOptionDtoValueEnum_FIX;
+    case 'IGNORE':
+      return _$decisionOptionDtoValueEnum_IGNORE;
+    default:
+      throw new ArgumentError(name);
+  }
+}
+
+final BuiltSet<DecisionOptionDtoValueEnum> _$decisionOptionDtoValueEnumValues =
+    new BuiltSet<DecisionOptionDtoValueEnum>(const <DecisionOptionDtoValueEnum>[
+  _$decisionOptionDtoValueEnum_UPGRADE_REPLACE,
+  _$decisionOptionDtoValueEnum_LINK_KEEP_BOTH,
+  _$decisionOptionDtoValueEnum_IGNORE_NEW,
+  _$decisionOptionDtoValueEnum_CONFIRM_DIFFERENT,
+  _$decisionOptionDtoValueEnum_ACCEPT,
+  _$decisionOptionDtoValueEnum_REJECT,
+  _$decisionOptionDtoValueEnum_ACCEPT_AND_LEARN,
+  _$decisionOptionDtoValueEnum_CHOOSE_OTHER,
+  _$decisionOptionDtoValueEnum_CANCEL,
+  _$decisionOptionDtoValueEnum_FIX,
+  _$decisionOptionDtoValueEnum_IGNORE,
+]);
+
+Serializer<DecisionOptionDtoValueEnum> _$decisionOptionDtoValueEnumSerializer =
+    new _$DecisionOptionDtoValueEnumSerializer();
+
+class _$DecisionOptionDtoValueEnumSerializer
+    implements PrimitiveSerializer<DecisionOptionDtoValueEnum> {
+  static const Map<String, Object> _toWire = const <String, Object>{
+    'UPGRADE_REPLACE': 'UPGRADE_REPLACE',
+    'LINK_KEEP_BOTH': 'LINK_KEEP_BOTH',
+    'IGNORE_NEW': 'IGNORE_NEW',
+    'CONFIRM_DIFFERENT': 'CONFIRM_DIFFERENT',
+    'ACCEPT': 'ACCEPT',
+    'REJECT': 'REJECT',
+    'ACCEPT_AND_LEARN': 'ACCEPT_AND_LEARN',
+    'CHOOSE_OTHER': 'CHOOSE_OTHER',
+    'CANCEL': 'CANCEL',
+    'FIX': 'FIX',
+    'IGNORE': 'IGNORE',
+  };
+  static const Map<Object, String> _fromWire = const <Object, String>{
+    'UPGRADE_REPLACE': 'UPGRADE_REPLACE',
+    'LINK_KEEP_BOTH': 'LINK_KEEP_BOTH',
+    'IGNORE_NEW': 'IGNORE_NEW',
+    'CONFIRM_DIFFERENT': 'CONFIRM_DIFFERENT',
+    'ACCEPT': 'ACCEPT',
+    'REJECT': 'REJECT',
+    'ACCEPT_AND_LEARN': 'ACCEPT_AND_LEARN',
+    'CHOOSE_OTHER': 'CHOOSE_OTHER',
+    'CANCEL': 'CANCEL',
+    'FIX': 'FIX',
+    'IGNORE': 'IGNORE',
+  };
+
+  @override
+  final Iterable<Type> types = const <Type>[DecisionOptionDtoValueEnum];
+  @override
+  final String wireName = 'DecisionOptionDtoValueEnum';
+
+  @override
+  Object serialize(Serializers serializers, DecisionOptionDtoValueEnum object,
+          {FullType specifiedType = FullType.unspecified}) =>
+      _toWire[object.name] ?? object.name;
+
+  @override
+  DecisionOptionDtoValueEnum deserialize(
+          Serializers serializers, Object serialized,
+          {FullType specifiedType = FullType.unspecified}) =>
+      DecisionOptionDtoValueEnum.valueOf(
+          _fromWire[serialized] ?? (serialized is String ? serialized : ''));
+}
+
 class _$DecisionOptionDto extends DecisionOptionDto {
   @override
-  final String value;
+  final DecisionOptionDtoValueEnum value;
   @override
   final String labelKey;
   @override
@@ -75,9 +193,9 @@ class DecisionOptionDtoBuilder
     implements Builder<DecisionOptionDto, DecisionOptionDtoBuilder> {
   _$DecisionOptionDto? _$v;
 
-  String? _value;
-  String? get value => _$this._value;
-  set value(String? value) => _$this._value = value;
+  DecisionOptionDtoValueEnum? _value;
+  DecisionOptionDtoValueEnum? get value => _$this._value;
+  set value(DecisionOptionDtoValueEnum? value) => _$this._value = value;
 
   String? _labelKey;
   String? get labelKey => _$this._labelKey;
