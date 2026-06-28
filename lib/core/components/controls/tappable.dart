@@ -16,6 +16,12 @@ class Tappable extends StatelessWidget {
   final String semanticLabel;
   final String? semanticHint;
   final bool excludeSemantics;
+  /// When true, the pointer gesture fires on pointer-down (onTapDown) instead
+  /// of pointer-up (onTap) — for targets that must act before a sibling's
+  /// blur unmounts them (e.g. tag suggestion rows in transaction_detail_edit).
+  /// Screen readers still activate via the Semantics onTap (double-tap).
+  /// Default false.
+  final bool activateOnPress;
   final Widget child;
 
   const Tappable({
@@ -24,6 +30,7 @@ class Tappable extends StatelessWidget {
     required this.semanticLabel,
     this.semanticHint,
     this.excludeSemantics = true,
+    this.activateOnPress = false,
     required this.child,
   });
 
@@ -47,7 +54,11 @@ class Tappable extends StatelessWidget {
       container: true,
       excludeSemantics: excludeSemantics,
       child: GestureDetector(
-        onTap: onTap,
+        // activateOnPress fires on pointer-down so the callback runs before a
+        // sibling blur can unmount this widget. Screen readers still activate
+        // via the Semantics onTap above (double-tap). See IGN-294.
+        onTap: activateOnPress ? null : onTap,
+        onTapDown: activateOnPress ? ((_) => onTap?.call()) : null,
         behavior: HitTestBehavior.opaque,
         child: child,
       ),

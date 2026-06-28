@@ -96,4 +96,30 @@ void main() {
     expect(btnData.label, 'Skip');
     expect(btnData.hasAction(SemanticsAction.tap), isTrue);
   });
+
+  testWidgets(
+      'activateOnPress fires on pointer-down and keeps semantics (#press)',
+      (tester) async {
+    var pressed = false;
+    await tester.pumpWidget(MaterialApp(
+      home: Scaffold(
+        body: Tappable(
+          onTap: () => pressed = true,
+          semanticLabel: 'Add tag',
+          activateOnPress: true,
+          child: const Text('Java'),
+        ),
+      ),
+    ));
+
+    // Pointer-down alone (no pointer-up) fires the callback — the beat-blur
+    // behavior tag suggestion rows in transaction_detail_edit depend on.
+    await tester.startGesture(tester.getCenter(find.byType(Tappable)));
+    expect(pressed, isTrue);
+
+    // Screen readers still get label + tap action via Semantics.onTap.
+    final data = tester.getSemantics(find.byType(Tappable)).getSemanticsData();
+    expect(data.label, 'Add tag');
+    expect(data.hasAction(SemanticsAction.tap), isTrue);
+  });
 }
