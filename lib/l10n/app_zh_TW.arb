@@ -431,7 +431,7 @@
   "reviewSummaryRuleMatch": "規則 {ruleName} 待套用",
   "reviewSummaryPayeeMatch": "商戶「{suggested}」待識別",
   "reviewSummaryAccountValidation": "帳戶「{account}」疑似拼寫錯誤",
-  "reviewSummaryPipelineError": "{error}",
+  "reviewSummaryPipelineError": "處理失敗：{error}",
   "reviewCenterErrorTypeBooking": "簿記錯誤",
   "reviewCenterErrorTypeBalance": "餘額錯誤",
   "reviewCenterErrorTypeValidation": "校驗錯誤",

@@ -576,7 +576,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String reviewSummaryPipelineError(String error) {
-    return '$error';
+    return '处理失败：$error';
   }
 
   @override
@@ -2395,7 +2395,7 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
 
   @override
   String reviewSummaryPipelineError(String error) {
-    return '$error';
+    return '处理失败：$error';
   }
 
   @override
@@ -4214,7 +4214,7 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String reviewSummaryPipelineError(String error) {
-    return '$error';
+    return '處理失敗：$error';
   }
 
   @override

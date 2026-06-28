@@ -585,7 +585,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String reviewSummaryPipelineError(String error) {
-    return '$error';
+    return 'Processing failed: $error';
   }
 
   @override

@@ -1171,7 +1171,7 @@ abstract class AppLocalizations {
   /// PIPELINE_ERROR row summary
   ///
   /// In en, this message translates to:
-  /// **'{error}'**
+  /// **'Processing failed: {error}'**
   String reviewSummaryPipelineError(String error);
 
   /// PIPELINE_ERROR type badge: booking error

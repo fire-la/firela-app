@@ -475,6 +475,11 @@ class _ResolvedUndoBar extends StatelessWidget {
 
 /// Fit-content pill button for the batch/undo bars (the base ButtonSmall is
 /// fixed 80×32 and won't fit these labels; the design sizes these inline).
+///
+/// Disabled visual: `onPressed == null && !isLoading` is currently latent — the
+/// batch bar couples disabled→isLoading (spinner shows), and the undo bar is
+/// always enabled. If a disabled+!loading call site is ever added, mirror
+/// ButtonPrimary: wrap the child in `Opacity(0.5)` (accent @ alpha 0.5).
 class _PillButton extends StatelessWidget {
   const _PillButton({
     required this.label,

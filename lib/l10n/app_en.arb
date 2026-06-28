@@ -894,7 +894,7 @@
     "description": "ACCOUNT_VALIDATION row summary",
     "placeholders": { "account": { "type": "String" } }
   },
-  "reviewSummaryPipelineError": "{error}",
+  "reviewSummaryPipelineError": "Processing failed: {error}",
   "@reviewSummaryPipelineError": {
     "description": "PIPELINE_ERROR row summary",
     "placeholders": { "error": { "type": "String" } }

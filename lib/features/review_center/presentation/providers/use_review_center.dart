@@ -100,6 +100,19 @@ ReviewCenterState useReviewCenter() {
     await loadTransactions();
   }
 
+  // Cap the undo history so resolvedIds can't grow unbounded in a long session.
+  // The undo bar is a safety net for recent mistakes; older resolutions drop
+  // off the front (still resolved server-side, just no longer bar-undoable).
+  // NOT cleared on changeType — undo is by id within the 24h window, independent
+  // of the active filter, so switching filters must not discard undo history.
+  const maxUndoHistory = 50;
+  void recordResolved(Iterable<String> ids) {
+    final next = [...resolvedIds.value, ...ids];
+    resolvedIds.value = next.length > maxUndoHistory
+        ? next.sublist(next.length - maxUndoHistory)
+        : next;
+  }
+
   void changeType(ReviewType? type) {
     if (currentType.value == type) return;
     currentType.value = type;
@@ -115,7 +128,7 @@ ReviewCenterState useReviewCenter() {
     try {
       await ReviewCenterRepository.instance.resolveReview(id, action: action);
       transactions.value = transactions.value.where((t) => t.id != id).toList();
-      resolvedIds.value = [...resolvedIds.value, id];
+      recordResolved([id]);
       await fetchPendingCount();
       return true;
     } catch (e) {
@@ -154,9 +167,9 @@ ReviewCenterState useReviewCenter() {
       // (success == ids.length). Partial success with incomplete results → no
       // undo offered (can't tell which items resolved).
       if (successIds.length == success) {
-        resolvedIds.value = [...resolvedIds.value, ...successIds];
+        recordResolved(successIds);
       } else if (success == ids.length) {
-        resolvedIds.value = [...resolvedIds.value, ...ids];
+        recordResolved(ids);
       }
       // Optimistically clear so resolved items leave the UI immediately. The
       // force-refresh bypasses the isLoading guard; a generation counter in
