@@ -47,6 +47,7 @@ import 'package:firela_api/src/model/commodity_response_dto.dart';
 import 'package:firela_api/src/model/confirm_match_dto.dart';
 import 'package:firela_api/src/model/converted_cash_flow_dto.dart';
 import 'package:firela_api/src/model/converted_net_worth_dto.dart';
+import 'package:firela_api/src/model/correct_transaction_dto.dart';
 import 'package:firela_api/src/model/create_account_dto.dart';
 import 'package:firela_api/src/model/create_commodity_dto.dart';
 import 'package:firela_api/src/model/create_payee_dto.dart';
@@ -203,6 +204,7 @@ part 'serializers.g.dart';
   ConfirmMatchDto,
   ConvertedCashFlowDto,
   ConvertedNetWorthDto,
+  CorrectTransactionDto,
   CreateAccountDto,
   CreateCommodityDto,
   CreatePayeeDto,

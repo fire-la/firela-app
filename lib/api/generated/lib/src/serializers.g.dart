@@ -49,6 +49,8 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(ConfirmMatchDto.serializer)
       ..add(ConvertedCashFlowDto.serializer)
       ..add(ConvertedNetWorthDto.serializer)
+      ..add(CorrectTransactionDto.serializer)
+      ..add(CorrectTransactionDtoFlagEnum.serializer)
       ..add(CreateAccountDto.serializer)
       ..add(CreateAccountDtoBookingMethodEnum.serializer)
       ..add(CreateCommodityDto.serializer)
@@ -502,6 +504,15 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(CreatePostingDto)]),
+          () => new ListBuilder<CreatePostingDto>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())

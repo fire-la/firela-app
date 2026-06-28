@@ -71,6 +71,7 @@ lib/src/model/commodity_response_dto.dart
 lib/src/model/confirm_match_dto.dart
 lib/src/model/converted_cash_flow_dto.dart
 lib/src/model/converted_net_worth_dto.dart
+lib/src/model/correct_transaction_dto.dart
 lib/src/model/create_account_dto.dart
 lib/src/model/create_commodity_dto.dart
 lib/src/model/create_payee_dto.dart

@@ -191,6 +191,10 @@ class _$TransactionDetailDto extends TransactionDetailDto {
   final String? voidedBy;
   @override
   final String? correctionReason;
+  @override
+  final String? supersededBy;
+  @override
+  final String? originalTxn;
 
   factory _$TransactionDetailDto(
           [void Function(TransactionDetailDtoBuilder)? updates]) =>
@@ -213,7 +217,9 @@ class _$TransactionDetailDto extends TransactionDetailDto {
       required this.createdAt,
       this.voidedAt,
       this.voidedBy,
-      this.correctionReason})
+      this.correctionReason,
+      this.supersededBy,
+      this.originalTxn})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(id, r'TransactionDetailDto', 'id');
     BuiltValueNullFieldError.checkNotNull(
@@ -261,7 +267,9 @@ class _$TransactionDetailDto extends TransactionDetailDto {
         createdAt == other.createdAt &&
         voidedAt == other.voidedAt &&
         voidedBy == other.voidedBy &&
-        correctionReason == other.correctionReason;
+        correctionReason == other.correctionReason &&
+        supersededBy == other.supersededBy &&
+        originalTxn == other.originalTxn;
   }
 
   @override
@@ -284,6 +292,8 @@ class _$TransactionDetailDto extends TransactionDetailDto {
     _$hash = $jc(_$hash, voidedAt.hashCode);
     _$hash = $jc(_$hash, voidedBy.hashCode);
     _$hash = $jc(_$hash, correctionReason.hashCode);
+    _$hash = $jc(_$hash, supersededBy.hashCode);
+    _$hash = $jc(_$hash, originalTxn.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -307,7 +317,9 @@ class _$TransactionDetailDto extends TransactionDetailDto {
           ..add('createdAt', createdAt)
           ..add('voidedAt', voidedAt)
           ..add('voidedBy', voidedBy)
-          ..add('correctionReason', correctionReason))
+          ..add('correctionReason', correctionReason)
+          ..add('supersededBy', supersededBy)
+          ..add('originalTxn', originalTxn))
         .toString();
   }
 }
@@ -388,6 +400,14 @@ class TransactionDetailDtoBuilder
   set correctionReason(String? correctionReason) =>
       _$this._correctionReason = correctionReason;
 
+  String? _supersededBy;
+  String? get supersededBy => _$this._supersededBy;
+  set supersededBy(String? supersededBy) => _$this._supersededBy = supersededBy;
+
+  String? _originalTxn;
+  String? get originalTxn => _$this._originalTxn;
+  set originalTxn(String? originalTxn) => _$this._originalTxn = originalTxn;
+
   TransactionDetailDtoBuilder() {
     TransactionDetailDto._defaults(this);
   }
@@ -412,6 +432,8 @@ class TransactionDetailDtoBuilder
       _voidedAt = $v.voidedAt;
       _voidedBy = $v.voidedBy;
       _correctionReason = $v.correctionReason;
+      _supersededBy = $v.supersededBy;
+      _originalTxn = $v.originalTxn;
       _$v = null;
     }
     return this;
@@ -457,7 +479,9 @@ class TransactionDetailDtoBuilder
                   createdAt, r'TransactionDetailDto', 'createdAt'),
               voidedAt: voidedAt,
               voidedBy: voidedBy,
-              correctionReason: correctionReason);
+              correctionReason: correctionReason,
+              supersededBy: supersededBy,
+              originalTxn: originalTxn);
     } catch (_) {
       late String _$failedField;
       try {
