@@ -1726,6 +1726,17 @@ class AppLocalizationsEn extends AppLocalizations {
       'Future transactions from this payee will auto-categorize';
 
   @override
+  String get txReadonlyHintTitle =>
+      'Recorded content cannot be edited directly';
+
+  @override
+  String get txReadonlyHintBody =>
+      'Amount, account, date, and postings are recorded accounting facts. To modify, void this transaction and re-enter.';
+
+  @override
+  String get txLearnRuleCreateFailed => 'Could not create category rule';
+
+  @override
   String get txDescription => 'Description';
 
   @override

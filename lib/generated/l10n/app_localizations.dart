@@ -3280,6 +3280,24 @@ abstract class AppLocalizations {
   /// **'Future transactions from this payee will auto-categorize'**
   String get txLearnRuleHint;
 
+  /// Read-only hint title (structural fields locked)
+  ///
+  /// In en, this message translates to:
+  /// **'Recorded content cannot be edited directly'**
+  String get txReadonlyHintTitle;
+
+  /// Read-only hint body explaining locked fields
+  ///
+  /// In en, this message translates to:
+  /// **'Amount, account, date, and postings are recorded accounting facts. To modify, void this transaction and re-enter.'**
+  String get txReadonlyHintBody;
+
+  /// Toast shown when creating category rule fails
+  ///
+  /// In en, this message translates to:
+  /// **'Could not create category rule'**
+  String get txLearnRuleCreateFailed;
+
   /// Description field label
   ///
   /// In en, this message translates to:

@@ -1684,6 +1684,15 @@ class AppLocalizationsZh extends AppLocalizations {
   String get txLearnRuleHint => '以后该交易对方的交易将自动归类';
 
   @override
+  String get txReadonlyHintTitle => '已记录内容不可直接编辑';
+
+  @override
+  String get txReadonlyHintBody => '金额、账户、日期、分录为已记录的会计事实。如需修改，请作废此交易并重新录入。';
+
+  @override
+  String get txLearnRuleCreateFailed => '无法创建分类规则';
+
+  @override
   String get txDescription => '描述';
 
   @override
@@ -3511,6 +3520,15 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get txLearnRuleHint => '以后该交易对方的交易将自动归类';
 
   @override
+  String get txReadonlyHintTitle => '已记录内容不可直接编辑';
+
+  @override
+  String get txReadonlyHintBody => '金额、账户、日期、分录为已记录的会计事实。如需修改，请作废此交易并重新录入。';
+
+  @override
+  String get txLearnRuleCreateFailed => '无法创建分类规则';
+
+  @override
   String get txDescription => '描述';
 
   @override
@@ -5336,6 +5354,15 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get txLearnRuleHint => '以後該交易對方的交易將自動歸類';
+
+  @override
+  String get txReadonlyHintTitle => '已記錄內容不可直接編輯';
+
+  @override
+  String get txReadonlyHintBody => '金額、帳戶、日期、分錄為已記錄的會計事實。如需修改，請作廢此交易並重新錄入。';
+
+  @override
+  String get txLearnRuleCreateFailed => '無法建立分類規則';
 
   @override
   String get txDescription => '描述';

@@ -68,6 +68,9 @@ class TransactionDetailEdit extends HookWidget {
           // infoCard — Date / Payee / Category / Account (read-only)
           _InfoCard(state: state, l10n: l10n),
           const SizedBox(height: TokenSpacing.xl),
+          // learnRuleRow (.pen qImbX) — "remember category" toggle (ADR-0064)
+          _LearnRuleRow(state: state, l10n: l10n),
+          const SizedBox(height: TokenSpacing.xl),
           // descSection — editable narration
           InputField(
             controller: state.narrationController,
@@ -82,6 +85,9 @@ class TransactionDetailEdit extends HookWidget {
           // postingsSection — postings list + inline balance indicator
           _PostingsSection(state: state, postings: postings, l10n: l10n),
           const SizedBox(height: TokenSpacing.xl),
+          // readonlyHint (.pen MtcIK) — structural fields are locked
+          _ReadonlyHint(l10n: l10n),
+          const SizedBox(height: TokenSpacing.xl),
           // metaSection
           _MetaSection(tx: tx, id: id, l10n: l10n),
           const SizedBox(height: TokenSpacing.xxl),
@@ -90,7 +96,20 @@ class TransactionDetailEdit extends HookWidget {
             primaryLabel: state.isSaving ? '${l10n.actionSave}...' : l10n.actionSave,
             primaryOnTap: () async {
               final ok = await state.save();
-              if (ok && context.mounted) context.pop();
+              if (!ok) return;
+              // "Remember category" is an independent rule creation (ADR-0064),
+              // not part of the transaction PATCH/correct save.
+              if (state.learnRule) {
+                final ruleOk = await state.createLearnRule();
+                if (!ruleOk && context.mounted) {
+                  DesignToast.show(
+                    context,
+                    message: l10n.txLearnRuleCreateFailed,
+                    icon: Icons.error_outline,
+                  );
+                }
+              }
+              if (context.mounted) context.pop();
             },
             secondaryLabel: l10n.actionDelete,
             secondaryOnTap: () async {
@@ -701,6 +720,99 @@ class _Divider extends StatelessWidget {
       height: 0.5,
       width: double.infinity,
       color: ThemeTokens.of(context).borderCard,
+    );
+  }
+}
+
+/// "Remember category" row (.pen G07oe qImbX): sparkles icon + title/hint +
+/// DesignSwitch, on accentCream. Creates a TransactionRule (ADR-0064) when
+/// toggled on at save time — independent of the transaction PATCH/correct.
+class _LearnRuleRow extends StatelessWidget {
+  const _LearnRuleRow({required this.state, required this.l10n});
+
+  final TransactionDetailState state;
+  final AppLocalizations l10n;
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = ThemeTokens.of(context);
+    return Container(
+      padding: const EdgeInsets.all(TokenSpacing.lg),
+      decoration: BoxDecoration(
+        color: tokens.accentCream,
+        borderRadius: TokenRadius.borderMd,
+      ),
+      child: Row(
+        children: [
+          const Icon(Icons.auto_awesome, size: 20, color: TokenColors.textAccent),
+          const SizedBox(width: TokenSpacing.md),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  l10n.txLearnRule,
+                  style: TokenTypography.body(
+                      fontWeight: FontWeight.w600, color: tokens.textPrimary),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  l10n.txLearnRuleHint,
+                  style: TokenTypography.micro(color: tokens.textSecondary),
+                ),
+              ],
+            ),
+          ),
+          DesignSwitch(
+            value: state.learnRule,
+            onChanged: state.setLearnRule,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Read-only hint (.pen G07oe MtcIK): lock icon + title/body on accentCream.
+/// Explains that structural fields (amount/account/date/postings) are recorded
+/// accounting facts and cannot be edited directly yet.
+class _ReadonlyHint extends StatelessWidget {
+  const _ReadonlyHint({required this.l10n});
+
+  final AppLocalizations l10n;
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = ThemeTokens.of(context);
+    return Container(
+      padding: const EdgeInsets.all(TokenSpacing.lg),
+      decoration: BoxDecoration(
+        color: tokens.accentCream,
+        borderRadius: TokenRadius.borderMd,
+      ),
+      child: Row(
+        children: [
+          const Icon(Icons.lock_outline, size: 20, color: TokenColors.textAccent),
+          const SizedBox(width: TokenSpacing.md),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  l10n.txReadonlyHintTitle,
+                  style: TokenTypography.body(
+                      fontWeight: FontWeight.w600, color: tokens.textPrimary),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  l10n.txReadonlyHintBody,
+                  style: TokenTypography.micro(color: tokens.textSecondary),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

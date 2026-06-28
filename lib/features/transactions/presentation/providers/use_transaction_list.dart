@@ -5,6 +5,7 @@ import '../../../../api/api.dart';
 import '../../../../core/utils/logger.dart';
 import '../../domain/entities/transaction.dart';
 import '../../domain/mappers/transaction_mapper.dart';
+import '../signals/transaction_mutation_signal.dart';
 import '../signals/transaction_refresh_signal.dart';
 
 class TransactionListState {
@@ -133,6 +134,18 @@ TransactionListState useTransactionList({
       if (transactionRefreshSignal.value > 0) {
         Future.microtask(() => fetchData(reset: true));
       }
+    });
+  }, []);
+
+  // IGN-298: in-place mutation (PATCH/correct) — no refetch, no flicker.
+  useEffect(() {
+    return effect(() {
+      final m = transactionMutationSignal.value;
+      if (m == null) return;
+      Future.microtask(() {
+        transactionMutationSignal.value = null;
+        transactions.value = applyTransactionMutation(transactions.value, m);
+      });
     });
   }, []);
 

@@ -1,10 +1,15 @@
+import 'package:built_collection/built_collection.dart';
+import 'package:firela_api/firela_api.dart' hide FirelaApi;
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import '../../../../api/api.dart';
 import '../../../../api/src/api_client.dart';
 import '../../../../core/services/ign_api_service.dart';
 import '../../../../core/utils/logger.dart';
 import '../../../../shared/signals/region_signal.dart';
+import '../../domain/mappers/transaction_mapper.dart';
 import '../../domain/models/tag_suggestion.dart';
+import '../signals/transaction_mutation_signal.dart';
 import '../signals/transaction_refresh_signal.dart';
 
 class TransactionDetailState {
@@ -19,13 +24,16 @@ class TransactionDetailState {
   final String payee;
   final List<String> tags;
   final String firstAccount;
+  final bool learnRule;
   final VoidCallback loadDetail;
   final Future<bool> Function() save;
   final Future<bool> Function() delete;
+  final Future<bool> Function() createLearnRule;
   final void Function(int) setSelectedSegment;
   final void Function(String) setDate;
   final void Function(String) setPayee;
   final void Function(List<String>) setTags;
+  final void Function(bool) setLearnRule;
   final Future<List<TagSuggestion>> Function(String) suggestTags;
 
   const TransactionDetailState({
@@ -40,13 +48,16 @@ class TransactionDetailState {
     required this.payee,
     required this.tags,
     required this.firstAccount,
+    required this.learnRule,
     required this.loadDetail,
     required this.save,
     required this.delete,
+    required this.createLearnRule,
     required this.setSelectedSegment,
     required this.setDate,
     required this.setPayee,
     required this.setTags,
+    required this.setLearnRule,
     required this.suggestTags,
   });
 
@@ -91,6 +102,7 @@ TransactionDetailState useTransactionDetail(String id) {
   final payee = useState<String>('');
   final tagsState = useState<List<String>>([]);
   final firstAccount = useState<String>('');
+  final learnRule = useState<bool>(false);
 
   void populateFromData(Map<String, dynamic> data) {
     transaction.value = data;
@@ -131,13 +143,21 @@ TransactionDetailState useTransactionDetail(String id) {
   Future<bool> save() async {
     isSaving.value = true;
     try {
-      final data = <String, dynamic>{
-        'narration': narrationController.text,
-        'payee': payee.value,
-        'tags': tagsState.value,
-      };
-      await IgnApiService.instance.updateTransaction(id, data);
-      refreshTransactionData();
+      final region = regionSignal.value;
+      // Metadata-only PATCH (IGN-298). Structural changes (date/amount/account/
+      // postings) must route to correctTransaction() once those fields become
+      // editable — see TODO below.
+      final dto = await FirelaApi().updateTransactionMeta(
+        region,
+        id,
+        narration: narrationController.text,
+        payee: payee.value,
+        tags: tagsState.value,
+      );
+      // TODO(结构字段可编辑): on structural change, build CorrectTransactionDto
+      // (date/narration/postings) and call correctTransaction(region, id, dto),
+      // then mutateTransaction(SupersedeTransaction(oldId: id, newTx: ...)).
+      mutateTransaction(ReplaceTransaction(toTransaction(dto)));
       return true;
     } catch (e) {
       logger.e('[TransactionDetail] save failed: $e');
@@ -145,6 +165,36 @@ TransactionDetailState useTransactionDetail(String id) {
       return false;
     } finally {
       isSaving.value = false;
+    }
+  }
+
+  /// Create an auto-categorization rule (ADR-0064) — independent of the
+  /// transaction PATCH/correct save. Returns false on failure (caller shows a
+  /// toast); never throws so it cannot block the transaction save.
+  Future<bool> createLearnRule() async {
+    final payeeStr = payee.value;
+    if (payeeStr.isEmpty) {
+      logger.w('[TransactionDetail] createLearnRule skipped: empty payee');
+      return false;
+    }
+    try {
+      final region = regionSignal.value;
+      // categoryAccount target = the transaction's first posting account.
+      // NOTE: raw posting exposes accountName/accountId (display), not the
+      // beancount-qualified `account`; refine once category derivation lands.
+      final categoryAccount = firstAccount.value.isEmpty ? null : firstAccount.value;
+      final dto = CreateTransactionRuleDto((b) => b
+        ..name = 'Rule: $payeeStr'
+        ..payeeKeywords = ListBuilder<BuiltList>([
+          BuiltList<dynamic>([payeeStr]),
+        ])
+        ..categoryAccount = categoryAccount
+        ..upsertByPayee = true);
+      await FirelaApi().createCategoryRule(region, dto);
+      return true;
+    } catch (e) {
+      logger.e('[TransactionDetail] createLearnRule failed: $e');
+      return false;
     }
   }
 
@@ -196,13 +246,16 @@ TransactionDetailState useTransactionDetail(String id) {
     payee: payee.value,
     tags: tagsState.value,
     firstAccount: firstAccount.value,
+    learnRule: learnRule.value,
     loadDetail: loadDetail,
     save: save,
     delete: deleteTx,
+    createLearnRule: createLearnRule,
     setSelectedSegment: (index) => selectedSegment.value = index,
     setDate: (date) => selectedDate.value = date,
     setPayee: (name) => payee.value = name,
     setTags: (list) => tagsState.value = list,
+    setLearnRule: (v) => learnRule.value = v,
     suggestTags: suggestTags,
   );
 }
