@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:firela_app/generated/l10n/app_localizations.dart';
+import '../../../../core/components/components.dart';
 import '../../../../core/design_tokens/design_tokens.dart';
 import '../../domain/models/liability_breakdown.dart';
 
@@ -160,8 +161,9 @@ class _LiabilityTypeCard extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
 
-    return GestureDetector(
+    return Tappable(
       onTap: onTap,
+      semanticLabel: '${_getLocalizedTypeName(breakdown.type, l10n)}, ${_formatAmount(breakdown.amount)}',
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         width: isExpanded ? 160 : 120,

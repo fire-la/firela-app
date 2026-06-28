@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firela_app/generated/l10n/app_localizations.dart';
 import 'package:fl_chart/fl_chart.dart';
+import '../../../../core/components/components.dart';
 import '../../../../core/design_tokens/design_tokens.dart';
 import '../../domain/models/net_worth_history_point.dart';
 
@@ -28,8 +29,11 @@ class LiabilitiesTrendChart extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
 
-    return GestureDetector(
+    return Tappable(
       onTap: onTap,
+      semanticLabel: isLoading
+          ? l10n.liabilities
+          : '${l10n.liabilities}, ${_formatCurrency(_getCurrentLiabilities())}',
       child: Container(
         height: 80,
         margin: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),

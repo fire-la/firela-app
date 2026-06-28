@@ -207,12 +207,13 @@ class AccountsListPage extends HookWidget {
   }
 
   Widget _buildAccountCard(BuildContext context, AccountItem account) {
-    return GestureDetector(
+    return Tappable(
       onTap: () {
         if (account.accountId.isNotEmpty) {
           context.push('${RouteNames.transactions}?accountId=${Uri.encodeComponent(account.accountId)}&accountName=${Uri.encodeComponent(account.displayName)}');
         }
       },
+      semanticLabel: account.displayName,
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: TokenSpacing.lg, horizontal: TokenSpacing.xl),
         decoration: BoxDecoration(

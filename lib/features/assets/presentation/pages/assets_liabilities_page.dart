@@ -233,12 +233,13 @@ class AssetsLiabilitiesPage extends StatelessWidget {
   }
 
   Widget _buildAccountItem(BuildContext context, AccountData account) {
-    return GestureDetector(
+    return Tappable(
       onTap: () {
         if (account.accountId.isNotEmpty) {
           context.push('${RouteNames.transactions}?accountId=${Uri.encodeComponent(account.accountId)}&accountName=${Uri.encodeComponent(account.displayName)}');
         }
       },
+      semanticLabel: account.displayName,
       child: Container(
       padding: const EdgeInsets.symmetric(vertical: TokenSpacing.xl, horizontal: TokenSpacing.xxl),
       decoration: BoxDecoration(

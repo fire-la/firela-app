@@ -1,8 +1,3 @@
-lib/features/assets/presentation/pages/accounts_list_page.dart
-lib/features/assets/presentation/pages/assets_liabilities_page.dart
-lib/features/assets/presentation/pages/assets_page.dart
-lib/features/assets/presentation/widgets/liabilities_breakdown_card.dart
-lib/features/assets/presentation/widgets/liabilities_trend_chart.dart
 lib/features/expense/presentation/pages/bill_import_page.dart
 lib/features/expense/presentation/widgets/expense_entry_bottom_sheet.dart
 lib/features/expense/presentation/widgets/expense_recognition_result_sheet.dart
