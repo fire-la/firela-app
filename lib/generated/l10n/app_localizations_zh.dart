@@ -1702,6 +1702,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get txTagSearchOrNew => '搜索或新建标签';
 
   @override
+  String get txRemoveTag => '删除标签';
+
+  @override
   String get txTagCommonTags => '最近常用';
 
   @override
@@ -3526,6 +3529,9 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get txTagSearchOrNew => '搜索或新建标签';
 
   @override
+  String get txRemoveTag => '删除标签';
+
+  @override
   String get txTagCommonTags => '最近常用';
 
   @override
@@ -5348,6 +5354,9 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get txTagSearchOrNew => '搜尋或新增標籤';
+
+  @override
+  String get txRemoveTag => '刪除標籤';
 
   @override
   String get txTagCommonTags => '最近常用';

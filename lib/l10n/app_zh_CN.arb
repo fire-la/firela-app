@@ -580,6 +580,7 @@
   "txAddTag": "添加标签",
   "txAddTagPlaceholder": "标签名称",
   "txTagSearchOrNew": "搜索或新建标签",
+  "txRemoveTag": "删除标签",
   "txTagCommonTags": "最近常用",
   "txTagNoResults": "无匹配标签",
   "txTagCreateNew": "新建标签「{tag}」",

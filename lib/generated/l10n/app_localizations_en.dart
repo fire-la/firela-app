@@ -1744,6 +1744,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get txTagSearchOrNew => 'Search or create tag';
 
   @override
+  String get txRemoveTag => 'Remove tag';
+
+  @override
   String get txTagCommonTags => 'Recent tags';
 
   @override

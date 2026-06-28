@@ -581,6 +581,7 @@
   "txAddTag": "新增標籤",
   "txAddTagPlaceholder": "標籤名稱",
   "txTagSearchOrNew": "搜尋或新增標籤",
+  "txRemoveTag": "刪除標籤",
   "txTagCommonTags": "最近常用",
   "txTagNoResults": "無匹配標籤",
   "txTagCreateNew": "新增標籤「{tag}」",

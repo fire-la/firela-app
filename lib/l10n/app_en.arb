@@ -2635,6 +2635,8 @@
   "@txAddTagPlaceholder": { "description": "Add tag input placeholder" },
   "txTagSearchOrNew": "Search or create tag",
   "@txTagSearchOrNew": { "description": "Tag input chip placeholder" },
+  "txRemoveTag": "Remove tag",
+  "@txRemoveTag": { "description": "Semantic label for the tag chip remove (×) button" },
   "txTagCommonTags": "Recent tags",
   "@txTagCommonTags": { "description": "Header shown above common-tag suggestions when the input is empty" },
   "txTagNoResults": "No matching tags",

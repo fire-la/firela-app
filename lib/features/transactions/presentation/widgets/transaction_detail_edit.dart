@@ -297,6 +297,7 @@ class _RemovableTag extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tokens = ThemeTokens.of(context);
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       height: 26,
       padding: const EdgeInsets.only(left: TokenSpacing.lg),
@@ -310,9 +311,10 @@ class _RemovableTag extends StatelessWidget {
         children: [
           Text(label, style: TokenTypography.caption(color: tokens.textPrimary)),
           const SizedBox(width: TokenSpacing.xs),
-          GestureDetector(
-            onTapDown: (_) => onRemove(),
-            behavior: HitTestBehavior.opaque,
+          Tappable(
+            onTap: onRemove,
+            activateOnPress: true,
+            semanticLabel: l10n.txRemoveTag,
             child: Padding(
               padding: const EdgeInsets.symmetric(
                 vertical: TokenSpacing.xs,
@@ -346,45 +348,47 @@ class _TagInputChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tokens = ThemeTokens.of(context);
-    return GestureDetector(
-      onTap: focusNode.requestFocus,
-      behavior: HitTestBehavior.opaque,
-      child: Container(
-        height: 26,
-        padding: const EdgeInsets.symmetric(
-          vertical: TokenSpacing.xs,
-          horizontal: TokenSpacing.lg,
-        ),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(11),
-          border: Border.all(color: TokenColors.borderTag, width: 0.5),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(Icons.search, size: 14, color: tokens.textTertiary),
-            const SizedBox(width: TokenSpacing.xs),
-            // IntrinsicWidth makes the field track its content width (design's
-            // fit_content). Flexible/Expanded here would let the field grab the
-            // Wrap's full run width — that was the "still very wide" bug.
-            IntrinsicWidth(
-              child: TextField(
-                controller: controller,
-                focusNode: focusNode,
-                style: TokenTypography.caption(color: tokens.textPrimary),
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  isCollapsed: true,
-                  contentPadding: EdgeInsets.zero,
-                  hintText: placeholder,
-                  hintStyle: TokenTypography.caption(color: tokens.textTertiary),
-                ),
-                textInputAction: TextInputAction.done,
-                onSubmitted: onSubmitted,
+    return Container(
+      height: 26,
+      padding: const EdgeInsets.symmetric(
+        vertical: TokenSpacing.xs,
+        horizontal: TokenSpacing.lg,
+      ),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(11),
+        border: Border.all(color: TokenColors.borderTag, width: 0.5),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // Icon is a separate focus affordance; the TextField below stays a
+          // proper editable-text node (wrapping it in a button would mask it).
+          Tappable(
+            onTap: focusNode.requestFocus,
+            semanticLabel: placeholder,
+            child: Icon(Icons.search, size: 14, color: tokens.textTertiary),
+          ),
+          const SizedBox(width: TokenSpacing.xs),
+          // IntrinsicWidth makes the field track its content width (design's
+          // fit_content). Flexible/Expanded here would let the field grab the
+          // Wrap's full run width — that was the "still very wide" bug.
+          IntrinsicWidth(
+            child: TextField(
+              controller: controller,
+              focusNode: focusNode,
+              style: TokenTypography.caption(color: tokens.textPrimary),
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                isCollapsed: true,
+                contentPadding: EdgeInsets.zero,
+                hintText: placeholder,
+                hintStyle: TokenTypography.caption(color: tokens.textTertiary),
               ),
+              textInputAction: TextInputAction.done,
+              onSubmitted: onSubmitted,
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -503,9 +507,10 @@ class _SuggestionRow extends StatelessWidget {
     final color = isAdded
         ? tokens.textTertiary
         : (isExactMatch ? TokenColors.textAccent : tokens.textPrimary);
-    return GestureDetector(
-      onTapDown: isAdded ? null : (_) => onTap(),
-      behavior: HitTestBehavior.opaque,
+    return Tappable(
+      onTap: isAdded ? null : onTap,
+      activateOnPress: true,
+      semanticLabel: isExactMatch ? tag : '$tag, $count',
       child: Padding(
         padding: const EdgeInsets.symmetric(
             vertical: TokenSpacing.sm, horizontal: TokenSpacing.md),
@@ -538,9 +543,10 @@ class _CreateNewRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tokens = ThemeTokens.of(context);
-    return GestureDetector(
-      onTapDown: (_) => onTap(),
-      behavior: HitTestBehavior.opaque,
+    return Tappable(
+      onTap: onTap,
+      activateOnPress: true,
+      semanticLabel: label,
       child: Padding(
         padding: const EdgeInsets.symmetric(
             vertical: TokenSpacing.sm, horizontal: TokenSpacing.md),
@@ -634,9 +640,10 @@ class _AddPostingStub extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return Tappable(
       // TODO: add posting
       onTap: () {},
+      semanticLabel: l10n.txAddPosting,
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: TokenSpacing.md, horizontal: TokenSpacing.lg),
         decoration: BoxDecoration(

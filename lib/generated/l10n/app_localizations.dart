@@ -3316,6 +3316,12 @@ abstract class AppLocalizations {
   /// **'Search or create tag'**
   String get txTagSearchOrNew;
 
+  /// Semantic label for the tag chip remove (×) button
+  ///
+  /// In en, this message translates to:
+  /// **'Remove tag'**
+  String get txRemoveTag;
+
   /// Header shown above common-tag suggestions when the input is empty
   ///
   /// In en, this message translates to:
