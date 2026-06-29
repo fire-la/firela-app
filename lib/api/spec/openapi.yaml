@@ -582,73 +582,6 @@ paths:
         - Bean Transactions
       security:
         - bearer: []
-  /api/v1/{region}/bean/transactions/tags:
-    get:
-      operationId: TransactionController_suggestTags
-      summary: Suggest transaction tags
-      description: Returns distinct tags from the user's ACTIVE transactions for
-        autocomplete, sorted by usage or name. Optional q performs a
-        case-insensitive prefix match.
-      parameters:
-        - name: q
-          required: false
-          in: query
-          description: 'Prefix match, case-insensitive (max 50 chars)'
-          schema:
-            maxLength: 50
-            type: string
-        - name: sort
-          required: false
-          in: query
-          description: 'usage (default) or name'
-          schema:
-            enum:
-              - usage
-              - name
-            type: string
-        - name: limit
-          required: false
-          in: query
-          description: 'Max suggestions (1-100, default: 10)'
-          schema:
-            minimum: 1
-            maximum: 100
-            default: 10
-            type: number
-        - name: region
-          required: true
-          in: path
-          description: Region code for tenant context
-          schema:
-            enum:
-              - cn
-              - us
-              - de
-              - gb
-            type: string
-      responses:
-        '200':
-          description: Tag suggestions
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TagSuggestionsResponseDto'
-        '400':
-          description: Validation failed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiProblemResponseDto'
-        '401':
-          description: Authentication required
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiProblemResponseDto'
-      tags:
-        - Bean Transactions
-      security:
-        - bearer: []
   /api/v1/{region}/bean/transactions/batch:
     post:
       operationId: TransactionController_createBatch
@@ -5940,9 +5873,9 @@ components:
           type: string
           description: Account ID
           example: clh1234567890abcdef
-        accountName:
+        account:
           type: string
-          description: Account name
+          description: Fully-qualified Beancount account path
           example: Assets:Bank:Checking
         units:
           type: string
@@ -5985,31 +5918,7 @@ components:
       required:
         - id
         - accountId
-        - accountName
-    TagSuggestionDto:
-      type: object
-      properties:
-        tag:
-          type: string
-          description: Tag name
-          example: Monthly
-        count:
-          type: number
-          description: Usage count across ACTIVE transactions
-          example: 12
-      required:
-        - tag
-        - count
-    TagSuggestionsResponseDto:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/TagSuggestionDto'
-          description: Tag suggestions sorted as requested
-      required:
-        - data
+        - account
     TransactionDetailDto:
       type: object
       properties:
