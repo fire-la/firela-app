@@ -1693,6 +1693,24 @@ class AppLocalizationsZh extends AppLocalizations {
   String get txLearnRuleCreateFailed => '无法创建分类规则';
 
   @override
+  String get txAccountPickerTitle => '选择账户';
+
+  @override
+  String get txAccountPickerSearchHint => '搜索账户';
+
+  @override
+  String get txAccountPickerEmpty => '暂无账户';
+
+  @override
+  String get txCategoryPickerTitle => '选择分类';
+
+  @override
+  String get txSaveBlockedUnbalanced => '分录不平衡，请检查';
+
+  @override
+  String get txSaveFailed => '保存失败';
+
+  @override
   String get txDescription => '描述';
 
   @override
@@ -3529,6 +3547,24 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get txLearnRuleCreateFailed => '无法创建分类规则';
 
   @override
+  String get txAccountPickerTitle => '选择账户';
+
+  @override
+  String get txAccountPickerSearchHint => '搜索账户';
+
+  @override
+  String get txAccountPickerEmpty => '暂无账户';
+
+  @override
+  String get txCategoryPickerTitle => '选择分类';
+
+  @override
+  String get txSaveBlockedUnbalanced => '分录不平衡，请检查';
+
+  @override
+  String get txSaveFailed => '保存失败';
+
+  @override
   String get txDescription => '描述';
 
   @override
@@ -5363,6 +5399,24 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get txLearnRuleCreateFailed => '無法建立分類規則';
+
+  @override
+  String get txAccountPickerTitle => '選擇帳戶';
+
+  @override
+  String get txAccountPickerSearchHint => '搜尋帳戶';
+
+  @override
+  String get txAccountPickerEmpty => '暫無帳戶';
+
+  @override
+  String get txCategoryPickerTitle => '選擇分類';
+
+  @override
+  String get txSaveBlockedUnbalanced => '分錄不平衡，請檢查';
+
+  @override
+  String get txSaveFailed => '儲存失敗';
 
   @override
   String get txDescription => '描述';

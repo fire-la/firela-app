@@ -95,6 +95,34 @@ class FirelaApi {
     return _bodyOrThrow(response, 'updateTransactionMeta');
   }
 
+  /// GET /transactions/:id — fetch a single transaction (typed).
+  /// Used by the edit page; holding this snapshot lets save() diff structural
+  /// fields and build a CorrectTransactionDto without a raw-Map intermediary.
+  Future<gen.TransactionDetailDto> getTransactionDetail(
+    String region,
+    String id,
+  ) async {
+    final response = await transactions.transactionControllerGetDetail(
+      region: region,
+      id: id,
+    );
+    return _bodyOrThrow(response, 'getTransactionDetail');
+  }
+
+  /// GET /bean/accounts — list OPEN accounts (typed). The caller filters by
+  /// type client-side (the API takes a single type, but the account picker
+  /// needs e.g. expenses+income together, so fetch once and filter locally).
+  Future<gen.AccountListResponseDto> listAccounts(
+    String region, {
+    num limit = 500,
+  }) async {
+    final response = await accounts.accountControllerFindAll(
+      region: region,
+      limit: limit,
+    );
+    return _bodyOrThrow(response, 'listAccounts');
+  }
+
   /// POST /transactions/:id/correct — supersede with a new transaction.
   /// Use when structural fields change; returns the NEW transaction (new id).
   /// The caller builds [dto] (date/narration/postings required).

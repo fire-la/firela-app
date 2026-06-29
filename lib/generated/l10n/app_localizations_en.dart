@@ -1737,6 +1737,24 @@ class AppLocalizationsEn extends AppLocalizations {
   String get txLearnRuleCreateFailed => 'Could not create category rule';
 
   @override
+  String get txAccountPickerTitle => 'Select account';
+
+  @override
+  String get txAccountPickerSearchHint => 'Search account';
+
+  @override
+  String get txAccountPickerEmpty => 'No accounts';
+
+  @override
+  String get txCategoryPickerTitle => 'Select category';
+
+  @override
+  String get txSaveBlockedUnbalanced => 'Postings are unbalanced';
+
+  @override
+  String get txSaveFailed => 'Save failed';
+
+  @override
   String get txDescription => 'Description';
 
   @override

@@ -1,9 +1,11 @@
+import 'package:firela_api/firela_api.dart' as gen;
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:firela_app/generated/l10n/app_localizations.dart';
 import '../../../../core/components/components.dart';
 import '../../../../core/design_tokens/design_tokens.dart';
+import '../../../../shared/widgets/account_picker_sheet.dart';
 import '../../../../shared/widgets/section_header.dart';
 import '../../domain/models/tag_suggestion.dart';
 import '../../../../shared/hooks/use_debounce.dart';
@@ -40,21 +42,27 @@ class TransactionDetailEdit extends HookWidget {
       );
     }
 
-    final tx = state.transaction ?? <String, dynamic>{};
-    final postings = (tx['postings'] as List<dynamic>?) ?? const [];
-
     return SingleChildScrollView(
       padding: const EdgeInsets.all(TokenSpacing.xl),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // amtCard — InputAmount, read-only display (postings cannot be modified)
-          AbsorbPointer(
-            child: InputAmount(
+          // amtCard — InputAmount. Editable for 2-posting ACTIVE txs (edits
+          // rebuild the balanced pair); read-only otherwise (multi-posting needs
+          // the deferred per-posting editor; non-ACTIVE cannot be corrected).
+          if (state.canEditAmount)
+            InputAmount(
               label: l10n.txAmount,
               controller: state.amountController,
+              onChanged: state.onAmountChanged,
+            )
+          else
+            AbsorbPointer(
+              child: InputAmount(
+                label: l10n.txAmount,
+                controller: state.amountController,
+              ),
             ),
-          ),
           const SizedBox(height: TokenSpacing.xl),
           // typeSeg — SegmentControl, derived read-only display
           AbsorbPointer(
@@ -83,20 +91,39 @@ class TransactionDetailEdit extends HookWidget {
           _TagsSection(state: state, l10n: l10n),
           const SizedBox(height: TokenSpacing.xl),
           // postingsSection — postings list + inline balance indicator
-          _PostingsSection(state: state, postings: postings, l10n: l10n),
-          const SizedBox(height: TokenSpacing.xl),
-          // readonlyHint (.pen MtcIK) — structural fields are locked
-          _ReadonlyHint(l10n: l10n),
+          _PostingsSection(state: state, l10n: l10n),
+          if (!state.canEditStructural) ...[
+            const SizedBox(height: TokenSpacing.xl),
+            // readonlyHint (.pen MtcIK) — shown only when structural edits are off
+            _ReadonlyHint(l10n: l10n),
+          ],
           const SizedBox(height: TokenSpacing.xl),
           // metaSection
-          _MetaSection(tx: tx, id: id, l10n: l10n),
+          _MetaSection(tx: state.transaction, id: id, l10n: l10n),
           const SizedBox(height: TokenSpacing.xxl),
           // buttonRow — Delete + Save
           ButtonRow(
             primaryLabel: state.isSaving ? '${l10n.actionSave}...' : l10n.actionSave,
             primaryOnTap: () async {
+              if (!state.isBalanced) {
+                DesignToast.show(
+                  context,
+                  message: l10n.txSaveBlockedUnbalanced,
+                  icon: Icons.warning_amber_outlined,
+                );
+                return;
+              }
               final ok = await state.save();
-              if (!ok) return;
+              if (!ok) {
+                if (context.mounted) {
+                  DesignToast.show(
+                    context,
+                    message: l10n.txSaveFailed,
+                    icon: Icons.error_outline,
+                  );
+                }
+                return;
+              }
               // "Remember category" is an independent rule creation (ADR-0064),
               // not part of the transaction PATCH/correct save.
               if (state.learnRule) {
@@ -154,11 +181,35 @@ class _InfoCard extends StatelessWidget {
     // .pen eC35n infoCard: a single card container (radius.lg + shadow +
     // bg.card + border.card 0.5 inner, clipped) holding 4 transparent rows
     // (AqRLj, fill #00000000) separated by 0.5 border.card dividers.
+    final editable = state.canEditStructural;
+    final primaryColor = tokens.textPrimary;
     final rows = <Widget>[
       ListItemArrow.plain(
         icon: Icons.calendar_today_outlined,
         label: l10n.txDate,
         trailingText: state.selectedDate.isEmpty ? '—' : state.selectedDate,
+        trailingColor: editable ? primaryColor : null,
+        onTap: editable
+            ? () async {
+                DateTime initial;
+                try {
+                  initial = DateTime.parse(state.selectedDate);
+                } catch (_) {
+                  initial = DateTime.now();
+                }
+                final picked = await showDatePicker(
+                  context: context,
+                  initialDate: initial,
+                  firstDate: DateTime(2000),
+                  lastDate: DateTime.now(),
+                );
+                if (picked != null) {
+                  state.setDate(
+                    '${picked.year}-${picked.month.toString().padLeft(2, '0')}-${picked.day.toString().padLeft(2, '0')}',
+                  );
+                }
+              }
+            : null,
       ),
       ListItemArrow.plain(
         icon: Icons.person_outline,
@@ -168,12 +219,40 @@ class _InfoCard extends StatelessWidget {
       ListItemArrow.plain(
         icon: Icons.label_outline,
         label: l10n.txCategory,
-        trailingText: '—', // TODO: derive category from postings/rules
+        trailingText: state.categoryLeaf,
+        trailingColor: editable ? primaryColor : null,
+        onTap: editable
+            ? () async {
+                final path = await AccountPickerSheet.show(
+                  context,
+                  allowedTypes: const {
+                    gen.AccountResponseDtoTypeEnum.expenses,
+                    gen.AccountResponseDtoTypeEnum.income,
+                  },
+                  title: l10n.txCategoryPickerTitle,
+                );
+                if (path != null) state.setCategoryAccount(path);
+              }
+            : null,
       ),
       ListItemArrow.plain(
         icon: Icons.account_balance_outlined,
         label: l10n.txAccount,
-        trailingText: state.firstAccount.isEmpty ? '—' : state.firstAccount,
+        trailingText: state.paymentAccountLeaf,
+        trailingColor: editable ? primaryColor : null,
+        onTap: editable
+            ? () async {
+                final path = await AccountPickerSheet.show(
+                  context,
+                  allowedTypes: const {
+                    gen.AccountResponseDtoTypeEnum.assets,
+                    gen.AccountResponseDtoTypeEnum.liabilities,
+                  },
+                  title: l10n.txAccountPickerTitle,
+                );
+                if (path != null) state.setPaymentAccount(path);
+              }
+            : null,
       ),
     ];
     return Container(
@@ -589,15 +668,15 @@ class _CreateNewRow extends StatelessWidget {
 }
 
 class _PostingsSection extends StatelessWidget {
-  const _PostingsSection({required this.state, required this.postings, required this.l10n});
+  const _PostingsSection({required this.state, required this.l10n});
 
   final TransactionDetailState state;
-  final List<dynamic> postings;
   final AppLocalizations l10n;
 
   @override
   Widget build(BuildContext context) {
     final tokens = ThemeTokens.of(context);
+    final postings = state.postings;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -609,7 +688,7 @@ class _PostingsSection extends StatelessWidget {
             children: [
               for (var i = 0; i < postings.length; i++) ...[
                 if (i > 0) const _Divider(),
-                PostingEditorRow(posting: postings[i] as Map<String, dynamic>, l10n: l10n),
+                PostingEditorRow(posting: postings[i], l10n: l10n),
               ],
               if (postings.isNotEmpty) const _Divider(),
               _BalanceIndicator(state: state, l10n: l10n),
@@ -688,15 +767,15 @@ class _AddPostingStub extends StatelessWidget {
 class _MetaSection extends StatelessWidget {
   const _MetaSection({required this.tx, required this.id, required this.l10n});
 
-  final Map<String, dynamic> tx;
+  final gen.TransactionDetailDto? tx;
   final String id;
   final AppLocalizations l10n;
 
   @override
   Widget build(BuildContext context) {
     final tokens = ThemeTokens.of(context);
-    final source = tx['sourceType']?.toString() ?? '—';
-    final created = tx['createdAt']?.toString() ?? '—';
+    final source = tx?.sourceType ?? '—';
+    final created = tx?.createdAt ?? '—';
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -706,7 +785,7 @@ class _MetaSection extends StatelessWidget {
         ),
         const SizedBox(height: 4),
         Text(
-          '${l10n.txId}: ${tx['id'] ?? id}',
+          '${l10n.txId}: ${tx?.id ?? id}',
           style: TokenTypography.micro(color: tokens.textTertiary),
         ),
       ],

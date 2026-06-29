@@ -8,7 +8,10 @@ import '../../../../core/services/ign_api_service.dart';
 import '../../../../core/utils/logger.dart';
 import '../../../../shared/signals/region_signal.dart';
 import '../../domain/mappers/transaction_mapper.dart';
+import '../../domain/models/posting_edit.dart';
 import '../../domain/models/tag_suggestion.dart';
+import '../../domain/posting_rebuild.dart';
+import '../../domain/structural_change.dart' as domain;
 import '../signals/transaction_mutation_signal.dart';
 import '../signals/transaction_refresh_signal.dart';
 
@@ -16,20 +19,22 @@ class TransactionDetailState {
   final bool isLoading;
   final bool isSaving;
   final String? error;
-  final Map<String, dynamic>? transaction;
+  final TransactionDetailDto? transaction;
   final TextEditingController narrationController;
   final TextEditingController amountController;
   final int selectedSegment;
   final String selectedDate;
   final String payee;
   final List<String> tags;
-  final String firstAccount;
+  final List<PostingEdit> postings;
   final bool learnRule;
   final VoidCallback loadDetail;
   final Future<bool> Function() save;
   final Future<bool> Function() delete;
   final Future<bool> Function() createLearnRule;
-  final void Function(int) setSelectedSegment;
+  final void Function(String) onAmountChanged;
+  final void Function(String) setCategoryAccount;
+  final void Function(String) setPaymentAccount;
   final void Function(String) setDate;
   final void Function(String) setPayee;
   final void Function(List<String>) setTags;
@@ -47,13 +52,15 @@ class TransactionDetailState {
     required this.selectedDate,
     required this.payee,
     required this.tags,
-    required this.firstAccount,
+    required this.postings,
     required this.learnRule,
     required this.loadDetail,
     required this.save,
     required this.delete,
     required this.createLearnRule,
-    required this.setSelectedSegment,
+    required this.onAmountChanged,
+    required this.setCategoryAccount,
+    required this.setPaymentAccount,
     required this.setDate,
     required this.setPayee,
     required this.setTags,
@@ -61,39 +68,47 @@ class TransactionDetailState {
     required this.suggestTags,
   });
 
-  /// Per-currency balance deltas for postings.
-  /// Skips interpolated postings (units == null). Balanced when every |delta| < 1e-9.
-  List<PostingBalance> get postingBalances {
-    final tx = transaction;
-    if (tx == null) return const [];
-    final postings = (tx['postings'] as List<dynamic>?) ?? const [];
-    final byCurrency = <String, double>{};
-    for (final raw in postings) {
-      if (raw is! Map<String, dynamic>) continue;
-      final p = raw;
-      final units = p['units'];
-      if (units == null) continue; // interpolated posting
-      final cur = (p['currency'] as String?) ?? 'UNKNOWN';
-      byCurrency[cur] =
-          (byCurrency[cur] ?? 0) + (double.tryParse(units.toString()) ?? 0);
+  /// Whether structural edits are allowed (only ACTIVE transactions can be
+  /// corrected; superseding an already-superseded/voided tx is undefined).
+  bool get canEditStructural =>
+      transaction?.status == TransactionDetailDtoStatusEnum.ACTIVE;
+
+  /// The quick amount field rebalances a 2-posting pair; multi-posting amounts
+  /// need the per-posting editor (deferred), so the field stays read-only there.
+  bool get canEditAmount => canEditStructural && postings.length == 2;
+
+  /// First Expense/Income posting account (the "category"), or null.
+  String? get categoryAccount => categoryAccountOf(postings);
+
+  /// First Assets/Liabilities posting account (the payment account), else the
+  /// first posting's account.
+  String? get paymentAccount {
+    for (final p in postings) {
+      if (p.account.startsWith('Assets') || p.account.startsWith('Liabilities')) {
+        return p.account;
+      }
     }
-    return byCurrency.entries
-        .map((e) => PostingBalance(e.key, e.value))
-        .toList(growable: false);
+    return postings.isEmpty ? null : postings.first.account;
   }
 
-  /// True when every currency delta is ~0 (or there are no postings).
-  bool get isBalanced {
-    final balances = postingBalances;
-    return balances.isEmpty || balances.every((b) => b.isZero);
+  String get categoryLeaf => _leaf(categoryAccount);
+  String get paymentAccountLeaf => _leaf(paymentAccount);
+
+  static String _leaf(String? path) {
+    if (path == null || path.isEmpty) return '—';
+    return path.split(':').last;
   }
+
+  List<domain.PostingBalance> get postingBalances =>
+      domain.postingBalances(postings);
+  bool get isBalanced => domain.isBalanced(postings);
 }
 
 TransactionDetailState useTransactionDetail(String id) {
   final isLoading = useState<bool>(true);
   final isSaving = useState<bool>(false);
   final error = useState<String?>(null);
-  final transaction = useState<Map<String, dynamic>?>(null);
+  final transaction = useState<TransactionDetailDto?>(null);
 
   final narrationController = useTextEditingController();
   final amountController = useTextEditingController();
@@ -101,23 +116,23 @@ TransactionDetailState useTransactionDetail(String id) {
   final selectedDate = useState<String>('');
   final payee = useState<String>('');
   final tagsState = useState<List<String>>([]);
-  final firstAccount = useState<String>('');
+  final postingsState = useState<List<PostingEdit>>(const []);
   final learnRule = useState<bool>(false);
 
-  void populateFromData(Map<String, dynamic> data) {
-    transaction.value = data;
-    narrationController.text = data['narration'] as String? ?? '';
-    selectedDate.value = data['date'] as String? ?? '';
-    payee.value = data['payee'] as String? ?? '';
-    tagsState.value = (data['tags'] as List<dynamic>?)?.map((e) => e.toString()).toList() ?? [];
-
-    final postings = data['postings'] as List<dynamic>? ?? [];
+  void populate(TransactionDetailDto tx) {
+    transaction.value = tx;
+    narrationController.text = tx.narration;
+    selectedDate.value = tx.date;
+    payee.value = tx.payee ?? '';
+    tagsState.value = tx.tags.toList();
+    final postings = tx.postings.map(PostingEdit.from).toList();
+    postingsState.value = postings;
     if (postings.isNotEmpty) {
-      final p = Map<String, dynamic>.from(postings[0] as Map);
-      final units = p['units']?.toString() ?? '0';
-      amountController.text = units.replaceAll('-', '');
-      firstAccount.value = p['accountName'] as String? ?? p['account'] as String? ?? '';
-      selectedSegment.value = units.startsWith('-') ? 1 : 0;
+      final first = tx.postings.first;
+      final units = first.units;
+      amountController.text = units == null ? '' : units.replaceAll('-', '');
+      selectedSegment.value =
+          units != null && units.startsWith('-') ? 1 : 0;
     }
   }
 
@@ -125,8 +140,8 @@ TransactionDetailState useTransactionDetail(String id) {
     isLoading.value = true;
     error.value = null;
     try {
-      final data = await IgnApiService.instance.getTransactionDetail(id);
-      populateFromData(data);
+      final dto = await FirelaApi().getTransactionDetail(regionSignal.value, id);
+      populate(dto);
     } catch (e) {
       logger.e('[TransactionDetail] load failed: $e');
       error.value = e.toString();
@@ -140,24 +155,58 @@ TransactionDetailState useTransactionDetail(String id) {
     return null;
   }, [id]);
 
+  /// Replace the posting at [predicate] with an updated account, leaving the
+  /// rest of the postings untouched.
+  void setAccountWhere(bool Function(String) predicate, String path) {
+    final next = List<PostingEdit>.from(postingsState.value);
+    final i = next.indexWhere((p) => predicate(p.account));
+    if (i != -1) next[i] = next[i].copyWith(account: path);
+    postingsState.value = next;
+  }
+
   Future<bool> save() async {
+    if (isSaving.value) return false;
+    final tx = transaction.value;
+    if (tx == null) return false;
     isSaving.value = true;
     try {
       final region = regionSignal.value;
-      // Metadata-only PATCH (IGN-298). Structural changes (date/amount/account/
-      // postings) must route to correctTransaction() once those fields become
-      // editable — see TODO below.
-      final dto = await FirelaApi().updateTransactionMeta(
+      final structural = domain.isStructuralChange(
+        original: tx,
+        date: selectedDate.value,
+        postings: postingsState.value,
+      );
+      if (!structural) {
+        final dto = await FirelaApi().updateTransactionMeta(
+          region,
+          id,
+          narration: narrationController.text,
+          payee: payee.value,
+          tags: tagsState.value,
+        );
+        mutateTransaction(ReplaceTransaction(toTransaction(dto)));
+        return true;
+      }
+      // Structural change → supersede via /correct. Amount editing is gated to
+      // 2-posting transactions (see canEditAmount), so allowed edits keep
+      // postings balanced; this is a backstop for an originally-unbalanced tx.
+      if (!domain.isBalanced(postingsState.value)) {
+        return false;
+      }
+      final corrected = await FirelaApi().correctTransaction(
         region,
         id,
-        narration: narrationController.text,
-        payee: payee.value,
-        tags: tagsState.value,
+        CorrectTransactionDto((b) => b
+          ..date = selectedDate.value
+          ..narration = narrationController.text
+          ..payee = payee.value
+          ..tags = ListBuilder<String>(tagsState.value)
+          ..postings = ListBuilder<CreatePostingDto>(
+              postingsState.value.map((p) => p.toCreatePostingDto()))
+          ..autoCreateAccounts = false),
       );
-      // TODO(结构字段可编辑): on structural change, build CorrectTransactionDto
-      // (date/narration/postings) and call correctTransaction(region, id, dto),
-      // then mutateTransaction(SupersedeTransaction(oldId: id, newTx: ...)).
-      mutateTransaction(ReplaceTransaction(toTransaction(dto)));
+      mutateTransaction(
+          SupersedeTransaction(oldId: id, newTx: toTransaction(corrected)));
       return true;
     } catch (e) {
       logger.e('[TransactionDetail] save failed: $e');
@@ -178,19 +227,14 @@ TransactionDetailState useTransactionDetail(String id) {
       return false;
     }
     try {
-      final region = regionSignal.value;
       final dto = CreateTransactionRuleDto((b) => b
         ..name = 'Rule: $payeeStr'
         ..payeeKeywords = ListBuilder<BuiltList>([
           BuiltList<dynamic>([payeeStr]),
         ])
-        // categoryAccount intentionally null: PostingDetailDto exposes only
-        // accountName (display), not the beancount-qualified `account` the
-        // rule DTO wants. Sending a display name would silently misroute
-        // future transactions. TODO: set once account mapping is resolved.
-        ..categoryAccount = null
+        ..categoryAccount = categoryAccountOf(postingsState.value)
         ..upsertByPayee = true);
-      await FirelaApi().createCategoryRule(region, dto);
+      await FirelaApi().createCategoryRule(regionSignal.value, dto);
       return true;
     } catch (e) {
       logger.e('[TransactionDetail] createLearnRule failed: $e');
@@ -245,13 +289,21 @@ TransactionDetailState useTransactionDetail(String id) {
     selectedDate: selectedDate.value,
     payee: payee.value,
     tags: tagsState.value,
-    firstAccount: firstAccount.value,
+    postings: postingsState.value,
     learnRule: learnRule.value,
     loadDetail: loadDetail,
     save: save,
     delete: deleteTx,
     createLearnRule: createLearnRule,
-    setSelectedSegment: (index) => selectedSegment.value = index,
+    onAmountChanged: (text) {
+      final amount = double.tryParse(text) ?? 0;
+      postingsState.value =
+          rebuildForAmountChange(postingsState.value, amount, selectedSegment.value);
+    },
+    setCategoryAccount: (path) => setAccountWhere(
+        (a) => a.startsWith('Expenses') || a.startsWith('Income'), path),
+    setPaymentAccount: (path) => setAccountWhere(
+        (a) => a.startsWith('Assets') || a.startsWith('Liabilities'), path),
     setDate: (date) => selectedDate.value = date,
     setPayee: (name) => payee.value = name,
     setTags: (list) => tagsState.value = list,
@@ -260,12 +312,13 @@ TransactionDetailState useTransactionDetail(String id) {
   );
 }
 
-/// Per-currency posting balance delta (sum of posting units in one currency).
-class PostingBalance {
-  const PostingBalance(this.currency, this.delta);
-
-  final String currency;
-  final double delta;
-
-  bool get isZero => delta.abs() < 1e-9;
+/// First Expense/Income account path in [postings], or null. Used by the
+/// learn-rule creation (ADR-0064: rules target the category account).
+String? categoryAccountOf(List<PostingEdit> postings) {
+  for (final p in postings) {
+    if (p.account.startsWith('Expenses') || p.account.startsWith('Income')) {
+      return p.account;
+    }
+  }
+  return null;
 }

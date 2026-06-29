@@ -5,6 +5,7 @@ class ListItemArrow extends StatelessWidget {
   final IconData icon;
   final String label;
   final String? trailingText;
+  final Color? trailingColor;
   final VoidCallback? onTap;
   final BorderRadius? borderRadius;
   final BoxBorder? border;
@@ -15,6 +16,7 @@ class ListItemArrow extends StatelessWidget {
     required this.icon,
     required this.label,
     this.trailingText,
+    this.trailingColor,
     this.onTap,
     this.borderRadius,
     this.border,
@@ -26,6 +28,7 @@ class ListItemArrow extends StatelessWidget {
     required this.icon,
     required this.label,
     this.trailingText,
+    this.trailingColor,
     this.onTap,
   })  : borderRadius = TokenRadius.borderLg,
         border = null,
@@ -38,6 +41,7 @@ class ListItemArrow extends StatelessWidget {
     required this.icon,
     required this.label,
     this.trailingText,
+    this.trailingColor,
     this.onTap,
   })  : borderRadius = null,
         border = Border.all(color: Colors.transparent, width: 0.5),
@@ -69,7 +73,8 @@ class ListItemArrow extends StatelessWidget {
               child: trailingText != null
                   ? Text(
                       trailingText!,
-                      style: TokenTypography.body(color: tokens.textTertiary),
+                      style: TokenTypography.body(
+                          color: trailingColor ?? tokens.textTertiary),
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
                       textAlign: TextAlign.right,

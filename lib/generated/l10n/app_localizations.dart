@@ -3298,6 +3298,42 @@ abstract class AppLocalizations {
   /// **'Could not create category rule'**
   String get txLearnRuleCreateFailed;
 
+  /// Account picker sheet title (asset/liability accounts)
+  ///
+  /// In en, this message translates to:
+  /// **'Select account'**
+  String get txAccountPickerTitle;
+
+  /// Account picker search field placeholder
+  ///
+  /// In en, this message translates to:
+  /// **'Search account'**
+  String get txAccountPickerSearchHint;
+
+  /// Empty state in the account picker
+  ///
+  /// In en, this message translates to:
+  /// **'No accounts'**
+  String get txAccountPickerEmpty;
+
+  /// Category picker sheet title (expense/income accounts)
+  ///
+  /// In en, this message translates to:
+  /// **'Select category'**
+  String get txCategoryPickerTitle;
+
+  /// Toast blocking save when postings don't balance
+  ///
+  /// In en, this message translates to:
+  /// **'Postings are unbalanced'**
+  String get txSaveBlockedUnbalanced;
+
+  /// Toast shown when saving the transaction fails
+  ///
+  /// In en, this message translates to:
+  /// **'Save failed'**
+  String get txSaveFailed;
+
   /// Description field label
   ///
   /// In en, this message translates to:

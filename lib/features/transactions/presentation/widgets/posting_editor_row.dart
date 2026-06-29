@@ -1,33 +1,27 @@
 import 'package:flutter/material.dart';
 import '../../../../core/design_tokens/design_tokens.dart';
 import 'package:firela_app/generated/l10n/app_localizations.dart';
+import '../../domain/models/posting_edit.dart';
 
-/// Read-only posting row (.pen o5L0Q).
-///
-/// Numeric state (amount + currency) is the only one reachable from persisted
-/// data — postings are immutable after entry (ADR-0001) and always filled.
-/// The "Auto" capsule branch is reserved for interpolated rows; see the
-/// ponytail note at `interpolated` (unreachable today).
+/// Read-only posting row (.pen o5L0Q). Renders the live editable working copy
+/// ([PostingEdit]) — it updates in place as the top-level amount/category/account
+/// fields drive the postings.
 class PostingEditorRow extends StatelessWidget {
   const PostingEditorRow({super.key, required this.posting, required this.l10n});
 
-  final Map<String, dynamic> posting;
+  final PostingEdit posting;
   final AppLocalizations l10n;
 
   @override
   Widget build(BuildContext context) {
     final tokens = ThemeTokens.of(context);
-    final account =
-        (posting['accountName'] as String?) ?? (posting['account'] as String?) ?? '';
+    final account = posting.account;
     final leaf = account.isEmpty ? '—' : account.split(':').last;
-    final units = posting['units']?.toString();
-    final currency = (posting['currency'] as String?) ?? '';
+    final units = posting.units;
+    final currency = posting.currency ?? '';
     // ponytail: `units == null` is unreachable for persisted data — interpolation
-    // fills MISSING before persist, and persistence skips any residual null-units
-    // posting. So the "Auto" badge never renders today. When a manual entry form
-    // produces real MISSING postings, re-key this on
-    // `posting['meta']?['__automatic__'] == true` (official beancount's per-posting
-    // interpolated marker, AUTOMATIC_META) instead of `units == null`.
+    // fills MISSING before persist. The "Auto" badge branch stays for any future
+    // manual entry form that produces real MISSING postings.
     final interpolated = units == null;
 
     return Padding(
