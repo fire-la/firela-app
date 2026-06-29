@@ -9,6 +9,7 @@ class AppTheme {
       useMaterial3: true,
       brightness: Brightness.light,
       scaffoldBackgroundColor: TokenColors.bgPage,
+      focusColor: TokenColors.focus,
       colorScheme: const ColorScheme.light(
         primary: TokenColors.textAccent,
         onPrimary: TokenColors.white,
@@ -62,6 +63,7 @@ class AppTheme {
       useMaterial3: true,
       brightness: Brightness.dark,
       scaffoldBackgroundColor: TokenColors.neutral900,
+      focusColor: TokenColors.focus,
       colorScheme: const ColorScheme.dark(
         primary: TokenColors.textAccent,
         onPrimary: TokenColors.white,

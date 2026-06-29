@@ -68,6 +68,11 @@ class TokenColors {
   /// color.info.bg
   static const Color infoBg = Color(0x1A3B82F6);
 
+  /// color.focus — keyboard/AT focus ring. Same blue as info; it is the only
+  /// existing token meeting WCAG 2.4.11 (≥3:1) in BOTH themes (light 3.4:1,
+  /// dark 4.4:1). Brand orange fails in light mode. See IGN-303.
+  static const Color focus = Color(0xFF3B82F6);
+
   /// color.success
   static const Color success = Color(0xFF22C55E);
 

@@ -25,4 +25,7 @@ class TokenSize {
 
   /// stroke.normal — 1
   static const double strokeNormal = 1.0;
+
+  /// stroke.focus — 2 (WCAG 2.4.11 focus indicator min thickness). See IGN-303.
+  static const double strokeFocus = 2.0;
 }

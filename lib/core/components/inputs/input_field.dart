@@ -49,7 +49,8 @@ class InputField extends StatelessWidget {
           hintStyle: TokenTypography.body(color: tokens.textTertiary),
           filled: true,
           fillColor: tokens.bgCard,
-          contentPadding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: TokenSpacing.xl),
           border: OutlineInputBorder(
             borderRadius: TokenRadius.borderMd,
             borderSide: BorderSide(color: tokens.borderCard, width: 0.5),
@@ -60,7 +61,7 @@ class InputField extends StatelessWidget {
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: TokenRadius.borderMd,
-            borderSide: const BorderSide(color: TokenColors.textAccent, width: 0.5),
+            borderSide: const BorderSide(color: TokenColors.focus, width: 0.5),
           ),
         ),
       ),

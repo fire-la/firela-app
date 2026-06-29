@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/semantics.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:firela_app/core/components/components.dart';
@@ -114,7 +115,8 @@ void main() {
 
     // Pointer-down alone (no pointer-up) fires the callback — the beat-blur
     // behavior tag suggestion rows in transaction_detail_edit depend on.
-    final gesture = await tester.startGesture(tester.getCenter(find.byType(Tappable)));
+    final gesture =
+        await tester.startGesture(tester.getCenter(find.byType(Tappable)));
     expect(pressed, isTrue);
     await gesture.up();
 
@@ -156,8 +158,9 @@ void main() {
       ),
     ));
 
-    final radio =
-        tester.getSemantics(find.byKey(const ValueKey('radio'))).getSemanticsData();
+    final radio = tester
+        .getSemantics(find.byKey(const ValueKey('radio')))
+        .getSemanticsData();
     expect(radio.hasFlag(SemanticsFlag.isSelected), isTrue);
 
     final check = tester
@@ -169,5 +172,40 @@ void main() {
         .getSemantics(find.byKey(const ValueKey('expand')))
         .getSemanticsData();
     expect(expand.hasFlag(SemanticsFlag.isExpanded), isTrue);
+  });
+
+  testWidgets(
+      'keyboard focus shows a ring and Enter activates (#focus, IGN-303)',
+      (tester) async {
+    var activated = false;
+    final node = FocusNode();
+    addTearDown(node.dispose);
+    await tester.pumpWidget(MaterialApp(
+      home: Scaffold(
+        body: Tappable(
+          focusNode: node,
+          onTap: () => activated = true,
+          semanticLabel: 'Save',
+          child: const SizedBox(width: 100, height: 40),
+        ),
+      ),
+    ));
+
+    node.requestFocus();
+    await tester.pump();
+
+    // Focused + keyboard highlight mode → the ring overlay (CustomPaint) renders
+    // as a descendant of the Tappable.
+    expect(
+      find.descendant(
+        of: find.byType(Tappable),
+        matching: find.byType(CustomPaint),
+      ),
+      findsOneWidget,
+    );
+
+    // Enter activates, mirroring the screen-reader double-tap path.
+    await tester.sendKeyEvent(LogicalKeyboardKey.enter);
+    expect(activated, isTrue);
   });
 }
