@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:go_router/go_router.dart';
 import '../../../../core/components/components.dart';
 import '../../../../core/design_tokens/design_tokens.dart';
 import '../../../../core/network/auth_manager.dart';
 import '../../../../core/services/ign_api_service.dart';
 import '../../../../core/utils/logger.dart';
 import '../../../../shared/widgets/section_header.dart';
-import '../../data/services/dashboard_aggregation_service.dart';
 import 'assets_tabs_page.dart';
 
 class AccountsDetailPage extends HookWidget {
@@ -275,7 +272,7 @@ class AccountsDetailPage extends HookWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                '${account.balance.abs().toStringAsFixed(2)}',
+                account.balance.abs().toStringAsFixed(2),
                 style: TokenTypography.body(fontWeight: FontWeight.w700, color: TokenColors.textPrimary),
               ),
               Text(

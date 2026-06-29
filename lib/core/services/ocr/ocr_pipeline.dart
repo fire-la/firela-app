@@ -42,7 +42,7 @@ class OcrPipeline {
 
     if (hasCoordinates) {
       reconstructedLines = LineReconstructor.reconstruct(engineResult.blocks);
-      final reconstructedText = reconstructedLines.map((l) => l.text ?? '').join('\n');
+      final reconstructedText = reconstructedLines.map((l) => l.text).join('\n');
       receipt = ReceiptTextParser.instance.parse(reconstructedText);
     } else {
       receipt = ReceiptTextParser.instance.parse(engineResult.fullText);

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:firela_app/generated/l10n/app_localizations.dart';
-import '../../../../core/services/receipt_text_parser.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:signals_flutter/signals_flutter.dart';
@@ -32,7 +31,6 @@ class QuickActionsSection extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final theme = Theme.of(context);
     final nlpSessionId = useState<String>('');
 
     return Watch((context) {

@@ -6,10 +6,10 @@ void main() {
   group('AccountCard rendering', () {
     testWidgets('renders name, amount, currency, tag, rate and chevron',
         (tester) async {
-      await tester.pumpWidget(MaterialApp(
+      await tester.pumpWidget(const MaterialApp(
         home: Scaffold(
           body: AccountCard(
-            iconColor: const Color(0xFFFFB899),
+            iconColor: Color(0xFFFFB899),
             name: 'Brokerage',
             amount: '3,050.00',
             currency: 'USD',
@@ -28,10 +28,10 @@ void main() {
 
     testWidgets('omits optional fields when null but keeps chevron',
         (tester) async {
-      await tester.pumpWidget(MaterialApp(
+      await tester.pumpWidget(const MaterialApp(
         home: Scaffold(
           body: AccountCard(
-            iconColor: const Color(0xFFFFB899),
+            iconColor: Color(0xFFFFB899),
             name: 'Cash',
             amount: '100.00',
           ),
@@ -63,12 +63,12 @@ void main() {
       final errors = <String>[];
       FlutterError.onError =
           (FlutterErrorDetails details) => errors.add(details.toString());
-      await tester.pumpWidget(MaterialApp(
+      await tester.pumpWidget(const MaterialApp(
         home: Scaffold(
           body: SizedBox(
             width: 343,
             child: AccountCard(
-              iconColor: const Color(0xFFFFB899),
+              iconColor: Color(0xFFFFB899),
               name: 'Brokerage',
               amount: '1,234,567.89',
               currency: 'USD',

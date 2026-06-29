@@ -4,6 +4,7 @@
 /// before submitting to GitHub Issues for parser development.
 ///
 /// Reference: parser-contribution-flow-spec.md Section 3
+library;
 
 /// Sanitize Chinese name (2-4 characters)
 ///

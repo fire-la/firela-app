@@ -5,7 +5,7 @@ import 'package:firela_app/core/components/surfaces/expense_card.dart';
 void main() {
   group('ExpenseCard rendering', () {
     testWidgets('renders name, amount, meta and currency', (tester) async {
-      await tester.pumpWidget(MaterialApp(
+      await tester.pumpWidget(const MaterialApp(
         home: Scaffold(
           body: ExpenseCard(
             icon: Icons.restaurant,
@@ -24,7 +24,7 @@ void main() {
     });
 
     testWidgets('omits meta and currency when null', (tester) async {
-      await tester.pumpWidget(MaterialApp(
+      await tester.pumpWidget(const MaterialApp(
         home: Scaffold(
           body: ExpenseCard(
             icon: Icons.category,
@@ -57,7 +57,7 @@ void main() {
       final errors = <String>[];
       FlutterError.onError =
           (FlutterErrorDetails details) => errors.add(details.toString());
-      await tester.pumpWidget(MaterialApp(
+      await tester.pumpWidget(const MaterialApp(
         home: Scaffold(
           body: SizedBox(
             width: 343,

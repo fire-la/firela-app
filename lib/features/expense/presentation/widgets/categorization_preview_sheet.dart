@@ -247,7 +247,7 @@ class _CategorizationPreviewSheetState extends State<CategorizationPreviewSheet>
               const SizedBox(width: TokenSpacing.sm),
               Expanded(
             child: DropdownButtonFormField<String>(
-              value: selectedCategory,
+              initialValue: selectedCategory,
               decoration: InputDecoration(
                 isDense: true,
                 contentPadding: EdgeInsets.zero,

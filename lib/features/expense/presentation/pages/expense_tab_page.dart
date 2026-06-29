@@ -281,17 +281,19 @@ class ExpenseTabPage extends HookWidget {
   }
 
   List<PieChartSectionData> _buildDonutSections(List<_CategorySummary> cats) {
-    if (cats.isEmpty)
+    if (cats.isEmpty) {
       return [
         PieChartSectionData(
             value: 1, color: TokenColors.neutral200, radius: 30, title: '')
       ];
+    }
     final total = cats.fold(0.0, (sum, c) => sum + c.amount);
-    if (total == 0)
+    if (total == 0) {
       return [
         PieChartSectionData(
             value: 1, color: TokenColors.neutral200, radius: 30, title: '')
       ];
+    }
     final colors = [
       TokenColors.chartBlue,
       TokenColors.chartAmber,

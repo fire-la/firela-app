@@ -1,3 +1,5 @@
+import 'dart:ui' show CheckedState, Tristate;
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/semantics.dart';
@@ -161,17 +163,17 @@ void main() {
     final radio = tester
         .getSemantics(find.byKey(const ValueKey('radio')))
         .getSemanticsData();
-    expect(radio.hasFlag(SemanticsFlag.isSelected), isTrue);
+    expect(radio.flagsCollection.isSelected, Tristate.isTrue);
 
     final check = tester
         .getSemantics(find.byKey(const ValueKey('check')))
         .getSemanticsData();
-    expect(check.hasFlag(SemanticsFlag.isChecked), isTrue);
+    expect(check.flagsCollection.isChecked, CheckedState.isTrue);
 
     final expand = tester
         .getSemantics(find.byKey(const ValueKey('expand')))
         .getSemanticsData();
-    expect(expand.hasFlag(SemanticsFlag.isExpanded), isTrue);
+    expect(expand.flagsCollection.isExpanded, Tristate.isTrue);
   });
 
   testWidgets(

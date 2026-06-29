@@ -1,5 +1,6 @@
 name: firela_app
 description: "Beancount account management mobile app - Your personal finance companion"
+publish_to: 'none' # App is not published to pub.dev (uses local path: firela_api)
 version: 1.0.0+2
 homepage: https://github.com/fire-la/firela-app
 repository: https://github.com/fire-la/firela-app

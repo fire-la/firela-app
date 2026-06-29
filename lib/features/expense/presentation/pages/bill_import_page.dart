@@ -729,7 +729,6 @@ class BillImportPage extends HookWidget {
     int failed,
     int pendingReviews,
   ) {
-    final theme = Theme.of(context);
     final totalMsg = StringBuffer();
     if (imported > 0) totalMsg.write('成功导入 $imported 条');
     if (pendingReviews > 0) {

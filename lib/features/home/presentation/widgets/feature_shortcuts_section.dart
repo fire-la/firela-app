@@ -15,7 +15,6 @@ class FeatureShortcutsSection extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final theme = Theme.of(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -104,7 +103,6 @@ class _ShortcutCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
 
     return Tappable(
       onTap: onTap,

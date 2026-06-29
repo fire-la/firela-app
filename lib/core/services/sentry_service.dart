@@ -51,6 +51,7 @@ class SentryService {
 
           // Set sample rates based on environment
           options.tracesSampleRate = kDebugMode ? 1.0 : 0.2;
+          // ignore: experimental_member_use
           options.profilesSampleRate = kDebugMode ? 1.0 : 0.1;
 
           // Configure before-send callback to filter sensitive data

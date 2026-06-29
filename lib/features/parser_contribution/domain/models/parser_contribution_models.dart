@@ -1,6 +1,7 @@
 /// Models for parser contribution flow
 ///
 /// Based on: parser-contribution-flow-spec.md Section 2
+library;
 
 /// Region codes (ISO 3166-1 alpha-2)
 enum Region {

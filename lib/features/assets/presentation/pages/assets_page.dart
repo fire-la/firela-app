@@ -526,7 +526,9 @@ class AssetsPage extends HookWidget {
     if (lower.contains('wechat') || lower.contains('微信')) return 'WeChat';
     if (lower.contains('invest') ||
         lower.contains('stock') ||
-        lower.contains('fund')) return 'Investment';
+        lower.contains('fund')) {
+      return 'Investment';
+    }
     if (lower.contains('bank')) return 'Bank';
     return 'Bank';
   }

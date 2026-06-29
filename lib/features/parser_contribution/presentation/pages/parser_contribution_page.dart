@@ -341,7 +341,7 @@ class ParserContributionPage extends HookWidget {
 
         // Region dropdown
         DropdownButtonFormField<Region>(
-          value: selectedRegion.value,
+          initialValue: selectedRegion.value,
           decoration: const InputDecoration(
             labelText: '地区',
             border: OutlineInputBorder(),
@@ -360,7 +360,7 @@ class ParserContributionPage extends HookWidget {
 
         // Account type dropdown
         DropdownButtonFormField<AccountType>(
-          value: selectedAccountType.value,
+          initialValue: selectedAccountType.value,
           decoration: const InputDecoration(
             labelText: '账户类型',
             border: OutlineInputBorder(),
@@ -379,7 +379,7 @@ class ParserContributionPage extends HookWidget {
 
         // File format dropdown
         DropdownButtonFormField<FileFormat>(
-          value: selectedFormat.value,
+          initialValue: selectedFormat.value,
           decoration: const InputDecoration(
             labelText: '文件格式',
             border: OutlineInputBorder(),
@@ -411,7 +411,7 @@ class ParserContributionPage extends HookWidget {
 
           // Delimiter
           DropdownButtonFormField<CsvDelimiter>(
-            value: delimiter.value,
+            initialValue: delimiter.value,
             decoration: const InputDecoration(
               labelText: 'CSV 分隔符',
               border: OutlineInputBorder(),
@@ -591,7 +591,7 @@ class ParserContributionPage extends HookWidget {
 
         // Date column
         DropdownButtonFormField<String>(
-          value: dateColumn.value.isNotEmpty ? dateColumn.value : null,
+          initialValue: dateColumn.value.isNotEmpty ? dateColumn.value : null,
           decoration: const InputDecoration(
             labelText: '日期列 *',
             border: OutlineInputBorder(),
@@ -607,7 +607,7 @@ class ParserContributionPage extends HookWidget {
 
         // Amount column
         DropdownButtonFormField<String>(
-          value: amountColumn.value.isNotEmpty ? amountColumn.value : null,
+          initialValue: amountColumn.value.isNotEmpty ? amountColumn.value : null,
           decoration: const InputDecoration(
             labelText: '金额列 *',
             border: OutlineInputBorder(),
@@ -623,7 +623,7 @@ class ParserContributionPage extends HookWidget {
 
         // Sign convention
         DropdownButtonFormField<SignConvention>(
-          value: signConvention.value,
+          initialValue: signConvention.value,
           decoration: const InputDecoration(
             labelText: '金额正负号约定',
             border: OutlineInputBorder(),
@@ -642,7 +642,7 @@ class ParserContributionPage extends HookWidget {
 
         // Description column (optional)
         DropdownButtonFormField<String>(
-          value: descriptionColumn.value.isNotEmpty ? descriptionColumn.value : null,
+          initialValue: descriptionColumn.value.isNotEmpty ? descriptionColumn.value : null,
           decoration: const InputDecoration(
             labelText: '描述列 (可选)',
             border: OutlineInputBorder(),
@@ -658,7 +658,7 @@ class ParserContributionPage extends HookWidget {
 
         // Balance column (optional)
         DropdownButtonFormField<String>(
-          value: balanceColumn.value.isNotEmpty ? balanceColumn.value : null,
+          initialValue: balanceColumn.value.isNotEmpty ? balanceColumn.value : null,
           decoration: const InputDecoration(
             labelText: '余额列 (可选)',
             border: OutlineInputBorder(),

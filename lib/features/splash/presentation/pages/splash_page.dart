@@ -107,7 +107,7 @@ class _SplashPageState extends State<SplashPage> {
 
 /// Animated splash logo widget
 class _SplashLogo extends StatefulWidget {
-  const _SplashLogo({super.key});
+  const _SplashLogo();
 
   @override
   State<_SplashLogo> createState() => _SplashLogoState();
