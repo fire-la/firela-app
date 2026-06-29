@@ -5873,9 +5873,9 @@ components:
           type: string
           description: Account ID
           example: clh1234567890abcdef
-        accountName:
+        account:
           type: string
-          description: Account name
+          description: Fully-qualified Beancount account path
           example: Assets:Bank:Checking
         units:
           type: string
@@ -5918,7 +5918,7 @@ components:
       required:
         - id
         - accountId
-        - accountName
+        - account
     TransactionDetailDto:
       type: object
       properties:
