@@ -171,6 +171,7 @@ class _ImportErrorDisplayState extends State<ImportErrorDisplay> {
                 });
               },
               semanticLabel: l10n.importErrorViewDetails,
+              expanded: _showDetails,
               child: Row(
                 children: [
                   Icon(

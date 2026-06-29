@@ -90,7 +90,7 @@ class FireTypeCard extends StatelessWidget {
         HapticFeedback.lightImpact();
         onTap?.call();
       },
-      semanticLabel: '${fireTypeInfo.name}, ${fireTypeInfo.description}',
+      semanticLabel: '${fireTypeInfo.name}, ${fireTypeInfo.description}, ${l10n.targetAmount} ${_formatCompactCurrency(fireNumber)}, ${progress.toStringAsFixed(1)}%',
       selected: isSelected,
       child: Container(
         width: 160,

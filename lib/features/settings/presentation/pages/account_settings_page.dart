@@ -139,6 +139,7 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
                   Tappable(
                     onTap: _copyUserId,
                     semanticLabel: l10n.userId,
+                    excludeSemantics: false,
                     child: Padding(
                       padding: const EdgeInsets.all(16),
                       child: Row(
@@ -180,6 +181,7 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
                   Tappable(
                     onTap: isLoggedIn ? () => _showEditNameDialog(l10n) : null,
                     semanticLabel: l10n.displayName,
+                    excludeSemantics: false,
                     child: Padding(
                       padding: const EdgeInsets.all(16),
                       child: Row(

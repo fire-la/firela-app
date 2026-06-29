@@ -238,7 +238,7 @@ class BillImportPage extends HookWidget {
 
           // File Upload Area
           Tappable(
-            semanticLabel: l10n.addFile,
+            semanticLabel: '${l10n.addFile}, ${l10n.supportedFormats}',
             onTap: () async {
               // 检查登录
               if (!AuthManager.instance.isLoggedIn) {

@@ -380,12 +380,15 @@ class _TagInputChip extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          // Icon is a separate focus affordance; the TextField below stays a
-          // proper editable-text node (wrapping it in a button would mask it).
-          Tappable(
-            onTap: focusNode.requestFocus,
-            semanticLabel: placeholder,
-            child: Icon(Icons.search, size: 14, color: tokens.textTertiary),
+          // Icon is decorative + a focus affordance; wrap in ExcludeSemantics so
+          // its placeholder label doesn't double-read against the TextField's hint.
+          // The TextField below stays a proper editable-text node.
+          ExcludeSemantics(
+            child: Tappable(
+              onTap: focusNode.requestFocus,
+              semanticLabel: placeholder,
+              child: Icon(Icons.search, size: 14, color: tokens.textTertiary),
+            ),
           ),
           const SizedBox(width: TokenSpacing.xs),
           // IntrinsicWidth makes the field track its content width (design's

@@ -217,7 +217,7 @@ class _OcrResultDebugSheetState extends State<OcrResultDebugSheet> {
             child: SizedBox(
               height: 32,
               child: Tappable(
-                semanticLabel: l10n.ocrDate,
+                semanticLabel: '${l10n.ocrDate}, ${_selectedDate.year}.${_selectedDate.month.toString().padLeft(2, '0')}.${_selectedDate.day.toString().padLeft(2, '0')}',
                 onTap: () async {
                   final picked = await showDatePicker(
                     context: context,

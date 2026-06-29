@@ -114,8 +114,9 @@ void main() {
 
     // Pointer-down alone (no pointer-up) fires the callback — the beat-blur
     // behavior tag suggestion rows in transaction_detail_edit depend on.
-    await tester.startGesture(tester.getCenter(find.byType(Tappable)));
+    final gesture = await tester.startGesture(tester.getCenter(find.byType(Tappable)));
     expect(pressed, isTrue);
+    await gesture.up();
 
     // Screen readers still get label + tap action via Semantics.onTap.
     final data = tester.getSemantics(find.byType(Tappable)).getSemanticsData();

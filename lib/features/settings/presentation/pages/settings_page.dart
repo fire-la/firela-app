@@ -244,11 +244,13 @@ class SettingsPageState extends State<SettingsPage> {
                 MaterialPageRoute(builder: (_) => const AccountSettingsPage()),
               ),
               semanticLabel: l10n.accountSettings,
+              excludeSemantics: false,
               child: profileRow,
             )
           : Tappable(
               onTap: () => _handleLogin(context),
               semanticLabel: l10n.loginNow,
+              excludeSemantics: false,
               child: profileRow,
             ),
     );
@@ -340,6 +342,7 @@ class SettingsPageState extends State<SettingsPage> {
               child: Tappable(
                 onTap: () => _showRegionDialog(context, l10n),
                 semanticLabel: l10n.region,
+                excludeSemantics: false,
                 child: Padding(
                   padding:
                       const EdgeInsets.symmetric(vertical: 16, horizontal: 20),

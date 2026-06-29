@@ -247,6 +247,7 @@ class ExpenseRecognitionResultSheet extends HookWidget {
             child: Tappable(
               onTap: () => isExpense.value = true,
               semanticLabel: l10n.expense,
+              selected: isExpense.value,
               child: Container(
                 decoration: BoxDecoration(
                   color: isExpense.value
@@ -271,6 +272,7 @@ class ExpenseRecognitionResultSheet extends HookWidget {
             child: Tappable(
               onTap: () => isExpense.value = false,
               semanticLabel: l10n.income,
+              selected: !isExpense.value,
               child: Container(
                 decoration: BoxDecoration(
                   color: !isExpense.value
@@ -315,7 +317,7 @@ class ExpenseRecognitionResultSheet extends HookWidget {
           date.value = picked;
         }
       },
-      semanticLabel: l10n.date,
+      semanticLabel: '${l10n.date}, ${date.value.year}.${date.value.month.toString().padLeft(2, '0')}.${date.value.day.toString().padLeft(2, '0')}',
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl, vertical: TokenSpacing.xl),
         decoration: BoxDecoration(
@@ -391,7 +393,7 @@ class ExpenseRecognitionResultSheet extends HookWidget {
           expenseType.value = selected;
         }
       },
-      semanticLabel: l10n.expenseType,
+      semanticLabel: expenseType.value != null ? '${l10n.expenseType}, ${expenseType.value}' : l10n.expenseType,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: TokenSpacing.xl, vertical: TokenSpacing.xl),
         decoration: BoxDecoration(

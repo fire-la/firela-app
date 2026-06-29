@@ -239,7 +239,7 @@ class AssetsLiabilitiesPage extends StatelessWidget {
           context.push('${RouteNames.transactions}?accountId=${Uri.encodeComponent(account.accountId)}&accountName=${Uri.encodeComponent(account.displayName)}');
         }
       },
-      semanticLabel: account.displayName,
+      semanticLabel: '${account.displayName}, ${account.currency} ${account.balance.toStringAsFixed(2)}',
       child: Container(
       padding: const EdgeInsets.symmetric(vertical: TokenSpacing.xl, horizontal: TokenSpacing.xxl),
       decoration: BoxDecoration(

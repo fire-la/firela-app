@@ -98,6 +98,7 @@ class _ExpenseEntryBottomSheetState extends State<ExpenseEntryBottomSheet> {
                   Tappable(
                     onTap: () => setState(() => _isAiMode = !_isAiMode),
                     semanticLabel: l10n.aiAccounting,
+                    selected: _isAiMode,
                     child: Container(
                       padding: const EdgeInsets.symmetric(
                         horizontal: TokenSpacing.lg,
@@ -209,11 +210,9 @@ class _ExpenseEntryBottomSheetState extends State<ExpenseEntryBottomSheet> {
                   const Spacer(),
                   // 确认对勾按钮 - 右侧（与操作按钮同高）
                   Tappable(
-                          onTap: () {
-                            if (_textController.text.trim().isNotEmpty) {
-                              widget.onSubmit?.call(_textController.text.trim());
-                            }
-                          },
+                          onTap: _hasText
+                              ? () => widget.onSubmit?.call(_textController.text.trim())
+                              : null,
                           semanticLabel: l10n.confirm,
                           child: Container(
                             width: 36,

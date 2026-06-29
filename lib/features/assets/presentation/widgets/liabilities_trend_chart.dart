@@ -31,7 +31,7 @@ class LiabilitiesTrendChart extends StatelessWidget {
 
     return Tappable(
       onTap: onTap,
-      semanticLabel: isLoading
+      semanticLabel: isLoading || history.isEmpty
           ? l10n.liabilities
           : '${l10n.liabilities}, ${_formatCurrency(_getCurrentLiabilities())}',
       child: Container(

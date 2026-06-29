@@ -163,8 +163,8 @@ class _LiabilityTypeCard extends StatelessWidget {
 
     return Tappable(
       onTap: onTap,
-      semanticLabel: '${_getLocalizedTypeName(breakdown.type, l10n)}, ${_formatAmount(breakdown.amount)}',
-      selected: isExpanded,
+      semanticLabel: '${_getLocalizedTypeName(breakdown.type, l10n)}, ${_formatAmount(breakdown.amount)}${isExpanded ? ', ${breakdown.percentage.toStringAsFixed(1)}%, ${breakdown.count} ${l10n.items}' : ''}',
+      expanded: isExpanded,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         width: isExpanded ? 160 : 120,
