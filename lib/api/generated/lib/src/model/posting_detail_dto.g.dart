@@ -12,7 +12,7 @@ class _$PostingDetailDto extends PostingDetailDto {
   @override
   final String accountId;
   @override
-  final String accountName;
+  final String account;
   @override
   final String? units;
   @override
@@ -39,7 +39,7 @@ class _$PostingDetailDto extends PostingDetailDto {
   _$PostingDetailDto._(
       {required this.id,
       required this.accountId,
-      required this.accountName,
+      required this.account,
       this.units,
       this.currency,
       this.costAmount,
@@ -54,7 +54,7 @@ class _$PostingDetailDto extends PostingDetailDto {
     BuiltValueNullFieldError.checkNotNull(
         accountId, r'PostingDetailDto', 'accountId');
     BuiltValueNullFieldError.checkNotNull(
-        accountName, r'PostingDetailDto', 'accountName');
+        account, r'PostingDetailDto', 'account');
   }
 
   @override
@@ -71,7 +71,7 @@ class _$PostingDetailDto extends PostingDetailDto {
     return other is PostingDetailDto &&
         id == other.id &&
         accountId == other.accountId &&
-        accountName == other.accountName &&
+        account == other.account &&
         units == other.units &&
         currency == other.currency &&
         costAmount == other.costAmount &&
@@ -88,7 +88,7 @@ class _$PostingDetailDto extends PostingDetailDto {
     var _$hash = 0;
     _$hash = $jc(_$hash, id.hashCode);
     _$hash = $jc(_$hash, accountId.hashCode);
-    _$hash = $jc(_$hash, accountName.hashCode);
+    _$hash = $jc(_$hash, account.hashCode);
     _$hash = $jc(_$hash, units.hashCode);
     _$hash = $jc(_$hash, currency.hashCode);
     _$hash = $jc(_$hash, costAmount.hashCode);
@@ -107,7 +107,7 @@ class _$PostingDetailDto extends PostingDetailDto {
     return (newBuiltValueToStringHelper(r'PostingDetailDto')
           ..add('id', id)
           ..add('accountId', accountId)
-          ..add('accountName', accountName)
+          ..add('account', account)
           ..add('units', units)
           ..add('currency', currency)
           ..add('costAmount', costAmount)
@@ -133,9 +133,9 @@ class PostingDetailDtoBuilder
   String? get accountId => _$this._accountId;
   set accountId(String? accountId) => _$this._accountId = accountId;
 
-  String? _accountName;
-  String? get accountName => _$this._accountName;
-  set accountName(String? accountName) => _$this._accountName = accountName;
+  String? _account;
+  String? get account => _$this._account;
+  set account(String? account) => _$this._account = account;
 
   String? _units;
   String? get units => _$this._units;
@@ -183,7 +183,7 @@ class PostingDetailDtoBuilder
     if ($v != null) {
       _id = $v.id;
       _accountId = $v.accountId;
-      _accountName = $v.accountName;
+      _account = $v.account;
       _units = $v.units;
       _currency = $v.currency;
       _costAmount = $v.costAmount;
@@ -219,8 +219,8 @@ class PostingDetailDtoBuilder
                 id, r'PostingDetailDto', 'id'),
             accountId: BuiltValueNullFieldError.checkNotNull(
                 accountId, r'PostingDetailDto', 'accountId'),
-            accountName: BuiltValueNullFieldError.checkNotNull(
-                accountName, r'PostingDetailDto', 'accountName'),
+            account: BuiltValueNullFieldError.checkNotNull(
+                account, r'PostingDetailDto', 'account'),
             units: units,
             currency: currency,
             costAmount: costAmount,
