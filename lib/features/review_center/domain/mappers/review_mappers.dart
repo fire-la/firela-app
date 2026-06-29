@@ -70,7 +70,7 @@ PendingTransaction toPendingTransactionFromDetail(gen.ReviewDetailDto dto) {
 }
 
 DecisionOption _toDecisionOption(gen.DecisionOptionDto o) => DecisionOption(
-      value: o.value,
+      value: o.value.name,
       labelKey: o.labelKey,
       recommended: o.recommended ?? false,
       descriptionKey: o.descriptionKey,

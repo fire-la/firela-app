@@ -69,7 +69,7 @@ class ReviewCenterRemoteDatasource {
         region: _region,
         id: id,
         resolveReviewDto: gen.ResolveReviewDto((b) => b
-          ..action = action
+          ..action = gen.ResolveReviewDtoActionEnum.valueOf(action)
           ..data = data == null ? null : JsonObject(data)),
       );
       logger.i('[ReviewCenter] Resolved $id action=$action');
@@ -100,7 +100,7 @@ class ReviewCenterRemoteDatasource {
         region: _region,
         batchResolveDto: gen.BatchResolveDto((b) => b
           ..reviewIds.replace(reviewIds)
-          ..action = action
+          ..action = gen.BatchResolveDtoActionEnum.valueOf(action)
           ..data = data == null ? null : JsonObject(data)),
       );
       final dto = response.data;

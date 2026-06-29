@@ -15,7 +15,7 @@ void main() {
       ..postings.add(PostingDetailDto((p) => p
         ..id = 'p1'
         ..accountId = 'acc1'
-        ..accountName = 'Wallet'
+        ..account = 'Assets:Wallet'
         ..units = '-12.50'
         ..currency = 'CNY')));
 
@@ -56,7 +56,7 @@ void main() {
       ..postings.add(PostingDetailDto((p) => p
         ..id = 'p1'
         ..accountId = 'acc1'
-        ..accountName = 'Wallet'
+        ..account = 'Assets:Wallet'
         ..units = '50'
         ..currency = 'USD')));
 
