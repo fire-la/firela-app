@@ -14,7 +14,7 @@ part 'posting_detail_dto.g.dart';
 /// Properties:
 /// * [id] - Posting ID
 /// * [accountId] - Account ID
-/// * [accountName] - Account name
+/// * [account] - Fully-qualified Beancount account path
 /// * [units] - Amount as decimal string. Typed optional but always present in responses: interpolation fills any MISSING posting before it is persisted or returned.
 /// * [currency] - Currency
 /// * [costAmount] - Cost amount
@@ -34,9 +34,9 @@ abstract class PostingDetailDto implements Built<PostingDetailDto, PostingDetail
   @BuiltValueField(wireName: r'accountId')
   String get accountId;
 
-  /// Account name
-  @BuiltValueField(wireName: r'accountName')
-  String get accountName;
+  /// Fully-qualified Beancount account path
+  @BuiltValueField(wireName: r'account')
+  String get account;
 
   /// Amount as decimal string. Typed optional but always present in responses: interpolation fills any MISSING posting before it is persisted or returned.
   @BuiltValueField(wireName: r'units')
@@ -107,9 +107,9 @@ class _$PostingDetailDtoSerializer implements PrimitiveSerializer<PostingDetailD
       object.accountId,
       specifiedType: const FullType(String),
     );
-    yield r'accountName';
+    yield r'account';
     yield serializers.serialize(
-      object.accountName,
+      object.account,
       specifiedType: const FullType(String),
     );
     if (object.units != null) {
@@ -212,12 +212,12 @@ class _$PostingDetailDtoSerializer implements PrimitiveSerializer<PostingDetailD
           ) as String;
           result.accountId = valueDes;
           break;
-        case r'accountName':
+        case r'account':
           final valueDes = serializers.deserialize(
             value,
             specifiedType: const FullType(String),
           ) as String;
-          result.accountName = valueDes;
+          result.account = valueDes;
           break;
         case r'units':
           final valueDes = serializers.deserialize(
