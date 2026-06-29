@@ -42,6 +42,19 @@ void main() {
     expect(isBalanced(out), isFalse);
   });
 
+  test('2-posting different currencies (conversion): only the driver changes', () {
+    final postings = <PostingEdit>[
+      const PostingEdit(account: 'Expenses:Travel', units: '-600', currency: 'CNY'),
+      const PostingEdit(account: 'Assets:USD', units: '100', currency: 'USD'),
+    ];
+    final out = rebuildForAmountChange(postings, 700, 1);
+    // driver (CNY expense) updated; counterpart (USD) untouched — negating units
+    // across currencies can't balance a conversion.
+    expect(double.parse(out[0].units!), -700);
+    expect(out[1].units, '100');
+    expect(isBalanced(out), isFalse);
+  });
+
   test('empty postings returns empty', () {
     expect(rebuildForAmountChange(const [], 60, 1), isEmpty);
   });

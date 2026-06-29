@@ -191,17 +191,23 @@ class _InfoCard extends StatelessWidget {
         trailingColor: editable ? primaryColor : null,
         onTap: editable
             ? () async {
+                final lastDate = DateTime.now();
+                final firstDate = DateTime(2000);
                 DateTime initial;
                 try {
                   initial = DateTime.parse(state.selectedDate);
                 } catch (_) {
-                  initial = DateTime.now();
+                  initial = lastDate;
                 }
+                // showDatePicker asserts firstDate <= initialDate <= lastDate;
+                // a forward-dated tx would otherwise crash the picker.
+                if (initial.isAfter(lastDate)) initial = lastDate;
+                if (initial.isBefore(firstDate)) initial = firstDate;
                 final picked = await showDatePicker(
                   context: context,
                   initialDate: initial,
-                  firstDate: DateTime(2000),
-                  lastDate: DateTime.now(),
+                  firstDate: firstDate,
+                  lastDate: lastDate,
                 );
                 if (picked != null) {
                   state.setDate(

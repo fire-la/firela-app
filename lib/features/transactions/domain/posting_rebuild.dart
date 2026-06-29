@@ -6,8 +6,10 @@ import 'models/posting_edit.dart';
 /// - Picks the driver posting (expense-type for the expense segment, income-type
 ///   for the income segment, otherwise the first posting) and sets its magnitude
 ///   to [amount], signed by segment (expense ⇒ negative).
-/// - For exactly two postings, sets the counterpart to the negation so the pair
-///   balances in a single currency.
+/// - For exactly two postings of the SAME currency, sets the counterpart to the
+///   negation so the pair balances. A multi-currency (conversion) pair can't be
+///   balanced by negating units, so the counterpart is left untouched and the
+///   live balance indicator surfaces the imbalance.
 /// - For more than two postings, only the driver changes; the live balance
 ///   indicator surfaces any resulting imbalance (multi-posting editing is out of
 ///   scope for IGN-298).
@@ -16,12 +18,15 @@ List<PostingEdit> rebuildForAmountChange(
   double amount,
   int segment,
 ) {
+  assert(segment >= 0 && segment <= 2, 'segment must be 0, 1, or 2');
   if (postings.isEmpty) return postings;
-  final out = postings.map(_copy).toList();
+  // PostingEdit is immutable, so a shallow list copy is enough; elements are
+  // replaced via copyWith below rather than mutated in place.
+  final out = postings.toList();
   final driverIndex = _driverIndex(out, segment);
   final signed = segment == 1 ? -amount : amount; // expense ⇒ negative
   out[driverIndex] = out[driverIndex].copyWith(units: _formatUnits(signed));
-  if (out.length == 2) {
+  if (out.length == 2 && out[0].currency == out[1].currency) {
     final other = driverIndex == 0 ? 1 : 0;
     out[other] = out[other].copyWith(units: _formatUnits(-signed));
   }
@@ -40,9 +45,7 @@ int _driverIndex(List<PostingEdit> postings, int segment) {
   return 0;
 }
 
-PostingEdit _copy(PostingEdit p) =>
-    PostingEdit(account: p.account, units: p.units, currency: p.currency);
-
-// ponytail: double.toString is a valid backend decimal string (backend tolerates
-// a trailing .0). For money magnitudes this never reaches scientific notation.
+// ponytail: double.toString is shortest-round-trip (like JS), and the only
+// arithmetic here is exact negation of a parsed value — no accumulation that
+// would produce FP artifacts. Backend accepts a plain decimal string.
 String _formatUnits(double v) => v == 0 ? '0' : v.toString();

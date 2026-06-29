@@ -32,6 +32,9 @@ class PostingEdit {
         ..units = units
         ..currency = currency);
 
+  /// Returns a copy with the given fields replaced. NOTE: this cannot reset
+  /// `units`/`currency` back to null (null ⇒ "leave unchanged"). Clearing a
+  /// field requires constructing a new [PostingEdit] directly.
   PostingEdit copyWith({String? account, String? units, String? currency}) =>
       PostingEdit(
         account: account ?? this.account,

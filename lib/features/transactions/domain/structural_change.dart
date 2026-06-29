@@ -28,6 +28,11 @@ List<PostingBalance> postingBalances(List<PostingEdit> postings) {
 }
 
 /// True when every currency delta is ~0 (or there are no postings).
+///
+/// Limitation: postings without `units` (interpolated/auto) are skipped, so
+/// their implicit amounts are invisible to this check. The current edit flow
+/// only changes amounts on balanced 2-posting pairs, so an interpolated posting
+/// in an uncovered currency is not reachable today.
 bool isBalanced(List<PostingEdit> postings) {
   final balances = postingBalances(postings);
   return balances.isEmpty || balances.every((b) => b.isZero);
@@ -47,12 +52,14 @@ bool isStructuralChange({
   if (date != original.date) return true;
   final orig = original.postings;
   if (postings.length != orig.length) return true;
+  // Compared position-by-position; reordering is treated as a structural change
+  // (supersede). The edit flow never reorders postings (no reorder UI today).
   for (var i = 0; i < postings.length; i++) {
     final edited = postings[i];
     final o = orig[i];
     if (edited.account != o.account) return true;
     if (!_unitsEqual(edited.units, o.units)) return true;
-    if (edited.currency != o.currency) return true;
+    if ((edited.currency ?? '') != (o.currency ?? '')) return true;
   }
   return false;
 }

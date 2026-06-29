@@ -85,6 +85,31 @@ void main() {
     );
   });
 
+  test('null units on both sides → not structural', () {
+    final original = _tx(postings: [
+      (account: 'Equity:Opening', units: null, currency: null),
+      (account: 'Assets:Wallet', units: '60.00', currency: 'CNY'),
+    ]);
+    final postings = original.postings.map(PostingEdit.from).toList();
+    expect(
+      isStructuralChange(original: original, date: '2026-06-19', postings: postings),
+      isFalse,
+    );
+  });
+
+  test('units added to a previously-null posting → structural', () {
+    final original = _tx(postings: [
+      (account: 'Equity:Opening', units: null, currency: null),
+      (account: 'Assets:Wallet', units: '60.00', currency: 'CNY'),
+    ]);
+    final postings = original.postings.map(PostingEdit.from).toList();
+    postings[0] = postings[0].copyWith(units: '-60.0', currency: 'CNY');
+    expect(
+      isStructuralChange(original: original, date: '2026-06-19', postings: postings),
+      isTrue,
+    );
+  });
+
   test('isBalanced true for a balanced pair', () {
     final postings = <PostingEdit>[
       const PostingEdit(account: 'Expenses:Food', units: '-60', currency: 'CNY'),
@@ -99,5 +124,24 @@ void main() {
       const PostingEdit(account: 'Assets:Wallet', units: '50', currency: 'CNY'),
     ];
     expect(isBalanced(postings), isFalse);
+  });
+
+  test('isBalanced true for a multi-currency balanced set', () {
+    final postings = <PostingEdit>[
+      const PostingEdit(account: 'Expenses:Food', units: '-60', currency: 'CNY'),
+      const PostingEdit(account: 'Assets:Cash', units: '60', currency: 'CNY'),
+      const PostingEdit(account: 'Expenses:Book', units: '-10', currency: 'USD'),
+      const PostingEdit(account: 'Assets:Bank', units: '10', currency: 'USD'),
+    ];
+    expect(isBalanced(postings), isTrue);
+  });
+
+  test('isBalanced true when a null-units (interpolated) posting is skipped', () {
+    final postings = <PostingEdit>[
+      const PostingEdit(account: 'Expenses:Food', units: '-60', currency: 'CNY'),
+      const PostingEdit(account: 'Assets:Wallet', units: '60', currency: 'CNY'),
+      const PostingEdit(account: 'Equity:Opening', units: null, currency: null),
+    ];
+    expect(isBalanced(postings), isTrue);
   });
 }
