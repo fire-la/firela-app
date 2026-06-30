@@ -2,12 +2,14 @@ import 'package:firela_api/firela_api.dart' as gen;
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../core/router/route_names.dart';
 import 'package:firela_app/generated/l10n/app_localizations.dart';
 import '../../../../core/components/components.dart';
 import '../../../../core/design_tokens/design_tokens.dart';
 import '../../../../shared/widgets/account_picker_sheet.dart';
 import '../../../../shared/widgets/section_header.dart';
 import '../../domain/models/tag_suggestion.dart';
+import '../../domain/transaction_audit.dart';
 import '../../../../shared/hooks/use_debounce.dart';
 import '../providers/use_transaction_detail.dart';
 import 'posting_editor_row.dart';
@@ -47,6 +49,13 @@ class TransactionDetailEdit extends HookWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          // statusBanner (.pen G07oe yMFOn) — supersede/void audit chain.
+          // Shown for SUPERSEDED (→ replacement), VOIDED, or an ACTIVE tx that
+          // replaced an original (→ original). Hidden for plain ACTIVE txs.
+          if (state.transaction != null && _StatusBanner.hasContent(state.transaction!)) ...[
+            _StatusBanner(tx: state.transaction!, l10n: l10n),
+            const SizedBox(height: TokenSpacing.xl),
+          ],
           // amtCard — InputAmount. Editable for 2-posting ACTIVE txs (edits
           // rebuild the balanced pair); read-only otherwise (multi-posting needs
           // the deferred per-posting editor; non-ACTIVE cannot be corrected).
@@ -165,6 +174,72 @@ class TransactionDetailEdit extends HookWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+/// Audit-chain banner (.pen G07oe statusBanner). Surfaces the supersede/void
+/// lifecycle: SUPERSEDED → links to the replacement; an ACTIVE tx that replaced
+/// an original → links back to the original; VOIDED → informational. Only
+/// rendered when [hasContent] is true (see the build wiring). Hidden for plain
+/// ACTIVE transactions. Fields stay read-only for non-ACTIVE txs via
+/// `canEditStructural`; this banner explains why and offers the audit jump.
+class _StatusBanner extends StatelessWidget {
+  const _StatusBanner({required this.tx, required this.l10n});
+
+  final gen.TransactionDetailDto tx;
+  final AppLocalizations l10n;
+
+  /// Whether the banner should render for [tx].
+  static bool hasContent(gen.TransactionDetailDto tx) =>
+      transactionAuditOf(tx).kind != TransactionAuditCase.none;
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = ThemeTokens.of(context);
+    final audit = transactionAuditOf(tx);
+    final (String message, IconData icon) = switch (audit.kind) {
+      TransactionAuditCase.superseded => (
+        l10n.txAuditSupersededBy(audit.linkId ?? ''),
+        Icons.swap_horiz_outlined,
+      ),
+      TransactionAuditCase.replacement => (
+        l10n.txAuditReplaces(audit.linkId ?? ''),
+        Icons.history_outlined,
+      ),
+      TransactionAuditCase.voided => (l10n.txAuditVoided, Icons.block),
+      // Unreachable: hasContent() gates rendering so `none` never reaches here.
+      TransactionAuditCase.none => ('', Icons.block),
+    };
+    final card = Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: TokenSpacing.md,
+        vertical: TokenSpacing.sm,
+      ),
+      decoration: BoxDecoration(
+        color: tokens.bgCard,
+        borderRadius: TokenRadius.borderMd,
+        border: Border.all(color: tokens.borderCard, width: 0.5),
+      ),
+      child: Row(
+        children: [
+          Icon(icon, size: 18, color: tokens.textSecondary),
+          const SizedBox(width: TokenSpacing.sm),
+          Expanded(
+            child: Text(
+              message,
+              style: TokenTypography.caption(color: tokens.textSecondary),
+            ),
+          ),
+        ],
+      ),
+    );
+    final linkId = audit.linkId;
+    if (linkId == null || linkId.isEmpty) return card;
+    return Tappable(
+      onTap: () => context.push('${RouteNames.transactions}/$linkId'),
+      semanticLabel: message,
+      child: card,
     );
   }
 }

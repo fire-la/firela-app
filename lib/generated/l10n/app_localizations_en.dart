@@ -1755,6 +1755,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get txSaveFailed => 'Save failed';
 
   @override
+  String txAuditSupersededBy(Object id) {
+    return 'Superseded by $id';
+  }
+
+  @override
+  String txAuditReplaces(Object id) {
+    return 'Replaces original $id';
+  }
+
+  @override
+  String get txAuditVoided => 'Voided';
+
+  @override
   String get txDescription => 'Description';
 
   @override

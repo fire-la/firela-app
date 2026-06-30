@@ -3334,6 +3334,24 @@ abstract class AppLocalizations {
   /// **'Save failed'**
   String get txSaveFailed;
 
+  /// Audit banner: this transaction was superseded by {id} (tappable link to the replacement)
+  ///
+  /// In en, this message translates to:
+  /// **'Superseded by {id}'**
+  String txAuditSupersededBy(Object id);
+
+  /// Audit banner: this active transaction replaced the original {id} (tappable link to the original)
+  ///
+  /// In en, this message translates to:
+  /// **'Replaces original {id}'**
+  String txAuditReplaces(Object id);
+
+  /// Audit banner: this transaction is voided
+  ///
+  /// In en, this message translates to:
+  /// **'Voided'**
+  String get txAuditVoided;
+
   /// Description field label
   ///
   /// In en, this message translates to:

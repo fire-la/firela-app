@@ -1711,6 +1711,19 @@ class AppLocalizationsZh extends AppLocalizations {
   String get txSaveFailed => '保存失败';
 
   @override
+  String txAuditSupersededBy(Object id) {
+    return '已替代为 $id';
+  }
+
+  @override
+  String txAuditReplaces(Object id) {
+    return '替代了原交易 $id';
+  }
+
+  @override
+  String get txAuditVoided => '已作废';
+
+  @override
   String get txDescription => '描述';
 
   @override
@@ -3565,6 +3578,19 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get txSaveFailed => '保存失败';
 
   @override
+  String txAuditSupersededBy(Object id) {
+    return '已替代为 $id';
+  }
+
+  @override
+  String txAuditReplaces(Object id) {
+    return '替代了原交易 $id';
+  }
+
+  @override
+  String get txAuditVoided => '已作废';
+
+  @override
   String get txDescription => '描述';
 
   @override
@@ -5417,6 +5443,19 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get txSaveFailed => '儲存失敗';
+
+  @override
+  String txAuditSupersededBy(Object id) {
+    return '已替代為 $id';
+  }
+
+  @override
+  String txAuditReplaces(Object id) {
+    return '替代了原交易 $id';
+  }
+
+  @override
+  String get txAuditVoided => '已作廢';
 
   @override
   String get txDescription => '描述';
