@@ -85,9 +85,15 @@ class TransactionDetailEdit extends HookWidget {
           // infoCard — Date / Payee / Category / Account (read-only)
           _InfoCard(state: state, l10n: l10n),
           const SizedBox(height: TokenSpacing.xl),
-          // learnRuleRow (.pen qImbX) — "remember category" toggle (ADR-0064)
-          _LearnRuleRow(state: state, l10n: l10n),
-          const SizedBox(height: TokenSpacing.xl),
+          // learnRuleRow (.pen qImbX) — "remember category" toggle (ADR-0064).
+          // Gated to Expense/Income transactions: the rule engine only infers
+          // categoryAccount for flow accounts (ADR-0064), so a Transfer /
+          // asset-only tx has no category to learn — hide the row rather than
+          // show a dead toggle. categoryAccount == null ⟺ no Expenses/Income posting.
+          if (state.categoryAccount != null) ...[
+            _LearnRuleRow(state: state, l10n: l10n),
+            const SizedBox(height: TokenSpacing.xl),
+          ],
           // descSection — editable narration
           InputField(
             controller: state.narrationController,
