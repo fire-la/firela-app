@@ -568,6 +568,13 @@ class _TagInputChip extends StatelessWidget {
             child: TextField(
               controller: controller,
               focusNode: focusNode,
+              // Suppress the default pointer-down unfocus. A suggestion row
+              // sits outside this field, so the default onTapOutside would blur
+              // the field and unmount the suggestions panel before the row's
+              // onTapDown (addTag) can fire — silently swallowing the tap.
+              // Focus is surrendered when the user taps another focusable field
+              // (narration/amount) or triggers Save, not on bare outside taps.
+              onTapOutside: (_) {},
               style: TokenTypography.caption(color: tokens.textPrimary),
               decoration: InputDecoration(
                 border: InputBorder.none,
