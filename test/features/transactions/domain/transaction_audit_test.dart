@@ -30,6 +30,12 @@ void main() {
     expect(a.linkId, isNull);
   });
 
+  test('ACTIVE with empty originalTxn → none (no banner)', () {
+    final a = transactionAuditOf(_tx(originalTxn: ''));
+    expect(a.kind, TransactionAuditCase.none);
+    expect(a.linkId, isNull);
+  });
+
   test('ACTIVE with originalTxn → replacement, links back to original', () {
     final a = transactionAuditOf(_tx(originalTxn: 'orig_123'));
     expect(a.kind, TransactionAuditCase.replacement);
@@ -50,6 +56,14 @@ void main() {
       _tx(status: TransactionDetailDtoStatusEnum.SUPERSEDED),
     );
     expect(a.kind, TransactionAuditCase.none);
+  });
+
+  test('SUPERSEDED with empty supersededBy → none (no link to show)', () {
+    final a = transactionAuditOf(
+      _tx(status: TransactionDetailDtoStatusEnum.SUPERSEDED, supersededBy: ''),
+    );
+    expect(a.kind, TransactionAuditCase.none);
+    expect(a.linkId, isNull);
   });
 
   test('VOIDED → voided, no link', () {

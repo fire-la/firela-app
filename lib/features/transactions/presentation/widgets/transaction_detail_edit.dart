@@ -209,7 +209,11 @@ class _StatusBanner extends StatelessWidget {
       ),
       TransactionAuditCase.voided => (l10n.txAuditVoided, Icons.block),
       // Unreachable: hasContent() gates rendering so `none` never reaches here.
-      TransactionAuditCase.none => ('', Icons.block),
+      // Fail fast if that guard is ever weakened — never silently render an
+      // empty card (matches the generated enum's own ArgumentError for unknown
+      // statuses).
+      TransactionAuditCase.none =>
+        throw StateError('_StatusBanner built for a none audit case'),
     };
     final card = Container(
       padding: const EdgeInsets.symmetric(
