@@ -222,8 +222,14 @@ TransactionDetailState useTransactionDetail(String id) {
   /// toast); never throws so it cannot block the transaction save.
   Future<bool> createLearnRule() async {
     final payeeStr = payee.value;
-    if (payeeStr.isEmpty) {
-      logger.w('[TransactionDetail] createLearnRule skipped: empty payee');
+    final category = categoryAccountOf(postingsState.value);
+    // ADR-0064: rules only target Expense/Income (flow) category accounts. The
+    // UI hides the toggle when `category` is null, but guard here too — this is
+    // the money-path to the backend, and a future caller (or a relaxed gate)
+    // must never send a malformed null-category rule.
+    if (payeeStr.isEmpty || category == null) {
+      logger.w(
+          '[TransactionDetail] createLearnRule skipped: empty payee or no category account');
       return false;
     }
     try {
@@ -232,7 +238,7 @@ TransactionDetailState useTransactionDetail(String id) {
         ..payeeKeywords = ListBuilder<BuiltList>([
           BuiltList<dynamic>([payeeStr]),
         ])
-        ..categoryAccount = categoryAccountOf(postingsState.value)
+        ..categoryAccount = category
         ..upsertByPayee = true);
       await FirelaApi().createCategoryRule(regionSignal.value, dto);
       return true;

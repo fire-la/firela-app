@@ -26,6 +26,18 @@ void main() {
       );
     });
 
+    test('balanced Assets + Expense pair → returns the Expense path (skips non-flow)', () {
+      // Real-world expense tx: the flow account is not always the first posting.
+      // Guards against a regression to `postings.first.account`.
+      expect(
+        categoryAccountOf(const [
+          PostingEdit(account: 'Assets:Bank:Checking', units: '-30', currency: 'CNY'),
+          PostingEdit(account: 'Expenses:Food:Coffee', units: '30', currency: 'CNY'),
+        ]),
+        'Expenses:Food:Coffee',
+      );
+    });
+
     test('transfer (Assets + Liabilities only) → null (toggle hidden)', () {
       expect(
         categoryAccountOf(const [
