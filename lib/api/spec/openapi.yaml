@@ -4177,9 +4177,14 @@ paths:
         - name: region
           required: true
           in: path
-          description: Region code
+          description: Region code for tenant context
           schema:
-            example: us
+            enum:
+              - cn
+              - us
+              - de
+              - gb
+            type: string
       requestBody:
         required: true
         content:
@@ -4293,6 +4298,65 @@ paths:
           description: Telemetry report received
         '401':
           description: Unauthorized
+      tags:
+        - Import - Telemetry
+      security:
+        - bearer: []
+  /api/v1/{region}/bean/import/parser-coverage-miss:
+    post:
+      operationId: TelemetryController_reportCoverageMiss
+      summary: Receive anonymous zero-hit coverage miss report
+      parameters:
+        - name: region
+          required: true
+          in: path
+          description: Region code for tenant context
+          schema:
+            enum:
+              - cn
+              - us
+              - de
+              - gb
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UncoveredFormatMissDto'
+      responses:
+        '200':
+          description: Coverage miss report received
+        '401':
+          description: Unauthorized
+      tags:
+        - Import - Telemetry
+      security:
+        - bearer: []
+  /api/v1/{region}/bean/import/parser-coverage-metrics:
+    get:
+      operationId: TelemetryController_getCoverageMetrics
+      summary: Coverage metrics (uncovered format aggregation)
+      parameters:
+        - name: topN
+          required: false
+          in: query
+          description: Top-N uncovered formats (default 10)
+          schema: {}
+        - name: region
+          required: true
+          in: path
+          description: Region code for tenant context
+          schema:
+            enum:
+              - cn
+              - us
+              - de
+              - gb
+            type: string
+      responses:
+        '200':
+          description: Coverage metrics
       tags:
         - Import - Telemetry
       security:
@@ -4462,6 +4526,8 @@ paths:
             enum:
               - platform
               - assetClass
+              - holdingAssetClass
+              - holdingAssetClassByAccount
             type: string
         - name: date
           required: false
@@ -4469,6 +4535,15 @@ paths:
           description: Date for balance calculation (ISO 8601 format)
           schema:
             example: '2024-06-15'
+            type: string
+        - name: accountId
+          required: false
+          in: query
+          description: >-
+            Scope to a single account (only valid with
+            groupBy=holdingAssetClass, ADR-0105 §6)
+          schema:
+            example: a1b2c3d4-e5f6-7890-abcd-ef1234567890
             type: string
         - name: region
           required: true
@@ -4492,6 +4567,8 @@ paths:
                 oneOf:
                   - $ref: '#/components/schemas/AccountsResponseDto'
                   - $ref: '#/components/schemas/AssetClassAccountsResponseDto'
+                  - $ref: >-
+                      #/components/schemas/HoldingAssetClassCrossAccountResponseDto
         '401':
           description: User not authenticated
       tags:
@@ -4535,6 +4612,336 @@ paths:
           description: User not authenticated
       tags:
         - Dashboard
+      security:
+        - bearer: []
+  /api/v1/{region}/investment/holdings/pnl:
+    get:
+      operationId: HoldingPnlController_getHoldingPnl
+      summary: Get per-holding unrealized + realized P&L
+      description: >-
+        Average-cost unrealized P&L per account × commodity, plus cumulative
+        realized P&L on sold lots (method = FIFO | average, default average).
+      parameters:
+        - name: asOf
+          required: false
+          in: query
+          description: As-of date (ISO 8601), defaults to today
+          schema:
+            example: '2026-07-08'
+            type: string
+        - name: accountId
+          required: false
+          in: query
+          description: Scope to a single account
+          schema:
+            example: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+            type: string
+        - name: method
+          required: false
+          in: query
+          description: >-
+            Realized-P&L lot-matching method (default average). Does not affect
+            the average-cost unrealized basis.
+          schema:
+            enum:
+              - FIFO
+              - average
+            type: string
+        - name: region
+          required: true
+          in: path
+          description: Region code for tenant context
+          schema:
+            enum:
+              - cn
+              - us
+              - de
+              - gb
+            type: string
+      responses:
+        '200':
+          description: Holding P&L retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HoldingPnlResponseDto'
+        '400':
+          description: >-
+            Invalid asOf format/value/future date, invalid accountId format, or
+            unsupported method
+        '401':
+          description: User not authenticated
+      tags:
+        - Investment
+      security:
+        - bearer: []
+  /api/v1/{region}/bean/prices:
+    post:
+      operationId: PriceController_create
+      summary: Create a new price
+      description: Creates a new price entry for the authenticated user
+      parameters:
+        - name: region
+          required: true
+          in: path
+          description: Region code for tenant context
+          schema:
+            enum:
+              - cn
+              - us
+              - de
+              - gb
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateBeanPriceDto'
+      responses:
+        '201':
+          description: Price created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PriceResponseDto'
+        '404':
+          description: Currency or quoteCurrency commodity not found
+        '409':
+          description: Price already exists for this currency pair and date
+      tags:
+        - Bean Prices
+      security:
+        - bearer: []
+    get:
+      operationId: PriceController_findAll
+      summary: List user prices
+      description: >-
+        Returns all price entries for the authenticated user with optional
+        filtering
+      parameters:
+        - name: currency
+          required: false
+          in: query
+          description: Filter by currency (e.g., BTC, AAPL, USD)
+          schema:
+            example: BTC
+            type: string
+        - name: quoteCurrency
+          required: false
+          in: query
+          description: Filter by quote currency (pricing currency, e.g., USD, CNY)
+          schema:
+            example: USD
+            type: string
+        - name: dateFrom
+          required: false
+          in: query
+          description: Filter prices from this date (ISO 8601 format)
+          schema:
+            example: '2024-01-01'
+            type: string
+        - name: dateTo
+          required: false
+          in: query
+          description: Filter prices to this date (ISO 8601 format)
+          schema:
+            example: '2024-12-31'
+            type: string
+        - name: search
+          required: false
+          in: query
+          description: >-
+            Search term for currency or quoteCurrency (case-insensitive partial
+            match)
+          schema:
+            example: BTC
+            type: string
+        - name: page
+          required: false
+          in: query
+          description: 'Page number for pagination (default: 1)'
+          schema:
+            minimum: 1
+            example: 1
+            type: number
+        - name: limit
+          required: false
+          in: query
+          description: 'Number of items per page (default: 20, max: 100)'
+          schema:
+            minimum: 1
+            maximum: 100
+            example: 20
+            type: number
+        - name: region
+          required: true
+          in: path
+          description: Region code for tenant context
+          schema:
+            enum:
+              - cn
+              - us
+              - de
+              - gb
+            type: string
+      responses:
+        '200':
+          description: Prices retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PriceListResponseDto'
+      tags:
+        - Bean Prices
+      security:
+        - bearer: []
+  /api/v1/{region}/bean/prices/{id}:
+    get:
+      operationId: PriceController_findOne
+      summary: Get price by ID
+      description: Returns a single price entry by its ID
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: Price ID
+          schema:
+            type: string
+        - name: region
+          required: true
+          in: path
+          description: Region code for tenant context
+          schema:
+            enum:
+              - cn
+              - us
+              - de
+              - gb
+            type: string
+      responses:
+        '200':
+          description: Price retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PriceResponseDto'
+        '404':
+          description: Price not found
+      tags:
+        - Bean Prices
+      security:
+        - bearer: []
+    put:
+      operationId: PriceController_update
+      summary: Update a price
+      description: Updates an existing price entry
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: Price ID
+          schema:
+            type: string
+        - name: region
+          required: true
+          in: path
+          description: Region code for tenant context
+          schema:
+            enum:
+              - cn
+              - us
+              - de
+              - gb
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateBeanPriceDto'
+      responses:
+        '200':
+          description: Price updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PriceResponseDto'
+        '404':
+          description: Price not found
+        '409':
+          description: Updated price conflicts with existing price
+      tags:
+        - Bean Prices
+      security:
+        - bearer: []
+    delete:
+      operationId: PriceController_delete
+      summary: Delete a price
+      description: Deletes a price entry (hard delete)
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: Price ID
+          schema:
+            type: string
+        - name: region
+          required: true
+          in: path
+          description: Region code for tenant context
+          schema:
+            enum:
+              - cn
+              - us
+              - de
+              - gb
+            type: string
+      responses:
+        '204':
+          description: Price deleted successfully
+        '404':
+          description: Price not found
+      tags:
+        - Bean Prices
+      security:
+        - bearer: []
+  /api/v1/{region}/bean/prices/bulk:
+    post:
+      operationId: PriceController_bulkCreate
+      summary: Bulk create prices
+      description: Creates multiple price entries at once (skips duplicates)
+      parameters:
+        - name: region
+          required: true
+          in: path
+          description: Region code for tenant context
+          schema:
+            enum:
+              - cn
+              - us
+              - de
+              - gb
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+      responses:
+        '201':
+          description: Prices created successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PriceResponseDto'
+      tags:
+        - Bean Prices
       security:
         - bearer: []
   /api/v1/{region}/reporting/portfolio/trends:
@@ -9116,6 +9523,9 @@ components:
     ParserTelemetryReportDto:
       type: object
       properties: {}
+    UncoveredFormatMissDto:
+      type: object
+      properties: {}
     ProcessNlpDto:
       type: object
       properties:
@@ -10039,6 +10449,16 @@ components:
           type: string
           description: Risk level
           example: LOW
+        source:
+          type: string
+          description: >-
+            ADR-0105 classification provenance (holding level always; account
+            level only on FALLBACK)
+          enum:
+            - USER_META
+            - FIAT_CURRENCY
+            - OPENBB_MAPPING
+            - FALLBACK
       required:
         - id
         - name
@@ -10130,6 +10550,12 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/AccountExchangeRateWarningDto'
+        fallback:
+          type: object
+          description: >-
+            ADR-0105 §4 fallback provenance stats (holding level only).
+            valueRatio is the grey-area share of total converted value; count is
+            the number of source=FALLBACK holdings.
       required:
         - totalAccounts
         - totalAssetClasses
@@ -10146,9 +10572,84 @@ components:
           description: Summary statistics
           allOf:
             - $ref: '#/components/schemas/AssetClassSummaryDto'
+        uncategorized:
+          description: >-
+            ADR-0105 §6 holding-level grey-area bucket (source=FALLBACK holdings
+            peeled out of groups). Present only for groupBy=holdingAssetClass
+            when FALLBACK holdings exist.
+          allOf:
+            - $ref: '#/components/schemas/AssetClassGroupDto'
       required:
         - groups
         - summary
+    HoldingAssetClassAccountSliceDto:
+      type: object
+      properties:
+        accountId:
+          type: string
+          description: Account ID
+        accountPath:
+          type: string
+          description: Full account path
+          example: Assets:US:Investments:Brokerage
+        accountCurrency:
+          type: string
+          description: >-
+            Currency of the holding with the largest converted base value;
+            undefined when no holding is convertible
+          example: USD
+        marketValueBase:
+          type: string
+          description: >-
+            Account's market value in base currency (Σ converted holdings; grey
+            bucket included)
+          example: '50000.00'
+        shareOfTotalPct:
+          type: number
+          description: >-
+            Share of the global total (0-100). 0 when globalTotal is zero (no
+            NaN/Infinity).
+          example: 42.5
+        groups:
+          description: Per-account asset-class breakdown
+          type: array
+          items:
+            $ref: '#/components/schemas/AssetClassGroupDto'
+        uncategorized:
+          description: >-
+            Per-account grey bucket (source=FALLBACK holdings, incl. broker
+            cash)
+          allOf:
+            - $ref: '#/components/schemas/AssetClassGroupDto'
+        holdings:
+          description: >-
+            Every holding row for this account (account ID in each row’s `id`
+            field)
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountItemWithAssetClassDto'
+      required:
+        - accountId
+        - accountPath
+        - marketValueBase
+        - shareOfTotalPct
+        - groups
+        - holdings
+    HoldingAssetClassCrossAccountResponseDto:
+      type: object
+      properties:
+        global:
+          description: Merged cross-account holding aggregation
+          allOf:
+            - $ref: '#/components/schemas/AssetClassAccountsResponseDto'
+        byAccount:
+          description: Per-account slices
+          type: array
+          items:
+            $ref: '#/components/schemas/HoldingAssetClassAccountSliceDto'
+      required:
+        - global
+        - byAccount
     CashFlowByCurrencyDto:
       type: object
       properties:
@@ -10248,6 +10749,376 @@ components:
         - netSavings
         - savingsRate
         - currency
+    MonetaryDto:
+      type: object
+      properties:
+        amount:
+          type: string
+          description: Amount (Decimal string)
+          example: '3000'
+        currency:
+          type: string
+          description: ISO 4217 currency
+          example: USD
+        baseCcyEquivalent:
+          type: object
+          description: Converted to user base currency (Decimal string)
+          example: '21600'
+          nullable: true
+      required:
+        - amount
+        - currency
+    CurrentPriceDto:
+      type: object
+      properties:
+        amount:
+          type: string
+          description: Price amount (Decimal string)
+          example: '250'
+        currency:
+          type: string
+          description: Price currency (ISO 4217)
+          example: USD
+        date:
+          type: string
+          description: Price date (ISO 8601)
+          example: '2024-06-01'
+        source:
+          type: string
+          description: Price source
+          example: USER_OVERRIDE
+          enum:
+            - USER_OVERRIDE
+            - OPENBB_EQUITY
+            - OPENBB_CURRENCY
+      required:
+        - amount
+        - currency
+        - date
+        - source
+    FxRateDto:
+      type: object
+      properties:
+        from:
+          type: string
+          example: USD
+        to:
+          type: string
+          example: CNY
+        rate:
+          type: string
+          description: FX rate (Decimal string)
+          example: '7.2'
+        date:
+          type: string
+          description: Rate date (ISO 8601)
+          example: '2024-01-15'
+      required:
+        - from
+        - to
+        - rate
+        - date
+    HoldingPnlRowDto:
+      type: object
+      properties:
+        accountId:
+          type: string
+          description: Account UUID
+          example: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+        accountPath:
+          type: string
+          description: Full account path
+          example: Assets:US:Broker:AAPL
+        accountCcy:
+          type: object
+          description: Account settlement currency (ISO 4217), from cost currency
+          nullable: true
+          example: USD
+        brokerType:
+          type: object
+          description: Broker type derived from Platform.type
+          nullable: true
+          example: broker
+        symbol:
+          type: string
+          description: Commodity symbol
+          example: AAPL
+        chartToken:
+          type: string
+          description: Chart segment token (libs/common resolver)
+          example: equity
+          enum:
+            - equity
+            - fund
+            - bond
+            - cash
+            - other
+        assetClass:
+          type: string
+          example: EQUITY
+        assetSubClass:
+          type: object
+          nullable: true
+          example: STOCK
+        units:
+          type: string
+          description: Net held units (Decimal string)
+          example: '12'
+        averageCostPerUnit:
+          description: Average cost per unit; null when cost currency conflicts or no cost
+          nullable: true
+          allOf:
+            - $ref: '#/components/schemas/MonetaryDto'
+        costBasis:
+          description: Cost basis of held units
+          nullable: true
+          allOf:
+            - $ref: '#/components/schemas/MonetaryDto'
+        marketValue:
+          description: Market value at asOf price
+          nullable: true
+          allOf:
+            - $ref: '#/components/schemas/MonetaryDto'
+        currentPrice:
+          description: Price used for market value
+          nullable: true
+          allOf:
+            - $ref: '#/components/schemas/CurrentPriceDto'
+        unrealizedPnlBase:
+          type: object
+          description: >-
+            Unrealized P&L in base currency (Decimal string); null when any
+            FX/price missing
+          nullable: true
+          example: '6000'
+        unrealizedPnlPct:
+          type: object
+          description: Unrealized P&L % (Decimal string)
+          nullable: true
+          example: '25'
+        costFxRate:
+          description: Historical FX rate applied to cost basis
+          nullable: true
+          allOf:
+            - $ref: '#/components/schemas/FxRateDto'
+        marketFxRate:
+          description: FX rate applied to market value
+          nullable: true
+          allOf:
+            - $ref: '#/components/schemas/FxRateDto'
+        pctOfInvestedAssets:
+          type: object
+          description: >-
+            Share of invested assets % (Decimal string); only for invested
+            chartTokens
+          nullable: true
+          example: '40'
+        realizedPnl:
+          description: >-
+            Cumulative realized P&L on sold lots (asOf-date cutoff); null when
+            the method has no applicable sells, a sell lacks a price, or any
+            required FX rate is missing (never-mix). When a sell spans multiple
+            currencies (cross-currency sale), amount and currency reflect the
+            base currency; baseCcyEquivalent is always the authoritative dual-FX
+            figure
+          nullable: true
+          allOf:
+            - $ref: '#/components/schemas/MonetaryDto'
+      required:
+        - accountId
+        - accountPath
+        - symbol
+        - chartToken
+        - assetClass
+        - units
+    HoldingPnlWarningDto:
+      type: object
+      properties:
+        type:
+          type: string
+          description: Warning type
+          example: MISSING_COST_FX_RATE
+          enum:
+            - MISSING_COST_FX_RATE
+            - MISSING_MARKET_FX_RATE
+            - MISSING_SALE_PRICE
+            - MISSING_REALIZED_FX_RATE
+            - OVERSOLD_LOTS
+            - NO_PRICE
+            - MIXED_COST_CURRENCY
+        symbol:
+          type: object
+          nullable: true
+        accountId:
+          type: object
+          nullable: true
+        currency:
+          type: object
+          nullable: true
+      required:
+        - type
+    HoldingPnlResponseDto:
+      type: object
+      properties:
+        asOfDate:
+          type: string
+          example: '2026-07-08'
+        baseCurrency:
+          type: string
+          example: CNY
+        method:
+          type: string
+          description: >-
+            Realized-P&L lot-matching method (FIFO or average). Unrealized cost
+            basis remains average regardless of this value (#473).
+          enum:
+            - average
+            - FIFO
+          example: average
+        rows:
+          type: array
+          items:
+            $ref: '#/components/schemas/HoldingPnlRowDto'
+        warnings:
+          type: array
+          items:
+            $ref: '#/components/schemas/HoldingPnlWarningDto'
+      required:
+        - asOfDate
+        - baseCurrency
+        - method
+        - rows
+        - warnings
+    CreateBeanPriceDto:
+      type: object
+      properties:
+        currency:
+          type: string
+          description: Currency being priced (e.g., USD, AAPL, BTC)
+          example: USD
+        quoteCurrency:
+          type: string
+          description: Quote currency (pricing currency, e.g., CNY, EUR)
+          example: CNY
+        amount:
+          type: number
+          description: >-
+            Price amount (MUST be >= 0 per Beancount spec, supports up to 15
+            decimal places). Zero allowed for conversion entries, negative
+            strictly prohibited.
+          example: 175.5
+          minimum: 0
+        date:
+          type: string
+          description: Price date (ISO 8601 format)
+          example: '2024-11-05'
+        metadata:
+          type: object
+          description: Metadata (validated by Zod schema, max field lengths enforced)
+          example:
+            source: MANUAL
+            note: Bank valuation report
+            confidence: 0.95
+      required:
+        - currency
+        - quoteCurrency
+        - amount
+        - date
+    PriceResponseDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier
+          example: uuid-123-456
+        userId:
+          type: string
+          description: User ID (owner of the price)
+          example: user-123
+        currency:
+          type: string
+          description: Currency being priced (e.g., USD, AAPL, BTC)
+          example: BTC
+        quoteCurrency:
+          type: string
+          description: Quote currency (pricing currency, e.g., USD, CNY)
+          example: USD
+        amount:
+          type: number
+          description: >-
+            Price amount (corresponds to Beancount Amount.number). Supports up
+            to 15 decimal places.
+          example: 50000
+        date:
+          type: string
+          description: >-
+            Price date (ISO 8601 format). Represents the date this price was
+            valid.
+          example: '2024-01-01'
+          format: date
+        meta:
+          type: object
+          description: >-
+            Metadata (corresponds to Beancount meta field). Contains source,
+            confidence, note, etc.
+          example:
+            source: MANUAL
+            note: User-defined price
+            confidence: 1
+        createdAt:
+          format: date-time
+          type: string
+          description: Creation timestamp
+          example: '2024-11-03T10:00:00Z'
+        updatedAt:
+          format: date-time
+          type: string
+          description: Last update timestamp
+          example: '2024-11-03T10:00:00Z'
+      required:
+        - id
+        - userId
+        - currency
+        - quoteCurrency
+        - amount
+        - date
+        - meta
+        - createdAt
+        - updatedAt
+    PriceListResponseDto:
+      type: object
+      properties:
+        items:
+          description: List of prices
+          type: array
+          items:
+            $ref: '#/components/schemas/PriceResponseDto'
+        total:
+          type: number
+          description: Total number of prices
+          example: 42
+      required:
+        - items
+        - total
+    UpdateBeanPriceDto:
+      type: object
+      properties:
+        currency:
+          type: string
+          description: Currency being priced
+        quoteCurrency:
+          type: string
+          description: Quote currency (pricing currency)
+        amount:
+          type: number
+          description: Price amount (MUST be >= 0 per Beancount spec)
+          minimum: 0
+        date:
+          type: string
+          description: Price date (ISO 8601 format)
+        metadata:
+          type: object
+          description: Metadata
     CurrencyBalanceDto:
       type: object
       properties:
