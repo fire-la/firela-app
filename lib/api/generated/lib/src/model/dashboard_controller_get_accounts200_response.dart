@@ -4,6 +4,7 @@
 
 // ignore_for_file: unused_element
 import 'package:firela_api/src/model/accounts_response_dto.dart';
+import 'package:firela_api/src/model/holding_asset_class_cross_account_response_dto.dart';
 import 'package:firela_api/src/model/asset_class_accounts_response_dto.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
@@ -16,9 +17,12 @@ part 'dashboard_controller_get_accounts200_response.g.dart';
 /// Properties:
 /// * [groups] - Account groups by asset class
 /// * [summary] 
+/// * [uncategorized] 
+/// * [global] 
+/// * [byAccount] - Per-account slices
 @BuiltValue()
 abstract class DashboardControllerGetAccounts200Response implements Built<DashboardControllerGetAccounts200Response, DashboardControllerGetAccounts200ResponseBuilder> {
-  /// One Of [AccountsResponseDto], [AssetClassAccountsResponseDto]
+  /// One Of [AccountsResponseDto], [AssetClassAccountsResponseDto], [HoldingAssetClassCrossAccountResponseDto]
   OneOf get oneOf;
 
   DashboardControllerGetAccounts200Response._();
@@ -64,7 +68,7 @@ class _$DashboardControllerGetAccounts200ResponseSerializer implements Primitive
   }) {
     final result = DashboardControllerGetAccounts200ResponseBuilder();
     Object? oneOfDataSrc;
-    final targetType = const FullType(OneOf, [FullType(AccountsResponseDto), FullType(AssetClassAccountsResponseDto), ]);
+    final targetType = const FullType(OneOf, [FullType(AccountsResponseDto), FullType(AssetClassAccountsResponseDto), FullType(HoldingAssetClassCrossAccountResponseDto), ]);
     oneOfDataSrc = serialized;
     result.oneOf = serializers.deserialize(oneOfDataSrc, specifiedType: targetType) as OneOf;
     return result.build();

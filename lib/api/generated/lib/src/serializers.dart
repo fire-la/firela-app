@@ -49,6 +49,7 @@ import 'package:firela_api/src/model/converted_cash_flow_dto.dart';
 import 'package:firela_api/src/model/converted_net_worth_dto.dart';
 import 'package:firela_api/src/model/correct_transaction_dto.dart';
 import 'package:firela_api/src/model/create_account_dto.dart';
+import 'package:firela_api/src/model/create_bean_price_dto.dart';
 import 'package:firela_api/src/model/create_commodity_dto.dart';
 import 'package:firela_api/src/model/create_payee_dto.dart';
 import 'package:firela_api/src/model/create_payee_profile_dto.dart';
@@ -59,6 +60,7 @@ import 'package:firela_api/src/model/create_rule_from_transaction_dto.dart';
 import 'package:firela_api/src/model/create_transaction_dto.dart';
 import 'package:firela_api/src/model/create_transaction_rule_dto.dart';
 import 'package:firela_api/src/model/currency_balance_dto.dart';
+import 'package:firela_api/src/model/current_price_dto.dart';
 import 'package:firela_api/src/model/dashboard_controller_get_accounts200_response.dart';
 import 'package:firela_api/src/model/decision_option_dto.dart';
 import 'package:firela_api/src/model/delete_own_user_dto.dart';
@@ -75,12 +77,26 @@ import 'package:firela_api/src/model/file_import_controller_import_file413_respo
 import 'package:firela_api/src/model/file_import_controller_import_file429_response.dart';
 import 'package:firela_api/src/model/forecast_item_dto.dart';
 import 'package:firela_api/src/model/forecast_response_dto.dart';
+import 'package:firela_api/src/model/fx_rate_dto.dart';
+import 'package:firela_api/src/model/holding_asset_class_account_slice_dto.dart';
+import 'package:firela_api/src/model/holding_asset_class_cross_account_response_dto.dart';
+import 'package:firela_api/src/model/holding_pnl_response_dto.dart';
+import 'package:firela_api/src/model/holding_pnl_row_dto.dart';
+import 'package:firela_api/src/model/holding_pnl_row_dto_average_cost_per_unit.dart';
+import 'package:firela_api/src/model/holding_pnl_row_dto_cost_basis.dart';
+import 'package:firela_api/src/model/holding_pnl_row_dto_cost_fx_rate.dart';
+import 'package:firela_api/src/model/holding_pnl_row_dto_current_price.dart';
+import 'package:firela_api/src/model/holding_pnl_row_dto_market_fx_rate.dart';
+import 'package:firela_api/src/model/holding_pnl_row_dto_market_value.dart';
+import 'package:firela_api/src/model/holding_pnl_row_dto_realized_pnl.dart';
+import 'package:firela_api/src/model/holding_pnl_warning_dto.dart';
 import 'package:firela_api/src/model/identify_result_dto.dart';
 import 'package:firela_api/src/model/import_error_dto.dart';
 import 'package:firela_api/src/model/import_result_dto.dart';
 import 'package:firela_api/src/model/importer_config_data_dto.dart';
 import 'package:firela_api/src/model/importer_config_dto.dart';
 import 'package:firela_api/src/model/mapper_defaults_dto.dart';
+import 'package:firela_api/src/model/monetary_dto.dart';
 import 'package:firela_api/src/model/monthly_forecast_dto.dart';
 import 'package:firela_api/src/model/multi_currency_balance_response_dto.dart';
 import 'package:firela_api/src/model/multi_currency_point_dto.dart';
@@ -112,6 +128,8 @@ import 'package:firela_api/src/model/platform_group_dto.dart';
 import 'package:firela_api/src/model/portfolio_trends_response_dto.dart';
 import 'package:firela_api/src/model/posting_detail_dto.dart';
 import 'package:firela_api/src/model/posting_response_dto.dart';
+import 'package:firela_api/src/model/price_list_response_dto.dart';
+import 'package:firela_api/src/model/price_response_dto.dart';
 import 'package:firela_api/src/model/process_nlp_dto.dart';
 import 'package:firela_api/src/model/provider_sync_config_dto.dart';
 import 'package:firela_api/src/model/provider_sync_dto.dart';
@@ -152,6 +170,7 @@ import 'package:firela_api/src/model/transaction_summary_dto.dart';
 import 'package:firela_api/src/model/trend_summary_dto.dart';
 import 'package:firela_api/src/model/undo_result_dto.dart';
 import 'package:firela_api/src/model/update_account_dto.dart';
+import 'package:firela_api/src/model/update_bean_price_dto.dart';
 import 'package:firela_api/src/model/update_commodity_dto.dart';
 import 'package:firela_api/src/model/update_config_data_dto.dart';
 import 'package:firela_api/src/model/update_importer_config_dto.dart';
@@ -206,6 +225,7 @@ part 'serializers.g.dart';
   ConvertedNetWorthDto,
   CorrectTransactionDto,
   CreateAccountDto,
+  CreateBeanPriceDto,
   CreateCommodityDto,
   CreatePayeeDto,
   CreatePayeeProfileDto,
@@ -216,6 +236,7 @@ part 'serializers.g.dart';
   CreateTransactionDto,
   CreateTransactionRuleDto,
   CurrencyBalanceDto,
+  CurrentPriceDto,$CurrentPriceDto,
   DashboardControllerGetAccounts200Response,
   DecisionOptionDto,
   DeleteOwnUserDto,
@@ -232,12 +253,26 @@ part 'serializers.g.dart';
   FileImportControllerImportFile429Response,
   ForecastItemDto,
   ForecastResponseDto,
+  FxRateDto,$FxRateDto,
+  HoldingAssetClassAccountSliceDto,
+  HoldingAssetClassCrossAccountResponseDto,
+  HoldingPnlResponseDto,
+  HoldingPnlRowDto,
+  HoldingPnlRowDtoAverageCostPerUnit,
+  HoldingPnlRowDtoCostBasis,
+  HoldingPnlRowDtoCostFxRate,
+  HoldingPnlRowDtoCurrentPrice,
+  HoldingPnlRowDtoMarketFxRate,
+  HoldingPnlRowDtoMarketValue,
+  HoldingPnlRowDtoRealizedPnl,
+  HoldingPnlWarningDto,
   IdentifyResultDto,
   ImportErrorDto,
   ImportResultDto,
   ImporterConfigDataDto,
   ImporterConfigDto,
   MapperDefaultsDto,
+  MonetaryDto,$MonetaryDto,
   MonthlyForecastDto,
   MultiCurrencyBalanceResponseDto,
   MultiCurrencyPointDto,
@@ -269,6 +304,8 @@ part 'serializers.g.dart';
   PortfolioTrendsResponseDto,
   PostingDetailDto,
   PostingResponseDto,
+  PriceListResponseDto,
+  PriceResponseDto,
   ProcessNlpDto,
   ProviderSyncConfigDto,
   ProviderSyncDto,
@@ -309,6 +346,7 @@ part 'serializers.g.dart';
   TrendSummaryDto,
   UndoResultDto,
   UpdateAccountDto,
+  UpdateBeanPriceDto,
   UpdateCommodityDto,
   UpdateConfigDataDto,
   UpdateImporterConfigDto,
@@ -331,13 +369,24 @@ Serializers serializers = (_$serializers.toBuilder()
         () => ListBuilder<RecurringRuleResponseDto>(),
       )
       ..addBuilderFactory(
+        const FullType(BuiltList, [FullType(PriceResponseDto)]),
+        () => ListBuilder<PriceResponseDto>(),
+      )
+      ..addBuilderFactory(
         const FullType(BuiltList, [FullType(PayeeStatsResponseDto)]),
         () => ListBuilder<PayeeStatsResponseDto>(),
+      )
+      ..addBuilderFactory(
+        const FullType(BuiltList, [FullType(String)]),
+        () => ListBuilder<String>(),
       )
       ..addBuilderFactory(
         const FullType(BuiltList, [FullType(CommodityResponseDto)]),
         () => ListBuilder<CommodityResponseDto>(),
       )
+      ..add(CurrentPriceDto.serializer)
+      ..add(FxRateDto.serializer)
+      ..add(MonetaryDto.serializer)
       ..add(NlpSuggestedPayeeDto.serializer)
       ..add(TransactionSummaryDto.serializer)
       ..add(const OneOfSerializer())

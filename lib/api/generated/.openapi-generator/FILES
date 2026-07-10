@@ -15,6 +15,7 @@ lib/src/api/bean_import_api.dart
 lib/src/api/bean_nlp_api.dart
 lib/src/api/bean_payees_api.dart
 lib/src/api/bean_platforms_api.dart
+lib/src/api/bean_prices_api.dart
 lib/src/api/bean_reviews_api.dart
 lib/src/api/bean_transaction_rules_api.dart
 lib/src/api/bean_transactions_api.dart
@@ -25,6 +26,7 @@ lib/src/api/expected_transactions_api.dart
 lib/src/api/health_api.dart
 lib/src/api/import_telemetry_api.dart
 lib/src/api/info_api.dart
+lib/src/api/investment_api.dart
 lib/src/api/properties_api.dart
 lib/src/api/provider_sync_api.dart
 lib/src/api/recurring_forecast_api.dart
@@ -73,6 +75,7 @@ lib/src/model/converted_cash_flow_dto.dart
 lib/src/model/converted_net_worth_dto.dart
 lib/src/model/correct_transaction_dto.dart
 lib/src/model/create_account_dto.dart
+lib/src/model/create_bean_price_dto.dart
 lib/src/model/create_commodity_dto.dart
 lib/src/model/create_payee_dto.dart
 lib/src/model/create_payee_profile_dto.dart
@@ -83,6 +86,7 @@ lib/src/model/create_rule_from_transaction_dto.dart
 lib/src/model/create_transaction_dto.dart
 lib/src/model/create_transaction_rule_dto.dart
 lib/src/model/currency_balance_dto.dart
+lib/src/model/current_price_dto.dart
 lib/src/model/dashboard_controller_get_accounts200_response.dart
 lib/src/model/date.dart
 lib/src/model/decision_option_dto.dart
@@ -100,12 +104,26 @@ lib/src/model/file_import_controller_import_file413_response.dart
 lib/src/model/file_import_controller_import_file429_response.dart
 lib/src/model/forecast_item_dto.dart
 lib/src/model/forecast_response_dto.dart
+lib/src/model/fx_rate_dto.dart
+lib/src/model/holding_asset_class_account_slice_dto.dart
+lib/src/model/holding_asset_class_cross_account_response_dto.dart
+lib/src/model/holding_pnl_response_dto.dart
+lib/src/model/holding_pnl_row_dto.dart
+lib/src/model/holding_pnl_row_dto_average_cost_per_unit.dart
+lib/src/model/holding_pnl_row_dto_cost_basis.dart
+lib/src/model/holding_pnl_row_dto_cost_fx_rate.dart
+lib/src/model/holding_pnl_row_dto_current_price.dart
+lib/src/model/holding_pnl_row_dto_market_fx_rate.dart
+lib/src/model/holding_pnl_row_dto_market_value.dart
+lib/src/model/holding_pnl_row_dto_realized_pnl.dart
+lib/src/model/holding_pnl_warning_dto.dart
 lib/src/model/identify_result_dto.dart
 lib/src/model/import_error_dto.dart
 lib/src/model/import_result_dto.dart
 lib/src/model/importer_config_data_dto.dart
 lib/src/model/importer_config_dto.dart
 lib/src/model/mapper_defaults_dto.dart
+lib/src/model/monetary_dto.dart
 lib/src/model/monthly_forecast_dto.dart
 lib/src/model/multi_currency_balance_response_dto.dart
 lib/src/model/multi_currency_point_dto.dart
@@ -137,6 +155,8 @@ lib/src/model/platform_group_dto.dart
 lib/src/model/portfolio_trends_response_dto.dart
 lib/src/model/posting_detail_dto.dart
 lib/src/model/posting_response_dto.dart
+lib/src/model/price_list_response_dto.dart
+lib/src/model/price_response_dto.dart
 lib/src/model/process_nlp_dto.dart
 lib/src/model/provider_sync_config_dto.dart
 lib/src/model/provider_sync_dto.dart
@@ -177,6 +197,7 @@ lib/src/model/transaction_summary_dto.dart
 lib/src/model/trend_summary_dto.dart
 lib/src/model/undo_result_dto.dart
 lib/src/model/update_account_dto.dart
+lib/src/model/update_bean_price_dto.dart
 lib/src/model/update_commodity_dto.dart
 lib/src/model/update_config_data_dto.dart
 lib/src/model/update_importer_config_dto.dart

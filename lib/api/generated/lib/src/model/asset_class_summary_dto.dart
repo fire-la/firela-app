@@ -5,6 +5,7 @@
 // ignore_for_file: unused_element
 import 'package:firela_api/src/model/account_exchange_rate_warning_dto.dart';
 import 'package:built_collection/built_collection.dart';
+import 'package:built_value/json_object.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
@@ -17,6 +18,7 @@ part 'asset_class_summary_dto.g.dart';
 /// * [totalAssetClasses] - Total number of asset classes
 /// * [baseCurrency] - Base currency for conversion
 /// * [warnings] - Exchange rate warnings
+/// * [fallback] - ADR-0105 §4 fallback provenance stats (holding level only). valueRatio is the grey-area share of total converted value; count is the number of source=FALLBACK holdings.
 @BuiltValue()
 abstract class AssetClassSummaryDto implements Built<AssetClassSummaryDto, AssetClassSummaryDtoBuilder> {
   /// Total number of accounts
@@ -34,6 +36,10 @@ abstract class AssetClassSummaryDto implements Built<AssetClassSummaryDto, Asset
   /// Exchange rate warnings
   @BuiltValueField(wireName: r'warnings')
   BuiltList<AccountExchangeRateWarningDto>? get warnings;
+
+  /// ADR-0105 §4 fallback provenance stats (holding level only). valueRatio is the grey-area share of total converted value; count is the number of source=FALLBACK holdings.
+  @BuiltValueField(wireName: r'fallback')
+  JsonObject? get fallback;
 
   AssetClassSummaryDto._();
 
@@ -78,6 +84,13 @@ class _$AssetClassSummaryDtoSerializer implements PrimitiveSerializer<AssetClass
       yield serializers.serialize(
         object.warnings,
         specifiedType: const FullType(BuiltList, [FullType(AccountExchangeRateWarningDto)]),
+      );
+    }
+    if (object.fallback != null) {
+      yield r'fallback';
+      yield serializers.serialize(
+        object.fallback,
+        specifiedType: const FullType(JsonObject),
       );
     }
   }
@@ -130,6 +143,13 @@ class _$AssetClassSummaryDtoSerializer implements PrimitiveSerializer<AssetClass
             specifiedType: const FullType(BuiltList, [FullType(AccountExchangeRateWarningDto)]),
           ) as BuiltList<AccountExchangeRateWarningDto>;
           result.warnings.replace(valueDes);
+          break;
+        case r'fallback':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(JsonObject),
+          ) as JsonObject;
+          result.fallback = valueDes;
           break;
         default:
           unhandled.add(key);

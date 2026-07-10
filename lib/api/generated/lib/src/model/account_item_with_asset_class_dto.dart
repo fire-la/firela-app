@@ -3,6 +3,7 @@
 //
 
 // ignore_for_file: unused_element
+import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
@@ -20,6 +21,7 @@ part 'account_item_with_asset_class_dto.g.dart';
 /// * [assetSubClass] - Asset sub-class (Prisma-compatible)
 /// * [regionalSubClass] - Regional sub-class (region-specific, for display)
 /// * [riskLevel] - Risk level
+/// * [source_] - ADR-0105 classification provenance (holding level always; account level only on FALLBACK)
 @BuiltValue()
 abstract class AccountItemWithAssetClassDto implements Built<AccountItemWithAssetClassDto, AccountItemWithAssetClassDtoBuilder> {
   /// Account ID
@@ -57,6 +59,11 @@ abstract class AccountItemWithAssetClassDto implements Built<AccountItemWithAsse
   /// Risk level
   @BuiltValueField(wireName: r'riskLevel')
   String? get riskLevel;
+
+  /// ADR-0105 classification provenance (holding level always; account level only on FALLBACK)
+  @BuiltValueField(wireName: r'source')
+  AccountItemWithAssetClassDtoSource_Enum? get source_;
+  // enum source_Enum {  USER_META,  FIAT_CURRENCY,  OPENBB_MAPPING,  FALLBACK,  };
 
   AccountItemWithAssetClassDto._();
 
@@ -130,6 +137,13 @@ class _$AccountItemWithAssetClassDtoSerializer implements PrimitiveSerializer<Ac
       yield serializers.serialize(
         object.riskLevel,
         specifiedType: const FullType(String),
+      );
+    }
+    if (object.source_ != null) {
+      yield r'source';
+      yield serializers.serialize(
+        object.source_,
+        specifiedType: const FullType(AccountItemWithAssetClassDtoSource_Enum),
       );
     }
   }
@@ -218,6 +232,13 @@ class _$AccountItemWithAssetClassDtoSerializer implements PrimitiveSerializer<Ac
           ) as String;
           result.riskLevel = valueDes;
           break;
+        case r'source':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(AccountItemWithAssetClassDtoSource_Enum),
+          ) as AccountItemWithAssetClassDtoSource_Enum;
+          result.source_ = valueDes;
+          break;
         default:
           unhandled.add(key);
           unhandled.add(value);
@@ -245,5 +266,28 @@ class _$AccountItemWithAssetClassDtoSerializer implements PrimitiveSerializer<Ac
     );
     return result.build();
   }
+}
+
+class AccountItemWithAssetClassDtoSource_Enum extends EnumClass {
+
+  /// ADR-0105 classification provenance (holding level always; account level only on FALLBACK)
+  @BuiltValueEnumConst(wireName: r'USER_META')
+  static const AccountItemWithAssetClassDtoSource_Enum USER_META = _$accountItemWithAssetClassDtoSourceEnum_USER_META;
+  /// ADR-0105 classification provenance (holding level always; account level only on FALLBACK)
+  @BuiltValueEnumConst(wireName: r'FIAT_CURRENCY')
+  static const AccountItemWithAssetClassDtoSource_Enum FIAT_CURRENCY = _$accountItemWithAssetClassDtoSourceEnum_FIAT_CURRENCY;
+  /// ADR-0105 classification provenance (holding level always; account level only on FALLBACK)
+  @BuiltValueEnumConst(wireName: r'OPENBB_MAPPING')
+  static const AccountItemWithAssetClassDtoSource_Enum OPENBB_MAPPING = _$accountItemWithAssetClassDtoSourceEnum_OPENBB_MAPPING;
+  /// ADR-0105 classification provenance (holding level always; account level only on FALLBACK)
+  @BuiltValueEnumConst(wireName: r'FALLBACK')
+  static const AccountItemWithAssetClassDtoSource_Enum FALLBACK = _$accountItemWithAssetClassDtoSourceEnum_FALLBACK;
+
+  static Serializer<AccountItemWithAssetClassDtoSource_Enum> get serializer => _$accountItemWithAssetClassDtoSourceEnumSerializer;
+
+  const AccountItemWithAssetClassDtoSource_Enum._(String name): super(name);
+
+  static BuiltSet<AccountItemWithAssetClassDtoSource_Enum> get values => _$accountItemWithAssetClassDtoSourceEnumValues;
+  static AccountItemWithAssetClassDtoSource_Enum valueOf(String name) => _$accountItemWithAssetClassDtoSourceEnumValueOf(name);
 }
 

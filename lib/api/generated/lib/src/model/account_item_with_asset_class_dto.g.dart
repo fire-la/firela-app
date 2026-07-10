@@ -6,6 +6,84 @@ part of 'account_item_with_asset_class_dto.dart';
 // BuiltValueGenerator
 // **************************************************************************
 
+const AccountItemWithAssetClassDtoSource_Enum
+    _$accountItemWithAssetClassDtoSourceEnum_USER_META =
+    const AccountItemWithAssetClassDtoSource_Enum._('USER_META');
+const AccountItemWithAssetClassDtoSource_Enum
+    _$accountItemWithAssetClassDtoSourceEnum_FIAT_CURRENCY =
+    const AccountItemWithAssetClassDtoSource_Enum._('FIAT_CURRENCY');
+const AccountItemWithAssetClassDtoSource_Enum
+    _$accountItemWithAssetClassDtoSourceEnum_OPENBB_MAPPING =
+    const AccountItemWithAssetClassDtoSource_Enum._('OPENBB_MAPPING');
+const AccountItemWithAssetClassDtoSource_Enum
+    _$accountItemWithAssetClassDtoSourceEnum_FALLBACK =
+    const AccountItemWithAssetClassDtoSource_Enum._('FALLBACK');
+
+AccountItemWithAssetClassDtoSource_Enum
+    _$accountItemWithAssetClassDtoSourceEnumValueOf(String name) {
+  switch (name) {
+    case 'USER_META':
+      return _$accountItemWithAssetClassDtoSourceEnum_USER_META;
+    case 'FIAT_CURRENCY':
+      return _$accountItemWithAssetClassDtoSourceEnum_FIAT_CURRENCY;
+    case 'OPENBB_MAPPING':
+      return _$accountItemWithAssetClassDtoSourceEnum_OPENBB_MAPPING;
+    case 'FALLBACK':
+      return _$accountItemWithAssetClassDtoSourceEnum_FALLBACK;
+    default:
+      throw new ArgumentError(name);
+  }
+}
+
+final BuiltSet<AccountItemWithAssetClassDtoSource_Enum>
+    _$accountItemWithAssetClassDtoSourceEnumValues = new BuiltSet<
+        AccountItemWithAssetClassDtoSource_Enum>(const <AccountItemWithAssetClassDtoSource_Enum>[
+  _$accountItemWithAssetClassDtoSourceEnum_USER_META,
+  _$accountItemWithAssetClassDtoSourceEnum_FIAT_CURRENCY,
+  _$accountItemWithAssetClassDtoSourceEnum_OPENBB_MAPPING,
+  _$accountItemWithAssetClassDtoSourceEnum_FALLBACK,
+]);
+
+Serializer<AccountItemWithAssetClassDtoSource_Enum>
+    _$accountItemWithAssetClassDtoSourceEnumSerializer =
+    new _$AccountItemWithAssetClassDtoSource_EnumSerializer();
+
+class _$AccountItemWithAssetClassDtoSource_EnumSerializer
+    implements PrimitiveSerializer<AccountItemWithAssetClassDtoSource_Enum> {
+  static const Map<String, Object> _toWire = const <String, Object>{
+    'USER_META': 'USER_META',
+    'FIAT_CURRENCY': 'FIAT_CURRENCY',
+    'OPENBB_MAPPING': 'OPENBB_MAPPING',
+    'FALLBACK': 'FALLBACK',
+  };
+  static const Map<Object, String> _fromWire = const <Object, String>{
+    'USER_META': 'USER_META',
+    'FIAT_CURRENCY': 'FIAT_CURRENCY',
+    'OPENBB_MAPPING': 'OPENBB_MAPPING',
+    'FALLBACK': 'FALLBACK',
+  };
+
+  @override
+  final Iterable<Type> types = const <Type>[
+    AccountItemWithAssetClassDtoSource_Enum
+  ];
+  @override
+  final String wireName = 'AccountItemWithAssetClassDtoSource_Enum';
+
+  @override
+  Object serialize(Serializers serializers,
+          AccountItemWithAssetClassDtoSource_Enum object,
+          {FullType specifiedType = FullType.unspecified}) =>
+      _toWire[object.name] ?? object.name;
+
+  @override
+  AccountItemWithAssetClassDtoSource_Enum deserialize(
+          Serializers serializers, Object serialized,
+          {FullType specifiedType = FullType.unspecified}) =>
+      AccountItemWithAssetClassDtoSource_Enum.valueOf(
+          _fromWire[serialized] ?? (serialized is String ? serialized : ''));
+}
+
 class _$AccountItemWithAssetClassDto extends AccountItemWithAssetClassDto {
   @override
   final String id;
@@ -25,6 +103,8 @@ class _$AccountItemWithAssetClassDto extends AccountItemWithAssetClassDto {
   final String? regionalSubClass;
   @override
   final String? riskLevel;
+  @override
+  final AccountItemWithAssetClassDtoSource_Enum? source_;
 
   factory _$AccountItemWithAssetClassDto(
           [void Function(AccountItemWithAssetClassDtoBuilder)? updates]) =>
@@ -39,7 +119,8 @@ class _$AccountItemWithAssetClassDto extends AccountItemWithAssetClassDto {
       required this.assetClass,
       this.assetSubClass,
       this.regionalSubClass,
-      this.riskLevel})
+      this.riskLevel,
+      this.source_})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(
         id, r'AccountItemWithAssetClassDto', 'id');
@@ -76,7 +157,8 @@ class _$AccountItemWithAssetClassDto extends AccountItemWithAssetClassDto {
         assetClass == other.assetClass &&
         assetSubClass == other.assetSubClass &&
         regionalSubClass == other.regionalSubClass &&
-        riskLevel == other.riskLevel;
+        riskLevel == other.riskLevel &&
+        source_ == other.source_;
   }
 
   @override
@@ -91,6 +173,7 @@ class _$AccountItemWithAssetClassDto extends AccountItemWithAssetClassDto {
     _$hash = $jc(_$hash, assetSubClass.hashCode);
     _$hash = $jc(_$hash, regionalSubClass.hashCode);
     _$hash = $jc(_$hash, riskLevel.hashCode);
+    _$hash = $jc(_$hash, source_.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -106,7 +189,8 @@ class _$AccountItemWithAssetClassDto extends AccountItemWithAssetClassDto {
           ..add('assetClass', assetClass)
           ..add('assetSubClass', assetSubClass)
           ..add('regionalSubClass', regionalSubClass)
-          ..add('riskLevel', riskLevel))
+          ..add('riskLevel', riskLevel)
+          ..add('source_', source_))
         .toString();
   }
 }
@@ -155,6 +239,11 @@ class AccountItemWithAssetClassDtoBuilder
   String? get riskLevel => _$this._riskLevel;
   set riskLevel(String? riskLevel) => _$this._riskLevel = riskLevel;
 
+  AccountItemWithAssetClassDtoSource_Enum? _source_;
+  AccountItemWithAssetClassDtoSource_Enum? get source_ => _$this._source_;
+  set source_(AccountItemWithAssetClassDtoSource_Enum? source_) =>
+      _$this._source_ = source_;
+
   AccountItemWithAssetClassDtoBuilder() {
     AccountItemWithAssetClassDto._defaults(this);
   }
@@ -171,6 +260,7 @@ class AccountItemWithAssetClassDtoBuilder
       _assetSubClass = $v.assetSubClass;
       _regionalSubClass = $v.regionalSubClass;
       _riskLevel = $v.riskLevel;
+      _source_ = $v.source_;
       _$v = null;
     }
     return this;
@@ -207,7 +297,8 @@ class AccountItemWithAssetClassDtoBuilder
                 assetClass, r'AccountItemWithAssetClassDto', 'assetClass'),
             assetSubClass: assetSubClass,
             regionalSubClass: regionalSubClass,
-            riskLevel: riskLevel);
+            riskLevel: riskLevel,
+            source_: source_);
     replace(_$result);
     return _$result;
   }

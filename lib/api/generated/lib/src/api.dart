@@ -21,6 +21,7 @@ import 'package:firela_api/src/api/bean_import_api.dart';
 import 'package:firela_api/src/api/bean_nlp_api.dart';
 import 'package:firela_api/src/api/bean_payees_api.dart';
 import 'package:firela_api/src/api/bean_platforms_api.dart';
+import 'package:firela_api/src/api/bean_prices_api.dart';
 import 'package:firela_api/src/api/bean_reviews_api.dart';
 import 'package:firela_api/src/api/bean_transaction_rules_api.dart';
 import 'package:firela_api/src/api/bean_transactions_api.dart';
@@ -31,6 +32,7 @@ import 'package:firela_api/src/api/expected_transactions_api.dart';
 import 'package:firela_api/src/api/health_api.dart';
 import 'package:firela_api/src/api/import_telemetry_api.dart';
 import 'package:firela_api/src/api/info_api.dart';
+import 'package:firela_api/src/api/investment_api.dart';
 import 'package:firela_api/src/api/properties_api.dart';
 import 'package:firela_api/src/api/provider_sync_api.dart';
 import 'package:firela_api/src/api/recurring_forecast_api.dart';
@@ -164,6 +166,12 @@ class FirelaApi {
     return BeanPlatformsApi(dio, serializers);
   }
 
+  /// Get BeanPricesApi instance, base route and serializer can be overridden by a given but be careful,
+  /// by doing that all interceptors will not be executed
+  BeanPricesApi getBeanPricesApi() {
+    return BeanPricesApi(dio, serializers);
+  }
+
   /// Get BeanReviewsApi instance, base route and serializer can be overridden by a given but be careful,
   /// by doing that all interceptors will not be executed
   BeanReviewsApi getBeanReviewsApi() {
@@ -222,6 +230,12 @@ class FirelaApi {
   /// by doing that all interceptors will not be executed
   InfoApi getInfoApi() {
     return InfoApi(dio, serializers);
+  }
+
+  /// Get InvestmentApi instance, base route and serializer can be overridden by a given but be careful,
+  /// by doing that all interceptors will not be executed
+  InvestmentApi getInvestmentApi() {
+    return InvestmentApi(dio, serializers);
   }
 
   /// Get PropertiesApi instance, base route and serializer can be overridden by a given but be careful,

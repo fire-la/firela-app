@@ -4,7 +4,6 @@
 
 import 'dart:async';
 
-import 'package:built_value/json_object.dart';
 import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
 
@@ -150,7 +149,7 @@ class ProviderSyncApi {
   ///
   /// Parameters:
   /// * [providerName] - Provider name
-  /// * [region] - Region code
+  /// * [region] - Region code for tenant context
   /// * [providerSyncDto] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
@@ -163,7 +162,7 @@ class ProviderSyncApi {
   /// Throws [DioException] if API call or serialization fails
   Future<Response<ProviderSyncResponseDto>> providerSyncControllerSync({ 
     required String providerName,
-    required JsonObject region,
+    required String region,
     required ProviderSyncDto providerSyncDto,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -172,7 +171,7 @@ class ProviderSyncApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/{region}/bean/import/provider/{providerName}/sync'.replaceAll('{' r'providerName' '}', encodeQueryParameter(_serializers, providerName, const FullType(String)).toString()).replaceAll('{' r'region' '}', encodeQueryParameter(_serializers, region, const FullType(JsonObject)).toString());
+    final _path = r'/api/v1/{region}/bean/import/provider/{providerName}/sync'.replaceAll('{' r'providerName' '}', encodeQueryParameter(_serializers, providerName, const FullType(String)).toString()).replaceAll('{' r'region' '}', encodeQueryParameter(_serializers, region, const FullType(String)).toString());
     final _options = Options(
       method: r'POST',
       headers: <String, dynamic>{
