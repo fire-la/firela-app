@@ -7,11 +7,15 @@ part of 'serializers.dart';
 // **************************************************************************
 
 Serializers _$serializers = (new Serializers().toBuilder()
+      ..add($CurrentPriceDto.serializer)
+      ..add($FxRateDto.serializer)
+      ..add($MonetaryDto.serializer)
       ..add($NlpSuggestedPayeeDto.serializer)
       ..add($TransactionSummaryDto.serializer)
       ..add(AccountExchangeRateWarningDto.serializer)
       ..add(AccountItemDto.serializer)
       ..add(AccountItemWithAssetClassDto.serializer)
+      ..add(AccountItemWithAssetClassDtoSource_Enum.serializer)
       ..add(AccountListResponseDto.serializer)
       ..add(AccountResponseDto.serializer)
       ..add(AccountResponseDtoBookingMethodEnum.serializer)
@@ -53,6 +57,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(CorrectTransactionDtoFlagEnum.serializer)
       ..add(CreateAccountDto.serializer)
       ..add(CreateAccountDtoBookingMethodEnum.serializer)
+      ..add(CreateBeanPriceDto.serializer)
       ..add(CreateCommodityDto.serializer)
       ..add(CreatePayeeDto.serializer)
       ..add(CreatePayeeProfileDto.serializer)
@@ -70,6 +75,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(CreateTransactionRuleDto.serializer)
       ..add(CreateTransactionRuleDtoMatchLogicEnum.serializer)
       ..add(CurrencyBalanceDto.serializer)
+      ..add(CurrentPriceDtoSource_Enum.serializer)
       ..add(DashboardControllerGetAccounts200Response.serializer)
       ..add(DecisionOptionDto.serializer)
       ..add(DecisionOptionDtoValueEnum.serializer)
@@ -87,6 +93,21 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(FileImportControllerImportFile429Response.serializer)
       ..add(ForecastItemDto.serializer)
       ..add(ForecastResponseDto.serializer)
+      ..add(HoldingAssetClassAccountSliceDto.serializer)
+      ..add(HoldingAssetClassCrossAccountResponseDto.serializer)
+      ..add(HoldingPnlResponseDto.serializer)
+      ..add(HoldingPnlResponseDtoMethodEnum.serializer)
+      ..add(HoldingPnlRowDto.serializer)
+      ..add(HoldingPnlRowDtoAverageCostPerUnit.serializer)
+      ..add(HoldingPnlRowDtoChartTokenEnum.serializer)
+      ..add(HoldingPnlRowDtoCostBasis.serializer)
+      ..add(HoldingPnlRowDtoCostFxRate.serializer)
+      ..add(HoldingPnlRowDtoCurrentPrice.serializer)
+      ..add(HoldingPnlRowDtoMarketFxRate.serializer)
+      ..add(HoldingPnlRowDtoMarketValue.serializer)
+      ..add(HoldingPnlRowDtoRealizedPnl.serializer)
+      ..add(HoldingPnlWarningDto.serializer)
+      ..add(HoldingPnlWarningDtoTypeEnum.serializer)
       ..add(IdentifyResultDto.serializer)
       ..add(ImportErrorDto.serializer)
       ..add(ImportResultDto.serializer)
@@ -136,6 +157,8 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(PortfolioTrendsResponseDto.serializer)
       ..add(PostingDetailDto.serializer)
       ..add(PostingResponseDto.serializer)
+      ..add(PriceListResponseDto.serializer)
+      ..add(PriceResponseDto.serializer)
       ..add(ProcessNlpDto.serializer)
       ..add(ProviderSyncConfigDto.serializer)
       ..add(ProviderSyncDto.serializer)
@@ -190,6 +213,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(UndoResultDto.serializer)
       ..add(UpdateAccountDto.serializer)
       ..add(UpdateAccountDtoBookingMethodEnum.serializer)
+      ..add(UpdateBeanPriceDto.serializer)
       ..add(UpdateCommodityDto.serializer)
       ..add(UpdateConfigDataDto.serializer)
       ..add(UpdateImporterConfigDto.serializer)
@@ -239,6 +263,13 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(AssetClassGroupDto)]),
           () => new ListBuilder<AssetClassGroupDto>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(AssetClassGroupDto)]),
+          () => new ListBuilder<AssetClassGroupDto>())
+      ..addBuilderFactory(
+          const FullType(
+              BuiltList, const [const FullType(AccountItemWithAssetClassDto)]),
+          () => new ListBuilder<AccountItemWithAssetClassDto>())
       ..addBuilderFactory(
           const FullType(
               BuiltList, const [const FullType(BalanceByCurrencyDto)]),
@@ -390,6 +421,17 @@ Serializers _$serializers = (new Serializers().toBuilder()
           const FullType(BuiltList, const [const FullType(ForecastItemDto)]),
           () => new ListBuilder<ForecastItemDto>())
       ..addBuilderFactory(
+          const FullType(BuiltList,
+              const [const FullType(HoldingAssetClassAccountSliceDto)]),
+          () => new ListBuilder<HoldingAssetClassAccountSliceDto>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(HoldingPnlRowDto)]),
+          () => new ListBuilder<HoldingPnlRowDto>())
+      ..addBuilderFactory(
+          const FullType(
+              BuiltList, const [const FullType(HoldingPnlWarningDto)]),
+          () => new ListBuilder<HoldingPnlWarningDto>())
+      ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(ImportErrorDto)]),
           () => new ListBuilder<ImportErrorDto>())
       ..addBuilderFactory(
@@ -428,6 +470,9 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(PriceResponseDto)]),
+          () => new ListBuilder<PriceResponseDto>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(RegionInfoDto)]),
           () => new ListBuilder<RegionInfoDto>())

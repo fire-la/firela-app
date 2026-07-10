@@ -11,13 +11,15 @@ class _$AssetClassAccountsResponseDto extends AssetClassAccountsResponseDto {
   final BuiltList<AssetClassGroupDto> groups;
   @override
   final AssetClassSummaryDto summary;
+  @override
+  final AssetClassGroupDto? uncategorized;
 
   factory _$AssetClassAccountsResponseDto(
           [void Function(AssetClassAccountsResponseDtoBuilder)? updates]) =>
       (new AssetClassAccountsResponseDtoBuilder()..update(updates))._build();
 
   _$AssetClassAccountsResponseDto._(
-      {required this.groups, required this.summary})
+      {required this.groups, required this.summary, this.uncategorized})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(
         groups, r'AssetClassAccountsResponseDto', 'groups');
@@ -39,7 +41,8 @@ class _$AssetClassAccountsResponseDto extends AssetClassAccountsResponseDto {
     if (identical(other, this)) return true;
     return other is AssetClassAccountsResponseDto &&
         groups == other.groups &&
-        summary == other.summary;
+        summary == other.summary &&
+        uncategorized == other.uncategorized;
   }
 
   @override
@@ -47,6 +50,7 @@ class _$AssetClassAccountsResponseDto extends AssetClassAccountsResponseDto {
     var _$hash = 0;
     _$hash = $jc(_$hash, groups.hashCode);
     _$hash = $jc(_$hash, summary.hashCode);
+    _$hash = $jc(_$hash, uncategorized.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -55,7 +59,8 @@ class _$AssetClassAccountsResponseDto extends AssetClassAccountsResponseDto {
   String toString() {
     return (newBuiltValueToStringHelper(r'AssetClassAccountsResponseDto')
           ..add('groups', groups)
-          ..add('summary', summary))
+          ..add('summary', summary)
+          ..add('uncategorized', uncategorized))
         .toString();
   }
 }
@@ -78,6 +83,12 @@ class AssetClassAccountsResponseDtoBuilder
   set summary(AssetClassSummaryDtoBuilder? summary) =>
       _$this._summary = summary;
 
+  AssetClassGroupDtoBuilder? _uncategorized;
+  AssetClassGroupDtoBuilder get uncategorized =>
+      _$this._uncategorized ??= new AssetClassGroupDtoBuilder();
+  set uncategorized(AssetClassGroupDtoBuilder? uncategorized) =>
+      _$this._uncategorized = uncategorized;
+
   AssetClassAccountsResponseDtoBuilder() {
     AssetClassAccountsResponseDto._defaults(this);
   }
@@ -87,6 +98,7 @@ class AssetClassAccountsResponseDtoBuilder
     if ($v != null) {
       _groups = $v.groups.toBuilder();
       _summary = $v.summary.toBuilder();
+      _uncategorized = $v.uncategorized?.toBuilder();
       _$v = null;
     }
     return this;
@@ -111,7 +123,9 @@ class AssetClassAccountsResponseDtoBuilder
     try {
       _$result = _$v ??
           new _$AssetClassAccountsResponseDto._(
-              groups: groups.build(), summary: summary.build());
+              groups: groups.build(),
+              summary: summary.build(),
+              uncategorized: _uncategorized?.build());
     } catch (_) {
       late String _$failedField;
       try {
@@ -119,6 +133,8 @@ class AssetClassAccountsResponseDtoBuilder
         groups.build();
         _$failedField = 'summary';
         summary.build();
+        _$failedField = 'uncategorized';
+        _uncategorized?.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             r'AssetClassAccountsResponseDto', _$failedField, e.toString());

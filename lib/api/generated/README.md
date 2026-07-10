@@ -193,6 +193,12 @@ Class | Method | HTTP request | Description
 [*BeanPlatformsApi*](doc/BeanPlatformsApi.md) | [**platformControllerGetPlatformList**](doc/BeanPlatformsApi.md#platformcontrollergetplatformlist) | **GET** /api/v1/bean/platforms/list | Get platform list for current user
 [*BeanPlatformsApi*](doc/BeanPlatformsApi.md) | [**platformControllerMatchPlatforms**](doc/BeanPlatformsApi.md#platformcontrollermatchplatforms) | **GET** /api/v1/bean/platforms/match | Match platforms by name or alias
 [*BeanPlatformsApi*](doc/BeanPlatformsApi.md) | [**platformControllerUpdate**](doc/BeanPlatformsApi.md#platformcontrollerupdate) | **PUT** /api/v1/bean/platforms/{id} | Update a platform
+[*BeanPricesApi*](doc/BeanPricesApi.md) | [**priceControllerBulkCreate**](doc/BeanPricesApi.md#pricecontrollerbulkcreate) | **POST** /api/v1/{region}/bean/prices/bulk | Bulk create prices
+[*BeanPricesApi*](doc/BeanPricesApi.md) | [**priceControllerCreate**](doc/BeanPricesApi.md#pricecontrollercreate) | **POST** /api/v1/{region}/bean/prices | Create a new price
+[*BeanPricesApi*](doc/BeanPricesApi.md) | [**priceControllerDelete**](doc/BeanPricesApi.md#pricecontrollerdelete) | **DELETE** /api/v1/{region}/bean/prices/{id} | Delete a price
+[*BeanPricesApi*](doc/BeanPricesApi.md) | [**priceControllerFindAll**](doc/BeanPricesApi.md#pricecontrollerfindall) | **GET** /api/v1/{region}/bean/prices | List user prices
+[*BeanPricesApi*](doc/BeanPricesApi.md) | [**priceControllerFindOne**](doc/BeanPricesApi.md#pricecontrollerfindone) | **GET** /api/v1/{region}/bean/prices/{id} | Get price by ID
+[*BeanPricesApi*](doc/BeanPricesApi.md) | [**priceControllerUpdate**](doc/BeanPricesApi.md#pricecontrollerupdate) | **PUT** /api/v1/{region}/bean/prices/{id} | Update a price
 [*BeanReviewsApi*](doc/BeanReviewsApi.md) | [**reviewControllerBatchResolve**](doc/BeanReviewsApi.md#reviewcontrollerbatchresolve) | **POST** /api/v1/{region}/bean/reviews/batch-resolve | Batch resolve multiple reviews
 [*BeanReviewsApi*](doc/BeanReviewsApi.md) | [**reviewControllerFindAll**](doc/BeanReviewsApi.md#reviewcontrollerfindall) | **GET** /api/v1/{region}/bean/reviews | List pending reviews
 [*BeanReviewsApi*](doc/BeanReviewsApi.md) | [**reviewControllerFindOne**](doc/BeanReviewsApi.md#reviewcontrollerfindone) | **GET** /api/v1/{region}/bean/reviews/{id} | Get review by ID
@@ -237,8 +243,11 @@ Class | Method | HTTP request | Description
 [*HealthApi*](doc/HealthApi.md) | [**healthControllerGetHealth**](doc/HealthApi.md#healthcontrollergethealth) | **GET** /api/v1/health | Basic health check for K8s/load balancer probes
 [*HealthApi*](doc/HealthApi.md) | [**healthControllerGetMetrics**](doc/HealthApi.md#healthcontrollergetmetrics) | **GET** /api/v1/health/metrics | Get health check metrics and statistics
 [*HealthApi*](doc/HealthApi.md) | [**healthControllerResetCircuitBreaker**](doc/HealthApi.md#healthcontrollerresetcircuitbreaker) | **POST** /api/v1/health/circuit-breakers/{name}/reset | Reset a circuit breaker to CLOSED state
+[*ImportTelemetryApi*](doc/ImportTelemetryApi.md) | [**telemetryControllerGetCoverageMetrics**](doc/ImportTelemetryApi.md#telemetrycontrollergetcoveragemetrics) | **GET** /api/v1/{region}/bean/import/parser-coverage-metrics | Coverage metrics (uncovered format aggregation)
+[*ImportTelemetryApi*](doc/ImportTelemetryApi.md) | [**telemetryControllerReportCoverageMiss**](doc/ImportTelemetryApi.md#telemetrycontrollerreportcoveragemiss) | **POST** /api/v1/{region}/bean/import/parser-coverage-miss | Receive anonymous zero-hit coverage miss report
 [*ImportTelemetryApi*](doc/ImportTelemetryApi.md) | [**telemetryControllerReportTelemetry**](doc/ImportTelemetryApi.md#telemetrycontrollerreporttelemetry) | **POST** /api/v1/{region}/bean/import/parser-telemetry | Receive anonymous parser failure telemetry
 [*InfoApi*](doc/InfoApi.md) | [**infoControllerGetInfo**](doc/InfoApi.md#infocontrollergetinfo) | **GET** /api/v1/system/info | Get system information
+[*InvestmentApi*](doc/InvestmentApi.md) | [**holdingPnlControllerGetHoldingPnl**](doc/InvestmentApi.md#holdingpnlcontrollergetholdingpnl) | **GET** /api/v1/{region}/investment/holdings/pnl | Get per-holding unrealized + realized P&amp;L
 [*PropertiesApi*](doc/PropertiesApi.md) | [**propertyControllerDelete**](doc/PropertiesApi.md#propertycontrollerdelete) | **DELETE** /api/v1/admin/properties/{key} | Delete a system property
 [*PropertiesApi*](doc/PropertiesApi.md) | [**propertyControllerGetAll**](doc/PropertiesApi.md#propertycontrollergetall) | **GET** /api/v1/admin/properties | Get all system properties
 [*PropertiesApi*](doc/PropertiesApi.md) | [**propertyControllerGetByKey**](doc/PropertiesApi.md#propertycontrollergetbykey) | **GET** /api/v1/admin/properties/{key} | Get property by key
@@ -304,6 +313,7 @@ Class | Method | HTTP request | Description
  - [ConvertedNetWorthDto](doc/ConvertedNetWorthDto.md)
  - [CorrectTransactionDto](doc/CorrectTransactionDto.md)
  - [CreateAccountDto](doc/CreateAccountDto.md)
+ - [CreateBeanPriceDto](doc/CreateBeanPriceDto.md)
  - [CreateCommodityDto](doc/CreateCommodityDto.md)
  - [CreatePayeeDto](doc/CreatePayeeDto.md)
  - [CreatePayeeProfileDto](doc/CreatePayeeProfileDto.md)
@@ -314,6 +324,7 @@ Class | Method | HTTP request | Description
  - [CreateTransactionDto](doc/CreateTransactionDto.md)
  - [CreateTransactionRuleDto](doc/CreateTransactionRuleDto.md)
  - [CurrencyBalanceDto](doc/CurrencyBalanceDto.md)
+ - [CurrentPriceDto](doc/CurrentPriceDto.md)
  - [DashboardControllerGetAccounts200Response](doc/DashboardControllerGetAccounts200Response.md)
  - [DecisionOptionDto](doc/DecisionOptionDto.md)
  - [DeleteOwnUserDto](doc/DeleteOwnUserDto.md)
@@ -330,12 +341,26 @@ Class | Method | HTTP request | Description
  - [FileImportControllerImportFile429Response](doc/FileImportControllerImportFile429Response.md)
  - [ForecastItemDto](doc/ForecastItemDto.md)
  - [ForecastResponseDto](doc/ForecastResponseDto.md)
+ - [FxRateDto](doc/FxRateDto.md)
+ - [HoldingAssetClassAccountSliceDto](doc/HoldingAssetClassAccountSliceDto.md)
+ - [HoldingAssetClassCrossAccountResponseDto](doc/HoldingAssetClassCrossAccountResponseDto.md)
+ - [HoldingPnlResponseDto](doc/HoldingPnlResponseDto.md)
+ - [HoldingPnlRowDto](doc/HoldingPnlRowDto.md)
+ - [HoldingPnlRowDtoAverageCostPerUnit](doc/HoldingPnlRowDtoAverageCostPerUnit.md)
+ - [HoldingPnlRowDtoCostBasis](doc/HoldingPnlRowDtoCostBasis.md)
+ - [HoldingPnlRowDtoCostFxRate](doc/HoldingPnlRowDtoCostFxRate.md)
+ - [HoldingPnlRowDtoCurrentPrice](doc/HoldingPnlRowDtoCurrentPrice.md)
+ - [HoldingPnlRowDtoMarketFxRate](doc/HoldingPnlRowDtoMarketFxRate.md)
+ - [HoldingPnlRowDtoMarketValue](doc/HoldingPnlRowDtoMarketValue.md)
+ - [HoldingPnlRowDtoRealizedPnl](doc/HoldingPnlRowDtoRealizedPnl.md)
+ - [HoldingPnlWarningDto](doc/HoldingPnlWarningDto.md)
  - [IdentifyResultDto](doc/IdentifyResultDto.md)
  - [ImportErrorDto](doc/ImportErrorDto.md)
  - [ImportResultDto](doc/ImportResultDto.md)
  - [ImporterConfigDataDto](doc/ImporterConfigDataDto.md)
  - [ImporterConfigDto](doc/ImporterConfigDto.md)
  - [MapperDefaultsDto](doc/MapperDefaultsDto.md)
+ - [MonetaryDto](doc/MonetaryDto.md)
  - [MonthlyForecastDto](doc/MonthlyForecastDto.md)
  - [MultiCurrencyBalanceResponseDto](doc/MultiCurrencyBalanceResponseDto.md)
  - [MultiCurrencyPointDto](doc/MultiCurrencyPointDto.md)
@@ -367,6 +392,8 @@ Class | Method | HTTP request | Description
  - [PortfolioTrendsResponseDto](doc/PortfolioTrendsResponseDto.md)
  - [PostingDetailDto](doc/PostingDetailDto.md)
  - [PostingResponseDto](doc/PostingResponseDto.md)
+ - [PriceListResponseDto](doc/PriceListResponseDto.md)
+ - [PriceResponseDto](doc/PriceResponseDto.md)
  - [ProcessNlpDto](doc/ProcessNlpDto.md)
  - [ProviderSyncConfigDto](doc/ProviderSyncConfigDto.md)
  - [ProviderSyncDto](doc/ProviderSyncDto.md)
@@ -407,6 +434,7 @@ Class | Method | HTTP request | Description
  - [TrendSummaryDto](doc/TrendSummaryDto.md)
  - [UndoResultDto](doc/UndoResultDto.md)
  - [UpdateAccountDto](doc/UpdateAccountDto.md)
+ - [UpdateBeanPriceDto](doc/UpdateBeanPriceDto.md)
  - [UpdateCommodityDto](doc/UpdateCommodityDto.md)
  - [UpdateConfigDataDto](doc/UpdateConfigDataDto.md)
  - [UpdateImporterConfigDto](doc/UpdateImporterConfigDto.md)

@@ -27,6 +27,7 @@ class DashboardApi {
   /// * [region] - Region code for tenant context
   /// * [groupBy] - Grouping strategy
   /// * [date] - Date for balance calculation (ISO 8601 format)
+  /// * [accountId] - Scope to a single account (only valid with groupBy=holdingAssetClass, ADR-0105 §6)
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -40,6 +41,7 @@ class DashboardApi {
     required String region,
     String? groupBy,
     String? date,
+    String? accountId,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -63,6 +65,7 @@ class DashboardApi {
     final _queryParameters = <String, dynamic>{
       if (groupBy != null) r'groupBy': encodeQueryParameter(_serializers, groupBy, const FullType(String)),
       if (date != null) r'date': encodeQueryParameter(_serializers, date, const FullType(String)),
+      if (accountId != null) r'accountId': encodeQueryParameter(_serializers, accountId, const FullType(String)),
     };
 
     final _response = await _dio.request<Object>(

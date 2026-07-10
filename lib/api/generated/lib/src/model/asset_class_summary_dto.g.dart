@@ -15,6 +15,8 @@ class _$AssetClassSummaryDto extends AssetClassSummaryDto {
   final String baseCurrency;
   @override
   final BuiltList<AccountExchangeRateWarningDto>? warnings;
+  @override
+  final JsonObject? fallback;
 
   factory _$AssetClassSummaryDto(
           [void Function(AssetClassSummaryDtoBuilder)? updates]) =>
@@ -24,7 +26,8 @@ class _$AssetClassSummaryDto extends AssetClassSummaryDto {
       {required this.totalAccounts,
       required this.totalAssetClasses,
       required this.baseCurrency,
-      this.warnings})
+      this.warnings,
+      this.fallback})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(
         totalAccounts, r'AssetClassSummaryDto', 'totalAccounts');
@@ -50,7 +53,8 @@ class _$AssetClassSummaryDto extends AssetClassSummaryDto {
         totalAccounts == other.totalAccounts &&
         totalAssetClasses == other.totalAssetClasses &&
         baseCurrency == other.baseCurrency &&
-        warnings == other.warnings;
+        warnings == other.warnings &&
+        fallback == other.fallback;
   }
 
   @override
@@ -60,6 +64,7 @@ class _$AssetClassSummaryDto extends AssetClassSummaryDto {
     _$hash = $jc(_$hash, totalAssetClasses.hashCode);
     _$hash = $jc(_$hash, baseCurrency.hashCode);
     _$hash = $jc(_$hash, warnings.hashCode);
+    _$hash = $jc(_$hash, fallback.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -70,7 +75,8 @@ class _$AssetClassSummaryDto extends AssetClassSummaryDto {
           ..add('totalAccounts', totalAccounts)
           ..add('totalAssetClasses', totalAssetClasses)
           ..add('baseCurrency', baseCurrency)
-          ..add('warnings', warnings))
+          ..add('warnings', warnings)
+          ..add('fallback', fallback))
         .toString();
   }
 }
@@ -99,6 +105,10 @@ class AssetClassSummaryDtoBuilder
   set warnings(ListBuilder<AccountExchangeRateWarningDto>? warnings) =>
       _$this._warnings = warnings;
 
+  JsonObject? _fallback;
+  JsonObject? get fallback => _$this._fallback;
+  set fallback(JsonObject? fallback) => _$this._fallback = fallback;
+
   AssetClassSummaryDtoBuilder() {
     AssetClassSummaryDto._defaults(this);
   }
@@ -110,6 +120,7 @@ class AssetClassSummaryDtoBuilder
       _totalAssetClasses = $v.totalAssetClasses;
       _baseCurrency = $v.baseCurrency;
       _warnings = $v.warnings?.toBuilder();
+      _fallback = $v.fallback;
       _$v = null;
     }
     return this;
@@ -142,7 +153,8 @@ class AssetClassSummaryDtoBuilder
                   'totalAssetClasses'),
               baseCurrency: BuiltValueNullFieldError.checkNotNull(
                   baseCurrency, r'AssetClassSummaryDto', 'baseCurrency'),
-              warnings: _warnings?.build());
+              warnings: _warnings?.build(),
+              fallback: fallback);
     } catch (_) {
       late String _$failedField;
       try {

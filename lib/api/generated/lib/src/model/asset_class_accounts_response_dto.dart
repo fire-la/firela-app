@@ -16,6 +16,7 @@ part 'asset_class_accounts_response_dto.g.dart';
 /// Properties:
 /// * [groups] - Account groups by asset class
 /// * [summary] 
+/// * [uncategorized] 
 @BuiltValue()
 abstract class AssetClassAccountsResponseDto implements Built<AssetClassAccountsResponseDto, AssetClassAccountsResponseDtoBuilder> {
   /// Account groups by asset class
@@ -24,6 +25,9 @@ abstract class AssetClassAccountsResponseDto implements Built<AssetClassAccounts
 
   @BuiltValueField(wireName: r'summary')
   AssetClassSummaryDto get summary;
+
+  @BuiltValueField(wireName: r'uncategorized')
+  AssetClassGroupDto? get uncategorized;
 
   AssetClassAccountsResponseDto._();
 
@@ -58,6 +62,13 @@ class _$AssetClassAccountsResponseDtoSerializer implements PrimitiveSerializer<A
       object.summary,
       specifiedType: const FullType(AssetClassSummaryDto),
     );
+    if (object.uncategorized != null) {
+      yield r'uncategorized';
+      yield serializers.serialize(
+        object.uncategorized,
+        specifiedType: const FullType(AssetClassGroupDto),
+      );
+    }
   }
 
   @override
@@ -94,6 +105,13 @@ class _$AssetClassAccountsResponseDtoSerializer implements PrimitiveSerializer<A
             specifiedType: const FullType(AssetClassSummaryDto),
           ) as AssetClassSummaryDto;
           result.summary.replace(valueDes);
+          break;
+        case r'uncategorized':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(AssetClassGroupDto),
+          ) as AssetClassGroupDto;
+          result.uncategorized.replace(valueDes);
           break;
         default:
           unhandled.add(key);
