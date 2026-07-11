@@ -23,6 +23,7 @@ import 'package:firela_api/src/model/account_standard_list_response_dto.dart';
 import 'package:firela_api/src/model/account_standard_response_dto.dart';
 import 'package:firela_api/src/model/accounts_response_dto.dart';
 import 'package:firela_api/src/model/accounts_summary_dto.dart';
+import 'package:firela_api/src/model/amount_dto.dart';
 import 'package:firela_api/src/model/amount_range_dto.dart';
 import 'package:firela_api/src/model/anonymous_login_dto.dart';
 import 'package:firela_api/src/model/api_problem_response_dto.dart';
@@ -48,6 +49,7 @@ import 'package:firela_api/src/model/confirm_match_dto.dart';
 import 'package:firela_api/src/model/converted_cash_flow_dto.dart';
 import 'package:firela_api/src/model/converted_net_worth_dto.dart';
 import 'package:firela_api/src/model/correct_transaction_dto.dart';
+import 'package:firela_api/src/model/cost_spec_dto.dart';
 import 'package:firela_api/src/model/create_account_dto.dart';
 import 'package:firela_api/src/model/create_bean_price_dto.dart';
 import 'package:firela_api/src/model/create_commodity_dto.dart';
@@ -199,6 +201,7 @@ part 'serializers.g.dart';
   AccountStandardResponseDto,
   AccountsResponseDto,
   AccountsSummaryDto,
+  AmountDto,
   AmountRangeDto,
   AnonymousLoginDto,
   ApiProblemResponseDto,
@@ -224,6 +227,7 @@ part 'serializers.g.dart';
   ConvertedCashFlowDto,
   ConvertedNetWorthDto,
   CorrectTransactionDto,
+  CostSpecDto,
   CreateAccountDto,
   CreateBeanPriceDto,
   CreateCommodityDto,

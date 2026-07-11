@@ -15,13 +15,22 @@ class _$CreatePostingDto extends CreatePostingDto {
   final String? currency;
   @override
   final JsonObject? meta;
+  @override
+  final CostSpecDto? cost;
+  @override
+  final AmountDto? price;
 
   factory _$CreatePostingDto(
           [void Function(CreatePostingDtoBuilder)? updates]) =>
       (new CreatePostingDtoBuilder()..update(updates))._build();
 
   _$CreatePostingDto._(
-      {required this.account, this.units, this.currency, this.meta})
+      {required this.account,
+      this.units,
+      this.currency,
+      this.meta,
+      this.cost,
+      this.price})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(
         account, r'CreatePostingDto', 'account');
@@ -42,7 +51,9 @@ class _$CreatePostingDto extends CreatePostingDto {
         account == other.account &&
         units == other.units &&
         currency == other.currency &&
-        meta == other.meta;
+        meta == other.meta &&
+        cost == other.cost &&
+        price == other.price;
   }
 
   @override
@@ -52,6 +63,8 @@ class _$CreatePostingDto extends CreatePostingDto {
     _$hash = $jc(_$hash, units.hashCode);
     _$hash = $jc(_$hash, currency.hashCode);
     _$hash = $jc(_$hash, meta.hashCode);
+    _$hash = $jc(_$hash, cost.hashCode);
+    _$hash = $jc(_$hash, price.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -62,7 +75,9 @@ class _$CreatePostingDto extends CreatePostingDto {
           ..add('account', account)
           ..add('units', units)
           ..add('currency', currency)
-          ..add('meta', meta))
+          ..add('meta', meta)
+          ..add('cost', cost)
+          ..add('price', price))
         .toString();
   }
 }
@@ -87,6 +102,14 @@ class CreatePostingDtoBuilder
   JsonObject? get meta => _$this._meta;
   set meta(JsonObject? meta) => _$this._meta = meta;
 
+  CostSpecDtoBuilder? _cost;
+  CostSpecDtoBuilder get cost => _$this._cost ??= new CostSpecDtoBuilder();
+  set cost(CostSpecDtoBuilder? cost) => _$this._cost = cost;
+
+  AmountDtoBuilder? _price;
+  AmountDtoBuilder get price => _$this._price ??= new AmountDtoBuilder();
+  set price(AmountDtoBuilder? price) => _$this._price = price;
+
   CreatePostingDtoBuilder() {
     CreatePostingDto._defaults(this);
   }
@@ -98,6 +121,8 @@ class CreatePostingDtoBuilder
       _units = $v.units;
       _currency = $v.currency;
       _meta = $v.meta;
+      _cost = $v.cost?.toBuilder();
+      _price = $v.price?.toBuilder();
       _$v = null;
     }
     return this;
@@ -118,13 +143,30 @@ class CreatePostingDtoBuilder
   CreatePostingDto build() => _build();
 
   _$CreatePostingDto _build() {
-    final _$result = _$v ??
-        new _$CreatePostingDto._(
-            account: BuiltValueNullFieldError.checkNotNull(
-                account, r'CreatePostingDto', 'account'),
-            units: units,
-            currency: currency,
-            meta: meta);
+    _$CreatePostingDto _$result;
+    try {
+      _$result = _$v ??
+          new _$CreatePostingDto._(
+              account: BuiltValueNullFieldError.checkNotNull(
+                  account, r'CreatePostingDto', 'account'),
+              units: units,
+              currency: currency,
+              meta: meta,
+              cost: _cost?.build(),
+              price: _price?.build());
+    } catch (_) {
+      late String _$failedField;
+      try {
+        _$failedField = 'cost';
+        _cost?.build();
+        _$failedField = 'price';
+        _price?.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            r'CreatePostingDto', _$failedField, e.toString());
+      }
+      rethrow;
+    }
     replace(_$result);
     return _$result;
   }
