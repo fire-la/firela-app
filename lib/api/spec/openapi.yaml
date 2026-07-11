@@ -5884,6 +5884,57 @@ components:
             $ref: '#/components/schemas/RegionInfoDto'
       required:
         - regions
+    CostSpecDto:
+      type: object
+      properties:
+        mode:
+          type: string
+          enum:
+            - per-unit
+            - total
+            - date
+            - label
+            - auto
+          description: Cost specification mode (mirrors engine CostSpec)
+        numberPerUnit:
+          type: string
+          description: Per-unit cost (required when mode is "per-unit")
+          example: '240'
+        totalNumber:
+          type: string
+          description: Total cost for all units (required when mode is "total")
+          example: '12000'
+        currency:
+          type: string
+          description: Cost currency (required in all modes)
+          example: USD
+        date:
+          type: string
+          description: Lot acquisition date, ISO 8601 (required when mode is "date")
+          example: '2024-01-15'
+        label:
+          type: string
+          description: Lot label (required when mode is "label"; optional tag in buy modes)
+        merge:
+          type: boolean
+          description: 'Merge lots for AVERAGE booking (mode: auto)'
+      required:
+        - mode
+        - currency
+    AmountDto:
+      type: object
+      properties:
+        number:
+          type: string
+          description: Amount as decimal string (max 15 integer + 15 decimal digits)
+          example: '170.50'
+        currency:
+          type: string
+          description: Currency/commodity code
+          example: USD
+      required:
+        - number
+        - currency
     CreatePostingDto:
       type: object
       properties:
@@ -5912,6 +5963,26 @@ components:
           description: Posting-level metadata
           example:
             tax-lot: Q1-2024
+        cost:
+          description: >-
+            Cost basis (Beancount `{...}`). Maps to engine costSpec. Required
+            for commodity holdings so they carry a monetary weight that can
+            balance.
+          example:
+            mode: per-unit
+            numberPerUnit: '240'
+            currency: USD
+          allOf:
+            - $ref: '#/components/schemas/CostSpecDto'
+        price:
+          description: >-
+            Price annotation (Beancount `@...`). Maps to engine price. Used for
+            valuation; cost takes priority for balance weight.
+          example:
+            number: '170'
+            currency: USD
+          allOf:
+            - $ref: '#/components/schemas/AmountDto'
       required:
         - account
     CreateTransactionDto:
