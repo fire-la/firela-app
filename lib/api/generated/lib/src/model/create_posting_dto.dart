@@ -3,6 +3,8 @@
 //
 
 // ignore_for_file: unused_element
+import 'package:firela_api/src/model/amount_dto.dart';
+import 'package:firela_api/src/model/cost_spec_dto.dart';
 import 'package:built_value/json_object.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
@@ -16,6 +18,8 @@ part 'create_posting_dto.g.dart';
 /// * [units] - Amount as decimal string (max 15 integer + 15 decimal digits). Can be omitted for interpolation, but currency must also be omitted.
 /// * [currency] - Currency/commodity code. Required if units is provided, must be omitted if units is omitted.
 /// * [meta] - Posting-level metadata
+/// * [cost] 
+/// * [price] 
 @BuiltValue()
 abstract class CreatePostingDto implements Built<CreatePostingDto, CreatePostingDtoBuilder> {
   /// Account name in Beancount format (must start with uppercase, colon-separated)
@@ -33,6 +37,12 @@ abstract class CreatePostingDto implements Built<CreatePostingDto, CreatePosting
   /// Posting-level metadata
   @BuiltValueField(wireName: r'meta')
   JsonObject? get meta;
+
+  @BuiltValueField(wireName: r'cost')
+  CostSpecDto? get cost;
+
+  @BuiltValueField(wireName: r'price')
+  AmountDto? get price;
 
   CreatePostingDto._();
 
@@ -81,6 +91,20 @@ class _$CreatePostingDtoSerializer implements PrimitiveSerializer<CreatePostingD
       yield serializers.serialize(
         object.meta,
         specifiedType: const FullType(JsonObject),
+      );
+    }
+    if (object.cost != null) {
+      yield r'cost';
+      yield serializers.serialize(
+        object.cost,
+        specifiedType: const FullType(CostSpecDto),
+      );
+    }
+    if (object.price != null) {
+      yield r'price';
+      yield serializers.serialize(
+        object.price,
+        specifiedType: const FullType(AmountDto),
       );
     }
   }
@@ -133,6 +157,20 @@ class _$CreatePostingDtoSerializer implements PrimitiveSerializer<CreatePostingD
             specifiedType: const FullType(JsonObject),
           ) as JsonObject;
           result.meta = valueDes;
+          break;
+        case r'cost':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(CostSpecDto),
+          ) as CostSpecDto;
+          result.cost.replace(valueDes);
+          break;
+        case r'price':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(AmountDto),
+          ) as AmountDto;
+          result.price.replace(valueDes);
           break;
         default:
           unhandled.add(key);
