@@ -13,12 +13,15 @@ class _$PostingResponseDto extends PostingResponseDto {
   final String? units;
   @override
   final String? currency;
+  @override
+  final CostDetailDto? cost;
 
   factory _$PostingResponseDto(
           [void Function(PostingResponseDtoBuilder)? updates]) =>
       (new PostingResponseDtoBuilder()..update(updates))._build();
 
-  _$PostingResponseDto._({required this.account, this.units, this.currency})
+  _$PostingResponseDto._(
+      {required this.account, this.units, this.currency, this.cost})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(
         account, r'PostingResponseDto', 'account');
@@ -39,7 +42,8 @@ class _$PostingResponseDto extends PostingResponseDto {
     return other is PostingResponseDto &&
         account == other.account &&
         units == other.units &&
-        currency == other.currency;
+        currency == other.currency &&
+        cost == other.cost;
   }
 
   @override
@@ -48,6 +52,7 @@ class _$PostingResponseDto extends PostingResponseDto {
     _$hash = $jc(_$hash, account.hashCode);
     _$hash = $jc(_$hash, units.hashCode);
     _$hash = $jc(_$hash, currency.hashCode);
+    _$hash = $jc(_$hash, cost.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -57,7 +62,8 @@ class _$PostingResponseDto extends PostingResponseDto {
     return (newBuiltValueToStringHelper(r'PostingResponseDto')
           ..add('account', account)
           ..add('units', units)
-          ..add('currency', currency))
+          ..add('currency', currency)
+          ..add('cost', cost))
         .toString();
   }
 }
@@ -78,6 +84,10 @@ class PostingResponseDtoBuilder
   String? get currency => _$this._currency;
   set currency(String? currency) => _$this._currency = currency;
 
+  CostDetailDtoBuilder? _cost;
+  CostDetailDtoBuilder get cost => _$this._cost ??= new CostDetailDtoBuilder();
+  set cost(CostDetailDtoBuilder? cost) => _$this._cost = cost;
+
   PostingResponseDtoBuilder() {
     PostingResponseDto._defaults(this);
   }
@@ -88,6 +98,7 @@ class PostingResponseDtoBuilder
       _account = $v.account;
       _units = $v.units;
       _currency = $v.currency;
+      _cost = $v.cost?.toBuilder();
       _$v = null;
     }
     return this;
@@ -108,12 +119,26 @@ class PostingResponseDtoBuilder
   PostingResponseDto build() => _build();
 
   _$PostingResponseDto _build() {
-    final _$result = _$v ??
-        new _$PostingResponseDto._(
-            account: BuiltValueNullFieldError.checkNotNull(
-                account, r'PostingResponseDto', 'account'),
-            units: units,
-            currency: currency);
+    _$PostingResponseDto _$result;
+    try {
+      _$result = _$v ??
+          new _$PostingResponseDto._(
+              account: BuiltValueNullFieldError.checkNotNull(
+                  account, r'PostingResponseDto', 'account'),
+              units: units,
+              currency: currency,
+              cost: _cost?.build());
+    } catch (_) {
+      late String _$failedField;
+      try {
+        _$failedField = 'cost';
+        _cost?.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            r'PostingResponseDto', _$failedField, e.toString());
+      }
+      rethrow;
+    }
     replace(_$result);
     return _$result;
   }

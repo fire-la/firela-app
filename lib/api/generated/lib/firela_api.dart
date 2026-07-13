@@ -75,6 +75,7 @@ export 'package:firela_api/src/model/confirm_match_dto.dart';
 export 'package:firela_api/src/model/converted_cash_flow_dto.dart';
 export 'package:firela_api/src/model/converted_net_worth_dto.dart';
 export 'package:firela_api/src/model/correct_transaction_dto.dart';
+export 'package:firela_api/src/model/cost_detail_dto.dart';
 export 'package:firela_api/src/model/cost_spec_dto.dart';
 export 'package:firela_api/src/model/create_account_dto.dart';
 export 'package:firela_api/src/model/create_bean_price_dto.dart';

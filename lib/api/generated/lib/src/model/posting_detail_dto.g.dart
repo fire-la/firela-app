@@ -24,6 +24,8 @@ class _$PostingDetailDto extends PostingDetailDto {
   @override
   final String? costDate;
   @override
+  final CostDetailDto? cost;
+  @override
   final String? priceAmount;
   @override
   final String? priceCurrency;
@@ -45,6 +47,7 @@ class _$PostingDetailDto extends PostingDetailDto {
       this.costAmount,
       this.costCurrency,
       this.costDate,
+      this.cost,
       this.priceAmount,
       this.priceCurrency,
       this.flag,
@@ -77,6 +80,7 @@ class _$PostingDetailDto extends PostingDetailDto {
         costAmount == other.costAmount &&
         costCurrency == other.costCurrency &&
         costDate == other.costDate &&
+        cost == other.cost &&
         priceAmount == other.priceAmount &&
         priceCurrency == other.priceCurrency &&
         flag == other.flag &&
@@ -94,6 +98,7 @@ class _$PostingDetailDto extends PostingDetailDto {
     _$hash = $jc(_$hash, costAmount.hashCode);
     _$hash = $jc(_$hash, costCurrency.hashCode);
     _$hash = $jc(_$hash, costDate.hashCode);
+    _$hash = $jc(_$hash, cost.hashCode);
     _$hash = $jc(_$hash, priceAmount.hashCode);
     _$hash = $jc(_$hash, priceCurrency.hashCode);
     _$hash = $jc(_$hash, flag.hashCode);
@@ -113,6 +118,7 @@ class _$PostingDetailDto extends PostingDetailDto {
           ..add('costAmount', costAmount)
           ..add('costCurrency', costCurrency)
           ..add('costDate', costDate)
+          ..add('cost', cost)
           ..add('priceAmount', priceAmount)
           ..add('priceCurrency', priceCurrency)
           ..add('flag', flag)
@@ -157,6 +163,10 @@ class PostingDetailDtoBuilder
   String? get costDate => _$this._costDate;
   set costDate(String? costDate) => _$this._costDate = costDate;
 
+  CostDetailDtoBuilder? _cost;
+  CostDetailDtoBuilder get cost => _$this._cost ??= new CostDetailDtoBuilder();
+  set cost(CostDetailDtoBuilder? cost) => _$this._cost = cost;
+
   String? _priceAmount;
   String? get priceAmount => _$this._priceAmount;
   set priceAmount(String? priceAmount) => _$this._priceAmount = priceAmount;
@@ -189,6 +199,7 @@ class PostingDetailDtoBuilder
       _costAmount = $v.costAmount;
       _costCurrency = $v.costCurrency;
       _costDate = $v.costDate;
+      _cost = $v.cost?.toBuilder();
       _priceAmount = $v.priceAmount;
       _priceCurrency = $v.priceCurrency;
       _flag = $v.flag;
@@ -213,23 +224,37 @@ class PostingDetailDtoBuilder
   PostingDetailDto build() => _build();
 
   _$PostingDetailDto _build() {
-    final _$result = _$v ??
-        new _$PostingDetailDto._(
-            id: BuiltValueNullFieldError.checkNotNull(
-                id, r'PostingDetailDto', 'id'),
-            accountId: BuiltValueNullFieldError.checkNotNull(
-                accountId, r'PostingDetailDto', 'accountId'),
-            account: BuiltValueNullFieldError.checkNotNull(
-                account, r'PostingDetailDto', 'account'),
-            units: units,
-            currency: currency,
-            costAmount: costAmount,
-            costCurrency: costCurrency,
-            costDate: costDate,
-            priceAmount: priceAmount,
-            priceCurrency: priceCurrency,
-            flag: flag,
-            meta: meta);
+    _$PostingDetailDto _$result;
+    try {
+      _$result = _$v ??
+          new _$PostingDetailDto._(
+              id: BuiltValueNullFieldError.checkNotNull(
+                  id, r'PostingDetailDto', 'id'),
+              accountId: BuiltValueNullFieldError.checkNotNull(
+                  accountId, r'PostingDetailDto', 'accountId'),
+              account: BuiltValueNullFieldError.checkNotNull(
+                  account, r'PostingDetailDto', 'account'),
+              units: units,
+              currency: currency,
+              costAmount: costAmount,
+              costCurrency: costCurrency,
+              costDate: costDate,
+              cost: _cost?.build(),
+              priceAmount: priceAmount,
+              priceCurrency: priceCurrency,
+              flag: flag,
+              meta: meta);
+    } catch (_) {
+      late String _$failedField;
+      try {
+        _$failedField = 'cost';
+        _cost?.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            r'PostingDetailDto', _$failedField, e.toString());
+      }
+      rethrow;
+    }
     replace(_$result);
     return _$result;
   }

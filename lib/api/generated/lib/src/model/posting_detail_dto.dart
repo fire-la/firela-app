@@ -3,6 +3,7 @@
 //
 
 // ignore_for_file: unused_element
+import 'package:firela_api/src/model/cost_detail_dto.dart';
 import 'package:built_value/json_object.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
@@ -20,6 +21,7 @@ part 'posting_detail_dto.g.dart';
 /// * [costAmount] - Cost amount
 /// * [costCurrency] - Cost currency
 /// * [costDate] - Cost date
+/// * [cost] 
 /// * [priceAmount] - Price amount
 /// * [priceCurrency] - Price currency
 /// * [flag] - Posting flag
@@ -57,6 +59,9 @@ abstract class PostingDetailDto implements Built<PostingDetailDto, PostingDetail
   /// Cost date
   @BuiltValueField(wireName: r'costDate')
   String? get costDate;
+
+  @BuiltValueField(wireName: r'cost')
+  CostDetailDto? get cost;
 
   /// Price amount
   @BuiltValueField(wireName: r'priceAmount')
@@ -145,6 +150,13 @@ class _$PostingDetailDtoSerializer implements PrimitiveSerializer<PostingDetailD
       yield serializers.serialize(
         object.costDate,
         specifiedType: const FullType(String),
+      );
+    }
+    if (object.cost != null) {
+      yield r'cost';
+      yield serializers.serialize(
+        object.cost,
+        specifiedType: const FullType(CostDetailDto),
       );
     }
     if (object.priceAmount != null) {
@@ -253,6 +265,13 @@ class _$PostingDetailDtoSerializer implements PrimitiveSerializer<PostingDetailD
             specifiedType: const FullType(String),
           ) as String;
           result.costDate = valueDes;
+          break;
+        case r'cost':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(CostDetailDto),
+          ) as CostDetailDto;
+          result.cost.replace(valueDes);
           break;
         case r'priceAmount':
           final valueDes = serializers.deserialize(

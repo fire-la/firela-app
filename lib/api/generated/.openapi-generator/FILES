@@ -75,6 +75,7 @@ lib/src/model/confirm_match_dto.dart
 lib/src/model/converted_cash_flow_dto.dart
 lib/src/model/converted_net_worth_dto.dart
 lib/src/model/correct_transaction_dto.dart
+lib/src/model/cost_detail_dto.dart
 lib/src/model/cost_spec_dto.dart
 lib/src/model/create_account_dto.dart
 lib/src/model/create_bean_price_dto.dart

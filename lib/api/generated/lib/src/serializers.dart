@@ -49,6 +49,7 @@ import 'package:firela_api/src/model/confirm_match_dto.dart';
 import 'package:firela_api/src/model/converted_cash_flow_dto.dart';
 import 'package:firela_api/src/model/converted_net_worth_dto.dart';
 import 'package:firela_api/src/model/correct_transaction_dto.dart';
+import 'package:firela_api/src/model/cost_detail_dto.dart';
 import 'package:firela_api/src/model/cost_spec_dto.dart';
 import 'package:firela_api/src/model/create_account_dto.dart';
 import 'package:firela_api/src/model/create_bean_price_dto.dart';
@@ -227,6 +228,7 @@ part 'serializers.g.dart';
   ConvertedCashFlowDto,
   ConvertedNetWorthDto,
   CorrectTransactionDto,
+  CostDetailDto,
   CostSpecDto,
   CreateAccountDto,
   CreateBeanPriceDto,

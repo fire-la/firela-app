@@ -313,6 +313,7 @@ Class | Method | HTTP request | Description
  - [ConvertedCashFlowDto](doc/ConvertedCashFlowDto.md)
  - [ConvertedNetWorthDto](doc/ConvertedNetWorthDto.md)
  - [CorrectTransactionDto](doc/CorrectTransactionDto.md)
+ - [CostDetailDto](doc/CostDetailDto.md)
  - [CostSpecDto](doc/CostSpecDto.md)
  - [CreateAccountDto](doc/CreateAccountDto.md)
  - [CreateBeanPriceDto](doc/CreateBeanPriceDto.md)
