@@ -3,68 +3,63 @@
 //
 
 // ignore_for_file: unused_element
-import 'package:firela_api/src/model/cost_detail_dto.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
-part 'posting_response_dto.g.dart';
+part 'cost_detail_dto.g.dart';
 
-/// PostingResponseDto
+/// CostDetailDto
 ///
 /// Properties:
-/// * [account] - Account name
-/// * [units] - Amount as decimal string. Typed optional but always present in responses: interpolation fills any MISSING posting before it is persisted or returned.
-/// * [currency] - Currency
-/// * [cost] 
+/// * [number] - Per-unit cost basis (mirrors engine Cost.number)
+/// * [currency] - Cost currency
+/// * [date] - Lot acquisition date (ISO yyyy-mm-dd)
+/// * [label] - Lot label
 @BuiltValue()
-abstract class PostingResponseDto implements Built<PostingResponseDto, PostingResponseDtoBuilder> {
-  /// Account name
-  @BuiltValueField(wireName: r'account')
-  String get account;
+abstract class CostDetailDto implements Built<CostDetailDto, CostDetailDtoBuilder> {
+  /// Per-unit cost basis (mirrors engine Cost.number)
+  @BuiltValueField(wireName: r'number')
+  String? get number;
 
-  /// Amount as decimal string. Typed optional but always present in responses: interpolation fills any MISSING posting before it is persisted or returned.
-  @BuiltValueField(wireName: r'units')
-  String? get units;
-
-  /// Currency
+  /// Cost currency
   @BuiltValueField(wireName: r'currency')
   String? get currency;
 
-  @BuiltValueField(wireName: r'cost')
-  CostDetailDto? get cost;
+  /// Lot acquisition date (ISO yyyy-mm-dd)
+  @BuiltValueField(wireName: r'date')
+  String? get date;
 
-  PostingResponseDto._();
+  /// Lot label
+  @BuiltValueField(wireName: r'label')
+  String? get label;
 
-  factory PostingResponseDto([void updates(PostingResponseDtoBuilder b)]) = _$PostingResponseDto;
+  CostDetailDto._();
+
+  factory CostDetailDto([void updates(CostDetailDtoBuilder b)]) = _$CostDetailDto;
 
   @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(PostingResponseDtoBuilder b) => b;
+  static void _defaults(CostDetailDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<PostingResponseDto> get serializer => _$PostingResponseDtoSerializer();
+  static Serializer<CostDetailDto> get serializer => _$CostDetailDtoSerializer();
 }
 
-class _$PostingResponseDtoSerializer implements PrimitiveSerializer<PostingResponseDto> {
+class _$CostDetailDtoSerializer implements PrimitiveSerializer<CostDetailDto> {
   @override
-  final Iterable<Type> types = const [PostingResponseDto, _$PostingResponseDto];
+  final Iterable<Type> types = const [CostDetailDto, _$CostDetailDto];
 
   @override
-  final String wireName = r'PostingResponseDto';
+  final String wireName = r'CostDetailDto';
 
   Iterable<Object?> _serializeProperties(
     Serializers serializers,
-    PostingResponseDto object, {
+    CostDetailDto object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'account';
-    yield serializers.serialize(
-      object.account,
-      specifiedType: const FullType(String),
-    );
-    if (object.units != null) {
-      yield r'units';
+    if (object.number != null) {
+      yield r'number';
       yield serializers.serialize(
-        object.units,
+        object.number,
         specifiedType: const FullType(String),
       );
     }
@@ -75,11 +70,18 @@ class _$PostingResponseDtoSerializer implements PrimitiveSerializer<PostingRespo
         specifiedType: const FullType(String),
       );
     }
-    if (object.cost != null) {
-      yield r'cost';
+    if (object.date != null) {
+      yield r'date';
       yield serializers.serialize(
-        object.cost,
-        specifiedType: const FullType(CostDetailDto),
+        object.date,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.label != null) {
+      yield r'label';
+      yield serializers.serialize(
+        object.label,
+        specifiedType: const FullType(String),
       );
     }
   }
@@ -87,7 +89,7 @@ class _$PostingResponseDtoSerializer implements PrimitiveSerializer<PostingRespo
   @override
   Object serialize(
     Serializers serializers,
-    PostingResponseDto object, {
+    CostDetailDto object, {
     FullType specifiedType = FullType.unspecified,
   }) {
     return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
@@ -98,26 +100,19 @@ class _$PostingResponseDtoSerializer implements PrimitiveSerializer<PostingRespo
     Object serialized, {
     FullType specifiedType = FullType.unspecified,
     required List<Object?> serializedList,
-    required PostingResponseDtoBuilder result,
+    required CostDetailDtoBuilder result,
     required List<Object?> unhandled,
   }) {
     for (var i = 0; i < serializedList.length; i += 2) {
       final key = serializedList[i] as String;
       final value = serializedList[i + 1];
       switch (key) {
-        case r'account':
+        case r'number':
           final valueDes = serializers.deserialize(
             value,
             specifiedType: const FullType(String),
           ) as String;
-          result.account = valueDes;
-          break;
-        case r'units':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.units = valueDes;
+          result.number = valueDes;
           break;
         case r'currency':
           final valueDes = serializers.deserialize(
@@ -126,12 +121,19 @@ class _$PostingResponseDtoSerializer implements PrimitiveSerializer<PostingRespo
           ) as String;
           result.currency = valueDes;
           break;
-        case r'cost':
+        case r'date':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(CostDetailDto),
-          ) as CostDetailDto;
-          result.cost.replace(valueDes);
+            specifiedType: const FullType(String),
+          ) as String;
+          result.date = valueDes;
+          break;
+        case r'label':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.label = valueDes;
           break;
         default:
           unhandled.add(key);
@@ -142,12 +144,12 @@ class _$PostingResponseDtoSerializer implements PrimitiveSerializer<PostingRespo
   }
 
   @override
-  PostingResponseDto deserialize(
+  CostDetailDto deserialize(
     Serializers serializers,
     Object serialized, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    final result = PostingResponseDtoBuilder();
+    final result = CostDetailDtoBuilder();
     final serializedList = (serialized as Iterable<Object?>).toList();
     final unhandled = <Object?>[];
     _deserializeProperties(
