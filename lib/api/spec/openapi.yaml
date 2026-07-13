@@ -6053,6 +6053,25 @@ components:
         - date
         - narration
         - postings
+    CostDetailDto:
+      type: object
+      properties:
+        number:
+          type: string
+          description: Per-unit cost basis (mirrors engine Cost.number)
+          example: '240'
+        currency:
+          type: string
+          description: Cost currency
+          example: USD
+        date:
+          type: string
+          description: Lot acquisition date (ISO yyyy-mm-dd)
+          example: '2024-01-15'
+        label:
+          type: string
+          description: Lot label
+          example: lot-2024-01
     PostingResponseDto:
       type: object
       properties:
@@ -6071,6 +6090,12 @@ components:
           type: string
           description: Currency
           example: USD
+        cost:
+          description: >-
+            Booking-resolved cost (mirrors engine Cost). Undefined when the
+            posting has no cost basis.
+          allOf:
+            - $ref: '#/components/schemas/CostDetailDto'
       required:
         - account
     RecurringSuggestionDto:
@@ -6378,6 +6403,12 @@ components:
           type: string
           description: Cost date
           example: '2024-01-15'
+        cost:
+          description: >-
+            Booking-resolved cost (mirrors engine Cost). Undefined when the
+            posting has no cost basis.
+          allOf:
+            - $ref: '#/components/schemas/CostDetailDto'
         priceAmount:
           type: string
           description: Price amount
