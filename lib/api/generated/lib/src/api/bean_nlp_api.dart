@@ -8,6 +8,7 @@ import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
 
 import 'package:firela_api/src/api_util.dart';
+import 'package:firela_api/src/model/nlp_response_dto.dart';
 import 'package:firela_api/src/model/process_nlp_dto.dart';
 
 class BeanNLPApi {
@@ -126,12 +127,12 @@ class BeanNLPApi {
     return _response;
   }
 
-  /// nlpControllerProcessNaturalLanguage
-  /// 
+  /// Process natural language input
+  /// Parse natural language text (Chinese/English) describing a transaction. Supports multi-turn dialogue for collecting missing information. When confidence &lt; 0.75, returns \&quot;confirm\&quot; action requiring user verification. User can reply with confirmation words (确认/yes/ok) or provide corrections. Examples: \&quot;yesterday Starbucks spent 35 yuan\&quot;, \&quot;today lunch 28 yuan\&quot;, \&quot;spent $50 at Walmart\&quot;
   ///
   /// Parameters:
   /// * [region] - Region code for tenant context
-  /// * [processNlpDto] 
+  /// * [processNlpDto] - Natural language transaction input with optional session ID
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -139,9 +140,9 @@ class BeanNLPApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future]
+  /// Returns a [Future] containing a [Response] with a [NlpResponseDto] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<void>> nlpControllerProcessNaturalLanguage({ 
+  Future<Response<NlpResponseDto>> nlpControllerProcessNaturalLanguage({ 
     required String region,
     required ProcessNlpDto processNlpDto,
     CancelToken? cancelToken,
@@ -192,7 +193,35 @@ class BeanNLPApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    return _response;
+    NlpResponseDto? _responseData;
+
+    try {
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(NlpResponseDto),
+      ) as NlpResponseDto;
+
+    } catch (error, stackTrace) {
+      throw DioException(
+        requestOptions: _response.requestOptions,
+        response: _response,
+        type: DioExceptionType.unknown,
+        error: error,
+        stackTrace: stackTrace,
+      );
+    }
+
+    return Response<NlpResponseDto>(
+      data: _responseData,
+      headers: _response.headers,
+      isRedirect: _response.isRedirect,
+      requestOptions: _response.requestOptions,
+      redirects: _response.redirects,
+      statusCode: _response.statusCode,
+      statusMessage: _response.statusMessage,
+      extra: _response.extra,
+    );
   }
 
 }

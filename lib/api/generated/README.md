@@ -154,13 +154,13 @@ Class | Method | HTTP request | Description
 [*BeanAccountStandardsApi*](doc/BeanAccountStandardsApi.md) | [**accountStandardsControllerGetRegions**](doc/BeanAccountStandardsApi.md#accountstandardscontrollergetregions) | **GET** /api/v1/{region}/bean/account-standards/regions | Get available regions with hierarchy
 [*BeanAccountStandardsApi*](doc/BeanAccountStandardsApi.md) | [**accountStandardsControllerGetTemplateMetadata**](doc/BeanAccountStandardsApi.md#accountstandardscontrollergettemplatemetadata) | **GET** /api/v1/{region}/bean/account-standards/template-metadata | Get template metadata for an account path
 [*BeanAccountStandardsApi*](doc/BeanAccountStandardsApi.md) | [**accountStandardsControllerGetTemplates**](doc/BeanAccountStandardsApi.md#accountstandardscontrollergettemplates) | **GET** /api/v1/{region}/bean/account-standards | Get account templates
-[*BeanAccountsApi*](doc/BeanAccountsApi.md) | [**accountControllerClose**](doc/BeanAccountsApi.md#accountcontrollerclose) | **POST** /api/v1/{region}/bean/accounts/{id}/close | 
-[*BeanAccountsApi*](doc/BeanAccountsApi.md) | [**accountControllerCreate**](doc/BeanAccountsApi.md#accountcontrollercreate) | **POST** /api/v1/{region}/bean/accounts | 
-[*BeanAccountsApi*](doc/BeanAccountsApi.md) | [**accountControllerDelete**](doc/BeanAccountsApi.md#accountcontrollerdelete) | **DELETE** /api/v1/{region}/bean/accounts/{id} | 
+[*BeanAccountsApi*](doc/BeanAccountsApi.md) | [**accountControllerClose**](doc/BeanAccountsApi.md#accountcontrollerclose) | **POST** /api/v1/{region}/bean/accounts/{id}/close | Close account
+[*BeanAccountsApi*](doc/BeanAccountsApi.md) | [**accountControllerCreate**](doc/BeanAccountsApi.md#accountcontrollercreate) | **POST** /api/v1/{region}/bean/accounts | Create a new account
+[*BeanAccountsApi*](doc/BeanAccountsApi.md) | [**accountControllerDelete**](doc/BeanAccountsApi.md#accountcontrollerdelete) | **DELETE** /api/v1/{region}/bean/accounts/{id} | Delete account
 [*BeanAccountsApi*](doc/BeanAccountsApi.md) | [**accountControllerFindAll**](doc/BeanAccountsApi.md#accountcontrollerfindall) | **GET** /api/v1/{region}/bean/accounts | List accounts
 [*BeanAccountsApi*](doc/BeanAccountsApi.md) | [**accountControllerFindOne**](doc/BeanAccountsApi.md#accountcontrollerfindone) | **GET** /api/v1/{region}/bean/accounts/{id} | Get account by ID
-[*BeanAccountsApi*](doc/BeanAccountsApi.md) | [**accountControllerReopen**](doc/BeanAccountsApi.md#accountcontrollerreopen) | **POST** /api/v1/{region}/bean/accounts/{id}/reopen | 
-[*BeanAccountsApi*](doc/BeanAccountsApi.md) | [**accountControllerUpdate**](doc/BeanAccountsApi.md#accountcontrollerupdate) | **PUT** /api/v1/{region}/bean/accounts/{id} | 
+[*BeanAccountsApi*](doc/BeanAccountsApi.md) | [**accountControllerReopen**](doc/BeanAccountsApi.md#accountcontrollerreopen) | **POST** /api/v1/{region}/bean/accounts/{id}/reopen | Reopen account
+[*BeanAccountsApi*](doc/BeanAccountsApi.md) | [**accountControllerUpdate**](doc/BeanAccountsApi.md#accountcontrollerupdate) | **PUT** /api/v1/{region}/bean/accounts/{id} | Update account
 [*BeanBalancesApi*](doc/BeanBalancesApi.md) | [**balanceControllerGetBalance**](doc/BeanBalancesApi.md#balancecontrollergetbalance) | **GET** /api/v1/{region}/bean/balances | Query account balance
 [*BeanBalancesApi*](doc/BeanBalancesApi.md) | [**balanceControllerGetMultiCurrencyBalance**](doc/BeanBalancesApi.md#balancecontrollergetmulticurrencybalance) | **GET** /api/v1/{region}/bean/balances/multi-currency | Query multi-currency account balance
 [*BeanCommoditiesApi*](doc/BeanCommoditiesApi.md) | [**commodityControllerBulkCreate**](doc/BeanCommoditiesApi.md#commoditycontrollerbulkcreate) | **POST** /api/v1/{region}/bean/commodities/bulk | Bulk create commodities
@@ -172,14 +172,14 @@ Class | Method | HTTP request | Description
 [*BeanCommoditiesApi*](doc/BeanCommoditiesApi.md) | [**commodityControllerUpdate**](doc/BeanCommoditiesApi.md#commoditycontrollerupdate) | **PUT** /api/v1/{region}/bean/commodities/{symbol} | Update commodity
 [*BeanExportApi*](doc/BeanExportApi.md) | [**exportControllerExportBeancount**](doc/BeanExportApi.md#exportcontrollerexportbeancount) | **GET** /api/v1/{region}/bean/export/beancount | Export Beancount ledger as ZIP
 [*BeanImportApi*](doc/BeanImportApi.md) | [**fileImportControllerIdentifyFile**](doc/BeanImportApi.md#fileimportcontrolleridentifyfile) | **POST** /api/v1/{region}/bean/import/identify | Identify file type
-[*BeanImportApi*](doc/BeanImportApi.md) | [**fileImportControllerImportBeancount**](doc/BeanImportApi.md#fileimportcontrollerimportbeancount) | **POST** /api/v1/{region}/bean/import/beancount | 
+[*BeanImportApi*](doc/BeanImportApi.md) | [**fileImportControllerImportBeancount**](doc/BeanImportApi.md#fileimportcontrollerimportbeancount) | **POST** /api/v1/{region}/bean/import/beancount | Import a Beancount file in community format
 [*BeanImportApi*](doc/BeanImportApi.md) | [**fileImportControllerImportFile**](doc/BeanImportApi.md#fileimportcontrollerimportfile) | **POST** /api/v1/{region}/bean/import/file | Import a bill file
 [*BeanImportApi*](doc/BeanImportApi.md) | [**importerConfigControllerGetConfig**](doc/BeanImportApi.md#importerconfigcontrollergetconfig) | **GET** /api/v1/{region}/bean/import/config/{importerId} | Get importer configuration
 [*BeanImportApi*](doc/BeanImportApi.md) | [**importerConfigControllerResetConfig**](doc/BeanImportApi.md#importerconfigcontrollerresetconfig) | **POST** /api/v1/{region}/bean/import/config/{importerId}/reset | Reset configuration to default
 [*BeanImportApi*](doc/BeanImportApi.md) | [**importerConfigControllerUpdateConfig**](doc/BeanImportApi.md#importerconfigcontrollerupdateconfig) | **PUT** /api/v1/{region}/bean/import/config/{importerId} | Update importer configuration
 [*BeanNLPApi*](doc/BeanNLPApi.md) | [**nlpControllerClearSession**](doc/BeanNLPApi.md#nlpcontrollerclearsession) | **DELETE** /api/v1/{region}/bean/nlp/session | Clear dialogue session
 [*BeanNLPApi*](doc/BeanNLPApi.md) | [**nlpControllerGetSession**](doc/BeanNLPApi.md#nlpcontrollergetsession) | **GET** /api/v1/{region}/bean/nlp/session | Get current session state
-[*BeanNLPApi*](doc/BeanNLPApi.md) | [**nlpControllerProcessNaturalLanguage**](doc/BeanNLPApi.md#nlpcontrollerprocessnaturallanguage) | **POST** /api/v1/{region}/bean/nlp/process | 
+[*BeanNLPApi*](doc/BeanNLPApi.md) | [**nlpControllerProcessNaturalLanguage**](doc/BeanNLPApi.md#nlpcontrollerprocessnaturallanguage) | **POST** /api/v1/{region}/bean/nlp/process | Process natural language input
 [*BeanPayeesApi*](doc/BeanPayeesApi.md) | [**payeeControllerAutocomplete**](doc/BeanPayeesApi.md#payeecontrollerautocomplete) | **GET** /api/v1/bean/payees/autocomplete | Get payee autocomplete suggestions
 [*BeanPayeesApi*](doc/BeanPayeesApi.md) | [**payeeControllerCreate**](doc/BeanPayeesApi.md#payeecontrollercreate) | **POST** /api/v1/bean/payees | Create a new payee
 [*BeanPayeesApi*](doc/BeanPayeesApi.md) | [**payeeControllerDelete**](doc/BeanPayeesApi.md#payeecontrollerdelete) | **DELETE** /api/v1/bean/payees/{id} | Delete payee
@@ -254,7 +254,7 @@ Class | Method | HTTP request | Description
 [*PropertiesApi*](doc/PropertiesApi.md) | [**propertyControllerUpdate**](doc/PropertiesApi.md#propertycontrollerupdate) | **PUT** /api/v1/admin/properties/{key} | Update a system property
 [*ProviderSyncApi*](doc/ProviderSyncApi.md) | [**providerSyncControllerGetSupportedProviders**](doc/ProviderSyncApi.md#providersynccontrollergetsupportedproviders) | **GET** /api/v1/{region}/bean/import/provider/supported | Get supported providers
 [*ProviderSyncApi*](doc/ProviderSyncApi.md) | [**providerSyncControllerIsProviderSupported**](doc/ProviderSyncApi.md#providersynccontrollerisprovidersupported) | **GET** /api/v1/{region}/bean/import/provider/{providerName}/supported | Check if provider is supported
-[*ProviderSyncApi*](doc/ProviderSyncApi.md) | [**providerSyncControllerSync**](doc/ProviderSyncApi.md#providersynccontrollersync) | **POST** /api/v1/{region}/bean/import/provider/{providerName}/sync | 
+[*ProviderSyncApi*](doc/ProviderSyncApi.md) | [**providerSyncControllerSync**](doc/ProviderSyncApi.md#providersynccontrollersync) | **POST** /api/v1/{region}/bean/import/provider/{providerName}/sync | Sync transactions from financial data provider
 [*RecurringForecastApi*](doc/RecurringForecastApi.md) | [**forecastControllerGetForecast**](doc/RecurringForecastApi.md#forecastcontrollergetforecast) | **GET** /api/v1/{region}/bean/recurring/forecast | Get cash flow forecast
 [*RecurringRulesApi*](doc/RecurringRulesApi.md) | [**recurringRuleControllerCreate**](doc/RecurringRulesApi.md#recurringrulecontrollercreate) | **POST** /api/v1/{region}/bean/recurring-rules | Create a new recurring rule
 [*RecurringRulesApi*](doc/RecurringRulesApi.md) | [**recurringRuleControllerCreateFromTransaction**](doc/RecurringRulesApi.md#recurringrulecontrollercreatefromtransaction) | **POST** /api/v1/{region}/bean/recurring-rules/from-transaction/{transactionId} | Create recurring rule from transaction
@@ -338,6 +338,7 @@ Class | Method | HTTP request | Description
  - [ExpectedTransactionRuleDto](doc/ExpectedTransactionRuleDto.md)
  - [ExportRulesResponseDto](doc/ExportRulesResponseDto.md)
  - [FileImportControllerIdentifyFile400Response](doc/FileImportControllerIdentifyFile400Response.md)
+ - [FileImportControllerImportBeancount200Response](doc/FileImportControllerImportBeancount200Response.md)
  - [FileImportControllerImportFile400Response](doc/FileImportControllerImportFile400Response.md)
  - [FileImportControllerImportFile413Response](doc/FileImportControllerImportFile413Response.md)
  - [FileImportControllerImportFile429Response](doc/FileImportControllerImportFile429Response.md)
@@ -368,6 +369,22 @@ Class | Method | HTTP request | Description
  - [MultiCurrencyPointDto](doc/MultiCurrencyPointDto.md)
  - [NetWorthByCurrencyDto](doc/NetWorthByCurrencyDto.md)
  - [NetWorthResponseDto](doc/NetWorthResponseDto.md)
+ - [NlpAccountConfirmationDataDto](doc/NlpAccountConfirmationDataDto.md)
+ - [NlpAlternativePayeeDto](doc/NlpAlternativePayeeDto.md)
+ - [NlpDefaultAccountsDto](doc/NlpDefaultAccountsDto.md)
+ - [NlpDuplicateConfirmationDataDto](doc/NlpDuplicateConfirmationDataDto.md)
+ - [NlpParsedDataDto](doc/NlpParsedDataDto.md)
+ - [NlpPayeeConfirmationDataDto](doc/NlpPayeeConfirmationDataDto.md)
+ - [NlpPayeeConfirmationDataDtoSuggestedPayee](doc/NlpPayeeConfirmationDataDtoSuggestedPayee.md)
+ - [NlpResponseDto](doc/NlpResponseDto.md)
+ - [NlpRuleConfirmationDataDto](doc/NlpRuleConfirmationDataDto.md)
+ - [NlpSimilarityDto](doc/NlpSimilarityDto.md)
+ - [NlpSourceTransactionDto](doc/NlpSourceTransactionDto.md)
+ - [NlpSuggestedAccountDto](doc/NlpSuggestedAccountDto.md)
+ - [NlpSuggestedAccountsDto](doc/NlpSuggestedAccountsDto.md)
+ - [NlpSuggestedPayeeDto](doc/NlpSuggestedPayeeDto.md)
+ - [NlpTargetTransactionDto](doc/NlpTargetTransactionDto.md)
+ - [NlpTransactionInfoDto](doc/NlpTransactionInfoDto.md)
  - [PayeeAutocompleteResponseDto](doc/PayeeAutocompleteResponseDto.md)
  - [PayeeListResponseDto](doc/PayeeListResponseDto.md)
  - [PayeeProfileListResponseDto](doc/PayeeProfileListResponseDto.md)
@@ -383,6 +400,8 @@ Class | Method | HTTP request | Description
  - [ProcessNlpDto](doc/ProcessNlpDto.md)
  - [ProviderSyncConfigDto](doc/ProviderSyncConfigDto.md)
  - [ProviderSyncDto](doc/ProviderSyncDto.md)
+ - [ProviderSyncResponseDto](doc/ProviderSyncResponseDto.md)
+ - [RecurringMatchInfoDto](doc/RecurringMatchInfoDto.md)
  - [RecurringRuleResponseDto](doc/RecurringRuleResponseDto.md)
  - [RecurringRuleWithStatsResponseDto](doc/RecurringRuleWithStatsResponseDto.md)
  - [RecurringSuggestionDto](doc/RecurringSuggestionDto.md)
