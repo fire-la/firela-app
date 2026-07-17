@@ -3,8 +3,6 @@ paths:
   /api/v1/{region}/bean/accounts:
     post:
       operationId: AccountController_create
-      summary: Create a new account
-      description: Creates a new account (Beancount Open directive)
       parameters:
         - name: region
           required: true
@@ -25,13 +23,7 @@ paths:
               $ref: '#/components/schemas/CreateAccountDto'
       responses:
         '201':
-          description: Account created successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AccountResponseDto'
-        '409':
-          description: Account already exists
+          description: ''
       tags:
         - Bean Accounts
       security:
@@ -154,13 +146,10 @@ paths:
         - bearer: []
     put:
       operationId: AccountController_update
-      summary: Update account
-      description: Updates account metadata (path cannot be changed)
       parameters:
         - name: id
           required: true
           in: path
-          description: Account UUID
           schema:
             type: string
         - name: region
@@ -182,26 +171,17 @@ paths:
               $ref: '#/components/schemas/UpdateAccountDto'
       responses:
         '200':
-          description: Account updated successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AccountResponseDto'
-        '404':
-          description: Account not found
+          description: ''
       tags:
         - Bean Accounts
       security:
         - bearer: []
     delete:
       operationId: AccountController_delete
-      summary: Delete account
-      description: Deletes an account (only if no transactions)
       parameters:
         - name: id
           required: true
           in: path
-          description: Account UUID
           schema:
             type: string
         - name: region
@@ -216,12 +196,8 @@ paths:
               - gb
             type: string
       responses:
-        '204':
-          description: Account deleted successfully
-        '404':
-          description: Account not found
-        '409':
-          description: Account has transactions and cannot be deleted
+        '200':
+          description: ''
       tags:
         - Bean Accounts
       security:
@@ -229,13 +205,10 @@ paths:
   /api/v1/{region}/bean/accounts/{id}/close:
     post:
       operationId: AccountController_close
-      summary: Close account
-      description: Closes an account (Beancount Close directive)
       parameters:
         - name: id
           required: true
           in: path
-          description: Account UUID
           schema:
             type: string
         - name: region
@@ -256,16 +229,8 @@ paths:
             schema:
               $ref: '#/components/schemas/CloseAccountDto'
       responses:
-        '200':
-          description: Account closed successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AccountResponseDto'
-        '400':
-          description: Account is already closed
-        '404':
-          description: Account not found
+        '201':
+          description: ''
       tags:
         - Bean Accounts
       security:
@@ -273,13 +238,10 @@ paths:
   /api/v1/{region}/bean/accounts/{id}/reopen:
     post:
       operationId: AccountController_reopen
-      summary: Reopen account
-      description: Reopens a previously closed account
       parameters:
         - name: id
           required: true
           in: path
-          description: Account UUID
           schema:
             type: string
         - name: region
@@ -300,16 +262,8 @@ paths:
             schema:
               $ref: '#/components/schemas/ReopenAccountDto'
       responses:
-        '200':
-          description: Account reopened successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AccountResponseDto'
-        '400':
-          description: Account is not closed
-        '404':
-          description: Account not found
+        '201':
+          description: ''
       tags:
         - Bean Accounts
       security:
@@ -3785,12 +3739,6 @@ paths:
   /api/v1/{region}/bean/import/beancount:
     post:
       operationId: FileImportController_importBeancount
-      summary: Import a Beancount file in community format
-      description: >-
-        Upload a .beancount file to import. The system parses community-format
-        paths, converts to internal format using category metadata, auto-creates
-        accounts, and imports transactions with deduplication. Maximum file
-        size: 50MB. Only 1 import per user at a time.
       parameters:
         - name: region
           required: true
@@ -3803,43 +3751,9 @@ paths:
               - de
               - gb
             type: string
-      requestBody:
-        required: true
-        description: Beancount file to import
-        content:
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/FileImportDto'
       responses:
-        '200':
-          description: Beancount file imported successfully
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  imported:
-                    type: number
-                    example: 45
-                  skipped:
-                    type: number
-                    example: 2
-                  failed:
-                    type: number
-                    example: 0
-                  accountsCreated:
-                    type: number
-                    example: 8
-                  errors:
-                    type: array
-                    items:
-                      type: object
-        '400':
-          description: Bad request - invalid file or no file uploaded
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiProblemResponseDto'
+        '201':
+          description: ''
       tags:
         - Bean Import
       security:
@@ -4117,62 +4031,11 @@ paths:
   /api/v1/{region}/bean/import/provider/{providerName}/sync:
     post:
       operationId: ProviderSyncController_sync
-      summary: Sync transactions from financial data provider
-      description: >-
-
-        Accepts raw transactions from external financial data providers,
-        transforms them to Beancount format, and processes them through the
-        ingestion pipeline.
-
-
-        **Supported Providers:**
-
-        - **plaid**: Plaid API (US, Canada, Europe)
-
-        - **teller**: Teller API (US)
-
-        - **truelayer**: TrueLayer Open Banking (UK, Europe)
-
-        - **gocardless**: GoCardless Bank Account Data (Europe)
-
-        - **simplefin**: SimpleFIN (Self-hosted)
-
-        - **yodlee**: Yodlee (Global)
-
-        - **beancount-direct**: Beancount format transactions
-
-        - **parsed-bill**: Client-side parsed bill transactions
-
-
-        **Processing Flow:**
-
-        1. Transform raw data via provider adapter
-
-        2. Validate transaction format
-
-        3. Deduplicate using originalId
-
-        4. Classify using rule engine
-
-        5. Route low-confidence to Review Center
-
-        6. Persist validated transactions
-          
       parameters:
         - name: providerName
           required: true
           in: path
-          description: Provider name
           schema:
-            enum:
-              - plaid
-              - teller
-              - truelayer
-              - gocardless
-              - simplefin
-              - yodlee
-              - beancount-direct
-              - parsed-bill
             type: string
         - name: region
           required: true
@@ -4192,18 +4055,8 @@ paths:
             schema:
               $ref: '#/components/schemas/ProviderSyncDto'
       responses:
-        '200':
-          description: Sync completed successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ProviderSyncResponseDto'
-        '400':
-          description: Invalid request data
-        '401':
-          description: Missing or invalid authentication
-        '404':
-          description: Provider not supported
+        '201':
+          description: ''
       tags:
         - Provider Sync
       security:
@@ -4364,14 +4217,6 @@ paths:
   /api/v1/{region}/bean/nlp/process:
     post:
       operationId: NlpController_processNaturalLanguage
-      summary: Process natural language input
-      description: >-
-        Parse natural language text (Chinese/English) describing a transaction.
-        Supports multi-turn dialogue for collecting missing information. When
-        confidence < 0.75, returns "confirm" action requiring user verification.
-        User can reply with confirmation words (确认/yes/ok) or provide
-        corrections. Examples: "yesterday Starbucks spent 35 yuan", "today lunch
-        28 yuan", "spent $50 at Walmart"
       parameters:
         - name: region
           required: true
@@ -4386,24 +4231,13 @@ paths:
             type: string
       requestBody:
         required: true
-        description: Natural language transaction input with optional session ID
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/ProcessNlpDto'
       responses:
-        '200':
-          description: >-
-            NLP processing result - either created transaction or asking for
-            more info
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/NlpResponseDto'
-        '400':
-          description: Invalid input
-        '401':
-          description: Unauthorized
+        '201':
+          description: ''
       tags:
         - Bean NLP
       security:
@@ -9563,46 +9397,6 @@ components:
       required:
         - config
         - transactions
-    ProviderSyncResponseDto:
-      type: object
-      properties:
-        imported:
-          type: number
-          description: Number of transactions successfully imported
-          example: 10
-        skipped:
-          type: number
-          description: Number of transactions skipped (duplicates)
-          example: 2
-        pendingReview:
-          type: number
-          description: Number of transactions pending review
-          example: 3
-        failed:
-          type: number
-          description: Number of transactions that failed to import
-          example: 0
-        importedTransactionIds:
-          description: IDs of successfully imported transactions
-          example:
-            - txn-001
-            - txn-002
-          type: array
-          items:
-            type: string
-        reviewItemIds:
-          description: IDs of review items created for branched transactions
-          example:
-            - review-001
-            - review-002
-          type: array
-          items:
-            type: string
-      required:
-        - imported
-        - skipped
-        - pendingReview
-        - failed
     SupportedProvidersResponseDto:
       type: object
       properties:
@@ -9653,647 +9447,6 @@ components:
             payee: Starbucks
       required:
         - message
-    NlpTransactionInfoDto:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Transaction ID
-        date:
-          type: string
-          description: Transaction date (ISO format)
-        amount:
-          type: number
-          description: Transaction amount
-        currency:
-          type: string
-          description: Currency code
-        payee:
-          type: string
-          description: Payee name
-        narration:
-          type: string
-          description: Transaction narration
-        warning:
-          type: string
-          description: >-
-            Warning message for special transaction scenarios (e.g.,
-            cross-currency settlement)
-          example: 此交易使用USD账户结算。如需记录CNY支出，请创建货币转换交易。
-      required:
-        - id
-        - date
-        - amount
-        - currency
-    NlpParsedDataDto:
-      type: object
-      properties:
-        amount:
-          type: number
-          description: Extracted amount
-        currency:
-          type: string
-          description: Currency code
-          default: CNY
-        date:
-          type: string
-          description: Transaction date (ISO format)
-        payee:
-          type: string
-          description: Payee name
-        narration:
-          type: string
-          description: Transaction narration
-        category:
-          type: string
-          description: Category
-        incomeType:
-          type: string
-          description: Income type (e.g., Salary, Bonus, Dividend, Interest)
-          example: Salary
-        incomeSource:
-          type: string
-          description: Income source (e.g., company name)
-          example: Anthropic Inc.
-        symbol:
-          type: string
-          description: Security symbol code (e.g., 600519, AAPL)
-          example: '600519'
-        quantity:
-          type: number
-          description: Quantity of shares/units
-          example: 100
-        price:
-          type: number
-          description: Unit price per share/unit
-          example: 1900
-        investmentAction:
-          type: string
-          description: Investment action
-          enum:
-            - buy
-            - sell
-          example: buy
-        paymentSource:
-          type: string
-          description: 'Payment source: asset (default) or liability (credit card)'
-          enum:
-            - asset
-            - liability
-          example: asset
-        liabilityHint:
-          type: string
-          description: Liability account hint (CreditCard/Huabei/Baitiao)
-          example: CreditCard
-        warning:
-          type: string
-          description: >-
-            Warning message for special scenarios (e.g., cross-currency
-            settlement)
-          example: 此交易使用USD账户结算。如需记录CNY支出，请创建货币转换交易。
-    NlpSourceTransactionDto:
-      type: object
-      properties:
-        date:
-          type: string
-          description: Transaction date (ISO format)
-        amount:
-          type: string
-          description: Amount as string
-        currency:
-          type: string
-          description: Currency code
-        payee:
-          type: string
-          description: Payee name
-        narration:
-          type: string
-          description: Transaction narration
-      required:
-        - date
-        - amount
-        - currency
-        - narration
-    NlpTargetTransactionDto:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Existing transaction ID
-        date:
-          type: string
-          description: Transaction date (ISO format)
-        amount:
-          type: string
-          description: Amount as string
-        currency:
-          type: string
-          description: Currency code
-        payee:
-          type: string
-          description: Payee name
-        narration:
-          type: string
-          description: Transaction narration
-      required:
-        - id
-        - date
-        - amount
-        - currency
-        - narration
-    NlpSimilarityDto:
-      type: object
-      properties:
-        dateMatch:
-          type: boolean
-          description: Whether dates match
-        dateDiff:
-          type: number
-          description: Date difference in days
-        amountMatch:
-          type: boolean
-          description: Whether amounts match
-        amountDiff:
-          type: string
-          description: Amount difference as decimal string
-        payeeMatch:
-          type: boolean
-          description: Whether payees match
-        payeeSimilarity:
-          type: number
-          description: Payee similarity score (0-1)
-        accountOverlap:
-          type: number
-          description: Account overlap score (0-1)
-      required:
-        - dateMatch
-        - dateDiff
-        - amountMatch
-        - amountDiff
-        - payeeMatch
-        - payeeSimilarity
-        - accountOverlap
-    NlpDuplicateConfirmationDataDto:
-      type: object
-      properties:
-        confidence:
-          type: number
-          description: Duplicate detection confidence score (0.5-0.89)
-          example: 0.85
-        sourceTransaction:
-          description: Source transaction summary (the new transaction being entered)
-          allOf:
-            - $ref: '#/components/schemas/NlpSourceTransactionDto'
-        targetTransaction:
-          description: Target transaction summary (existing potential duplicate)
-          allOf:
-            - $ref: '#/components/schemas/NlpTargetTransactionDto'
-        similarity:
-          description: Detailed similarity information
-          allOf:
-            - $ref: '#/components/schemas/NlpSimilarityDto'
-        reasons:
-          description: Human-readable reasons for duplicate detection
-          example:
-            - 日期匹配
-            - 金额匹配
-            - 商户相似
-          type: array
-          items:
-            type: string
-      required:
-        - confidence
-        - sourceTransaction
-        - targetTransaction
-        - similarity
-        - reasons
-    NlpRuleConfirmationDataDto:
-      type: object
-      properties:
-        confidence:
-          type: number
-          description: Rule match confidence score (0.5-0.74)
-          example: 0.65
-        matchedRule:
-          type: object
-          description: Matched rule information
-        suggestedAccounts:
-          type: object
-          description: Suggested accounts from the rule
-        alternatives:
-          type: array
-          description: Alternative rules that also match
-        reasons:
-          description: Human-readable reasons for the match
-          example:
-            - Moderate confidence (65%)
-            - Some keywords matched (OR logic)
-          type: array
-          items:
-            type: string
-      required:
-        - confidence
-        - matchedRule
-        - suggestedAccounts
-        - alternatives
-        - reasons
-    NlpAccountConfirmationDataDto:
-      type: object
-      properties:
-        invalidAccount:
-          type: string
-          description: The invalid account name
-          example: Expenses:Food:Coffee
-        suggestedAccount:
-          type: string
-          description: Suggested replacement account
-          example: Expenses:Food:Drinks
-        similarAccounts:
-          description: Similar accounts for user selection
-          type: array
-          items:
-            type: string
-        errorMessage:
-          type: string
-          description: Error message explaining the issue
-          example: No similar account found
-        transactionContext:
-          type: object
-          description: Transaction context for reference
-      required:
-        - invalidAccount
-        - suggestedAccount
-        - similarAccounts
-        - errorMessage
-        - transactionContext
-    NlpSuggestedPayeeDto:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Payee ID
-          example: payee-123
-        name:
-          type: string
-          description: Payee name
-          example: Starbucks
-        category:
-          type: string
-          description: Payee category
-          example: food
-        source:
-          type: string
-          description: Source of the payee
-          enum:
-            - user
-            - global
-        payeeProfileId:
-          type: string
-          description: PayeeProfile ID (if matched from global)
-          example: profile-456
-      required:
-        - id
-        - name
-    NlpAlternativePayeeDto:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Payee ID
-          example: payee-alt-1
-        name:
-          type: string
-          description: Payee name
-          example: Starbucks Coffee
-        similarity:
-          type: number
-          description: Similarity score (0-1)
-          example: 0.75
-      required:
-        - id
-        - name
-        - similarity
-    NlpPayeeConfirmationDataDto:
-      type: object
-      properties:
-        confidence:
-          type: number
-          description: Confidence score for the payee match (0-1)
-          example: 0.65
-        originalPayee:
-          type: string
-          description: Original payee string from user input
-          example: 星巴
-        suggestedPayee:
-          description: Suggested payee to use (null when no similar payees found)
-          nullable: true
-          allOf:
-            - $ref: '#/components/schemas/NlpSuggestedPayeeDto'
-        similarity:
-          type: number
-          description: Similarity score between original and suggested (0-1)
-          example: 0.85
-        alternatives:
-          description: Alternative payee options
-          type: array
-          items:
-            $ref: '#/components/schemas/NlpAlternativePayeeDto'
-        reasons:
-          description: Human-readable reasons for the match
-          example:
-            - Moderate similarity (65%)
-            - Fuzzy match on name
-          type: array
-          items:
-            type: string
-      required:
-        - confidence
-        - originalPayee
-        - similarity
-        - alternatives
-        - reasons
-    RecurringMatchInfoDto:
-      type: object
-      properties:
-        expectedId:
-          type: string
-          description: Expected transaction ID
-        ruleId:
-          type: string
-          description: Recurring rule ID
-        ruleName:
-          type: string
-          description: Rule name for display
-        ruleIcon:
-          type: string
-          description: Rule icon
-        expectedDate:
-          type: string
-          description: Expected date (YYYY-MM-DD)
-          example: '2026-01-05'
-        expectedAmount:
-          type: number
-          description: Expected amount
-          example: 3000
-        confidence:
-          type: number
-          description: Match confidence score (0-1)
-          example: 0.88
-        isAutoMatched:
-          type: boolean
-          description: Whether auto-matched (confidence >= 0.82)
-      required:
-        - expectedId
-        - ruleId
-        - ruleName
-        - expectedDate
-        - expectedAmount
-        - confidence
-        - isAutoMatched
-    NlpSuggestedAccountDto:
-      type: object
-      properties:
-        account:
-          type: string
-          description: Suggested account path
-          example: Assets:Bank:Checking
-        confidence:
-          type: number
-          description: Confidence score for this suggestion (0-1)
-          example: 0.9
-      required:
-        - account
-    NlpSuggestedAccountsDto:
-      type: object
-      properties:
-        source:
-          description: >-
-            Source account suggestion (where money comes from). For expense:
-            asset/liability account. For income: income account.
-          allOf:
-            - $ref: '#/components/schemas/NlpSuggestedAccountDto'
-        destination:
-          description: >-
-            Destination account suggestion (where money goes to). For expense:
-            expense account. For income: asset/liability account.
-          allOf:
-            - $ref: '#/components/schemas/NlpSuggestedAccountDto'
-    NlpDefaultAccountsDto:
-      type: object
-      properties:
-        asset:
-          type: string
-          description: Default asset account
-          example: Assets:Bank:Checking
-        expense:
-          type: string
-          description: Default expense account
-          example: Expenses:Uncategorized
-        income:
-          type: string
-          description: Default income account
-          example: Income:Uncategorized
-        liability:
-          type: string
-          description: Default liability account
-          example: Liabilities:CreditCard
-      required:
-        - asset
-        - expense
-        - income
-        - liability
-    NlpResponseDto:
-      type: object
-      properties:
-        status:
-          type: string
-          description: Response status
-          enum:
-            - success
-            - pending
-            - error
-        action:
-          type: string
-          description: Action taken or requested
-          enum:
-            - created
-            - ask
-            - confirm
-            - confirm_duplicate
-            - confirm_rule
-            - confirm_account
-            - confirm_payee
-            - cancel
-        intent:
-          type: string
-          description: >-
-            Transaction intent detected by EntityRouter (v6.0: 5 core intents).
-            Frontend uses this to render scenario-specific form fields.
-          enum:
-            - expense
-            - asset
-            - income
-            - liability
-            - equity
-          example: expense
-        assetSubType:
-          type: string
-          description: >-
-            Asset sub-type (only present when intent is "asset"). Determines
-            which asset-related form to render.
-          enum:
-            - transfer
-            - banking
-            - investment
-          example: investment
-        liabilitySubType:
-          type: string
-          description: >-
-            Liability sub-type (only present when intent is "liability").
-            borrow: borrowing money (Liabilities → Assets), repay: repaying debt
-            (Assets → Liabilities).
-          enum:
-            - borrow
-            - repay
-          example: borrow
-        equitySubType:
-          type: string
-          description: >-
-            Equity sub-type (only present when intent is "equity"). opening:
-            account opening balance (Equity → Assets), adjustment: balance
-            correction.
-          enum:
-            - opening
-            - adjustment
-          example: opening
-        paymentSource:
-          type: string
-          description: >-
-            Payment source for expense transactions (v6.1). Indicates whether
-            payment comes from asset or liability account. Only present when
-            intent is "expense".
-          enum:
-            - asset
-            - liability
-          example: liability
-        liabilityHint:
-          type: string
-          description: >-
-            Liability account type hint for credit card/BNPL spending (v6.1).
-            Only present when paymentSource is "liability". Values: CreditCard,
-            Huabei, Baitiao
-          example: CreditCard
-        message:
-          type: string
-          description: >-
-            Human-readable message (for ask or error actions). Deprecated: Use
-            messageKey for i18n support.
-          example: How much did you spend?
-          deprecated: true
-        messageKey:
-          type: string
-          description: >-
-            i18n message key for frontend translation. Use this instead of
-            message for internationalization support.
-          example: nlp.slot.prompt
-        messageParams:
-          type: object
-          description: >-
-            Parameters for message interpolation. Used with messageKey for
-            dynamic values in translated messages.
-          example:
-            slot: amount
-            name: Starbucks
-            similarity: 85
-        sessionId:
-          type: string
-          description: >-
-            Session ID for multi-turn dialogue. Must be included in subsequent
-            requests to continue the conversation.
-          example: session_abc123
-        waitingFor:
-          type: string
-          description: Which slot is waiting for user input
-          example: amount
-        transaction:
-          description: Created transaction info (for created action)
-          allOf:
-            - $ref: '#/components/schemas/NlpTransactionInfoDto'
-        parsedData:
-          description: >-
-            Parsed data for confirmation (when action is "confirm"). Contains
-            extracted fields that user should verify before transaction
-            creation.
-          allOf:
-            - $ref: '#/components/schemas/NlpParsedDataDto'
-        duplicateData:
-          description: >-
-            Duplicate detection data (when action is "confirm_duplicate").
-            Contains information about potential duplicate transaction for user
-            confirmation.
-          allOf:
-            - $ref: '#/components/schemas/NlpDuplicateConfirmationDataDto'
-        ruleData:
-          description: >-
-            Rule match data (when action is "confirm_rule"). Contains
-            information about medium-confidence rule match for user
-            confirmation.
-          allOf:
-            - $ref: '#/components/schemas/NlpRuleConfirmationDataDto'
-        accountData:
-          description: >-
-            Account validation data (when action is "confirm_account"). Contains
-            information about invalid account for user correction.
-          allOf:
-            - $ref: '#/components/schemas/NlpAccountConfirmationDataDto'
-        payeeData:
-          description: >-
-            Payee confirmation data (when action is "confirm_payee"). Contains
-            information about medium/low confidence payee match for user
-            confirmation.
-          allOf:
-            - $ref: '#/components/schemas/NlpPayeeConfirmationDataDto'
-        confidence:
-          type: number
-          description: Overall confidence score (0-1)
-          example: 0.85
-        confidenceThreshold:
-          type: number
-          description: >-
-            Confidence threshold for automatic creation (default: 0.75). When
-            confidence < threshold, action will be "confirm" requiring user
-            verification.
-          example: 0.75
-        recurringMatch:
-          description: >-
-            Recurring transaction match info (when action is "created").
-            Contains match details when transaction matches a pending expected
-            transaction.
-          allOf:
-            - $ref: '#/components/schemas/RecurringMatchInfoDto'
-        recurringSuggestion:
-          description: >-
-            Recurring rule creation suggestion (when action is "created").
-            Contains suggestion to create a recurring rule based on detected
-            patterns. Only present when no existing rule matched and similar
-            historical transactions were found.
-          allOf:
-            - $ref: '#/components/schemas/RecurringSuggestionDto'
-        suggestedAccounts:
-          description: >-
-            Suggested accounts for this transaction. Contains recommended source
-            and destination accounts based on the detected intent and rules.
-          allOf:
-            - $ref: '#/components/schemas/NlpSuggestedAccountsDto'
-        defaultAccounts:
-          description: >-
-            Default accounts for the user/region. These are fallback accounts
-            used when no specific suggestion is available.
-          allOf:
-            - $ref: '#/components/schemas/NlpDefaultAccountsDto'
-      required:
-        - status
-        - action
     BalanceByCurrencyDto:
       type: object
       properties:
