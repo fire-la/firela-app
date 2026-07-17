@@ -74,7 +74,6 @@ import 'package:firela_api/src/model/expected_transaction_response_dto.dart';
 import 'package:firela_api/src/model/expected_transaction_rule_dto.dart';
 import 'package:firela_api/src/model/export_rules_response_dto.dart';
 import 'package:firela_api/src/model/file_import_controller_identify_file400_response.dart';
-import 'package:firela_api/src/model/file_import_controller_import_beancount200_response.dart';
 import 'package:firela_api/src/model/file_import_controller_import_file400_response.dart';
 import 'package:firela_api/src/model/file_import_controller_import_file413_response.dart';
 import 'package:firela_api/src/model/file_import_controller_import_file429_response.dart';
@@ -105,22 +104,6 @@ import 'package:firela_api/src/model/multi_currency_balance_response_dto.dart';
 import 'package:firela_api/src/model/multi_currency_point_dto.dart';
 import 'package:firela_api/src/model/net_worth_by_currency_dto.dart';
 import 'package:firela_api/src/model/net_worth_response_dto.dart';
-import 'package:firela_api/src/model/nlp_account_confirmation_data_dto.dart';
-import 'package:firela_api/src/model/nlp_alternative_payee_dto.dart';
-import 'package:firela_api/src/model/nlp_default_accounts_dto.dart';
-import 'package:firela_api/src/model/nlp_duplicate_confirmation_data_dto.dart';
-import 'package:firela_api/src/model/nlp_parsed_data_dto.dart';
-import 'package:firela_api/src/model/nlp_payee_confirmation_data_dto.dart';
-import 'package:firela_api/src/model/nlp_payee_confirmation_data_dto_suggested_payee.dart';
-import 'package:firela_api/src/model/nlp_response_dto.dart';
-import 'package:firela_api/src/model/nlp_rule_confirmation_data_dto.dart';
-import 'package:firela_api/src/model/nlp_similarity_dto.dart';
-import 'package:firela_api/src/model/nlp_source_transaction_dto.dart';
-import 'package:firela_api/src/model/nlp_suggested_account_dto.dart';
-import 'package:firela_api/src/model/nlp_suggested_accounts_dto.dart';
-import 'package:firela_api/src/model/nlp_suggested_payee_dto.dart';
-import 'package:firela_api/src/model/nlp_target_transaction_dto.dart';
-import 'package:firela_api/src/model/nlp_transaction_info_dto.dart';
 import 'package:firela_api/src/model/payee_autocomplete_response_dto.dart';
 import 'package:firela_api/src/model/payee_list_response_dto.dart';
 import 'package:firela_api/src/model/payee_profile_list_response_dto.dart';
@@ -136,8 +119,6 @@ import 'package:firela_api/src/model/price_response_dto.dart';
 import 'package:firela_api/src/model/process_nlp_dto.dart';
 import 'package:firela_api/src/model/provider_sync_config_dto.dart';
 import 'package:firela_api/src/model/provider_sync_dto.dart';
-import 'package:firela_api/src/model/provider_sync_response_dto.dart';
-import 'package:firela_api/src/model/recurring_match_info_dto.dart';
 import 'package:firela_api/src/model/recurring_rule_response_dto.dart';
 import 'package:firela_api/src/model/recurring_rule_with_stats_response_dto.dart';
 import 'package:firela_api/src/model/recurring_suggestion_dto.dart';
@@ -253,7 +234,6 @@ part 'serializers.g.dart';
   ExpectedTransactionRuleDto,
   ExportRulesResponseDto,
   FileImportControllerIdentifyFile400Response,
-  FileImportControllerImportBeancount200Response,
   FileImportControllerImportFile400Response,
   FileImportControllerImportFile413Response,
   FileImportControllerImportFile429Response,
@@ -284,22 +264,6 @@ part 'serializers.g.dart';
   MultiCurrencyPointDto,
   NetWorthByCurrencyDto,
   NetWorthResponseDto,
-  NlpAccountConfirmationDataDto,
-  NlpAlternativePayeeDto,
-  NlpDefaultAccountsDto,
-  NlpDuplicateConfirmationDataDto,
-  NlpParsedDataDto,
-  NlpPayeeConfirmationDataDto,
-  NlpPayeeConfirmationDataDtoSuggestedPayee,
-  NlpResponseDto,
-  NlpRuleConfirmationDataDto,
-  NlpSimilarityDto,
-  NlpSourceTransactionDto,
-  NlpSuggestedAccountDto,
-  NlpSuggestedAccountsDto,
-  NlpSuggestedPayeeDto,$NlpSuggestedPayeeDto,
-  NlpTargetTransactionDto,
-  NlpTransactionInfoDto,
   PayeeAutocompleteResponseDto,
   PayeeListResponseDto,
   PayeeProfileListResponseDto,
@@ -315,8 +279,6 @@ part 'serializers.g.dart';
   ProcessNlpDto,
   ProviderSyncConfigDto,
   ProviderSyncDto,
-  ProviderSyncResponseDto,
-  RecurringMatchInfoDto,
   RecurringRuleResponseDto,
   RecurringRuleWithStatsResponseDto,
   RecurringSuggestionDto,
@@ -393,7 +355,6 @@ Serializers serializers = (_$serializers.toBuilder()
       ..add(CurrentPriceDto.serializer)
       ..add(FxRateDto.serializer)
       ..add(MonetaryDto.serializer)
-      ..add(NlpSuggestedPayeeDto.serializer)
       ..add(TransactionSummaryDto.serializer)
       ..add(const OneOfSerializer())
       ..add(const AnyOfSerializer())
