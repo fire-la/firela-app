@@ -6885,7 +6885,9 @@ components:
             type: string
         resolutionId:
           type: string
-          description: Resolution ID for undo
+          description: >-
+            Resolution ID for undo. Absent when the resolver rejected the
+            decision (review stayed PENDING).
         canUndo:
           type: boolean
           description: Whether this decision can be undone
@@ -6901,9 +6903,6 @@ components:
           example: rule_01HXK5V8N2M3P4Q5R6S7T8U9V0
       required:
         - success
-        - resolutionId
-        - canUndo
-        - undoDeadline
     UndoResultDto:
       type: object
       properties:
