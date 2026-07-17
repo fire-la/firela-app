@@ -14,11 +14,11 @@ class _$ResolveResultDto extends ResolveResultDto {
   @override
   final BuiltMap<String, String>? messageParams;
   @override
-  final String resolutionId;
+  final String? resolutionId;
   @override
-  final bool canUndo;
+  final bool? canUndo;
   @override
-  final DateTime undoDeadline;
+  final DateTime? undoDeadline;
   @override
   final String? learnedRuleId;
 
@@ -30,19 +30,13 @@ class _$ResolveResultDto extends ResolveResultDto {
       {required this.success,
       this.messageKey,
       this.messageParams,
-      required this.resolutionId,
-      required this.canUndo,
-      required this.undoDeadline,
+      this.resolutionId,
+      this.canUndo,
+      this.undoDeadline,
       this.learnedRuleId})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(
         success, r'ResolveResultDto', 'success');
-    BuiltValueNullFieldError.checkNotNull(
-        resolutionId, r'ResolveResultDto', 'resolutionId');
-    BuiltValueNullFieldError.checkNotNull(
-        canUndo, r'ResolveResultDto', 'canUndo');
-    BuiltValueNullFieldError.checkNotNull(
-        undoDeadline, r'ResolveResultDto', 'undoDeadline');
   }
 
   @override
@@ -172,12 +166,9 @@ class ResolveResultDtoBuilder
                   success, r'ResolveResultDto', 'success'),
               messageKey: messageKey,
               messageParams: _messageParams?.build(),
-              resolutionId: BuiltValueNullFieldError.checkNotNull(
-                  resolutionId, r'ResolveResultDto', 'resolutionId'),
-              canUndo: BuiltValueNullFieldError.checkNotNull(
-                  canUndo, r'ResolveResultDto', 'canUndo'),
-              undoDeadline: BuiltValueNullFieldError.checkNotNull(
-                  undoDeadline, r'ResolveResultDto', 'undoDeadline'),
+              resolutionId: resolutionId,
+              canUndo: canUndo,
+              undoDeadline: undoDeadline,
               learnedRuleId: learnedRuleId);
     } catch (_) {
       late String _$failedField;
