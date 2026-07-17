@@ -9,6 +9,7 @@ import 'package:dio/dio.dart';
 
 import 'package:firela_api/src/api_util.dart';
 import 'package:firela_api/src/model/provider_sync_dto.dart';
+import 'package:firela_api/src/model/provider_sync_response_dto.dart';
 import 'package:firela_api/src/model/supported_providers_response_dto.dart';
 
 class ProviderSyncApi {
@@ -143,11 +144,11 @@ class ProviderSyncApi {
     return _response;
   }
 
-  /// providerSyncControllerSync
-  /// 
+  /// Sync transactions from financial data provider
+  ///  Accepts raw transactions from external financial data providers, transforms them to Beancount format, and processes them through the ingestion pipeline.  **Supported Providers:** - **plaid**: Plaid API (US, Canada, Europe) - **teller**: Teller API (US) - **truelayer**: TrueLayer Open Banking (UK, Europe) - **gocardless**: GoCardless Bank Account Data (Europe) - **simplefin**: SimpleFIN (Self-hosted) - **yodlee**: Yodlee (Global) - **beancount-direct**: Beancount format transactions - **parsed-bill**: Client-side parsed bill transactions  **Processing Flow:** 1. Transform raw data via provider adapter 2. Validate transaction format 3. Deduplicate using originalId 4. Classify using rule engine 5. Route low-confidence to Review Center 6. Persist validated transactions   
   ///
   /// Parameters:
-  /// * [providerName] 
+  /// * [providerName] - Provider name
   /// * [region] - Region code for tenant context
   /// * [providerSyncDto] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
@@ -157,9 +158,9 @@ class ProviderSyncApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future]
+  /// Returns a [Future] containing a [Response] with a [ProviderSyncResponseDto] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<void>> providerSyncControllerSync({ 
+  Future<Response<ProviderSyncResponseDto>> providerSyncControllerSync({ 
     required String providerName,
     required String region,
     required ProviderSyncDto providerSyncDto,
@@ -211,7 +212,35 @@ class ProviderSyncApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    return _response;
+    ProviderSyncResponseDto? _responseData;
+
+    try {
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(ProviderSyncResponseDto),
+      ) as ProviderSyncResponseDto;
+
+    } catch (error, stackTrace) {
+      throw DioException(
+        requestOptions: _response.requestOptions,
+        response: _response,
+        type: DioExceptionType.unknown,
+        error: error,
+        stackTrace: stackTrace,
+      );
+    }
+
+    return Response<ProviderSyncResponseDto>(
+      data: _responseData,
+      headers: _response.headers,
+      isRedirect: _response.isRedirect,
+      requestOptions: _response.requestOptions,
+      redirects: _response.redirects,
+      statusCode: _response.statusCode,
+      statusMessage: _response.statusMessage,
+      extra: _response.extra,
+    );
   }
 
 }

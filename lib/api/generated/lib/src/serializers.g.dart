@@ -10,6 +10,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add($CurrentPriceDto.serializer)
       ..add($FxRateDto.serializer)
       ..add($MonetaryDto.serializer)
+      ..add($NlpSuggestedPayeeDto.serializer)
       ..add($TransactionSummaryDto.serializer)
       ..add(AccountExchangeRateWarningDto.serializer)
       ..add(AccountItemDto.serializer)
@@ -90,6 +91,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(ExpectedTransactionRuleDto.serializer)
       ..add(ExportRulesResponseDto.serializer)
       ..add(FileImportControllerIdentifyFile400Response.serializer)
+      ..add(FileImportControllerImportBeancount200Response.serializer)
       ..add(FileImportControllerImportFile400Response.serializer)
       ..add(FileImportControllerImportFile413Response.serializer)
       ..add(FileImportControllerImportFile429Response.serializer)
@@ -122,6 +124,31 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(MultiCurrencyPointDto.serializer)
       ..add(NetWorthByCurrencyDto.serializer)
       ..add(NetWorthResponseDto.serializer)
+      ..add(NlpAccountConfirmationDataDto.serializer)
+      ..add(NlpAlternativePayeeDto.serializer)
+      ..add(NlpDefaultAccountsDto.serializer)
+      ..add(NlpDuplicateConfirmationDataDto.serializer)
+      ..add(NlpParsedDataDto.serializer)
+      ..add(NlpParsedDataDtoInvestmentActionEnum.serializer)
+      ..add(NlpParsedDataDtoPaymentSourceEnum.serializer)
+      ..add(NlpPayeeConfirmationDataDto.serializer)
+      ..add(NlpPayeeConfirmationDataDtoSuggestedPayee.serializer)
+      ..add(NlpResponseDto.serializer)
+      ..add(NlpResponseDtoActionEnum.serializer)
+      ..add(NlpResponseDtoAssetSubTypeEnum.serializer)
+      ..add(NlpResponseDtoEquitySubTypeEnum.serializer)
+      ..add(NlpResponseDtoIntentEnum.serializer)
+      ..add(NlpResponseDtoLiabilitySubTypeEnum.serializer)
+      ..add(NlpResponseDtoPaymentSourceEnum.serializer)
+      ..add(NlpResponseDtoStatusEnum.serializer)
+      ..add(NlpRuleConfirmationDataDto.serializer)
+      ..add(NlpSimilarityDto.serializer)
+      ..add(NlpSourceTransactionDto.serializer)
+      ..add(NlpSuggestedAccountDto.serializer)
+      ..add(NlpSuggestedAccountsDto.serializer)
+      ..add(NlpSuggestedPayeeDtoSource_Enum.serializer)
+      ..add(NlpTargetTransactionDto.serializer)
+      ..add(NlpTransactionInfoDto.serializer)
       ..add(PayeeAutocompleteResponseDto.serializer)
       ..add(PayeeListResponseDto.serializer)
       ..add(PayeeProfileListResponseDto.serializer)
@@ -139,6 +166,8 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(ProcessNlpDto.serializer)
       ..add(ProviderSyncConfigDto.serializer)
       ..add(ProviderSyncDto.serializer)
+      ..add(ProviderSyncResponseDto.serializer)
+      ..add(RecurringMatchInfoDto.serializer)
       ..add(RecurringRuleResponseDto.serializer)
       ..add(RecurringRuleWithStatsResponseDto.serializer)
       ..add(RecurringSuggestionDto.serializer)
@@ -414,8 +443,18 @@ Serializers _$serializers = (new Serializers().toBuilder()
               BuiltList, const [const FullType(ReviewItemPreviewDto)]),
           () => new ListBuilder<ReviewItemPreviewDto>())
       ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(JsonObject)]),
+          () => new ListBuilder<JsonObject>())
+      ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(MonthlyForecastDto)]),
           () => new ListBuilder<MonthlyForecastDto>())
+      ..addBuilderFactory(
+          const FullType(
+              BuiltList, const [const FullType(NlpAlternativePayeeDto)]),
+          () => new ListBuilder<NlpAlternativePayeeDto>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
       ..addBuilderFactory(
           const FullType(
               BuiltList, const [const FullType(PayeeProfileResponseDto)]),
@@ -448,6 +487,18 @@ Serializers _$serializers = (new Serializers().toBuilder()
           const FullType(BuiltList,
               const [const FullType(RuleStatisticsResponseDtoRuleStatsInner)]),
           () => new ListBuilder<RuleStatisticsResponseDtoRuleStatsInner>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())
@@ -620,6 +671,12 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(dynamic)]),
           () => new ListBuilder<dynamic>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(dynamic)]),
+          () => new ListBuilder<dynamic>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
       ..addBuilderFactory(
           const FullType(
               BuiltMap, const [const FullType(String), const FullType(String)]),

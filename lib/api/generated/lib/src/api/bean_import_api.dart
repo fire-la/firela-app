@@ -8,6 +8,7 @@ import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
 
 import 'package:firela_api/src/api_util.dart';
+import 'package:firela_api/src/model/file_import_controller_import_beancount200_response.dart';
 import 'package:firela_api/src/model/identify_result_dto.dart';
 import 'package:firela_api/src/model/import_result_dto.dart';
 import 'package:firela_api/src/model/importer_config_dto.dart';
@@ -119,11 +120,12 @@ class BeanImportApi {
     );
   }
 
-  /// fileImportControllerImportBeancount
-  /// 
+  /// Import a Beancount file in community format
+  /// Upload a .beancount file to import. The system parses community-format paths, converts to internal format using category metadata, auto-creates accounts, and imports transactions with deduplication. Maximum file size: 50MB. Only 1 import per user at a time.
   ///
   /// Parameters:
   /// * [region] - Region code for tenant context
+  /// * [file] - Bill file to import (CSV, PDF, OFX, etc.)
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -131,10 +133,11 @@ class BeanImportApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future]
+  /// Returns a [Future] containing a [Response] with a [FileImportControllerImportBeancount200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<void>> fileImportControllerImportBeancount({ 
+  Future<Response<FileImportControllerImportBeancount200Response>> fileImportControllerImportBeancount({ 
     required String region,
+    required MultipartFile file,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -152,18 +155,67 @@ class BeanImportApi {
         'secure': <Map<String, String>>[],
         ...?extra,
       },
+      contentType: 'multipart/form-data',
       validateStatus: validateStatus,
     );
 
+    dynamic _bodyData;
+
+    try {
+      _bodyData = FormData.fromMap(<String, dynamic>{
+        r'file': file,
+      });
+
+    } catch(error, stackTrace) {
+      throw DioException(
+         requestOptions: _options.compose(
+          _dio.options,
+          _path,
+        ),
+        type: DioExceptionType.unknown,
+        error: error,
+        stackTrace: stackTrace,
+      );
+    }
+
     final _response = await _dio.request<Object>(
       _path,
+      data: _bodyData,
       options: _options,
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
     );
 
-    return _response;
+    FileImportControllerImportBeancount200Response? _responseData;
+
+    try {
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(FileImportControllerImportBeancount200Response),
+      ) as FileImportControllerImportBeancount200Response;
+
+    } catch (error, stackTrace) {
+      throw DioException(
+        requestOptions: _response.requestOptions,
+        response: _response,
+        type: DioExceptionType.unknown,
+        error: error,
+        stackTrace: stackTrace,
+      );
+    }
+
+    return Response<FileImportControllerImportBeancount200Response>(
+      data: _responseData,
+      headers: _response.headers,
+      isRedirect: _response.isRedirect,
+      requestOptions: _response.requestOptions,
+      redirects: _response.redirects,
+      statusCode: _response.statusCode,
+      statusMessage: _response.statusMessage,
+      extra: _response.extra,
+    );
   }
 
   /// Import a bill file
