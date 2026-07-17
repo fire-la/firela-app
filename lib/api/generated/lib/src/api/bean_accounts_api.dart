@@ -23,11 +23,11 @@ class BeanAccountsApi {
 
   const BeanAccountsApi(this._dio, this._serializers);
 
-  /// Close account
-  /// Closes an account (Beancount Close directive)
+  /// accountControllerClose
+  /// 
   ///
   /// Parameters:
-  /// * [id] - Account UUID
+  /// * [id] 
   /// * [region] - Region code for tenant context
   /// * [closeAccountDto] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
@@ -37,9 +37,9 @@ class BeanAccountsApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [AccountResponseDto] as data
+  /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<AccountResponseDto>> accountControllerClose({ 
+  Future<Response<void>> accountControllerClose({ 
     required String id,
     required String region,
     required CloseAccountDto closeAccountDto,
@@ -91,39 +91,11 @@ class BeanAccountsApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    AccountResponseDto? _responseData;
-
-    try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(AccountResponseDto),
-      ) as AccountResponseDto;
-
-    } catch (error, stackTrace) {
-      throw DioException(
-        requestOptions: _response.requestOptions,
-        response: _response,
-        type: DioExceptionType.unknown,
-        error: error,
-        stackTrace: stackTrace,
-      );
-    }
-
-    return Response<AccountResponseDto>(
-      data: _responseData,
-      headers: _response.headers,
-      isRedirect: _response.isRedirect,
-      requestOptions: _response.requestOptions,
-      redirects: _response.redirects,
-      statusCode: _response.statusCode,
-      statusMessage: _response.statusMessage,
-      extra: _response.extra,
-    );
+    return _response;
   }
 
-  /// Create a new account
-  /// Creates a new account (Beancount Open directive)
+  /// accountControllerCreate
+  /// 
   ///
   /// Parameters:
   /// * [region] - Region code for tenant context
@@ -135,9 +107,9 @@ class BeanAccountsApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [AccountResponseDto] as data
+  /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<AccountResponseDto>> accountControllerCreate({ 
+  Future<Response<void>> accountControllerCreate({ 
     required String region,
     required CreateAccountDto createAccountDto,
     CancelToken? cancelToken,
@@ -188,42 +160,14 @@ class BeanAccountsApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    AccountResponseDto? _responseData;
-
-    try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(AccountResponseDto),
-      ) as AccountResponseDto;
-
-    } catch (error, stackTrace) {
-      throw DioException(
-        requestOptions: _response.requestOptions,
-        response: _response,
-        type: DioExceptionType.unknown,
-        error: error,
-        stackTrace: stackTrace,
-      );
-    }
-
-    return Response<AccountResponseDto>(
-      data: _responseData,
-      headers: _response.headers,
-      isRedirect: _response.isRedirect,
-      requestOptions: _response.requestOptions,
-      redirects: _response.redirects,
-      statusCode: _response.statusCode,
-      statusMessage: _response.statusMessage,
-      extra: _response.extra,
-    );
+    return _response;
   }
 
-  /// Delete account
-  /// Deletes an account (only if no transactions)
+  /// accountControllerDelete
+  /// 
   ///
   /// Parameters:
-  /// * [id] - Account UUID
+  /// * [id] 
   /// * [region] - Region code for tenant context
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
@@ -442,11 +386,11 @@ class BeanAccountsApi {
     );
   }
 
-  /// Reopen account
-  /// Reopens a previously closed account
+  /// accountControllerReopen
+  /// 
   ///
   /// Parameters:
-  /// * [id] - Account UUID
+  /// * [id] 
   /// * [region] - Region code for tenant context
   /// * [reopenAccountDto] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
@@ -456,9 +400,9 @@ class BeanAccountsApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [AccountResponseDto] as data
+  /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<AccountResponseDto>> accountControllerReopen({ 
+  Future<Response<void>> accountControllerReopen({ 
     required String id,
     required String region,
     required ReopenAccountDto reopenAccountDto,
@@ -510,42 +454,14 @@ class BeanAccountsApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    AccountResponseDto? _responseData;
-
-    try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(AccountResponseDto),
-      ) as AccountResponseDto;
-
-    } catch (error, stackTrace) {
-      throw DioException(
-        requestOptions: _response.requestOptions,
-        response: _response,
-        type: DioExceptionType.unknown,
-        error: error,
-        stackTrace: stackTrace,
-      );
-    }
-
-    return Response<AccountResponseDto>(
-      data: _responseData,
-      headers: _response.headers,
-      isRedirect: _response.isRedirect,
-      requestOptions: _response.requestOptions,
-      redirects: _response.redirects,
-      statusCode: _response.statusCode,
-      statusMessage: _response.statusMessage,
-      extra: _response.extra,
-    );
+    return _response;
   }
 
-  /// Update account
-  /// Updates account metadata (path cannot be changed)
+  /// accountControllerUpdate
+  /// 
   ///
   /// Parameters:
-  /// * [id] - Account UUID
+  /// * [id] 
   /// * [region] - Region code for tenant context
   /// * [updateAccountDto] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
@@ -555,9 +471,9 @@ class BeanAccountsApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [AccountResponseDto] as data
+  /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<AccountResponseDto>> accountControllerUpdate({ 
+  Future<Response<void>> accountControllerUpdate({ 
     required String id,
     required String region,
     required UpdateAccountDto updateAccountDto,
@@ -609,35 +525,7 @@ class BeanAccountsApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    AccountResponseDto? _responseData;
-
-    try {
-      final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
-        rawResponse,
-        specifiedType: const FullType(AccountResponseDto),
-      ) as AccountResponseDto;
-
-    } catch (error, stackTrace) {
-      throw DioException(
-        requestOptions: _response.requestOptions,
-        response: _response,
-        type: DioExceptionType.unknown,
-        error: error,
-        stackTrace: stackTrace,
-      );
-    }
-
-    return Response<AccountResponseDto>(
-      data: _responseData,
-      headers: _response.headers,
-      isRedirect: _response.isRedirect,
-      requestOptions: _response.requestOptions,
-      redirects: _response.redirects,
-      statusCode: _response.statusCode,
-      statusMessage: _response.statusMessage,
-      extra: _response.extra,
-    );
+    return _response;
   }
 
 }
