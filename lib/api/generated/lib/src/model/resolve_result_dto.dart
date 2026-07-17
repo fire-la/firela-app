@@ -15,7 +15,7 @@ part 'resolve_result_dto.g.dart';
 /// * [success] - Whether resolution was successful
 /// * [messageKey] - i18n message key for result message (e.g., review.payee.result.mapped)
 /// * [messageParams] - Parameters for message interpolation (e.g., { name: \"PayeeName\" })
-/// * [resolutionId] - Resolution ID for undo
+/// * [resolutionId] - Resolution ID for undo. Absent when the resolver rejected the decision (review stayed PENDING).
 /// * [canUndo] - Whether this decision can be undone
 /// * [undoDeadline] - Deadline for undo (24h from resolution)
 /// * [learnedRuleId] - Rule ID if learning was triggered (ACCEPT_AND_LEARN actions). Use this to deep-link to the rule management page.
@@ -33,17 +33,17 @@ abstract class ResolveResultDto implements Built<ResolveResultDto, ResolveResult
   @BuiltValueField(wireName: r'messageParams')
   BuiltMap<String, String>? get messageParams;
 
-  /// Resolution ID for undo
+  /// Resolution ID for undo. Absent when the resolver rejected the decision (review stayed PENDING).
   @BuiltValueField(wireName: r'resolutionId')
-  String get resolutionId;
+  String? get resolutionId;
 
   /// Whether this decision can be undone
   @BuiltValueField(wireName: r'canUndo')
-  bool get canUndo;
+  bool? get canUndo;
 
   /// Deadline for undo (24h from resolution)
   @BuiltValueField(wireName: r'undoDeadline')
-  DateTime get undoDeadline;
+  DateTime? get undoDeadline;
 
   /// Rule ID if learning was triggered (ACCEPT_AND_LEARN actions). Use this to deep-link to the rule management page.
   @BuiltValueField(wireName: r'learnedRuleId')
@@ -91,21 +91,27 @@ class _$ResolveResultDtoSerializer implements PrimitiveSerializer<ResolveResultD
         specifiedType: const FullType(BuiltMap, [FullType(String), FullType(String)]),
       );
     }
-    yield r'resolutionId';
-    yield serializers.serialize(
-      object.resolutionId,
-      specifiedType: const FullType(String),
-    );
-    yield r'canUndo';
-    yield serializers.serialize(
-      object.canUndo,
-      specifiedType: const FullType(bool),
-    );
-    yield r'undoDeadline';
-    yield serializers.serialize(
-      object.undoDeadline,
-      specifiedType: const FullType(DateTime),
-    );
+    if (object.resolutionId != null) {
+      yield r'resolutionId';
+      yield serializers.serialize(
+        object.resolutionId,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.canUndo != null) {
+      yield r'canUndo';
+      yield serializers.serialize(
+        object.canUndo,
+        specifiedType: const FullType(bool),
+      );
+    }
+    if (object.undoDeadline != null) {
+      yield r'undoDeadline';
+      yield serializers.serialize(
+        object.undoDeadline,
+        specifiedType: const FullType(DateTime),
+      );
+    }
     if (object.learnedRuleId != null) {
       yield r'learnedRuleId';
       yield serializers.serialize(
