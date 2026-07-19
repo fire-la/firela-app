@@ -27,6 +27,7 @@ lib/src/api/health_api.dart
 lib/src/api/import_telemetry_api.dart
 lib/src/api/info_api.dart
 lib/src/api/investment_api.dart
+lib/src/api/life_events_api.dart
 lib/src/api/properties_api.dart
 lib/src/api/provider_sync_api.dart
 lib/src/api/recurring_forecast_api.dart
@@ -78,6 +79,7 @@ lib/src/model/correct_transaction_dto.dart
 lib/src/model/cost_detail_dto.dart
 lib/src/model/cost_spec_dto.dart
 lib/src/model/create_account_dto.dart
+lib/src/model/create_bean_event_dto.dart
 lib/src/model/create_bean_price_dto.dart
 lib/src/model/create_commodity_dto.dart
 lib/src/model/create_payee_dto.dart
@@ -95,6 +97,8 @@ lib/src/model/date.dart
 lib/src/model/decision_option_dto.dart
 lib/src/model/delete_own_user_dto.dart
 lib/src/model/enter_now_dto.dart
+lib/src/model/event_list_response_dto.dart
+lib/src/model/event_response_dto.dart
 lib/src/model/exchange_rate_warning_dto.dart
 lib/src/model/expected_transaction_list_response_dto.dart
 lib/src/model/expected_transaction_response_dto.dart
@@ -200,6 +204,7 @@ lib/src/model/transaction_summary_dto.dart
 lib/src/model/trend_summary_dto.dart
 lib/src/model/undo_result_dto.dart
 lib/src/model/update_account_dto.dart
+lib/src/model/update_bean_event_dto.dart
 lib/src/model/update_bean_price_dto.dart
 lib/src/model/update_commodity_dto.dart
 lib/src/model/update_config_data_dto.dart

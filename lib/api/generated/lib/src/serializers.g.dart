@@ -61,6 +61,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(CostSpecDtoModeEnum.serializer)
       ..add(CreateAccountDto.serializer)
       ..add(CreateAccountDtoBookingMethodEnum.serializer)
+      ..add(CreateBeanEventDto.serializer)
       ..add(CreateBeanPriceDto.serializer)
       ..add(CreateCommodityDto.serializer)
       ..add(CreatePayeeDto.serializer)
@@ -85,6 +86,8 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(DecisionOptionDtoValueEnum.serializer)
       ..add(DeleteOwnUserDto.serializer)
       ..add(EnterNowDto.serializer)
+      ..add(EventListResponseDto.serializer)
+      ..add(EventResponseDto.serializer)
       ..add(ExchangeRateWarningDto.serializer)
       ..add(ExpectedTransactionListResponseDto.serializer)
       ..add(ExpectedTransactionResponseDto.serializer)
@@ -217,6 +220,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(UndoResultDto.serializer)
       ..add(UpdateAccountDto.serializer)
       ..add(UpdateAccountDtoBookingMethodEnum.serializer)
+      ..add(UpdateBeanEventDto.serializer)
       ..add(UpdateBeanPriceDto.serializer)
       ..add(UpdateCommodityDto.serializer)
       ..add(UpdateConfigDataDto.serializer)
@@ -409,6 +413,9 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(CurrencyBalanceDto)]),
           () => new ListBuilder<CurrencyBalanceDto>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(EventResponseDto)]),
+          () => new ListBuilder<EventResponseDto>())
       ..addBuilderFactory(
           const FullType(
               BuiltList, const [const FullType(ExchangeRateWarningDto)]),
