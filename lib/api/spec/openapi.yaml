@@ -3816,6 +3816,52 @@ paths:
         - Life Events
       security:
         - bearer: []
+  /api/v1/{region}/bean/events/{id}/slice:
+    get:
+      operationId: EventController_getSlice
+      summary: Slice time-series by a life event (Phase 79)
+      description: >-
+        Returns aggregated time-series for postings matching accountPattern
+        within the half-open date range of the given life event.
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: Life event ID
+          schema:
+            type: string
+        - name: accountPattern
+          required: true
+          in: query
+          schema:
+            type: string
+        - name: granularity
+          required: true
+          in: query
+          schema:
+            type: string
+        - name: region
+          required: true
+          in: path
+          description: Region code for tenant context (decorative for life events)
+          schema:
+            enum:
+              - cn
+              - us
+              - de
+              - gb
+            type: string
+      responses:
+        '200':
+          description: Time-series sliced by the life event range
+        '400':
+          description: accountPattern query param is empty
+        '404':
+          description: Life event not found
+      tags:
+        - Life Events
+      security:
+        - bearer: []
   /api/v1/{region}/bean/export/beancount:
     get:
       operationId: ExportController_exportBeancount
@@ -5233,6 +5279,74 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PortfolioTrendsResponseDto'
+        '401':
+          description: User not authenticated
+      tags:
+        - Reporting
+      security:
+        - bearer: []
+  /api/v1/{region}/reporting/cash-flow/trends:
+    get:
+      operationId: ReportingController_getCashFlowTrends
+      summary: Get cash-flow trends
+      description: >-
+
+        Monthly income / expense / netSavings over a fixed N-month window
+
+        (current month + N−1 prior). Missing months are zero-filled (flow
+        metric).
+
+
+        **Parameters:**
+
+        - `period`: 1m | 3m | 6m | 1y (default 6m)
+
+        - `granularity`: accepted for API symmetry; v1 returns month buckets
+            
+      parameters:
+        - name: period
+          required: false
+          in: query
+          description: Time period
+          schema:
+            default: 6m
+            enum:
+              - 1m
+              - 3m
+              - 6m
+              - 1y
+            type: string
+        - name: granularity
+          required: false
+          in: query
+          description: >-
+            Data granularity (accepted for API symmetry; v1 returns month
+            buckets)
+          schema:
+            default: month
+            enum:
+              - day
+              - week
+              - month
+            type: string
+        - name: region
+          required: true
+          in: path
+          description: Region code for tenant context
+          schema:
+            enum:
+              - cn
+              - us
+              - de
+              - gb
+            type: string
+      responses:
+        '200':
+          description: Cash-flow trends retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CashFlowTrendsResponseDto'
         '401':
           description: User not authenticated
       tags:
@@ -11671,6 +11785,91 @@ components:
             $ref: '#/components/schemas/MultiCurrencyPointDto'
         warnings:
           description: Exchange rate warnings
+          type: array
+          items:
+            $ref: '#/components/schemas/ExchangeRateWarningDto'
+      required:
+        - series
+        - summary
+        - period
+        - granularity
+        - currency
+    CashFlowPointDto:
+      type: object
+      properties:
+        month:
+          type: string
+          description: Month key (YYYY-MM)
+          example: 2024-03
+        income:
+          type: string
+          description: Income in base currency (absolute, converted)
+          example: '10000.00'
+        expense:
+          type: string
+          description: Expense in base currency (absolute, converted)
+          example: '5000.00'
+        netSavings:
+          type: string
+          description: netSavings = income − expense (savings positive)
+          example: '5000.00'
+      required:
+        - month
+        - income
+        - expense
+        - netSavings
+    CashFlowTrendSummaryDto:
+      type: object
+      properties:
+        totalIncome:
+          type: string
+          description: Total income across the period
+          example: '60000.00'
+        totalExpense:
+          type: string
+          description: Total expense across the period
+          example: '30000.00'
+        totalNetSavings:
+          type: string
+          description: income − expense across the period
+          example: '30000.00'
+        averageMonthlyNetSavings:
+          type: string
+          description: >-
+            totalNetSavings divided by the window length (N months, incl.
+            zero-filled)
+          example: '5000.00'
+      required:
+        - totalIncome
+        - totalExpense
+        - totalNetSavings
+        - averageMonthlyNetSavings
+    CashFlowTrendsResponseDto:
+      type: object
+      properties:
+        series:
+          description: Monthly cash-flow series (fixed N-month window, zero-filled)
+          type: array
+          items:
+            $ref: '#/components/schemas/CashFlowPointDto'
+        summary:
+          description: Period totals
+          allOf:
+            - $ref: '#/components/schemas/CashFlowTrendSummaryDto'
+        period:
+          type: string
+          description: Period requested
+          example: 6m
+        granularity:
+          type: string
+          description: Data granularity (v1 returns month buckets)
+          example: month
+        currency:
+          type: string
+          description: Base currency for converted values
+          example: CNY
+        warnings:
+          description: Exchange rate warnings (e.g. missing rate for a currency)
           type: array
           items:
             $ref: '#/components/schemas/ExchangeRateWarningDto'
