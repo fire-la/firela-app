@@ -341,6 +341,65 @@ class LifeEventsApi {
     );
   }
 
+  /// Slice time-series by a life event (Phase 79)
+  /// Returns aggregated time-series for postings matching accountPattern within the half-open date range of the given life event.
+  ///
+  /// Parameters:
+  /// * [id] - Life event ID
+  /// * [accountPattern] 
+  /// * [granularity] 
+  /// * [region] - Region code for tenant context (decorative for life events)
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future]
+  /// Throws [DioException] if API call or serialization fails
+  Future<Response<void>> eventControllerGetSlice({ 
+    required String id,
+    required String accountPattern,
+    required String granularity,
+    required String region,
+    CancelToken? cancelToken,
+    Map<String, dynamic>? headers,
+    Map<String, dynamic>? extra,
+    ValidateStatus? validateStatus,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {
+    final _path = r'/api/v1/{region}/bean/events/{id}/slice'.replaceAll('{' r'id' '}', encodeQueryParameter(_serializers, id, const FullType(String)).toString()).replaceAll('{' r'region' '}', encodeQueryParameter(_serializers, region, const FullType(String)).toString());
+    final _options = Options(
+      method: r'GET',
+      headers: <String, dynamic>{
+        ...?headers,
+      },
+      extra: <String, dynamic>{
+        'secure': <Map<String, String>>[],
+        ...?extra,
+      },
+      validateStatus: validateStatus,
+    );
+
+    final _queryParameters = <String, dynamic>{
+      r'accountPattern': encodeQueryParameter(_serializers, accountPattern, const FullType(String)),
+      r'granularity': encodeQueryParameter(_serializers, granularity, const FullType(String)),
+    };
+
+    final _response = await _dio.request<Object>(
+      _path,
+      options: _options,
+      queryParameters: _queryParameters,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+    );
+
+    return _response;
+  }
+
   /// Update a life event
   /// Updates an existing life event. If If-Match header is provided, performs optimistic concurrency check; mismatched updatedAt returns 412.
   ///

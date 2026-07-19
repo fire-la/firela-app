@@ -47,7 +47,10 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(BulkCreateRulesResponseDto.serializer)
       ..add(BulkCreateRulesResponseDtoErrorsInner.serializer)
       ..add(CashFlowByCurrencyDto.serializer)
+      ..add(CashFlowPointDto.serializer)
       ..add(CashFlowResponseDto.serializer)
+      ..add(CashFlowTrendSummaryDto.serializer)
+      ..add(CashFlowTrendsResponseDto.serializer)
       ..add(CloseAccountDto.serializer)
       ..add(CommodityListResponseDto.serializer)
       ..add(CommodityResponseDto.serializer)
@@ -399,6 +402,13 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(CashFlowPointDto)]),
+          () => new ListBuilder<CashFlowPointDto>())
+      ..addBuilderFactory(
+          const FullType(
+              BuiltList, const [const FullType(ExchangeRateWarningDto)]),
+          () => new ListBuilder<ExchangeRateWarningDto>())
       ..addBuilderFactory(
           const FullType(
               BuiltList, const [const FullType(CommodityResponseDto)]),

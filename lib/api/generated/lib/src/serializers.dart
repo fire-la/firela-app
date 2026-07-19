@@ -41,7 +41,10 @@ import 'package:firela_api/src/model/bulk_create_rules_dto.dart';
 import 'package:firela_api/src/model/bulk_create_rules_response_dto.dart';
 import 'package:firela_api/src/model/bulk_create_rules_response_dto_errors_inner.dart';
 import 'package:firela_api/src/model/cash_flow_by_currency_dto.dart';
+import 'package:firela_api/src/model/cash_flow_point_dto.dart';
 import 'package:firela_api/src/model/cash_flow_response_dto.dart';
+import 'package:firela_api/src/model/cash_flow_trend_summary_dto.dart';
+import 'package:firela_api/src/model/cash_flow_trends_response_dto.dart';
 import 'package:firela_api/src/model/close_account_dto.dart';
 import 'package:firela_api/src/model/commodity_list_response_dto.dart';
 import 'package:firela_api/src/model/commodity_response_dto.dart';
@@ -224,7 +227,10 @@ part 'serializers.g.dart';
   BulkCreateRulesResponseDto,
   BulkCreateRulesResponseDtoErrorsInner,
   CashFlowByCurrencyDto,
+  CashFlowPointDto,
   CashFlowResponseDto,
+  CashFlowTrendSummaryDto,
+  CashFlowTrendsResponseDto,
   CloseAccountDto,
   CommodityListResponseDto,
   CommodityResponseDto,
