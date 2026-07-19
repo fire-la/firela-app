@@ -33,6 +33,7 @@ import 'package:firela_api/src/api/health_api.dart';
 import 'package:firela_api/src/api/import_telemetry_api.dart';
 import 'package:firela_api/src/api/info_api.dart';
 import 'package:firela_api/src/api/investment_api.dart';
+import 'package:firela_api/src/api/life_events_api.dart';
 import 'package:firela_api/src/api/properties_api.dart';
 import 'package:firela_api/src/api/provider_sync_api.dart';
 import 'package:firela_api/src/api/recurring_forecast_api.dart';
@@ -236,6 +237,12 @@ class FirelaApi {
   /// by doing that all interceptors will not be executed
   InvestmentApi getInvestmentApi() {
     return InvestmentApi(dio, serializers);
+  }
+
+  /// Get LifeEventsApi instance, base route and serializer can be overridden by a given but be careful,
+  /// by doing that all interceptors will not be executed
+  LifeEventsApi getLifeEventsApi() {
+    return LifeEventsApi(dio, serializers);
   }
 
   /// Get PropertiesApi instance, base route and serializer can be overridden by a given but be careful,

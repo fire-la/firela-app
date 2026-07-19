@@ -52,6 +52,7 @@ import 'package:firela_api/src/model/correct_transaction_dto.dart';
 import 'package:firela_api/src/model/cost_detail_dto.dart';
 import 'package:firela_api/src/model/cost_spec_dto.dart';
 import 'package:firela_api/src/model/create_account_dto.dart';
+import 'package:firela_api/src/model/create_bean_event_dto.dart';
 import 'package:firela_api/src/model/create_bean_price_dto.dart';
 import 'package:firela_api/src/model/create_commodity_dto.dart';
 import 'package:firela_api/src/model/create_payee_dto.dart';
@@ -68,6 +69,8 @@ import 'package:firela_api/src/model/dashboard_controller_get_accounts200_respon
 import 'package:firela_api/src/model/decision_option_dto.dart';
 import 'package:firela_api/src/model/delete_own_user_dto.dart';
 import 'package:firela_api/src/model/enter_now_dto.dart';
+import 'package:firela_api/src/model/event_list_response_dto.dart';
+import 'package:firela_api/src/model/event_response_dto.dart';
 import 'package:firela_api/src/model/exchange_rate_warning_dto.dart';
 import 'package:firela_api/src/model/expected_transaction_list_response_dto.dart';
 import 'package:firela_api/src/model/expected_transaction_response_dto.dart';
@@ -173,6 +176,7 @@ import 'package:firela_api/src/model/transaction_summary_dto.dart';
 import 'package:firela_api/src/model/trend_summary_dto.dart';
 import 'package:firela_api/src/model/undo_result_dto.dart';
 import 'package:firela_api/src/model/update_account_dto.dart';
+import 'package:firela_api/src/model/update_bean_event_dto.dart';
 import 'package:firela_api/src/model/update_bean_price_dto.dart';
 import 'package:firela_api/src/model/update_commodity_dto.dart';
 import 'package:firela_api/src/model/update_config_data_dto.dart';
@@ -231,6 +235,7 @@ part 'serializers.g.dart';
   CostDetailDto,
   CostSpecDto,
   CreateAccountDto,
+  CreateBeanEventDto,
   CreateBeanPriceDto,
   CreateCommodityDto,
   CreatePayeeDto,
@@ -247,6 +252,8 @@ part 'serializers.g.dart';
   DecisionOptionDto,
   DeleteOwnUserDto,
   EnterNowDto,
+  EventListResponseDto,
+  EventResponseDto,
   ExchangeRateWarningDto,
   ExpectedTransactionListResponseDto,
   ExpectedTransactionResponseDto,
@@ -352,6 +359,7 @@ part 'serializers.g.dart';
   TrendSummaryDto,
   UndoResultDto,
   UpdateAccountDto,
+  UpdateBeanEventDto,
   UpdateBeanPriceDto,
   UpdateCommodityDto,
   UpdateConfigDataDto,

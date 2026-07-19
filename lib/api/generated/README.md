@@ -248,6 +248,11 @@ Class | Method | HTTP request | Description
 [*ImportTelemetryApi*](doc/ImportTelemetryApi.md) | [**telemetryControllerReportTelemetry**](doc/ImportTelemetryApi.md#telemetrycontrollerreporttelemetry) | **POST** /api/v1/{region}/bean/import/parser-telemetry | Receive anonymous parser failure telemetry
 [*InfoApi*](doc/InfoApi.md) | [**infoControllerGetInfo**](doc/InfoApi.md#infocontrollergetinfo) | **GET** /api/v1/system/info | Get system information
 [*InvestmentApi*](doc/InvestmentApi.md) | [**holdingPnlControllerGetHoldingPnl**](doc/InvestmentApi.md#holdingpnlcontrollergetholdingpnl) | **GET** /api/v1/{region}/investment/holdings/pnl | Get per-holding unrealized + realized P&amp;L
+[*LifeEventsApi*](doc/LifeEventsApi.md) | [**eventControllerCreate**](doc/LifeEventsApi.md#eventcontrollercreate) | **POST** /api/v1/{region}/bean/events | Create a new life event
+[*LifeEventsApi*](doc/LifeEventsApi.md) | [**eventControllerDelete**](doc/LifeEventsApi.md#eventcontrollerdelete) | **DELETE** /api/v1/{region}/bean/events/{id} | Delete a life event
+[*LifeEventsApi*](doc/LifeEventsApi.md) | [**eventControllerFindAll**](doc/LifeEventsApi.md#eventcontrollerfindall) | **GET** /api/v1/{region}/bean/events | List user life events
+[*LifeEventsApi*](doc/LifeEventsApi.md) | [**eventControllerFindOne**](doc/LifeEventsApi.md#eventcontrollerfindone) | **GET** /api/v1/{region}/bean/events/{id} | Get life event by ID
+[*LifeEventsApi*](doc/LifeEventsApi.md) | [**eventControllerUpdate**](doc/LifeEventsApi.md#eventcontrollerupdate) | **PUT** /api/v1/{region}/bean/events/{id} | Update a life event
 [*PropertiesApi*](doc/PropertiesApi.md) | [**propertyControllerDelete**](doc/PropertiesApi.md#propertycontrollerdelete) | **DELETE** /api/v1/admin/properties/{key} | Delete a system property
 [*PropertiesApi*](doc/PropertiesApi.md) | [**propertyControllerGetAll**](doc/PropertiesApi.md#propertycontrollergetall) | **GET** /api/v1/admin/properties | Get all system properties
 [*PropertiesApi*](doc/PropertiesApi.md) | [**propertyControllerGetByKey**](doc/PropertiesApi.md#propertycontrollergetbykey) | **GET** /api/v1/admin/properties/{key} | Get property by key
@@ -316,6 +321,7 @@ Class | Method | HTTP request | Description
  - [CostDetailDto](doc/CostDetailDto.md)
  - [CostSpecDto](doc/CostSpecDto.md)
  - [CreateAccountDto](doc/CreateAccountDto.md)
+ - [CreateBeanEventDto](doc/CreateBeanEventDto.md)
  - [CreateBeanPriceDto](doc/CreateBeanPriceDto.md)
  - [CreateCommodityDto](doc/CreateCommodityDto.md)
  - [CreatePayeeDto](doc/CreatePayeeDto.md)
@@ -332,6 +338,8 @@ Class | Method | HTTP request | Description
  - [DecisionOptionDto](doc/DecisionOptionDto.md)
  - [DeleteOwnUserDto](doc/DeleteOwnUserDto.md)
  - [EnterNowDto](doc/EnterNowDto.md)
+ - [EventListResponseDto](doc/EventListResponseDto.md)
+ - [EventResponseDto](doc/EventResponseDto.md)
  - [ExchangeRateWarningDto](doc/ExchangeRateWarningDto.md)
  - [ExpectedTransactionListResponseDto](doc/ExpectedTransactionListResponseDto.md)
  - [ExpectedTransactionResponseDto](doc/ExpectedTransactionResponseDto.md)
@@ -437,6 +445,7 @@ Class | Method | HTTP request | Description
  - [TrendSummaryDto](doc/TrendSummaryDto.md)
  - [UndoResultDto](doc/UndoResultDto.md)
  - [UpdateAccountDto](doc/UpdateAccountDto.md)
+ - [UpdateBeanEventDto](doc/UpdateBeanEventDto.md)
  - [UpdateBeanPriceDto](doc/UpdateBeanPriceDto.md)
  - [UpdateCommodityDto](doc/UpdateCommodityDto.md)
  - [UpdateConfigDataDto](doc/UpdateConfigDataDto.md)
