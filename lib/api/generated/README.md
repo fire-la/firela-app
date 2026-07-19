@@ -252,6 +252,7 @@ Class | Method | HTTP request | Description
 [*LifeEventsApi*](doc/LifeEventsApi.md) | [**eventControllerDelete**](doc/LifeEventsApi.md#eventcontrollerdelete) | **DELETE** /api/v1/{region}/bean/events/{id} | Delete a life event
 [*LifeEventsApi*](doc/LifeEventsApi.md) | [**eventControllerFindAll**](doc/LifeEventsApi.md#eventcontrollerfindall) | **GET** /api/v1/{region}/bean/events | List user life events
 [*LifeEventsApi*](doc/LifeEventsApi.md) | [**eventControllerFindOne**](doc/LifeEventsApi.md#eventcontrollerfindone) | **GET** /api/v1/{region}/bean/events/{id} | Get life event by ID
+[*LifeEventsApi*](doc/LifeEventsApi.md) | [**eventControllerGetSlice**](doc/LifeEventsApi.md#eventcontrollergetslice) | **GET** /api/v1/{region}/bean/events/{id}/slice | Slice time-series by a life event (Phase 79)
 [*LifeEventsApi*](doc/LifeEventsApi.md) | [**eventControllerUpdate**](doc/LifeEventsApi.md#eventcontrollerupdate) | **PUT** /api/v1/{region}/bean/events/{id} | Update a life event
 [*PropertiesApi*](doc/PropertiesApi.md) | [**propertyControllerDelete**](doc/PropertiesApi.md#propertycontrollerdelete) | **DELETE** /api/v1/admin/properties/{key} | Delete a system property
 [*PropertiesApi*](doc/PropertiesApi.md) | [**propertyControllerGetAll**](doc/PropertiesApi.md#propertycontrollergetall) | **GET** /api/v1/admin/properties | Get all system properties
@@ -270,6 +271,7 @@ Class | Method | HTTP request | Description
 [*RecurringRulesApi*](doc/RecurringRulesApi.md) | [**recurringRuleControllerUpdate**](doc/RecurringRulesApi.md#recurringrulecontrollerupdate) | **PATCH** /api/v1/{region}/bean/recurring-rules/{id} | Update recurring rule
 [*ReportingApi*](doc/ReportingApi.md) | [**reportingControllerBackfillSnapshots**](doc/ReportingApi.md#reportingcontrollerbackfillsnapshots) | **POST** /api/v1/{region}/reporting/snapshots/backfill | Backfill portfolio snapshots
 [*ReportingApi*](doc/ReportingApi.md) | [**reportingControllerGenerateSnapshot**](doc/ReportingApi.md#reportingcontrollergeneratesnapshot) | **POST** /api/v1/{region}/reporting/snapshots/generate | Generate portfolio snapshot
+[*ReportingApi*](doc/ReportingApi.md) | [**reportingControllerGetCashFlowTrends**](doc/ReportingApi.md#reportingcontrollergetcashflowtrends) | **GET** /api/v1/{region}/reporting/cash-flow/trends | Get cash-flow trends
 [*ReportingApi*](doc/ReportingApi.md) | [**reportingControllerGetPortfolioTrends**](doc/ReportingApi.md#reportingcontrollergetportfoliotrends) | **GET** /api/v1/{region}/reporting/portfolio/trends | Get portfolio value trends
 [*UsersApi*](doc/UsersApi.md) | [**userControllerDeleteOwnUser**](doc/UsersApi.md#usercontrollerdeleteownuser) | **DELETE** /api/v1/users | Delete own user account
 [*UsersApi*](doc/UsersApi.md) | [**userControllerDeleteUser**](doc/UsersApi.md#usercontrollerdeleteuser) | **DELETE** /api/v1/users/{id} | Delete user by ID (admin only)
@@ -310,7 +312,10 @@ Class | Method | HTTP request | Description
  - [BulkCreateRulesResponseDto](doc/BulkCreateRulesResponseDto.md)
  - [BulkCreateRulesResponseDtoErrorsInner](doc/BulkCreateRulesResponseDtoErrorsInner.md)
  - [CashFlowByCurrencyDto](doc/CashFlowByCurrencyDto.md)
+ - [CashFlowPointDto](doc/CashFlowPointDto.md)
  - [CashFlowResponseDto](doc/CashFlowResponseDto.md)
+ - [CashFlowTrendSummaryDto](doc/CashFlowTrendSummaryDto.md)
+ - [CashFlowTrendsResponseDto](doc/CashFlowTrendsResponseDto.md)
  - [CloseAccountDto](doc/CloseAccountDto.md)
  - [CommodityListResponseDto](doc/CommodityListResponseDto.md)
  - [CommodityResponseDto](doc/CommodityResponseDto.md)
