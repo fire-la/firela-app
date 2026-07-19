@@ -3586,6 +3586,236 @@ paths:
         - Properties
       security:
         - bearer: []
+  /api/v1/{region}/bean/events:
+    post:
+      operationId: EventController_create
+      summary: Create a new life event
+      description: >-
+        Creates a new life event entry for the authenticated user. Returns ETag
+        header carrying the row updatedAt.
+      parameters:
+        - name: region
+          required: true
+          in: path
+          description: Region code for tenant context (decorative for life events)
+          schema:
+            enum:
+              - cn
+              - us
+              - de
+              - gb
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateBeanEventDto'
+      responses:
+        '201':
+          description: Life event created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EventResponseDto'
+        '409':
+          description: Life event already exists for this (userId, type, date) combination
+      tags:
+        - Life Events
+      security:
+        - bearer: []
+    get:
+      operationId: EventController_findAll
+      summary: List user life events
+      description: >-
+        Returns life events for the authenticated user with optional filtering
+        by type, description search, and date range.
+      parameters:
+        - name: type
+          required: false
+          in: query
+          description: Filter by life event type (exact match)
+          schema:
+            example: employer
+            type: string
+        - name: q
+          required: false
+          in: query
+          description: Search term for description (case-insensitive partial match)
+          schema:
+            example: Acme
+            type: string
+        - name: from
+          required: false
+          in: query
+          description: Filter life events from this date (ISO 8601 format)
+          schema:
+            example: '2024-01-01'
+            type: string
+        - name: to
+          required: false
+          in: query
+          description: Filter life events to this date (ISO 8601 format)
+          schema:
+            example: '2024-12-31'
+            type: string
+        - name: page
+          required: false
+          in: query
+          description: 'Page number for pagination (default: 1)'
+          schema:
+            minimum: 1
+            example: 1
+            type: number
+        - name: limit
+          required: false
+          in: query
+          description: 'Number of items per page (default: 20, max: 100)'
+          schema:
+            minimum: 1
+            maximum: 100
+            example: 20
+            type: number
+        - name: region
+          required: true
+          in: path
+          description: Region code for tenant context (decorative for life events)
+          schema:
+            enum:
+              - cn
+              - us
+              - de
+              - gb
+            type: string
+      responses:
+        '200':
+          description: Life events retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EventListResponseDto'
+      tags:
+        - Life Events
+      security:
+        - bearer: []
+  /api/v1/{region}/bean/events/{id}:
+    get:
+      operationId: EventController_findOne
+      summary: Get life event by ID
+      description: Returns a single life event by its ID. Returns ETag header.
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: Life event ID
+          schema:
+            type: string
+        - name: region
+          required: true
+          in: path
+          description: Region code for tenant context (decorative for life events)
+          schema:
+            enum:
+              - cn
+              - us
+              - de
+              - gb
+            type: string
+      responses:
+        '200':
+          description: Life event retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EventResponseDto'
+        '404':
+          description: Life event not found
+      tags:
+        - Life Events
+      security:
+        - bearer: []
+    put:
+      operationId: EventController_update
+      summary: Update a life event
+      description: >-
+        Updates an existing life event. If If-Match header is provided, performs
+        optimistic concurrency check; mismatched updatedAt returns 412.
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: Life event ID
+          schema:
+            type: string
+        - name: region
+          required: true
+          in: path
+          description: Region code for tenant context (decorative for life events)
+          schema:
+            enum:
+              - cn
+              - us
+              - de
+              - gb
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateBeanEventDto'
+      responses:
+        '200':
+          description: Life event updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EventResponseDto'
+        '400':
+          description: If-Match header is not a valid ISO 8601 date
+        '404':
+          description: Life event not found
+        '409':
+          description: >-
+            Updated event conflicts with an existing (userId, type, date)
+            combination
+        '412':
+          description: If-Match precondition failed (updatedAt mismatch)
+      tags:
+        - Life Events
+      security:
+        - bearer: []
+    delete:
+      operationId: EventController_delete
+      summary: Delete a life event
+      description: Deletes a life event entry (hard delete). Returns 204.
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: Life event ID
+          schema:
+            type: string
+        - name: region
+          required: true
+          in: path
+          description: Region code for tenant context (decorative for life events)
+          schema:
+            enum:
+              - cn
+              - us
+              - de
+              - gb
+            type: string
+      responses:
+        '204':
+          description: Life event deleted successfully
+        '404':
+          description: Life event not found
+      tags:
+        - Life Events
+      security:
+        - bearer: []
   /api/v1/{region}/bean/export/beancount:
     get:
       operationId: ExportController_exportBeancount
@@ -9078,6 +9308,120 @@ components:
           description: Property value
       required:
         - value
+    CreateBeanEventDto:
+      type: object
+      properties:
+        date:
+          type: string
+          description: Life event date (ISO 8601)
+          example: '2024-03-15'
+        type:
+          type: string
+          description: >-
+            Life event type (e.g., "employer", "location", "marital-status") —
+            user-defined, no enum constraint at engine layer
+          example: employer
+        description:
+          type: string
+          description: >-
+            Life event description. Empty string is a VALID value (distinct from
+            absence).
+          example: Acme Corp
+        meta:
+          type: object
+          description: >-
+            Product-side metadata (lives in BeanEvent.meta JSON, never in engine
+            Event fields)
+          example:
+            note: Promotion
+      required:
+        - date
+        - type
+        - description
+    EventResponseDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier
+          example: uuid-123-456
+        userId:
+          type: string
+          description: User ID (owner of the life event)
+          example: user-123
+        date:
+          type: string
+          description: Life event date (ISO 8601 format)
+          example: '2024-03-15'
+          format: date
+        type:
+          type: string
+          description: Life event type (user-defined, e.g., "employer", "location")
+          example: employer
+        description:
+          type: string
+          description: >-
+            Life event description. May be an empty string (a valid value
+            distinct from absence).
+          example: Acme Corp
+        meta:
+          type: object
+          description: Product-side metadata (free-form JSON)
+          example:
+            note: Promotion
+        createdAt:
+          format: date-time
+          type: string
+          description: Creation timestamp
+          example: '2024-03-15T10:00:00Z'
+        updatedAt:
+          format: date-time
+          type: string
+          description: >-
+            Last update timestamp. Also emitted as the ETag response header for
+            If-Match optimistic concurrency.
+          example: '2024-03-15T10:00:00Z'
+      required:
+        - id
+        - userId
+        - date
+        - type
+        - description
+        - meta
+        - createdAt
+        - updatedAt
+    EventListResponseDto:
+      type: object
+      properties:
+        items:
+          description: List of life events
+          type: array
+          items:
+            $ref: '#/components/schemas/EventResponseDto'
+        total:
+          type: number
+          description: Total number of life events matching the query
+          example: 42
+      required:
+        - items
+        - total
+    UpdateBeanEventDto:
+      type: object
+      properties:
+        date:
+          type: string
+          description: Life event date (ISO 8601)
+        type:
+          type: string
+          description: Life event type (user-defined)
+        description:
+          type: string
+          description: >-
+            Life event description. Empty string is a VALID value (distinct from
+            absence).
+        meta:
+          type: object
+          description: Product-side metadata (free-form JSON)
     FileImportDto:
       type: object
       properties:
