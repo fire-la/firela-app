@@ -1,0 +1,50 @@
+name: New Parser Request
+description: Request support for a new financial institution / import format
+title: "[Parser]: <Institution name> (<Region>)"
+labels: ["new-parser"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for contributing a parser! Parsers run locally as WASM on the user's
+        device — financial data never leaves the phone. A maintainer reviews each
+        request; generation runs in the private pipeline and the compiled WASM is
+        published to the `@firela/*` npm packages + CDN.
+  - type: input
+    id: institution
+    attributes:
+      label: Institution name
+      description: e.g. "China Merchants Bank", "Deutsche Bank", "HSBC"
+    validations:
+      required: true
+  - type: input
+    id: region
+    attributes:
+      label: Region (ISO 3166-1)
+      description: e.g. CN, DE, HK, US
+    validations:
+      required: true
+  - type: input
+    id: format
+    attributes:
+      label: File format
+      description: e.g. CSV, XLSX, HTML, PDF
+    validations:
+      required: true
+  - type: textarea
+    id: sample
+    attributes:
+      label: Sample transaction data
+      description: |
+        Paste 5-10 sample lines. REDACT all PII first — replace real names, account
+        numbers, and card numbers with placeholders. Unredacted PII is auto-detected
+        and the submission will be blocked.
+    validations:
+      required: true
+  - type: textarea
+    id: mapping
+    attributes:
+      label: Field mapping (optional)
+      description: How columns/fields map to transaction fields (date, amount, payee, etc.)
+    validations:
+      required: false

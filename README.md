@@ -6,6 +6,8 @@
 
 *Coming soon*
 
+> **About this repo:** This public repository hosts the open-source **API client** (`lib/api/` — OpenAPI types + Dart facade) and the community **parser contribution pipeline**. Open a [new-parser Issue](../../issues/new?labels=new-parser) to request support for a financial institution. The FIREla mobile app source code is closed. Parsers run locally as WASM on each device; financial data never leaves your phone.
+
 ## Data Sovereignty First
 
 FIREla is built on the same core principle as **Beancount**: **your financial data belongs to you**.
