@@ -13,14 +13,14 @@ part 'category_group_dto.g.dart';
 /// CategoryGroupDto
 ///
 /// Properties:
-/// * [category] - Functional category (account-path Group segment)
+/// * [category] - Functional category (account-path Group segment); regional and universal account paths merge under it
 /// * [totalExpense] - Converted total expense in base currency
 /// * [sharePct] - Share of grand total (0-100); 0 when grand total is 0
 /// * [balanceByCurrency] - Raw (unconverted) expense per currency
 /// * [convertedBalance] - Converted total in base currency (omitted when FX missing for all currencies in this category)
 @BuiltValue()
 abstract class CategoryGroupDto implements Built<CategoryGroupDto, CategoryGroupDtoBuilder> {
-  /// Functional category (account-path Group segment)
+  /// Functional category (account-path Group segment); regional and universal account paths merge under it
   @BuiltValueField(wireName: r'category')
   String get category;
 
