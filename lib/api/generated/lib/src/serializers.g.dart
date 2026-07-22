@@ -51,6 +51,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(CashFlowResponseDto.serializer)
       ..add(CashFlowTrendSummaryDto.serializer)
       ..add(CashFlowTrendsResponseDto.serializer)
+      ..add(CategoryGroupDto.serializer)
       ..add(CloseAccountDto.serializer)
       ..add(CommodityListResponseDto.serializer)
       ..add(CommodityResponseDto.serializer)
@@ -95,6 +96,8 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(ExpectedTransactionListResponseDto.serializer)
       ..add(ExpectedTransactionResponseDto.serializer)
       ..add(ExpectedTransactionRuleDto.serializer)
+      ..add(ExpensesByCategoryResponseDto.serializer)
+      ..add(ExpensesByCategorySummaryDto.serializer)
       ..add(ExportRulesResponseDto.serializer)
       ..add(FileImportControllerIdentifyFile400Response.serializer)
       ..add(FileImportControllerImportBeancount200Response.serializer)
@@ -306,6 +309,10 @@ Serializers _$serializers = (new Serializers().toBuilder()
               BuiltList, const [const FullType(BalanceByCurrencyDto)]),
           () => new ListBuilder<BalanceByCurrencyDto>())
       ..addBuilderFactory(
+          const FullType(
+              BuiltList, const [const FullType(BalanceByCurrencyDto)]),
+          () => new ListBuilder<BalanceByCurrencyDto>())
+      ..addBuilderFactory(
           const FullType(BuiltList, const [
             const FullType(BuiltList, const [const FullType(dynamic)])
           ]),
@@ -405,6 +412,13 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(CashFlowPointDto)]),
           () => new ListBuilder<CashFlowPointDto>())
+      ..addBuilderFactory(
+          const FullType(
+              BuiltList, const [const FullType(ExchangeRateWarningDto)]),
+          () => new ListBuilder<ExchangeRateWarningDto>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(CategoryGroupDto)]),
+          () => new ListBuilder<CategoryGroupDto>())
       ..addBuilderFactory(
           const FullType(
               BuiltList, const [const FullType(ExchangeRateWarningDto)]),

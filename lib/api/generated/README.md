@@ -225,6 +225,7 @@ Class | Method | HTTP request | Description
 [*BeanTransactionsApi*](doc/BeanTransactionsApi.md) | [**transactionControllerUpdate**](doc/BeanTransactionsApi.md#transactioncontrollerupdate) | **PATCH** /api/v1/{region}/bean/transactions/{id} | Update transaction metadata
 [*DashboardApi*](doc/DashboardApi.md) | [**dashboardControllerGetAccounts**](doc/DashboardApi.md#dashboardcontrollergetaccounts) | **GET** /api/v1/{region}/dashboard/accounts | Get accounts grouped by platform
 [*DashboardApi*](doc/DashboardApi.md) | [**dashboardControllerGetCashFlow**](doc/DashboardApi.md#dashboardcontrollergetcashflow) | **GET** /api/v1/{region}/dashboard/cash-flow | Get cash flow summary
+[*DashboardApi*](doc/DashboardApi.md) | [**dashboardControllerGetExpenses**](doc/DashboardApi.md#dashboardcontrollergetexpenses) | **GET** /api/v1/{region}/dashboard/expenses | Get expenses grouped by functional category
 [*DashboardApi*](doc/DashboardApi.md) | [**dashboardControllerGetNetWorth**](doc/DashboardApi.md#dashboardcontrollergetnetworth) | **GET** /api/v1/{region}/dashboard/net-worth | Get net worth overview
 [*DefaultApi*](doc/DefaultApi.md) | [**cacheControllerFlushCache**](doc/DefaultApi.md#cachecontrollerflushcache) | **POST** /api/v1/cache/flush | 
 [*ExchangeRateApi*](doc/ExchangeRateApi.md) | [**exchangeRateControllerGetExchangeRate**](doc/ExchangeRateApi.md#exchangeratecontrollergetexchangerate) | **GET** /api/v1/market/exchange-rates/{symbol}/{dateString} | Get exchange rate for currency pair
@@ -316,6 +317,7 @@ Class | Method | HTTP request | Description
  - [CashFlowResponseDto](doc/CashFlowResponseDto.md)
  - [CashFlowTrendSummaryDto](doc/CashFlowTrendSummaryDto.md)
  - [CashFlowTrendsResponseDto](doc/CashFlowTrendsResponseDto.md)
+ - [CategoryGroupDto](doc/CategoryGroupDto.md)
  - [CloseAccountDto](doc/CloseAccountDto.md)
  - [CommodityListResponseDto](doc/CommodityListResponseDto.md)
  - [CommodityResponseDto](doc/CommodityResponseDto.md)
@@ -349,6 +351,8 @@ Class | Method | HTTP request | Description
  - [ExpectedTransactionListResponseDto](doc/ExpectedTransactionListResponseDto.md)
  - [ExpectedTransactionResponseDto](doc/ExpectedTransactionResponseDto.md)
  - [ExpectedTransactionRuleDto](doc/ExpectedTransactionRuleDto.md)
+ - [ExpensesByCategoryResponseDto](doc/ExpensesByCategoryResponseDto.md)
+ - [ExpensesByCategorySummaryDto](doc/ExpensesByCategorySummaryDto.md)
  - [ExportRulesResponseDto](doc/ExportRulesResponseDto.md)
  - [FileImportControllerIdentifyFile400Response](doc/FileImportControllerIdentifyFile400Response.md)
  - [FileImportControllerImportBeancount200Response](doc/FileImportControllerImportBeancount200Response.md)
