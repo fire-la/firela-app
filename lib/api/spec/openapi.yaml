@@ -11366,7 +11366,9 @@ components:
       properties:
         category:
           type: string
-          description: Functional category (account-path Group segment)
+          description: >-
+            Functional category (account-path Group segment); regional and
+            universal account paths merge under it
           example: Food
         totalExpense:
           type: string
