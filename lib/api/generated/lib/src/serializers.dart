@@ -45,6 +45,7 @@ import 'package:firela_api/src/model/cash_flow_point_dto.dart';
 import 'package:firela_api/src/model/cash_flow_response_dto.dart';
 import 'package:firela_api/src/model/cash_flow_trend_summary_dto.dart';
 import 'package:firela_api/src/model/cash_flow_trends_response_dto.dart';
+import 'package:firela_api/src/model/category_group_dto.dart';
 import 'package:firela_api/src/model/close_account_dto.dart';
 import 'package:firela_api/src/model/commodity_list_response_dto.dart';
 import 'package:firela_api/src/model/commodity_response_dto.dart';
@@ -78,6 +79,8 @@ import 'package:firela_api/src/model/exchange_rate_warning_dto.dart';
 import 'package:firela_api/src/model/expected_transaction_list_response_dto.dart';
 import 'package:firela_api/src/model/expected_transaction_response_dto.dart';
 import 'package:firela_api/src/model/expected_transaction_rule_dto.dart';
+import 'package:firela_api/src/model/expenses_by_category_response_dto.dart';
+import 'package:firela_api/src/model/expenses_by_category_summary_dto.dart';
 import 'package:firela_api/src/model/export_rules_response_dto.dart';
 import 'package:firela_api/src/model/file_import_controller_identify_file400_response.dart';
 import 'package:firela_api/src/model/file_import_controller_import_beancount200_response.dart';
@@ -231,6 +234,7 @@ part 'serializers.g.dart';
   CashFlowResponseDto,
   CashFlowTrendSummaryDto,
   CashFlowTrendsResponseDto,
+  CategoryGroupDto,
   CloseAccountDto,
   CommodityListResponseDto,
   CommodityResponseDto,
@@ -264,6 +268,8 @@ part 'serializers.g.dart';
   ExpectedTransactionListResponseDto,
   ExpectedTransactionResponseDto,
   ExpectedTransactionRuleDto,
+  ExpensesByCategoryResponseDto,
+  ExpensesByCategorySummaryDto,
   ExportRulesResponseDto,
   FileImportControllerIdentifyFile400Response,
   FileImportControllerImportBeancount200Response,
