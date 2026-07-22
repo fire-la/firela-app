@@ -4890,6 +4890,59 @@ paths:
         - Dashboard
       security:
         - bearer: []
+  /api/v1/{region}/dashboard/expenses:
+    get:
+      operationId: DashboardController_getExpenses
+      summary: Get expenses grouped by functional category
+      description: >-
+        Returns expenses pre-aggregated by functional category (account-path
+        Group segment) with server-side multi-currency conversion
+      parameters:
+        - name: groupBy
+          required: false
+          in: query
+          description: Grouping strategy
+          schema:
+            enum:
+              - category
+            type: string
+        - name: period
+          required: false
+          in: query
+          description: Time window (1m = current calendar month)
+          schema:
+            enum:
+              - 1m
+              - 3m
+              - 6m
+              - 1y
+            type: string
+        - name: region
+          required: true
+          in: path
+          description: Region code for tenant context
+          schema:
+            enum:
+              - cn
+              - us
+              - de
+              - gb
+            type: string
+      responses:
+        '200':
+          description: Expenses retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExpensesByCategoryResponseDto'
+        '400':
+          description: Invalid groupBy or period
+        '401':
+          description: User not authenticated
+      tags:
+        - Dashboard
+      security:
+        - bearer: []
   /api/v1/{region}/investment/holdings/pnl:
     get:
       operationId: HoldingPnlController_getHoldingPnl
@@ -11308,6 +11361,85 @@ components:
         - netSavings
         - savingsRate
         - currency
+    CategoryGroupDto:
+      type: object
+      properties:
+        category:
+          type: string
+          description: Functional category (account-path Group segment)
+          example: Food
+        totalExpense:
+          type: string
+          description: Converted total expense in base currency
+          example: '1200.00'
+        sharePct:
+          type: number
+          description: Share of grand total (0-100); 0 when grand total is 0
+          example: 42.5
+        balanceByCurrency:
+          description: Raw (unconverted) expense per currency
+          type: array
+          items:
+            $ref: '#/components/schemas/BalanceByCurrencyDto'
+        convertedBalance:
+          type: string
+          description: >-
+            Converted total in base currency (omitted when FX missing for all
+            currencies in this category)
+          example: '1200.00'
+      required:
+        - category
+        - totalExpense
+        - sharePct
+        - balanceByCurrency
+    ExpensesByCategorySummaryDto:
+      type: object
+      properties:
+        totalExpense:
+          type: string
+          description: >-
+            Total expense across all categories (converted; convertible
+            categories only)
+          example: '5000.00'
+        categoryCount:
+          type: number
+          description: Number of categories
+          example: 8
+      required:
+        - totalExpense
+        - categoryCount
+    ExpensesByCategoryResponseDto:
+      type: object
+      properties:
+        period:
+          type: string
+          description: Period requested
+          example: 1m
+        baseCurrency:
+          type: string
+          description: Base currency for converted values
+          example: CNY
+        groups:
+          description: >-
+            Expense groups by functional category, sorted by converted total
+            desc
+          type: array
+          items:
+            $ref: '#/components/schemas/CategoryGroupDto'
+        summary:
+          description: Summary statistics
+          allOf:
+            - $ref: '#/components/schemas/ExpensesByCategorySummaryDto'
+        warnings:
+          description: Exchange rate warnings (e.g. missing rate for a currency)
+          type: array
+          items:
+            $ref: '#/components/schemas/ExchangeRateWarningDto'
+      required:
+        - period
+        - baseCurrency
+        - groups
+        - summary
     MonetaryDto:
       type: object
       properties:
