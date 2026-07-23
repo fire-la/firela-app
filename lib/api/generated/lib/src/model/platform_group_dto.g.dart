@@ -15,6 +15,12 @@ class _$PlatformGroupDto extends PlatformGroupDto {
   final BuiltList<AccountItemDto> accounts;
   @override
   final String totalBalance;
+  @override
+  final BuiltList<BalanceByCurrencyDto> balanceByCurrency;
+  @override
+  final String? convertedBalance;
+  @override
+  final num sharePct;
 
   factory _$PlatformGroupDto(
           [void Function(PlatformGroupDtoBuilder)? updates]) =>
@@ -24,7 +30,10 @@ class _$PlatformGroupDto extends PlatformGroupDto {
       {required this.platformId,
       required this.platformName,
       required this.accounts,
-      required this.totalBalance})
+      required this.totalBalance,
+      required this.balanceByCurrency,
+      this.convertedBalance,
+      required this.sharePct})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(
         platformId, r'PlatformGroupDto', 'platformId');
@@ -34,6 +43,10 @@ class _$PlatformGroupDto extends PlatformGroupDto {
         accounts, r'PlatformGroupDto', 'accounts');
     BuiltValueNullFieldError.checkNotNull(
         totalBalance, r'PlatformGroupDto', 'totalBalance');
+    BuiltValueNullFieldError.checkNotNull(
+        balanceByCurrency, r'PlatformGroupDto', 'balanceByCurrency');
+    BuiltValueNullFieldError.checkNotNull(
+        sharePct, r'PlatformGroupDto', 'sharePct');
   }
 
   @override
@@ -51,7 +64,10 @@ class _$PlatformGroupDto extends PlatformGroupDto {
         platformId == other.platformId &&
         platformName == other.platformName &&
         accounts == other.accounts &&
-        totalBalance == other.totalBalance;
+        totalBalance == other.totalBalance &&
+        balanceByCurrency == other.balanceByCurrency &&
+        convertedBalance == other.convertedBalance &&
+        sharePct == other.sharePct;
   }
 
   @override
@@ -61,6 +77,9 @@ class _$PlatformGroupDto extends PlatformGroupDto {
     _$hash = $jc(_$hash, platformName.hashCode);
     _$hash = $jc(_$hash, accounts.hashCode);
     _$hash = $jc(_$hash, totalBalance.hashCode);
+    _$hash = $jc(_$hash, balanceByCurrency.hashCode);
+    _$hash = $jc(_$hash, convertedBalance.hashCode);
+    _$hash = $jc(_$hash, sharePct.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -71,7 +90,10 @@ class _$PlatformGroupDto extends PlatformGroupDto {
           ..add('platformId', platformId)
           ..add('platformName', platformName)
           ..add('accounts', accounts)
-          ..add('totalBalance', totalBalance))
+          ..add('totalBalance', totalBalance)
+          ..add('balanceByCurrency', balanceByCurrency)
+          ..add('convertedBalance', convertedBalance)
+          ..add('sharePct', sharePct))
         .toString();
   }
 }
@@ -98,6 +120,21 @@ class PlatformGroupDtoBuilder
   String? get totalBalance => _$this._totalBalance;
   set totalBalance(String? totalBalance) => _$this._totalBalance = totalBalance;
 
+  ListBuilder<BalanceByCurrencyDto>? _balanceByCurrency;
+  ListBuilder<BalanceByCurrencyDto> get balanceByCurrency =>
+      _$this._balanceByCurrency ??= new ListBuilder<BalanceByCurrencyDto>();
+  set balanceByCurrency(ListBuilder<BalanceByCurrencyDto>? balanceByCurrency) =>
+      _$this._balanceByCurrency = balanceByCurrency;
+
+  String? _convertedBalance;
+  String? get convertedBalance => _$this._convertedBalance;
+  set convertedBalance(String? convertedBalance) =>
+      _$this._convertedBalance = convertedBalance;
+
+  num? _sharePct;
+  num? get sharePct => _$this._sharePct;
+  set sharePct(num? sharePct) => _$this._sharePct = sharePct;
+
   PlatformGroupDtoBuilder() {
     PlatformGroupDto._defaults(this);
   }
@@ -109,6 +146,9 @@ class PlatformGroupDtoBuilder
       _platformName = $v.platformName;
       _accounts = $v.accounts.toBuilder();
       _totalBalance = $v.totalBalance;
+      _balanceByCurrency = $v.balanceByCurrency.toBuilder();
+      _convertedBalance = $v.convertedBalance;
+      _sharePct = $v.sharePct;
       _$v = null;
     }
     return this;
@@ -139,12 +179,19 @@ class PlatformGroupDtoBuilder
                   platformName, r'PlatformGroupDto', 'platformName'),
               accounts: accounts.build(),
               totalBalance: BuiltValueNullFieldError.checkNotNull(
-                  totalBalance, r'PlatformGroupDto', 'totalBalance'));
+                  totalBalance, r'PlatformGroupDto', 'totalBalance'),
+              balanceByCurrency: balanceByCurrency.build(),
+              convertedBalance: convertedBalance,
+              sharePct: BuiltValueNullFieldError.checkNotNull(
+                  sharePct, r'PlatformGroupDto', 'sharePct'));
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'accounts';
         accounts.build();
+
+        _$failedField = 'balanceByCurrency';
+        balanceByCurrency.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             r'PlatformGroupDto', _$failedField, e.toString());

@@ -5,6 +5,7 @@
 // ignore_for_file: unused_element
 import 'package:firela_api/src/model/account_item_dto.dart';
 import 'package:built_collection/built_collection.dart';
+import 'package:firela_api/src/model/balance_by_currency_dto.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
@@ -16,7 +17,10 @@ part 'platform_group_dto.g.dart';
 /// * [platformId] - Platform ID
 /// * [platformName] - Platform display name
 /// * [accounts] - Accounts within this platform
-/// * [totalBalance] - Total balance across all accounts in platform
+/// * [totalBalance] - FX-converted total balance in base currency
+/// * [balanceByCurrency] - Raw (unconverted) balances grouped by currency
+/// * [convertedBalance] - Converted balance in base currency (omitted when no currency is convertible)
+/// * [sharePct] - Share of the grand converted total (0-100); 0 when grand total is 0
 @BuiltValue()
 abstract class PlatformGroupDto implements Built<PlatformGroupDto, PlatformGroupDtoBuilder> {
   /// Platform ID
@@ -31,9 +35,21 @@ abstract class PlatformGroupDto implements Built<PlatformGroupDto, PlatformGroup
   @BuiltValueField(wireName: r'accounts')
   BuiltList<AccountItemDto> get accounts;
 
-  /// Total balance across all accounts in platform
+  /// FX-converted total balance in base currency
   @BuiltValueField(wireName: r'totalBalance')
   String get totalBalance;
+
+  /// Raw (unconverted) balances grouped by currency
+  @BuiltValueField(wireName: r'balanceByCurrency')
+  BuiltList<BalanceByCurrencyDto> get balanceByCurrency;
+
+  /// Converted balance in base currency (omitted when no currency is convertible)
+  @BuiltValueField(wireName: r'convertedBalance')
+  String? get convertedBalance;
+
+  /// Share of the grand converted total (0-100); 0 when grand total is 0
+  @BuiltValueField(wireName: r'sharePct')
+  num get sharePct;
 
   PlatformGroupDto._();
 
@@ -77,6 +93,23 @@ class _$PlatformGroupDtoSerializer implements PrimitiveSerializer<PlatformGroupD
     yield serializers.serialize(
       object.totalBalance,
       specifiedType: const FullType(String),
+    );
+    yield r'balanceByCurrency';
+    yield serializers.serialize(
+      object.balanceByCurrency,
+      specifiedType: const FullType(BuiltList, [FullType(BalanceByCurrencyDto)]),
+    );
+    if (object.convertedBalance != null) {
+      yield r'convertedBalance';
+      yield serializers.serialize(
+        object.convertedBalance,
+        specifiedType: const FullType(String),
+      );
+    }
+    yield r'sharePct';
+    yield serializers.serialize(
+      object.sharePct,
+      specifiedType: const FullType(num),
     );
   }
 
@@ -128,6 +161,27 @@ class _$PlatformGroupDtoSerializer implements PrimitiveSerializer<PlatformGroupD
             specifiedType: const FullType(String),
           ) as String;
           result.totalBalance = valueDes;
+          break;
+        case r'balanceByCurrency':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(BuiltList, [FullType(BalanceByCurrencyDto)]),
+          ) as BuiltList<BalanceByCurrencyDto>;
+          result.balanceByCurrency.replace(valueDes);
+          break;
+        case r'convertedBalance':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.convertedBalance = valueDes;
+          break;
+        case r'sharePct':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(num),
+          ) as num;
+          result.sharePct = valueDes;
           break;
         default:
           unhandled.add(key);
