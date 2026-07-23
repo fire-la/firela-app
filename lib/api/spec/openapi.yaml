@@ -11011,13 +11011,55 @@ components:
             $ref: '#/components/schemas/AccountItemDto'
         totalBalance:
           type: string
-          description: Total balance across all accounts in platform
+          description: FX-converted total balance in base currency
           example: '100000.00'
+        balanceByCurrency:
+          description: Raw (unconverted) balances grouped by currency
+          type: array
+          items:
+            $ref: '#/components/schemas/BalanceByCurrencyDto'
+        convertedBalance:
+          type: string
+          description: >-
+            Converted balance in base currency (omitted when no currency is
+            convertible)
+          example: '100000.00'
+        sharePct:
+          type: number
+          description: Share of the grand converted total (0-100); 0 when grand total is 0
+          example: 42.5
       required:
         - platformId
         - platformName
         - accounts
         - totalBalance
+        - balanceByCurrency
+        - sharePct
+    AccountExchangeRateWarningDto:
+      type: object
+      properties:
+        type:
+          type: string
+          description: Warning type
+          example: MISSING_EXCHANGE_RATE
+        currency:
+          type: string
+          description: Currency without exchange rate
+          example: USD
+        accounts:
+          description: Affected account paths
+          type: array
+          items:
+            type: string
+        totalAmount:
+          type: string
+          description: Total amount in this currency
+          example: '5000.00'
+      required:
+        - type
+        - currency
+        - accounts
+        - totalAmount
     AccountsSummaryDto:
       type: object
       properties:
@@ -11027,9 +11069,19 @@ components:
         totalPlatforms:
           type: number
           description: Total number of platforms
+        baseCurrency:
+          type: string
+          description: Base currency for conversion
+          example: CNY
+        warnings:
+          description: Per-account exchange rate warnings
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountExchangeRateWarningDto'
       required:
         - totalAccounts
         - totalPlatforms
+        - baseCurrency
     AccountsResponseDto:
       type: object
       properties:
@@ -11141,31 +11193,6 @@ components:
         - assetClass
         - accounts
         - balanceByCurrency
-    AccountExchangeRateWarningDto:
-      type: object
-      properties:
-        type:
-          type: string
-          description: Warning type
-          example: MISSING_EXCHANGE_RATE
-        currency:
-          type: string
-          description: Currency without exchange rate
-          example: USD
-        accounts:
-          description: Affected account paths
-          type: array
-          items:
-            type: string
-        totalAmount:
-          type: string
-          description: Total amount in this currency
-          example: '5000.00'
-      required:
-        - type
-        - currency
-        - accounts
-        - totalAmount
     AssetClassSummaryDto:
       type: object
       properties:
