@@ -257,8 +257,16 @@ Serializers _$serializers = (new Serializers().toBuilder()
               BuiltList, const [const FullType(AccountExchangeRateWarningDto)]),
           () => new ListBuilder<AccountExchangeRateWarningDto>())
       ..addBuilderFactory(
+          const FullType(
+              BuiltList, const [const FullType(AccountExchangeRateWarningDto)]),
+          () => new ListBuilder<AccountExchangeRateWarningDto>())
+      ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(AccountItemDto)]),
           () => new ListBuilder<AccountItemDto>())
+      ..addBuilderFactory(
+          const FullType(
+              BuiltList, const [const FullType(BalanceByCurrencyDto)]),
+          () => new ListBuilder<BalanceByCurrencyDto>())
       ..addBuilderFactory(
           const FullType(
               BuiltList, const [const FullType(AccountItemWithAssetClassDto)]),

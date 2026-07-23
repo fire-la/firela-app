@@ -3,6 +3,8 @@
 //
 
 // ignore_for_file: unused_element
+import 'package:firela_api/src/model/account_exchange_rate_warning_dto.dart';
+import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
@@ -13,6 +15,8 @@ part 'accounts_summary_dto.g.dart';
 /// Properties:
 /// * [totalAccounts] - Total number of accounts
 /// * [totalPlatforms] - Total number of platforms
+/// * [baseCurrency] - Base currency for conversion
+/// * [warnings] - Per-account exchange rate warnings
 @BuiltValue()
 abstract class AccountsSummaryDto implements Built<AccountsSummaryDto, AccountsSummaryDtoBuilder> {
   /// Total number of accounts
@@ -22,6 +26,14 @@ abstract class AccountsSummaryDto implements Built<AccountsSummaryDto, AccountsS
   /// Total number of platforms
   @BuiltValueField(wireName: r'totalPlatforms')
   num get totalPlatforms;
+
+  /// Base currency for conversion
+  @BuiltValueField(wireName: r'baseCurrency')
+  String get baseCurrency;
+
+  /// Per-account exchange rate warnings
+  @BuiltValueField(wireName: r'warnings')
+  BuiltList<AccountExchangeRateWarningDto>? get warnings;
 
   AccountsSummaryDto._();
 
@@ -56,6 +68,18 @@ class _$AccountsSummaryDtoSerializer implements PrimitiveSerializer<AccountsSumm
       object.totalPlatforms,
       specifiedType: const FullType(num),
     );
+    yield r'baseCurrency';
+    yield serializers.serialize(
+      object.baseCurrency,
+      specifiedType: const FullType(String),
+    );
+    if (object.warnings != null) {
+      yield r'warnings';
+      yield serializers.serialize(
+        object.warnings,
+        specifiedType: const FullType(BuiltList, [FullType(AccountExchangeRateWarningDto)]),
+      );
+    }
   }
 
   @override
@@ -92,6 +116,20 @@ class _$AccountsSummaryDtoSerializer implements PrimitiveSerializer<AccountsSumm
             specifiedType: const FullType(num),
           ) as num;
           result.totalPlatforms = valueDes;
+          break;
+        case r'baseCurrency':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.baseCurrency = valueDes;
+          break;
+        case r'warnings':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(BuiltList, [FullType(AccountExchangeRateWarningDto)]),
+          ) as BuiltList<AccountExchangeRateWarningDto>;
+          result.warnings.replace(valueDes);
           break;
         default:
           unhandled.add(key);

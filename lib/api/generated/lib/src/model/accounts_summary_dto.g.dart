@@ -11,18 +11,27 @@ class _$AccountsSummaryDto extends AccountsSummaryDto {
   final num totalAccounts;
   @override
   final num totalPlatforms;
+  @override
+  final String baseCurrency;
+  @override
+  final BuiltList<AccountExchangeRateWarningDto>? warnings;
 
   factory _$AccountsSummaryDto(
           [void Function(AccountsSummaryDtoBuilder)? updates]) =>
       (new AccountsSummaryDtoBuilder()..update(updates))._build();
 
   _$AccountsSummaryDto._(
-      {required this.totalAccounts, required this.totalPlatforms})
+      {required this.totalAccounts,
+      required this.totalPlatforms,
+      required this.baseCurrency,
+      this.warnings})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(
         totalAccounts, r'AccountsSummaryDto', 'totalAccounts');
     BuiltValueNullFieldError.checkNotNull(
         totalPlatforms, r'AccountsSummaryDto', 'totalPlatforms');
+    BuiltValueNullFieldError.checkNotNull(
+        baseCurrency, r'AccountsSummaryDto', 'baseCurrency');
   }
 
   @override
@@ -39,7 +48,9 @@ class _$AccountsSummaryDto extends AccountsSummaryDto {
     if (identical(other, this)) return true;
     return other is AccountsSummaryDto &&
         totalAccounts == other.totalAccounts &&
-        totalPlatforms == other.totalPlatforms;
+        totalPlatforms == other.totalPlatforms &&
+        baseCurrency == other.baseCurrency &&
+        warnings == other.warnings;
   }
 
   @override
@@ -47,6 +58,8 @@ class _$AccountsSummaryDto extends AccountsSummaryDto {
     var _$hash = 0;
     _$hash = $jc(_$hash, totalAccounts.hashCode);
     _$hash = $jc(_$hash, totalPlatforms.hashCode);
+    _$hash = $jc(_$hash, baseCurrency.hashCode);
+    _$hash = $jc(_$hash, warnings.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -55,7 +68,9 @@ class _$AccountsSummaryDto extends AccountsSummaryDto {
   String toString() {
     return (newBuiltValueToStringHelper(r'AccountsSummaryDto')
           ..add('totalAccounts', totalAccounts)
-          ..add('totalPlatforms', totalPlatforms))
+          ..add('totalPlatforms', totalPlatforms)
+          ..add('baseCurrency', baseCurrency)
+          ..add('warnings', warnings))
         .toString();
   }
 }
@@ -74,6 +89,16 @@ class AccountsSummaryDtoBuilder
   set totalPlatforms(num? totalPlatforms) =>
       _$this._totalPlatforms = totalPlatforms;
 
+  String? _baseCurrency;
+  String? get baseCurrency => _$this._baseCurrency;
+  set baseCurrency(String? baseCurrency) => _$this._baseCurrency = baseCurrency;
+
+  ListBuilder<AccountExchangeRateWarningDto>? _warnings;
+  ListBuilder<AccountExchangeRateWarningDto> get warnings =>
+      _$this._warnings ??= new ListBuilder<AccountExchangeRateWarningDto>();
+  set warnings(ListBuilder<AccountExchangeRateWarningDto>? warnings) =>
+      _$this._warnings = warnings;
+
   AccountsSummaryDtoBuilder() {
     AccountsSummaryDto._defaults(this);
   }
@@ -83,6 +108,8 @@ class AccountsSummaryDtoBuilder
     if ($v != null) {
       _totalAccounts = $v.totalAccounts;
       _totalPlatforms = $v.totalPlatforms;
+      _baseCurrency = $v.baseCurrency;
+      _warnings = $v.warnings?.toBuilder();
       _$v = null;
     }
     return this;
@@ -103,12 +130,28 @@ class AccountsSummaryDtoBuilder
   AccountsSummaryDto build() => _build();
 
   _$AccountsSummaryDto _build() {
-    final _$result = _$v ??
-        new _$AccountsSummaryDto._(
-            totalAccounts: BuiltValueNullFieldError.checkNotNull(
-                totalAccounts, r'AccountsSummaryDto', 'totalAccounts'),
-            totalPlatforms: BuiltValueNullFieldError.checkNotNull(
-                totalPlatforms, r'AccountsSummaryDto', 'totalPlatforms'));
+    _$AccountsSummaryDto _$result;
+    try {
+      _$result = _$v ??
+          new _$AccountsSummaryDto._(
+              totalAccounts: BuiltValueNullFieldError.checkNotNull(
+                  totalAccounts, r'AccountsSummaryDto', 'totalAccounts'),
+              totalPlatforms: BuiltValueNullFieldError.checkNotNull(
+                  totalPlatforms, r'AccountsSummaryDto', 'totalPlatforms'),
+              baseCurrency: BuiltValueNullFieldError.checkNotNull(
+                  baseCurrency, r'AccountsSummaryDto', 'baseCurrency'),
+              warnings: _warnings?.build());
+    } catch (_) {
+      late String _$failedField;
+      try {
+        _$failedField = 'warnings';
+        _warnings?.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            r'AccountsSummaryDto', _$failedField, e.toString());
+      }
+      rethrow;
+    }
     replace(_$result);
     return _$result;
   }
