@@ -225,7 +225,7 @@ Class | Method | HTTP request | Description
 [*BeanTransactionsApi*](doc/BeanTransactionsApi.md) | [**transactionControllerUpdate**](doc/BeanTransactionsApi.md#transactioncontrollerupdate) | **PATCH** /api/v1/{region}/bean/transactions/{id} | Update transaction metadata
 [*DashboardApi*](doc/DashboardApi.md) | [**dashboardControllerGetAccounts**](doc/DashboardApi.md#dashboardcontrollergetaccounts) | **GET** /api/v1/{region}/dashboard/accounts | Get accounts grouped by platform
 [*DashboardApi*](doc/DashboardApi.md) | [**dashboardControllerGetCashFlow**](doc/DashboardApi.md#dashboardcontrollergetcashflow) | **GET** /api/v1/{region}/dashboard/cash-flow | Get cash flow summary
-[*DashboardApi*](doc/DashboardApi.md) | [**dashboardControllerGetExpenses**](doc/DashboardApi.md#dashboardcontrollergetexpenses) | **GET** /api/v1/{region}/dashboard/expenses | Get expenses grouped by functional category
+[*DashboardApi*](doc/DashboardApi.md) | [**dashboardControllerGetExpenses**](doc/DashboardApi.md#dashboardcontrollergetexpenses) | **GET** /api/v1/{region}/dashboard/expenses | Get expenses/income grouped by functional category
 [*DashboardApi*](doc/DashboardApi.md) | [**dashboardControllerGetNetWorth**](doc/DashboardApi.md#dashboardcontrollergetnetworth) | **GET** /api/v1/{region}/dashboard/net-worth | Get net worth overview
 [*DefaultApi*](doc/DefaultApi.md) | [**cacheControllerFlushCache**](doc/DefaultApi.md#cachecontrollerflushcache) | **POST** /api/v1/cache/flush | 
 [*ExchangeRateApi*](doc/ExchangeRateApi.md) | [**exchangeRateControllerGetExchangeRate**](doc/ExchangeRateApi.md#exchangeratecontrollergetexchangerate) | **GET** /api/v1/market/exchange-rates/{symbol}/{dateString} | Get exchange rate for currency pair

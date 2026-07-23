@@ -191,13 +191,14 @@ class DashboardApi {
     );
   }
 
-  /// Get expenses grouped by functional category
-  /// Returns expenses pre-aggregated by functional category (account-path Group segment) with server-side multi-currency conversion
+  /// Get expenses/income grouped by functional category
+  /// Returns amounts pre-aggregated by functional category (account-path Group segment) with server-side multi-currency conversion. flow&#x3D;expense (default) aggregates ^Expenses: accounts; flow&#x3D;income aggregates ^Income: accounts (issue #518)
   ///
   /// Parameters:
   /// * [region] - Region code for tenant context
   /// * [groupBy] - Grouping strategy
   /// * [period] - Time window (1m = current calendar month)
+  /// * [flow] - Account root to aggregate (expense → ^Expenses:, income → ^Income:)
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -211,6 +212,7 @@ class DashboardApi {
     required String region,
     String? groupBy,
     String? period,
+    String? flow,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -234,6 +236,7 @@ class DashboardApi {
     final _queryParameters = <String, dynamic>{
       if (groupBy != null) r'groupBy': encodeQueryParameter(_serializers, groupBy, const FullType(String)),
       if (period != null) r'period': encodeQueryParameter(_serializers, period, const FullType(String)),
+      if (flow != null) r'flow': encodeQueryParameter(_serializers, flow, const FullType(String)),
     };
 
     final _response = await _dio.request<Object>(

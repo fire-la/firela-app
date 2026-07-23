@@ -11,11 +11,11 @@ part 'expenses_by_category_summary_dto.g.dart';
 /// ExpensesByCategorySummaryDto
 ///
 /// Properties:
-/// * [totalExpense] - Total expense across all categories (converted; convertible categories only)
+/// * [totalExpense] - Total across all categories, converted (convertible categories only); expense totals when flow=expense, income totals when flow=income
 /// * [categoryCount] - Number of categories
 @BuiltValue()
 abstract class ExpensesByCategorySummaryDto implements Built<ExpensesByCategorySummaryDto, ExpensesByCategorySummaryDtoBuilder> {
-  /// Total expense across all categories (converted; convertible categories only)
+  /// Total across all categories, converted (convertible categories only); expense totals when flow=expense, income totals when flow=income
   @BuiltValueField(wireName: r'totalExpense')
   String get totalExpense;
 
