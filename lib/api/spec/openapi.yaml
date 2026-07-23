@@ -6957,6 +6957,68 @@ components:
         - status
         - postings
         - createdAt
+    BalanceByCurrencyDto:
+      type: object
+      properties:
+        currency:
+          type: string
+          description: ISO 4217 currency code
+          example: CNY
+        balance:
+          type: string
+          description: Balance amount
+          example: '50000.00'
+      required:
+        - currency
+        - balance
+    ExchangeRateWarningDto:
+      type: object
+      properties:
+        type:
+          type: string
+          description: Warning type
+          example: MISSING_EXCHANGE_RATE
+        currency:
+          type: string
+          description: Currency without exchange rate
+          example: EUR
+        totalAmount:
+          type: string
+          description: Total amount affected
+          example: '1000.00'
+      required:
+        - type
+        - currency
+        - totalAmount
+    TransactionListSummaryDto:
+      type: object
+      properties:
+        totalAmount:
+          type: string
+          description: >-
+            Partial converted total in base currency (rated currencies only, raw
+            Beancount sign). When warnings is non-empty this excludes currencies
+            missing an FX rate; may be "0.00" if ALL non-base currencies lack a
+            rate. Converted at the dateTo (or current) available rate.
+          example: '-6000.00'
+        currency:
+          type: string
+          description: Base currency (ISO 4217)
+          example: CNY
+        balanceByCurrency:
+          description: Raw (unconverted) balance per currency
+          type: array
+          items:
+            $ref: '#/components/schemas/BalanceByCurrencyDto'
+        warnings:
+          description: Currencies missing an FX rate (omitted when empty)
+          type: array
+          items:
+            $ref: '#/components/schemas/ExchangeRateWarningDto'
+      required:
+        - totalAmount
+        - currency
+        - balanceByCurrency
     TransactionListResponseDto:
       type: object
       properties:
@@ -6977,6 +7039,13 @@ components:
           type: number
           description: Number of items skipped
           example: 0
+        summary:
+          description: >-
+            Amount summary for the full filtered set (#514). Present only when
+            the request has a single account OR category viewpoint; omitted for
+            search-only / plain-list / dual-perspective requests.
+          allOf:
+            - $ref: '#/components/schemas/TransactionListSummaryDto'
       required:
         - data
         - total
@@ -10826,20 +10895,6 @@ components:
       required:
         - status
         - action
-    BalanceByCurrencyDto:
-      type: object
-      properties:
-        currency:
-          type: string
-          description: ISO 4217 currency code
-          example: CNY
-        balance:
-          type: string
-          description: Balance amount
-          example: '50000.00'
-      required:
-        - currency
-        - balance
     NetWorthByCurrencyDto:
       type: object
       properties:
@@ -10893,25 +10948,6 @@ components:
         - assets
         - liabilities
         - exchangeRates
-    ExchangeRateWarningDto:
-      type: object
-      properties:
-        type:
-          type: string
-          description: Warning type
-          example: MISSING_EXCHANGE_RATE
-        currency:
-          type: string
-          description: Currency without exchange rate
-          example: EUR
-        totalAmount:
-          type: string
-          description: Total amount affected
-          example: '1000.00'
-      required:
-        - type
-        - currency
-        - totalAmount
     NetWorthResponseDto:
       type: object
       properties:
