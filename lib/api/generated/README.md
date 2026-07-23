@@ -447,6 +447,7 @@ Class | Method | HTTP request | Description
  - [TimeSeriesPointDto](doc/TimeSeriesPointDto.md)
  - [TransactionDetailDto](doc/TransactionDetailDto.md)
  - [TransactionListResponseDto](doc/TransactionListResponseDto.md)
+ - [TransactionListSummaryDto](doc/TransactionListSummaryDto.md)
  - [TransactionResponseDto](doc/TransactionResponseDto.md)
  - [TransactionRuleListResponseDto](doc/TransactionRuleListResponseDto.md)
  - [TransactionRuleResponseDto](doc/TransactionRuleResponseDto.md)

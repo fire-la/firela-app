@@ -15,6 +15,8 @@ class _$TransactionListResponseDto extends TransactionListResponseDto {
   final num limit;
   @override
   final num offset;
+  @override
+  final TransactionListSummaryDto? summary;
 
   factory _$TransactionListResponseDto(
           [void Function(TransactionListResponseDtoBuilder)? updates]) =>
@@ -24,7 +26,8 @@ class _$TransactionListResponseDto extends TransactionListResponseDto {
       {required this.data,
       required this.total,
       required this.limit,
-      required this.offset})
+      required this.offset,
+      this.summary})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(
         data, r'TransactionListResponseDto', 'data');
@@ -52,7 +55,8 @@ class _$TransactionListResponseDto extends TransactionListResponseDto {
         data == other.data &&
         total == other.total &&
         limit == other.limit &&
-        offset == other.offset;
+        offset == other.offset &&
+        summary == other.summary;
   }
 
   @override
@@ -62,6 +66,7 @@ class _$TransactionListResponseDto extends TransactionListResponseDto {
     _$hash = $jc(_$hash, total.hashCode);
     _$hash = $jc(_$hash, limit.hashCode);
     _$hash = $jc(_$hash, offset.hashCode);
+    _$hash = $jc(_$hash, summary.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -72,7 +77,8 @@ class _$TransactionListResponseDto extends TransactionListResponseDto {
           ..add('data', data)
           ..add('total', total)
           ..add('limit', limit)
-          ..add('offset', offset))
+          ..add('offset', offset)
+          ..add('summary', summary))
         .toString();
   }
 }
@@ -99,6 +105,12 @@ class TransactionListResponseDtoBuilder
   num? get offset => _$this._offset;
   set offset(num? offset) => _$this._offset = offset;
 
+  TransactionListSummaryDtoBuilder? _summary;
+  TransactionListSummaryDtoBuilder get summary =>
+      _$this._summary ??= new TransactionListSummaryDtoBuilder();
+  set summary(TransactionListSummaryDtoBuilder? summary) =>
+      _$this._summary = summary;
+
   TransactionListResponseDtoBuilder() {
     TransactionListResponseDto._defaults(this);
   }
@@ -110,6 +122,7 @@ class TransactionListResponseDtoBuilder
       _total = $v.total;
       _limit = $v.limit;
       _offset = $v.offset;
+      _summary = $v.summary?.toBuilder();
       _$v = null;
     }
     return this;
@@ -140,12 +153,16 @@ class TransactionListResponseDtoBuilder
               limit: BuiltValueNullFieldError.checkNotNull(
                   limit, r'TransactionListResponseDto', 'limit'),
               offset: BuiltValueNullFieldError.checkNotNull(
-                  offset, r'TransactionListResponseDto', 'offset'));
+                  offset, r'TransactionListResponseDto', 'offset'),
+              summary: _summary?.build());
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'data';
         data.build();
+
+        _$failedField = 'summary';
+        _summary?.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             r'TransactionListResponseDto', _$failedField, e.toString());

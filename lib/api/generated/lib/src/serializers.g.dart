@@ -217,6 +217,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(TransactionDetailDtoFlagEnum.serializer)
       ..add(TransactionDetailDtoStatusEnum.serializer)
       ..add(TransactionListResponseDto.serializer)
+      ..add(TransactionListSummaryDto.serializer)
       ..add(TransactionResponseDto.serializer)
       ..add(TransactionRuleListResponseDto.serializer)
       ..add(TransactionRuleResponseDto.serializer)
@@ -320,6 +321,14 @@ Serializers _$serializers = (new Serializers().toBuilder()
           const FullType(
               BuiltList, const [const FullType(BalanceByCurrencyDto)]),
           () => new ListBuilder<BalanceByCurrencyDto>())
+      ..addBuilderFactory(
+          const FullType(
+              BuiltList, const [const FullType(BalanceByCurrencyDto)]),
+          () => new ListBuilder<BalanceByCurrencyDto>())
+      ..addBuilderFactory(
+          const FullType(
+              BuiltList, const [const FullType(ExchangeRateWarningDto)]),
+          () => new ListBuilder<ExchangeRateWarningDto>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [
             const FullType(BuiltList, const [const FullType(dynamic)])
