@@ -4904,10 +4904,12 @@ paths:
   /api/v1/{region}/dashboard/expenses:
     get:
       operationId: DashboardController_getExpenses
-      summary: Get expenses grouped by functional category
+      summary: Get expenses/income grouped by functional category
       description: >-
-        Returns expenses pre-aggregated by functional category (account-path
-        Group segment) with server-side multi-currency conversion
+        Returns amounts pre-aggregated by functional category (account-path
+        Group segment) with server-side multi-currency conversion. flow=expense
+        (default) aggregates ^Expenses: accounts; flow=income aggregates
+        ^Income: accounts (issue #518)
       parameters:
         - name: groupBy
           required: false
@@ -4927,6 +4929,15 @@ paths:
               - 3m
               - 6m
               - 1y
+            type: string
+        - name: flow
+          required: false
+          in: query
+          description: Account root to aggregate (expense → ^Expenses:, income → ^Income:)
+          schema:
+            enum:
+              - expense
+              - income
             type: string
         - name: region
           required: true
@@ -11383,7 +11394,9 @@ components:
           example: Food
         totalExpense:
           type: string
-          description: Converted total expense in base currency
+          description: >-
+            Converted total for this category in base currency (expense amount
+            when flow=expense, income amount when flow=income)
           example: '1200.00'
         sharePct:
           type: number
@@ -11411,8 +11424,9 @@ components:
         totalExpense:
           type: string
           description: >-
-            Total expense across all categories (converted; convertible
-            categories only)
+            Total across all categories, converted (convertible categories
+            only); expense totals when flow=expense, income totals when
+            flow=income
           example: '5000.00'
         categoryCount:
           type: number
