@@ -548,6 +548,17 @@ paths:
           schema:
             example: clh1234567890abcdef
             type: string
+        - name: category
+          required: false
+          in: query
+          description: >-
+            Filter by ADR-0075 functional category (Group segment); matches any
+            posting to an Expenses/Income account whose derived Group segment
+            equals this value
+          schema:
+            maxLength: 64
+            example: Food
+            type: string
         - name: region
           required: true
           in: path
@@ -11841,6 +11852,14 @@ components:
           type: object
           description: Change from previous point
           example: '5000.00'
+        assets:
+          type: string
+          description: Total assets at this date (in base currency)
+          example: '494338.00'
+        liabilities:
+          type: string
+          description: Total liabilities at this date (in base currency)
+          example: '310098.00'
         byCurrency:
           description: Multi-currency breakdown for this point
           type: array
