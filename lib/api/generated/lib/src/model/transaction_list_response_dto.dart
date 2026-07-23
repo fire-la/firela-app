@@ -3,6 +3,7 @@
 //
 
 // ignore_for_file: unused_element
+import 'package:firela_api/src/model/transaction_list_summary_dto.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:firela_api/src/model/transaction_detail_dto.dart';
 import 'package:built_value/built_value.dart';
@@ -17,6 +18,7 @@ part 'transaction_list_response_dto.g.dart';
 /// * [total] - Total count of matching transactions
 /// * [limit] - Number of items per page
 /// * [offset] - Number of items skipped
+/// * [summary] 
 @BuiltValue()
 abstract class TransactionListResponseDto implements Built<TransactionListResponseDto, TransactionListResponseDtoBuilder> {
   /// List of transactions
@@ -34,6 +36,9 @@ abstract class TransactionListResponseDto implements Built<TransactionListRespon
   /// Number of items skipped
   @BuiltValueField(wireName: r'offset')
   num get offset;
+
+  @BuiltValueField(wireName: r'summary')
+  TransactionListSummaryDto? get summary;
 
   TransactionListResponseDto._();
 
@@ -78,6 +83,13 @@ class _$TransactionListResponseDtoSerializer implements PrimitiveSerializer<Tran
       object.offset,
       specifiedType: const FullType(num),
     );
+    if (object.summary != null) {
+      yield r'summary';
+      yield serializers.serialize(
+        object.summary,
+        specifiedType: const FullType(TransactionListSummaryDto),
+      );
+    }
   }
 
   @override
@@ -128,6 +140,13 @@ class _$TransactionListResponseDtoSerializer implements PrimitiveSerializer<Tran
             specifiedType: const FullType(num),
           ) as num;
           result.offset = valueDes;
+          break;
+        case r'summary':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(TransactionListSummaryDto),
+          ) as TransactionListSummaryDto;
+          result.summary.replace(valueDes);
           break;
         default:
           unhandled.add(key);

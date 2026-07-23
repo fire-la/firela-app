@@ -202,6 +202,7 @@ export 'package:firela_api/src/model/test_rule_response_dto.dart';
 export 'package:firela_api/src/model/time_series_point_dto.dart';
 export 'package:firela_api/src/model/transaction_detail_dto.dart';
 export 'package:firela_api/src/model/transaction_list_response_dto.dart';
+export 'package:firela_api/src/model/transaction_list_summary_dto.dart';
 export 'package:firela_api/src/model/transaction_response_dto.dart';
 export 'package:firela_api/src/model/transaction_rule_list_response_dto.dart';
 export 'package:firela_api/src/model/transaction_rule_response_dto.dart';
