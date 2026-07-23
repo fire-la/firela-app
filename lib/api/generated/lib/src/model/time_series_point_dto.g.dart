@@ -14,6 +14,10 @@ class _$TimeSeriesPointDto extends TimeSeriesPointDto {
   @override
   final JsonObject? change;
   @override
+  final String? assets;
+  @override
+  final String? liabilities;
+  @override
   final BuiltList<CurrencyBalanceDto>? byCurrency;
 
   factory _$TimeSeriesPointDto(
@@ -21,7 +25,12 @@ class _$TimeSeriesPointDto extends TimeSeriesPointDto {
       (new TimeSeriesPointDtoBuilder()..update(updates))._build();
 
   _$TimeSeriesPointDto._(
-      {required this.date, required this.value, this.change, this.byCurrency})
+      {required this.date,
+      required this.value,
+      this.change,
+      this.assets,
+      this.liabilities,
+      this.byCurrency})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(date, r'TimeSeriesPointDto', 'date');
     BuiltValueNullFieldError.checkNotNull(
@@ -44,6 +53,8 @@ class _$TimeSeriesPointDto extends TimeSeriesPointDto {
         date == other.date &&
         value == other.value &&
         change == other.change &&
+        assets == other.assets &&
+        liabilities == other.liabilities &&
         byCurrency == other.byCurrency;
   }
 
@@ -53,6 +64,8 @@ class _$TimeSeriesPointDto extends TimeSeriesPointDto {
     _$hash = $jc(_$hash, date.hashCode);
     _$hash = $jc(_$hash, value.hashCode);
     _$hash = $jc(_$hash, change.hashCode);
+    _$hash = $jc(_$hash, assets.hashCode);
+    _$hash = $jc(_$hash, liabilities.hashCode);
     _$hash = $jc(_$hash, byCurrency.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
@@ -64,6 +77,8 @@ class _$TimeSeriesPointDto extends TimeSeriesPointDto {
           ..add('date', date)
           ..add('value', value)
           ..add('change', change)
+          ..add('assets', assets)
+          ..add('liabilities', liabilities)
           ..add('byCurrency', byCurrency))
         .toString();
   }
@@ -85,6 +100,14 @@ class TimeSeriesPointDtoBuilder
   JsonObject? get change => _$this._change;
   set change(JsonObject? change) => _$this._change = change;
 
+  String? _assets;
+  String? get assets => _$this._assets;
+  set assets(String? assets) => _$this._assets = assets;
+
+  String? _liabilities;
+  String? get liabilities => _$this._liabilities;
+  set liabilities(String? liabilities) => _$this._liabilities = liabilities;
+
   ListBuilder<CurrencyBalanceDto>? _byCurrency;
   ListBuilder<CurrencyBalanceDto> get byCurrency =>
       _$this._byCurrency ??= new ListBuilder<CurrencyBalanceDto>();
@@ -101,6 +124,8 @@ class TimeSeriesPointDtoBuilder
       _date = $v.date;
       _value = $v.value;
       _change = $v.change;
+      _assets = $v.assets;
+      _liabilities = $v.liabilities;
       _byCurrency = $v.byCurrency?.toBuilder();
       _$v = null;
     }
@@ -131,6 +156,8 @@ class TimeSeriesPointDtoBuilder
               value: BuiltValueNullFieldError.checkNotNull(
                   value, r'TimeSeriesPointDto', 'value'),
               change: change,
+              assets: assets,
+              liabilities: liabilities,
               byCurrency: _byCurrency?.build());
     } catch (_) {
       late String _$failedField;

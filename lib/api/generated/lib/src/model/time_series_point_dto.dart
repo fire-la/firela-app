@@ -17,6 +17,8 @@ part 'time_series_point_dto.g.dart';
 /// * [date] - Date in YYYY-MM-DD format
 /// * [value] - Value at this date (in base currency)
 /// * [change] - Change from previous point
+/// * [assets] - Total assets at this date (in base currency)
+/// * [liabilities] - Total liabilities at this date (in base currency)
 /// * [byCurrency] - Multi-currency breakdown for this point
 @BuiltValue()
 abstract class TimeSeriesPointDto implements Built<TimeSeriesPointDto, TimeSeriesPointDtoBuilder> {
@@ -31,6 +33,14 @@ abstract class TimeSeriesPointDto implements Built<TimeSeriesPointDto, TimeSerie
   /// Change from previous point
   @BuiltValueField(wireName: r'change')
   JsonObject? get change;
+
+  /// Total assets at this date (in base currency)
+  @BuiltValueField(wireName: r'assets')
+  String? get assets;
+
+  /// Total liabilities at this date (in base currency)
+  @BuiltValueField(wireName: r'liabilities')
+  String? get liabilities;
 
   /// Multi-currency breakdown for this point
   @BuiltValueField(wireName: r'byCurrency')
@@ -74,6 +84,20 @@ class _$TimeSeriesPointDtoSerializer implements PrimitiveSerializer<TimeSeriesPo
       yield serializers.serialize(
         object.change,
         specifiedType: const FullType(JsonObject),
+      );
+    }
+    if (object.assets != null) {
+      yield r'assets';
+      yield serializers.serialize(
+        object.assets,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.liabilities != null) {
+      yield r'liabilities';
+      yield serializers.serialize(
+        object.liabilities,
+        specifiedType: const FullType(String),
       );
     }
     if (object.byCurrency != null) {
@@ -126,6 +150,20 @@ class _$TimeSeriesPointDtoSerializer implements PrimitiveSerializer<TimeSeriesPo
             specifiedType: const FullType(JsonObject),
           ) as JsonObject;
           result.change = valueDes;
+          break;
+        case r'assets':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.assets = valueDes;
+          break;
+        case r'liabilities':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.liabilities = valueDes;
           break;
         case r'byCurrency':
           final valueDes = serializers.deserialize(
