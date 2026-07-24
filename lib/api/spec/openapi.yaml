@@ -3873,6 +3873,164 @@ paths:
         - Life Events
       security:
         - bearer: []
+  /api/v1/{region}/bean/reconciliations:
+    post:
+      operationId: ReconciliationController_compute
+      summary: Preview reconciliation (book vs actual)
+      description: >-
+        Computes book balance, diff, Beancount-inferred tolerance, and suggested
+        action without persisting.
+      parameters:
+        - name: region
+          required: true
+          in: path
+          description: Region code for tenant context (decorative for reconciliation)
+          schema:
+            enum:
+              - cn
+              - us
+              - de
+              - gb
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ComputeReconciliationDto'
+      responses:
+        '200':
+          description: Reconciliation preview
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReconciliationComputeResultDto'
+        '404':
+          description: Account not found
+      tags:
+        - Balance Reconciliation
+      security:
+        - bearer: []
+  /api/v1/{region}/bean/reconciliations/assert:
+    post:
+      operationId: ReconciliationController_assert
+      summary: Record a balance assertion
+      description: >-
+        Persists the reconciliation as a BeanBalance assertion (amount = actual,
+        diffAmount = book − actual). Re-reconciling the same day/currency
+        upserts.
+      parameters:
+        - name: region
+          required: true
+          in: path
+          description: Region code for tenant context (decorative for reconciliation)
+          schema:
+            enum:
+              - cn
+              - us
+              - de
+              - gb
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssertReconciliationDto'
+      responses:
+        '201':
+          description: Balance assertion recorded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReconciliationRecordDto'
+        '404':
+          description: Account not found
+      tags:
+        - Balance Reconciliation
+      security:
+        - bearer: []
+  /api/v1/{region}/bean/reconciliations/pad:
+    post:
+      operationId: ReconciliationController_pad
+      summary: Generate a pad adjusting entry
+      description: >-
+        When book is outside tolerance, synthesizes a Beancount pad transaction
+        (flag P) booking the diff from source_account and persists it. Source
+        defaults to Equity:Opening-Balances.
+      parameters:
+        - name: region
+          required: true
+          in: path
+          description: Region code for tenant context (decorative for reconciliation)
+          schema:
+            enum:
+              - cn
+              - us
+              - de
+              - gb
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PadReconciliationDto'
+      responses:
+        '201':
+          description: Pad adjusting entry generated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PadResultDto'
+        '400':
+          description: Book already within tolerance — no pad needed
+        '404':
+          description: Account not found
+      tags:
+        - Balance Reconciliation
+      security:
+        - bearer: []
+  /api/v1/{region}/bean/accounts/{accountId}/reconciliations:
+    get:
+      operationId: ReconciliationController_history
+      summary: List reconciliation history for an account
+      description: >-
+        Returns recorded balance assertions (most recent first). The latest
+        drives the account-detail "Last <date>" badge.
+      parameters:
+        - name: accountId
+          required: true
+          in: path
+          description: BeanAccount id
+          schema:
+            type: string
+        - name: region
+          required: true
+          in: path
+          description: Region code for tenant context (decorative for reconciliation)
+          schema:
+            enum:
+              - cn
+              - us
+              - de
+              - gb
+            type: string
+      responses:
+        '200':
+          description: Reconciliation history
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ReconciliationRecordDto'
+        '404':
+          description: Account not found
+      tags:
+        - Balance Reconciliation
+      security:
+        - bearer: []
   /api/v1/{region}/bean/export/beancount:
     get:
       operationId: ExportController_exportBeancount
@@ -9680,6 +9838,167 @@ components:
         meta:
           type: object
           description: Product-side metadata (free-form JSON)
+    ActualBalanceDto:
+      type: object
+      properties:
+        amount:
+          type: string
+          description: >-
+            Actual balance amount as a decimal string (preserves precision for
+            tolerance inference).
+          example: '1234.56'
+        ccy:
+          type: string
+          description: Currency code (ISO 4217 or commodity ticker).
+          example: CNY
+      required:
+        - amount
+        - ccy
+    ComputeReconciliationDto:
+      type: object
+      properties:
+        accountId:
+          type: string
+          description: BeanAccount id to reconcile.
+        asOfDate:
+          type: string
+          description: Assertion date (ISO 8601, e.g. "2026-07-24").
+          example: '2026-07-24'
+        actualBalance:
+          description: Actual balance from the external statement.
+          allOf:
+            - $ref: '#/components/schemas/ActualBalanceDto'
+      required:
+        - accountId
+        - asOfDate
+        - actualBalance
+    ReconciliationComputeResultDto:
+      type: object
+      properties:
+        accountId:
+          type: string
+        asOfDate:
+          type: string
+        bookBalance:
+          type: string
+          description: System-computed book balance (decimal string).
+        actualBalance:
+          type: string
+          description: User-entered actual balance (decimal string).
+        currency:
+          type: string
+        diff:
+          type: string
+          description: Diff = book − actual (decimal string).
+        tolerance:
+          type: string
+          description: Applied tolerance (decimal string).
+        withinTolerance:
+          type: boolean
+          description: true when |diff| ≤ tolerance.
+        suggestedAction:
+          type: string
+          enum:
+            - assert
+            - pad
+          description: 'Suggested next action: assert when within tolerance, pad otherwise.'
+      required:
+        - accountId
+        - asOfDate
+        - bookBalance
+        - actualBalance
+        - currency
+        - diff
+        - tolerance
+        - withinTolerance
+        - suggestedAction
+    AssertReconciliationDto:
+      type: object
+      properties:
+        accountId:
+          type: string
+          description: BeanAccount id to reconcile.
+        asOfDate:
+          type: string
+          description: Assertion date (ISO 8601, e.g. "2026-07-24").
+          example: '2026-07-24'
+        actualBalance:
+          description: Actual balance from the external statement.
+          allOf:
+            - $ref: '#/components/schemas/ActualBalanceDto'
+        tolerance:
+          type: string
+          description: >-
+            Optional explicit tolerance override. Omit to infer from amount
+            precision (Beancount default).
+          example: '0.01'
+      required:
+        - accountId
+        - asOfDate
+        - actualBalance
+    ReconciliationRecordDto:
+      type: object
+      properties:
+        id:
+          type: string
+        accountId:
+          type: string
+        date:
+          type: string
+        amount:
+          type: string
+          description: Asserted (actual) amount.
+        currency:
+          type: string
+        tolerance:
+          type: string
+        diffAmount:
+          type: string
+          description: book − actual.
+        diffCurrency:
+          type: string
+        createdAt:
+          type: string
+      required:
+        - id
+        - accountId
+        - date
+        - amount
+        - currency
+        - createdAt
+    PadReconciliationDto:
+      type: object
+      properties:
+        accountId:
+          type: string
+          description: BeanAccount id to reconcile.
+        asOfDate:
+          type: string
+          description: Assertion date (ISO 8601, e.g. "2026-07-24").
+          example: '2026-07-24'
+        actualBalance:
+          description: Actual balance from the external statement.
+          allOf:
+            - $ref: '#/components/schemas/ActualBalanceDto'
+        sourceAccount:
+          type: string
+          description: >-
+            Pad source account. Defaults to Equity:Opening-Balances (official
+            Beancount convention).
+          example: Equity:Opening-Balances
+          default: Equity:Opening-Balances
+      required:
+        - accountId
+        - asOfDate
+        - actualBalance
+    PadResultDto:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: Created pad adjusting transaction id.
+      required:
+        - transactionId
     FileImportDto:
       type: object
       properties:
