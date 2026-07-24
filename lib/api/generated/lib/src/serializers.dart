@@ -23,10 +23,12 @@ import 'package:firela_api/src/model/account_standard_list_response_dto.dart';
 import 'package:firela_api/src/model/account_standard_response_dto.dart';
 import 'package:firela_api/src/model/accounts_response_dto.dart';
 import 'package:firela_api/src/model/accounts_summary_dto.dart';
+import 'package:firela_api/src/model/actual_balance_dto.dart';
 import 'package:firela_api/src/model/amount_dto.dart';
 import 'package:firela_api/src/model/amount_range_dto.dart';
 import 'package:firela_api/src/model/anonymous_login_dto.dart';
 import 'package:firela_api/src/model/api_problem_response_dto.dart';
+import 'package:firela_api/src/model/assert_reconciliation_dto.dart';
 import 'package:firela_api/src/model/asset_class_accounts_response_dto.dart';
 import 'package:firela_api/src/model/asset_class_group_dto.dart';
 import 'package:firela_api/src/model/asset_class_summary_dto.dart';
@@ -49,6 +51,7 @@ import 'package:firela_api/src/model/category_group_dto.dart';
 import 'package:firela_api/src/model/close_account_dto.dart';
 import 'package:firela_api/src/model/commodity_list_response_dto.dart';
 import 'package:firela_api/src/model/commodity_response_dto.dart';
+import 'package:firela_api/src/model/compute_reconciliation_dto.dart';
 import 'package:firela_api/src/model/confirm_match_dto.dart';
 import 'package:firela_api/src/model/converted_cash_flow_dto.dart';
 import 'package:firela_api/src/model/converted_net_worth_dto.dart';
@@ -130,6 +133,8 @@ import 'package:firela_api/src/model/nlp_suggested_accounts_dto.dart';
 import 'package:firela_api/src/model/nlp_suggested_payee_dto.dart';
 import 'package:firela_api/src/model/nlp_target_transaction_dto.dart';
 import 'package:firela_api/src/model/nlp_transaction_info_dto.dart';
+import 'package:firela_api/src/model/pad_reconciliation_dto.dart';
+import 'package:firela_api/src/model/pad_result_dto.dart';
 import 'package:firela_api/src/model/payee_autocomplete_response_dto.dart';
 import 'package:firela_api/src/model/payee_list_response_dto.dart';
 import 'package:firela_api/src/model/payee_profile_list_response_dto.dart';
@@ -146,6 +151,8 @@ import 'package:firela_api/src/model/process_nlp_dto.dart';
 import 'package:firela_api/src/model/provider_sync_config_dto.dart';
 import 'package:firela_api/src/model/provider_sync_dto.dart';
 import 'package:firela_api/src/model/provider_sync_response_dto.dart';
+import 'package:firela_api/src/model/reconciliation_compute_result_dto.dart';
+import 'package:firela_api/src/model/reconciliation_record_dto.dart';
 import 'package:firela_api/src/model/recurring_match_info_dto.dart';
 import 'package:firela_api/src/model/recurring_rule_response_dto.dart';
 import 'package:firela_api/src/model/recurring_rule_with_stats_response_dto.dart';
@@ -213,10 +220,12 @@ part 'serializers.g.dart';
   AccountStandardResponseDto,
   AccountsResponseDto,
   AccountsSummaryDto,
+  ActualBalanceDto,
   AmountDto,
   AmountRangeDto,
   AnonymousLoginDto,
   ApiProblemResponseDto,
+  AssertReconciliationDto,
   AssetClassAccountsResponseDto,
   AssetClassGroupDto,
   AssetClassSummaryDto,
@@ -239,6 +248,7 @@ part 'serializers.g.dart';
   CloseAccountDto,
   CommodityListResponseDto,
   CommodityResponseDto,
+  ComputeReconciliationDto,
   ConfirmMatchDto,
   ConvertedCashFlowDto,
   ConvertedNetWorthDto,
@@ -320,6 +330,8 @@ part 'serializers.g.dart';
   NlpSuggestedPayeeDto,$NlpSuggestedPayeeDto,
   NlpTargetTransactionDto,
   NlpTransactionInfoDto,
+  PadReconciliationDto,
+  PadResultDto,
   PayeeAutocompleteResponseDto,
   PayeeListResponseDto,
   PayeeProfileListResponseDto,
@@ -336,6 +348,8 @@ part 'serializers.g.dart';
   ProviderSyncConfigDto,
   ProviderSyncDto,
   ProviderSyncResponseDto,
+  ReconciliationComputeResultDto,
+  ReconciliationRecordDto,
   RecurringMatchInfoDto,
   RecurringRuleResponseDto,
   RecurringRuleWithStatsResponseDto,
@@ -395,6 +409,10 @@ Serializers serializers = (_$serializers.toBuilder()
       ..addBuilderFactory(
         const FullType(BuiltList, [FullType(RecurringRuleResponseDto)]),
         () => ListBuilder<RecurringRuleResponseDto>(),
+      )
+      ..addBuilderFactory(
+        const FullType(BuiltList, [FullType(ReconciliationRecordDto)]),
+        () => ListBuilder<ReconciliationRecordDto>(),
       )
       ..addBuilderFactory(
         const FullType(BuiltList, [FullType(PriceResponseDto)]),
