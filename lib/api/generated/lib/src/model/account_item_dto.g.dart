@@ -17,6 +17,8 @@ class _$AccountItemDto extends AccountItemDto {
   final String balance;
   @override
   final String currency;
+  @override
+  final String? convertedBalance;
 
   factory _$AccountItemDto([void Function(AccountItemDtoBuilder)? updates]) =>
       (new AccountItemDtoBuilder()..update(updates))._build();
@@ -26,7 +28,8 @@ class _$AccountItemDto extends AccountItemDto {
       required this.name,
       required this.displayName,
       required this.balance,
-      required this.currency})
+      required this.currency,
+      this.convertedBalance})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(id, r'AccountItemDto', 'id');
     BuiltValueNullFieldError.checkNotNull(name, r'AccountItemDto', 'name');
@@ -54,7 +57,8 @@ class _$AccountItemDto extends AccountItemDto {
         name == other.name &&
         displayName == other.displayName &&
         balance == other.balance &&
-        currency == other.currency;
+        currency == other.currency &&
+        convertedBalance == other.convertedBalance;
   }
 
   @override
@@ -65,6 +69,7 @@ class _$AccountItemDto extends AccountItemDto {
     _$hash = $jc(_$hash, displayName.hashCode);
     _$hash = $jc(_$hash, balance.hashCode);
     _$hash = $jc(_$hash, currency.hashCode);
+    _$hash = $jc(_$hash, convertedBalance.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -76,7 +81,8 @@ class _$AccountItemDto extends AccountItemDto {
           ..add('name', name)
           ..add('displayName', displayName)
           ..add('balance', balance)
-          ..add('currency', currency))
+          ..add('currency', currency)
+          ..add('convertedBalance', convertedBalance))
         .toString();
   }
 }
@@ -105,6 +111,11 @@ class AccountItemDtoBuilder
   String? get currency => _$this._currency;
   set currency(String? currency) => _$this._currency = currency;
 
+  String? _convertedBalance;
+  String? get convertedBalance => _$this._convertedBalance;
+  set convertedBalance(String? convertedBalance) =>
+      _$this._convertedBalance = convertedBalance;
+
   AccountItemDtoBuilder() {
     AccountItemDto._defaults(this);
   }
@@ -117,6 +128,7 @@ class AccountItemDtoBuilder
       _displayName = $v.displayName;
       _balance = $v.balance;
       _currency = $v.currency;
+      _convertedBalance = $v.convertedBalance;
       _$v = null;
     }
     return this;
@@ -148,7 +160,8 @@ class AccountItemDtoBuilder
             balance: BuiltValueNullFieldError.checkNotNull(
                 balance, r'AccountItemDto', 'balance'),
             currency: BuiltValueNullFieldError.checkNotNull(
-                currency, r'AccountItemDto', 'currency'));
+                currency, r'AccountItemDto', 'currency'),
+            convertedBalance: convertedBalance);
     replace(_$result);
     return _$result;
   }

@@ -96,6 +96,8 @@ class _$AccountItemWithAssetClassDto extends AccountItemWithAssetClassDto {
   @override
   final String currency;
   @override
+  final String? convertedBalance;
+  @override
   final String assetClass;
   @override
   final String? assetSubClass;
@@ -116,6 +118,7 @@ class _$AccountItemWithAssetClassDto extends AccountItemWithAssetClassDto {
       required this.displayName,
       required this.balance,
       required this.currency,
+      this.convertedBalance,
       required this.assetClass,
       this.assetSubClass,
       this.regionalSubClass,
@@ -154,6 +157,7 @@ class _$AccountItemWithAssetClassDto extends AccountItemWithAssetClassDto {
         displayName == other.displayName &&
         balance == other.balance &&
         currency == other.currency &&
+        convertedBalance == other.convertedBalance &&
         assetClass == other.assetClass &&
         assetSubClass == other.assetSubClass &&
         regionalSubClass == other.regionalSubClass &&
@@ -169,6 +173,7 @@ class _$AccountItemWithAssetClassDto extends AccountItemWithAssetClassDto {
     _$hash = $jc(_$hash, displayName.hashCode);
     _$hash = $jc(_$hash, balance.hashCode);
     _$hash = $jc(_$hash, currency.hashCode);
+    _$hash = $jc(_$hash, convertedBalance.hashCode);
     _$hash = $jc(_$hash, assetClass.hashCode);
     _$hash = $jc(_$hash, assetSubClass.hashCode);
     _$hash = $jc(_$hash, regionalSubClass.hashCode);
@@ -186,6 +191,7 @@ class _$AccountItemWithAssetClassDto extends AccountItemWithAssetClassDto {
           ..add('displayName', displayName)
           ..add('balance', balance)
           ..add('currency', currency)
+          ..add('convertedBalance', convertedBalance)
           ..add('assetClass', assetClass)
           ..add('assetSubClass', assetSubClass)
           ..add('regionalSubClass', regionalSubClass)
@@ -220,6 +226,11 @@ class AccountItemWithAssetClassDtoBuilder
   String? _currency;
   String? get currency => _$this._currency;
   set currency(String? currency) => _$this._currency = currency;
+
+  String? _convertedBalance;
+  String? get convertedBalance => _$this._convertedBalance;
+  set convertedBalance(String? convertedBalance) =>
+      _$this._convertedBalance = convertedBalance;
 
   String? _assetClass;
   String? get assetClass => _$this._assetClass;
@@ -256,6 +267,7 @@ class AccountItemWithAssetClassDtoBuilder
       _displayName = $v.displayName;
       _balance = $v.balance;
       _currency = $v.currency;
+      _convertedBalance = $v.convertedBalance;
       _assetClass = $v.assetClass;
       _assetSubClass = $v.assetSubClass;
       _regionalSubClass = $v.regionalSubClass;
@@ -293,6 +305,7 @@ class AccountItemWithAssetClassDtoBuilder
                 balance, r'AccountItemWithAssetClassDto', 'balance'),
             currency: BuiltValueNullFieldError.checkNotNull(
                 currency, r'AccountItemWithAssetClassDto', 'currency'),
+            convertedBalance: convertedBalance,
             assetClass: BuiltValueNullFieldError.checkNotNull(
                 assetClass, r'AccountItemWithAssetClassDto', 'assetClass'),
             assetSubClass: assetSubClass,

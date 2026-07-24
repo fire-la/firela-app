@@ -16,6 +16,7 @@ part 'account_item_dto.g.dart';
 /// * [displayName] - Display name (last part of account path)
 /// * [balance] - Account balance
 /// * [currency] - Currency code
+/// * [convertedBalance] - FX-converted balance in base currency; omitted when not convertible
 @BuiltValue()
 abstract class AccountItemDto implements Built<AccountItemDto, AccountItemDtoBuilder> {
   /// Account ID
@@ -37,6 +38,10 @@ abstract class AccountItemDto implements Built<AccountItemDto, AccountItemDtoBui
   /// Currency code
   @BuiltValueField(wireName: r'currency')
   String get currency;
+
+  /// FX-converted balance in base currency; omitted when not convertible
+  @BuiltValueField(wireName: r'convertedBalance')
+  String? get convertedBalance;
 
   AccountItemDto._();
 
@@ -86,6 +91,13 @@ class _$AccountItemDtoSerializer implements PrimitiveSerializer<AccountItemDto> 
       object.currency,
       specifiedType: const FullType(String),
     );
+    if (object.convertedBalance != null) {
+      yield r'convertedBalance';
+      yield serializers.serialize(
+        object.convertedBalance,
+        specifiedType: const FullType(String),
+      );
+    }
   }
 
   @override
@@ -143,6 +155,13 @@ class _$AccountItemDtoSerializer implements PrimitiveSerializer<AccountItemDto> 
             specifiedType: const FullType(String),
           ) as String;
           result.currency = valueDes;
+          break;
+        case r'convertedBalance':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.convertedBalance = valueDes;
           break;
         default:
           unhandled.add(key);
