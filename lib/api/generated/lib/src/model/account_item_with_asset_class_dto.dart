@@ -17,6 +17,7 @@ part 'account_item_with_asset_class_dto.g.dart';
 /// * [displayName] - Display name (last part of account path)
 /// * [balance] - Account balance
 /// * [currency] - Currency code
+/// * [convertedBalance] - FX-converted balance in base currency; omitted when not convertible
 /// * [assetClass] - Asset class
 /// * [assetSubClass] - Asset sub-class (Prisma-compatible)
 /// * [regionalSubClass] - Regional sub-class (region-specific, for display)
@@ -43,6 +44,10 @@ abstract class AccountItemWithAssetClassDto implements Built<AccountItemWithAsse
   /// Currency code
   @BuiltValueField(wireName: r'currency')
   String get currency;
+
+  /// FX-converted balance in base currency; omitted when not convertible
+  @BuiltValueField(wireName: r'convertedBalance')
+  String? get convertedBalance;
 
   /// Asset class
   @BuiltValueField(wireName: r'assetClass')
@@ -113,6 +118,13 @@ class _$AccountItemWithAssetClassDtoSerializer implements PrimitiveSerializer<Ac
       object.currency,
       specifiedType: const FullType(String),
     );
+    if (object.convertedBalance != null) {
+      yield r'convertedBalance';
+      yield serializers.serialize(
+        object.convertedBalance,
+        specifiedType: const FullType(String),
+      );
+    }
     yield r'assetClass';
     yield serializers.serialize(
       object.assetClass,
@@ -203,6 +215,13 @@ class _$AccountItemWithAssetClassDtoSerializer implements PrimitiveSerializer<Ac
             specifiedType: const FullType(String),
           ) as String;
           result.currency = valueDes;
+          break;
+        case r'convertedBalance':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.convertedBalance = valueDes;
           break;
         case r'assetClass':
           final valueDes = serializers.deserialize(
