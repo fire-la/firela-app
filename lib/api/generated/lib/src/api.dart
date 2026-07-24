@@ -12,6 +12,7 @@ import 'package:firela_api/src/auth/oauth.dart';
 import 'package:firela_api/src/api/api_keys_api.dart';
 import 'package:firela_api/src/api/admin_payee_profiles_api.dart';
 import 'package:firela_api/src/api/auth_api.dart';
+import 'package:firela_api/src/api/balance_reconciliation_api.dart';
 import 'package:firela_api/src/api/bean_account_standards_api.dart';
 import 'package:firela_api/src/api/bean_accounts_api.dart';
 import 'package:firela_api/src/api/bean_balances_api.dart';
@@ -111,6 +112,12 @@ class FirelaApi {
   /// by doing that all interceptors will not be executed
   AuthApi getAuthApi() {
     return AuthApi(dio, serializers);
+  }
+
+  /// Get BalanceReconciliationApi instance, base route and serializer can be overridden by a given but be careful,
+  /// by doing that all interceptors will not be executed
+  BalanceReconciliationApi getBalanceReconciliationApi() {
+    return BalanceReconciliationApi(dio, serializers);
   }
 
   /// Get BeanAccountStandardsApi instance, base route and serializer can be overridden by a given but be careful,

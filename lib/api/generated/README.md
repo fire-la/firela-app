@@ -151,6 +151,10 @@ Class | Method | HTTP request | Description
 [*AdminPayeeProfilesApi*](doc/AdminPayeeProfilesApi.md) | [**payeeProfileAdminControllerUpdate**](doc/AdminPayeeProfilesApi.md#payeeprofileadmincontrollerupdate) | **PUT** /api/v1/admin/payee-profiles/{id} | Update payee profile (Admin only)
 [*AdminPayeeProfilesApi*](doc/AdminPayeeProfilesApi.md) | [**payeeProfileAdminControllerVerify**](doc/AdminPayeeProfilesApi.md#payeeprofileadmincontrollerverify) | **POST** /api/v1/admin/payee-profiles/{id}/verify | Verify payee profile (Admin only)
 [*AuthApi*](doc/AuthApi.md) | [**authControllerAccessTokenLogin**](doc/AuthApi.md#authcontrolleraccesstokenlogin) | **POST** /api/v1/auth/sessions/anonymous | Anonymous login with access token
+[*BalanceReconciliationApi*](doc/BalanceReconciliationApi.md) | [**reconciliationControllerAssert**](doc/BalanceReconciliationApi.md#reconciliationcontrollerassert) | **POST** /api/v1/{region}/bean/reconciliations/assert | Record a balance assertion
+[*BalanceReconciliationApi*](doc/BalanceReconciliationApi.md) | [**reconciliationControllerCompute**](doc/BalanceReconciliationApi.md#reconciliationcontrollercompute) | **POST** /api/v1/{region}/bean/reconciliations | Preview reconciliation (book vs actual)
+[*BalanceReconciliationApi*](doc/BalanceReconciliationApi.md) | [**reconciliationControllerHistory**](doc/BalanceReconciliationApi.md#reconciliationcontrollerhistory) | **GET** /api/v1/{region}/bean/accounts/{accountId}/reconciliations | List reconciliation history for an account
+[*BalanceReconciliationApi*](doc/BalanceReconciliationApi.md) | [**reconciliationControllerPad**](doc/BalanceReconciliationApi.md#reconciliationcontrollerpad) | **POST** /api/v1/{region}/bean/reconciliations/pad | Generate a pad adjusting entry
 [*BeanAccountStandardsApi*](doc/BeanAccountStandardsApi.md) | [**accountStandardsControllerGetRegions**](doc/BeanAccountStandardsApi.md#accountstandardscontrollergetregions) | **GET** /api/v1/{region}/bean/account-standards/regions | Get available regions with hierarchy
 [*BeanAccountStandardsApi*](doc/BeanAccountStandardsApi.md) | [**accountStandardsControllerGetTemplateMetadata**](doc/BeanAccountStandardsApi.md#accountstandardscontrollergettemplatemetadata) | **GET** /api/v1/{region}/bean/account-standards/template-metadata | Get template metadata for an account path
 [*BeanAccountStandardsApi*](doc/BeanAccountStandardsApi.md) | [**accountStandardsControllerGetTemplates**](doc/BeanAccountStandardsApi.md#accountstandardscontrollergettemplates) | **GET** /api/v1/{region}/bean/account-standards | Get account templates
@@ -295,10 +299,12 @@ Class | Method | HTTP request | Description
  - [AccountStandardResponseDto](doc/AccountStandardResponseDto.md)
  - [AccountsResponseDto](doc/AccountsResponseDto.md)
  - [AccountsSummaryDto](doc/AccountsSummaryDto.md)
+ - [ActualBalanceDto](doc/ActualBalanceDto.md)
  - [AmountDto](doc/AmountDto.md)
  - [AmountRangeDto](doc/AmountRangeDto.md)
  - [AnonymousLoginDto](doc/AnonymousLoginDto.md)
  - [ApiProblemResponseDto](doc/ApiProblemResponseDto.md)
+ - [AssertReconciliationDto](doc/AssertReconciliationDto.md)
  - [AssetClassAccountsResponseDto](doc/AssetClassAccountsResponseDto.md)
  - [AssetClassGroupDto](doc/AssetClassGroupDto.md)
  - [AssetClassSummaryDto](doc/AssetClassSummaryDto.md)
@@ -321,6 +327,7 @@ Class | Method | HTTP request | Description
  - [CloseAccountDto](doc/CloseAccountDto.md)
  - [CommodityListResponseDto](doc/CommodityListResponseDto.md)
  - [CommodityResponseDto](doc/CommodityResponseDto.md)
+ - [ComputeReconciliationDto](doc/ComputeReconciliationDto.md)
  - [ConfirmMatchDto](doc/ConfirmMatchDto.md)
  - [ConvertedCashFlowDto](doc/ConvertedCashFlowDto.md)
  - [ConvertedNetWorthDto](doc/ConvertedNetWorthDto.md)
@@ -402,6 +409,8 @@ Class | Method | HTTP request | Description
  - [NlpSuggestedPayeeDto](doc/NlpSuggestedPayeeDto.md)
  - [NlpTargetTransactionDto](doc/NlpTargetTransactionDto.md)
  - [NlpTransactionInfoDto](doc/NlpTransactionInfoDto.md)
+ - [PadReconciliationDto](doc/PadReconciliationDto.md)
+ - [PadResultDto](doc/PadResultDto.md)
  - [PayeeAutocompleteResponseDto](doc/PayeeAutocompleteResponseDto.md)
  - [PayeeListResponseDto](doc/PayeeListResponseDto.md)
  - [PayeeProfileListResponseDto](doc/PayeeProfileListResponseDto.md)
@@ -418,6 +427,8 @@ Class | Method | HTTP request | Description
  - [ProviderSyncConfigDto](doc/ProviderSyncConfigDto.md)
  - [ProviderSyncDto](doc/ProviderSyncDto.md)
  - [ProviderSyncResponseDto](doc/ProviderSyncResponseDto.md)
+ - [ReconciliationComputeResultDto](doc/ReconciliationComputeResultDto.md)
+ - [ReconciliationRecordDto](doc/ReconciliationRecordDto.md)
  - [RecurringMatchInfoDto](doc/RecurringMatchInfoDto.md)
  - [RecurringRuleResponseDto](doc/RecurringRuleResponseDto.md)
  - [RecurringRuleWithStatsResponseDto](doc/RecurringRuleWithStatsResponseDto.md)

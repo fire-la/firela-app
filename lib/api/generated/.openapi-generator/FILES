@@ -6,6 +6,7 @@ lib/src/api.dart
 lib/src/api/admin_payee_profiles_api.dart
 lib/src/api/api_keys_api.dart
 lib/src/api/auth_api.dart
+lib/src/api/balance_reconciliation_api.dart
 lib/src/api/bean_account_standards_api.dart
 lib/src/api/bean_accounts_api.dart
 lib/src/api/bean_balances_api.dart
@@ -50,10 +51,12 @@ lib/src/model/account_standard_list_response_dto.dart
 lib/src/model/account_standard_response_dto.dart
 lib/src/model/accounts_response_dto.dart
 lib/src/model/accounts_summary_dto.dart
+lib/src/model/actual_balance_dto.dart
 lib/src/model/amount_dto.dart
 lib/src/model/amount_range_dto.dart
 lib/src/model/anonymous_login_dto.dart
 lib/src/model/api_problem_response_dto.dart
+lib/src/model/assert_reconciliation_dto.dart
 lib/src/model/asset_class_accounts_response_dto.dart
 lib/src/model/asset_class_group_dto.dart
 lib/src/model/asset_class_summary_dto.dart
@@ -76,6 +79,7 @@ lib/src/model/category_group_dto.dart
 lib/src/model/close_account_dto.dart
 lib/src/model/commodity_list_response_dto.dart
 lib/src/model/commodity_response_dto.dart
+lib/src/model/compute_reconciliation_dto.dart
 lib/src/model/confirm_match_dto.dart
 lib/src/model/converted_cash_flow_dto.dart
 lib/src/model/converted_net_worth_dto.dart
@@ -158,6 +162,8 @@ lib/src/model/nlp_suggested_accounts_dto.dart
 lib/src/model/nlp_suggested_payee_dto.dart
 lib/src/model/nlp_target_transaction_dto.dart
 lib/src/model/nlp_transaction_info_dto.dart
+lib/src/model/pad_reconciliation_dto.dart
+lib/src/model/pad_result_dto.dart
 lib/src/model/payee_autocomplete_response_dto.dart
 lib/src/model/payee_list_response_dto.dart
 lib/src/model/payee_profile_list_response_dto.dart
@@ -174,6 +180,8 @@ lib/src/model/process_nlp_dto.dart
 lib/src/model/provider_sync_config_dto.dart
 lib/src/model/provider_sync_dto.dart
 lib/src/model/provider_sync_response_dto.dart
+lib/src/model/reconciliation_compute_result_dto.dart
+lib/src/model/reconciliation_record_dto.dart
 lib/src/model/recurring_match_info_dto.dart
 lib/src/model/recurring_rule_response_dto.dart
 lib/src/model/recurring_rule_with_stats_response_dto.dart
