@@ -11024,6 +11024,10 @@ components:
           type: string
           description: Currency code
           example: CNY
+        convertedBalance:
+          type: string
+          description: FX-converted balance in base currency; omitted when not convertible
+          example: '50000.00'
       required:
         - id
         - name
@@ -11155,6 +11159,10 @@ components:
           type: string
           description: Currency code
           example: CNY
+        convertedBalance:
+          type: string
+          description: FX-converted balance in base currency; omitted when not convertible
+          example: '50000.00'
         assetClass:
           type: string
           description: Asset class
