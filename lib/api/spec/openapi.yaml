@@ -2178,6 +2178,275 @@ paths:
         - Bean Commodities
       security:
         - bearer: []
+  /api/v1/{region}/bean/prices:
+    post:
+      operationId: PriceController_create
+      summary: Create a new price
+      description: Creates a new price entry for the authenticated user
+      parameters:
+        - name: region
+          required: true
+          in: path
+          description: Region code for tenant context
+          schema:
+            enum:
+              - cn
+              - us
+              - de
+              - gb
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateBeanPriceDto'
+      responses:
+        '201':
+          description: Price created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PriceResponseDto'
+        '404':
+          description: Currency or quoteCurrency commodity not found
+        '409':
+          description: Price already exists for this currency pair and date
+      tags:
+        - Bean Prices
+      security:
+        - bearer: []
+    get:
+      operationId: PriceController_findAll
+      summary: List user prices
+      description: >-
+        Returns all price entries for the authenticated user with optional
+        filtering
+      parameters:
+        - name: currency
+          required: false
+          in: query
+          description: Filter by currency (e.g., BTC, AAPL, USD)
+          schema:
+            example: BTC
+            type: string
+        - name: quoteCurrency
+          required: false
+          in: query
+          description: Filter by quote currency (pricing currency, e.g., USD, CNY)
+          schema:
+            example: USD
+            type: string
+        - name: dateFrom
+          required: false
+          in: query
+          description: Filter prices from this date (ISO 8601 format)
+          schema:
+            example: '2024-01-01'
+            type: string
+        - name: dateTo
+          required: false
+          in: query
+          description: Filter prices to this date (ISO 8601 format)
+          schema:
+            example: '2024-12-31'
+            type: string
+        - name: search
+          required: false
+          in: query
+          description: >-
+            Search term for currency or quoteCurrency (case-insensitive partial
+            match)
+          schema:
+            example: BTC
+            type: string
+        - name: page
+          required: false
+          in: query
+          description: 'Page number for pagination (default: 1)'
+          schema:
+            minimum: 1
+            example: 1
+            type: number
+        - name: limit
+          required: false
+          in: query
+          description: 'Number of items per page (default: 20, max: 100)'
+          schema:
+            minimum: 1
+            maximum: 100
+            example: 20
+            type: number
+        - name: region
+          required: true
+          in: path
+          description: Region code for tenant context
+          schema:
+            enum:
+              - cn
+              - us
+              - de
+              - gb
+            type: string
+      responses:
+        '200':
+          description: Prices retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PriceListResponseDto'
+      tags:
+        - Bean Prices
+      security:
+        - bearer: []
+  /api/v1/{region}/bean/prices/{id}:
+    get:
+      operationId: PriceController_findOne
+      summary: Get price by ID
+      description: Returns a single price entry by its ID
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: Price ID
+          schema:
+            type: string
+        - name: region
+          required: true
+          in: path
+          description: Region code for tenant context
+          schema:
+            enum:
+              - cn
+              - us
+              - de
+              - gb
+            type: string
+      responses:
+        '200':
+          description: Price retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PriceResponseDto'
+        '404':
+          description: Price not found
+      tags:
+        - Bean Prices
+      security:
+        - bearer: []
+    put:
+      operationId: PriceController_update
+      summary: Update a price
+      description: Updates an existing price entry
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: Price ID
+          schema:
+            type: string
+        - name: region
+          required: true
+          in: path
+          description: Region code for tenant context
+          schema:
+            enum:
+              - cn
+              - us
+              - de
+              - gb
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateBeanPriceDto'
+      responses:
+        '200':
+          description: Price updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PriceResponseDto'
+        '404':
+          description: Price not found
+        '409':
+          description: Updated price conflicts with existing price
+      tags:
+        - Bean Prices
+      security:
+        - bearer: []
+    delete:
+      operationId: PriceController_delete
+      summary: Delete a price
+      description: Deletes a price entry (hard delete)
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: Price ID
+          schema:
+            type: string
+        - name: region
+          required: true
+          in: path
+          description: Region code for tenant context
+          schema:
+            enum:
+              - cn
+              - us
+              - de
+              - gb
+            type: string
+      responses:
+        '204':
+          description: Price deleted successfully
+        '404':
+          description: Price not found
+      tags:
+        - Bean Prices
+      security:
+        - bearer: []
+  /api/v1/{region}/bean/prices/bulk:
+    post:
+      operationId: PriceController_bulkCreate
+      summary: Bulk create prices
+      description: Creates multiple price entries at once (skips duplicates)
+      parameters:
+        - name: region
+          required: true
+          in: path
+          description: Region code for tenant context
+          schema:
+            enum:
+              - cn
+              - us
+              - de
+              - gb
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+      responses:
+        '201':
+          description: Prices created successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PriceResponseDto'
+      tags:
+        - Bean Prices
+      security:
+        - bearer: []
   /api/v1/{region}/bean/recurring-rules:
     post:
       operationId: RecurringRuleController_create
@@ -5182,275 +5451,6 @@ paths:
           description: User not authenticated
       tags:
         - Investment
-      security:
-        - bearer: []
-  /api/v1/{region}/bean/prices:
-    post:
-      operationId: PriceController_create
-      summary: Create a new price
-      description: Creates a new price entry for the authenticated user
-      parameters:
-        - name: region
-          required: true
-          in: path
-          description: Region code for tenant context
-          schema:
-            enum:
-              - cn
-              - us
-              - de
-              - gb
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreateBeanPriceDto'
-      responses:
-        '201':
-          description: Price created successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PriceResponseDto'
-        '404':
-          description: Currency or quoteCurrency commodity not found
-        '409':
-          description: Price already exists for this currency pair and date
-      tags:
-        - Bean Prices
-      security:
-        - bearer: []
-    get:
-      operationId: PriceController_findAll
-      summary: List user prices
-      description: >-
-        Returns all price entries for the authenticated user with optional
-        filtering
-      parameters:
-        - name: currency
-          required: false
-          in: query
-          description: Filter by currency (e.g., BTC, AAPL, USD)
-          schema:
-            example: BTC
-            type: string
-        - name: quoteCurrency
-          required: false
-          in: query
-          description: Filter by quote currency (pricing currency, e.g., USD, CNY)
-          schema:
-            example: USD
-            type: string
-        - name: dateFrom
-          required: false
-          in: query
-          description: Filter prices from this date (ISO 8601 format)
-          schema:
-            example: '2024-01-01'
-            type: string
-        - name: dateTo
-          required: false
-          in: query
-          description: Filter prices to this date (ISO 8601 format)
-          schema:
-            example: '2024-12-31'
-            type: string
-        - name: search
-          required: false
-          in: query
-          description: >-
-            Search term for currency or quoteCurrency (case-insensitive partial
-            match)
-          schema:
-            example: BTC
-            type: string
-        - name: page
-          required: false
-          in: query
-          description: 'Page number for pagination (default: 1)'
-          schema:
-            minimum: 1
-            example: 1
-            type: number
-        - name: limit
-          required: false
-          in: query
-          description: 'Number of items per page (default: 20, max: 100)'
-          schema:
-            minimum: 1
-            maximum: 100
-            example: 20
-            type: number
-        - name: region
-          required: true
-          in: path
-          description: Region code for tenant context
-          schema:
-            enum:
-              - cn
-              - us
-              - de
-              - gb
-            type: string
-      responses:
-        '200':
-          description: Prices retrieved successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PriceListResponseDto'
-      tags:
-        - Bean Prices
-      security:
-        - bearer: []
-  /api/v1/{region}/bean/prices/{id}:
-    get:
-      operationId: PriceController_findOne
-      summary: Get price by ID
-      description: Returns a single price entry by its ID
-      parameters:
-        - name: id
-          required: true
-          in: path
-          description: Price ID
-          schema:
-            type: string
-        - name: region
-          required: true
-          in: path
-          description: Region code for tenant context
-          schema:
-            enum:
-              - cn
-              - us
-              - de
-              - gb
-            type: string
-      responses:
-        '200':
-          description: Price retrieved successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PriceResponseDto'
-        '404':
-          description: Price not found
-      tags:
-        - Bean Prices
-      security:
-        - bearer: []
-    put:
-      operationId: PriceController_update
-      summary: Update a price
-      description: Updates an existing price entry
-      parameters:
-        - name: id
-          required: true
-          in: path
-          description: Price ID
-          schema:
-            type: string
-        - name: region
-          required: true
-          in: path
-          description: Region code for tenant context
-          schema:
-            enum:
-              - cn
-              - us
-              - de
-              - gb
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UpdateBeanPriceDto'
-      responses:
-        '200':
-          description: Price updated successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PriceResponseDto'
-        '404':
-          description: Price not found
-        '409':
-          description: Updated price conflicts with existing price
-      tags:
-        - Bean Prices
-      security:
-        - bearer: []
-    delete:
-      operationId: PriceController_delete
-      summary: Delete a price
-      description: Deletes a price entry (hard delete)
-      parameters:
-        - name: id
-          required: true
-          in: path
-          description: Price ID
-          schema:
-            type: string
-        - name: region
-          required: true
-          in: path
-          description: Region code for tenant context
-          schema:
-            enum:
-              - cn
-              - us
-              - de
-              - gb
-            type: string
-      responses:
-        '204':
-          description: Price deleted successfully
-        '404':
-          description: Price not found
-      tags:
-        - Bean Prices
-      security:
-        - bearer: []
-  /api/v1/{region}/bean/prices/bulk:
-    post:
-      operationId: PriceController_bulkCreate
-      summary: Bulk create prices
-      description: Creates multiple price entries at once (skips duplicates)
-      parameters:
-        - name: region
-          required: true
-          in: path
-          description: Region code for tenant context
-          schema:
-            enum:
-              - cn
-              - us
-              - de
-              - gb
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: array
-              items:
-                type: string
-      responses:
-        '201':
-          description: Prices created successfully
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/PriceResponseDto'
-      tags:
-        - Bean Prices
       security:
         - bearer: []
   /api/v1/{region}/reporting/portfolio/trends:
@@ -8491,6 +8491,136 @@ components:
             precision: 4
             note: Updated investment strategy
             lastReviewed: '2024-11-03'
+    CreateBeanPriceDto:
+      type: object
+      properties:
+        currency:
+          type: string
+          description: Currency being priced (e.g., USD, AAPL, BTC)
+          example: USD
+        quoteCurrency:
+          type: string
+          description: Quote currency (pricing currency, e.g., CNY, EUR)
+          example: CNY
+        amount:
+          type: number
+          description: >-
+            Price amount (MUST be >= 0 per Beancount spec, supports up to 15
+            decimal places). Zero allowed for conversion entries, negative
+            strictly prohibited.
+          example: 175.5
+          minimum: 0
+        date:
+          type: string
+          description: Price date (ISO 8601 format)
+          example: '2024-11-05'
+        metadata:
+          type: object
+          description: Metadata (validated by Zod schema, max field lengths enforced)
+          example:
+            source: MANUAL
+            note: Bank valuation report
+            confidence: 0.95
+      required:
+        - currency
+        - quoteCurrency
+        - amount
+        - date
+    PriceResponseDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier
+          example: uuid-123-456
+        userId:
+          type: string
+          description: User ID (owner of the price)
+          example: user-123
+        currency:
+          type: string
+          description: Currency being priced (e.g., USD, AAPL, BTC)
+          example: BTC
+        quoteCurrency:
+          type: string
+          description: Quote currency (pricing currency, e.g., USD, CNY)
+          example: USD
+        amount:
+          type: number
+          description: >-
+            Price amount (corresponds to Beancount Amount.number). Supports up
+            to 15 decimal places.
+          example: 50000
+        date:
+          type: string
+          description: >-
+            Price date (ISO 8601 format). Represents the date this price was
+            valid.
+          example: '2024-01-01'
+          format: date
+        meta:
+          type: object
+          description: >-
+            Metadata (corresponds to Beancount meta field). Contains source,
+            confidence, note, etc.
+          example:
+            source: MANUAL
+            note: User-defined price
+            confidence: 1
+        createdAt:
+          format: date-time
+          type: string
+          description: Creation timestamp
+          example: '2024-11-03T10:00:00Z'
+        updatedAt:
+          format: date-time
+          type: string
+          description: Last update timestamp
+          example: '2024-11-03T10:00:00Z'
+      required:
+        - id
+        - userId
+        - currency
+        - quoteCurrency
+        - amount
+        - date
+        - meta
+        - createdAt
+        - updatedAt
+    PriceListResponseDto:
+      type: object
+      properties:
+        items:
+          description: List of prices
+          type: array
+          items:
+            $ref: '#/components/schemas/PriceResponseDto'
+        total:
+          type: number
+          description: Total number of prices
+          example: 42
+      required:
+        - items
+        - total
+    UpdateBeanPriceDto:
+      type: object
+      properties:
+        currency:
+          type: string
+          description: Currency being priced
+        quoteCurrency:
+          type: string
+          description: Quote currency (pricing currency)
+        amount:
+          type: number
+          description: Price amount (MUST be >= 0 per Beancount spec)
+          minimum: 0
+        date:
+          type: string
+          description: Price date (ISO 8601 format)
+        metadata:
+          type: object
+          description: Metadata
     CreateRecurringRuleDto:
       type: object
       properties:
@@ -12097,136 +12227,6 @@ components:
         - method
         - rows
         - warnings
-    CreateBeanPriceDto:
-      type: object
-      properties:
-        currency:
-          type: string
-          description: Currency being priced (e.g., USD, AAPL, BTC)
-          example: USD
-        quoteCurrency:
-          type: string
-          description: Quote currency (pricing currency, e.g., CNY, EUR)
-          example: CNY
-        amount:
-          type: number
-          description: >-
-            Price amount (MUST be >= 0 per Beancount spec, supports up to 15
-            decimal places). Zero allowed for conversion entries, negative
-            strictly prohibited.
-          example: 175.5
-          minimum: 0
-        date:
-          type: string
-          description: Price date (ISO 8601 format)
-          example: '2024-11-05'
-        metadata:
-          type: object
-          description: Metadata (validated by Zod schema, max field lengths enforced)
-          example:
-            source: MANUAL
-            note: Bank valuation report
-            confidence: 0.95
-      required:
-        - currency
-        - quoteCurrency
-        - amount
-        - date
-    PriceResponseDto:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Unique identifier
-          example: uuid-123-456
-        userId:
-          type: string
-          description: User ID (owner of the price)
-          example: user-123
-        currency:
-          type: string
-          description: Currency being priced (e.g., USD, AAPL, BTC)
-          example: BTC
-        quoteCurrency:
-          type: string
-          description: Quote currency (pricing currency, e.g., USD, CNY)
-          example: USD
-        amount:
-          type: number
-          description: >-
-            Price amount (corresponds to Beancount Amount.number). Supports up
-            to 15 decimal places.
-          example: 50000
-        date:
-          type: string
-          description: >-
-            Price date (ISO 8601 format). Represents the date this price was
-            valid.
-          example: '2024-01-01'
-          format: date
-        meta:
-          type: object
-          description: >-
-            Metadata (corresponds to Beancount meta field). Contains source,
-            confidence, note, etc.
-          example:
-            source: MANUAL
-            note: User-defined price
-            confidence: 1
-        createdAt:
-          format: date-time
-          type: string
-          description: Creation timestamp
-          example: '2024-11-03T10:00:00Z'
-        updatedAt:
-          format: date-time
-          type: string
-          description: Last update timestamp
-          example: '2024-11-03T10:00:00Z'
-      required:
-        - id
-        - userId
-        - currency
-        - quoteCurrency
-        - amount
-        - date
-        - meta
-        - createdAt
-        - updatedAt
-    PriceListResponseDto:
-      type: object
-      properties:
-        items:
-          description: List of prices
-          type: array
-          items:
-            $ref: '#/components/schemas/PriceResponseDto'
-        total:
-          type: number
-          description: Total number of prices
-          example: 42
-      required:
-        - items
-        - total
-    UpdateBeanPriceDto:
-      type: object
-      properties:
-        currency:
-          type: string
-          description: Currency being priced
-        quoteCurrency:
-          type: string
-          description: Quote currency (pricing currency)
-        amount:
-          type: number
-          description: Price amount (MUST be >= 0 per Beancount spec)
-          minimum: 0
-        date:
-          type: string
-          description: Price date (ISO 8601 format)
-        metadata:
-          type: object
-          description: Metadata
     CurrencyBalanceDto:
       type: object
       properties:
