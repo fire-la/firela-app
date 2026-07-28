@@ -14,7 +14,6 @@ part 'create_account_dto.g.dart';
 ///
 /// Properties:
 /// * [path] - Account path (hierarchical, colon-separated)
-/// * [displayName] - Display name to distinguish accounts at the same path (default: \"\")
 /// * [openDate] - Account open date
 /// * [currencies] - Allowed currencies (null = no restriction)
 /// * [bookingMethod] - Booking method for cost basis
@@ -29,10 +28,6 @@ abstract class CreateAccountDto implements Built<CreateAccountDto, CreateAccount
   /// Account path (hierarchical, colon-separated)
   @BuiltValueField(wireName: r'path')
   String get path;
-
-  /// Display name to distinguish accounts at the same path (default: \"\")
-  @BuiltValueField(wireName: r'displayName')
-  String? get displayName;
 
   /// Account open date
   @BuiltValueField(wireName: r'openDate')
@@ -101,13 +96,6 @@ class _$CreateAccountDtoSerializer implements PrimitiveSerializer<CreateAccountD
       object.path,
       specifiedType: const FullType(String),
     );
-    if (object.displayName != null) {
-      yield r'displayName';
-      yield serializers.serialize(
-        object.displayName,
-        specifiedType: const FullType(String),
-      );
-    }
     yield r'openDate';
     yield serializers.serialize(
       object.openDate,
@@ -198,13 +186,6 @@ class _$CreateAccountDtoSerializer implements PrimitiveSerializer<CreateAccountD
             specifiedType: const FullType(String),
           ) as String;
           result.path = valueDes;
-          break;
-        case r'displayName':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.displayName = valueDes;
           break;
         case r'openDate':
           final valueDes = serializers.deserialize(

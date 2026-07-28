@@ -251,8 +251,6 @@ class _$AccountResponseDto extends AccountResponseDto {
   @override
   final String path;
   @override
-  final String displayName;
-  @override
   final AccountResponseDtoTypeEnum type;
   @override
   final AccountResponseDtoStatusEnum status;
@@ -290,7 +288,6 @@ class _$AccountResponseDto extends AccountResponseDto {
   _$AccountResponseDto._(
       {required this.id,
       required this.path,
-      required this.displayName,
       required this.type,
       required this.status,
       required this.openDate,
@@ -309,8 +306,6 @@ class _$AccountResponseDto extends AccountResponseDto {
       : super._() {
     BuiltValueNullFieldError.checkNotNull(id, r'AccountResponseDto', 'id');
     BuiltValueNullFieldError.checkNotNull(path, r'AccountResponseDto', 'path');
-    BuiltValueNullFieldError.checkNotNull(
-        displayName, r'AccountResponseDto', 'displayName');
     BuiltValueNullFieldError.checkNotNull(type, r'AccountResponseDto', 'type');
     BuiltValueNullFieldError.checkNotNull(
         status, r'AccountResponseDto', 'status');
@@ -341,7 +336,6 @@ class _$AccountResponseDto extends AccountResponseDto {
     return other is AccountResponseDto &&
         id == other.id &&
         path == other.path &&
-        displayName == other.displayName &&
         type == other.type &&
         status == other.status &&
         openDate == other.openDate &&
@@ -364,7 +358,6 @@ class _$AccountResponseDto extends AccountResponseDto {
     var _$hash = 0;
     _$hash = $jc(_$hash, id.hashCode);
     _$hash = $jc(_$hash, path.hashCode);
-    _$hash = $jc(_$hash, displayName.hashCode);
     _$hash = $jc(_$hash, type.hashCode);
     _$hash = $jc(_$hash, status.hashCode);
     _$hash = $jc(_$hash, openDate.hashCode);
@@ -389,7 +382,6 @@ class _$AccountResponseDto extends AccountResponseDto {
     return (newBuiltValueToStringHelper(r'AccountResponseDto')
           ..add('id', id)
           ..add('path', path)
-          ..add('displayName', displayName)
           ..add('type', type)
           ..add('status', status)
           ..add('openDate', openDate)
@@ -420,10 +412,6 @@ class AccountResponseDtoBuilder
   String? _path;
   String? get path => _$this._path;
   set path(String? path) => _$this._path = path;
-
-  String? _displayName;
-  String? get displayName => _$this._displayName;
-  set displayName(String? displayName) => _$this._displayName = displayName;
 
   AccountResponseDtoTypeEnum? _type;
   AccountResponseDtoTypeEnum? get type => _$this._type;
@@ -498,7 +486,6 @@ class AccountResponseDtoBuilder
     if ($v != null) {
       _id = $v.id;
       _path = $v.path;
-      _displayName = $v.displayName;
       _type = $v.type;
       _status = $v.status;
       _openDate = $v.openDate;
@@ -542,8 +529,6 @@ class AccountResponseDtoBuilder
                   id, r'AccountResponseDto', 'id'),
               path: BuiltValueNullFieldError.checkNotNull(
                   path, r'AccountResponseDto', 'path'),
-              displayName: BuiltValueNullFieldError.checkNotNull(
-                  displayName, r'AccountResponseDto', 'displayName'),
               type: BuiltValueNullFieldError.checkNotNull(
                   type, r'AccountResponseDto', 'type'),
               status: BuiltValueNullFieldError.checkNotNull(
@@ -564,7 +549,8 @@ class AccountResponseDtoBuilder
               platform: platform,
               createdAt: BuiltValueNullFieldError.checkNotNull(
                   createdAt, r'AccountResponseDto', 'createdAt'),
-              updatedAt: BuiltValueNullFieldError.checkNotNull(updatedAt, r'AccountResponseDto', 'updatedAt'));
+              updatedAt: BuiltValueNullFieldError.checkNotNull(
+                  updatedAt, r'AccountResponseDto', 'updatedAt'));
     } catch (_) {
       late String _$failedField;
       try {

@@ -96,7 +96,7 @@ class BeanAccountStandardsApi {
   }
 
   /// Get template metadata for an account path
-  /// Returns extendable status and root type for a template path.
+  /// Returns root type for a template path.
   ///
   /// Parameters:
   /// * [region] - Region code for tenant context

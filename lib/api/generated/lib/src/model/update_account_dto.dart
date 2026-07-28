@@ -13,7 +13,6 @@ part 'update_account_dto.g.dart';
 /// UpdateAccountDto
 ///
 /// Properties:
-/// * [displayName] - Display name to distinguish accounts at the same path
 /// * [currencies] - Allowed currencies (null = no restriction)
 /// * [bookingMethod] - Booking method for cost basis
 /// * [i18nKey] - i18n key for display name
@@ -22,10 +21,6 @@ part 'update_account_dto.g.dart';
 /// * [platformId] - Platform ID (references Platform.id), null to clear association
 @BuiltValue()
 abstract class UpdateAccountDto implements Built<UpdateAccountDto, UpdateAccountDtoBuilder> {
-  /// Display name to distinguish accounts at the same path
-  @BuiltValueField(wireName: r'displayName')
-  String? get displayName;
-
   /// Allowed currencies (null = no restriction)
   @BuiltValueField(wireName: r'currencies')
   BuiltList<String>? get currencies;
@@ -74,13 +69,6 @@ class _$UpdateAccountDtoSerializer implements PrimitiveSerializer<UpdateAccountD
     UpdateAccountDto object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    if (object.displayName != null) {
-      yield r'displayName';
-      yield serializers.serialize(
-        object.displayName,
-        specifiedType: const FullType(String),
-      );
-    }
     if (object.currencies != null) {
       yield r'currencies';
       yield serializers.serialize(
@@ -146,13 +134,6 @@ class _$UpdateAccountDtoSerializer implements PrimitiveSerializer<UpdateAccountD
       final key = serializedList[i] as String;
       final value = serializedList[i + 1];
       switch (key) {
-        case r'displayName':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.displayName = valueDes;
-          break;
         case r'currencies':
           final valueDes = serializers.deserialize(
             value,
