@@ -366,7 +366,7 @@ paths:
     get:
       operationId: AccountStandardsController_getTemplateMetadata
       summary: Get template metadata for an account path
-      description: Returns extendable status and root type for a template path.
+      description: Returns root type for a template path.
       parameters:
         - name: region
           required: true
@@ -384,7 +384,7 @@ paths:
           in: query
           description: Account path to check
           schema:
-            example: Assets:CN:Bank:Checking
+            example: Assets:CN:Checking
             type: string
       responses:
         '200':
@@ -933,9 +933,9 @@ paths:
         - name: account
           required: true
           in: query
-          description: Account name (e.g., "Assets:Bank:Checking")
+          description: Account name (e.g., "Assets:Checking")
           schema:
-            example: Assets:Bank:Checking
+            example: Assets:Checking
             type: string
         - name: date
           required: false
@@ -4714,120 +4714,6 @@ paths:
         - Bean Import
       security:
         - bearer: []
-  /api/v1/bean/platforms:
-    get:
-      operationId: PlatformController_findAll
-      summary: Get all platforms with statistics
-      parameters: []
-      responses:
-        '200':
-          description: List of platforms with binding and account counts
-      tags:
-        - Bean Platforms
-      security:
-        - bearer: []
-    post:
-      operationId: PlatformController_create
-      summary: Create a new platform
-      parameters: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreatePlatformDto'
-      responses:
-        '201':
-          description: Platform created successfully
-        '409':
-          description: Platform already exists
-      tags:
-        - Bean Platforms
-      security:
-        - bearer: []
-  /api/v1/bean/platforms/list:
-    get:
-      operationId: PlatformController_getPlatformList
-      summary: Get platform list for current user
-      parameters: []
-      responses:
-        '200':
-          description: List of platforms with user binding status
-      tags:
-        - Bean Platforms
-      security:
-        - bearer: []
-  /api/v1/bean/platforms/match:
-    get:
-      operationId: PlatformController_matchPlatforms
-      summary: Match platforms by name or alias
-      parameters:
-        - name: q
-          required: true
-          in: query
-          description: Search query — Chinese name, English name, or abbreviation
-          schema:
-            example: 工行
-            type: string
-        - name: region
-          required: false
-          in: query
-          description: Region code for category override lookup
-          schema:
-            example: CN
-            type: string
-      responses:
-        '200':
-          description: List of matching platforms with suggested segment names
-      tags:
-        - Bean Platforms
-      security:
-        - bearer: []
-  /api/v1/bean/platforms/{id}:
-    put:
-      operationId: PlatformController_update
-      summary: Update a platform
-      parameters:
-        - name: id
-          required: true
-          in: path
-          description: Platform ID
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UpdatePlatformDto'
-      responses:
-        '200':
-          description: Platform updated successfully
-        '404':
-          description: Platform not found
-      tags:
-        - Bean Platforms
-      security:
-        - bearer: []
-    delete:
-      operationId: PlatformController_delete
-      summary: Delete a platform
-      parameters:
-        - name: id
-          required: true
-          in: path
-          description: Platform ID
-          schema:
-            type: string
-      responses:
-        '204':
-          description: Platform deleted successfully
-        '404':
-          description: Platform not found
-      tags:
-        - Bean Platforms
-      security:
-        - bearer: []
   /api/v1/{region}/bean/import/provider/{providerName}/sync:
     post:
       operationId: ProviderSyncController_sync
@@ -5187,6 +5073,120 @@ paths:
           description: Unauthorized
       tags:
         - Bean NLP
+      security:
+        - bearer: []
+  /api/v1/bean/platforms:
+    get:
+      operationId: PlatformController_findAll
+      summary: Get all platforms with statistics
+      parameters: []
+      responses:
+        '200':
+          description: List of platforms with binding and account counts
+      tags:
+        - Bean Platforms
+      security:
+        - bearer: []
+    post:
+      operationId: PlatformController_create
+      summary: Create a new platform
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePlatformDto'
+      responses:
+        '201':
+          description: Platform created successfully
+        '409':
+          description: Platform already exists
+      tags:
+        - Bean Platforms
+      security:
+        - bearer: []
+  /api/v1/bean/platforms/list:
+    get:
+      operationId: PlatformController_getPlatformList
+      summary: Get platform list for current user
+      parameters: []
+      responses:
+        '200':
+          description: List of platforms with user binding status
+      tags:
+        - Bean Platforms
+      security:
+        - bearer: []
+  /api/v1/bean/platforms/match:
+    get:
+      operationId: PlatformController_matchPlatforms
+      summary: Match platforms by name or alias
+      parameters:
+        - name: q
+          required: true
+          in: query
+          description: Search query — Chinese name, English name, or abbreviation
+          schema:
+            example: 工行
+            type: string
+        - name: region
+          required: false
+          in: query
+          description: Region code for category override lookup
+          schema:
+            example: CN
+            type: string
+      responses:
+        '200':
+          description: List of matching platforms with suggested segment names
+      tags:
+        - Bean Platforms
+      security:
+        - bearer: []
+  /api/v1/bean/platforms/{id}:
+    put:
+      operationId: PlatformController_update
+      summary: Update a platform
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: Platform ID
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatePlatformDto'
+      responses:
+        '200':
+          description: Platform updated successfully
+        '404':
+          description: Platform not found
+      tags:
+        - Bean Platforms
+      security:
+        - bearer: []
+    delete:
+      operationId: PlatformController_delete
+      summary: Delete a platform
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: Platform ID
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Platform deleted successfully
+        '404':
+          description: Platform not found
+      tags:
+        - Bean Platforms
       security:
         - bearer: []
   /api/v1/{region}/dashboard/net-worth:
@@ -5999,7 +5999,7 @@ info:
 
     | **Commodity** | Currency or tradeable asset (USD, BTC, AAPL) |
 
-    | **Account** | Hierarchical account path (Assets:Bank:Checking) |
+    | **Account** | Hierarchical account path (Assets:Checking) |
 
     | **Payee** | Counterparty in a transaction |
 
@@ -6075,11 +6075,7 @@ components:
         path:
           type: string
           description: Account path (hierarchical, colon-separated)
-          example: Assets:CN:Bank:ICBC:Checking
-        displayName:
-          type: string
-          description: 'Display name to distinguish accounts at the same path (default: "")'
-          example: 工资卡
+          example: Assets:CN:ICBC:Checking
         openDate:
           format: date-time
           type: string
@@ -6108,7 +6104,7 @@ components:
         templatePath:
           type: string
           description: Reference to account-standards template path
-          example: Assets:CN:Bank:ICBC:Checking
+          example: Assets:CN:Checking
         isCustom:
           type: boolean
           description: Whether this is a custom (user-created) account
@@ -6144,11 +6140,7 @@ components:
         path:
           type: string
           description: Account path (hierarchical, colon-separated)
-          example: Assets:CN:Bank:ICBC:Checking
-        displayName:
-          type: string
-          description: Display name distinguishing multiple accounts at the same path
-          example: 工资卡
+          example: Assets:CN:ICBC:Checking
         type:
           type: string
           description: Account type (root segment)
@@ -6198,7 +6190,7 @@ components:
         templatePath:
           type: string
           description: Template path reference
-          example: Assets:CN:Bank:ICBC:Checking
+          example: Assets:CN:Checking
         isCustom:
           type: boolean
           description: Whether this is a custom (user-created) account
@@ -6206,7 +6198,7 @@ components:
         i18nKey:
           type: string
           description: i18n key for display name
-          example: account.assets.cn.bank.icbc.checking
+          example: account.Assets.CN.Checking
         icon:
           type: string
           description: Icon identifier
@@ -6234,7 +6226,6 @@ components:
       required:
         - id
         - path
-        - displayName
         - type
         - status
         - openDate
@@ -6260,10 +6251,6 @@ components:
     UpdateAccountDto:
       type: object
       properties:
-        displayName:
-          type: string
-          description: Display name to distinguish accounts at the same path
-          example: 招行工资卡
         currencies:
           description: Allowed currencies (null = no restriction)
           example:
@@ -6330,7 +6317,7 @@ components:
         path:
           type: string
           description: Account path (hierarchical, colon-separated)
-          example: Assets:CN:Bank:ICBC:Checking
+          example: Assets:CN:Checking
         type:
           type: string
           description: Account type in Beancount hierarchy
@@ -6396,16 +6383,11 @@ components:
     TemplateMetadataDto:
       type: object
       properties:
-        extendable:
-          type: boolean
-          description: Whether this path can be extended
-          example: true
         rootType:
           type: string
           description: Root account type
           example: Assets
       required:
-        - extendable
         - rootType
     TemplateMetadataResponseDto:
       type: object
@@ -6520,7 +6502,7 @@ components:
           description: >-
             Account name in Beancount format (must start with uppercase,
             colon-separated)
-          example: Assets:Bank:Checking
+          example: Assets:Checking
         units:
           type: string
           description: >-
@@ -6655,7 +6637,7 @@ components:
         account:
           type: string
           description: Account name
-          example: Assets:Bank:Checking
+          example: Assets:Checking
         units:
           type: string
           description: >-
@@ -6956,7 +6938,7 @@ components:
         account:
           type: string
           description: Fully-qualified Beancount account path
-          example: Assets:Bank:Checking
+          example: Assets:Checking
         units:
           type: string
           description: >-
@@ -7286,7 +7268,7 @@ components:
         account:
           type: string
           description: Account name
-          example: Assets:Bank:Checking
+          example: Assets:Checking
         balance:
           type: string
           description: Balance amount (decimal string for precision)
@@ -7310,7 +7292,7 @@ components:
         account:
           type: string
           description: Account name
-          example: Assets:Bank:Checking
+          example: Assets:Checking
         balances:
           type: object
           description: Balances by currency
@@ -7356,7 +7338,7 @@ components:
         accountName:
           type: string
           description: Source account name (first posting)
-          example: Assets:Bank:Checking
+          example: Assets:Checking
         sourceType:
           type: string
           description: >-
@@ -10270,7 +10252,7 @@ components:
         account:
           type: string
           description: Default account used by this importer
-          example: Assets:Alipay:Balance
+          example: Assets:CN:Alipay:Balance
         message:
           type: string
           description: Message when file cannot be identified
@@ -10283,7 +10265,7 @@ components:
         sourceAccount:
           type: string
           description: Source account for transactions (Beancount format)
-          example: Assets:Alipay:Balance
+          example: Assets:CN:Alipay:Balance
         currency:
           type: string
           description: Default currency (ISO 4217 code)
@@ -10318,7 +10300,7 @@ components:
             to determine sourceAccount based on payment method (e.g., HuaBei,
             CreditCard).
           example:
-            HuaBei: Liabilities:Alipay:Huabei
+            HuaBei: Liabilities:CN:CreditLine
             CreditCard: Liabilities:CreditCard
       required:
         - sourceAccount
@@ -10419,7 +10401,7 @@ components:
         sourceAccount:
           type: string
           description: Source account for transactions (Beancount format)
-          example: Assets:Alipay:Balance
+          example: Assets:CN:Alipay:Balance
           pattern: ^[A-Z][a-zA-Z0-9-]*:[a-zA-Z0-9-:]+$
         currency:
           type: string
@@ -10446,7 +10428,7 @@ components:
             to determine sourceAccount based on payment method (e.g., HuaBei,
             CreditCard).
           example:
-            HuaBei: Liabilities:Alipay:Huabei
+            HuaBei: Liabilities:CN:CreditLine
             CreditCard: Liabilities:CreditCard
     UpdateConfigDataDto:
       type: object
@@ -10462,106 +10444,13 @@ components:
           description: Configuration data (v1 schema)
           allOf:
             - $ref: '#/components/schemas/UpdateConfigDataDto'
-    CreatePlatformDto:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Platform name
-          example: Binance
-        canonical:
-          type: string
-          description: Platform canonical identifier (lowercase, kebab-case)
-          example: binance
-        aliases:
-          description: Platform aliases (multi-language names for lookup)
-          example:
-            - Binance
-            - Binance Exchange
-            - BNB
-          type: array
-          items:
-            type: string
-        url:
-          type: string
-          description: Platform URL
-          example: https://www.binance.com
-        type:
-          type: string
-          description: Platform type
-          enum:
-            - BANK
-            - BROKERAGE
-            - CRYPTO_EXCHANGE
-            - PAYMENT
-            - INVESTMENT
-            - INSURANCE
-            - OTHER
-          example: CRYPTO_EXCHANGE
-        logoUrl:
-          type: string
-          description: Platform logo URL
-          example: https://example.com/logos/binance.png
-        isActive:
-          type: boolean
-          description: Whether the platform is active
-          default: true
-      required:
-        - name
-        - canonical
-        - aliases
-        - url
-        - type
-    UpdatePlatformDto:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Platform name
-          example: Binance
-        canonical:
-          type: string
-          description: Platform canonical identifier (lowercase, kebab-case)
-          example: binance
-        aliases:
-          description: Platform aliases (multi-language names for lookup)
-          example:
-            - Binance
-            - Binance Exchange
-            - BNB
-          type: array
-          items:
-            type: string
-        url:
-          type: string
-          description: Platform URL
-          example: https://www.binance.com
-        type:
-          type: string
-          description: Platform type
-          enum:
-            - BANK
-            - BROKERAGE
-            - CRYPTO_EXCHANGE
-            - PAYMENT
-            - INVESTMENT
-            - INSURANCE
-            - OTHER
-          example: CRYPTO_EXCHANGE
-        logoUrl:
-          type: string
-          description: Platform logo URL
-          example: https://example.com/logos/binance.png
-        isActive:
-          type: boolean
-          description: Whether the platform is active
     ProviderSyncConfigDto:
       type: object
       properties:
         sourceAccount:
           type: string
           description: Source account for the first posting
-          example: Assets:Bank:Chase
+          example: Assets:US:Chase:Checking
         defaultCurrency:
           type: string
           description: Default currency for transactions
@@ -11106,7 +10995,7 @@ components:
         account:
           type: string
           description: Suggested account path
-          example: Assets:Bank:Checking
+          example: Assets:Checking
         confidence:
           type: number
           description: Confidence score for this suggestion (0-1)
@@ -11134,7 +11023,7 @@ components:
         asset:
           type: string
           description: Default asset account
-          example: Assets:Bank:Checking
+          example: Assets:Checking
         expense:
           type: string
           description: Default expense account
@@ -11344,6 +11233,99 @@ components:
       required:
         - status
         - action
+    CreatePlatformDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Platform name
+          example: Binance
+        canonical:
+          type: string
+          description: Platform canonical identifier (lowercase, kebab-case)
+          example: binance
+        aliases:
+          description: Platform aliases (multi-language names for lookup)
+          example:
+            - Binance
+            - Binance Exchange
+            - BNB
+          type: array
+          items:
+            type: string
+        url:
+          type: string
+          description: Platform URL
+          example: https://www.binance.com
+        type:
+          type: string
+          description: Platform type
+          enum:
+            - BANK
+            - BROKERAGE
+            - CRYPTO_EXCHANGE
+            - PAYMENT
+            - INVESTMENT
+            - INSURANCE
+            - OTHER
+          example: CRYPTO_EXCHANGE
+        logoUrl:
+          type: string
+          description: Platform logo URL
+          example: https://example.com/logos/binance.png
+        isActive:
+          type: boolean
+          description: Whether the platform is active
+          default: true
+      required:
+        - name
+        - canonical
+        - aliases
+        - url
+        - type
+    UpdatePlatformDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Platform name
+          example: Binance
+        canonical:
+          type: string
+          description: Platform canonical identifier (lowercase, kebab-case)
+          example: binance
+        aliases:
+          description: Platform aliases (multi-language names for lookup)
+          example:
+            - Binance
+            - Binance Exchange
+            - BNB
+          type: array
+          items:
+            type: string
+        url:
+          type: string
+          description: Platform URL
+          example: https://www.binance.com
+        type:
+          type: string
+          description: Platform type
+          enum:
+            - BANK
+            - BROKERAGE
+            - CRYPTO_EXCHANGE
+            - PAYMENT
+            - INVESTMENT
+            - INSURANCE
+            - OTHER
+          example: CRYPTO_EXCHANGE
+        logoUrl:
+          type: string
+          description: Platform logo URL
+          example: https://example.com/logos/binance.png
+        isActive:
+          type: boolean
+          description: Whether the platform is active
     NetWorthByCurrencyDto:
       type: object
       properties:
@@ -11460,7 +11442,7 @@ components:
         name:
           type: string
           description: Full account name
-          example: Assets:Bank:CMB:Savings
+          example: Assets:CN:CMB:Savings
         displayName:
           type: string
           description: Display name (last part of account path)
@@ -11595,7 +11577,7 @@ components:
         name:
           type: string
           description: Full account name
-          example: Assets:Bank:CMB:Savings
+          example: Assets:CN:CMB:Savings
         displayName:
           type: string
           description: Display name (last part of account path)
@@ -11745,7 +11727,7 @@ components:
         accountPath:
           type: string
           description: Full account path
-          example: Assets:US:Investments:Brokerage
+          example: Assets:US:Fidelity:Brokerage
         accountCurrency:
           type: string
           description: >-
