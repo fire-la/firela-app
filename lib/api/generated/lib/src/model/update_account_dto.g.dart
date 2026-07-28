@@ -108,8 +108,6 @@ class _$UpdateAccountDtoBookingMethodEnumSerializer
 
 class _$UpdateAccountDto extends UpdateAccountDto {
   @override
-  final String? displayName;
-  @override
   final BuiltList<String>? currencies;
   @override
   final UpdateAccountDtoBookingMethodEnum? bookingMethod;
@@ -127,8 +125,7 @@ class _$UpdateAccountDto extends UpdateAccountDto {
       (new UpdateAccountDtoBuilder()..update(updates))._build();
 
   _$UpdateAccountDto._(
-      {this.displayName,
-      this.currencies,
+      {this.currencies,
       this.bookingMethod,
       this.i18nKey,
       this.icon,
@@ -148,7 +145,6 @@ class _$UpdateAccountDto extends UpdateAccountDto {
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
     return other is UpdateAccountDto &&
-        displayName == other.displayName &&
         currencies == other.currencies &&
         bookingMethod == other.bookingMethod &&
         i18nKey == other.i18nKey &&
@@ -160,7 +156,6 @@ class _$UpdateAccountDto extends UpdateAccountDto {
   @override
   int get hashCode {
     var _$hash = 0;
-    _$hash = $jc(_$hash, displayName.hashCode);
     _$hash = $jc(_$hash, currencies.hashCode);
     _$hash = $jc(_$hash, bookingMethod.hashCode);
     _$hash = $jc(_$hash, i18nKey.hashCode);
@@ -174,7 +169,6 @@ class _$UpdateAccountDto extends UpdateAccountDto {
   @override
   String toString() {
     return (newBuiltValueToStringHelper(r'UpdateAccountDto')
-          ..add('displayName', displayName)
           ..add('currencies', currencies)
           ..add('bookingMethod', bookingMethod)
           ..add('i18nKey', i18nKey)
@@ -188,10 +182,6 @@ class _$UpdateAccountDto extends UpdateAccountDto {
 class UpdateAccountDtoBuilder
     implements Builder<UpdateAccountDto, UpdateAccountDtoBuilder> {
   _$UpdateAccountDto? _$v;
-
-  String? _displayName;
-  String? get displayName => _$this._displayName;
-  set displayName(String? displayName) => _$this._displayName = displayName;
 
   ListBuilder<String>? _currencies;
   ListBuilder<String> get currencies =>
@@ -227,7 +217,6 @@ class UpdateAccountDtoBuilder
   UpdateAccountDtoBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
-      _displayName = $v.displayName;
       _currencies = $v.currencies?.toBuilder();
       _bookingMethod = $v.bookingMethod;
       _i18nKey = $v.i18nKey;
@@ -258,7 +247,6 @@ class UpdateAccountDtoBuilder
     try {
       _$result = _$v ??
           new _$UpdateAccountDto._(
-              displayName: displayName,
               currencies: _currencies?.build(),
               bookingMethod: bookingMethod,
               i18nKey: i18nKey,

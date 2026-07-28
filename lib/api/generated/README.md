@@ -62,7 +62,7 @@ Current version: **v1**. All paths are prefixed with `/api/v1`
 | **Transaction** | A complete accounting entry with balanced postings |
 | **Posting** | A single leg of a transaction (debit or credit) |
 | **Commodity** | Currency or tradeable asset (USD, BTC, AAPL) |
-| **Account** | Hierarchical account path (Assets:Bank:Checking) |
+| **Account** | Hierarchical account path (Assets:Checking) |
 | **Payee** | Counterparty in a transaction |
 
 ## Region Routing

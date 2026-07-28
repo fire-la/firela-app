@@ -23,7 +23,7 @@ class BeanBalancesApi {
   /// Calculate account balance at a specific date for a single currency
   ///
   /// Parameters:
-  /// * [account] - Account name (e.g., \"Assets:Bank:Checking\")
+  /// * [account] - Account name (e.g., \"Assets:Checking\")
   /// * [region] - Region code for tenant context
   /// * [date] - Date to calculate balance at (ISO 8601 format)
   /// * [currency] - Currency to query (e.g., \"USD\", \"CNY\")

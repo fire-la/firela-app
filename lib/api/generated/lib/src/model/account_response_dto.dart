@@ -15,7 +15,6 @@ part 'account_response_dto.g.dart';
 /// Properties:
 /// * [id] - Account UUID
 /// * [path] - Account path (hierarchical, colon-separated)
-/// * [displayName] - Display name distinguishing multiple accounts at the same path
 /// * [type] - Account type (root segment)
 /// * [status] - Account status
 /// * [openDate] - Account open date
@@ -40,10 +39,6 @@ abstract class AccountResponseDto implements Built<AccountResponseDto, AccountRe
   /// Account path (hierarchical, colon-separated)
   @BuiltValueField(wireName: r'path')
   String get path;
-
-  /// Display name distinguishing multiple accounts at the same path
-  @BuiltValueField(wireName: r'displayName')
-  String get displayName;
 
   /// Account type (root segment)
   @BuiltValueField(wireName: r'type')
@@ -139,11 +134,6 @@ class _$AccountResponseDtoSerializer implements PrimitiveSerializer<AccountRespo
     yield r'path';
     yield serializers.serialize(
       object.path,
-      specifiedType: const FullType(String),
-    );
-    yield r'displayName';
-    yield serializers.serialize(
-      object.displayName,
       specifiedType: const FullType(String),
     );
     yield r'type';
@@ -273,13 +263,6 @@ class _$AccountResponseDtoSerializer implements PrimitiveSerializer<AccountRespo
             specifiedType: const FullType(String),
           ) as String;
           result.path = valueDes;
-          break;
-        case r'displayName':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.displayName = valueDes;
           break;
         case r'type':
           final valueDes = serializers.deserialize(
