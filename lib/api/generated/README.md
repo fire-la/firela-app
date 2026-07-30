@@ -241,6 +241,10 @@ Class | Method | HTTP request | Description
 [*ExpectedTransactionsApi*](doc/ExpectedTransactionsApi.md) | [**expectedTransactionControllerSkip**](doc/ExpectedTransactionsApi.md#expectedtransactioncontrollerskip) | **POST** /api/v1/{region}/bean/expected-transactions/{id}/skip | Skip expected transaction
 [*ExpectedTransactionsApi*](doc/ExpectedTransactionsApi.md) | [**expectedTransactionControllerUndoSkip**](doc/ExpectedTransactionsApi.md#expectedtransactioncontrollerundoskip) | **DELETE** /api/v1/{region}/bean/expected-transactions/{id}/skip | Undo skip
 [*ExpectedTransactionsApi*](doc/ExpectedTransactionsApi.md) | [**expectedTransactionControllerUnmatch**](doc/ExpectedTransactionsApi.md#expectedtransactioncontrollerunmatch) | **DELETE** /api/v1/{region}/bean/expected-transactions/{id}/match | Unmatch transaction
+[*ExternalAccountLinksApi*](doc/ExternalAccountLinksApi.md) | [**externalAccountLinkControllerCreate**](doc/ExternalAccountLinksApi.md#externalaccountlinkcontrollercreate) | **POST** /api/v1/{region}/bean/external-account-links | Create an external account → BeanAccount mapping (ADR-0113)
+[*ExternalAccountLinksApi*](doc/ExternalAccountLinksApi.md) | [**externalAccountLinkControllerFindAll**](doc/ExternalAccountLinksApi.md#externalaccountlinkcontrollerfindall) | **GET** /api/v1/{region}/bean/external-account-links | List the user&#39;s active external account links
+[*ExternalAccountLinksApi*](doc/ExternalAccountLinksApi.md) | [**externalAccountLinkControllerFindOne**](doc/ExternalAccountLinksApi.md#externalaccountlinkcontrollerfindone) | **GET** /api/v1/{region}/bean/external-account-links/{id} | Get a single external account link
+[*ExternalAccountLinksApi*](doc/ExternalAccountLinksApi.md) | [**externalAccountLinkControllerRemove**](doc/ExternalAccountLinksApi.md#externalaccountlinkcontrollerremove) | **DELETE** /api/v1/{region}/bean/external-account-links/{id} | Soft-delete (disconnect) an external account link
 [*HealthApi*](doc/HealthApi.md) | [**healthControllerCheckDatabase**](doc/HealthApi.md#healthcontrollercheckdatabase) | **GET** /api/v1/health/database | Check database connection health
 [*HealthApi*](doc/HealthApi.md) | [**healthControllerCheckOpenBB**](doc/HealthApi.md#healthcontrollercheckopenbb) | **GET** /api/v1/health/openbb | Check OpenBB schema status
 [*HealthApi*](doc/HealthApi.md) | [**healthControllerCheckRedis**](doc/HealthApi.md#healthcontrollercheckredis) | **GET** /api/v1/health/redis | Check Redis connection health
@@ -259,6 +263,7 @@ Class | Method | HTTP request | Description
 [*LifeEventsApi*](doc/LifeEventsApi.md) | [**eventControllerFindOne**](doc/LifeEventsApi.md#eventcontrollerfindone) | **GET** /api/v1/{region}/bean/events/{id} | Get life event by ID
 [*LifeEventsApi*](doc/LifeEventsApi.md) | [**eventControllerGetSlice**](doc/LifeEventsApi.md#eventcontrollergetslice) | **GET** /api/v1/{region}/bean/events/{id}/slice | Slice time-series by a life event (Phase 79)
 [*LifeEventsApi*](doc/LifeEventsApi.md) | [**eventControllerUpdate**](doc/LifeEventsApi.md#eventcontrollerupdate) | **PUT** /api/v1/{region}/bean/events/{id} | Update a life event
+[*OnboardingApi*](doc/OnboardingApi.md) | [**onboardingControllerBootstrap**](doc/OnboardingApi.md#onboardingcontrollerbootstrap) | **POST** /api/v1/{region}/bean/onboarding | Bootstrap core accounts + register asset accounts with opening balances (ADR-0113)
 [*PropertiesApi*](doc/PropertiesApi.md) | [**propertyControllerDelete**](doc/PropertiesApi.md#propertycontrollerdelete) | **DELETE** /api/v1/admin/properties/{key} | Delete a system property
 [*PropertiesApi*](doc/PropertiesApi.md) | [**propertyControllerGetAll**](doc/PropertiesApi.md#propertycontrollergetall) | **GET** /api/v1/admin/properties | Get all system properties
 [*PropertiesApi*](doc/PropertiesApi.md) | [**propertyControllerGetByKey**](doc/PropertiesApi.md#propertycontrollergetbykey) | **GET** /api/v1/admin/properties/{key} | Get property by key
@@ -338,6 +343,7 @@ Class | Method | HTTP request | Description
  - [CreateBeanEventDto](doc/CreateBeanEventDto.md)
  - [CreateBeanPriceDto](doc/CreateBeanPriceDto.md)
  - [CreateCommodityDto](doc/CreateCommodityDto.md)
+ - [CreateExternalAccountLinkDto](doc/CreateExternalAccountLinkDto.md)
  - [CreatePayeeDto](doc/CreatePayeeDto.md)
  - [CreatePayeeProfileDto](doc/CreatePayeeProfileDto.md)
  - [CreatePlatformDto](doc/CreatePlatformDto.md)
@@ -361,6 +367,8 @@ Class | Method | HTTP request | Description
  - [ExpensesByCategoryResponseDto](doc/ExpensesByCategoryResponseDto.md)
  - [ExpensesByCategorySummaryDto](doc/ExpensesByCategorySummaryDto.md)
  - [ExportRulesResponseDto](doc/ExportRulesResponseDto.md)
+ - [ExternalAccountLinkListResponseDto](doc/ExternalAccountLinkListResponseDto.md)
+ - [ExternalAccountLinkResponseDto](doc/ExternalAccountLinkResponseDto.md)
  - [FileImportControllerIdentifyFile400Response](doc/FileImportControllerIdentifyFile400Response.md)
  - [FileImportControllerImportBeancount200Response](doc/FileImportControllerImportBeancount200Response.md)
  - [FileImportControllerImportFile400Response](doc/FileImportControllerImportFile400Response.md)
@@ -409,6 +417,8 @@ Class | Method | HTTP request | Description
  - [NlpSuggestedPayeeDto](doc/NlpSuggestedPayeeDto.md)
  - [NlpTargetTransactionDto](doc/NlpTargetTransactionDto.md)
  - [NlpTransactionInfoDto](doc/NlpTransactionInfoDto.md)
+ - [OnboardingAccountDto](doc/OnboardingAccountDto.md)
+ - [OnboardingDto](doc/OnboardingDto.md)
  - [PadReconciliationDto](doc/PadReconciliationDto.md)
  - [PadResultDto](doc/PadResultDto.md)
  - [PayeeAutocompleteResponseDto](doc/PayeeAutocompleteResponseDto.md)

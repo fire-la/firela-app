@@ -269,6 +269,8 @@ class _$AccountResponseDto extends AccountResponseDto {
   @override
   final String? i18nKey;
   @override
+  final String? displayName;
+  @override
   final String? icon;
   @override
   final JsonObject? openMeta;
@@ -297,6 +299,7 @@ class _$AccountResponseDto extends AccountResponseDto {
       this.templatePath,
       required this.isCustom,
       this.i18nKey,
+      this.displayName,
       this.icon,
       this.openMeta,
       this.platformId,
@@ -345,6 +348,7 @@ class _$AccountResponseDto extends AccountResponseDto {
         templatePath == other.templatePath &&
         isCustom == other.isCustom &&
         i18nKey == other.i18nKey &&
+        displayName == other.displayName &&
         icon == other.icon &&
         openMeta == other.openMeta &&
         platformId == other.platformId &&
@@ -367,6 +371,7 @@ class _$AccountResponseDto extends AccountResponseDto {
     _$hash = $jc(_$hash, templatePath.hashCode);
     _$hash = $jc(_$hash, isCustom.hashCode);
     _$hash = $jc(_$hash, i18nKey.hashCode);
+    _$hash = $jc(_$hash, displayName.hashCode);
     _$hash = $jc(_$hash, icon.hashCode);
     _$hash = $jc(_$hash, openMeta.hashCode);
     _$hash = $jc(_$hash, platformId.hashCode);
@@ -391,6 +396,7 @@ class _$AccountResponseDto extends AccountResponseDto {
           ..add('templatePath', templatePath)
           ..add('isCustom', isCustom)
           ..add('i18nKey', i18nKey)
+          ..add('displayName', displayName)
           ..add('icon', icon)
           ..add('openMeta', openMeta)
           ..add('platformId', platformId)
@@ -453,6 +459,10 @@ class AccountResponseDtoBuilder
   String? get i18nKey => _$this._i18nKey;
   set i18nKey(String? i18nKey) => _$this._i18nKey = i18nKey;
 
+  String? _displayName;
+  String? get displayName => _$this._displayName;
+  set displayName(String? displayName) => _$this._displayName = displayName;
+
   String? _icon;
   String? get icon => _$this._icon;
   set icon(String? icon) => _$this._icon = icon;
@@ -495,6 +505,7 @@ class AccountResponseDtoBuilder
       _templatePath = $v.templatePath;
       _isCustom = $v.isCustom;
       _i18nKey = $v.i18nKey;
+      _displayName = $v.displayName;
       _icon = $v.icon;
       _openMeta = $v.openMeta;
       _platformId = $v.platformId;
@@ -543,6 +554,7 @@ class AccountResponseDtoBuilder
               isCustom: BuiltValueNullFieldError.checkNotNull(
                   isCustom, r'AccountResponseDto', 'isCustom'),
               i18nKey: i18nKey,
+              displayName: displayName,
               icon: icon,
               openMeta: openMeta,
               platformId: platformId,

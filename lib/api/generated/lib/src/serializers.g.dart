@@ -71,6 +71,8 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(CreateBeanEventDto.serializer)
       ..add(CreateBeanPriceDto.serializer)
       ..add(CreateCommodityDto.serializer)
+      ..add(CreateExternalAccountLinkDto.serializer)
+      ..add(CreateExternalAccountLinkDtoProviderEnum.serializer)
       ..add(CreatePayeeDto.serializer)
       ..add(CreatePayeeProfileDto.serializer)
       ..add(CreatePayeeProfileDtoCategoryEnum.serializer)
@@ -102,6 +104,8 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(ExpensesByCategoryResponseDto.serializer)
       ..add(ExpensesByCategorySummaryDto.serializer)
       ..add(ExportRulesResponseDto.serializer)
+      ..add(ExternalAccountLinkListResponseDto.serializer)
+      ..add(ExternalAccountLinkResponseDto.serializer)
       ..add(FileImportControllerIdentifyFile400Response.serializer)
       ..add(FileImportControllerImportBeancount200Response.serializer)
       ..add(FileImportControllerImportFile400Response.serializer)
@@ -161,6 +165,8 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(NlpSuggestedPayeeDtoSource_Enum.serializer)
       ..add(NlpTargetTransactionDto.serializer)
       ..add(NlpTransactionInfoDto.serializer)
+      ..add(OnboardingAccountDto.serializer)
+      ..add(OnboardingDto.serializer)
       ..add(PadReconciliationDto.serializer)
       ..add(PadResultDto.serializer)
       ..add(PayeeAutocompleteResponseDto.serializer)
@@ -478,6 +484,10 @@ Serializers _$serializers = (new Serializers().toBuilder()
               const [const FullType(ExpectedTransactionResponseDto)]),
           () => new ListBuilder<ExpectedTransactionResponseDto>())
       ..addBuilderFactory(
+          const FullType(BuiltList,
+              const [const FullType(ExternalAccountLinkResponseDto)]),
+          () => new ListBuilder<ExternalAccountLinkResponseDto>())
+      ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(ForecastItemDto)]),
           () => new ListBuilder<ForecastItemDto>())
       ..addBuilderFactory(
@@ -511,6 +521,10 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(
+              BuiltList, const [const FullType(OnboardingAccountDto)]),
+          () => new ListBuilder<OnboardingAccountDto>())
       ..addBuilderFactory(
           const FullType(
               BuiltList, const [const FullType(PayeeProfileResponseDto)]),

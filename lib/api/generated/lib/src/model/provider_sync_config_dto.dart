@@ -16,6 +16,7 @@ part 'provider_sync_config_dto.g.dart';
 /// * [defaultExpenseAccount] - Default expense account for the second posting
 /// * [defaultIncomeAccount] - Default income account for the second posting
 /// * [filterPending] - Filter pending transactions
+/// * [externalAccountId] - External account ID for per-batch providers (e.g. GoCardless). Overrides sourceAccount when an ExternalAccountLink mapping exists.
 @BuiltValue()
 abstract class ProviderSyncConfigDto implements Built<ProviderSyncConfigDto, ProviderSyncConfigDtoBuilder> {
   /// Source account for the first posting
@@ -37,6 +38,10 @@ abstract class ProviderSyncConfigDto implements Built<ProviderSyncConfigDto, Pro
   /// Filter pending transactions
   @BuiltValueField(wireName: r'filterPending')
   bool? get filterPending;
+
+  /// External account ID for per-batch providers (e.g. GoCardless). Overrides sourceAccount when an ExternalAccountLink mapping exists.
+  @BuiltValueField(wireName: r'externalAccountId')
+  String? get externalAccountId;
 
   ProviderSyncConfigDto._();
 
@@ -87,6 +92,13 @@ class _$ProviderSyncConfigDtoSerializer implements PrimitiveSerializer<ProviderS
       yield serializers.serialize(
         object.filterPending,
         specifiedType: const FullType(bool),
+      );
+    }
+    if (object.externalAccountId != null) {
+      yield r'externalAccountId';
+      yield serializers.serialize(
+        object.externalAccountId,
+        specifiedType: const FullType(String),
       );
     }
   }
@@ -146,6 +158,13 @@ class _$ProviderSyncConfigDtoSerializer implements PrimitiveSerializer<ProviderS
             specifiedType: const FullType(bool),
           ) as bool;
           result.filterPending = valueDes;
+          break;
+        case r'externalAccountId':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.externalAccountId = valueDes;
           break;
         default:
           unhandled.add(key);

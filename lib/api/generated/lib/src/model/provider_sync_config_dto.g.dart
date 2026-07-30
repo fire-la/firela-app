@@ -17,6 +17,8 @@ class _$ProviderSyncConfigDto extends ProviderSyncConfigDto {
   final String defaultIncomeAccount;
   @override
   final bool? filterPending;
+  @override
+  final String? externalAccountId;
 
   factory _$ProviderSyncConfigDto(
           [void Function(ProviderSyncConfigDtoBuilder)? updates]) =>
@@ -27,7 +29,8 @@ class _$ProviderSyncConfigDto extends ProviderSyncConfigDto {
       required this.defaultCurrency,
       required this.defaultExpenseAccount,
       required this.defaultIncomeAccount,
-      this.filterPending})
+      this.filterPending,
+      this.externalAccountId})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(
         sourceAccount, r'ProviderSyncConfigDto', 'sourceAccount');
@@ -56,7 +59,8 @@ class _$ProviderSyncConfigDto extends ProviderSyncConfigDto {
         defaultCurrency == other.defaultCurrency &&
         defaultExpenseAccount == other.defaultExpenseAccount &&
         defaultIncomeAccount == other.defaultIncomeAccount &&
-        filterPending == other.filterPending;
+        filterPending == other.filterPending &&
+        externalAccountId == other.externalAccountId;
   }
 
   @override
@@ -67,6 +71,7 @@ class _$ProviderSyncConfigDto extends ProviderSyncConfigDto {
     _$hash = $jc(_$hash, defaultExpenseAccount.hashCode);
     _$hash = $jc(_$hash, defaultIncomeAccount.hashCode);
     _$hash = $jc(_$hash, filterPending.hashCode);
+    _$hash = $jc(_$hash, externalAccountId.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -78,7 +83,8 @@ class _$ProviderSyncConfigDto extends ProviderSyncConfigDto {
           ..add('defaultCurrency', defaultCurrency)
           ..add('defaultExpenseAccount', defaultExpenseAccount)
           ..add('defaultIncomeAccount', defaultIncomeAccount)
-          ..add('filterPending', filterPending))
+          ..add('filterPending', filterPending)
+          ..add('externalAccountId', externalAccountId))
         .toString();
   }
 }
@@ -112,6 +118,11 @@ class ProviderSyncConfigDtoBuilder
   set filterPending(bool? filterPending) =>
       _$this._filterPending = filterPending;
 
+  String? _externalAccountId;
+  String? get externalAccountId => _$this._externalAccountId;
+  set externalAccountId(String? externalAccountId) =>
+      _$this._externalAccountId = externalAccountId;
+
   ProviderSyncConfigDtoBuilder() {
     ProviderSyncConfigDto._defaults(this);
   }
@@ -124,6 +135,7 @@ class ProviderSyncConfigDtoBuilder
       _defaultExpenseAccount = $v.defaultExpenseAccount;
       _defaultIncomeAccount = $v.defaultIncomeAccount;
       _filterPending = $v.filterPending;
+      _externalAccountId = $v.externalAccountId;
       _$v = null;
     }
     return this;
@@ -158,7 +170,8 @@ class ProviderSyncConfigDtoBuilder
                 defaultIncomeAccount,
                 r'ProviderSyncConfigDto',
                 'defaultIncomeAccount'),
-            filterPending: filterPending);
+            filterPending: filterPending,
+            externalAccountId: externalAccountId);
     replace(_$result);
     return _$result;
   }
