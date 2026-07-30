@@ -30,11 +30,13 @@ import 'package:firela_api/src/api/dashboard_api.dart';
 import 'package:firela_api/src/api/default_api.dart';
 import 'package:firela_api/src/api/exchange_rate_api.dart';
 import 'package:firela_api/src/api/expected_transactions_api.dart';
+import 'package:firela_api/src/api/external_account_links_api.dart';
 import 'package:firela_api/src/api/health_api.dart';
 import 'package:firela_api/src/api/import_telemetry_api.dart';
 import 'package:firela_api/src/api/info_api.dart';
 import 'package:firela_api/src/api/investment_api.dart';
 import 'package:firela_api/src/api/life_events_api.dart';
+import 'package:firela_api/src/api/onboarding_api.dart';
 import 'package:firela_api/src/api/properties_api.dart';
 import 'package:firela_api/src/api/provider_sync_api.dart';
 import 'package:firela_api/src/api/recurring_forecast_api.dart';
@@ -222,6 +224,12 @@ class FirelaApi {
     return ExpectedTransactionsApi(dio, serializers);
   }
 
+  /// Get ExternalAccountLinksApi instance, base route and serializer can be overridden by a given but be careful,
+  /// by doing that all interceptors will not be executed
+  ExternalAccountLinksApi getExternalAccountLinksApi() {
+    return ExternalAccountLinksApi(dio, serializers);
+  }
+
   /// Get HealthApi instance, base route and serializer can be overridden by a given but be careful,
   /// by doing that all interceptors will not be executed
   HealthApi getHealthApi() {
@@ -250,6 +258,12 @@ class FirelaApi {
   /// by doing that all interceptors will not be executed
   LifeEventsApi getLifeEventsApi() {
     return LifeEventsApi(dio, serializers);
+  }
+
+  /// Get OnboardingApi instance, base route and serializer can be overridden by a given but be careful,
+  /// by doing that all interceptors will not be executed
+  OnboardingApi getOnboardingApi() {
+    return OnboardingApi(dio, serializers);
   }
 
   /// Get PropertiesApi instance, base route and serializer can be overridden by a given but be careful,

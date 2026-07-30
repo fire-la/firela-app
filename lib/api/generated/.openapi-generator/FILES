@@ -24,11 +24,13 @@ lib/src/api/dashboard_api.dart
 lib/src/api/default_api.dart
 lib/src/api/exchange_rate_api.dart
 lib/src/api/expected_transactions_api.dart
+lib/src/api/external_account_links_api.dart
 lib/src/api/health_api.dart
 lib/src/api/import_telemetry_api.dart
 lib/src/api/info_api.dart
 lib/src/api/investment_api.dart
 lib/src/api/life_events_api.dart
+lib/src/api/onboarding_api.dart
 lib/src/api/properties_api.dart
 lib/src/api/provider_sync_api.dart
 lib/src/api/recurring_forecast_api.dart
@@ -90,6 +92,7 @@ lib/src/model/create_account_dto.dart
 lib/src/model/create_bean_event_dto.dart
 lib/src/model/create_bean_price_dto.dart
 lib/src/model/create_commodity_dto.dart
+lib/src/model/create_external_account_link_dto.dart
 lib/src/model/create_payee_dto.dart
 lib/src/model/create_payee_profile_dto.dart
 lib/src/model/create_platform_dto.dart
@@ -114,6 +117,8 @@ lib/src/model/expected_transaction_rule_dto.dart
 lib/src/model/expenses_by_category_response_dto.dart
 lib/src/model/expenses_by_category_summary_dto.dart
 lib/src/model/export_rules_response_dto.dart
+lib/src/model/external_account_link_list_response_dto.dart
+lib/src/model/external_account_link_response_dto.dart
 lib/src/model/file_import_controller_identify_file400_response.dart
 lib/src/model/file_import_controller_import_beancount200_response.dart
 lib/src/model/file_import_controller_import_file400_response.dart
@@ -162,6 +167,8 @@ lib/src/model/nlp_suggested_accounts_dto.dart
 lib/src/model/nlp_suggested_payee_dto.dart
 lib/src/model/nlp_target_transaction_dto.dart
 lib/src/model/nlp_transaction_info_dto.dart
+lib/src/model/onboarding_account_dto.dart
+lib/src/model/onboarding_dto.dart
 lib/src/model/pad_reconciliation_dto.dart
 lib/src/model/pad_result_dto.dart
 lib/src/model/payee_autocomplete_response_dto.dart

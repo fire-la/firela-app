@@ -24,6 +24,7 @@ part 'account_response_dto.g.dart';
 /// * [templatePath] - Template path reference
 /// * [isCustom] - Whether this is a custom (user-created) account
 /// * [i18nKey] - i18n key for display name
+/// * [displayName] - Localized display name (ADR-0114, read-time projection)
 /// * [icon] - Icon identifier
 /// * [openMeta] - Account metadata
 /// * [platformId] - Platform ID (null if unbound)
@@ -78,6 +79,10 @@ abstract class AccountResponseDto implements Built<AccountResponseDto, AccountRe
   /// i18n key for display name
   @BuiltValueField(wireName: r'i18nKey')
   String? get i18nKey;
+
+  /// Localized display name (ADR-0114, read-time projection)
+  @BuiltValueField(wireName: r'displayName')
+  String? get displayName;
 
   /// Icon identifier
   @BuiltValueField(wireName: r'icon')
@@ -186,6 +191,13 @@ class _$AccountResponseDtoSerializer implements PrimitiveSerializer<AccountRespo
       yield r'i18nKey';
       yield serializers.serialize(
         object.i18nKey,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.displayName != null) {
+      yield r'displayName';
+      yield serializers.serialize(
+        object.displayName,
         specifiedType: const FullType(String),
       );
     }
@@ -326,6 +338,13 @@ class _$AccountResponseDtoSerializer implements PrimitiveSerializer<AccountRespo
             specifiedType: const FullType(String),
           ) as String;
           result.i18nKey = valueDes;
+          break;
+        case r'displayName':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.displayName = valueDes;
           break;
         case r'icon':
           final valueDes = serializers.deserialize(

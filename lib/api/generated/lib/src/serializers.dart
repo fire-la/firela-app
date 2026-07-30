@@ -62,6 +62,7 @@ import 'package:firela_api/src/model/create_account_dto.dart';
 import 'package:firela_api/src/model/create_bean_event_dto.dart';
 import 'package:firela_api/src/model/create_bean_price_dto.dart';
 import 'package:firela_api/src/model/create_commodity_dto.dart';
+import 'package:firela_api/src/model/create_external_account_link_dto.dart';
 import 'package:firela_api/src/model/create_payee_dto.dart';
 import 'package:firela_api/src/model/create_payee_profile_dto.dart';
 import 'package:firela_api/src/model/create_platform_dto.dart';
@@ -85,6 +86,8 @@ import 'package:firela_api/src/model/expected_transaction_rule_dto.dart';
 import 'package:firela_api/src/model/expenses_by_category_response_dto.dart';
 import 'package:firela_api/src/model/expenses_by_category_summary_dto.dart';
 import 'package:firela_api/src/model/export_rules_response_dto.dart';
+import 'package:firela_api/src/model/external_account_link_list_response_dto.dart';
+import 'package:firela_api/src/model/external_account_link_response_dto.dart';
 import 'package:firela_api/src/model/file_import_controller_identify_file400_response.dart';
 import 'package:firela_api/src/model/file_import_controller_import_beancount200_response.dart';
 import 'package:firela_api/src/model/file_import_controller_import_file400_response.dart';
@@ -133,6 +136,8 @@ import 'package:firela_api/src/model/nlp_suggested_accounts_dto.dart';
 import 'package:firela_api/src/model/nlp_suggested_payee_dto.dart';
 import 'package:firela_api/src/model/nlp_target_transaction_dto.dart';
 import 'package:firela_api/src/model/nlp_transaction_info_dto.dart';
+import 'package:firela_api/src/model/onboarding_account_dto.dart';
+import 'package:firela_api/src/model/onboarding_dto.dart';
 import 'package:firela_api/src/model/pad_reconciliation_dto.dart';
 import 'package:firela_api/src/model/pad_result_dto.dart';
 import 'package:firela_api/src/model/payee_autocomplete_response_dto.dart';
@@ -259,6 +264,7 @@ part 'serializers.g.dart';
   CreateBeanEventDto,
   CreateBeanPriceDto,
   CreateCommodityDto,
+  CreateExternalAccountLinkDto,
   CreatePayeeDto,
   CreatePayeeProfileDto,
   CreatePlatformDto,
@@ -282,6 +288,8 @@ part 'serializers.g.dart';
   ExpensesByCategoryResponseDto,
   ExpensesByCategorySummaryDto,
   ExportRulesResponseDto,
+  ExternalAccountLinkListResponseDto,
+  ExternalAccountLinkResponseDto,
   FileImportControllerIdentifyFile400Response,
   FileImportControllerImportBeancount200Response,
   FileImportControllerImportFile400Response,
@@ -330,6 +338,8 @@ part 'serializers.g.dart';
   NlpSuggestedPayeeDto,$NlpSuggestedPayeeDto,
   NlpTargetTransactionDto,
   NlpTransactionInfoDto,
+  OnboardingAccountDto,
+  OnboardingDto,
   PadReconciliationDto,
   PadResultDto,
   PayeeAutocompleteResponseDto,
