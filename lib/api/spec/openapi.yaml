@@ -4142,6 +4142,39 @@ paths:
         - Life Events
       security:
         - bearer: []
+  /api/v1/{region}/bean/onboarding:
+    post:
+      operationId: OnboardingController_bootstrap
+      summary: >-
+        Bootstrap core accounts + register asset accounts with opening balances
+        (ADR-0113)
+      parameters:
+        - name: region
+          required: true
+          in: path
+          description: Region code for tenant context
+          schema:
+            enum:
+              - cn
+              - us
+              - de
+              - gb
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OnboardingDto'
+      responses:
+        '201':
+          description: Onboarding bootstrap result.
+        '422':
+          description: Invalid region/account path/duplicate paths.
+      tags:
+        - Onboarding
+      security:
+        - bearer: []
   /api/v1/{region}/bean/reconciliations:
     post:
       operationId: ReconciliationController_compute
@@ -4869,6 +4902,133 @@ paths:
           description: Missing or invalid authentication
       tags:
         - Provider Sync
+      security:
+        - bearer: []
+  /api/v1/{region}/bean/external-account-links:
+    post:
+      operationId: ExternalAccountLinkController_create
+      summary: Create an external account → BeanAccount mapping (ADR-0113)
+      parameters:
+        - name: region
+          required: true
+          in: path
+          description: Region code for tenant context
+          schema:
+            enum:
+              - cn
+              - us
+              - de
+              - gb
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateExternalAccountLinkDto'
+      responses:
+        '201':
+          description: Link created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExternalAccountLinkResponseDto'
+        '422':
+          description: beanAccountId not owned, or an active link already exists.
+      tags:
+        - External Account Links
+      security:
+        - bearer: []
+    get:
+      operationId: ExternalAccountLinkController_findAll
+      summary: List the user's active external account links
+      parameters:
+        - name: provider
+          required: true
+          in: query
+          schema:
+            type: string
+        - name: region
+          required: true
+          in: path
+          description: Region code for tenant context
+          schema:
+            enum:
+              - cn
+              - us
+              - de
+              - gb
+            type: string
+      responses:
+        '200':
+          description: Links retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExternalAccountLinkListResponseDto'
+      tags:
+        - External Account Links
+      security:
+        - bearer: []
+  /api/v1/{region}/bean/external-account-links/{id}:
+    get:
+      operationId: ExternalAccountLinkController_findOne
+      summary: Get a single external account link
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+        - name: region
+          required: true
+          in: path
+          description: Region code for tenant context
+          schema:
+            enum:
+              - cn
+              - us
+              - de
+              - gb
+            type: string
+      responses:
+        '200':
+          description: Link retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExternalAccountLinkResponseDto'
+        '422':
+          description: Link not found or not owned by the user.
+      tags:
+        - External Account Links
+      security:
+        - bearer: []
+    delete:
+      operationId: ExternalAccountLinkController_remove
+      summary: Soft-delete (disconnect) an external account link
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+        - name: region
+          required: true
+          in: path
+          description: Region code for tenant context
+          schema:
+            enum:
+              - cn
+              - us
+              - de
+              - gb
+            type: string
+      responses:
+        '204':
+          description: Link soft-deleted; historical transactions are unaffected.
+      tags:
+        - External Account Links
       security:
         - bearer: []
   /api/v1/{region}/bean/import/parser-telemetry:
@@ -6199,6 +6359,10 @@ components:
           type: string
           description: i18n key for display name
           example: account.Assets.CN.Checking
+        displayName:
+          type: string
+          description: Localized display name (ADR-0114, read-time projection)
+          example: Checking
         icon:
           type: string
           description: Icon identifier
@@ -9950,6 +10114,38 @@ components:
         meta:
           type: object
           description: Product-side metadata (free-form JSON)
+    OnboardingAccountDto:
+      type: object
+      properties:
+        path:
+          type: string
+          description: >-
+            Account path (Assets/Liabilities only; format validated by the
+            account service)
+          example: Assets:Checking
+        currency:
+          type: string
+          description: ISO 4217 currency code (3 letters)
+          example: USD
+        openingBalance:
+          type: string
+          description: Opening balance as a non-negative Decimal string (e.g. "1000.00")
+          example: '1000.00'
+      required:
+        - path
+        - currency
+    OnboardingDto:
+      type: object
+      properties:
+        accounts:
+          description: Asset/Liability accounts to register with opening balances
+          type: array
+          items:
+            $ref: '#/components/schemas/OnboardingAccountDto'
+        skipAssetRegistration:
+          type: boolean
+          description: Skip asset registration; only bootstrap the core account set
+          default: false
     ActualBalanceDto:
       type: object
       properties:
@@ -10467,6 +10663,12 @@ components:
           type: boolean
           description: Filter pending transactions
           default: true
+        externalAccountId:
+          type: string
+          description: >-
+            External account ID for per-batch providers (e.g. GoCardless).
+            Overrides sourceAccount when an ExternalAccountLink mapping exists.
+          example: acc_gocardless_001
       required:
         - sourceAccount
         - defaultCurrency
@@ -10561,6 +10763,74 @@ components:
             type: string
       required:
         - providers
+    CreateExternalAccountLinkDto:
+      type: object
+      properties:
+        provider:
+          type: string
+          enum:
+            - plaid
+            - teller
+            - truelayer
+            - gocardless
+            - simplefin
+            - yodlee
+            - beancount-direct
+            - parsed-bill
+          example: plaid
+          description: Open Banking provider (whitelist)
+        externalAccountId:
+          type: string
+          example: acc-plaid-001
+          description: External account ID from the provider
+        beanAccountId:
+          type: string
+          example: 550e8400-e29b-41d4-a716-446655440000
+          description: Target BeanAccount ID (must belong to the JWT user)
+      required:
+        - provider
+        - externalAccountId
+        - beanAccountId
+    ExternalAccountLinkResponseDto:
+      type: object
+      properties:
+        id:
+          type: string
+        provider:
+          type: string
+        externalAccountId:
+          type: string
+        beanAccountId:
+          type: string
+        isActive:
+          type: boolean
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+        - id
+        - provider
+        - externalAccountId
+        - beanAccountId
+        - isActive
+        - createdAt
+        - updatedAt
+    ExternalAccountLinkListResponseDto:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExternalAccountLinkResponseDto'
+        total:
+          type: number
+        provider:
+          type: string
+          description: Filter by provider (query param)
+      required:
+        - items
+        - total
     ParserTelemetryReportDto:
       type: object
       properties: {}
