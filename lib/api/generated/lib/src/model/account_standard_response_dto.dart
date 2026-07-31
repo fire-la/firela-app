@@ -14,7 +14,6 @@ part 'account_standard_response_dto.g.dart';
 /// Properties:
 /// * [path] - Account path (hierarchical, colon-separated)
 /// * [type] - Account type in Beancount hierarchy
-/// * [i18nKey] - i18n key for localized display name
 /// * [name] - Short localized display name
 /// * [description] - Account description (stable semantics only)
 /// * [tags] - Account tags for categorization
@@ -29,10 +28,6 @@ abstract class AccountStandardResponseDto implements Built<AccountStandardRespon
   @BuiltValueField(wireName: r'type')
   AccountStandardResponseDtoTypeEnum get type;
   // enum typeEnum {  Assets,  Liabilities,  Income,  Expenses,  Equity,  };
-
-  /// i18n key for localized display name
-  @BuiltValueField(wireName: r'i18nKey')
-  String get i18nKey;
 
   /// Short localized display name
   @BuiltValueField(wireName: r'name')
@@ -82,11 +77,6 @@ class _$AccountStandardResponseDtoSerializer implements PrimitiveSerializer<Acco
     yield serializers.serialize(
       object.type,
       specifiedType: const FullType(AccountStandardResponseDtoTypeEnum),
-    );
-    yield r'i18nKey';
-    yield serializers.serialize(
-      object.i18nKey,
-      specifiedType: const FullType(String),
     );
     if (object.name != null) {
       yield r'name';
@@ -146,13 +136,6 @@ class _$AccountStandardResponseDtoSerializer implements PrimitiveSerializer<Acco
             specifiedType: const FullType(AccountStandardResponseDtoTypeEnum),
           ) as AccountStandardResponseDtoTypeEnum;
           result.type = valueDes;
-          break;
-        case r'i18nKey':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.i18nKey = valueDes;
           break;
         case r'name':
           final valueDes = serializers.deserialize(

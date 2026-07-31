@@ -276,7 +276,7 @@ class BeanAccountsApi {
   /// * [type] - Filter by account type
   /// * [status] - Filter by status
   /// * [isCustom] - Filter by custom (user-created) accounts only
-  /// * [search] - Search term for path or i18nKey
+  /// * [search] - Search term for account path
   /// * [limit] - Maximum number of results
   /// * [offset] - Number of results to skip
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation

@@ -120,8 +120,6 @@ class _$CreateAccountDto extends CreateAccountDto {
   @override
   final bool? isCustom;
   @override
-  final String? i18nKey;
-  @override
   final String? icon;
   @override
   final JsonObject? openMeta;
@@ -139,7 +137,6 @@ class _$CreateAccountDto extends CreateAccountDto {
       this.bookingMethod,
       this.templatePath,
       this.isCustom,
-      this.i18nKey,
       this.icon,
       this.openMeta,
       this.platformId})
@@ -167,7 +164,6 @@ class _$CreateAccountDto extends CreateAccountDto {
         bookingMethod == other.bookingMethod &&
         templatePath == other.templatePath &&
         isCustom == other.isCustom &&
-        i18nKey == other.i18nKey &&
         icon == other.icon &&
         openMeta == other.openMeta &&
         platformId == other.platformId;
@@ -182,7 +178,6 @@ class _$CreateAccountDto extends CreateAccountDto {
     _$hash = $jc(_$hash, bookingMethod.hashCode);
     _$hash = $jc(_$hash, templatePath.hashCode);
     _$hash = $jc(_$hash, isCustom.hashCode);
-    _$hash = $jc(_$hash, i18nKey.hashCode);
     _$hash = $jc(_$hash, icon.hashCode);
     _$hash = $jc(_$hash, openMeta.hashCode);
     _$hash = $jc(_$hash, platformId.hashCode);
@@ -199,7 +194,6 @@ class _$CreateAccountDto extends CreateAccountDto {
           ..add('bookingMethod', bookingMethod)
           ..add('templatePath', templatePath)
           ..add('isCustom', isCustom)
-          ..add('i18nKey', i18nKey)
           ..add('icon', icon)
           ..add('openMeta', openMeta)
           ..add('platformId', platformId))
@@ -238,10 +232,6 @@ class CreateAccountDtoBuilder
   bool? get isCustom => _$this._isCustom;
   set isCustom(bool? isCustom) => _$this._isCustom = isCustom;
 
-  String? _i18nKey;
-  String? get i18nKey => _$this._i18nKey;
-  set i18nKey(String? i18nKey) => _$this._i18nKey = i18nKey;
-
   String? _icon;
   String? get icon => _$this._icon;
   set icon(String? icon) => _$this._icon = icon;
@@ -267,7 +257,6 @@ class CreateAccountDtoBuilder
       _bookingMethod = $v.bookingMethod;
       _templatePath = $v.templatePath;
       _isCustom = $v.isCustom;
-      _i18nKey = $v.i18nKey;
       _icon = $v.icon;
       _openMeta = $v.openMeta;
       _platformId = $v.platformId;
@@ -303,7 +292,6 @@ class CreateAccountDtoBuilder
               bookingMethod: bookingMethod,
               templatePath: templatePath,
               isCustom: isCustom,
-              i18nKey: i18nKey,
               icon: icon,
               openMeta: openMeta,
               platformId: platformId);

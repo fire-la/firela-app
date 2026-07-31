@@ -13,13 +13,18 @@ class _$OnboardingAccountDto extends OnboardingAccountDto {
   final String currency;
   @override
   final String? openingBalance;
+  @override
+  final String? platformId;
 
   factory _$OnboardingAccountDto(
           [void Function(OnboardingAccountDtoBuilder)? updates]) =>
       (new OnboardingAccountDtoBuilder()..update(updates))._build();
 
   _$OnboardingAccountDto._(
-      {required this.path, required this.currency, this.openingBalance})
+      {required this.path,
+      required this.currency,
+      this.openingBalance,
+      this.platformId})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(
         path, r'OnboardingAccountDto', 'path');
@@ -42,7 +47,8 @@ class _$OnboardingAccountDto extends OnboardingAccountDto {
     return other is OnboardingAccountDto &&
         path == other.path &&
         currency == other.currency &&
-        openingBalance == other.openingBalance;
+        openingBalance == other.openingBalance &&
+        platformId == other.platformId;
   }
 
   @override
@@ -51,6 +57,7 @@ class _$OnboardingAccountDto extends OnboardingAccountDto {
     _$hash = $jc(_$hash, path.hashCode);
     _$hash = $jc(_$hash, currency.hashCode);
     _$hash = $jc(_$hash, openingBalance.hashCode);
+    _$hash = $jc(_$hash, platformId.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -60,7 +67,8 @@ class _$OnboardingAccountDto extends OnboardingAccountDto {
     return (newBuiltValueToStringHelper(r'OnboardingAccountDto')
           ..add('path', path)
           ..add('currency', currency)
-          ..add('openingBalance', openingBalance))
+          ..add('openingBalance', openingBalance)
+          ..add('platformId', platformId))
         .toString();
   }
 }
@@ -82,6 +90,10 @@ class OnboardingAccountDtoBuilder
   set openingBalance(String? openingBalance) =>
       _$this._openingBalance = openingBalance;
 
+  String? _platformId;
+  String? get platformId => _$this._platformId;
+  set platformId(String? platformId) => _$this._platformId = platformId;
+
   OnboardingAccountDtoBuilder() {
     OnboardingAccountDto._defaults(this);
   }
@@ -92,6 +104,7 @@ class OnboardingAccountDtoBuilder
       _path = $v.path;
       _currency = $v.currency;
       _openingBalance = $v.openingBalance;
+      _platformId = $v.platformId;
       _$v = null;
     }
     return this;
@@ -118,7 +131,8 @@ class OnboardingAccountDtoBuilder
                 path, r'OnboardingAccountDto', 'path'),
             currency: BuiltValueNullFieldError.checkNotNull(
                 currency, r'OnboardingAccountDto', 'currency'),
-            openingBalance: openingBalance);
+            openingBalance: openingBalance,
+            platformId: platformId);
     replace(_$result);
     return _$result;
   }

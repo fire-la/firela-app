@@ -15,7 +15,6 @@ part 'update_account_dto.g.dart';
 /// Properties:
 /// * [currencies] - Allowed currencies (null = no restriction)
 /// * [bookingMethod] - Booking method for cost basis
-/// * [i18nKey] - i18n key for display name
 /// * [icon] - Icon identifier
 /// * [openMeta] - Additional metadata (merged with existing)
 /// * [platformId] - Platform ID (references Platform.id), null to clear association
@@ -29,10 +28,6 @@ abstract class UpdateAccountDto implements Built<UpdateAccountDto, UpdateAccount
   @BuiltValueField(wireName: r'bookingMethod')
   UpdateAccountDtoBookingMethodEnum? get bookingMethod;
   // enum bookingMethodEnum {  FIFO,  LIFO,  HIFO,  AVERAGE,  STRICT,  STRICT_WITH_SIZE,  NONE,  };
-
-  /// i18n key for display name
-  @BuiltValueField(wireName: r'i18nKey')
-  String? get i18nKey;
 
   /// Icon identifier
   @BuiltValueField(wireName: r'icon')
@@ -81,13 +76,6 @@ class _$UpdateAccountDtoSerializer implements PrimitiveSerializer<UpdateAccountD
       yield serializers.serialize(
         object.bookingMethod,
         specifiedType: const FullType(UpdateAccountDtoBookingMethodEnum),
-      );
-    }
-    if (object.i18nKey != null) {
-      yield r'i18nKey';
-      yield serializers.serialize(
-        object.i18nKey,
-        specifiedType: const FullType(String),
       );
     }
     if (object.icon != null) {
@@ -147,13 +135,6 @@ class _$UpdateAccountDtoSerializer implements PrimitiveSerializer<UpdateAccountD
             specifiedType: const FullType(UpdateAccountDtoBookingMethodEnum),
           ) as UpdateAccountDtoBookingMethodEnum;
           result.bookingMethod = valueDes;
-          break;
-        case r'i18nKey':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.i18nKey = valueDes;
           break;
         case r'icon':
           final valueDes = serializers.deserialize(

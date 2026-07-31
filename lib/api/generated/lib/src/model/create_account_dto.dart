@@ -19,7 +19,6 @@ part 'create_account_dto.g.dart';
 /// * [bookingMethod] - Booking method for cost basis
 /// * [templatePath] - Reference to account-standards template path
 /// * [isCustom] - Whether this is a custom (user-created) account
-/// * [i18nKey] - i18n key for display name (overrides template)
 /// * [icon] - Icon identifier (overrides template)
 /// * [openMeta] - Additional metadata
 /// * [platformId] - Platform ID (references Platform.id)
@@ -49,10 +48,6 @@ abstract class CreateAccountDto implements Built<CreateAccountDto, CreateAccount
   /// Whether this is a custom (user-created) account
   @BuiltValueField(wireName: r'isCustom')
   bool? get isCustom;
-
-  /// i18n key for display name (overrides template)
-  @BuiltValueField(wireName: r'i18nKey')
-  String? get i18nKey;
 
   /// Icon identifier (overrides template)
   @BuiltValueField(wireName: r'icon')
@@ -127,13 +122,6 @@ class _$CreateAccountDtoSerializer implements PrimitiveSerializer<CreateAccountD
       yield serializers.serialize(
         object.isCustom,
         specifiedType: const FullType(bool),
-      );
-    }
-    if (object.i18nKey != null) {
-      yield r'i18nKey';
-      yield serializers.serialize(
-        object.i18nKey,
-        specifiedType: const FullType(String),
       );
     }
     if (object.icon != null) {
@@ -221,13 +209,6 @@ class _$CreateAccountDtoSerializer implements PrimitiveSerializer<CreateAccountD
             specifiedType: const FullType(bool),
           ) as bool;
           result.isCustom = valueDes;
-          break;
-        case r'i18nKey':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.i18nKey = valueDes;
           break;
         case r'icon':
           final valueDes = serializers.deserialize(
