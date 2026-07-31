@@ -73,7 +73,7 @@ paths:
         - name: search
           required: false
           in: query
-          description: Search term for path or i18nKey
+          description: Search term for account path
           schema:
             type: string
         - name: limit
@@ -6269,10 +6269,6 @@ components:
           type: boolean
           description: Whether this is a custom (user-created) account
           default: false
-        i18nKey:
-          type: string
-          description: i18n key for display name (overrides template)
-          example: account.custom.mybank
         icon:
           type: string
           description: Icon identifier (overrides template)
@@ -6355,10 +6351,6 @@ components:
           type: boolean
           description: Whether this is a custom (user-created) account
           example: false
-        i18nKey:
-          type: string
-          description: i18n key for display name
-          example: account.Assets.CN.Checking
         displayName:
           type: string
           description: Localized display name (ADR-0114, read-time projection)
@@ -6434,10 +6426,6 @@ components:
             - STRICT
             - STRICT_WITH_SIZE
             - NONE
-        i18nKey:
-          type: string
-          description: i18n key for display name
-          example: account.custom.mybank
         icon:
           type: string
           description: Icon identifier
@@ -6492,10 +6480,6 @@ components:
             - Expenses
             - Equity
           example: Assets
-        i18nKey:
-          type: string
-          description: i18n key for localized display name
-          example: account.assets.cn.bank.icbc.checking
         name:
           type: string
           description: Short localized display name
@@ -6520,7 +6504,6 @@ components:
       required:
         - path
         - type
-        - i18nKey
         - description
         - tags
         - icon
@@ -10131,6 +10114,12 @@ components:
           type: string
           description: Opening balance as a non-negative Decimal string (e.g. "1000.00")
           example: '1000.00'
+        platformId:
+          type: string
+          description: >-
+            Platform ID to bind the account to (references Platform.id); omit
+            for unbound
+          example: c98e5d4a-2f71-4a5a-bb3c-92c9f231d5e2
       required:
         - path
         - currency
