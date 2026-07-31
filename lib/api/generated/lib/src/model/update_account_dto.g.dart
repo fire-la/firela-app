@@ -112,8 +112,6 @@ class _$UpdateAccountDto extends UpdateAccountDto {
   @override
   final UpdateAccountDtoBookingMethodEnum? bookingMethod;
   @override
-  final String? i18nKey;
-  @override
   final String? icon;
   @override
   final JsonObject? openMeta;
@@ -127,7 +125,6 @@ class _$UpdateAccountDto extends UpdateAccountDto {
   _$UpdateAccountDto._(
       {this.currencies,
       this.bookingMethod,
-      this.i18nKey,
       this.icon,
       this.openMeta,
       this.platformId})
@@ -147,7 +144,6 @@ class _$UpdateAccountDto extends UpdateAccountDto {
     return other is UpdateAccountDto &&
         currencies == other.currencies &&
         bookingMethod == other.bookingMethod &&
-        i18nKey == other.i18nKey &&
         icon == other.icon &&
         openMeta == other.openMeta &&
         platformId == other.platformId;
@@ -158,7 +154,6 @@ class _$UpdateAccountDto extends UpdateAccountDto {
     var _$hash = 0;
     _$hash = $jc(_$hash, currencies.hashCode);
     _$hash = $jc(_$hash, bookingMethod.hashCode);
-    _$hash = $jc(_$hash, i18nKey.hashCode);
     _$hash = $jc(_$hash, icon.hashCode);
     _$hash = $jc(_$hash, openMeta.hashCode);
     _$hash = $jc(_$hash, platformId.hashCode);
@@ -171,7 +166,6 @@ class _$UpdateAccountDto extends UpdateAccountDto {
     return (newBuiltValueToStringHelper(r'UpdateAccountDto')
           ..add('currencies', currencies)
           ..add('bookingMethod', bookingMethod)
-          ..add('i18nKey', i18nKey)
           ..add('icon', icon)
           ..add('openMeta', openMeta)
           ..add('platformId', platformId))
@@ -194,10 +188,6 @@ class UpdateAccountDtoBuilder
   set bookingMethod(UpdateAccountDtoBookingMethodEnum? bookingMethod) =>
       _$this._bookingMethod = bookingMethod;
 
-  String? _i18nKey;
-  String? get i18nKey => _$this._i18nKey;
-  set i18nKey(String? i18nKey) => _$this._i18nKey = i18nKey;
-
   String? _icon;
   String? get icon => _$this._icon;
   set icon(String? icon) => _$this._icon = icon;
@@ -219,7 +209,6 @@ class UpdateAccountDtoBuilder
     if ($v != null) {
       _currencies = $v.currencies?.toBuilder();
       _bookingMethod = $v.bookingMethod;
-      _i18nKey = $v.i18nKey;
       _icon = $v.icon;
       _openMeta = $v.openMeta;
       _platformId = $v.platformId;
@@ -249,7 +238,6 @@ class UpdateAccountDtoBuilder
           new _$UpdateAccountDto._(
               currencies: _currencies?.build(),
               bookingMethod: bookingMethod,
-              i18nKey: i18nKey,
               icon: icon,
               openMeta: openMeta,
               platformId: platformId);

@@ -14,6 +14,7 @@ part 'onboarding_account_dto.g.dart';
 /// * [path] - Account path (Assets/Liabilities only; format validated by the account service)
 /// * [currency] - ISO 4217 currency code (3 letters)
 /// * [openingBalance] - Opening balance as a non-negative Decimal string (e.g. \"1000.00\")
+/// * [platformId] - Platform ID to bind the account to (references Platform.id); omit for unbound
 @BuiltValue()
 abstract class OnboardingAccountDto implements Built<OnboardingAccountDto, OnboardingAccountDtoBuilder> {
   /// Account path (Assets/Liabilities only; format validated by the account service)
@@ -27,6 +28,10 @@ abstract class OnboardingAccountDto implements Built<OnboardingAccountDto, Onboa
   /// Opening balance as a non-negative Decimal string (e.g. \"1000.00\")
   @BuiltValueField(wireName: r'openingBalance')
   String? get openingBalance;
+
+  /// Platform ID to bind the account to (references Platform.id); omit for unbound
+  @BuiltValueField(wireName: r'platformId')
+  String? get platformId;
 
   OnboardingAccountDto._();
 
@@ -65,6 +70,13 @@ class _$OnboardingAccountDtoSerializer implements PrimitiveSerializer<Onboarding
       yield r'openingBalance';
       yield serializers.serialize(
         object.openingBalance,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.platformId != null) {
+      yield r'platformId';
+      yield serializers.serialize(
+        object.platformId,
         specifiedType: const FullType(String),
       );
     }
@@ -111,6 +123,13 @@ class _$OnboardingAccountDtoSerializer implements PrimitiveSerializer<Onboarding
             specifiedType: const FullType(String),
           ) as String;
           result.openingBalance = valueDes;
+          break;
+        case r'platformId':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.platformId = valueDes;
           break;
         default:
           unhandled.add(key);

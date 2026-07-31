@@ -96,8 +96,6 @@ class _$AccountStandardResponseDto extends AccountStandardResponseDto {
   @override
   final AccountStandardResponseDtoTypeEnum type;
   @override
-  final String i18nKey;
-  @override
   final String? name;
   @override
   final String description;
@@ -113,7 +111,6 @@ class _$AccountStandardResponseDto extends AccountStandardResponseDto {
   _$AccountStandardResponseDto._(
       {required this.path,
       required this.type,
-      required this.i18nKey,
       this.name,
       required this.description,
       required this.tags,
@@ -123,8 +120,6 @@ class _$AccountStandardResponseDto extends AccountStandardResponseDto {
         path, r'AccountStandardResponseDto', 'path');
     BuiltValueNullFieldError.checkNotNull(
         type, r'AccountStandardResponseDto', 'type');
-    BuiltValueNullFieldError.checkNotNull(
-        i18nKey, r'AccountStandardResponseDto', 'i18nKey');
     BuiltValueNullFieldError.checkNotNull(
         description, r'AccountStandardResponseDto', 'description');
     BuiltValueNullFieldError.checkNotNull(
@@ -148,7 +143,6 @@ class _$AccountStandardResponseDto extends AccountStandardResponseDto {
     return other is AccountStandardResponseDto &&
         path == other.path &&
         type == other.type &&
-        i18nKey == other.i18nKey &&
         name == other.name &&
         description == other.description &&
         tags == other.tags &&
@@ -160,7 +154,6 @@ class _$AccountStandardResponseDto extends AccountStandardResponseDto {
     var _$hash = 0;
     _$hash = $jc(_$hash, path.hashCode);
     _$hash = $jc(_$hash, type.hashCode);
-    _$hash = $jc(_$hash, i18nKey.hashCode);
     _$hash = $jc(_$hash, name.hashCode);
     _$hash = $jc(_$hash, description.hashCode);
     _$hash = $jc(_$hash, tags.hashCode);
@@ -174,7 +167,6 @@ class _$AccountStandardResponseDto extends AccountStandardResponseDto {
     return (newBuiltValueToStringHelper(r'AccountStandardResponseDto')
           ..add('path', path)
           ..add('type', type)
-          ..add('i18nKey', i18nKey)
           ..add('name', name)
           ..add('description', description)
           ..add('tags', tags)
@@ -195,10 +187,6 @@ class AccountStandardResponseDtoBuilder
   AccountStandardResponseDtoTypeEnum? _type;
   AccountStandardResponseDtoTypeEnum? get type => _$this._type;
   set type(AccountStandardResponseDtoTypeEnum? type) => _$this._type = type;
-
-  String? _i18nKey;
-  String? get i18nKey => _$this._i18nKey;
-  set i18nKey(String? i18nKey) => _$this._i18nKey = i18nKey;
 
   String? _name;
   String? get name => _$this._name;
@@ -225,7 +213,6 @@ class AccountStandardResponseDtoBuilder
     if ($v != null) {
       _path = $v.path;
       _type = $v.type;
-      _i18nKey = $v.i18nKey;
       _name = $v.name;
       _description = $v.description;
       _tags = $v.tags.toBuilder();
@@ -258,8 +245,6 @@ class AccountStandardResponseDtoBuilder
                   path, r'AccountStandardResponseDto', 'path'),
               type: BuiltValueNullFieldError.checkNotNull(
                   type, r'AccountStandardResponseDto', 'type'),
-              i18nKey: BuiltValueNullFieldError.checkNotNull(
-                  i18nKey, r'AccountStandardResponseDto', 'i18nKey'),
               name: name,
               description: BuiltValueNullFieldError.checkNotNull(
                   description, r'AccountStandardResponseDto', 'description'),
