@@ -314,6 +314,53 @@ paths:
         - Bean Accounts
       security:
         - bearer: []
+  /api/v1/{region}/bean/accounts/{id}/opening-balance:
+    post:
+      operationId: AccountController_addOpeningBalance
+      summary: Post an opening-balance transaction
+      description: >-
+        Posts a double-entry opening-balance transaction against
+        Equity:Opening-Balances for an existing Assets/Liabilities account. At
+        most one active opening balance per account.
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: Account UUID
+          schema:
+            type: string
+        - name: region
+          required: true
+          in: path
+          description: Region code for tenant context
+          schema:
+            enum:
+              - cn
+              - us
+              - de
+              - gb
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOpeningBalanceDto'
+      responses:
+        '201':
+          description: Opening-balance transaction created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OpeningBalanceResultDto'
+        '404':
+          description: Account not found
+        '409':
+          description: An opening balance already exists for this account
+      tags:
+        - Bean Accounts
+      security:
+        - bearer: []
   /api/v1/{region}/bean/account-standards:
     get:
       operationId: AccountStandardsController_getTemplates
@@ -6239,7 +6286,7 @@ components:
         openDate:
           format: date-time
           type: string
-          description: Account open date
+          description: Account open date (server defaults to today)
           example: '2024-01-01'
         currencies:
           description: Allowed currencies (null = no restriction)
@@ -6273,9 +6320,11 @@ components:
           type: string
           description: Icon identifier (overrides template)
           example: bank-custom
-        openMeta:
+        openDirectiveMeta:
           type: object
-          description: Additional metadata
+          description: >-
+            Open directive metadata (NOT an opening-balance amount — use the
+            opening-balance endpoint)
           example:
             branch: Downtown
             accountNumber: '1234'
@@ -6285,7 +6334,6 @@ components:
           example: c98e5d4a-2f71-4a5a-bb3c-92c9f231d5e2
       required:
         - path
-        - openDate
     AccountResponseDto:
       type: object
       properties:
@@ -6359,9 +6407,9 @@ components:
           type: string
           description: Icon identifier
           example: bank-icbc
-        openMeta:
+        openDirectiveMeta:
           type: object
-          description: Account metadata
+          description: Open directive metadata (ADR-0115 Decision 9)
           example:
             branch: Downtown
         platformId:
@@ -6430,9 +6478,11 @@ components:
           type: string
           description: Icon identifier
           example: bank-custom
-        openMeta:
+        openDirectiveMeta:
           type: object
-          description: Additional metadata (merged with existing)
+          description: >-
+            Open directive metadata (merged with existing; NOT an
+            opening-balance amount)
           example:
             branch: Uptown
         platformId:
@@ -6463,6 +6513,33 @@ components:
           type: string
           description: New open date (optional)
           example: '2025-01-01'
+    CreateOpeningBalanceDto:
+      type: object
+      properties:
+        amount:
+          type: number
+          description: Opening balance amount (non-negative)
+          example: 1000
+        currency:
+          type: string
+          description: Currency code
+          example: CNY
+        date:
+          format: date-time
+          type: string
+          description: Opening-balance date (defaults to now)
+          example: '2024-01-01'
+      required:
+        - amount
+        - currency
+    OpeningBalanceResultDto:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: Created opening-balance transaction id.
+      required:
+        - transactionId
     AccountStandardResponseDto:
       type: object
       properties:
