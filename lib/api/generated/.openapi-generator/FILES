@@ -93,6 +93,7 @@ lib/src/model/create_bean_event_dto.dart
 lib/src/model/create_bean_price_dto.dart
 lib/src/model/create_commodity_dto.dart
 lib/src/model/create_external_account_link_dto.dart
+lib/src/model/create_opening_balance_dto.dart
 lib/src/model/create_payee_dto.dart
 lib/src/model/create_payee_profile_dto.dart
 lib/src/model/create_platform_dto.dart
@@ -169,6 +170,7 @@ lib/src/model/nlp_target_transaction_dto.dart
 lib/src/model/nlp_transaction_info_dto.dart
 lib/src/model/onboarding_account_dto.dart
 lib/src/model/onboarding_dto.dart
+lib/src/model/opening_balance_result_dto.dart
 lib/src/model/pad_reconciliation_dto.dart
 lib/src/model/pad_result_dto.dart
 lib/src/model/payee_autocomplete_response_dto.dart

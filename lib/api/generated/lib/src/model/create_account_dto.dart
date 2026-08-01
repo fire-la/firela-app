@@ -14,13 +14,13 @@ part 'create_account_dto.g.dart';
 ///
 /// Properties:
 /// * [path] - Account path (hierarchical, colon-separated)
-/// * [openDate] - Account open date
+/// * [openDate] - Account open date (server defaults to today)
 /// * [currencies] - Allowed currencies (null = no restriction)
 /// * [bookingMethod] - Booking method for cost basis
 /// * [templatePath] - Reference to account-standards template path
 /// * [isCustom] - Whether this is a custom (user-created) account
 /// * [icon] - Icon identifier (overrides template)
-/// * [openMeta] - Additional metadata
+/// * [openDirectiveMeta] - Open directive metadata (NOT an opening-balance amount — use the opening-balance endpoint)
 /// * [platformId] - Platform ID (references Platform.id)
 @BuiltValue()
 abstract class CreateAccountDto implements Built<CreateAccountDto, CreateAccountDtoBuilder> {
@@ -28,9 +28,9 @@ abstract class CreateAccountDto implements Built<CreateAccountDto, CreateAccount
   @BuiltValueField(wireName: r'path')
   String get path;
 
-  /// Account open date
+  /// Account open date (server defaults to today)
   @BuiltValueField(wireName: r'openDate')
-  DateTime get openDate;
+  DateTime? get openDate;
 
   /// Allowed currencies (null = no restriction)
   @BuiltValueField(wireName: r'currencies')
@@ -53,9 +53,9 @@ abstract class CreateAccountDto implements Built<CreateAccountDto, CreateAccount
   @BuiltValueField(wireName: r'icon')
   String? get icon;
 
-  /// Additional metadata
-  @BuiltValueField(wireName: r'openMeta')
-  JsonObject? get openMeta;
+  /// Open directive metadata (NOT an opening-balance amount — use the opening-balance endpoint)
+  @BuiltValueField(wireName: r'openDirectiveMeta')
+  JsonObject? get openDirectiveMeta;
 
   /// Platform ID (references Platform.id)
   @BuiltValueField(wireName: r'platformId')
@@ -91,11 +91,13 @@ class _$CreateAccountDtoSerializer implements PrimitiveSerializer<CreateAccountD
       object.path,
       specifiedType: const FullType(String),
     );
-    yield r'openDate';
-    yield serializers.serialize(
-      object.openDate,
-      specifiedType: const FullType(DateTime),
-    );
+    if (object.openDate != null) {
+      yield r'openDate';
+      yield serializers.serialize(
+        object.openDate,
+        specifiedType: const FullType(DateTime),
+      );
+    }
     if (object.currencies != null) {
       yield r'currencies';
       yield serializers.serialize(
@@ -131,10 +133,10 @@ class _$CreateAccountDtoSerializer implements PrimitiveSerializer<CreateAccountD
         specifiedType: const FullType(String),
       );
     }
-    if (object.openMeta != null) {
-      yield r'openMeta';
+    if (object.openDirectiveMeta != null) {
+      yield r'openDirectiveMeta';
       yield serializers.serialize(
-        object.openMeta,
+        object.openDirectiveMeta,
         specifiedType: const FullType(JsonObject),
       );
     }
@@ -217,12 +219,12 @@ class _$CreateAccountDtoSerializer implements PrimitiveSerializer<CreateAccountD
           ) as String;
           result.icon = valueDes;
           break;
-        case r'openMeta':
+        case r'openDirectiveMeta':
           final valueDes = serializers.deserialize(
             value,
             specifiedType: const FullType(JsonObject),
           ) as JsonObject;
-          result.openMeta = valueDes;
+          result.openDirectiveMeta = valueDes;
           break;
         case r'platformId':
           final valueDes = serializers.deserialize(

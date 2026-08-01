@@ -110,7 +110,7 @@ class _$CreateAccountDto extends CreateAccountDto {
   @override
   final String path;
   @override
-  final DateTime openDate;
+  final DateTime? openDate;
   @override
   final BuiltList<String>? currencies;
   @override
@@ -122,7 +122,7 @@ class _$CreateAccountDto extends CreateAccountDto {
   @override
   final String? icon;
   @override
-  final JsonObject? openMeta;
+  final JsonObject? openDirectiveMeta;
   @override
   final String? platformId;
 
@@ -132,18 +132,16 @@ class _$CreateAccountDto extends CreateAccountDto {
 
   _$CreateAccountDto._(
       {required this.path,
-      required this.openDate,
+      this.openDate,
       this.currencies,
       this.bookingMethod,
       this.templatePath,
       this.isCustom,
       this.icon,
-      this.openMeta,
+      this.openDirectiveMeta,
       this.platformId})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(path, r'CreateAccountDto', 'path');
-    BuiltValueNullFieldError.checkNotNull(
-        openDate, r'CreateAccountDto', 'openDate');
   }
 
   @override
@@ -165,7 +163,7 @@ class _$CreateAccountDto extends CreateAccountDto {
         templatePath == other.templatePath &&
         isCustom == other.isCustom &&
         icon == other.icon &&
-        openMeta == other.openMeta &&
+        openDirectiveMeta == other.openDirectiveMeta &&
         platformId == other.platformId;
   }
 
@@ -179,7 +177,7 @@ class _$CreateAccountDto extends CreateAccountDto {
     _$hash = $jc(_$hash, templatePath.hashCode);
     _$hash = $jc(_$hash, isCustom.hashCode);
     _$hash = $jc(_$hash, icon.hashCode);
-    _$hash = $jc(_$hash, openMeta.hashCode);
+    _$hash = $jc(_$hash, openDirectiveMeta.hashCode);
     _$hash = $jc(_$hash, platformId.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
@@ -195,7 +193,7 @@ class _$CreateAccountDto extends CreateAccountDto {
           ..add('templatePath', templatePath)
           ..add('isCustom', isCustom)
           ..add('icon', icon)
-          ..add('openMeta', openMeta)
+          ..add('openDirectiveMeta', openDirectiveMeta)
           ..add('platformId', platformId))
         .toString();
   }
@@ -236,9 +234,10 @@ class CreateAccountDtoBuilder
   String? get icon => _$this._icon;
   set icon(String? icon) => _$this._icon = icon;
 
-  JsonObject? _openMeta;
-  JsonObject? get openMeta => _$this._openMeta;
-  set openMeta(JsonObject? openMeta) => _$this._openMeta = openMeta;
+  JsonObject? _openDirectiveMeta;
+  JsonObject? get openDirectiveMeta => _$this._openDirectiveMeta;
+  set openDirectiveMeta(JsonObject? openDirectiveMeta) =>
+      _$this._openDirectiveMeta = openDirectiveMeta;
 
   String? _platformId;
   String? get platformId => _$this._platformId;
@@ -258,7 +257,7 @@ class CreateAccountDtoBuilder
       _templatePath = $v.templatePath;
       _isCustom = $v.isCustom;
       _icon = $v.icon;
-      _openMeta = $v.openMeta;
+      _openDirectiveMeta = $v.openDirectiveMeta;
       _platformId = $v.platformId;
       _$v = null;
     }
@@ -286,14 +285,13 @@ class CreateAccountDtoBuilder
           new _$CreateAccountDto._(
               path: BuiltValueNullFieldError.checkNotNull(
                   path, r'CreateAccountDto', 'path'),
-              openDate: BuiltValueNullFieldError.checkNotNull(
-                  openDate, r'CreateAccountDto', 'openDate'),
+              openDate: openDate,
               currencies: _currencies?.build(),
               bookingMethod: bookingMethod,
               templatePath: templatePath,
               isCustom: isCustom,
               icon: icon,
-              openMeta: openMeta,
+              openDirectiveMeta: openDirectiveMeta,
               platformId: platformId);
     } catch (_) {
       late String _$failedField;

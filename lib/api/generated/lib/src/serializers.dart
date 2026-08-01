@@ -63,6 +63,7 @@ import 'package:firela_api/src/model/create_bean_event_dto.dart';
 import 'package:firela_api/src/model/create_bean_price_dto.dart';
 import 'package:firela_api/src/model/create_commodity_dto.dart';
 import 'package:firela_api/src/model/create_external_account_link_dto.dart';
+import 'package:firela_api/src/model/create_opening_balance_dto.dart';
 import 'package:firela_api/src/model/create_payee_dto.dart';
 import 'package:firela_api/src/model/create_payee_profile_dto.dart';
 import 'package:firela_api/src/model/create_platform_dto.dart';
@@ -138,6 +139,7 @@ import 'package:firela_api/src/model/nlp_target_transaction_dto.dart';
 import 'package:firela_api/src/model/nlp_transaction_info_dto.dart';
 import 'package:firela_api/src/model/onboarding_account_dto.dart';
 import 'package:firela_api/src/model/onboarding_dto.dart';
+import 'package:firela_api/src/model/opening_balance_result_dto.dart';
 import 'package:firela_api/src/model/pad_reconciliation_dto.dart';
 import 'package:firela_api/src/model/pad_result_dto.dart';
 import 'package:firela_api/src/model/payee_autocomplete_response_dto.dart';
@@ -265,6 +267,7 @@ part 'serializers.g.dart';
   CreateBeanPriceDto,
   CreateCommodityDto,
   CreateExternalAccountLinkDto,
+  CreateOpeningBalanceDto,
   CreatePayeeDto,
   CreatePayeeProfileDto,
   CreatePlatformDto,
@@ -340,6 +343,7 @@ part 'serializers.g.dart';
   NlpTransactionInfoDto,
   OnboardingAccountDto,
   OnboardingDto,
+  OpeningBalanceResultDto,
   PadReconciliationDto,
   PadResultDto,
   PayeeAutocompleteResponseDto,

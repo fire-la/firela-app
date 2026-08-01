@@ -271,7 +271,7 @@ class _$AccountResponseDto extends AccountResponseDto {
   @override
   final String? icon;
   @override
-  final JsonObject? openMeta;
+  final JsonObject? openDirectiveMeta;
   @override
   final JsonObject? platformId;
   @override
@@ -298,7 +298,7 @@ class _$AccountResponseDto extends AccountResponseDto {
       required this.isCustom,
       this.displayName,
       this.icon,
-      this.openMeta,
+      this.openDirectiveMeta,
       this.platformId,
       this.platform,
       required this.createdAt,
@@ -346,7 +346,7 @@ class _$AccountResponseDto extends AccountResponseDto {
         isCustom == other.isCustom &&
         displayName == other.displayName &&
         icon == other.icon &&
-        openMeta == other.openMeta &&
+        openDirectiveMeta == other.openDirectiveMeta &&
         platformId == other.platformId &&
         platform == other.platform &&
         createdAt == other.createdAt &&
@@ -368,7 +368,7 @@ class _$AccountResponseDto extends AccountResponseDto {
     _$hash = $jc(_$hash, isCustom.hashCode);
     _$hash = $jc(_$hash, displayName.hashCode);
     _$hash = $jc(_$hash, icon.hashCode);
-    _$hash = $jc(_$hash, openMeta.hashCode);
+    _$hash = $jc(_$hash, openDirectiveMeta.hashCode);
     _$hash = $jc(_$hash, platformId.hashCode);
     _$hash = $jc(_$hash, platform.hashCode);
     _$hash = $jc(_$hash, createdAt.hashCode);
@@ -392,7 +392,7 @@ class _$AccountResponseDto extends AccountResponseDto {
           ..add('isCustom', isCustom)
           ..add('displayName', displayName)
           ..add('icon', icon)
-          ..add('openMeta', openMeta)
+          ..add('openDirectiveMeta', openDirectiveMeta)
           ..add('platformId', platformId)
           ..add('platform', platform)
           ..add('createdAt', createdAt)
@@ -457,9 +457,10 @@ class AccountResponseDtoBuilder
   String? get icon => _$this._icon;
   set icon(String? icon) => _$this._icon = icon;
 
-  JsonObject? _openMeta;
-  JsonObject? get openMeta => _$this._openMeta;
-  set openMeta(JsonObject? openMeta) => _$this._openMeta = openMeta;
+  JsonObject? _openDirectiveMeta;
+  JsonObject? get openDirectiveMeta => _$this._openDirectiveMeta;
+  set openDirectiveMeta(JsonObject? openDirectiveMeta) =>
+      _$this._openDirectiveMeta = openDirectiveMeta;
 
   JsonObject? _platformId;
   JsonObject? get platformId => _$this._platformId;
@@ -496,7 +497,7 @@ class AccountResponseDtoBuilder
       _isCustom = $v.isCustom;
       _displayName = $v.displayName;
       _icon = $v.icon;
-      _openMeta = $v.openMeta;
+      _openDirectiveMeta = $v.openDirectiveMeta;
       _platformId = $v.platformId;
       _platform = $v.platform;
       _createdAt = $v.createdAt;
@@ -544,7 +545,7 @@ class AccountResponseDtoBuilder
                   isCustom, r'AccountResponseDto', 'isCustom'),
               displayName: displayName,
               icon: icon,
-              openMeta: openMeta,
+              openDirectiveMeta: openDirectiveMeta,
               platformId: platformId,
               platform: platform,
               createdAt: BuiltValueNullFieldError.checkNotNull(

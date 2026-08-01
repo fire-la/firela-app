@@ -158,6 +158,7 @@ Class | Method | HTTP request | Description
 [*BeanAccountStandardsApi*](doc/BeanAccountStandardsApi.md) | [**accountStandardsControllerGetRegions**](doc/BeanAccountStandardsApi.md#accountstandardscontrollergetregions) | **GET** /api/v1/{region}/bean/account-standards/regions | Get available regions with hierarchy
 [*BeanAccountStandardsApi*](doc/BeanAccountStandardsApi.md) | [**accountStandardsControllerGetTemplateMetadata**](doc/BeanAccountStandardsApi.md#accountstandardscontrollergettemplatemetadata) | **GET** /api/v1/{region}/bean/account-standards/template-metadata | Get template metadata for an account path
 [*BeanAccountStandardsApi*](doc/BeanAccountStandardsApi.md) | [**accountStandardsControllerGetTemplates**](doc/BeanAccountStandardsApi.md#accountstandardscontrollergettemplates) | **GET** /api/v1/{region}/bean/account-standards | Get account templates
+[*BeanAccountsApi*](doc/BeanAccountsApi.md) | [**accountControllerAddOpeningBalance**](doc/BeanAccountsApi.md#accountcontrolleraddopeningbalance) | **POST** /api/v1/{region}/bean/accounts/{id}/opening-balance | Post an opening-balance transaction
 [*BeanAccountsApi*](doc/BeanAccountsApi.md) | [**accountControllerClose**](doc/BeanAccountsApi.md#accountcontrollerclose) | **POST** /api/v1/{region}/bean/accounts/{id}/close | Close account
 [*BeanAccountsApi*](doc/BeanAccountsApi.md) | [**accountControllerCreate**](doc/BeanAccountsApi.md#accountcontrollercreate) | **POST** /api/v1/{region}/bean/accounts | Create a new account
 [*BeanAccountsApi*](doc/BeanAccountsApi.md) | [**accountControllerDelete**](doc/BeanAccountsApi.md#accountcontrollerdelete) | **DELETE** /api/v1/{region}/bean/accounts/{id} | Delete account
@@ -344,6 +345,7 @@ Class | Method | HTTP request | Description
  - [CreateBeanPriceDto](doc/CreateBeanPriceDto.md)
  - [CreateCommodityDto](doc/CreateCommodityDto.md)
  - [CreateExternalAccountLinkDto](doc/CreateExternalAccountLinkDto.md)
+ - [CreateOpeningBalanceDto](doc/CreateOpeningBalanceDto.md)
  - [CreatePayeeDto](doc/CreatePayeeDto.md)
  - [CreatePayeeProfileDto](doc/CreatePayeeProfileDto.md)
  - [CreatePlatformDto](doc/CreatePlatformDto.md)
@@ -419,6 +421,7 @@ Class | Method | HTTP request | Description
  - [NlpTransactionInfoDto](doc/NlpTransactionInfoDto.md)
  - [OnboardingAccountDto](doc/OnboardingAccountDto.md)
  - [OnboardingDto](doc/OnboardingDto.md)
+ - [OpeningBalanceResultDto](doc/OpeningBalanceResultDto.md)
  - [PadReconciliationDto](doc/PadReconciliationDto.md)
  - [PadResultDto](doc/PadResultDto.md)
  - [PayeeAutocompleteResponseDto](doc/PayeeAutocompleteResponseDto.md)
