@@ -114,7 +114,7 @@ class _$UpdateAccountDto extends UpdateAccountDto {
   @override
   final String? icon;
   @override
-  final JsonObject? openMeta;
+  final JsonObject? openDirectiveMeta;
   @override
   final String? platformId;
 
@@ -126,7 +126,7 @@ class _$UpdateAccountDto extends UpdateAccountDto {
       {this.currencies,
       this.bookingMethod,
       this.icon,
-      this.openMeta,
+      this.openDirectiveMeta,
       this.platformId})
       : super._();
 
@@ -145,7 +145,7 @@ class _$UpdateAccountDto extends UpdateAccountDto {
         currencies == other.currencies &&
         bookingMethod == other.bookingMethod &&
         icon == other.icon &&
-        openMeta == other.openMeta &&
+        openDirectiveMeta == other.openDirectiveMeta &&
         platformId == other.platformId;
   }
 
@@ -155,7 +155,7 @@ class _$UpdateAccountDto extends UpdateAccountDto {
     _$hash = $jc(_$hash, currencies.hashCode);
     _$hash = $jc(_$hash, bookingMethod.hashCode);
     _$hash = $jc(_$hash, icon.hashCode);
-    _$hash = $jc(_$hash, openMeta.hashCode);
+    _$hash = $jc(_$hash, openDirectiveMeta.hashCode);
     _$hash = $jc(_$hash, platformId.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
@@ -167,7 +167,7 @@ class _$UpdateAccountDto extends UpdateAccountDto {
           ..add('currencies', currencies)
           ..add('bookingMethod', bookingMethod)
           ..add('icon', icon)
-          ..add('openMeta', openMeta)
+          ..add('openDirectiveMeta', openDirectiveMeta)
           ..add('platformId', platformId))
         .toString();
   }
@@ -192,9 +192,10 @@ class UpdateAccountDtoBuilder
   String? get icon => _$this._icon;
   set icon(String? icon) => _$this._icon = icon;
 
-  JsonObject? _openMeta;
-  JsonObject? get openMeta => _$this._openMeta;
-  set openMeta(JsonObject? openMeta) => _$this._openMeta = openMeta;
+  JsonObject? _openDirectiveMeta;
+  JsonObject? get openDirectiveMeta => _$this._openDirectiveMeta;
+  set openDirectiveMeta(JsonObject? openDirectiveMeta) =>
+      _$this._openDirectiveMeta = openDirectiveMeta;
 
   String? _platformId;
   String? get platformId => _$this._platformId;
@@ -210,7 +211,7 @@ class UpdateAccountDtoBuilder
       _currencies = $v.currencies?.toBuilder();
       _bookingMethod = $v.bookingMethod;
       _icon = $v.icon;
-      _openMeta = $v.openMeta;
+      _openDirectiveMeta = $v.openDirectiveMeta;
       _platformId = $v.platformId;
       _$v = null;
     }
@@ -239,7 +240,7 @@ class UpdateAccountDtoBuilder
               currencies: _currencies?.build(),
               bookingMethod: bookingMethod,
               icon: icon,
-              openMeta: openMeta,
+              openDirectiveMeta: openDirectiveMeta,
               platformId: platformId);
     } catch (_) {
       late String _$failedField;

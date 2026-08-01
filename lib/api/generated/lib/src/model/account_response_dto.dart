@@ -25,7 +25,7 @@ part 'account_response_dto.g.dart';
 /// * [isCustom] - Whether this is a custom (user-created) account
 /// * [displayName] - Localized display name (ADR-0114, read-time projection)
 /// * [icon] - Icon identifier
-/// * [openMeta] - Account metadata
+/// * [openDirectiveMeta] - Open directive metadata (ADR-0115 Decision 9)
 /// * [platformId] - Platform ID (null if unbound)
 /// * [platform] - Platform details (populated if platformId is set)
 /// * [createdAt] - Created timestamp
@@ -83,9 +83,9 @@ abstract class AccountResponseDto implements Built<AccountResponseDto, AccountRe
   @BuiltValueField(wireName: r'icon')
   String? get icon;
 
-  /// Account metadata
-  @BuiltValueField(wireName: r'openMeta')
-  JsonObject? get openMeta;
+  /// Open directive metadata (ADR-0115 Decision 9)
+  @BuiltValueField(wireName: r'openDirectiveMeta')
+  JsonObject? get openDirectiveMeta;
 
   /// Platform ID (null if unbound)
   @BuiltValueField(wireName: r'platformId')
@@ -196,10 +196,10 @@ class _$AccountResponseDtoSerializer implements PrimitiveSerializer<AccountRespo
         specifiedType: const FullType(String),
       );
     }
-    if (object.openMeta != null) {
-      yield r'openMeta';
+    if (object.openDirectiveMeta != null) {
+      yield r'openDirectiveMeta';
       yield serializers.serialize(
-        object.openMeta,
+        object.openDirectiveMeta,
         specifiedType: const FullType(JsonObject),
       );
     }
@@ -334,12 +334,12 @@ class _$AccountResponseDtoSerializer implements PrimitiveSerializer<AccountRespo
           ) as String;
           result.icon = valueDes;
           break;
-        case r'openMeta':
+        case r'openDirectiveMeta':
           final valueDes = serializers.deserialize(
             value,
             specifiedType: const FullType(JsonObject),
           ) as JsonObject;
-          result.openMeta = valueDes;
+          result.openDirectiveMeta = valueDes;
           break;
         case r'platformId':
           final valueDes = serializers.deserialize(
