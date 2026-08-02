@@ -182,6 +182,11 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(PlatformGroupDto.serializer)
       ..add(PlatformListItemDto.serializer)
       ..add(PlatformListItemDtoTypeEnum.serializer)
+      ..add(PlatformMatchResponseDto.serializer)
+      ..add(PlatformMatchResponseDtoMatchTypeEnum.serializer)
+      ..add(PlatformMatchResultDto.serializer)
+      ..add(PlatformMatchResultDtoMatchTypeEnum.serializer)
+      ..add(PlatformMatchResultDtoTypeEnum.serializer)
       ..add(PortfolioTrendsResponseDto.serializer)
       ..add(PostingDetailDto.serializer)
       ..add(PostingResponseDto.serializer)
@@ -539,6 +544,10 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(PlatformGroupDto)]),
           () => new ListBuilder<PlatformGroupDto>())
+      ..addBuilderFactory(
+          const FullType(
+              BuiltList, const [const FullType(PlatformMatchResultDto)]),
+          () => new ListBuilder<PlatformMatchResultDto>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(PostingResponseDto)]),
           () => new ListBuilder<PostingResponseDto>())
