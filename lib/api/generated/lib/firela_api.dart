@@ -179,6 +179,7 @@ export 'package:firela_api/src/model/payee_profile_response_dto.dart';
 export 'package:firela_api/src/model/payee_response_dto.dart';
 export 'package:firela_api/src/model/payee_stats_response_dto.dart';
 export 'package:firela_api/src/model/platform_group_dto.dart';
+export 'package:firela_api/src/model/platform_list_item_dto.dart';
 export 'package:firela_api/src/model/portfolio_trends_response_dto.dart';
 export 'package:firela_api/src/model/posting_detail_dto.dart';
 export 'package:firela_api/src/model/posting_response_dto.dart';
