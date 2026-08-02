@@ -431,6 +431,7 @@ Class | Method | HTTP request | Description
  - [PayeeResponseDto](doc/PayeeResponseDto.md)
  - [PayeeStatsResponseDto](doc/PayeeStatsResponseDto.md)
  - [PlatformGroupDto](doc/PlatformGroupDto.md)
+ - [PlatformListItemDto](doc/PlatformListItemDto.md)
  - [PortfolioTrendsResponseDto](doc/PortfolioTrendsResponseDto.md)
  - [PostingDetailDto](doc/PostingDetailDto.md)
  - [PostingResponseDto](doc/PostingResponseDto.md)

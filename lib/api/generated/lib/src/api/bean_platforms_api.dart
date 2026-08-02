@@ -7,8 +7,10 @@ import 'dart:async';
 import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
 
+import 'package:built_collection/built_collection.dart';
 import 'package:firela_api/src/api_util.dart';
 import 'package:firela_api/src/model/create_platform_dto.dart';
+import 'package:firela_api/src/model/platform_list_item_dto.dart';
 import 'package:firela_api/src/model/update_platform_dto.dart';
 
 class BeanPlatformsApi {
@@ -189,9 +191,9 @@ class BeanPlatformsApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future]
+  /// Returns a [Future] containing a [Response] with a [BuiltList<PlatformListItemDto>] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<void>> platformControllerGetPlatformList({ 
+  Future<Response<BuiltList<PlatformListItemDto>>> platformControllerGetPlatformList({ 
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -220,7 +222,35 @@ class BeanPlatformsApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    return _response;
+    BuiltList<PlatformListItemDto>? _responseData;
+
+    try {
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(BuiltList, [FullType(PlatformListItemDto)]),
+      ) as BuiltList<PlatformListItemDto>;
+
+    } catch (error, stackTrace) {
+      throw DioException(
+        requestOptions: _response.requestOptions,
+        response: _response,
+        type: DioExceptionType.unknown,
+        error: error,
+        stackTrace: stackTrace,
+      );
+    }
+
+    return Response<BuiltList<PlatformListItemDto>>(
+      data: _responseData,
+      headers: _response.headers,
+      isRedirect: _response.isRedirect,
+      requestOptions: _response.requestOptions,
+      redirects: _response.redirects,
+      statusCode: _response.statusCode,
+      statusMessage: _response.statusMessage,
+      extra: _response.extra,
+    );
   }
 
   /// Match platforms by name or alias

@@ -180,6 +180,7 @@ lib/src/model/payee_profile_response_dto.dart
 lib/src/model/payee_response_dto.dart
 lib/src/model/payee_stats_response_dto.dart
 lib/src/model/platform_group_dto.dart
+lib/src/model/platform_list_item_dto.dart
 lib/src/model/portfolio_trends_response_dto.dart
 lib/src/model/posting_detail_dto.dart
 lib/src/model/posting_response_dto.dart

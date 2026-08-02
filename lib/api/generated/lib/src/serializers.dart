@@ -149,6 +149,7 @@ import 'package:firela_api/src/model/payee_profile_response_dto.dart';
 import 'package:firela_api/src/model/payee_response_dto.dart';
 import 'package:firela_api/src/model/payee_stats_response_dto.dart';
 import 'package:firela_api/src/model/platform_group_dto.dart';
+import 'package:firela_api/src/model/platform_list_item_dto.dart';
 import 'package:firela_api/src/model/portfolio_trends_response_dto.dart';
 import 'package:firela_api/src/model/posting_detail_dto.dart';
 import 'package:firela_api/src/model/posting_response_dto.dart';
@@ -353,6 +354,7 @@ part 'serializers.g.dart';
   PayeeResponseDto,
   PayeeStatsResponseDto,
   PlatformGroupDto,
+  PlatformListItemDto,
   PortfolioTrendsResponseDto,
   PostingDetailDto,
   PostingResponseDto,
@@ -420,6 +422,10 @@ part 'serializers.g.dart';
   VersionedConfigDto,
 ])
 Serializers serializers = (_$serializers.toBuilder()
+      ..addBuilderFactory(
+        const FullType(BuiltList, [FullType(PlatformListItemDto)]),
+        () => ListBuilder<PlatformListItemDto>(),
+      )
       ..addBuilderFactory(
         const FullType(BuiltList, [FullType(RecurringRuleResponseDto)]),
         () => ListBuilder<RecurringRuleResponseDto>(),
