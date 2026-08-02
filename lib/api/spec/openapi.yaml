@@ -5352,7 +5352,11 @@ paths:
             type: string
       responses:
         '200':
-          description: List of matching platforms with suggested segment names
+          description: Matching platforms with overall match type and truncation flag
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlatformMatchResponseDto'
       tags:
         - Bean Platforms
       security:
@@ -11622,6 +11626,78 @@ components:
         - suggestedSegment
         - logoUrl
         - isBound
+    PlatformMatchResultDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Global platform ID
+        name:
+          type: string
+          description: Platform name (e.g., "ICBC")
+        canonical:
+          type: string
+          description: Canonical identifier in ACCOUNT_RE format (e.g., "icbc")
+        type:
+          type: string
+          description: Platform type
+          enum:
+            - BANK
+            - BROKERAGE
+            - CRYPTO_EXCHANGE
+            - PAYMENT
+            - INVESTMENT
+            - INSURANCE
+            - OTHER
+        suggestedSegment:
+          type: string
+          description: Suggested path segment — canonical, already in ACCOUNT_RE format
+        logoUrl:
+          type: string
+          description: Logo URL
+          nullable: true
+        matchType:
+          type: string
+          description: 'How this row matched: ''exact'' > ''prefix'' > ''substring'''
+          enum:
+            - exact
+            - prefix
+            - substring
+      required:
+        - id
+        - name
+        - canonical
+        - type
+        - suggestedSegment
+        - logoUrl
+        - matchType
+    PlatformMatchResponseDto:
+      type: object
+      properties:
+        platforms:
+          description: Ranked matches, best tier first (at most 10 rows)
+          type: array
+          items:
+            $ref: '#/components/schemas/PlatformMatchResultDto'
+        matchType:
+          type: string
+          description: Overall match quality — top row's tier, or 'none' when no hits
+          enum:
+            - none
+            - exact
+            - prefix
+            - substring
+        total:
+          type: number
+          description: Total matches before LIMIT (truncation transparency)
+        hasMore:
+          type: boolean
+          description: true when total > platforms.length (more matches exist)
+      required:
+        - platforms
+        - matchType
+        - total
+        - hasMore
     CreatePlatformDto:
       type: object
       properties:
