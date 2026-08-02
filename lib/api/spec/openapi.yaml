@@ -5321,6 +5321,12 @@ paths:
       responses:
         '200':
           description: List of platforms with user binding status
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PlatformListItemDto'
       tags:
         - Bean Platforms
       security:
@@ -5335,7 +5341,7 @@ paths:
           in: query
           description: Search query — Chinese name, English name, or abbreviation
           schema:
-            example: 工行
+            example: ICBC
             type: string
         - name: region
           required: false
@@ -11569,6 +11575,53 @@ components:
       required:
         - status
         - action
+    PlatformListItemDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Global platform ID
+        name:
+          type: string
+          description: Platform name
+        url:
+          type: string
+          description: Platform URL
+        type:
+          type: string
+          description: Platform type
+          enum:
+            - BANK
+            - BROKERAGE
+            - CRYPTO_EXCHANGE
+            - PAYMENT
+            - INVESTMENT
+            - INSURANCE
+            - OTHER
+        canonical:
+          type: string
+          description: Canonical identifier in ACCOUNT_RE format (e.g., "icbc")
+        suggestedSegment:
+          type: string
+          description: >-
+            Suggested path segment — canonical with first char uppercased
+            (ACC_COMP_NAME_RE)
+        logoUrl:
+          type: string
+          description: Logo URL
+          nullable: true
+        isBound:
+          type: boolean
+          description: Whether user has accounts using this platform
+      required:
+        - id
+        - name
+        - url
+        - type
+        - canonical
+        - suggestedSegment
+        - logoUrl
+        - isBound
     CreatePlatformDto:
       type: object
       properties:
