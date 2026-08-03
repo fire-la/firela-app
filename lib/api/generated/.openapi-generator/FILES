@@ -57,6 +57,7 @@ lib/src/model/actual_balance_dto.dart
 lib/src/model/amount_dto.dart
 lib/src/model/amount_range_dto.dart
 lib/src/model/anonymous_login_dto.dart
+lib/src/model/anonymous_login_response_dto.dart
 lib/src/model/api_problem_response_dto.dart
 lib/src/model/assert_reconciliation_dto.dart
 lib/src/model/asset_class_accounts_response_dto.dart
@@ -213,6 +214,7 @@ lib/src/model/review_summary_dto_transaction.dart
 lib/src/model/rule_statistics_response_dto.dart
 lib/src/model/rule_statistics_response_dto_rule_stats_inner.dart
 lib/src/model/signup_dto.dart
+lib/src/model/signup_response_dto.dart
 lib/src/model/supported_providers_response_dto.dart
 lib/src/model/tag_suggestion_dto.dart
 lib/src/model/tag_suggestions_response_dto.dart
