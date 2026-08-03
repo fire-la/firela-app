@@ -3132,6 +3132,508 @@ paths:
         - Recurring Forecast
       security:
         - bearer: []
+  /api/v1/{region}/reporting/portfolio/trends:
+    get:
+      operationId: ReportingController_getPortfolioTrends
+      summary: Get portfolio value trends
+      description: |-
+
+        Returns time series data of portfolio net worth.
+
+        **Multi-currency Support:**
+        - `series[].byCurrency` - Currency breakdown for each data point
+        - `byCurrency` - Separate time series grouped by currency
+        - `warnings` - Exchange rate warnings if conversion failed
+
+        **Parameters:**
+        - `period`: Time period (1m, 3m, 6m, 1y)
+        - `granularity`: Data granularity (day, week, month)
+            
+      parameters:
+        - name: period
+          required: false
+          in: query
+          description: Time period
+          schema:
+            default: 6m
+            enum:
+              - 1m
+              - 3m
+              - 6m
+              - 1y
+            type: string
+        - name: granularity
+          required: false
+          in: query
+          description: Data granularity
+          schema:
+            default: month
+            enum:
+              - day
+              - week
+              - month
+            type: string
+        - name: region
+          required: true
+          in: path
+          description: Region code for tenant context
+          schema:
+            enum:
+              - cn
+              - us
+              - de
+              - gb
+            type: string
+      responses:
+        '200':
+          description: Trends retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PortfolioTrendsResponseDto'
+        '401':
+          description: User not authenticated
+      tags:
+        - Reporting
+      security:
+        - bearer: []
+  /api/v1/{region}/reporting/cash-flow/trends:
+    get:
+      operationId: ReportingController_getCashFlowTrends
+      summary: Get cash-flow trends
+      description: >-
+
+        Monthly income / expense / netSavings over a fixed N-month window
+
+        (current month + N−1 prior). Missing months are zero-filled (flow
+        metric).
+
+
+        **Parameters:**
+
+        - `period`: 1m | 3m | 6m | 1y (default 6m)
+
+        - `granularity`: accepted for API symmetry; v1 returns month buckets
+            
+      parameters:
+        - name: period
+          required: false
+          in: query
+          description: Time period
+          schema:
+            default: 6m
+            enum:
+              - 1m
+              - 3m
+              - 6m
+              - 1y
+            type: string
+        - name: granularity
+          required: false
+          in: query
+          description: >-
+            Data granularity (accepted for API symmetry; v1 returns month
+            buckets)
+          schema:
+            default: month
+            enum:
+              - day
+              - week
+              - month
+            type: string
+        - name: region
+          required: true
+          in: path
+          description: Region code for tenant context
+          schema:
+            enum:
+              - cn
+              - us
+              - de
+              - gb
+            type: string
+      responses:
+        '200':
+          description: Cash-flow trends retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CashFlowTrendsResponseDto'
+        '401':
+          description: User not authenticated
+      tags:
+        - Reporting
+      security:
+        - bearer: []
+  /api/v1/{region}/reporting/snapshots/generate:
+    post:
+      operationId: ReportingController_generateSnapshot
+      summary: Generate portfolio snapshot
+      description: |-
+
+        Manually generate a portfolio snapshot for a specific date.
+
+        **Multi-currency Support:**
+        - Fetches balances grouped by currency
+        - Uses user's baseCurrency setting for conversion
+        - Stores exchange rates and warnings
+
+        **Use Cases:**
+        - Testing snapshot generation
+        - Force regeneration after data correction
+        - Initial setup for new users
+            
+      parameters:
+        - name: region
+          required: true
+          in: path
+          description: Region code for tenant context
+          schema:
+            enum:
+              - cn
+              - us
+              - de
+              - gb
+            type: string
+      requestBody:
+        required: true
+        description: Optional date (defaults to today)
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenerateSnapshotBody'
+            examples:
+              today:
+                summary: Generate for today
+                value: {}
+              specificDate:
+                summary: Generate for specific date
+                value:
+                  date: '2024-06-15'
+      responses:
+        '200':
+          description: Snapshot generated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenerateSnapshotResponse'
+        '400':
+          description: Invalid date format
+        '401':
+          description: User not authenticated
+      tags:
+        - Reporting
+      security:
+        - bearer: []
+  /api/v1/{region}/reporting/snapshots/backfill:
+    post:
+      operationId: ReportingController_backfillSnapshots
+      summary: Backfill portfolio snapshots
+      description: |-
+
+        Generate snapshots for a date range (historical data backfill).
+
+        **Multi-currency Support:**
+        - Each snapshot includes multi-currency data
+        - Uses exchange rates available at generation time
+        - Warnings stored for missing exchange rates
+
+        **Best Practices:**
+        - Use for initial setup after account configuration
+        - Run during low-traffic periods for large date ranges
+        - Existing snapshots are skipped (not regenerated)
+            
+      parameters:
+        - name: region
+          required: true
+          in: path
+          description: Region code for tenant context
+          schema:
+            enum:
+              - cn
+              - us
+              - de
+              - gb
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BackfillSnapshotsBody'
+            examples:
+              example:
+                summary: Backfill 6 months
+                value:
+                  startDate: '2024-01-01'
+                  endDate: '2024-06-30'
+      responses:
+        '200':
+          description: Backfill completed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BackfillSnapshotsResponse'
+        '400':
+          description: Invalid date format or range
+        '401':
+          description: User not authenticated
+        '409':
+          description: Backfill already in progress for this user
+      tags:
+        - Reporting
+      security:
+        - bearer: []
+  /api/v1/users:
+    delete:
+      operationId: UserController_deleteOwnUser
+      summary: Delete own user account
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteOwnUserDto'
+      responses:
+        '204':
+          description: User deleted successfully
+        '403':
+          description: Invalid access token
+      tags:
+        - Users
+      security:
+        - bearer: []
+    get:
+      operationId: UserController_getUser
+      summary: Get current authenticated user
+      parameters:
+        - name: accept-language
+          required: true
+          in: header
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User retrieved successfully
+      tags:
+        - Users
+      security:
+        - bearer: []
+    post:
+      operationId: UserController_signupUser
+      summary: Sign up new user
+      description: >-
+        Create a new account with auto-generated access token. Protected by
+        Cloudflare Turnstile to prevent automated signup (when enabled).
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignupDto'
+      responses:
+        '201':
+          description: User created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SignupResponseDto'
+        '400':
+          description: Invalid Turnstile token (when Turnstile is enabled)
+        '403':
+          description: User signup is disabled
+      tags:
+        - Users
+      security:
+        - bearer: []
+  /api/v1/users/{id}:
+    delete:
+      operationId: UserController_deleteUser
+      summary: Delete user by ID (admin only)
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: User ID to delete
+          schema:
+            type: string
+      responses:
+        '204':
+          description: User deleted successfully
+        '403':
+          description: Cannot delete own account or insufficient permissions
+      tags:
+        - Users
+      security:
+        - bearer: []
+  /api/v1/users/{id}/info:
+    get:
+      operationId: UserController_getUserInfo
+      summary: Get user info by user ID
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: User ID
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User info retrieved successfully
+        '403':
+          description: Cannot access other user info without admin permission
+      tags:
+        - Users
+      security:
+        - bearer: []
+  /api/v1/users/setting:
+    put:
+      operationId: UserController_updateUserSetting
+      summary: Update user settings
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserSettingDto'
+      responses:
+        '200':
+          description: Settings updated successfully
+        '403':
+          description: Insufficient permissions
+      tags:
+        - Users
+      security:
+        - bearer: []
+  /api/v1/users/settings-by-page:
+    get:
+      operationId: UserController_getAllUserSettingsByPage
+      summary: Get all user settings paginated (admin only)
+      parameters:
+        - name: pageNo
+          required: true
+          in: query
+          description: Page number
+          schema:
+            type: number
+        - name: pageSize
+          required: true
+          in: query
+          description: Page size
+          schema:
+            type: number
+      responses:
+        '200':
+          description: Settings list retrieved successfully
+      tags:
+        - Users
+      security:
+        - bearer: []
+  /api/v1/users/asset-liability-summary:
+    get:
+      operationId: UserController_getAssetLiabilitySummary
+      summary: Get asset and liability summary for current user
+      parameters: []
+      responses:
+        '200':
+          description: Summary retrieved successfully
+      tags:
+        - Users
+      security:
+        - bearer: []
+  /api/v1/admin/properties:
+    get:
+      operationId: PropertyController_getAll
+      summary: Get all system properties
+      parameters: []
+      responses:
+        '200':
+          description: Properties retrieved successfully
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden - insufficient permissions
+      tags:
+        - Properties
+      security:
+        - bearer: []
+  /api/v1/admin/properties/{key}:
+    get:
+      operationId: PropertyController_getByKey
+      summary: Get property by key
+      parameters:
+        - name: key
+          required: true
+          in: path
+          description: Property key
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Property retrieved successfully
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden - insufficient permissions
+        '404':
+          description: Property not found
+      tags:
+        - Properties
+      security:
+        - bearer: []
+    put:
+      operationId: PropertyController_update
+      summary: Update a system property
+      parameters:
+        - name: key
+          required: true
+          in: path
+          description: Property key
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatePropertyDto'
+      responses:
+        '200':
+          description: Property updated successfully
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden - insufficient permissions
+      tags:
+        - Properties
+      security:
+        - bearer: []
+    delete:
+      operationId: PropertyController_delete
+      summary: Delete a system property
+      parameters:
+        - name: key
+          required: true
+          in: path
+          description: Property key
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Property deleted successfully
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden - insufficient permissions
+        '404':
+          description: Property not found
+      tags:
+        - Properties
+      security:
+        - bearer: []
   /api/v1/{region}/bean/transaction-rules:
     post:
       operationId: TransactionRuleController_create
@@ -3665,508 +4167,6 @@ paths:
                 $ref: '#/components/schemas/ApiProblemResponseDto'
       tags:
         - Bean Transaction Rules
-      security:
-        - bearer: []
-  /api/v1/users:
-    delete:
-      operationId: UserController_deleteOwnUser
-      summary: Delete own user account
-      parameters: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/DeleteOwnUserDto'
-      responses:
-        '204':
-          description: User deleted successfully
-        '403':
-          description: Invalid access token
-      tags:
-        - Users
-      security:
-        - bearer: []
-    get:
-      operationId: UserController_getUser
-      summary: Get current authenticated user
-      parameters:
-        - name: accept-language
-          required: true
-          in: header
-          schema:
-            type: string
-      responses:
-        '200':
-          description: User retrieved successfully
-      tags:
-        - Users
-      security:
-        - bearer: []
-    post:
-      operationId: UserController_signupUser
-      summary: Sign up new user
-      description: >-
-        Create a new account with auto-generated access token. Protected by
-        Cloudflare Turnstile to prevent automated signup (when enabled).
-      parameters: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/SignupDto'
-      responses:
-        '201':
-          description: User created successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SignupResponseDto'
-        '400':
-          description: Invalid Turnstile token (when Turnstile is enabled)
-        '403':
-          description: User signup is disabled
-      tags:
-        - Users
-      security:
-        - bearer: []
-  /api/v1/users/{id}:
-    delete:
-      operationId: UserController_deleteUser
-      summary: Delete user by ID (admin only)
-      parameters:
-        - name: id
-          required: true
-          in: path
-          description: User ID to delete
-          schema:
-            type: string
-      responses:
-        '204':
-          description: User deleted successfully
-        '403':
-          description: Cannot delete own account or insufficient permissions
-      tags:
-        - Users
-      security:
-        - bearer: []
-  /api/v1/users/{id}/info:
-    get:
-      operationId: UserController_getUserInfo
-      summary: Get user info by user ID
-      parameters:
-        - name: id
-          required: true
-          in: path
-          description: User ID
-          schema:
-            type: string
-      responses:
-        '200':
-          description: User info retrieved successfully
-        '403':
-          description: Cannot access other user info without admin permission
-      tags:
-        - Users
-      security:
-        - bearer: []
-  /api/v1/users/setting:
-    put:
-      operationId: UserController_updateUserSetting
-      summary: Update user settings
-      parameters: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UpdateUserSettingDto'
-      responses:
-        '200':
-          description: Settings updated successfully
-        '403':
-          description: Insufficient permissions
-      tags:
-        - Users
-      security:
-        - bearer: []
-  /api/v1/users/settings-by-page:
-    get:
-      operationId: UserController_getAllUserSettingsByPage
-      summary: Get all user settings paginated (admin only)
-      parameters:
-        - name: pageNo
-          required: true
-          in: query
-          description: Page number
-          schema:
-            type: number
-        - name: pageSize
-          required: true
-          in: query
-          description: Page size
-          schema:
-            type: number
-      responses:
-        '200':
-          description: Settings list retrieved successfully
-      tags:
-        - Users
-      security:
-        - bearer: []
-  /api/v1/users/asset-liability-summary:
-    get:
-      operationId: UserController_getAssetLiabilitySummary
-      summary: Get asset and liability summary for current user
-      parameters: []
-      responses:
-        '200':
-          description: Summary retrieved successfully
-      tags:
-        - Users
-      security:
-        - bearer: []
-  /api/v1/admin/properties:
-    get:
-      operationId: PropertyController_getAll
-      summary: Get all system properties
-      parameters: []
-      responses:
-        '200':
-          description: Properties retrieved successfully
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden - insufficient permissions
-      tags:
-        - Properties
-      security:
-        - bearer: []
-  /api/v1/admin/properties/{key}:
-    get:
-      operationId: PropertyController_getByKey
-      summary: Get property by key
-      parameters:
-        - name: key
-          required: true
-          in: path
-          description: Property key
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Property retrieved successfully
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden - insufficient permissions
-        '404':
-          description: Property not found
-      tags:
-        - Properties
-      security:
-        - bearer: []
-    put:
-      operationId: PropertyController_update
-      summary: Update a system property
-      parameters:
-        - name: key
-          required: true
-          in: path
-          description: Property key
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UpdatePropertyDto'
-      responses:
-        '200':
-          description: Property updated successfully
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden - insufficient permissions
-      tags:
-        - Properties
-      security:
-        - bearer: []
-    delete:
-      operationId: PropertyController_delete
-      summary: Delete a system property
-      parameters:
-        - name: key
-          required: true
-          in: path
-          description: Property key
-          schema:
-            type: string
-      responses:
-        '204':
-          description: Property deleted successfully
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden - insufficient permissions
-        '404':
-          description: Property not found
-      tags:
-        - Properties
-      security:
-        - bearer: []
-  /api/v1/{region}/reporting/portfolio/trends:
-    get:
-      operationId: ReportingController_getPortfolioTrends
-      summary: Get portfolio value trends
-      description: |-
-
-        Returns time series data of portfolio net worth.
-
-        **Multi-currency Support:**
-        - `series[].byCurrency` - Currency breakdown for each data point
-        - `byCurrency` - Separate time series grouped by currency
-        - `warnings` - Exchange rate warnings if conversion failed
-
-        **Parameters:**
-        - `period`: Time period (1m, 3m, 6m, 1y)
-        - `granularity`: Data granularity (day, week, month)
-            
-      parameters:
-        - name: period
-          required: false
-          in: query
-          description: Time period
-          schema:
-            default: 6m
-            enum:
-              - 1m
-              - 3m
-              - 6m
-              - 1y
-            type: string
-        - name: granularity
-          required: false
-          in: query
-          description: Data granularity
-          schema:
-            default: month
-            enum:
-              - day
-              - week
-              - month
-            type: string
-        - name: region
-          required: true
-          in: path
-          description: Region code for tenant context
-          schema:
-            enum:
-              - cn
-              - us
-              - de
-              - gb
-            type: string
-      responses:
-        '200':
-          description: Trends retrieved successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PortfolioTrendsResponseDto'
-        '401':
-          description: User not authenticated
-      tags:
-        - Reporting
-      security:
-        - bearer: []
-  /api/v1/{region}/reporting/cash-flow/trends:
-    get:
-      operationId: ReportingController_getCashFlowTrends
-      summary: Get cash-flow trends
-      description: >-
-
-        Monthly income / expense / netSavings over a fixed N-month window
-
-        (current month + N−1 prior). Missing months are zero-filled (flow
-        metric).
-
-
-        **Parameters:**
-
-        - `period`: 1m | 3m | 6m | 1y (default 6m)
-
-        - `granularity`: accepted for API symmetry; v1 returns month buckets
-            
-      parameters:
-        - name: period
-          required: false
-          in: query
-          description: Time period
-          schema:
-            default: 6m
-            enum:
-              - 1m
-              - 3m
-              - 6m
-              - 1y
-            type: string
-        - name: granularity
-          required: false
-          in: query
-          description: >-
-            Data granularity (accepted for API symmetry; v1 returns month
-            buckets)
-          schema:
-            default: month
-            enum:
-              - day
-              - week
-              - month
-            type: string
-        - name: region
-          required: true
-          in: path
-          description: Region code for tenant context
-          schema:
-            enum:
-              - cn
-              - us
-              - de
-              - gb
-            type: string
-      responses:
-        '200':
-          description: Cash-flow trends retrieved successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CashFlowTrendsResponseDto'
-        '401':
-          description: User not authenticated
-      tags:
-        - Reporting
-      security:
-        - bearer: []
-  /api/v1/{region}/reporting/snapshots/generate:
-    post:
-      operationId: ReportingController_generateSnapshot
-      summary: Generate portfolio snapshot
-      description: |-
-
-        Manually generate a portfolio snapshot for a specific date.
-
-        **Multi-currency Support:**
-        - Fetches balances grouped by currency
-        - Uses user's baseCurrency setting for conversion
-        - Stores exchange rates and warnings
-
-        **Use Cases:**
-        - Testing snapshot generation
-        - Force regeneration after data correction
-        - Initial setup for new users
-            
-      parameters:
-        - name: region
-          required: true
-          in: path
-          description: Region code for tenant context
-          schema:
-            enum:
-              - cn
-              - us
-              - de
-              - gb
-            type: string
-      requestBody:
-        required: true
-        description: Optional date (defaults to today)
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/GenerateSnapshotBody'
-            examples:
-              today:
-                summary: Generate for today
-                value: {}
-              specificDate:
-                summary: Generate for specific date
-                value:
-                  date: '2024-06-15'
-      responses:
-        '200':
-          description: Snapshot generated successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GenerateSnapshotResponse'
-        '400':
-          description: Invalid date format
-        '401':
-          description: User not authenticated
-      tags:
-        - Reporting
-      security:
-        - bearer: []
-  /api/v1/{region}/reporting/snapshots/backfill:
-    post:
-      operationId: ReportingController_backfillSnapshots
-      summary: Backfill portfolio snapshots
-      description: |-
-
-        Generate snapshots for a date range (historical data backfill).
-
-        **Multi-currency Support:**
-        - Each snapshot includes multi-currency data
-        - Uses exchange rates available at generation time
-        - Warnings stored for missing exchange rates
-
-        **Best Practices:**
-        - Use for initial setup after account configuration
-        - Run during low-traffic periods for large date ranges
-        - Existing snapshots are skipped (not regenerated)
-            
-      parameters:
-        - name: region
-          required: true
-          in: path
-          description: Region code for tenant context
-          schema:
-            enum:
-              - cn
-              - us
-              - de
-              - gb
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/BackfillSnapshotsBody'
-            examples:
-              example:
-                summary: Backfill 6 months
-                value:
-                  startDate: '2024-01-01'
-                  endDate: '2024-06-30'
-      responses:
-        '200':
-          description: Backfill completed successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BackfillSnapshotsResponse'
-        '400':
-          description: Invalid date format or range
-        '401':
-          description: User not authenticated
-        '409':
-          description: Backfill already in progress for this user
-      tags:
-        - Reporting
       security:
         - bearer: []
   /api/v1/{region}/bean/events:
@@ -9448,6 +9448,366 @@ components:
         - rulesCount
         - periodStart
         - periodEnd
+    CurrencyBalanceDto:
+      type: object
+      properties:
+        currency:
+          type: string
+          description: ISO 4217 currency code
+          example: CNY
+        balance:
+          type: string
+          description: Balance amount
+          example: '500000.00'
+      required:
+        - currency
+        - balance
+    TimeSeriesPointDto:
+      type: object
+      properties:
+        date:
+          type: string
+          description: Date in YYYY-MM-DD format
+          example: '2024-06-15'
+        value:
+          type: string
+          description: Value at this date (in base currency)
+          example: '500000.00'
+        change:
+          type: object
+          description: Change from previous point
+          example: '5000.00'
+        assets:
+          type: string
+          description: Total assets at this date (in base currency)
+          example: '494338.00'
+        liabilities:
+          type: string
+          description: Total liabilities at this date (in base currency)
+          example: '310098.00'
+        byCurrency:
+          description: Multi-currency breakdown for this point
+          type: array
+          items:
+            $ref: '#/components/schemas/CurrencyBalanceDto'
+      required:
+        - date
+        - value
+    TrendSummaryDto:
+      type: object
+      properties:
+        startValue:
+          type: string
+          description: Value at start of period
+          example: '450000.00'
+        endValue:
+          type: string
+          description: Value at end of period
+          example: '500000.00'
+        totalChange:
+          type: string
+          description: Total change over period
+          example: '50000.00'
+        totalChangePercentage:
+          type: string
+          description: Total change percentage
+          example: +11.11%
+      required:
+        - startValue
+        - endValue
+        - totalChange
+        - totalChangePercentage
+    MultiCurrencyPointDto:
+      type: object
+      properties:
+        date:
+          type: string
+          description: Date in YYYY-MM-DD format
+          example: '2024-06-15'
+        byCurrency:
+          description: Balances by currency
+          type: array
+          items:
+            $ref: '#/components/schemas/CurrencyBalanceDto'
+      required:
+        - date
+        - byCurrency
+    PortfolioTrendsResponseDto:
+      type: object
+      properties:
+        series:
+          description: Time series data points
+          type: array
+          items:
+            $ref: '#/components/schemas/TimeSeriesPointDto'
+        summary:
+          description: Period summary
+          allOf:
+            - $ref: '#/components/schemas/TrendSummaryDto'
+        period:
+          type: string
+          description: Period requested
+          example: 6m
+        granularity:
+          type: string
+          description: Data granularity
+          example: month
+        currency:
+          type: string
+          description: Base currency for converted values
+          example: CNY
+        byCurrency:
+          description: Multi-currency time series (each point has currency breakdown)
+          type: array
+          items:
+            $ref: '#/components/schemas/MultiCurrencyPointDto'
+        warnings:
+          description: Exchange rate warnings
+          type: array
+          items:
+            $ref: '#/components/schemas/ExchangeRateWarningDto'
+      required:
+        - series
+        - summary
+        - period
+        - granularity
+        - currency
+    CashFlowPointDto:
+      type: object
+      properties:
+        month:
+          type: string
+          description: Month key (YYYY-MM)
+          example: 2024-03
+        income:
+          type: string
+          description: Income in base currency (absolute, converted)
+          example: '10000.00'
+        expense:
+          type: string
+          description: Expense in base currency (absolute, converted)
+          example: '5000.00'
+        netSavings:
+          type: string
+          description: netSavings = income − expense (savings positive)
+          example: '5000.00'
+      required:
+        - month
+        - income
+        - expense
+        - netSavings
+    CashFlowTrendSummaryDto:
+      type: object
+      properties:
+        totalIncome:
+          type: string
+          description: Total income across the period
+          example: '60000.00'
+        totalExpense:
+          type: string
+          description: Total expense across the period
+          example: '30000.00'
+        totalNetSavings:
+          type: string
+          description: income − expense across the period
+          example: '30000.00'
+        averageMonthlyNetSavings:
+          type: string
+          description: >-
+            totalNetSavings divided by the window length (N months, incl.
+            zero-filled)
+          example: '5000.00'
+      required:
+        - totalIncome
+        - totalExpense
+        - totalNetSavings
+        - averageMonthlyNetSavings
+    CashFlowTrendsResponseDto:
+      type: object
+      properties:
+        series:
+          description: Monthly cash-flow series (fixed N-month window, zero-filled)
+          type: array
+          items:
+            $ref: '#/components/schemas/CashFlowPointDto'
+        summary:
+          description: Period totals
+          allOf:
+            - $ref: '#/components/schemas/CashFlowTrendSummaryDto'
+        period:
+          type: string
+          description: Period requested
+          example: 6m
+        granularity:
+          type: string
+          description: Data granularity (v1 returns month buckets)
+          example: month
+        currency:
+          type: string
+          description: Base currency for converted values
+          example: CNY
+        warnings:
+          description: Exchange rate warnings (e.g. missing rate for a currency)
+          type: array
+          items:
+            $ref: '#/components/schemas/ExchangeRateWarningDto'
+      required:
+        - series
+        - summary
+        - period
+        - granularity
+        - currency
+    GenerateSnapshotBody:
+      type: object
+      properties: {}
+    GenerateSnapshotResponse:
+      type: object
+      properties: {}
+    BackfillSnapshotsBody:
+      type: object
+      properties: {}
+    BackfillSnapshotsResponse:
+      type: object
+      properties: {}
+    DeleteOwnUserDto:
+      type: object
+      properties:
+        accessToken:
+          type: string
+          description: Access token for user verification
+          example: abc123xyz
+      required:
+        - accessToken
+    SignupDto:
+      type: object
+      properties:
+        turnstileToken:
+          type: string
+          description: >-
+            Cloudflare Turnstile verification token (optional when Turnstile
+            disabled)
+          example: 0.abc123def456...
+    SignupResponseDto:
+      type: object
+      properties:
+        authToken:
+          type: string
+          description: JWT auth token
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        accessToken:
+          type: string
+          description: Auto-generated access token
+        role:
+          type: string
+          description: Assigned user role
+          enum:
+            - USER
+            - ADMIN
+            - DEMO
+            - INACTIVE
+            - PAID
+            - OPS
+      required:
+        - authToken
+        - accessToken
+        - role
+    UpdateUserSettingDto:
+      type: object
+      properties:
+        secId:
+          type: number
+          description: Security ID
+        annualInterestRate:
+          type: number
+          description: Annual interest rate
+          example: 0.05
+        currency:
+          type: string
+          description: Currency code
+          example: USD
+        baseCurrency:
+          type: string
+          description: Base currency code
+          example: USD
+        benchmark:
+          type: string
+          description: Benchmark symbol
+          example: SPY
+        colorScheme:
+          type: string
+          description: Color scheme
+          enum:
+            - DARK
+            - LIGHT
+        dateRange:
+          type: string
+          description: Date range filter
+          example: 1y
+        emergencyFund:
+          type: number
+          description: Emergency fund amount
+          example: 10000
+        filters.accounts:
+          description: Account filter IDs
+          type: array
+          items:
+            type: string
+        filters.assetClasses:
+          description: Asset class filters
+          type: array
+          items:
+            type: string
+        filters.dataSource:
+          type: string
+          description: Data source filter
+        filters.symbol:
+          type: string
+          description: Symbol filter
+        filters.tags:
+          description: Tag filters
+          type: array
+          items:
+            type: string
+        isExperimentalFeatures:
+          type: boolean
+          description: Enable experimental features
+        isRestrictedView:
+          type: boolean
+          description: Enable restricted view mode
+        language:
+          type: string
+          description: Language code
+          example: en
+        locale:
+          type: string
+          description: Locale code
+          example: en-US
+        projectedTotalAmount:
+          type: number
+          description: Projected total amount
+          example: 1000000
+        retirementDate:
+          type: string
+          description: Retirement date in ISO 8601 format
+          example: '2050-01-01'
+        savingsRate:
+          type: number
+          description: Savings rate percentage
+          example: 0.2
+        viewMode:
+          type: string
+          description: View mode
+          enum:
+            - DEFAULT
+            - ZEN
+    UpdatePropertyDto:
+      type: object
+      properties:
+        value:
+          type: string
+          description: Property value
+      required:
+        - value
     CreateTransactionRuleDto:
       type: object
       properties:
@@ -9963,366 +10323,6 @@ components:
         - matches
         - confidence
         - matchDetails
-    DeleteOwnUserDto:
-      type: object
-      properties:
-        accessToken:
-          type: string
-          description: Access token for user verification
-          example: abc123xyz
-      required:
-        - accessToken
-    SignupDto:
-      type: object
-      properties:
-        turnstileToken:
-          type: string
-          description: >-
-            Cloudflare Turnstile verification token (optional when Turnstile
-            disabled)
-          example: 0.abc123def456...
-    SignupResponseDto:
-      type: object
-      properties:
-        authToken:
-          type: string
-          description: JWT auth token
-          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
-        accessToken:
-          type: string
-          description: Auto-generated access token
-        role:
-          type: string
-          description: Assigned user role
-          enum:
-            - USER
-            - ADMIN
-            - DEMO
-            - INACTIVE
-            - PAID
-            - OPS
-      required:
-        - authToken
-        - accessToken
-        - role
-    UpdateUserSettingDto:
-      type: object
-      properties:
-        secId:
-          type: number
-          description: Security ID
-        annualInterestRate:
-          type: number
-          description: Annual interest rate
-          example: 0.05
-        currency:
-          type: string
-          description: Currency code
-          example: USD
-        baseCurrency:
-          type: string
-          description: Base currency code
-          example: USD
-        benchmark:
-          type: string
-          description: Benchmark symbol
-          example: SPY
-        colorScheme:
-          type: string
-          description: Color scheme
-          enum:
-            - DARK
-            - LIGHT
-        dateRange:
-          type: string
-          description: Date range filter
-          example: 1y
-        emergencyFund:
-          type: number
-          description: Emergency fund amount
-          example: 10000
-        filters.accounts:
-          description: Account filter IDs
-          type: array
-          items:
-            type: string
-        filters.assetClasses:
-          description: Asset class filters
-          type: array
-          items:
-            type: string
-        filters.dataSource:
-          type: string
-          description: Data source filter
-        filters.symbol:
-          type: string
-          description: Symbol filter
-        filters.tags:
-          description: Tag filters
-          type: array
-          items:
-            type: string
-        isExperimentalFeatures:
-          type: boolean
-          description: Enable experimental features
-        isRestrictedView:
-          type: boolean
-          description: Enable restricted view mode
-        language:
-          type: string
-          description: Language code
-          example: en
-        locale:
-          type: string
-          description: Locale code
-          example: en-US
-        projectedTotalAmount:
-          type: number
-          description: Projected total amount
-          example: 1000000
-        retirementDate:
-          type: string
-          description: Retirement date in ISO 8601 format
-          example: '2050-01-01'
-        savingsRate:
-          type: number
-          description: Savings rate percentage
-          example: 0.2
-        viewMode:
-          type: string
-          description: View mode
-          enum:
-            - DEFAULT
-            - ZEN
-    UpdatePropertyDto:
-      type: object
-      properties:
-        value:
-          type: string
-          description: Property value
-      required:
-        - value
-    CurrencyBalanceDto:
-      type: object
-      properties:
-        currency:
-          type: string
-          description: ISO 4217 currency code
-          example: CNY
-        balance:
-          type: string
-          description: Balance amount
-          example: '500000.00'
-      required:
-        - currency
-        - balance
-    TimeSeriesPointDto:
-      type: object
-      properties:
-        date:
-          type: string
-          description: Date in YYYY-MM-DD format
-          example: '2024-06-15'
-        value:
-          type: string
-          description: Value at this date (in base currency)
-          example: '500000.00'
-        change:
-          type: object
-          description: Change from previous point
-          example: '5000.00'
-        assets:
-          type: string
-          description: Total assets at this date (in base currency)
-          example: '494338.00'
-        liabilities:
-          type: string
-          description: Total liabilities at this date (in base currency)
-          example: '310098.00'
-        byCurrency:
-          description: Multi-currency breakdown for this point
-          type: array
-          items:
-            $ref: '#/components/schemas/CurrencyBalanceDto'
-      required:
-        - date
-        - value
-    TrendSummaryDto:
-      type: object
-      properties:
-        startValue:
-          type: string
-          description: Value at start of period
-          example: '450000.00'
-        endValue:
-          type: string
-          description: Value at end of period
-          example: '500000.00'
-        totalChange:
-          type: string
-          description: Total change over period
-          example: '50000.00'
-        totalChangePercentage:
-          type: string
-          description: Total change percentage
-          example: +11.11%
-      required:
-        - startValue
-        - endValue
-        - totalChange
-        - totalChangePercentage
-    MultiCurrencyPointDto:
-      type: object
-      properties:
-        date:
-          type: string
-          description: Date in YYYY-MM-DD format
-          example: '2024-06-15'
-        byCurrency:
-          description: Balances by currency
-          type: array
-          items:
-            $ref: '#/components/schemas/CurrencyBalanceDto'
-      required:
-        - date
-        - byCurrency
-    PortfolioTrendsResponseDto:
-      type: object
-      properties:
-        series:
-          description: Time series data points
-          type: array
-          items:
-            $ref: '#/components/schemas/TimeSeriesPointDto'
-        summary:
-          description: Period summary
-          allOf:
-            - $ref: '#/components/schemas/TrendSummaryDto'
-        period:
-          type: string
-          description: Period requested
-          example: 6m
-        granularity:
-          type: string
-          description: Data granularity
-          example: month
-        currency:
-          type: string
-          description: Base currency for converted values
-          example: CNY
-        byCurrency:
-          description: Multi-currency time series (each point has currency breakdown)
-          type: array
-          items:
-            $ref: '#/components/schemas/MultiCurrencyPointDto'
-        warnings:
-          description: Exchange rate warnings
-          type: array
-          items:
-            $ref: '#/components/schemas/ExchangeRateWarningDto'
-      required:
-        - series
-        - summary
-        - period
-        - granularity
-        - currency
-    CashFlowPointDto:
-      type: object
-      properties:
-        month:
-          type: string
-          description: Month key (YYYY-MM)
-          example: 2024-03
-        income:
-          type: string
-          description: Income in base currency (absolute, converted)
-          example: '10000.00'
-        expense:
-          type: string
-          description: Expense in base currency (absolute, converted)
-          example: '5000.00'
-        netSavings:
-          type: string
-          description: netSavings = income − expense (savings positive)
-          example: '5000.00'
-      required:
-        - month
-        - income
-        - expense
-        - netSavings
-    CashFlowTrendSummaryDto:
-      type: object
-      properties:
-        totalIncome:
-          type: string
-          description: Total income across the period
-          example: '60000.00'
-        totalExpense:
-          type: string
-          description: Total expense across the period
-          example: '30000.00'
-        totalNetSavings:
-          type: string
-          description: income − expense across the period
-          example: '30000.00'
-        averageMonthlyNetSavings:
-          type: string
-          description: >-
-            totalNetSavings divided by the window length (N months, incl.
-            zero-filled)
-          example: '5000.00'
-      required:
-        - totalIncome
-        - totalExpense
-        - totalNetSavings
-        - averageMonthlyNetSavings
-    CashFlowTrendsResponseDto:
-      type: object
-      properties:
-        series:
-          description: Monthly cash-flow series (fixed N-month window, zero-filled)
-          type: array
-          items:
-            $ref: '#/components/schemas/CashFlowPointDto'
-        summary:
-          description: Period totals
-          allOf:
-            - $ref: '#/components/schemas/CashFlowTrendSummaryDto'
-        period:
-          type: string
-          description: Period requested
-          example: 6m
-        granularity:
-          type: string
-          description: Data granularity (v1 returns month buckets)
-          example: month
-        currency:
-          type: string
-          description: Base currency for converted values
-          example: CNY
-        warnings:
-          description: Exchange rate warnings (e.g. missing rate for a currency)
-          type: array
-          items:
-            $ref: '#/components/schemas/ExchangeRateWarningDto'
-      required:
-        - series
-        - summary
-        - period
-        - granularity
-        - currency
-    GenerateSnapshotBody:
-      type: object
-      properties: {}
-    GenerateSnapshotResponse:
-      type: object
-      properties: {}
-    BackfillSnapshotsBody:
-      type: object
-      properties: {}
-    BackfillSnapshotsResponse:
-      type: object
-      properties: {}
     CreateBeanEventDto:
       type: object
       properties:
