@@ -27,6 +27,7 @@ import 'package:firela_api/src/model/actual_balance_dto.dart';
 import 'package:firela_api/src/model/amount_dto.dart';
 import 'package:firela_api/src/model/amount_range_dto.dart';
 import 'package:firela_api/src/model/anonymous_login_dto.dart';
+import 'package:firela_api/src/model/anonymous_login_response_dto.dart';
 import 'package:firela_api/src/model/api_problem_response_dto.dart';
 import 'package:firela_api/src/model/assert_reconciliation_dto.dart';
 import 'package:firela_api/src/model/asset_class_accounts_response_dto.dart';
@@ -182,6 +183,7 @@ import 'package:firela_api/src/model/review_summary_dto_transaction.dart';
 import 'package:firela_api/src/model/rule_statistics_response_dto.dart';
 import 'package:firela_api/src/model/rule_statistics_response_dto_rule_stats_inner.dart';
 import 'package:firela_api/src/model/signup_dto.dart';
+import 'package:firela_api/src/model/signup_response_dto.dart';
 import 'package:firela_api/src/model/supported_providers_response_dto.dart';
 import 'package:firela_api/src/model/tag_suggestion_dto.dart';
 import 'package:firela_api/src/model/tag_suggestions_response_dto.dart';
@@ -234,6 +236,7 @@ part 'serializers.g.dart';
   AmountDto,
   AmountRangeDto,
   AnonymousLoginDto,
+  AnonymousLoginResponseDto,
   ApiProblemResponseDto,
   AssertReconciliationDto,
   AssetClassAccountsResponseDto,
@@ -389,6 +392,7 @@ part 'serializers.g.dart';
   RuleStatisticsResponseDto,
   RuleStatisticsResponseDtoRuleStatsInner,
   SignupDto,
+  SignupResponseDto,
   SupportedProvidersResponseDto,
   TagSuggestionDto,
   TagSuggestionsResponseDto,
