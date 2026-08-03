@@ -3917,6 +3917,258 @@ paths:
         - Properties
       security:
         - bearer: []
+  /api/v1/{region}/reporting/portfolio/trends:
+    get:
+      operationId: ReportingController_getPortfolioTrends
+      summary: Get portfolio value trends
+      description: |-
+
+        Returns time series data of portfolio net worth.
+
+        **Multi-currency Support:**
+        - `series[].byCurrency` - Currency breakdown for each data point
+        - `byCurrency` - Separate time series grouped by currency
+        - `warnings` - Exchange rate warnings if conversion failed
+
+        **Parameters:**
+        - `period`: Time period (1m, 3m, 6m, 1y)
+        - `granularity`: Data granularity (day, week, month)
+            
+      parameters:
+        - name: period
+          required: false
+          in: query
+          description: Time period
+          schema:
+            default: 6m
+            enum:
+              - 1m
+              - 3m
+              - 6m
+              - 1y
+            type: string
+        - name: granularity
+          required: false
+          in: query
+          description: Data granularity
+          schema:
+            default: month
+            enum:
+              - day
+              - week
+              - month
+            type: string
+        - name: region
+          required: true
+          in: path
+          description: Region code for tenant context
+          schema:
+            enum:
+              - cn
+              - us
+              - de
+              - gb
+            type: string
+      responses:
+        '200':
+          description: Trends retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PortfolioTrendsResponseDto'
+        '401':
+          description: User not authenticated
+      tags:
+        - Reporting
+      security:
+        - bearer: []
+  /api/v1/{region}/reporting/cash-flow/trends:
+    get:
+      operationId: ReportingController_getCashFlowTrends
+      summary: Get cash-flow trends
+      description: >-
+
+        Monthly income / expense / netSavings over a fixed N-month window
+
+        (current month + N−1 prior). Missing months are zero-filled (flow
+        metric).
+
+
+        **Parameters:**
+
+        - `period`: 1m | 3m | 6m | 1y (default 6m)
+
+        - `granularity`: accepted for API symmetry; v1 returns month buckets
+            
+      parameters:
+        - name: period
+          required: false
+          in: query
+          description: Time period
+          schema:
+            default: 6m
+            enum:
+              - 1m
+              - 3m
+              - 6m
+              - 1y
+            type: string
+        - name: granularity
+          required: false
+          in: query
+          description: >-
+            Data granularity (accepted for API symmetry; v1 returns month
+            buckets)
+          schema:
+            default: month
+            enum:
+              - day
+              - week
+              - month
+            type: string
+        - name: region
+          required: true
+          in: path
+          description: Region code for tenant context
+          schema:
+            enum:
+              - cn
+              - us
+              - de
+              - gb
+            type: string
+      responses:
+        '200':
+          description: Cash-flow trends retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CashFlowTrendsResponseDto'
+        '401':
+          description: User not authenticated
+      tags:
+        - Reporting
+      security:
+        - bearer: []
+  /api/v1/{region}/reporting/snapshots/generate:
+    post:
+      operationId: ReportingController_generateSnapshot
+      summary: Generate portfolio snapshot
+      description: |-
+
+        Manually generate a portfolio snapshot for a specific date.
+
+        **Multi-currency Support:**
+        - Fetches balances grouped by currency
+        - Uses user's baseCurrency setting for conversion
+        - Stores exchange rates and warnings
+
+        **Use Cases:**
+        - Testing snapshot generation
+        - Force regeneration after data correction
+        - Initial setup for new users
+            
+      parameters:
+        - name: region
+          required: true
+          in: path
+          description: Region code for tenant context
+          schema:
+            enum:
+              - cn
+              - us
+              - de
+              - gb
+            type: string
+      requestBody:
+        required: true
+        description: Optional date (defaults to today)
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenerateSnapshotBody'
+            examples:
+              today:
+                summary: Generate for today
+                value: {}
+              specificDate:
+                summary: Generate for specific date
+                value:
+                  date: '2024-06-15'
+      responses:
+        '200':
+          description: Snapshot generated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenerateSnapshotResponse'
+        '400':
+          description: Invalid date format
+        '401':
+          description: User not authenticated
+      tags:
+        - Reporting
+      security:
+        - bearer: []
+  /api/v1/{region}/reporting/snapshots/backfill:
+    post:
+      operationId: ReportingController_backfillSnapshots
+      summary: Backfill portfolio snapshots
+      description: |-
+
+        Generate snapshots for a date range (historical data backfill).
+
+        **Multi-currency Support:**
+        - Each snapshot includes multi-currency data
+        - Uses exchange rates available at generation time
+        - Warnings stored for missing exchange rates
+
+        **Best Practices:**
+        - Use for initial setup after account configuration
+        - Run during low-traffic periods for large date ranges
+        - Existing snapshots are skipped (not regenerated)
+            
+      parameters:
+        - name: region
+          required: true
+          in: path
+          description: Region code for tenant context
+          schema:
+            enum:
+              - cn
+              - us
+              - de
+              - gb
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BackfillSnapshotsBody'
+            examples:
+              example:
+                summary: Backfill 6 months
+                value:
+                  startDate: '2024-01-01'
+                  endDate: '2024-06-30'
+      responses:
+        '200':
+          description: Backfill completed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BackfillSnapshotsResponse'
+        '400':
+          description: Invalid date format or range
+        '401':
+          description: User not authenticated
+        '409':
+          description: Backfill already in progress for this user
+      tags:
+        - Reporting
+      security:
+        - bearer: []
   /api/v1/{region}/bean/events:
     post:
       operationId: EventController_create
@@ -5672,258 +5924,6 @@ paths:
           description: User not authenticated
       tags:
         - Investment
-      security:
-        - bearer: []
-  /api/v1/{region}/reporting/portfolio/trends:
-    get:
-      operationId: ReportingController_getPortfolioTrends
-      summary: Get portfolio value trends
-      description: |-
-
-        Returns time series data of portfolio net worth.
-
-        **Multi-currency Support:**
-        - `series[].byCurrency` - Currency breakdown for each data point
-        - `byCurrency` - Separate time series grouped by currency
-        - `warnings` - Exchange rate warnings if conversion failed
-
-        **Parameters:**
-        - `period`: Time period (1m, 3m, 6m, 1y)
-        - `granularity`: Data granularity (day, week, month)
-            
-      parameters:
-        - name: period
-          required: false
-          in: query
-          description: Time period
-          schema:
-            default: 6m
-            enum:
-              - 1m
-              - 3m
-              - 6m
-              - 1y
-            type: string
-        - name: granularity
-          required: false
-          in: query
-          description: Data granularity
-          schema:
-            default: month
-            enum:
-              - day
-              - week
-              - month
-            type: string
-        - name: region
-          required: true
-          in: path
-          description: Region code for tenant context
-          schema:
-            enum:
-              - cn
-              - us
-              - de
-              - gb
-            type: string
-      responses:
-        '200':
-          description: Trends retrieved successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PortfolioTrendsResponseDto'
-        '401':
-          description: User not authenticated
-      tags:
-        - Reporting
-      security:
-        - bearer: []
-  /api/v1/{region}/reporting/cash-flow/trends:
-    get:
-      operationId: ReportingController_getCashFlowTrends
-      summary: Get cash-flow trends
-      description: >-
-
-        Monthly income / expense / netSavings over a fixed N-month window
-
-        (current month + N−1 prior). Missing months are zero-filled (flow
-        metric).
-
-
-        **Parameters:**
-
-        - `period`: 1m | 3m | 6m | 1y (default 6m)
-
-        - `granularity`: accepted for API symmetry; v1 returns month buckets
-            
-      parameters:
-        - name: period
-          required: false
-          in: query
-          description: Time period
-          schema:
-            default: 6m
-            enum:
-              - 1m
-              - 3m
-              - 6m
-              - 1y
-            type: string
-        - name: granularity
-          required: false
-          in: query
-          description: >-
-            Data granularity (accepted for API symmetry; v1 returns month
-            buckets)
-          schema:
-            default: month
-            enum:
-              - day
-              - week
-              - month
-            type: string
-        - name: region
-          required: true
-          in: path
-          description: Region code for tenant context
-          schema:
-            enum:
-              - cn
-              - us
-              - de
-              - gb
-            type: string
-      responses:
-        '200':
-          description: Cash-flow trends retrieved successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CashFlowTrendsResponseDto'
-        '401':
-          description: User not authenticated
-      tags:
-        - Reporting
-      security:
-        - bearer: []
-  /api/v1/{region}/reporting/snapshots/generate:
-    post:
-      operationId: ReportingController_generateSnapshot
-      summary: Generate portfolio snapshot
-      description: |-
-
-        Manually generate a portfolio snapshot for a specific date.
-
-        **Multi-currency Support:**
-        - Fetches balances grouped by currency
-        - Uses user's baseCurrency setting for conversion
-        - Stores exchange rates and warnings
-
-        **Use Cases:**
-        - Testing snapshot generation
-        - Force regeneration after data correction
-        - Initial setup for new users
-            
-      parameters:
-        - name: region
-          required: true
-          in: path
-          description: Region code for tenant context
-          schema:
-            enum:
-              - cn
-              - us
-              - de
-              - gb
-            type: string
-      requestBody:
-        required: true
-        description: Optional date (defaults to today)
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/GenerateSnapshotBody'
-            examples:
-              today:
-                summary: Generate for today
-                value: {}
-              specificDate:
-                summary: Generate for specific date
-                value:
-                  date: '2024-06-15'
-      responses:
-        '200':
-          description: Snapshot generated successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GenerateSnapshotResponse'
-        '400':
-          description: Invalid date format
-        '401':
-          description: User not authenticated
-      tags:
-        - Reporting
-      security:
-        - bearer: []
-  /api/v1/{region}/reporting/snapshots/backfill:
-    post:
-      operationId: ReportingController_backfillSnapshots
-      summary: Backfill portfolio snapshots
-      description: |-
-
-        Generate snapshots for a date range (historical data backfill).
-
-        **Multi-currency Support:**
-        - Each snapshot includes multi-currency data
-        - Uses exchange rates available at generation time
-        - Warnings stored for missing exchange rates
-
-        **Best Practices:**
-        - Use for initial setup after account configuration
-        - Run during low-traffic periods for large date ranges
-        - Existing snapshots are skipped (not regenerated)
-            
-      parameters:
-        - name: region
-          required: true
-          in: path
-          description: Region code for tenant context
-          schema:
-            enum:
-              - cn
-              - us
-              - de
-              - gb
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/BackfillSnapshotsBody'
-            examples:
-              example:
-                summary: Backfill 6 months
-                value:
-                  startDate: '2024-01-01'
-                  endDate: '2024-06-30'
-      responses:
-        '200':
-          description: Backfill completed successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BackfillSnapshotsResponse'
-        '400':
-          description: Invalid date format or range
-        '401':
-          description: User not authenticated
-        '409':
-          description: Backfill already in progress for this user
-      tags:
-        - Reporting
       security:
         - bearer: []
   /api/v1/auth/api-keys:
@@ -10102,6 +10102,227 @@ components:
           description: Property value
       required:
         - value
+    CurrencyBalanceDto:
+      type: object
+      properties:
+        currency:
+          type: string
+          description: ISO 4217 currency code
+          example: CNY
+        balance:
+          type: string
+          description: Balance amount
+          example: '500000.00'
+      required:
+        - currency
+        - balance
+    TimeSeriesPointDto:
+      type: object
+      properties:
+        date:
+          type: string
+          description: Date in YYYY-MM-DD format
+          example: '2024-06-15'
+        value:
+          type: string
+          description: Value at this date (in base currency)
+          example: '500000.00'
+        change:
+          type: object
+          description: Change from previous point
+          example: '5000.00'
+        assets:
+          type: string
+          description: Total assets at this date (in base currency)
+          example: '494338.00'
+        liabilities:
+          type: string
+          description: Total liabilities at this date (in base currency)
+          example: '310098.00'
+        byCurrency:
+          description: Multi-currency breakdown for this point
+          type: array
+          items:
+            $ref: '#/components/schemas/CurrencyBalanceDto'
+      required:
+        - date
+        - value
+    TrendSummaryDto:
+      type: object
+      properties:
+        startValue:
+          type: string
+          description: Value at start of period
+          example: '450000.00'
+        endValue:
+          type: string
+          description: Value at end of period
+          example: '500000.00'
+        totalChange:
+          type: string
+          description: Total change over period
+          example: '50000.00'
+        totalChangePercentage:
+          type: string
+          description: Total change percentage
+          example: +11.11%
+      required:
+        - startValue
+        - endValue
+        - totalChange
+        - totalChangePercentage
+    MultiCurrencyPointDto:
+      type: object
+      properties:
+        date:
+          type: string
+          description: Date in YYYY-MM-DD format
+          example: '2024-06-15'
+        byCurrency:
+          description: Balances by currency
+          type: array
+          items:
+            $ref: '#/components/schemas/CurrencyBalanceDto'
+      required:
+        - date
+        - byCurrency
+    PortfolioTrendsResponseDto:
+      type: object
+      properties:
+        series:
+          description: Time series data points
+          type: array
+          items:
+            $ref: '#/components/schemas/TimeSeriesPointDto'
+        summary:
+          description: Period summary
+          allOf:
+            - $ref: '#/components/schemas/TrendSummaryDto'
+        period:
+          type: string
+          description: Period requested
+          example: 6m
+        granularity:
+          type: string
+          description: Data granularity
+          example: month
+        currency:
+          type: string
+          description: Base currency for converted values
+          example: CNY
+        byCurrency:
+          description: Multi-currency time series (each point has currency breakdown)
+          type: array
+          items:
+            $ref: '#/components/schemas/MultiCurrencyPointDto'
+        warnings:
+          description: Exchange rate warnings
+          type: array
+          items:
+            $ref: '#/components/schemas/ExchangeRateWarningDto'
+      required:
+        - series
+        - summary
+        - period
+        - granularity
+        - currency
+    CashFlowPointDto:
+      type: object
+      properties:
+        month:
+          type: string
+          description: Month key (YYYY-MM)
+          example: 2024-03
+        income:
+          type: string
+          description: Income in base currency (absolute, converted)
+          example: '10000.00'
+        expense:
+          type: string
+          description: Expense in base currency (absolute, converted)
+          example: '5000.00'
+        netSavings:
+          type: string
+          description: netSavings = income − expense (savings positive)
+          example: '5000.00'
+      required:
+        - month
+        - income
+        - expense
+        - netSavings
+    CashFlowTrendSummaryDto:
+      type: object
+      properties:
+        totalIncome:
+          type: string
+          description: Total income across the period
+          example: '60000.00'
+        totalExpense:
+          type: string
+          description: Total expense across the period
+          example: '30000.00'
+        totalNetSavings:
+          type: string
+          description: income − expense across the period
+          example: '30000.00'
+        averageMonthlyNetSavings:
+          type: string
+          description: >-
+            totalNetSavings divided by the window length (N months, incl.
+            zero-filled)
+          example: '5000.00'
+      required:
+        - totalIncome
+        - totalExpense
+        - totalNetSavings
+        - averageMonthlyNetSavings
+    CashFlowTrendsResponseDto:
+      type: object
+      properties:
+        series:
+          description: Monthly cash-flow series (fixed N-month window, zero-filled)
+          type: array
+          items:
+            $ref: '#/components/schemas/CashFlowPointDto'
+        summary:
+          description: Period totals
+          allOf:
+            - $ref: '#/components/schemas/CashFlowTrendSummaryDto'
+        period:
+          type: string
+          description: Period requested
+          example: 6m
+        granularity:
+          type: string
+          description: Data granularity (v1 returns month buckets)
+          example: month
+        currency:
+          type: string
+          description: Base currency for converted values
+          example: CNY
+        warnings:
+          description: Exchange rate warnings (e.g. missing rate for a currency)
+          type: array
+          items:
+            $ref: '#/components/schemas/ExchangeRateWarningDto'
+      required:
+        - series
+        - summary
+        - period
+        - granularity
+        - currency
+    GenerateSnapshotBody:
+      type: object
+      properties: {}
+    GenerateSnapshotResponse:
+      type: object
+      properties: {}
+    BackfillSnapshotsBody:
+      type: object
+      properties: {}
+    BackfillSnapshotsResponse:
+      type: object
+      properties: {}
     CreateBeanEventDto:
       type: object
       properties:
@@ -12706,227 +12927,6 @@ components:
         - method
         - rows
         - warnings
-    CurrencyBalanceDto:
-      type: object
-      properties:
-        currency:
-          type: string
-          description: ISO 4217 currency code
-          example: CNY
-        balance:
-          type: string
-          description: Balance amount
-          example: '500000.00'
-      required:
-        - currency
-        - balance
-    TimeSeriesPointDto:
-      type: object
-      properties:
-        date:
-          type: string
-          description: Date in YYYY-MM-DD format
-          example: '2024-06-15'
-        value:
-          type: string
-          description: Value at this date (in base currency)
-          example: '500000.00'
-        change:
-          type: object
-          description: Change from previous point
-          example: '5000.00'
-        assets:
-          type: string
-          description: Total assets at this date (in base currency)
-          example: '494338.00'
-        liabilities:
-          type: string
-          description: Total liabilities at this date (in base currency)
-          example: '310098.00'
-        byCurrency:
-          description: Multi-currency breakdown for this point
-          type: array
-          items:
-            $ref: '#/components/schemas/CurrencyBalanceDto'
-      required:
-        - date
-        - value
-    TrendSummaryDto:
-      type: object
-      properties:
-        startValue:
-          type: string
-          description: Value at start of period
-          example: '450000.00'
-        endValue:
-          type: string
-          description: Value at end of period
-          example: '500000.00'
-        totalChange:
-          type: string
-          description: Total change over period
-          example: '50000.00'
-        totalChangePercentage:
-          type: string
-          description: Total change percentage
-          example: +11.11%
-      required:
-        - startValue
-        - endValue
-        - totalChange
-        - totalChangePercentage
-    MultiCurrencyPointDto:
-      type: object
-      properties:
-        date:
-          type: string
-          description: Date in YYYY-MM-DD format
-          example: '2024-06-15'
-        byCurrency:
-          description: Balances by currency
-          type: array
-          items:
-            $ref: '#/components/schemas/CurrencyBalanceDto'
-      required:
-        - date
-        - byCurrency
-    PortfolioTrendsResponseDto:
-      type: object
-      properties:
-        series:
-          description: Time series data points
-          type: array
-          items:
-            $ref: '#/components/schemas/TimeSeriesPointDto'
-        summary:
-          description: Period summary
-          allOf:
-            - $ref: '#/components/schemas/TrendSummaryDto'
-        period:
-          type: string
-          description: Period requested
-          example: 6m
-        granularity:
-          type: string
-          description: Data granularity
-          example: month
-        currency:
-          type: string
-          description: Base currency for converted values
-          example: CNY
-        byCurrency:
-          description: Multi-currency time series (each point has currency breakdown)
-          type: array
-          items:
-            $ref: '#/components/schemas/MultiCurrencyPointDto'
-        warnings:
-          description: Exchange rate warnings
-          type: array
-          items:
-            $ref: '#/components/schemas/ExchangeRateWarningDto'
-      required:
-        - series
-        - summary
-        - period
-        - granularity
-        - currency
-    CashFlowPointDto:
-      type: object
-      properties:
-        month:
-          type: string
-          description: Month key (YYYY-MM)
-          example: 2024-03
-        income:
-          type: string
-          description: Income in base currency (absolute, converted)
-          example: '10000.00'
-        expense:
-          type: string
-          description: Expense in base currency (absolute, converted)
-          example: '5000.00'
-        netSavings:
-          type: string
-          description: netSavings = income − expense (savings positive)
-          example: '5000.00'
-      required:
-        - month
-        - income
-        - expense
-        - netSavings
-    CashFlowTrendSummaryDto:
-      type: object
-      properties:
-        totalIncome:
-          type: string
-          description: Total income across the period
-          example: '60000.00'
-        totalExpense:
-          type: string
-          description: Total expense across the period
-          example: '30000.00'
-        totalNetSavings:
-          type: string
-          description: income − expense across the period
-          example: '30000.00'
-        averageMonthlyNetSavings:
-          type: string
-          description: >-
-            totalNetSavings divided by the window length (N months, incl.
-            zero-filled)
-          example: '5000.00'
-      required:
-        - totalIncome
-        - totalExpense
-        - totalNetSavings
-        - averageMonthlyNetSavings
-    CashFlowTrendsResponseDto:
-      type: object
-      properties:
-        series:
-          description: Monthly cash-flow series (fixed N-month window, zero-filled)
-          type: array
-          items:
-            $ref: '#/components/schemas/CashFlowPointDto'
-        summary:
-          description: Period totals
-          allOf:
-            - $ref: '#/components/schemas/CashFlowTrendSummaryDto'
-        period:
-          type: string
-          description: Period requested
-          example: 6m
-        granularity:
-          type: string
-          description: Data granularity (v1 returns month buckets)
-          example: month
-        currency:
-          type: string
-          description: Base currency for converted values
-          example: CNY
-        warnings:
-          description: Exchange rate warnings (e.g. missing rate for a currency)
-          type: array
-          items:
-            $ref: '#/components/schemas/ExchangeRateWarningDto'
-      required:
-        - series
-        - summary
-        - period
-        - granularity
-        - currency
-    GenerateSnapshotBody:
-      type: object
-      properties: {}
-    GenerateSnapshotResponse:
-      type: object
-      properties: {}
-    BackfillSnapshotsBody:
-      type: object
-      properties: {}
-    BackfillSnapshotsResponse:
-      type: object
-      properties: {}
     AnonymousLoginDto:
       type: object
       properties:
