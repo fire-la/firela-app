@@ -3719,6 +3719,10 @@ paths:
       responses:
         '201':
           description: User created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SignupResponseDto'
         '400':
           description: Invalid Turnstile token (when Turnstile is enabled)
         '403':
@@ -5951,6 +5955,10 @@ paths:
       responses:
         '200':
           description: Login successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnonymousLoginResponseDto'
         '401':
           description: Invalid access token
       tags:
@@ -9973,6 +9981,30 @@ components:
             Cloudflare Turnstile verification token (optional when Turnstile
             disabled)
           example: 0.abc123def456...
+    SignupResponseDto:
+      type: object
+      properties:
+        authToken:
+          type: string
+          description: JWT auth token
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        accessToken:
+          type: string
+          description: Auto-generated access token
+        role:
+          type: string
+          description: Assigned user role
+          enum:
+            - USER
+            - ADMIN
+            - DEMO
+            - INACTIVE
+            - PAID
+            - OPS
+      required:
+        - authToken
+        - accessToken
+        - role
     UpdateUserSettingDto:
       type: object
       properties:
@@ -12903,3 +12935,12 @@ components:
           description: Access token for anonymous login
       required:
         - accessToken
+    AnonymousLoginResponseDto:
+      type: object
+      properties:
+        authToken:
+          type: string
+          description: JWT auth token
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+      required:
+        - authToken
