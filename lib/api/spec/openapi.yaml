@@ -6373,6 +6373,48 @@ components:
             - Expenses
             - Equity
           example: Assets
+        assetSubClass:
+          type: string
+          description: >-
+            Account-level asset sub-class (product type, e.g.
+            STOCK/DEPOSIT/CREDIT_CARD/PERSONAL_LOAN). Computed from the account
+            path via the asset-classifier (ADR-0077). Null for non-asset
+            accounts (Income/Expenses/Equity) or unmatched paths.
+          enum:
+            - DEPOSIT
+            - CASH
+            - MONEY_MARKET_FUND
+            - STOCK
+            - ETF
+            - MUTUAL_FUND
+            - EQUITY_COMPENSATION
+            - GOVERNMENT_BOND
+            - CORPORATE_BOND
+            - BOND_FUND
+            - PRIMARY_RESIDENCE
+            - INVESTMENT_PROPERTY
+            - REIT
+            - GOLD
+            - SILVER
+            - PRECIOUS_METAL
+            - PRECIOUS_METAL_FUND
+            - COMMODITY
+            - COMMODITY_FUND
+            - CRYPTOCURRENCY
+            - RETIREMENT_ACCOUNT
+            - HEALTH_ACCOUNT
+            - EDUCATION_ACCOUNT
+            - INSURANCE
+            - PRIVATE_EQUITY
+            - HEDGE_FUND
+            - COLLECTIBLES
+            - MORTGAGE
+            - STUDENT_LOAN
+            - CREDIT_CARD
+            - PERSONAL_LOAN
+            - OTHER
+          nullable: true
+          example: STOCK
         status:
           type: string
           description: Account status
