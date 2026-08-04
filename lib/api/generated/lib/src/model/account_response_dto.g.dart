@@ -43,6 +43,212 @@ final BuiltSet<AccountResponseDtoTypeEnum> _$accountResponseDtoTypeEnumValues =
   _$accountResponseDtoTypeEnum_equity,
 ]);
 
+const AccountResponseDtoAssetSubClassEnum
+    _$accountResponseDtoAssetSubClassEnum_DEPOSIT =
+    const AccountResponseDtoAssetSubClassEnum._('DEPOSIT');
+const AccountResponseDtoAssetSubClassEnum
+    _$accountResponseDtoAssetSubClassEnum_CASH =
+    const AccountResponseDtoAssetSubClassEnum._('CASH');
+const AccountResponseDtoAssetSubClassEnum
+    _$accountResponseDtoAssetSubClassEnum_MONEY_MARKET_FUND =
+    const AccountResponseDtoAssetSubClassEnum._('MONEY_MARKET_FUND');
+const AccountResponseDtoAssetSubClassEnum
+    _$accountResponseDtoAssetSubClassEnum_STOCK =
+    const AccountResponseDtoAssetSubClassEnum._('STOCK');
+const AccountResponseDtoAssetSubClassEnum
+    _$accountResponseDtoAssetSubClassEnum_ETF =
+    const AccountResponseDtoAssetSubClassEnum._('ETF');
+const AccountResponseDtoAssetSubClassEnum
+    _$accountResponseDtoAssetSubClassEnum_MUTUAL_FUND =
+    const AccountResponseDtoAssetSubClassEnum._('MUTUAL_FUND');
+const AccountResponseDtoAssetSubClassEnum
+    _$accountResponseDtoAssetSubClassEnum_EQUITY_COMPENSATION =
+    const AccountResponseDtoAssetSubClassEnum._('EQUITY_COMPENSATION');
+const AccountResponseDtoAssetSubClassEnum
+    _$accountResponseDtoAssetSubClassEnum_GOVERNMENT_BOND =
+    const AccountResponseDtoAssetSubClassEnum._('GOVERNMENT_BOND');
+const AccountResponseDtoAssetSubClassEnum
+    _$accountResponseDtoAssetSubClassEnum_CORPORATE_BOND =
+    const AccountResponseDtoAssetSubClassEnum._('CORPORATE_BOND');
+const AccountResponseDtoAssetSubClassEnum
+    _$accountResponseDtoAssetSubClassEnum_BOND_FUND =
+    const AccountResponseDtoAssetSubClassEnum._('BOND_FUND');
+const AccountResponseDtoAssetSubClassEnum
+    _$accountResponseDtoAssetSubClassEnum_PRIMARY_RESIDENCE =
+    const AccountResponseDtoAssetSubClassEnum._('PRIMARY_RESIDENCE');
+const AccountResponseDtoAssetSubClassEnum
+    _$accountResponseDtoAssetSubClassEnum_INVESTMENT_PROPERTY =
+    const AccountResponseDtoAssetSubClassEnum._('INVESTMENT_PROPERTY');
+const AccountResponseDtoAssetSubClassEnum
+    _$accountResponseDtoAssetSubClassEnum_REIT =
+    const AccountResponseDtoAssetSubClassEnum._('REIT');
+const AccountResponseDtoAssetSubClassEnum
+    _$accountResponseDtoAssetSubClassEnum_GOLD =
+    const AccountResponseDtoAssetSubClassEnum._('GOLD');
+const AccountResponseDtoAssetSubClassEnum
+    _$accountResponseDtoAssetSubClassEnum_SILVER =
+    const AccountResponseDtoAssetSubClassEnum._('SILVER');
+const AccountResponseDtoAssetSubClassEnum
+    _$accountResponseDtoAssetSubClassEnum_PRECIOUS_METAL =
+    const AccountResponseDtoAssetSubClassEnum._('PRECIOUS_METAL');
+const AccountResponseDtoAssetSubClassEnum
+    _$accountResponseDtoAssetSubClassEnum_PRECIOUS_METAL_FUND =
+    const AccountResponseDtoAssetSubClassEnum._('PRECIOUS_METAL_FUND');
+const AccountResponseDtoAssetSubClassEnum
+    _$accountResponseDtoAssetSubClassEnum_COMMODITY =
+    const AccountResponseDtoAssetSubClassEnum._('COMMODITY');
+const AccountResponseDtoAssetSubClassEnum
+    _$accountResponseDtoAssetSubClassEnum_COMMODITY_FUND =
+    const AccountResponseDtoAssetSubClassEnum._('COMMODITY_FUND');
+const AccountResponseDtoAssetSubClassEnum
+    _$accountResponseDtoAssetSubClassEnum_CRYPTOCURRENCY =
+    const AccountResponseDtoAssetSubClassEnum._('CRYPTOCURRENCY');
+const AccountResponseDtoAssetSubClassEnum
+    _$accountResponseDtoAssetSubClassEnum_RETIREMENT_ACCOUNT =
+    const AccountResponseDtoAssetSubClassEnum._('RETIREMENT_ACCOUNT');
+const AccountResponseDtoAssetSubClassEnum
+    _$accountResponseDtoAssetSubClassEnum_HEALTH_ACCOUNT =
+    const AccountResponseDtoAssetSubClassEnum._('HEALTH_ACCOUNT');
+const AccountResponseDtoAssetSubClassEnum
+    _$accountResponseDtoAssetSubClassEnum_EDUCATION_ACCOUNT =
+    const AccountResponseDtoAssetSubClassEnum._('EDUCATION_ACCOUNT');
+const AccountResponseDtoAssetSubClassEnum
+    _$accountResponseDtoAssetSubClassEnum_INSURANCE =
+    const AccountResponseDtoAssetSubClassEnum._('INSURANCE');
+const AccountResponseDtoAssetSubClassEnum
+    _$accountResponseDtoAssetSubClassEnum_PRIVATE_EQUITY =
+    const AccountResponseDtoAssetSubClassEnum._('PRIVATE_EQUITY');
+const AccountResponseDtoAssetSubClassEnum
+    _$accountResponseDtoAssetSubClassEnum_HEDGE_FUND =
+    const AccountResponseDtoAssetSubClassEnum._('HEDGE_FUND');
+const AccountResponseDtoAssetSubClassEnum
+    _$accountResponseDtoAssetSubClassEnum_COLLECTIBLES =
+    const AccountResponseDtoAssetSubClassEnum._('COLLECTIBLES');
+const AccountResponseDtoAssetSubClassEnum
+    _$accountResponseDtoAssetSubClassEnum_MORTGAGE =
+    const AccountResponseDtoAssetSubClassEnum._('MORTGAGE');
+const AccountResponseDtoAssetSubClassEnum
+    _$accountResponseDtoAssetSubClassEnum_STUDENT_LOAN =
+    const AccountResponseDtoAssetSubClassEnum._('STUDENT_LOAN');
+const AccountResponseDtoAssetSubClassEnum
+    _$accountResponseDtoAssetSubClassEnum_CREDIT_CARD =
+    const AccountResponseDtoAssetSubClassEnum._('CREDIT_CARD');
+const AccountResponseDtoAssetSubClassEnum
+    _$accountResponseDtoAssetSubClassEnum_PERSONAL_LOAN =
+    const AccountResponseDtoAssetSubClassEnum._('PERSONAL_LOAN');
+const AccountResponseDtoAssetSubClassEnum
+    _$accountResponseDtoAssetSubClassEnum_OTHER =
+    const AccountResponseDtoAssetSubClassEnum._('OTHER');
+
+AccountResponseDtoAssetSubClassEnum
+    _$accountResponseDtoAssetSubClassEnumValueOf(String name) {
+  switch (name) {
+    case 'DEPOSIT':
+      return _$accountResponseDtoAssetSubClassEnum_DEPOSIT;
+    case 'CASH':
+      return _$accountResponseDtoAssetSubClassEnum_CASH;
+    case 'MONEY_MARKET_FUND':
+      return _$accountResponseDtoAssetSubClassEnum_MONEY_MARKET_FUND;
+    case 'STOCK':
+      return _$accountResponseDtoAssetSubClassEnum_STOCK;
+    case 'ETF':
+      return _$accountResponseDtoAssetSubClassEnum_ETF;
+    case 'MUTUAL_FUND':
+      return _$accountResponseDtoAssetSubClassEnum_MUTUAL_FUND;
+    case 'EQUITY_COMPENSATION':
+      return _$accountResponseDtoAssetSubClassEnum_EQUITY_COMPENSATION;
+    case 'GOVERNMENT_BOND':
+      return _$accountResponseDtoAssetSubClassEnum_GOVERNMENT_BOND;
+    case 'CORPORATE_BOND':
+      return _$accountResponseDtoAssetSubClassEnum_CORPORATE_BOND;
+    case 'BOND_FUND':
+      return _$accountResponseDtoAssetSubClassEnum_BOND_FUND;
+    case 'PRIMARY_RESIDENCE':
+      return _$accountResponseDtoAssetSubClassEnum_PRIMARY_RESIDENCE;
+    case 'INVESTMENT_PROPERTY':
+      return _$accountResponseDtoAssetSubClassEnum_INVESTMENT_PROPERTY;
+    case 'REIT':
+      return _$accountResponseDtoAssetSubClassEnum_REIT;
+    case 'GOLD':
+      return _$accountResponseDtoAssetSubClassEnum_GOLD;
+    case 'SILVER':
+      return _$accountResponseDtoAssetSubClassEnum_SILVER;
+    case 'PRECIOUS_METAL':
+      return _$accountResponseDtoAssetSubClassEnum_PRECIOUS_METAL;
+    case 'PRECIOUS_METAL_FUND':
+      return _$accountResponseDtoAssetSubClassEnum_PRECIOUS_METAL_FUND;
+    case 'COMMODITY':
+      return _$accountResponseDtoAssetSubClassEnum_COMMODITY;
+    case 'COMMODITY_FUND':
+      return _$accountResponseDtoAssetSubClassEnum_COMMODITY_FUND;
+    case 'CRYPTOCURRENCY':
+      return _$accountResponseDtoAssetSubClassEnum_CRYPTOCURRENCY;
+    case 'RETIREMENT_ACCOUNT':
+      return _$accountResponseDtoAssetSubClassEnum_RETIREMENT_ACCOUNT;
+    case 'HEALTH_ACCOUNT':
+      return _$accountResponseDtoAssetSubClassEnum_HEALTH_ACCOUNT;
+    case 'EDUCATION_ACCOUNT':
+      return _$accountResponseDtoAssetSubClassEnum_EDUCATION_ACCOUNT;
+    case 'INSURANCE':
+      return _$accountResponseDtoAssetSubClassEnum_INSURANCE;
+    case 'PRIVATE_EQUITY':
+      return _$accountResponseDtoAssetSubClassEnum_PRIVATE_EQUITY;
+    case 'HEDGE_FUND':
+      return _$accountResponseDtoAssetSubClassEnum_HEDGE_FUND;
+    case 'COLLECTIBLES':
+      return _$accountResponseDtoAssetSubClassEnum_COLLECTIBLES;
+    case 'MORTGAGE':
+      return _$accountResponseDtoAssetSubClassEnum_MORTGAGE;
+    case 'STUDENT_LOAN':
+      return _$accountResponseDtoAssetSubClassEnum_STUDENT_LOAN;
+    case 'CREDIT_CARD':
+      return _$accountResponseDtoAssetSubClassEnum_CREDIT_CARD;
+    case 'PERSONAL_LOAN':
+      return _$accountResponseDtoAssetSubClassEnum_PERSONAL_LOAN;
+    case 'OTHER':
+      return _$accountResponseDtoAssetSubClassEnum_OTHER;
+    default:
+      throw new ArgumentError(name);
+  }
+}
+
+final BuiltSet<AccountResponseDtoAssetSubClassEnum>
+    _$accountResponseDtoAssetSubClassEnumValues = new BuiltSet<
+        AccountResponseDtoAssetSubClassEnum>(const <AccountResponseDtoAssetSubClassEnum>[
+  _$accountResponseDtoAssetSubClassEnum_DEPOSIT,
+  _$accountResponseDtoAssetSubClassEnum_CASH,
+  _$accountResponseDtoAssetSubClassEnum_MONEY_MARKET_FUND,
+  _$accountResponseDtoAssetSubClassEnum_STOCK,
+  _$accountResponseDtoAssetSubClassEnum_ETF,
+  _$accountResponseDtoAssetSubClassEnum_MUTUAL_FUND,
+  _$accountResponseDtoAssetSubClassEnum_EQUITY_COMPENSATION,
+  _$accountResponseDtoAssetSubClassEnum_GOVERNMENT_BOND,
+  _$accountResponseDtoAssetSubClassEnum_CORPORATE_BOND,
+  _$accountResponseDtoAssetSubClassEnum_BOND_FUND,
+  _$accountResponseDtoAssetSubClassEnum_PRIMARY_RESIDENCE,
+  _$accountResponseDtoAssetSubClassEnum_INVESTMENT_PROPERTY,
+  _$accountResponseDtoAssetSubClassEnum_REIT,
+  _$accountResponseDtoAssetSubClassEnum_GOLD,
+  _$accountResponseDtoAssetSubClassEnum_SILVER,
+  _$accountResponseDtoAssetSubClassEnum_PRECIOUS_METAL,
+  _$accountResponseDtoAssetSubClassEnum_PRECIOUS_METAL_FUND,
+  _$accountResponseDtoAssetSubClassEnum_COMMODITY,
+  _$accountResponseDtoAssetSubClassEnum_COMMODITY_FUND,
+  _$accountResponseDtoAssetSubClassEnum_CRYPTOCURRENCY,
+  _$accountResponseDtoAssetSubClassEnum_RETIREMENT_ACCOUNT,
+  _$accountResponseDtoAssetSubClassEnum_HEALTH_ACCOUNT,
+  _$accountResponseDtoAssetSubClassEnum_EDUCATION_ACCOUNT,
+  _$accountResponseDtoAssetSubClassEnum_INSURANCE,
+  _$accountResponseDtoAssetSubClassEnum_PRIVATE_EQUITY,
+  _$accountResponseDtoAssetSubClassEnum_HEDGE_FUND,
+  _$accountResponseDtoAssetSubClassEnum_COLLECTIBLES,
+  _$accountResponseDtoAssetSubClassEnum_MORTGAGE,
+  _$accountResponseDtoAssetSubClassEnum_STUDENT_LOAN,
+  _$accountResponseDtoAssetSubClassEnum_CREDIT_CARD,
+  _$accountResponseDtoAssetSubClassEnum_PERSONAL_LOAN,
+  _$accountResponseDtoAssetSubClassEnum_OTHER,
+]);
+
 const AccountResponseDtoStatusEnum _$accountResponseDtoStatusEnum_OPEN =
     const AccountResponseDtoStatusEnum._('OPEN');
 const AccountResponseDtoStatusEnum _$accountResponseDtoStatusEnum_CLOSED =
@@ -130,6 +336,9 @@ final BuiltSet<AccountResponseDtoBookingMethodEnum>
 
 Serializer<AccountResponseDtoTypeEnum> _$accountResponseDtoTypeEnumSerializer =
     new _$AccountResponseDtoTypeEnumSerializer();
+Serializer<AccountResponseDtoAssetSubClassEnum>
+    _$accountResponseDtoAssetSubClassEnumSerializer =
+    new _$AccountResponseDtoAssetSubClassEnumSerializer();
 Serializer<AccountResponseDtoStatusEnum>
     _$accountResponseDtoStatusEnumSerializer =
     new _$AccountResponseDtoStatusEnumSerializer();
@@ -169,6 +378,98 @@ class _$AccountResponseDtoTypeEnumSerializer
           Serializers serializers, Object serialized,
           {FullType specifiedType = FullType.unspecified}) =>
       AccountResponseDtoTypeEnum.valueOf(
+          _fromWire[serialized] ?? (serialized is String ? serialized : ''));
+}
+
+class _$AccountResponseDtoAssetSubClassEnumSerializer
+    implements PrimitiveSerializer<AccountResponseDtoAssetSubClassEnum> {
+  static const Map<String, Object> _toWire = const <String, Object>{
+    'DEPOSIT': 'DEPOSIT',
+    'CASH': 'CASH',
+    'MONEY_MARKET_FUND': 'MONEY_MARKET_FUND',
+    'STOCK': 'STOCK',
+    'ETF': 'ETF',
+    'MUTUAL_FUND': 'MUTUAL_FUND',
+    'EQUITY_COMPENSATION': 'EQUITY_COMPENSATION',
+    'GOVERNMENT_BOND': 'GOVERNMENT_BOND',
+    'CORPORATE_BOND': 'CORPORATE_BOND',
+    'BOND_FUND': 'BOND_FUND',
+    'PRIMARY_RESIDENCE': 'PRIMARY_RESIDENCE',
+    'INVESTMENT_PROPERTY': 'INVESTMENT_PROPERTY',
+    'REIT': 'REIT',
+    'GOLD': 'GOLD',
+    'SILVER': 'SILVER',
+    'PRECIOUS_METAL': 'PRECIOUS_METAL',
+    'PRECIOUS_METAL_FUND': 'PRECIOUS_METAL_FUND',
+    'COMMODITY': 'COMMODITY',
+    'COMMODITY_FUND': 'COMMODITY_FUND',
+    'CRYPTOCURRENCY': 'CRYPTOCURRENCY',
+    'RETIREMENT_ACCOUNT': 'RETIREMENT_ACCOUNT',
+    'HEALTH_ACCOUNT': 'HEALTH_ACCOUNT',
+    'EDUCATION_ACCOUNT': 'EDUCATION_ACCOUNT',
+    'INSURANCE': 'INSURANCE',
+    'PRIVATE_EQUITY': 'PRIVATE_EQUITY',
+    'HEDGE_FUND': 'HEDGE_FUND',
+    'COLLECTIBLES': 'COLLECTIBLES',
+    'MORTGAGE': 'MORTGAGE',
+    'STUDENT_LOAN': 'STUDENT_LOAN',
+    'CREDIT_CARD': 'CREDIT_CARD',
+    'PERSONAL_LOAN': 'PERSONAL_LOAN',
+    'OTHER': 'OTHER',
+  };
+  static const Map<Object, String> _fromWire = const <Object, String>{
+    'DEPOSIT': 'DEPOSIT',
+    'CASH': 'CASH',
+    'MONEY_MARKET_FUND': 'MONEY_MARKET_FUND',
+    'STOCK': 'STOCK',
+    'ETF': 'ETF',
+    'MUTUAL_FUND': 'MUTUAL_FUND',
+    'EQUITY_COMPENSATION': 'EQUITY_COMPENSATION',
+    'GOVERNMENT_BOND': 'GOVERNMENT_BOND',
+    'CORPORATE_BOND': 'CORPORATE_BOND',
+    'BOND_FUND': 'BOND_FUND',
+    'PRIMARY_RESIDENCE': 'PRIMARY_RESIDENCE',
+    'INVESTMENT_PROPERTY': 'INVESTMENT_PROPERTY',
+    'REIT': 'REIT',
+    'GOLD': 'GOLD',
+    'SILVER': 'SILVER',
+    'PRECIOUS_METAL': 'PRECIOUS_METAL',
+    'PRECIOUS_METAL_FUND': 'PRECIOUS_METAL_FUND',
+    'COMMODITY': 'COMMODITY',
+    'COMMODITY_FUND': 'COMMODITY_FUND',
+    'CRYPTOCURRENCY': 'CRYPTOCURRENCY',
+    'RETIREMENT_ACCOUNT': 'RETIREMENT_ACCOUNT',
+    'HEALTH_ACCOUNT': 'HEALTH_ACCOUNT',
+    'EDUCATION_ACCOUNT': 'EDUCATION_ACCOUNT',
+    'INSURANCE': 'INSURANCE',
+    'PRIVATE_EQUITY': 'PRIVATE_EQUITY',
+    'HEDGE_FUND': 'HEDGE_FUND',
+    'COLLECTIBLES': 'COLLECTIBLES',
+    'MORTGAGE': 'MORTGAGE',
+    'STUDENT_LOAN': 'STUDENT_LOAN',
+    'CREDIT_CARD': 'CREDIT_CARD',
+    'PERSONAL_LOAN': 'PERSONAL_LOAN',
+    'OTHER': 'OTHER',
+  };
+
+  @override
+  final Iterable<Type> types = const <Type>[
+    AccountResponseDtoAssetSubClassEnum
+  ];
+  @override
+  final String wireName = 'AccountResponseDtoAssetSubClassEnum';
+
+  @override
+  Object serialize(
+          Serializers serializers, AccountResponseDtoAssetSubClassEnum object,
+          {FullType specifiedType = FullType.unspecified}) =>
+      _toWire[object.name] ?? object.name;
+
+  @override
+  AccountResponseDtoAssetSubClassEnum deserialize(
+          Serializers serializers, Object serialized,
+          {FullType specifiedType = FullType.unspecified}) =>
+      AccountResponseDtoAssetSubClassEnum.valueOf(
           _fromWire[serialized] ?? (serialized is String ? serialized : ''));
 }
 
@@ -253,6 +554,8 @@ class _$AccountResponseDto extends AccountResponseDto {
   @override
   final AccountResponseDtoTypeEnum type;
   @override
+  final AccountResponseDtoAssetSubClassEnum? assetSubClass;
+  @override
   final AccountResponseDtoStatusEnum status;
   @override
   final String openDate;
@@ -289,6 +592,7 @@ class _$AccountResponseDto extends AccountResponseDto {
       {required this.id,
       required this.path,
       required this.type,
+      this.assetSubClass,
       required this.status,
       required this.openDate,
       this.closeDate,
@@ -337,6 +641,7 @@ class _$AccountResponseDto extends AccountResponseDto {
         id == other.id &&
         path == other.path &&
         type == other.type &&
+        assetSubClass == other.assetSubClass &&
         status == other.status &&
         openDate == other.openDate &&
         closeDate == other.closeDate &&
@@ -359,6 +664,7 @@ class _$AccountResponseDto extends AccountResponseDto {
     _$hash = $jc(_$hash, id.hashCode);
     _$hash = $jc(_$hash, path.hashCode);
     _$hash = $jc(_$hash, type.hashCode);
+    _$hash = $jc(_$hash, assetSubClass.hashCode);
     _$hash = $jc(_$hash, status.hashCode);
     _$hash = $jc(_$hash, openDate.hashCode);
     _$hash = $jc(_$hash, closeDate.hashCode);
@@ -383,6 +689,7 @@ class _$AccountResponseDto extends AccountResponseDto {
           ..add('id', id)
           ..add('path', path)
           ..add('type', type)
+          ..add('assetSubClass', assetSubClass)
           ..add('status', status)
           ..add('openDate', openDate)
           ..add('closeDate', closeDate)
@@ -416,6 +723,12 @@ class AccountResponseDtoBuilder
   AccountResponseDtoTypeEnum? _type;
   AccountResponseDtoTypeEnum? get type => _$this._type;
   set type(AccountResponseDtoTypeEnum? type) => _$this._type = type;
+
+  AccountResponseDtoAssetSubClassEnum? _assetSubClass;
+  AccountResponseDtoAssetSubClassEnum? get assetSubClass =>
+      _$this._assetSubClass;
+  set assetSubClass(AccountResponseDtoAssetSubClassEnum? assetSubClass) =>
+      _$this._assetSubClass = assetSubClass;
 
   AccountResponseDtoStatusEnum? _status;
   AccountResponseDtoStatusEnum? get status => _$this._status;
@@ -488,6 +801,7 @@ class AccountResponseDtoBuilder
       _id = $v.id;
       _path = $v.path;
       _type = $v.type;
+      _assetSubClass = $v.assetSubClass;
       _status = $v.status;
       _openDate = $v.openDate;
       _closeDate = $v.closeDate;
@@ -532,6 +846,7 @@ class AccountResponseDtoBuilder
                   path, r'AccountResponseDto', 'path'),
               type: BuiltValueNullFieldError.checkNotNull(
                   type, r'AccountResponseDto', 'type'),
+              assetSubClass: assetSubClass,
               status: BuiltValueNullFieldError.checkNotNull(
                   status, r'AccountResponseDto', 'status'),
               openDate: BuiltValueNullFieldError.checkNotNull(
