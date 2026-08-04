@@ -58,7 +58,7 @@ abstract class NlpResponseDto implements Built<NlpResponseDto, NlpResponseDtoBui
   /// Action taken or requested
   @BuiltValueField(wireName: r'action')
   NlpResponseDtoActionEnum get action;
-  // enum actionEnum {  created,  ask,  confirm,  confirm_duplicate,  confirm_rule,  confirm_account,  confirm_payee,  cancel,  };
+  // enum actionEnum {  created,  ask,  confirm,  confirm_duplicate,  confirm_rule,  confirm_account,  confirm_payee,  cancel,  aborted,  };
 
   /// Transaction intent detected by EntityRouter (v6.0: 5 core intents). Frontend uses this to render scenario-specific form fields.
   @BuiltValueField(wireName: r'intent')
@@ -615,6 +615,9 @@ class NlpResponseDtoActionEnum extends EnumClass {
   /// Action taken or requested
   @BuiltValueEnumConst(wireName: r'cancel')
   static const NlpResponseDtoActionEnum cancel = _$nlpResponseDtoActionEnum_cancel;
+  /// Action taken or requested
+  @BuiltValueEnumConst(wireName: r'aborted')
+  static const NlpResponseDtoActionEnum aborted = _$nlpResponseDtoActionEnum_aborted;
 
   static Serializer<NlpResponseDtoActionEnum> get serializer => _$nlpResponseDtoActionEnumSerializer;
 

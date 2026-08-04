@@ -49,6 +49,8 @@ const NlpResponseDtoActionEnum _$nlpResponseDtoActionEnum_confirmPayee =
     const NlpResponseDtoActionEnum._('confirmPayee');
 const NlpResponseDtoActionEnum _$nlpResponseDtoActionEnum_cancel =
     const NlpResponseDtoActionEnum._('cancel');
+const NlpResponseDtoActionEnum _$nlpResponseDtoActionEnum_aborted =
+    const NlpResponseDtoActionEnum._('aborted');
 
 NlpResponseDtoActionEnum _$nlpResponseDtoActionEnumValueOf(String name) {
   switch (name) {
@@ -68,6 +70,8 @@ NlpResponseDtoActionEnum _$nlpResponseDtoActionEnumValueOf(String name) {
       return _$nlpResponseDtoActionEnum_confirmPayee;
     case 'cancel':
       return _$nlpResponseDtoActionEnum_cancel;
+    case 'aborted':
+      return _$nlpResponseDtoActionEnum_aborted;
     default:
       throw new ArgumentError(name);
   }
@@ -83,6 +87,7 @@ final BuiltSet<NlpResponseDtoActionEnum> _$nlpResponseDtoActionEnumValues =
   _$nlpResponseDtoActionEnum_confirmAccount,
   _$nlpResponseDtoActionEnum_confirmPayee,
   _$nlpResponseDtoActionEnum_cancel,
+  _$nlpResponseDtoActionEnum_aborted,
 ]);
 
 const NlpResponseDtoIntentEnum _$nlpResponseDtoIntentEnum_expense =
@@ -290,6 +295,7 @@ class _$NlpResponseDtoActionEnumSerializer
     'confirmAccount': 'confirm_account',
     'confirmPayee': 'confirm_payee',
     'cancel': 'cancel',
+    'aborted': 'aborted',
   };
   static const Map<Object, String> _fromWire = const <Object, String>{
     'created': 'created',
@@ -300,6 +306,7 @@ class _$NlpResponseDtoActionEnumSerializer
     'confirm_account': 'confirmAccount',
     'confirm_payee': 'confirmPayee',
     'cancel': 'cancel',
+    'aborted': 'aborted',
   };
 
   @override
