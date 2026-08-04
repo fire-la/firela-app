@@ -11662,6 +11662,7 @@ components:
             - confirm_account
             - confirm_payee
             - cancel
+            - aborted
         intent:
           type: string
           description: >-
