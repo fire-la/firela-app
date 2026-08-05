@@ -6121,6 +6121,80 @@ paths:
         - Info
       security:
         - bearer: []
+  /api/v1/market/symbols/search:
+    get:
+      operationId: SymbolController_search
+      summary: Search market symbols by name or code
+      description: Ranked search over the openbb catalog. Empty `q` returns [].
+      parameters:
+        - name: q
+          required: true
+          in: query
+          description: >-
+            Search term — matched against symbol and instrument name. Empty
+            string returns [].
+          schema:
+            example: AAPL
+            type: string
+        - name: limit
+          required: false
+          in: query
+          description: Maximum number of results (clamped 1..50)
+          schema:
+            minimum: 1
+            maximum: 50
+            default: 10
+            type: number
+        - name: exchange
+          required: false
+          in: query
+          description: Filter by exchange code (e.g. US, HK, SS, SZ)
+          schema:
+            example: US
+            type: string
+        - name: assetType
+          required: false
+          in: query
+          description: Filter by OpenBB asset_type (e.g. stock, etf)
+          schema:
+            example: stock
+            type: string
+      responses:
+        '200':
+          description: Ranked search results
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SymbolSearchResultDto'
+      tags:
+        - Market Data
+      security:
+        - bearer: []
+  /api/v1/market/symbols/{symbol}/quote:
+    get:
+      operationId: SymbolController_getQuote
+      summary: Get a market symbol quote
+      parameters:
+        - name: symbol
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Symbol quote
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SymbolQuoteDto'
+        '404':
+          description: Symbol not found in the openbb catalog
+      tags:
+        - Market Data
+      security:
+        - bearer: []
 info:
   title: IGN Beancount SaaS API
   description: >-
@@ -13001,3 +13075,119 @@ components:
           example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
       required:
         - authToken
+    SymbolSearchResultDto:
+      type: object
+      properties:
+        symbol:
+          type: string
+          example: AAPL
+        name:
+          type: object
+          example: Apple Inc.
+          nullable: true
+        exchange:
+          type: object
+          example: US
+          nullable: true
+        assetType:
+          type: object
+          description: OpenBB asset_type (e.g. stock, etf)
+          example: stock
+          nullable: true
+        assetClass:
+          type: object
+          description: IGN asset class (region.types.ts ASSET_CLASSES)
+          example: EQUITY
+          nullable: true
+        assetSubClass:
+          type: object
+          description: IGN asset sub-class (region.types.ts ASSET_SUB_CLASSES)
+          example: STOCK
+          nullable: true
+        currency:
+          type: object
+          description: Trading currency (extra_data or inferred from exchange)
+          example: USD
+          nullable: true
+      required:
+        - symbol
+    SymbolQuoteDto:
+      type: object
+      properties:
+        symbol:
+          type: string
+          example: AAPL
+        name:
+          type: object
+          example: Apple Inc.
+          nullable: true
+        exchange:
+          type: object
+          example: US
+          nullable: true
+        assetType:
+          type: object
+          description: OpenBB asset_type
+          example: stock
+          nullable: true
+        assetClass:
+          type: object
+          description: IGN asset class
+          example: EQUITY
+          nullable: true
+        assetSubClass:
+          type: object
+          description: IGN asset sub-class
+          example: STOCK
+          nullable: true
+        currency:
+          type: object
+          description: Trading currency (extra_data or inferred from exchange)
+          example: USD
+          nullable: true
+        price:
+          type: object
+          description: Latest price (Decimal string)
+          example: '189.84'
+          nullable: true
+        priceDate:
+          type: object
+          description: Date the price was observed (ISO yyyy-MM-dd)
+          example: '2026-08-05'
+          nullable: true
+        changePercent:
+          type: object
+          description: >-
+            Change vs previous close, in percentage points (1.7 == 1.7%). openbb
+            stores change_percent as a normalized decimal; this exposes
+            percentage points for frontend convenience.
+          example: 1.7
+          nullable: true
+        prevClose:
+          type: object
+          description: Previous close (Decimal string)
+          nullable: true
+        open:
+          type: object
+          description: Day open (Decimal string)
+          nullable: true
+        high:
+          type: object
+          description: Day high (Decimal string)
+          nullable: true
+        low:
+          type: object
+          description: Day low (Decimal string)
+          nullable: true
+        volume:
+          type: object
+          description: Day volume (Decimal string)
+          nullable: true
+        yearHigh:
+          type: object
+          description: 52-week high (Decimal string)
+          nullable: true
+        yearLow:
+          type: object
+          description: 52-week low (Decimal string)
+          nullable: true
