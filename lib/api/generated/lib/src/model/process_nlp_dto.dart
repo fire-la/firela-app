@@ -15,6 +15,8 @@ part 'process_nlp_dto.g.dart';
 /// * [message] - Natural language text describing a transaction (Chinese)
 /// * [sessionId] - Session ID for multi-turn conversation (auto-generated if not provided)
 /// * [parsedData] - Parsed data from previous NLP response for session recovery. Send back the parsedData received in confirm_payee/confirm responses.
+/// * [selectedRuleId] - confirm_rule echo-back: rule id selected from the prior confirm_rule response (matchedRule.id or alternatives[i].ruleId). Applied directly when the session is confirming_rule — no NL re-parse.
+/// * [selectedAccount] - confirm_account echo-back: account path selected from the prior confirm_account response (suggestedAccount, similarAccounts[i], or a typed path). Applied directly when the session is confirming_account — no NL re-parse.
 @BuiltValue()
 abstract class ProcessNlpDto implements Built<ProcessNlpDto, ProcessNlpDtoBuilder> {
   /// Natural language text describing a transaction (Chinese)
@@ -28,6 +30,14 @@ abstract class ProcessNlpDto implements Built<ProcessNlpDto, ProcessNlpDtoBuilde
   /// Parsed data from previous NLP response for session recovery. Send back the parsedData received in confirm_payee/confirm responses.
   @BuiltValueField(wireName: r'parsedData')
   JsonObject? get parsedData;
+
+  /// confirm_rule echo-back: rule id selected from the prior confirm_rule response (matchedRule.id or alternatives[i].ruleId). Applied directly when the session is confirming_rule — no NL re-parse.
+  @BuiltValueField(wireName: r'selectedRuleId')
+  String? get selectedRuleId;
+
+  /// confirm_account echo-back: account path selected from the prior confirm_account response (suggestedAccount, similarAccounts[i], or a typed path). Applied directly when the session is confirming_account — no NL re-parse.
+  @BuiltValueField(wireName: r'selectedAccount')
+  String? get selectedAccount;
 
   ProcessNlpDto._();
 
@@ -69,6 +79,20 @@ class _$ProcessNlpDtoSerializer implements PrimitiveSerializer<ProcessNlpDto> {
       yield serializers.serialize(
         object.parsedData,
         specifiedType: const FullType(JsonObject),
+      );
+    }
+    if (object.selectedRuleId != null) {
+      yield r'selectedRuleId';
+      yield serializers.serialize(
+        object.selectedRuleId,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.selectedAccount != null) {
+      yield r'selectedAccount';
+      yield serializers.serialize(
+        object.selectedAccount,
+        specifiedType: const FullType(String),
       );
     }
   }
@@ -114,6 +138,20 @@ class _$ProcessNlpDtoSerializer implements PrimitiveSerializer<ProcessNlpDto> {
             specifiedType: const FullType(JsonObject),
           ) as JsonObject;
           result.parsedData = valueDes;
+          break;
+        case r'selectedRuleId':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.selectedRuleId = valueDes;
+          break;
+        case r'selectedAccount':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.selectedAccount = valueDes;
           break;
         default:
           unhandled.add(key);
