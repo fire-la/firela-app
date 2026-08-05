@@ -11486,7 +11486,7 @@ components:
           example: Expenses:Food:Coffee
         suggestedAccount:
           type: string
-          description: Suggested replacement account
+          description: Suggested replacement account (omitted when no clear candidate)
           example: Expenses:Food:Drinks
         similarAccounts:
           description: Similar accounts for user selection
@@ -11502,7 +11502,6 @@ components:
           description: Transaction context for reference
       required:
         - invalidAccount
-        - suggestedAccount
         - similarAccounts
         - errorMessage
         - transactionContext
