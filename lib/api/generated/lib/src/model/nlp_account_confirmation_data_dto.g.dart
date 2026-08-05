@@ -10,7 +10,7 @@ class _$NlpAccountConfirmationDataDto extends NlpAccountConfirmationDataDto {
   @override
   final String invalidAccount;
   @override
-  final String suggestedAccount;
+  final String? suggestedAccount;
   @override
   final BuiltList<String> similarAccounts;
   @override
@@ -24,15 +24,13 @@ class _$NlpAccountConfirmationDataDto extends NlpAccountConfirmationDataDto {
 
   _$NlpAccountConfirmationDataDto._(
       {required this.invalidAccount,
-      required this.suggestedAccount,
+      this.suggestedAccount,
       required this.similarAccounts,
       required this.errorMessage,
       required this.transactionContext})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(
         invalidAccount, r'NlpAccountConfirmationDataDto', 'invalidAccount');
-    BuiltValueNullFieldError.checkNotNull(
-        suggestedAccount, r'NlpAccountConfirmationDataDto', 'suggestedAccount');
     BuiltValueNullFieldError.checkNotNull(
         similarAccounts, r'NlpAccountConfirmationDataDto', 'similarAccounts');
     BuiltValueNullFieldError.checkNotNull(
@@ -156,10 +154,7 @@ class NlpAccountConfirmationDataDtoBuilder
                   invalidAccount,
                   r'NlpAccountConfirmationDataDto',
                   'invalidAccount'),
-              suggestedAccount: BuiltValueNullFieldError.checkNotNull(
-                  suggestedAccount,
-                  r'NlpAccountConfirmationDataDto',
-                  'suggestedAccount'),
+              suggestedAccount: suggestedAccount,
               similarAccounts: similarAccounts.build(),
               errorMessage: BuiltValueNullFieldError.checkNotNull(errorMessage,
                   r'NlpAccountConfirmationDataDto', 'errorMessage'),
