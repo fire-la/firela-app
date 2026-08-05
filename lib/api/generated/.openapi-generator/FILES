@@ -131,6 +131,7 @@ doc/InfoApi.md
 doc/InvestmentApi.md
 doc/LifeEventsApi.md
 doc/MapperDefaultsDto.md
+doc/MarketDataApi.md
 doc/MonetaryDto.md
 doc/MonthlyForecastDto.md
 doc/MultiCurrencyBalanceResponseDto.md
@@ -206,6 +207,8 @@ doc/RuleStatisticsResponseDtoRuleStatsInner.md
 doc/SignupDto.md
 doc/SignupResponseDto.md
 doc/SupportedProvidersResponseDto.md
+doc/SymbolQuoteDto.md
+doc/SymbolSearchResultDto.md
 doc/TagSuggestionDto.md
 doc/TagSuggestionsResponseDto.md
 doc/TemplateMetadataDto.md
@@ -270,6 +273,7 @@ lib/src/api/import_telemetry_api.dart
 lib/src/api/info_api.dart
 lib/src/api/investment_api.dart
 lib/src/api/life_events_api.dart
+lib/src/api/market_data_api.dart
 lib/src/api/onboarding_api.dart
 lib/src/api/properties_api.dart
 lib/src/api/provider_sync_api.dart
@@ -456,6 +460,8 @@ lib/src/model/rule_statistics_response_dto_rule_stats_inner.dart
 lib/src/model/signup_dto.dart
 lib/src/model/signup_response_dto.dart
 lib/src/model/supported_providers_response_dto.dart
+lib/src/model/symbol_quote_dto.dart
+lib/src/model/symbol_search_result_dto.dart
 lib/src/model/tag_suggestion_dto.dart
 lib/src/model/tag_suggestions_response_dto.dart
 lib/src/model/template_metadata_dto.dart
@@ -621,6 +627,7 @@ test/info_api_test.dart
 test/investment_api_test.dart
 test/life_events_api_test.dart
 test/mapper_defaults_dto_test.dart
+test/market_data_api_test.dart
 test/monetary_dto_test.dart
 test/monthly_forecast_dto_test.dart
 test/multi_currency_balance_response_dto_test.dart
@@ -696,6 +703,8 @@ test/rule_statistics_response_dto_test.dart
 test/signup_dto_test.dart
 test/signup_response_dto_test.dart
 test/supported_providers_response_dto_test.dart
+test/symbol_quote_dto_test.dart
+test/symbol_search_result_dto_test.dart
 test/tag_suggestion_dto_test.dart
 test/tag_suggestions_response_dto_test.dart
 test/template_metadata_dto_test.dart

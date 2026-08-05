@@ -36,6 +36,7 @@ export 'package:firela_api/src/api/import_telemetry_api.dart';
 export 'package:firela_api/src/api/info_api.dart';
 export 'package:firela_api/src/api/investment_api.dart';
 export 'package:firela_api/src/api/life_events_api.dart';
+export 'package:firela_api/src/api/market_data_api.dart';
 export 'package:firela_api/src/api/onboarding_api.dart';
 export 'package:firela_api/src/api/properties_api.dart';
 export 'package:firela_api/src/api/provider_sync_api.dart';
@@ -215,6 +216,8 @@ export 'package:firela_api/src/model/rule_statistics_response_dto_rule_stats_inn
 export 'package:firela_api/src/model/signup_dto.dart';
 export 'package:firela_api/src/model/signup_response_dto.dart';
 export 'package:firela_api/src/model/supported_providers_response_dto.dart';
+export 'package:firela_api/src/model/symbol_quote_dto.dart';
+export 'package:firela_api/src/model/symbol_search_result_dto.dart';
 export 'package:firela_api/src/model/tag_suggestion_dto.dart';
 export 'package:firela_api/src/model/tag_suggestions_response_dto.dart';
 export 'package:firela_api/src/model/template_metadata_dto.dart';
