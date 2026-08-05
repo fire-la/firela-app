@@ -11231,6 +11231,21 @@ components:
             amount: 35
             currency: CNY
             payee: Starbucks
+        selectedRuleId:
+          type: string
+          description: >-
+            confirm_rule echo-back: rule id selected from the prior confirm_rule
+            response (matchedRule.id or alternatives[i].ruleId). Applied
+            directly when the session is confirming_rule — no NL re-parse.
+          example: rule_abc123
+        selectedAccount:
+          type: string
+          description: >-
+            confirm_account echo-back: account path selected from the prior
+            confirm_account response (suggestedAccount, similarAccounts[i], or a
+            typed path). Applied directly when the session is confirming_account
+            — no NL re-parse.
+          example: Expenses:Food:Coffee
       required:
         - message
     NlpTransactionInfoDto:
