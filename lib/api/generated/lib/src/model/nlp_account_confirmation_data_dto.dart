@@ -14,7 +14,7 @@ part 'nlp_account_confirmation_data_dto.g.dart';
 ///
 /// Properties:
 /// * [invalidAccount] - The invalid account name
-/// * [suggestedAccount] - Suggested replacement account
+/// * [suggestedAccount] - Suggested replacement account (omitted when no clear candidate)
 /// * [similarAccounts] - Similar accounts for user selection
 /// * [errorMessage] - Error message explaining the issue
 /// * [transactionContext] - Transaction context for reference
@@ -24,9 +24,9 @@ abstract class NlpAccountConfirmationDataDto implements Built<NlpAccountConfirma
   @BuiltValueField(wireName: r'invalidAccount')
   String get invalidAccount;
 
-  /// Suggested replacement account
+  /// Suggested replacement account (omitted when no clear candidate)
   @BuiltValueField(wireName: r'suggestedAccount')
-  String get suggestedAccount;
+  String? get suggestedAccount;
 
   /// Similar accounts for user selection
   @BuiltValueField(wireName: r'similarAccounts')
@@ -68,11 +68,13 @@ class _$NlpAccountConfirmationDataDtoSerializer implements PrimitiveSerializer<N
       object.invalidAccount,
       specifiedType: const FullType(String),
     );
-    yield r'suggestedAccount';
-    yield serializers.serialize(
-      object.suggestedAccount,
-      specifiedType: const FullType(String),
-    );
+    if (object.suggestedAccount != null) {
+      yield r'suggestedAccount';
+      yield serializers.serialize(
+        object.suggestedAccount,
+        specifiedType: const FullType(String),
+      );
+    }
     yield r'similarAccounts';
     yield serializers.serialize(
       object.similarAccounts,
