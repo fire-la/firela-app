@@ -57,6 +57,12 @@ jobs:
             "https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.2.0/openapi-generator-cli-7.2.0.jar"
           test -s openapi-generator-cli.jar && echo "JAR downloaded: $(ls -la openapi-generator-cli.jar)"
 
+      # Clean output dir so paths removed from the spec don't survive as orphan files.
+      # openapi-generator overlays; without this, deleted endpoints (e.g. /market/symbols/*
+      # removed in firela-vlt#421) persist across regens.
+      - name: Clean generated output
+        run: rm -rf lib/api/generated
+
       # Generate model .dart files directly with stock dart-dio 7.2.0 (matches the
       # committed models → minimal diff). pubName matches the firela_api package; dart-dio
       # defaults to built_value serialization. build_runner below regenerates the .g.dart
