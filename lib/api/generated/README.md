@@ -264,6 +264,8 @@ Class | Method | HTTP request | Description
 [*LifeEventsApi*](doc/LifeEventsApi.md) | [**eventControllerFindOne**](doc/LifeEventsApi.md#eventcontrollerfindone) | **GET** /api/v1/{region}/bean/events/{id} | Get life event by ID
 [*LifeEventsApi*](doc/LifeEventsApi.md) | [**eventControllerGetSlice**](doc/LifeEventsApi.md#eventcontrollergetslice) | **GET** /api/v1/{region}/bean/events/{id}/slice | Slice time-series by a life event (Phase 79)
 [*LifeEventsApi*](doc/LifeEventsApi.md) | [**eventControllerUpdate**](doc/LifeEventsApi.md#eventcontrollerupdate) | **PUT** /api/v1/{region}/bean/events/{id} | Update a life event
+[*MarketDataApi*](doc/MarketDataApi.md) | [**symbolControllerGetQuote**](doc/MarketDataApi.md#symbolcontrollergetquote) | **GET** /api/v1/market/symbols/{symbol}/quote | Get a market symbol quote
+[*MarketDataApi*](doc/MarketDataApi.md) | [**symbolControllerSearch**](doc/MarketDataApi.md#symbolcontrollersearch) | **GET** /api/v1/market/symbols/search | Search market symbols by name or code
 [*OnboardingApi*](doc/OnboardingApi.md) | [**onboardingControllerBootstrap**](doc/OnboardingApi.md#onboardingcontrollerbootstrap) | **POST** /api/v1/{region}/bean/onboarding | Bootstrap core accounts + register asset accounts with opening balances (ADR-0113)
 [*PropertiesApi*](doc/PropertiesApi.md) | [**propertyControllerDelete**](doc/PropertiesApi.md#propertycontrollerdelete) | **DELETE** /api/v1/admin/properties/{key} | Delete a system property
 [*PropertiesApi*](doc/PropertiesApi.md) | [**propertyControllerGetAll**](doc/PropertiesApi.md#propertycontrollergetall) | **GET** /api/v1/admin/properties | Get all system properties
@@ -467,6 +469,8 @@ Class | Method | HTTP request | Description
  - [SignupDto](doc/SignupDto.md)
  - [SignupResponseDto](doc/SignupResponseDto.md)
  - [SupportedProvidersResponseDto](doc/SupportedProvidersResponseDto.md)
+ - [SymbolQuoteDto](doc/SymbolQuoteDto.md)
+ - [SymbolSearchResultDto](doc/SymbolSearchResultDto.md)
  - [TagSuggestionDto](doc/TagSuggestionDto.md)
  - [TagSuggestionsResponseDto](doc/TagSuggestionsResponseDto.md)
  - [TemplateMetadataDto](doc/TemplateMetadataDto.md)

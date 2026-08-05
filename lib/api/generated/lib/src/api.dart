@@ -36,6 +36,7 @@ import 'package:firela_api/src/api/import_telemetry_api.dart';
 import 'package:firela_api/src/api/info_api.dart';
 import 'package:firela_api/src/api/investment_api.dart';
 import 'package:firela_api/src/api/life_events_api.dart';
+import 'package:firela_api/src/api/market_data_api.dart';
 import 'package:firela_api/src/api/onboarding_api.dart';
 import 'package:firela_api/src/api/properties_api.dart';
 import 'package:firela_api/src/api/provider_sync_api.dart';
@@ -258,6 +259,12 @@ class FirelaApi {
   /// by doing that all interceptors will not be executed
   LifeEventsApi getLifeEventsApi() {
     return LifeEventsApi(dio, serializers);
+  }
+
+  /// Get MarketDataApi instance, base route and serializer can be overridden by a given but be careful,
+  /// by doing that all interceptors will not be executed
+  MarketDataApi getMarketDataApi() {
+    return MarketDataApi(dio, serializers);
   }
 
   /// Get OnboardingApi instance, base route and serializer can be overridden by a given but be careful,
