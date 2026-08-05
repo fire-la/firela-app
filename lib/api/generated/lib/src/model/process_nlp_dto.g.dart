@@ -13,11 +13,20 @@ class _$ProcessNlpDto extends ProcessNlpDto {
   final String? sessionId;
   @override
   final JsonObject? parsedData;
+  @override
+  final String? selectedRuleId;
+  @override
+  final String? selectedAccount;
 
   factory _$ProcessNlpDto([void Function(ProcessNlpDtoBuilder)? updates]) =>
       (new ProcessNlpDtoBuilder()..update(updates))._build();
 
-  _$ProcessNlpDto._({required this.message, this.sessionId, this.parsedData})
+  _$ProcessNlpDto._(
+      {required this.message,
+      this.sessionId,
+      this.parsedData,
+      this.selectedRuleId,
+      this.selectedAccount})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(message, r'ProcessNlpDto', 'message');
   }
@@ -35,7 +44,9 @@ class _$ProcessNlpDto extends ProcessNlpDto {
     return other is ProcessNlpDto &&
         message == other.message &&
         sessionId == other.sessionId &&
-        parsedData == other.parsedData;
+        parsedData == other.parsedData &&
+        selectedRuleId == other.selectedRuleId &&
+        selectedAccount == other.selectedAccount;
   }
 
   @override
@@ -44,6 +55,8 @@ class _$ProcessNlpDto extends ProcessNlpDto {
     _$hash = $jc(_$hash, message.hashCode);
     _$hash = $jc(_$hash, sessionId.hashCode);
     _$hash = $jc(_$hash, parsedData.hashCode);
+    _$hash = $jc(_$hash, selectedRuleId.hashCode);
+    _$hash = $jc(_$hash, selectedAccount.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -53,7 +66,9 @@ class _$ProcessNlpDto extends ProcessNlpDto {
     return (newBuiltValueToStringHelper(r'ProcessNlpDto')
           ..add('message', message)
           ..add('sessionId', sessionId)
-          ..add('parsedData', parsedData))
+          ..add('parsedData', parsedData)
+          ..add('selectedRuleId', selectedRuleId)
+          ..add('selectedAccount', selectedAccount))
         .toString();
   }
 }
@@ -74,6 +89,16 @@ class ProcessNlpDtoBuilder
   JsonObject? get parsedData => _$this._parsedData;
   set parsedData(JsonObject? parsedData) => _$this._parsedData = parsedData;
 
+  String? _selectedRuleId;
+  String? get selectedRuleId => _$this._selectedRuleId;
+  set selectedRuleId(String? selectedRuleId) =>
+      _$this._selectedRuleId = selectedRuleId;
+
+  String? _selectedAccount;
+  String? get selectedAccount => _$this._selectedAccount;
+  set selectedAccount(String? selectedAccount) =>
+      _$this._selectedAccount = selectedAccount;
+
   ProcessNlpDtoBuilder() {
     ProcessNlpDto._defaults(this);
   }
@@ -84,6 +109,8 @@ class ProcessNlpDtoBuilder
       _message = $v.message;
       _sessionId = $v.sessionId;
       _parsedData = $v.parsedData;
+      _selectedRuleId = $v.selectedRuleId;
+      _selectedAccount = $v.selectedAccount;
       _$v = null;
     }
     return this;
@@ -109,7 +136,9 @@ class ProcessNlpDtoBuilder
             message: BuiltValueNullFieldError.checkNotNull(
                 message, r'ProcessNlpDto', 'message'),
             sessionId: sessionId,
-            parsedData: parsedData);
+            parsedData: parsedData,
+            selectedRuleId: selectedRuleId,
+            selectedAccount: selectedAccount);
     replace(_$result);
     return _$result;
   }
