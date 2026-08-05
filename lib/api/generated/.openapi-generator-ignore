@@ -16,10 +16,8 @@
 #foo/**/qux
 # This matches foo/bar/qux, foo/baz/qux, and foo/bar/baz/qux
 
-# Skip generated boilerplate (not useful in committed code)
-doc/
-docs/
-test/
-.openapi-generator/
-git_push.sh
-*.mustache
+# You can also negate patterns with an exclamation (!).
+# For example, you can ignore all files in a docs folder with the file extension .md:
+#docs/*.md
+# Then explicitly reverse the ignore rule for a single file:
+#!docs/README.md
