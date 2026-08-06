@@ -146,11 +146,15 @@ jobs:
       # Catches failed JsonObject-import / BuiltList / SDK patches as real analyzer or
       # pub-get errors BEFORE a PR is created — main has no required checks, so this
       # in-workflow gate is the only barrier to broken Dart reaching consumers.
+      # Plain `dart analyze` (no --fatal-infos): generated code legitimately carries
+      # infos (deprecated_member_use from spec deprecations) and warnings (unused_field)
+      # the generator cannot avoid. Gating on ERROR level catches real breakage (missing
+      # JsonObject import, BuiltList type mismatch, bad SDK constraint via pub get).
       - name: Analyze generated package (compile gate)
         working-directory: lib/api/generated
         run: |
           dart pub get
-          dart analyze --fatal-infos
+          dart analyze
 
       - name: Create PR if changed
         id: create-pr
