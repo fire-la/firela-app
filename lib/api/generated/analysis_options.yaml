@@ -1,5 +1,9 @@
 analyzer:
   errors:
     unused_import: ignore
+    unnecessary_import: ignore
+    unused_element: ignore
+    unused_field: ignore
     strict_raw_type: ignore
-    unused_element_parameter: ignore
+    deprecated_member_use: ignore
+    deprecated_member_use_from_same_package: ignore
