@@ -111,15 +111,26 @@ jobs:
           cd lib/api/generated
           dart fix --apply 2>/dev/null || true
 
-      # Suppress remaining warnings in generated code via analysis_options
+      # Suppress generated-code noise so the analyze gate below gates on ERROR only.
+      # dart analyze's exit code treats infos/warnings as fatal in some Dart versions
+      # (e.g. 3.5) but not others (3.12), so we can't rely on --fatal-* flags across
+      # versions. Suppressing the unavoidable noise (unused fields/elements, spec
+      # deprecations) yields 0 issues on clean generated code in every version, while
+      # real errors (missing imports, type mismatches) still surface and fail the gate.
+      # Note: unused_element_parameter is not a recognized code in Dart 3.5 (it logs an
+      # unrecognized_error_code warning); unused_element covers it and is universal.
       - name: Add analysis_options for generated package
         run: |
           cat > lib/api/generated/analysis_options.yaml << 'ANALYSIS'
           analyzer:
             errors:
               unused_import: ignore
+              unnecessary_import: ignore
+              unused_element: ignore
+              unused_field: ignore
               strict_raw_type: ignore
-              unused_element_parameter: ignore
+              deprecated_member_use: ignore
+              deprecated_member_use_from_same_package: ignore
           ANALYSIS
 
       # Update generated package SDK to match main app requirement
