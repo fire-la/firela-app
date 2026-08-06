@@ -57,11 +57,15 @@ jobs:
             "https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.2.0/openapi-generator-cli-7.2.0.jar"
           test -s openapi-generator-cli.jar && echo "JAR downloaded: $(ls -la openapi-generator-cli.jar)"
 
-      # Clean output dir so paths removed from the spec don't survive as orphan files.
-      # openapi-generator overlays; without this, deleted endpoints (e.g. /market/symbols/*
-      # removed in firela-vlt#421) persist across regens.
-      - name: Clean generated output
-        run: rm -rf lib/api/generated
+      # Clear the Dart source tree so removed spec paths leave no orphan _api.dart
+      # files (openapi-generator overwrites but never deletes — e.g. symbols_api.dart
+      # from firela-vlt#421 survived for months until a clean regen). Only lib/ is
+      # cleared: a full `rm -rf lib/api/generated` loses the hand-maintained
+      # .openapi-generator-ignore skip rules (doc/ test/ .mustache ...) and re-commits
+      # ~480 boilerplate files (#222 did exactly this). The generator updates the
+      # ignore file + pubspec + README at the package root in place.
+      - name: Clear generated source tree
+        run: rm -rf lib/api/generated/lib
 
       # Generate model .dart files directly with stock dart-dio 7.2.0 (matches the
       # committed models → minimal diff). pubName matches the firela_api package; dart-dio
@@ -135,6 +139,18 @@ jobs:
             find . -path ./node_modules -prune -o -name "*.openapi.dart" -print 2>/dev/null | head -20
             exit 1
           fi
+
+      # Self-contained compile gate. Must run INSIDE lib/api/generated (its own pub
+      # package using its own analysis_options.yaml): the root analysis_options.yaml
+      # excludes lib/api/**, so `dart analyze lib/api/` from the repo root is a no-op.
+      # Catches failed JsonObject-import / BuiltList / SDK patches as real analyzer or
+      # pub-get errors BEFORE a PR is created — main has no required checks, so this
+      # in-workflow gate is the only barrier to broken Dart reaching consumers.
+      - name: Analyze generated package (compile gate)
+        working-directory: lib/api/generated
+        run: |
+          dart pub get
+          dart analyze --fatal-infos
 
       - name: Create PR if changed
         id: create-pr
