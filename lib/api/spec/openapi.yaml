@@ -11727,7 +11727,10 @@ components:
           example: Assets:Checking
         confidence:
           type: number
-          description: Confidence score for this suggestion (0-1)
+          description: >-
+            Confidence score for this suggestion (0-1). Present = predicted
+            (confirm/confirm_rule/confirm_account); omitted = actual persisted
+            account (created). (#586)
           example: 0.9
       required:
         - account
@@ -11764,7 +11767,7 @@ components:
         liability:
           type: string
           description: Default liability account
-          example: Liabilities:CreditCard
+          example: Liabilities:General
       required:
         - asset
         - expense
@@ -11950,14 +11953,17 @@ components:
             - $ref: '#/components/schemas/RecurringSuggestionDto'
         suggestedAccounts:
           description: >-
-            Suggested accounts for this transaction. Contains recommended source
-            and destination accounts based on the detected intent and rules.
+            Suggested accounts for this transaction (#586).
+            confirm/confirm_rule/confirm_account: predicted (source/destination
+            carry confidence); created: actual persisted accounts (confidence
+            omitted). confirm_account destination is the suggested replacement,
+            never the invalid account.
           allOf:
             - $ref: '#/components/schemas/NlpSuggestedAccountsDto'
         defaultAccounts:
           description: >-
-            Default accounts for the user/region. These are fallback accounts
-            used when no specific suggestion is available.
+            Default fallback accounts for the user/region (#586). v1 returns
+            universal constants; per-user personalization is planned.
           allOf:
             - $ref: '#/components/schemas/NlpDefaultAccountsDto'
       required:
