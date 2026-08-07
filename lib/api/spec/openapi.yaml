@@ -196,7 +196,9 @@ paths:
     delete:
       operationId: AccountController_delete
       summary: Delete account
-      description: Deletes an account (only if no transactions)
+      description: >-
+        Deletes an account (only if no active transactions; voided/superseded
+        residual postings are cleaned up)
       parameters:
         - name: id
           required: true
@@ -221,7 +223,7 @@ paths:
         '404':
           description: Account not found
         '409':
-          description: Account has transactions and cannot be deleted
+          description: Account has active transactions and cannot be deleted
       tags:
         - Bean Accounts
       security:
