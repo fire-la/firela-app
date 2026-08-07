@@ -321,7 +321,7 @@ class BeanAccountsApi {
   }
 
   /// Delete account
-  /// Deletes an account (only if no transactions)
+  /// Deletes an account (only if no active transactions; voided/superseded residual postings are cleaned up)
   ///
   /// Parameters:
   /// * [id] - Account UUID
