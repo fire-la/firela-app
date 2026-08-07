@@ -8,33 +8,21 @@ part of 'nlp_default_accounts_dto.dart';
 
 class _$NlpDefaultAccountsDto extends NlpDefaultAccountsDto {
   @override
-  final String asset;
+  final String? asset;
   @override
-  final String expense;
+  final String? expense;
   @override
-  final String income;
+  final String? income;
   @override
-  final String liability;
+  final String? liability;
 
   factory _$NlpDefaultAccountsDto(
           [void Function(NlpDefaultAccountsDtoBuilder)? updates]) =>
       (new NlpDefaultAccountsDtoBuilder()..update(updates))._build();
 
   _$NlpDefaultAccountsDto._(
-      {required this.asset,
-      required this.expense,
-      required this.income,
-      required this.liability})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        asset, r'NlpDefaultAccountsDto', 'asset');
-    BuiltValueNullFieldError.checkNotNull(
-        expense, r'NlpDefaultAccountsDto', 'expense');
-    BuiltValueNullFieldError.checkNotNull(
-        income, r'NlpDefaultAccountsDto', 'income');
-    BuiltValueNullFieldError.checkNotNull(
-        liability, r'NlpDefaultAccountsDto', 'liability');
-  }
+      {this.asset, this.expense, this.income, this.liability})
+      : super._();
 
   @override
   NlpDefaultAccountsDto rebuild(
@@ -130,14 +118,10 @@ class NlpDefaultAccountsDtoBuilder
   _$NlpDefaultAccountsDto _build() {
     final _$result = _$v ??
         new _$NlpDefaultAccountsDto._(
-            asset: BuiltValueNullFieldError.checkNotNull(
-                asset, r'NlpDefaultAccountsDto', 'asset'),
-            expense: BuiltValueNullFieldError.checkNotNull(
-                expense, r'NlpDefaultAccountsDto', 'expense'),
-            income: BuiltValueNullFieldError.checkNotNull(
-                income, r'NlpDefaultAccountsDto', 'income'),
-            liability: BuiltValueNullFieldError.checkNotNull(
-                liability, r'NlpDefaultAccountsDto', 'liability'));
+            asset: asset,
+            expense: expense,
+            income: income,
+            liability: liability);
     replace(_$result);
     return _$result;
   }
