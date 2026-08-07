@@ -11754,20 +11754,32 @@ components:
       properties:
         asset:
           type: string
-          description: Default asset account
+          description: >-
+            Default OPEN asset account (MRU when multiple), or null when
+            none/ambiguous
           example: Assets:Checking
+          nullable: true
         expense:
           type: string
-          description: Default expense account
-          example: Expenses:Uncategorized
+          description: >-
+            Default OPEN expense account (MRU when multiple), or null when
+            none/ambiguous
+          example: Expenses:Food:Coffee
+          nullable: true
         income:
           type: string
-          description: Default income account
-          example: Income:Uncategorized
+          description: >-
+            Default OPEN income account (MRU when multiple), or null when
+            none/ambiguous
+          example: Income:Salary
+          nullable: true
         liability:
           type: string
-          description: Default liability account
-          example: Liabilities:General
+          description: >-
+            Default OPEN liability account (MRU when multiple), or null when
+            none/ambiguous
+          example: Liabilities:CreditCard
+          nullable: true
       required:
         - asset
         - expense
