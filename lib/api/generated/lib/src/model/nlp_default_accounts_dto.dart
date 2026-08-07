@@ -11,27 +11,27 @@ part 'nlp_default_accounts_dto.g.dart';
 /// NlpDefaultAccountsDto
 ///
 /// Properties:
-/// * [asset] - Default asset account
-/// * [expense] - Default expense account
-/// * [income] - Default income account
-/// * [liability] - Default liability account
+/// * [asset] - Default OPEN asset account (MRU when multiple), or null when none/ambiguous
+/// * [expense] - Default OPEN expense account (MRU when multiple), or null when none/ambiguous
+/// * [income] - Default OPEN income account (MRU when multiple), or null when none/ambiguous
+/// * [liability] - Default OPEN liability account (MRU when multiple), or null when none/ambiguous
 @BuiltValue()
 abstract class NlpDefaultAccountsDto implements Built<NlpDefaultAccountsDto, NlpDefaultAccountsDtoBuilder> {
-  /// Default asset account
+  /// Default OPEN asset account (MRU when multiple), or null when none/ambiguous
   @BuiltValueField(wireName: r'asset')
-  String get asset;
+  String? get asset;
 
-  /// Default expense account
+  /// Default OPEN expense account (MRU when multiple), or null when none/ambiguous
   @BuiltValueField(wireName: r'expense')
-  String get expense;
+  String? get expense;
 
-  /// Default income account
+  /// Default OPEN income account (MRU when multiple), or null when none/ambiguous
   @BuiltValueField(wireName: r'income')
-  String get income;
+  String? get income;
 
-  /// Default liability account
+  /// Default OPEN liability account (MRU when multiple), or null when none/ambiguous
   @BuiltValueField(wireName: r'liability')
-  String get liability;
+  String? get liability;
 
   NlpDefaultAccountsDto._();
 
@@ -57,24 +57,24 @@ class _$NlpDefaultAccountsDtoSerializer implements PrimitiveSerializer<NlpDefaul
     FullType specifiedType = FullType.unspecified,
   }) sync* {
     yield r'asset';
-    yield serializers.serialize(
+    yield object.asset == null ? null : serializers.serialize(
       object.asset,
-      specifiedType: const FullType(String),
+      specifiedType: const FullType.nullable(String),
     );
     yield r'expense';
-    yield serializers.serialize(
+    yield object.expense == null ? null : serializers.serialize(
       object.expense,
-      specifiedType: const FullType(String),
+      specifiedType: const FullType.nullable(String),
     );
     yield r'income';
-    yield serializers.serialize(
+    yield object.income == null ? null : serializers.serialize(
       object.income,
-      specifiedType: const FullType(String),
+      specifiedType: const FullType.nullable(String),
     );
     yield r'liability';
-    yield serializers.serialize(
+    yield object.liability == null ? null : serializers.serialize(
       object.liability,
-      specifiedType: const FullType(String),
+      specifiedType: const FullType.nullable(String),
     );
   }
 
@@ -102,29 +102,33 @@ class _$NlpDefaultAccountsDtoSerializer implements PrimitiveSerializer<NlpDefaul
         case r'asset':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
           result.asset = valueDes;
           break;
         case r'expense':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
           result.expense = valueDes;
           break;
         case r'income':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
           result.income = valueDes;
           break;
         case r'liability':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(String),
-          ) as String;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
           result.liability = valueDes;
           break;
         default:
