@@ -18,6 +18,9 @@ part 'account_standard_response_dto.g.dart';
 /// * [description] - Account description (stable semantics only)
 /// * [tags] - Account tags for categorization
 /// * [icon] - Icon identifier for UI display
+/// * [productCategory] - Onboarding product category (coarse grouping derived from assetSubClass)
+/// * [assetClass] - Asset class (LIQUIDITY/EQUITY/.../LIABILITY), derived at read time from classification rules
+/// * [assetSubClass] - Asset sub-class (product type, derived at read time from classification rules)
 @BuiltValue()
 abstract class AccountStandardResponseDto implements Built<AccountStandardResponseDto, AccountStandardResponseDtoBuilder> {
   /// Account path (hierarchical, colon-separated)
@@ -44,6 +47,20 @@ abstract class AccountStandardResponseDto implements Built<AccountStandardRespon
   /// Icon identifier for UI display
   @BuiltValueField(wireName: r'icon')
   String get icon;
+
+  /// Onboarding product category (coarse grouping derived from assetSubClass)
+  @BuiltValueField(wireName: r'productCategory')
+  AccountStandardResponseDtoProductCategoryEnum get productCategory;
+  // enum productCategoryEnum {  cash,  investment,  credit_card,  loan,  payable_tax,  other,  };
+
+  /// Asset class (LIQUIDITY/EQUITY/.../LIABILITY), derived at read time from classification rules
+  @BuiltValueField(wireName: r'assetClass')
+  AccountStandardResponseDtoAssetClassEnum? get assetClass;
+  // enum assetClassEnum {  LIQUIDITY,  EQUITY,  FIXED_INCOME,  PRECIOUS_METALS,  COMMODITY,  INSURANCE,  ALTERNATIVE_INVESTMENT,  PERSONAL_ASSETS,  LIABILITY,  REAL_ESTATE,  INDEX,  };
+
+  /// Asset sub-class (product type, derived at read time from classification rules)
+  @BuiltValueField(wireName: r'assetSubClass')
+  String? get assetSubClass;
 
   AccountStandardResponseDto._();
 
@@ -100,6 +117,25 @@ class _$AccountStandardResponseDtoSerializer implements PrimitiveSerializer<Acco
       object.icon,
       specifiedType: const FullType(String),
     );
+    yield r'productCategory';
+    yield serializers.serialize(
+      object.productCategory,
+      specifiedType: const FullType(AccountStandardResponseDtoProductCategoryEnum),
+    );
+    if (object.assetClass != null) {
+      yield r'assetClass';
+      yield serializers.serialize(
+        object.assetClass,
+        specifiedType: const FullType(AccountStandardResponseDtoAssetClassEnum),
+      );
+    }
+    if (object.assetSubClass != null) {
+      yield r'assetSubClass';
+      yield serializers.serialize(
+        object.assetSubClass,
+        specifiedType: const FullType(String),
+      );
+    }
   }
 
   @override
@@ -165,6 +201,27 @@ class _$AccountStandardResponseDtoSerializer implements PrimitiveSerializer<Acco
           ) as String;
           result.icon = valueDes;
           break;
+        case r'productCategory':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(AccountStandardResponseDtoProductCategoryEnum),
+          ) as AccountStandardResponseDtoProductCategoryEnum;
+          result.productCategory = valueDes;
+          break;
+        case r'assetClass':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(AccountStandardResponseDtoAssetClassEnum),
+          ) as AccountStandardResponseDtoAssetClassEnum;
+          result.assetClass = valueDes;
+          break;
+        case r'assetSubClass':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.assetSubClass = valueDes;
+          break;
         default:
           unhandled.add(key);
           unhandled.add(value);
@@ -218,5 +275,78 @@ class AccountStandardResponseDtoTypeEnum extends EnumClass {
 
   static BuiltSet<AccountStandardResponseDtoTypeEnum> get values => _$accountStandardResponseDtoTypeEnumValues;
   static AccountStandardResponseDtoTypeEnum valueOf(String name) => _$accountStandardResponseDtoTypeEnumValueOf(name);
+}
+
+class AccountStandardResponseDtoProductCategoryEnum extends EnumClass {
+
+  /// Onboarding product category (coarse grouping derived from assetSubClass)
+  @BuiltValueEnumConst(wireName: r'cash')
+  static const AccountStandardResponseDtoProductCategoryEnum cash = _$accountStandardResponseDtoProductCategoryEnum_cash;
+  /// Onboarding product category (coarse grouping derived from assetSubClass)
+  @BuiltValueEnumConst(wireName: r'investment')
+  static const AccountStandardResponseDtoProductCategoryEnum investment = _$accountStandardResponseDtoProductCategoryEnum_investment;
+  /// Onboarding product category (coarse grouping derived from assetSubClass)
+  @BuiltValueEnumConst(wireName: r'credit_card')
+  static const AccountStandardResponseDtoProductCategoryEnum creditCard = _$accountStandardResponseDtoProductCategoryEnum_creditCard;
+  /// Onboarding product category (coarse grouping derived from assetSubClass)
+  @BuiltValueEnumConst(wireName: r'loan')
+  static const AccountStandardResponseDtoProductCategoryEnum loan = _$accountStandardResponseDtoProductCategoryEnum_loan;
+  /// Onboarding product category (coarse grouping derived from assetSubClass)
+  @BuiltValueEnumConst(wireName: r'payable_tax')
+  static const AccountStandardResponseDtoProductCategoryEnum payableTax = _$accountStandardResponseDtoProductCategoryEnum_payableTax;
+  /// Onboarding product category (coarse grouping derived from assetSubClass)
+  @BuiltValueEnumConst(wireName: r'other')
+  static const AccountStandardResponseDtoProductCategoryEnum other = _$accountStandardResponseDtoProductCategoryEnum_other;
+
+  static Serializer<AccountStandardResponseDtoProductCategoryEnum> get serializer => _$accountStandardResponseDtoProductCategoryEnumSerializer;
+
+  const AccountStandardResponseDtoProductCategoryEnum._(String name): super(name);
+
+  static BuiltSet<AccountStandardResponseDtoProductCategoryEnum> get values => _$accountStandardResponseDtoProductCategoryEnumValues;
+  static AccountStandardResponseDtoProductCategoryEnum valueOf(String name) => _$accountStandardResponseDtoProductCategoryEnumValueOf(name);
+}
+
+class AccountStandardResponseDtoAssetClassEnum extends EnumClass {
+
+  /// Asset class (LIQUIDITY/EQUITY/.../LIABILITY), derived at read time from classification rules
+  @BuiltValueEnumConst(wireName: r'LIQUIDITY')
+  static const AccountStandardResponseDtoAssetClassEnum LIQUIDITY = _$accountStandardResponseDtoAssetClassEnum_LIQUIDITY;
+  /// Asset class (LIQUIDITY/EQUITY/.../LIABILITY), derived at read time from classification rules
+  @BuiltValueEnumConst(wireName: r'EQUITY')
+  static const AccountStandardResponseDtoAssetClassEnum EQUITY = _$accountStandardResponseDtoAssetClassEnum_EQUITY;
+  /// Asset class (LIQUIDITY/EQUITY/.../LIABILITY), derived at read time from classification rules
+  @BuiltValueEnumConst(wireName: r'FIXED_INCOME')
+  static const AccountStandardResponseDtoAssetClassEnum FIXED_INCOME = _$accountStandardResponseDtoAssetClassEnum_FIXED_INCOME;
+  /// Asset class (LIQUIDITY/EQUITY/.../LIABILITY), derived at read time from classification rules
+  @BuiltValueEnumConst(wireName: r'PRECIOUS_METALS')
+  static const AccountStandardResponseDtoAssetClassEnum PRECIOUS_METALS = _$accountStandardResponseDtoAssetClassEnum_PRECIOUS_METALS;
+  /// Asset class (LIQUIDITY/EQUITY/.../LIABILITY), derived at read time from classification rules
+  @BuiltValueEnumConst(wireName: r'COMMODITY')
+  static const AccountStandardResponseDtoAssetClassEnum COMMODITY = _$accountStandardResponseDtoAssetClassEnum_COMMODITY;
+  /// Asset class (LIQUIDITY/EQUITY/.../LIABILITY), derived at read time from classification rules
+  @BuiltValueEnumConst(wireName: r'INSURANCE')
+  static const AccountStandardResponseDtoAssetClassEnum INSURANCE = _$accountStandardResponseDtoAssetClassEnum_INSURANCE;
+  /// Asset class (LIQUIDITY/EQUITY/.../LIABILITY), derived at read time from classification rules
+  @BuiltValueEnumConst(wireName: r'ALTERNATIVE_INVESTMENT')
+  static const AccountStandardResponseDtoAssetClassEnum ALTERNATIVE_INVESTMENT = _$accountStandardResponseDtoAssetClassEnum_ALTERNATIVE_INVESTMENT;
+  /// Asset class (LIQUIDITY/EQUITY/.../LIABILITY), derived at read time from classification rules
+  @BuiltValueEnumConst(wireName: r'PERSONAL_ASSETS')
+  static const AccountStandardResponseDtoAssetClassEnum PERSONAL_ASSETS = _$accountStandardResponseDtoAssetClassEnum_PERSONAL_ASSETS;
+  /// Asset class (LIQUIDITY/EQUITY/.../LIABILITY), derived at read time from classification rules
+  @BuiltValueEnumConst(wireName: r'LIABILITY')
+  static const AccountStandardResponseDtoAssetClassEnum LIABILITY = _$accountStandardResponseDtoAssetClassEnum_LIABILITY;
+  /// Asset class (LIQUIDITY/EQUITY/.../LIABILITY), derived at read time from classification rules
+  @BuiltValueEnumConst(wireName: r'REAL_ESTATE')
+  static const AccountStandardResponseDtoAssetClassEnum REAL_ESTATE = _$accountStandardResponseDtoAssetClassEnum_REAL_ESTATE;
+  /// Asset class (LIQUIDITY/EQUITY/.../LIABILITY), derived at read time from classification rules
+  @BuiltValueEnumConst(wireName: r'INDEX')
+  static const AccountStandardResponseDtoAssetClassEnum INDEX = _$accountStandardResponseDtoAssetClassEnum_INDEX;
+
+  static Serializer<AccountStandardResponseDtoAssetClassEnum> get serializer => _$accountStandardResponseDtoAssetClassEnumSerializer;
+
+  const AccountStandardResponseDtoAssetClassEnum._(String name): super(name);
+
+  static BuiltSet<AccountStandardResponseDtoAssetClassEnum> get values => _$accountStandardResponseDtoAssetClassEnumValues;
+  static AccountStandardResponseDtoAssetClassEnum valueOf(String name) => _$accountStandardResponseDtoAssetClassEnumValueOf(name);
 }
 

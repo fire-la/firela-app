@@ -137,6 +137,12 @@ const AccountResponseDtoAssetSubClassEnum
     _$accountResponseDtoAssetSubClassEnum_PERSONAL_LOAN =
     const AccountResponseDtoAssetSubClassEnum._('PERSONAL_LOAN');
 const AccountResponseDtoAssetSubClassEnum
+    _$accountResponseDtoAssetSubClassEnum_ACCOUNTS_PAYABLE =
+    const AccountResponseDtoAssetSubClassEnum._('ACCOUNTS_PAYABLE');
+const AccountResponseDtoAssetSubClassEnum
+    _$accountResponseDtoAssetSubClassEnum_TAX_PAYABLE =
+    const AccountResponseDtoAssetSubClassEnum._('TAX_PAYABLE');
+const AccountResponseDtoAssetSubClassEnum
     _$accountResponseDtoAssetSubClassEnum_OTHER =
     const AccountResponseDtoAssetSubClassEnum._('OTHER');
 
@@ -205,6 +211,10 @@ AccountResponseDtoAssetSubClassEnum
       return _$accountResponseDtoAssetSubClassEnum_CREDIT_CARD;
     case 'PERSONAL_LOAN':
       return _$accountResponseDtoAssetSubClassEnum_PERSONAL_LOAN;
+    case 'ACCOUNTS_PAYABLE':
+      return _$accountResponseDtoAssetSubClassEnum_ACCOUNTS_PAYABLE;
+    case 'TAX_PAYABLE':
+      return _$accountResponseDtoAssetSubClassEnum_TAX_PAYABLE;
     case 'OTHER':
       return _$accountResponseDtoAssetSubClassEnum_OTHER;
     default:
@@ -246,6 +256,8 @@ final BuiltSet<AccountResponseDtoAssetSubClassEnum>
   _$accountResponseDtoAssetSubClassEnum_STUDENT_LOAN,
   _$accountResponseDtoAssetSubClassEnum_CREDIT_CARD,
   _$accountResponseDtoAssetSubClassEnum_PERSONAL_LOAN,
+  _$accountResponseDtoAssetSubClassEnum_ACCOUNTS_PAYABLE,
+  _$accountResponseDtoAssetSubClassEnum_TAX_PAYABLE,
   _$accountResponseDtoAssetSubClassEnum_OTHER,
 ]);
 
@@ -415,6 +427,8 @@ class _$AccountResponseDtoAssetSubClassEnumSerializer
     'STUDENT_LOAN': 'STUDENT_LOAN',
     'CREDIT_CARD': 'CREDIT_CARD',
     'PERSONAL_LOAN': 'PERSONAL_LOAN',
+    'ACCOUNTS_PAYABLE': 'ACCOUNTS_PAYABLE',
+    'TAX_PAYABLE': 'TAX_PAYABLE',
     'OTHER': 'OTHER',
   };
   static const Map<Object, String> _fromWire = const <Object, String>{
@@ -449,6 +463,8 @@ class _$AccountResponseDtoAssetSubClassEnumSerializer
     'STUDENT_LOAN': 'STUDENT_LOAN',
     'CREDIT_CARD': 'CREDIT_CARD',
     'PERSONAL_LOAN': 'PERSONAL_LOAN',
+    'ACCOUNTS_PAYABLE': 'ACCOUNTS_PAYABLE',
+    'TAX_PAYABLE': 'TAX_PAYABLE',
     'OTHER': 'OTHER',
   };
 

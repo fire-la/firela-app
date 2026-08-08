@@ -50,9 +50,145 @@ final BuiltSet<AccountStandardResponseDtoTypeEnum>
   _$accountStandardResponseDtoTypeEnum_equity,
 ]);
 
+const AccountStandardResponseDtoProductCategoryEnum
+    _$accountStandardResponseDtoProductCategoryEnum_cash =
+    const AccountStandardResponseDtoProductCategoryEnum._('cash');
+const AccountStandardResponseDtoProductCategoryEnum
+    _$accountStandardResponseDtoProductCategoryEnum_investment =
+    const AccountStandardResponseDtoProductCategoryEnum._('investment');
+const AccountStandardResponseDtoProductCategoryEnum
+    _$accountStandardResponseDtoProductCategoryEnum_creditCard =
+    const AccountStandardResponseDtoProductCategoryEnum._('creditCard');
+const AccountStandardResponseDtoProductCategoryEnum
+    _$accountStandardResponseDtoProductCategoryEnum_loan =
+    const AccountStandardResponseDtoProductCategoryEnum._('loan');
+const AccountStandardResponseDtoProductCategoryEnum
+    _$accountStandardResponseDtoProductCategoryEnum_payableTax =
+    const AccountStandardResponseDtoProductCategoryEnum._('payableTax');
+const AccountStandardResponseDtoProductCategoryEnum
+    _$accountStandardResponseDtoProductCategoryEnum_other =
+    const AccountStandardResponseDtoProductCategoryEnum._('other');
+
+AccountStandardResponseDtoProductCategoryEnum
+    _$accountStandardResponseDtoProductCategoryEnumValueOf(String name) {
+  switch (name) {
+    case 'cash':
+      return _$accountStandardResponseDtoProductCategoryEnum_cash;
+    case 'investment':
+      return _$accountStandardResponseDtoProductCategoryEnum_investment;
+    case 'creditCard':
+      return _$accountStandardResponseDtoProductCategoryEnum_creditCard;
+    case 'loan':
+      return _$accountStandardResponseDtoProductCategoryEnum_loan;
+    case 'payableTax':
+      return _$accountStandardResponseDtoProductCategoryEnum_payableTax;
+    case 'other':
+      return _$accountStandardResponseDtoProductCategoryEnum_other;
+    default:
+      throw new ArgumentError(name);
+  }
+}
+
+final BuiltSet<AccountStandardResponseDtoProductCategoryEnum>
+    _$accountStandardResponseDtoProductCategoryEnumValues = new BuiltSet<
+        AccountStandardResponseDtoProductCategoryEnum>(const <AccountStandardResponseDtoProductCategoryEnum>[
+  _$accountStandardResponseDtoProductCategoryEnum_cash,
+  _$accountStandardResponseDtoProductCategoryEnum_investment,
+  _$accountStandardResponseDtoProductCategoryEnum_creditCard,
+  _$accountStandardResponseDtoProductCategoryEnum_loan,
+  _$accountStandardResponseDtoProductCategoryEnum_payableTax,
+  _$accountStandardResponseDtoProductCategoryEnum_other,
+]);
+
+const AccountStandardResponseDtoAssetClassEnum
+    _$accountStandardResponseDtoAssetClassEnum_LIQUIDITY =
+    const AccountStandardResponseDtoAssetClassEnum._('LIQUIDITY');
+const AccountStandardResponseDtoAssetClassEnum
+    _$accountStandardResponseDtoAssetClassEnum_EQUITY =
+    const AccountStandardResponseDtoAssetClassEnum._('EQUITY');
+const AccountStandardResponseDtoAssetClassEnum
+    _$accountStandardResponseDtoAssetClassEnum_FIXED_INCOME =
+    const AccountStandardResponseDtoAssetClassEnum._('FIXED_INCOME');
+const AccountStandardResponseDtoAssetClassEnum
+    _$accountStandardResponseDtoAssetClassEnum_PRECIOUS_METALS =
+    const AccountStandardResponseDtoAssetClassEnum._('PRECIOUS_METALS');
+const AccountStandardResponseDtoAssetClassEnum
+    _$accountStandardResponseDtoAssetClassEnum_COMMODITY =
+    const AccountStandardResponseDtoAssetClassEnum._('COMMODITY');
+const AccountStandardResponseDtoAssetClassEnum
+    _$accountStandardResponseDtoAssetClassEnum_INSURANCE =
+    const AccountStandardResponseDtoAssetClassEnum._('INSURANCE');
+const AccountStandardResponseDtoAssetClassEnum
+    _$accountStandardResponseDtoAssetClassEnum_ALTERNATIVE_INVESTMENT =
+    const AccountStandardResponseDtoAssetClassEnum._('ALTERNATIVE_INVESTMENT');
+const AccountStandardResponseDtoAssetClassEnum
+    _$accountStandardResponseDtoAssetClassEnum_PERSONAL_ASSETS =
+    const AccountStandardResponseDtoAssetClassEnum._('PERSONAL_ASSETS');
+const AccountStandardResponseDtoAssetClassEnum
+    _$accountStandardResponseDtoAssetClassEnum_LIABILITY =
+    const AccountStandardResponseDtoAssetClassEnum._('LIABILITY');
+const AccountStandardResponseDtoAssetClassEnum
+    _$accountStandardResponseDtoAssetClassEnum_REAL_ESTATE =
+    const AccountStandardResponseDtoAssetClassEnum._('REAL_ESTATE');
+const AccountStandardResponseDtoAssetClassEnum
+    _$accountStandardResponseDtoAssetClassEnum_INDEX =
+    const AccountStandardResponseDtoAssetClassEnum._('INDEX');
+
+AccountStandardResponseDtoAssetClassEnum
+    _$accountStandardResponseDtoAssetClassEnumValueOf(String name) {
+  switch (name) {
+    case 'LIQUIDITY':
+      return _$accountStandardResponseDtoAssetClassEnum_LIQUIDITY;
+    case 'EQUITY':
+      return _$accountStandardResponseDtoAssetClassEnum_EQUITY;
+    case 'FIXED_INCOME':
+      return _$accountStandardResponseDtoAssetClassEnum_FIXED_INCOME;
+    case 'PRECIOUS_METALS':
+      return _$accountStandardResponseDtoAssetClassEnum_PRECIOUS_METALS;
+    case 'COMMODITY':
+      return _$accountStandardResponseDtoAssetClassEnum_COMMODITY;
+    case 'INSURANCE':
+      return _$accountStandardResponseDtoAssetClassEnum_INSURANCE;
+    case 'ALTERNATIVE_INVESTMENT':
+      return _$accountStandardResponseDtoAssetClassEnum_ALTERNATIVE_INVESTMENT;
+    case 'PERSONAL_ASSETS':
+      return _$accountStandardResponseDtoAssetClassEnum_PERSONAL_ASSETS;
+    case 'LIABILITY':
+      return _$accountStandardResponseDtoAssetClassEnum_LIABILITY;
+    case 'REAL_ESTATE':
+      return _$accountStandardResponseDtoAssetClassEnum_REAL_ESTATE;
+    case 'INDEX':
+      return _$accountStandardResponseDtoAssetClassEnum_INDEX;
+    default:
+      throw new ArgumentError(name);
+  }
+}
+
+final BuiltSet<AccountStandardResponseDtoAssetClassEnum>
+    _$accountStandardResponseDtoAssetClassEnumValues = new BuiltSet<
+        AccountStandardResponseDtoAssetClassEnum>(const <AccountStandardResponseDtoAssetClassEnum>[
+  _$accountStandardResponseDtoAssetClassEnum_LIQUIDITY,
+  _$accountStandardResponseDtoAssetClassEnum_EQUITY,
+  _$accountStandardResponseDtoAssetClassEnum_FIXED_INCOME,
+  _$accountStandardResponseDtoAssetClassEnum_PRECIOUS_METALS,
+  _$accountStandardResponseDtoAssetClassEnum_COMMODITY,
+  _$accountStandardResponseDtoAssetClassEnum_INSURANCE,
+  _$accountStandardResponseDtoAssetClassEnum_ALTERNATIVE_INVESTMENT,
+  _$accountStandardResponseDtoAssetClassEnum_PERSONAL_ASSETS,
+  _$accountStandardResponseDtoAssetClassEnum_LIABILITY,
+  _$accountStandardResponseDtoAssetClassEnum_REAL_ESTATE,
+  _$accountStandardResponseDtoAssetClassEnum_INDEX,
+]);
+
 Serializer<AccountStandardResponseDtoTypeEnum>
     _$accountStandardResponseDtoTypeEnumSerializer =
     new _$AccountStandardResponseDtoTypeEnumSerializer();
+Serializer<AccountStandardResponseDtoProductCategoryEnum>
+    _$accountStandardResponseDtoProductCategoryEnumSerializer =
+    new _$AccountStandardResponseDtoProductCategoryEnumSerializer();
+Serializer<AccountStandardResponseDtoAssetClassEnum>
+    _$accountStandardResponseDtoAssetClassEnumSerializer =
+    new _$AccountStandardResponseDtoAssetClassEnumSerializer();
 
 class _$AccountStandardResponseDtoTypeEnumSerializer
     implements PrimitiveSerializer<AccountStandardResponseDtoTypeEnum> {
@@ -90,6 +226,97 @@ class _$AccountStandardResponseDtoTypeEnumSerializer
           _fromWire[serialized] ?? (serialized is String ? serialized : ''));
 }
 
+class _$AccountStandardResponseDtoProductCategoryEnumSerializer
+    implements
+        PrimitiveSerializer<AccountStandardResponseDtoProductCategoryEnum> {
+  static const Map<String, Object> _toWire = const <String, Object>{
+    'cash': 'cash',
+    'investment': 'investment',
+    'creditCard': 'credit_card',
+    'loan': 'loan',
+    'payableTax': 'payable_tax',
+    'other': 'other',
+  };
+  static const Map<Object, String> _fromWire = const <Object, String>{
+    'cash': 'cash',
+    'investment': 'investment',
+    'credit_card': 'creditCard',
+    'loan': 'loan',
+    'payable_tax': 'payableTax',
+    'other': 'other',
+  };
+
+  @override
+  final Iterable<Type> types = const <Type>[
+    AccountStandardResponseDtoProductCategoryEnum
+  ];
+  @override
+  final String wireName = 'AccountStandardResponseDtoProductCategoryEnum';
+
+  @override
+  Object serialize(Serializers serializers,
+          AccountStandardResponseDtoProductCategoryEnum object,
+          {FullType specifiedType = FullType.unspecified}) =>
+      _toWire[object.name] ?? object.name;
+
+  @override
+  AccountStandardResponseDtoProductCategoryEnum deserialize(
+          Serializers serializers, Object serialized,
+          {FullType specifiedType = FullType.unspecified}) =>
+      AccountStandardResponseDtoProductCategoryEnum.valueOf(
+          _fromWire[serialized] ?? (serialized is String ? serialized : ''));
+}
+
+class _$AccountStandardResponseDtoAssetClassEnumSerializer
+    implements PrimitiveSerializer<AccountStandardResponseDtoAssetClassEnum> {
+  static const Map<String, Object> _toWire = const <String, Object>{
+    'LIQUIDITY': 'LIQUIDITY',
+    'EQUITY': 'EQUITY',
+    'FIXED_INCOME': 'FIXED_INCOME',
+    'PRECIOUS_METALS': 'PRECIOUS_METALS',
+    'COMMODITY': 'COMMODITY',
+    'INSURANCE': 'INSURANCE',
+    'ALTERNATIVE_INVESTMENT': 'ALTERNATIVE_INVESTMENT',
+    'PERSONAL_ASSETS': 'PERSONAL_ASSETS',
+    'LIABILITY': 'LIABILITY',
+    'REAL_ESTATE': 'REAL_ESTATE',
+    'INDEX': 'INDEX',
+  };
+  static const Map<Object, String> _fromWire = const <Object, String>{
+    'LIQUIDITY': 'LIQUIDITY',
+    'EQUITY': 'EQUITY',
+    'FIXED_INCOME': 'FIXED_INCOME',
+    'PRECIOUS_METALS': 'PRECIOUS_METALS',
+    'COMMODITY': 'COMMODITY',
+    'INSURANCE': 'INSURANCE',
+    'ALTERNATIVE_INVESTMENT': 'ALTERNATIVE_INVESTMENT',
+    'PERSONAL_ASSETS': 'PERSONAL_ASSETS',
+    'LIABILITY': 'LIABILITY',
+    'REAL_ESTATE': 'REAL_ESTATE',
+    'INDEX': 'INDEX',
+  };
+
+  @override
+  final Iterable<Type> types = const <Type>[
+    AccountStandardResponseDtoAssetClassEnum
+  ];
+  @override
+  final String wireName = 'AccountStandardResponseDtoAssetClassEnum';
+
+  @override
+  Object serialize(Serializers serializers,
+          AccountStandardResponseDtoAssetClassEnum object,
+          {FullType specifiedType = FullType.unspecified}) =>
+      _toWire[object.name] ?? object.name;
+
+  @override
+  AccountStandardResponseDtoAssetClassEnum deserialize(
+          Serializers serializers, Object serialized,
+          {FullType specifiedType = FullType.unspecified}) =>
+      AccountStandardResponseDtoAssetClassEnum.valueOf(
+          _fromWire[serialized] ?? (serialized is String ? serialized : ''));
+}
+
 class _$AccountStandardResponseDto extends AccountStandardResponseDto {
   @override
   final String path;
@@ -103,6 +330,12 @@ class _$AccountStandardResponseDto extends AccountStandardResponseDto {
   final BuiltList<String> tags;
   @override
   final String icon;
+  @override
+  final AccountStandardResponseDtoProductCategoryEnum productCategory;
+  @override
+  final AccountStandardResponseDtoAssetClassEnum? assetClass;
+  @override
+  final String? assetSubClass;
 
   factory _$AccountStandardResponseDto(
           [void Function(AccountStandardResponseDtoBuilder)? updates]) =>
@@ -114,7 +347,10 @@ class _$AccountStandardResponseDto extends AccountStandardResponseDto {
       this.name,
       required this.description,
       required this.tags,
-      required this.icon})
+      required this.icon,
+      required this.productCategory,
+      this.assetClass,
+      this.assetSubClass})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(
         path, r'AccountStandardResponseDto', 'path');
@@ -126,6 +362,8 @@ class _$AccountStandardResponseDto extends AccountStandardResponseDto {
         tags, r'AccountStandardResponseDto', 'tags');
     BuiltValueNullFieldError.checkNotNull(
         icon, r'AccountStandardResponseDto', 'icon');
+    BuiltValueNullFieldError.checkNotNull(
+        productCategory, r'AccountStandardResponseDto', 'productCategory');
   }
 
   @override
@@ -146,7 +384,10 @@ class _$AccountStandardResponseDto extends AccountStandardResponseDto {
         name == other.name &&
         description == other.description &&
         tags == other.tags &&
-        icon == other.icon;
+        icon == other.icon &&
+        productCategory == other.productCategory &&
+        assetClass == other.assetClass &&
+        assetSubClass == other.assetSubClass;
   }
 
   @override
@@ -158,6 +399,9 @@ class _$AccountStandardResponseDto extends AccountStandardResponseDto {
     _$hash = $jc(_$hash, description.hashCode);
     _$hash = $jc(_$hash, tags.hashCode);
     _$hash = $jc(_$hash, icon.hashCode);
+    _$hash = $jc(_$hash, productCategory.hashCode);
+    _$hash = $jc(_$hash, assetClass.hashCode);
+    _$hash = $jc(_$hash, assetSubClass.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -170,7 +414,10 @@ class _$AccountStandardResponseDto extends AccountStandardResponseDto {
           ..add('name', name)
           ..add('description', description)
           ..add('tags', tags)
-          ..add('icon', icon))
+          ..add('icon', icon)
+          ..add('productCategory', productCategory)
+          ..add('assetClass', assetClass)
+          ..add('assetSubClass', assetSubClass))
         .toString();
   }
 }
@@ -204,6 +451,24 @@ class AccountStandardResponseDtoBuilder
   String? get icon => _$this._icon;
   set icon(String? icon) => _$this._icon = icon;
 
+  AccountStandardResponseDtoProductCategoryEnum? _productCategory;
+  AccountStandardResponseDtoProductCategoryEnum? get productCategory =>
+      _$this._productCategory;
+  set productCategory(
+          AccountStandardResponseDtoProductCategoryEnum? productCategory) =>
+      _$this._productCategory = productCategory;
+
+  AccountStandardResponseDtoAssetClassEnum? _assetClass;
+  AccountStandardResponseDtoAssetClassEnum? get assetClass =>
+      _$this._assetClass;
+  set assetClass(AccountStandardResponseDtoAssetClassEnum? assetClass) =>
+      _$this._assetClass = assetClass;
+
+  String? _assetSubClass;
+  String? get assetSubClass => _$this._assetSubClass;
+  set assetSubClass(String? assetSubClass) =>
+      _$this._assetSubClass = assetSubClass;
+
   AccountStandardResponseDtoBuilder() {
     AccountStandardResponseDto._defaults(this);
   }
@@ -217,6 +482,9 @@ class AccountStandardResponseDtoBuilder
       _description = $v.description;
       _tags = $v.tags.toBuilder();
       _icon = $v.icon;
+      _productCategory = $v.productCategory;
+      _assetClass = $v.assetClass;
+      _assetSubClass = $v.assetSubClass;
       _$v = null;
     }
     return this;
@@ -250,7 +518,13 @@ class AccountStandardResponseDtoBuilder
                   description, r'AccountStandardResponseDto', 'description'),
               tags: tags.build(),
               icon: BuiltValueNullFieldError.checkNotNull(
-                  icon, r'AccountStandardResponseDto', 'icon'));
+                  icon, r'AccountStandardResponseDto', 'icon'),
+              productCategory: BuiltValueNullFieldError.checkNotNull(
+                  productCategory,
+                  r'AccountStandardResponseDto',
+                  'productCategory'),
+              assetClass: assetClass,
+              assetSubClass: assetSubClass);
     } catch (_) {
       late String _$failedField;
       try {
