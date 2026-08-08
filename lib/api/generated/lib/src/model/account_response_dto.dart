@@ -49,7 +49,7 @@ abstract class AccountResponseDto implements Built<AccountResponseDto, AccountRe
   /// Account-level asset sub-class (product type, e.g. STOCK/DEPOSIT/CREDIT_CARD/PERSONAL_LOAN). Computed from the account path via the asset-classifier (ADR-0077). Null for non-asset accounts (Income/Expenses/Equity) or unmatched paths.
   @BuiltValueField(wireName: r'assetSubClass')
   AccountResponseDtoAssetSubClassEnum? get assetSubClass;
-  // enum assetSubClassEnum {  DEPOSIT,  CASH,  MONEY_MARKET_FUND,  STOCK,  ETF,  MUTUAL_FUND,  EQUITY_COMPENSATION,  GOVERNMENT_BOND,  CORPORATE_BOND,  BOND_FUND,  PRIMARY_RESIDENCE,  INVESTMENT_PROPERTY,  REIT,  GOLD,  SILVER,  PRECIOUS_METAL,  PRECIOUS_METAL_FUND,  COMMODITY,  COMMODITY_FUND,  CRYPTOCURRENCY,  RETIREMENT_ACCOUNT,  HEALTH_ACCOUNT,  EDUCATION_ACCOUNT,  INSURANCE,  PRIVATE_EQUITY,  HEDGE_FUND,  COLLECTIBLES,  MORTGAGE,  STUDENT_LOAN,  CREDIT_CARD,  PERSONAL_LOAN,  OTHER,  };
+  // enum assetSubClassEnum {  DEPOSIT,  CASH,  MONEY_MARKET_FUND,  STOCK,  ETF,  MUTUAL_FUND,  EQUITY_COMPENSATION,  GOVERNMENT_BOND,  CORPORATE_BOND,  BOND_FUND,  PRIMARY_RESIDENCE,  INVESTMENT_PROPERTY,  REIT,  GOLD,  SILVER,  PRECIOUS_METAL,  PRECIOUS_METAL_FUND,  COMMODITY,  COMMODITY_FUND,  CRYPTOCURRENCY,  RETIREMENT_ACCOUNT,  HEALTH_ACCOUNT,  EDUCATION_ACCOUNT,  INSURANCE,  PRIVATE_EQUITY,  HEDGE_FUND,  COLLECTIBLES,  MORTGAGE,  STUDENT_LOAN,  CREDIT_CARD,  PERSONAL_LOAN,  ACCOUNTS_PAYABLE,  TAX_PAYABLE,  OTHER,  };
 
   /// Account status
   @BuiltValueField(wireName: r'status')
@@ -540,6 +540,12 @@ class AccountResponseDtoAssetSubClassEnum extends EnumClass {
   /// Account-level asset sub-class (product type, e.g. STOCK/DEPOSIT/CREDIT_CARD/PERSONAL_LOAN). Computed from the account path via the asset-classifier (ADR-0077). Null for non-asset accounts (Income/Expenses/Equity) or unmatched paths.
   @BuiltValueEnumConst(wireName: r'PERSONAL_LOAN')
   static const AccountResponseDtoAssetSubClassEnum PERSONAL_LOAN = _$accountResponseDtoAssetSubClassEnum_PERSONAL_LOAN;
+  /// Account-level asset sub-class (product type, e.g. STOCK/DEPOSIT/CREDIT_CARD/PERSONAL_LOAN). Computed from the account path via the asset-classifier (ADR-0077). Null for non-asset accounts (Income/Expenses/Equity) or unmatched paths.
+  @BuiltValueEnumConst(wireName: r'ACCOUNTS_PAYABLE')
+  static const AccountResponseDtoAssetSubClassEnum ACCOUNTS_PAYABLE = _$accountResponseDtoAssetSubClassEnum_ACCOUNTS_PAYABLE;
+  /// Account-level asset sub-class (product type, e.g. STOCK/DEPOSIT/CREDIT_CARD/PERSONAL_LOAN). Computed from the account path via the asset-classifier (ADR-0077). Null for non-asset accounts (Income/Expenses/Equity) or unmatched paths.
+  @BuiltValueEnumConst(wireName: r'TAX_PAYABLE')
+  static const AccountResponseDtoAssetSubClassEnum TAX_PAYABLE = _$accountResponseDtoAssetSubClassEnum_TAX_PAYABLE;
   /// Account-level asset sub-class (product type, e.g. STOCK/DEPOSIT/CREDIT_CARD/PERSONAL_LOAN). Computed from the account path via the asset-classifier (ADR-0077). Null for non-asset accounts (Income/Expenses/Equity) or unmatched paths.
   @BuiltValueEnumConst(wireName: r'OTHER')
   static const AccountResponseDtoAssetSubClassEnum OTHER = _$accountResponseDtoAssetSubClassEnum_OTHER;
