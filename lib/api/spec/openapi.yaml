@@ -6488,6 +6488,8 @@ components:
             - STUDENT_LOAN
             - CREDIT_CARD
             - PERSONAL_LOAN
+            - ACCOUNTS_PAYABLE
+            - TAX_PAYABLE
             - OTHER
           nullable: true
           example: STOCK
@@ -6714,12 +6716,49 @@ components:
           type: string
           description: Icon identifier for UI display
           example: bank-icbc
+        productCategory:
+          type: string
+          description: >-
+            Onboarding product category (coarse grouping derived from
+            assetSubClass)
+          enum:
+            - cash
+            - investment
+            - credit_card
+            - loan
+            - payable_tax
+            - other
+          example: investment
+        assetClass:
+          type: string
+          description: >-
+            Asset class (LIQUIDITY/EQUITY/.../LIABILITY), derived at read time
+            from classification rules
+          enum:
+            - LIQUIDITY
+            - EQUITY
+            - FIXED_INCOME
+            - PRECIOUS_METALS
+            - COMMODITY
+            - INSURANCE
+            - ALTERNATIVE_INVESTMENT
+            - PERSONAL_ASSETS
+            - LIABILITY
+            - REAL_ESTATE
+            - INDEX
+        assetSubClass:
+          type: string
+          description: >-
+            Asset sub-class (product type, derived at read time from
+            classification rules)
+          example: STOCK
       required:
         - path
         - type
         - description
         - tags
         - icon
+        - productCategory
     AccountStandardListResponseDto:
       type: object
       properties:
