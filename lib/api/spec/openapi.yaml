@@ -13339,11 +13339,17 @@ components:
           example: USD
         defaultExpenseAccount:
           type: string
-          description: Default expense account for the second posting
+          description: >-
+            Default expense account for the second posting. Omit when no real
+            default exists; the pipeline routes to Review via the Uncategorized
+            sentinel (#618).
           example: Expenses:Unknown
         defaultIncomeAccount:
           type: string
-          description: Default income account for the second posting
+          description: >-
+            Default income account for the second posting. Omit when no real
+            default exists; the pipeline routes to Review via the Uncategorized
+            sentinel (#618).
           example: Income:Unknown
         filterPending:
           type: boolean
@@ -13358,8 +13364,6 @@ components:
       required:
         - sourceAccount
         - defaultCurrency
-        - defaultExpenseAccount
-        - defaultIncomeAccount
     ProviderSyncDto:
       type: object
       properties:
