@@ -13,8 +13,8 @@ part 'provider_sync_config_dto.g.dart';
 /// Properties:
 /// * [sourceAccount] - Source account for the first posting
 /// * [defaultCurrency] - Default currency for transactions
-/// * [defaultExpenseAccount] - Default expense account for the second posting
-/// * [defaultIncomeAccount] - Default income account for the second posting
+/// * [defaultExpenseAccount] - Default expense account for the second posting. Omit when no real default exists; the pipeline routes to Review via the Uncategorized sentinel (#618).
+/// * [defaultIncomeAccount] - Default income account for the second posting. Omit when no real default exists; the pipeline routes to Review via the Uncategorized sentinel (#618).
 /// * [filterPending] - Filter pending transactions
 /// * [externalAccountId] - External account ID for per-batch providers (e.g. GoCardless). Overrides sourceAccount when an ExternalAccountLink mapping exists.
 @BuiltValue()
@@ -27,13 +27,13 @@ abstract class ProviderSyncConfigDto implements Built<ProviderSyncConfigDto, Pro
   @BuiltValueField(wireName: r'defaultCurrency')
   String get defaultCurrency;
 
-  /// Default expense account for the second posting
+  /// Default expense account for the second posting. Omit when no real default exists; the pipeline routes to Review via the Uncategorized sentinel (#618).
   @BuiltValueField(wireName: r'defaultExpenseAccount')
-  String get defaultExpenseAccount;
+  String? get defaultExpenseAccount;
 
-  /// Default income account for the second posting
+  /// Default income account for the second posting. Omit when no real default exists; the pipeline routes to Review via the Uncategorized sentinel (#618).
   @BuiltValueField(wireName: r'defaultIncomeAccount')
-  String get defaultIncomeAccount;
+  String? get defaultIncomeAccount;
 
   /// Filter pending transactions
   @BuiltValueField(wireName: r'filterPending')
@@ -77,16 +77,20 @@ class _$ProviderSyncConfigDtoSerializer implements PrimitiveSerializer<ProviderS
       object.defaultCurrency,
       specifiedType: const FullType(String),
     );
-    yield r'defaultExpenseAccount';
-    yield serializers.serialize(
-      object.defaultExpenseAccount,
-      specifiedType: const FullType(String),
-    );
-    yield r'defaultIncomeAccount';
-    yield serializers.serialize(
-      object.defaultIncomeAccount,
-      specifiedType: const FullType(String),
-    );
+    if (object.defaultExpenseAccount != null) {
+      yield r'defaultExpenseAccount';
+      yield serializers.serialize(
+        object.defaultExpenseAccount,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.defaultIncomeAccount != null) {
+      yield r'defaultIncomeAccount';
+      yield serializers.serialize(
+        object.defaultIncomeAccount,
+        specifiedType: const FullType(String),
+      );
+    }
     if (object.filterPending != null) {
       yield r'filterPending';
       yield serializers.serialize(
