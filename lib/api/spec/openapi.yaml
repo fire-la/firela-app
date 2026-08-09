@@ -12,10 +12,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       requestBody:
         required: true
@@ -99,10 +120,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       responses:
         '200':
@@ -134,10 +176,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       responses:
         '200':
@@ -169,10 +232,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       requestBody:
         required: true
@@ -212,10 +296,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       responses:
         '204':
@@ -246,10 +351,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       requestBody:
         required: true
@@ -290,10 +416,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       requestBody:
         required: true
@@ -337,10 +484,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       requestBody:
         required: true
@@ -377,10 +545,31 @@ paths:
           description: Region code (cn, us, de)
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
         - name: type
           required: false
@@ -423,10 +612,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
         - name: path
           required: true
@@ -456,10 +666,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       responses:
         '200':
@@ -485,10 +716,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       requestBody:
         required: true
@@ -614,10 +866,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       responses:
         '200':
@@ -657,10 +930,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       requestBody:
         required: true
@@ -711,10 +1005,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       requestBody:
         required: true
@@ -792,10 +1107,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       responses:
         '200':
@@ -838,10 +1174,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       responses:
         '200':
@@ -885,10 +1242,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       requestBody:
         required: true
@@ -943,10 +1321,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       responses:
         '204':
@@ -1006,10 +1405,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       responses:
         '200':
@@ -1038,10 +1458,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       responses:
         '200':
@@ -1119,10 +1560,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       responses:
         '200':
@@ -1152,10 +1614,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       responses:
         '200':
@@ -1191,10 +1674,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       responses:
         '200':
@@ -1230,10 +1734,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       requestBody:
         required: true
@@ -1281,10 +1806,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       responses:
         '200':
@@ -1320,10 +1866,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       requestBody:
         required: true
@@ -1950,10 +2517,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       requestBody:
         required: true
@@ -2013,10 +2601,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       responses:
         '200':
@@ -2048,10 +2657,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       responses:
         '200':
@@ -2088,10 +2718,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       requestBody:
         required: true
@@ -2140,10 +2791,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       responses:
         '204':
@@ -2179,10 +2851,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       responses:
         '200':
@@ -2209,10 +2902,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       responses:
         '201':
@@ -2239,10 +2953,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       requestBody:
         required: true
@@ -2332,10 +3067,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       responses:
         '200':
@@ -2366,10 +3122,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       responses:
         '200':
@@ -2401,10 +3178,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       requestBody:
         required: true
@@ -2444,10 +3242,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       responses:
         '204':
@@ -2470,10 +3289,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       requestBody:
         required: true
@@ -2508,10 +3348,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       requestBody:
         required: true
@@ -2565,10 +3426,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       responses:
         '200':
@@ -2603,10 +3485,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       requestBody:
         required: true
@@ -2655,10 +3558,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       responses:
         '200':
@@ -2690,10 +3614,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       requestBody:
         required: true
@@ -2733,10 +3678,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       responses:
         '204':
@@ -2765,10 +3731,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       responses:
         '200':
@@ -2821,10 +3808,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       responses:
         '200':
@@ -2849,10 +3857,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       responses:
         '200':
@@ -2883,10 +3912,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       responses:
         '200':
@@ -2919,10 +3969,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       responses:
         '200':
@@ -2956,10 +4027,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       responses:
         '200':
@@ -2994,10 +4086,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       requestBody:
         required: true
@@ -3037,10 +4150,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       responses:
         '200':
@@ -3073,10 +4207,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       requestBody:
         required: true
@@ -3118,10 +4273,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       responses:
         '200':
@@ -3181,10 +4357,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       responses:
         '200':
@@ -3249,10 +4446,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       responses:
         '200':
@@ -3292,10 +4510,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       requestBody:
         required: true
@@ -3352,10 +4591,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       requestBody:
         required: true
@@ -3650,10 +4910,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       requestBody:
         required: true
@@ -3741,10 +5022,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       responses:
         '200':
@@ -3774,10 +5076,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       requestBody:
         required: true
@@ -3819,10 +5142,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       requestBody:
         required: true
@@ -3872,10 +5216,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       responses:
         '200':
@@ -3921,10 +5286,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       responses:
         '200':
@@ -3960,10 +5346,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       responses:
         '200':
@@ -4010,10 +5417,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       requestBody:
         required: true
@@ -4078,10 +5506,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       responses:
         '204':
@@ -4131,10 +5580,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       requestBody:
         required: true
@@ -4185,10 +5655,31 @@ paths:
           description: Region code for tenant context (decorative for life events)
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       requestBody:
         required: true
@@ -4267,10 +5758,31 @@ paths:
           description: Region code for tenant context (decorative for life events)
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       responses:
         '200':
@@ -4301,10 +5813,31 @@ paths:
           description: Region code for tenant context (decorative for life events)
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       responses:
         '200':
@@ -4338,10 +5871,31 @@ paths:
           description: Region code for tenant context (decorative for life events)
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       requestBody:
         required: true
@@ -4387,10 +5941,31 @@ paths:
           description: Region code for tenant context (decorative for life events)
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       responses:
         '204':
@@ -4431,10 +6006,31 @@ paths:
           description: Region code for tenant context (decorative for life events)
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       responses:
         '200':
@@ -4460,10 +6056,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       requestBody:
         required: true
@@ -4494,10 +6111,31 @@ paths:
           description: Region code for tenant context (decorative for reconciliation)
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       requestBody:
         required: true
@@ -4533,10 +6171,31 @@ paths:
           description: Region code for tenant context (decorative for reconciliation)
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       requestBody:
         required: true
@@ -4572,10 +6231,31 @@ paths:
           description: Region code for tenant context (decorative for reconciliation)
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       requestBody:
         required: true
@@ -4618,10 +6298,31 @@ paths:
           description: Region code for tenant context (decorative for reconciliation)
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       responses:
         '200':
@@ -4670,10 +6371,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       requestBody:
         required: true
@@ -4789,10 +6511,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       requestBody:
         required: true
@@ -4850,10 +6593,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       requestBody:
         required: true
@@ -4920,10 +6684,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       responses:
         '200':
@@ -4971,10 +6756,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       requestBody:
         required: true
@@ -5030,10 +6836,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       responses:
         '200':
@@ -5118,10 +6945,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       requestBody:
         required: true
@@ -5158,10 +7006,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       responses:
         '200':
@@ -5195,10 +7064,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       responses:
         '200':
@@ -5220,10 +7110,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       requestBody:
         required: true
@@ -5259,10 +7170,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       responses:
         '200':
@@ -5291,10 +7223,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       responses:
         '200':
@@ -5324,10 +7277,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       responses:
         '204':
@@ -5347,10 +7321,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       requestBody:
         required: true
@@ -5378,10 +7373,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       requestBody:
         required: true
@@ -5414,10 +7430,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       responses:
         '200':
@@ -5444,10 +7481,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       requestBody:
         required: true
@@ -5493,10 +7551,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       responses:
         '204':
@@ -5526,10 +7605,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       responses:
         '200':
@@ -5683,10 +7783,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       responses:
         '200':
@@ -5740,10 +7861,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       responses:
         '200':
@@ -5783,10 +7925,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       responses:
         '200':
@@ -5847,10 +8010,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       responses:
         '200':
@@ -5906,10 +8090,31 @@ paths:
           description: Region code for tenant context
           schema:
             enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
               - cn
-              - us
               - de
+              - dz
+              - es
+              - fr
               - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
             type: string
       responses:
         '200':
@@ -6308,18 +8513,13 @@ info:
     ## Region Routing
 
 
-    All Bean module endpoints require a region prefix in the URL path:
+    All Bean module endpoints require a lowercase ISO 3166-1 alpha-2 region
+    prefix
 
-    - CN (China): /api/v1/cn/bean/*
+    in the URL path. See `GET /{region}/bean/account-standards/regions` for the
 
-    - US (United States): /api/v1/us/bean/*
-
-    - DE (Germany): /api/v1/de/bean/* (inherits EU Core resources)
-
-
-    Note: DE inherits account standards and configuration from EU Core.
-
-    EU Core is an internal base layer, not a user-selectable region.
+    full list of open regions and their metadata (currency, locale, display
+    name).
 
 
     Example: GET /api/v1/cn/bean/accounts
