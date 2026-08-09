@@ -67,13 +67,9 @@ Current version: **v1**. All paths are prefixed with `/api/v1`
 
 ## Region Routing
 
-All Bean module endpoints require a region prefix in the URL path:
-- CN (China): /api/v1/cn/bean/_*
-- US (United States): /api/v1/us/bean/_*
-- DE (Germany): /api/v1/de/bean/_* (inherits EU Core resources)
-
-Note: DE inherits account standards and configuration from EU Core.
-EU Core is an internal base layer, not a user-selectable region.
+All Bean module endpoints require a lowercase ISO 3166-1 alpha-2 region prefix
+in the URL path. See `GET /{region}/bean/account-standards/regions` for the
+full list of open regions and their metadata (currency, locale, display name).
 
 Example: GET /api/v1/cn/bean/accounts
 
