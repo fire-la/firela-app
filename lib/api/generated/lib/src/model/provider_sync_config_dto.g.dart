@@ -12,9 +12,9 @@ class _$ProviderSyncConfigDto extends ProviderSyncConfigDto {
   @override
   final String defaultCurrency;
   @override
-  final String defaultExpenseAccount;
+  final String? defaultExpenseAccount;
   @override
-  final String defaultIncomeAccount;
+  final String? defaultIncomeAccount;
   @override
   final bool? filterPending;
   @override
@@ -27,8 +27,8 @@ class _$ProviderSyncConfigDto extends ProviderSyncConfigDto {
   _$ProviderSyncConfigDto._(
       {required this.sourceAccount,
       required this.defaultCurrency,
-      required this.defaultExpenseAccount,
-      required this.defaultIncomeAccount,
+      this.defaultExpenseAccount,
+      this.defaultIncomeAccount,
       this.filterPending,
       this.externalAccountId})
       : super._() {
@@ -36,10 +36,6 @@ class _$ProviderSyncConfigDto extends ProviderSyncConfigDto {
         sourceAccount, r'ProviderSyncConfigDto', 'sourceAccount');
     BuiltValueNullFieldError.checkNotNull(
         defaultCurrency, r'ProviderSyncConfigDto', 'defaultCurrency');
-    BuiltValueNullFieldError.checkNotNull(defaultExpenseAccount,
-        r'ProviderSyncConfigDto', 'defaultExpenseAccount');
-    BuiltValueNullFieldError.checkNotNull(
-        defaultIncomeAccount, r'ProviderSyncConfigDto', 'defaultIncomeAccount');
   }
 
   @override
@@ -162,14 +158,8 @@ class ProviderSyncConfigDtoBuilder
                 sourceAccount, r'ProviderSyncConfigDto', 'sourceAccount'),
             defaultCurrency: BuiltValueNullFieldError.checkNotNull(
                 defaultCurrency, r'ProviderSyncConfigDto', 'defaultCurrency'),
-            defaultExpenseAccount: BuiltValueNullFieldError.checkNotNull(
-                defaultExpenseAccount,
-                r'ProviderSyncConfigDto',
-                'defaultExpenseAccount'),
-            defaultIncomeAccount: BuiltValueNullFieldError.checkNotNull(
-                defaultIncomeAccount,
-                r'ProviderSyncConfigDto',
-                'defaultIncomeAccount'),
+            defaultExpenseAccount: defaultExpenseAccount,
+            defaultIncomeAccount: defaultIncomeAccount,
             filterPending: filterPending,
             externalAccountId: externalAccountId);
     replace(_$result);
