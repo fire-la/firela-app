@@ -7675,7 +7675,18 @@ paths:
     get:
       operationId: PlatformController_getPlatformList
       summary: Get platform list for current user
-      parameters: []
+      parameters:
+        - name: region
+          required: false
+          in: query
+          description: >-
+            Region code (ISO 3166-1 alpha-2) that biases within-type-bucket
+            ordering (local-region platforms first). Case-insensitive —
+            stored/compared UPPERCASE ("cn" == "CN").
+          schema:
+            maxLength: 2
+            example: CN
+            type: string
       responses:
         '200':
           description: List of platforms with user binding status
@@ -7704,8 +7715,12 @@ paths:
         - name: region
           required: false
           in: query
-          description: Region code for category override lookup
+          description: >-
+            Region code (ISO 3166-1 alpha-2) that biases within-tier ordering
+            (local-region platforms first); also the intended categoryOverrides
+            key. Case-insensitive — stored/compared UPPERCASE ("cn" == "CN").
           schema:
+            maxLength: 2
             example: CN
             type: string
       responses:
@@ -14261,6 +14276,11 @@ components:
           type: string
           description: Logo URL
           nullable: true
+        countryCode:
+          type: string
+          description: ISO 3166-1 alpha-2 (UPPERCASE); null = global platform
+          example: CN
+          nullable: true
         isBound:
           type: boolean
           description: Whether user has accounts using this platform
@@ -14272,6 +14292,7 @@ components:
         - canonical
         - suggestedSegment
         - logoUrl
+        - countryCode
         - isBound
     PlatformMatchResultDto:
       type: object
@@ -14303,6 +14324,11 @@ components:
           type: string
           description: Logo URL
           nullable: true
+        countryCode:
+          type: string
+          description: ISO 3166-1 alpha-2 (UPPERCASE); null = global platform
+          example: CN
+          nullable: true
         matchType:
           type: string
           description: 'How this row matched: ''exact'' > ''prefix'' > ''substring'''
@@ -14317,6 +14343,7 @@ components:
         - type
         - suggestedSegment
         - logoUrl
+        - countryCode
         - matchType
     PlatformMatchResponseDto:
       type: object
