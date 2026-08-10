@@ -19,6 +19,7 @@ part 'platform_list_item_dto.g.dart';
 /// * [canonical] - Canonical identifier in ACCOUNT_RE format (e.g., \"icbc\")
 /// * [suggestedSegment] - Suggested path segment — canonical with first char uppercased (ACC_COMP_NAME_RE)
 /// * [logoUrl] - Logo URL
+/// * [countryCode] - ISO 3166-1 alpha-2 (UPPERCASE); null = global platform
 /// * [isBound] - Whether user has accounts using this platform
 @BuiltValue()
 abstract class PlatformListItemDto implements Built<PlatformListItemDto, PlatformListItemDtoBuilder> {
@@ -50,6 +51,10 @@ abstract class PlatformListItemDto implements Built<PlatformListItemDto, Platfor
   /// Logo URL
   @BuiltValueField(wireName: r'logoUrl')
   String? get logoUrl;
+
+  /// ISO 3166-1 alpha-2 (UPPERCASE); null = global platform
+  @BuiltValueField(wireName: r'countryCode')
+  String? get countryCode;
 
   /// Whether user has accounts using this platform
   @BuiltValueField(wireName: r'isBound')
@@ -111,6 +116,11 @@ class _$PlatformListItemDtoSerializer implements PrimitiveSerializer<PlatformLis
     yield r'logoUrl';
     yield object.logoUrl == null ? null : serializers.serialize(
       object.logoUrl,
+      specifiedType: const FullType.nullable(String),
+    );
+    yield r'countryCode';
+    yield object.countryCode == null ? null : serializers.serialize(
+      object.countryCode,
       specifiedType: const FullType.nullable(String),
     );
     yield r'isBound';
@@ -190,6 +200,14 @@ class _$PlatformListItemDtoSerializer implements PrimitiveSerializer<PlatformLis
           ) as String?;
           if (valueDes == null) continue;
           result.logoUrl = valueDes;
+          break;
+        case r'countryCode':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
+          result.countryCode = valueDes;
           break;
         case r'isBound':
           final valueDes = serializers.deserialize(

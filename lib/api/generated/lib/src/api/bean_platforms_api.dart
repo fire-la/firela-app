@@ -185,6 +185,7 @@ class BeanPlatformsApi {
   /// 
   ///
   /// Parameters:
+  /// * [region] - Region code (ISO 3166-1 alpha-2) that biases within-type-bucket ordering (local-region platforms first). Case-insensitive — stored/compared UPPERCASE (\"cn\" == \"CN\").
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -195,6 +196,7 @@ class BeanPlatformsApi {
   /// Returns a [Future] containing a [Response] with a [BuiltList<PlatformListItemDto>] as data
   /// Throws [DioException] if API call or serialization fails
   Future<Response<BuiltList<PlatformListItemDto>>> platformControllerGetPlatformList({ 
+    String? region,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -215,9 +217,14 @@ class BeanPlatformsApi {
       validateStatus: validateStatus,
     );
 
+    final _queryParameters = <String, dynamic>{
+      if (region != null) r'region': encodeQueryParameter(_serializers, region, const FullType(String)),
+    };
+
     final _response = await _dio.request<Object>(
       _path,
       options: _options,
+      queryParameters: _queryParameters,
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -259,7 +266,7 @@ class BeanPlatformsApi {
   ///
   /// Parameters:
   /// * [q] - Search query — Chinese name, English name, or abbreviation
-  /// * [region] - Region code for category override lookup
+  /// * [region] - Region code (ISO 3166-1 alpha-2) that biases within-tier ordering (local-region platforms first); also the intended categoryOverrides key. Case-insensitive — stored/compared UPPERCASE (\"cn\" == \"CN\").
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request

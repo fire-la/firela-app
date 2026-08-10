@@ -114,6 +114,8 @@ class _$PlatformListItemDto extends PlatformListItemDto {
   @override
   final String? logoUrl;
   @override
+  final String? countryCode;
+  @override
   final bool isBound;
 
   factory _$PlatformListItemDto(
@@ -128,6 +130,7 @@ class _$PlatformListItemDto extends PlatformListItemDto {
       required this.canonical,
       required this.suggestedSegment,
       this.logoUrl,
+      this.countryCode,
       required this.isBound})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(id, r'PlatformListItemDto', 'id');
@@ -162,6 +165,7 @@ class _$PlatformListItemDto extends PlatformListItemDto {
         canonical == other.canonical &&
         suggestedSegment == other.suggestedSegment &&
         logoUrl == other.logoUrl &&
+        countryCode == other.countryCode &&
         isBound == other.isBound;
   }
 
@@ -175,6 +179,7 @@ class _$PlatformListItemDto extends PlatformListItemDto {
     _$hash = $jc(_$hash, canonical.hashCode);
     _$hash = $jc(_$hash, suggestedSegment.hashCode);
     _$hash = $jc(_$hash, logoUrl.hashCode);
+    _$hash = $jc(_$hash, countryCode.hashCode);
     _$hash = $jc(_$hash, isBound.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
@@ -190,6 +195,7 @@ class _$PlatformListItemDto extends PlatformListItemDto {
           ..add('canonical', canonical)
           ..add('suggestedSegment', suggestedSegment)
           ..add('logoUrl', logoUrl)
+          ..add('countryCode', countryCode)
           ..add('isBound', isBound))
         .toString();
   }
@@ -228,6 +234,10 @@ class PlatformListItemDtoBuilder
   String? get logoUrl => _$this._logoUrl;
   set logoUrl(String? logoUrl) => _$this._logoUrl = logoUrl;
 
+  String? _countryCode;
+  String? get countryCode => _$this._countryCode;
+  set countryCode(String? countryCode) => _$this._countryCode = countryCode;
+
   bool? _isBound;
   bool? get isBound => _$this._isBound;
   set isBound(bool? isBound) => _$this._isBound = isBound;
@@ -246,6 +256,7 @@ class PlatformListItemDtoBuilder
       _canonical = $v.canonical;
       _suggestedSegment = $v.suggestedSegment;
       _logoUrl = $v.logoUrl;
+      _countryCode = $v.countryCode;
       _isBound = $v.isBound;
       _$v = null;
     }
@@ -282,6 +293,7 @@ class PlatformListItemDtoBuilder
             suggestedSegment: BuiltValueNullFieldError.checkNotNull(
                 suggestedSegment, r'PlatformListItemDto', 'suggestedSegment'),
             logoUrl: logoUrl,
+            countryCode: countryCode,
             isBound: BuiltValueNullFieldError.checkNotNull(
                 isBound, r'PlatformListItemDto', 'isBound'));
     replace(_$result);

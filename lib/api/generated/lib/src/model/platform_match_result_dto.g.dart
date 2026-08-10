@@ -186,6 +186,8 @@ class _$PlatformMatchResultDto extends PlatformMatchResultDto {
   @override
   final String? logoUrl;
   @override
+  final String? countryCode;
+  @override
   final PlatformMatchResultDtoMatchTypeEnum matchType;
 
   factory _$PlatformMatchResultDto(
@@ -199,6 +201,7 @@ class _$PlatformMatchResultDto extends PlatformMatchResultDto {
       required this.type,
       required this.suggestedSegment,
       this.logoUrl,
+      this.countryCode,
       required this.matchType})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(id, r'PlatformMatchResultDto', 'id');
@@ -233,6 +236,7 @@ class _$PlatformMatchResultDto extends PlatformMatchResultDto {
         type == other.type &&
         suggestedSegment == other.suggestedSegment &&
         logoUrl == other.logoUrl &&
+        countryCode == other.countryCode &&
         matchType == other.matchType;
   }
 
@@ -245,6 +249,7 @@ class _$PlatformMatchResultDto extends PlatformMatchResultDto {
     _$hash = $jc(_$hash, type.hashCode);
     _$hash = $jc(_$hash, suggestedSegment.hashCode);
     _$hash = $jc(_$hash, logoUrl.hashCode);
+    _$hash = $jc(_$hash, countryCode.hashCode);
     _$hash = $jc(_$hash, matchType.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
@@ -259,6 +264,7 @@ class _$PlatformMatchResultDto extends PlatformMatchResultDto {
           ..add('type', type)
           ..add('suggestedSegment', suggestedSegment)
           ..add('logoUrl', logoUrl)
+          ..add('countryCode', countryCode)
           ..add('matchType', matchType))
         .toString();
   }
@@ -293,6 +299,10 @@ class PlatformMatchResultDtoBuilder
   String? get logoUrl => _$this._logoUrl;
   set logoUrl(String? logoUrl) => _$this._logoUrl = logoUrl;
 
+  String? _countryCode;
+  String? get countryCode => _$this._countryCode;
+  set countryCode(String? countryCode) => _$this._countryCode = countryCode;
+
   PlatformMatchResultDtoMatchTypeEnum? _matchType;
   PlatformMatchResultDtoMatchTypeEnum? get matchType => _$this._matchType;
   set matchType(PlatformMatchResultDtoMatchTypeEnum? matchType) =>
@@ -311,6 +321,7 @@ class PlatformMatchResultDtoBuilder
       _type = $v.type;
       _suggestedSegment = $v.suggestedSegment;
       _logoUrl = $v.logoUrl;
+      _countryCode = $v.countryCode;
       _matchType = $v.matchType;
       _$v = null;
     }
@@ -347,6 +358,7 @@ class PlatformMatchResultDtoBuilder
                 r'PlatformMatchResultDto',
                 'suggestedSegment'),
             logoUrl: logoUrl,
+            countryCode: countryCode,
             matchType: BuiltValueNullFieldError.checkNotNull(
                 matchType, r'PlatformMatchResultDto', 'matchType'));
     replace(_$result);

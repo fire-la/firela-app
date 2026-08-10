@@ -18,6 +18,7 @@ part 'platform_match_result_dto.g.dart';
 /// * [type] - Platform type
 /// * [suggestedSegment] - Suggested path segment — canonical, already in ACCOUNT_RE format
 /// * [logoUrl] - Logo URL
+/// * [countryCode] - ISO 3166-1 alpha-2 (UPPERCASE); null = global platform
 /// * [matchType] - How this row matched: 'exact' > 'prefix' > 'substring'
 @BuiltValue()
 abstract class PlatformMatchResultDto implements Built<PlatformMatchResultDto, PlatformMatchResultDtoBuilder> {
@@ -45,6 +46,10 @@ abstract class PlatformMatchResultDto implements Built<PlatformMatchResultDto, P
   /// Logo URL
   @BuiltValueField(wireName: r'logoUrl')
   String? get logoUrl;
+
+  /// ISO 3166-1 alpha-2 (UPPERCASE); null = global platform
+  @BuiltValueField(wireName: r'countryCode')
+  String? get countryCode;
 
   /// How this row matched: 'exact' > 'prefix' > 'substring'
   @BuiltValueField(wireName: r'matchType')
@@ -102,6 +107,11 @@ class _$PlatformMatchResultDtoSerializer implements PrimitiveSerializer<Platform
     yield r'logoUrl';
     yield object.logoUrl == null ? null : serializers.serialize(
       object.logoUrl,
+      specifiedType: const FullType.nullable(String),
+    );
+    yield r'countryCode';
+    yield object.countryCode == null ? null : serializers.serialize(
+      object.countryCode,
       specifiedType: const FullType.nullable(String),
     );
     yield r'matchType';
@@ -174,6 +184,14 @@ class _$PlatformMatchResultDtoSerializer implements PrimitiveSerializer<Platform
           ) as String?;
           if (valueDes == null) continue;
           result.logoUrl = valueDes;
+          break;
+        case r'countryCode':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
+          result.countryCode = valueDes;
           break;
         case r'matchType':
           final valueDes = serializers.deserialize(
