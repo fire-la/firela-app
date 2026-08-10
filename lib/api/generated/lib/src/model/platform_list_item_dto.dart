@@ -20,6 +20,7 @@ part 'platform_list_item_dto.g.dart';
 /// * [suggestedSegment] - Suggested path segment — canonical with first char uppercased (ACC_COMP_NAME_RE)
 /// * [logoUrl] - Logo URL
 /// * [countryCode] - ISO 3166-1 alpha-2 (UPPERCASE); null = global platform
+/// * [category] - Region-aware category (institution vocab, e.g. DigitalWallet/Bank). null = no region-aware suggestion; fall back to type.
 /// * [isBound] - Whether user has accounts using this platform
 @BuiltValue()
 abstract class PlatformListItemDto implements Built<PlatformListItemDto, PlatformListItemDtoBuilder> {
@@ -55,6 +56,10 @@ abstract class PlatformListItemDto implements Built<PlatformListItemDto, Platfor
   /// ISO 3166-1 alpha-2 (UPPERCASE); null = global platform
   @BuiltValueField(wireName: r'countryCode')
   String? get countryCode;
+
+  /// Region-aware category (institution vocab, e.g. DigitalWallet/Bank). null = no region-aware suggestion; fall back to type.
+  @BuiltValueField(wireName: r'category')
+  String? get category;
 
   /// Whether user has accounts using this platform
   @BuiltValueField(wireName: r'isBound')
@@ -121,6 +126,11 @@ class _$PlatformListItemDtoSerializer implements PrimitiveSerializer<PlatformLis
     yield r'countryCode';
     yield object.countryCode == null ? null : serializers.serialize(
       object.countryCode,
+      specifiedType: const FullType.nullable(String),
+    );
+    yield r'category';
+    yield object.category == null ? null : serializers.serialize(
+      object.category,
       specifiedType: const FullType.nullable(String),
     );
     yield r'isBound';
@@ -208,6 +218,14 @@ class _$PlatformListItemDtoSerializer implements PrimitiveSerializer<PlatformLis
           ) as String?;
           if (valueDes == null) continue;
           result.countryCode = valueDes;
+          break;
+        case r'category':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
+          result.category = valueDes;
           break;
         case r'isBound':
           final valueDes = serializers.deserialize(

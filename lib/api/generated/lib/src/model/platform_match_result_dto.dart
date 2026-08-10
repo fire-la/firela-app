@@ -19,6 +19,7 @@ part 'platform_match_result_dto.g.dart';
 /// * [suggestedSegment] - Suggested path segment — canonical, already in ACCOUNT_RE format
 /// * [logoUrl] - Logo URL
 /// * [countryCode] - ISO 3166-1 alpha-2 (UPPERCASE); null = global platform
+/// * [category] - Region-aware category (institution vocab, e.g. DigitalWallet/Bank). null = no region-aware suggestion; fall back to type.
 /// * [matchType] - How this row matched: 'exact' > 'prefix' > 'substring'
 @BuiltValue()
 abstract class PlatformMatchResultDto implements Built<PlatformMatchResultDto, PlatformMatchResultDtoBuilder> {
@@ -50,6 +51,10 @@ abstract class PlatformMatchResultDto implements Built<PlatformMatchResultDto, P
   /// ISO 3166-1 alpha-2 (UPPERCASE); null = global platform
   @BuiltValueField(wireName: r'countryCode')
   String? get countryCode;
+
+  /// Region-aware category (institution vocab, e.g. DigitalWallet/Bank). null = no region-aware suggestion; fall back to type.
+  @BuiltValueField(wireName: r'category')
+  String? get category;
 
   /// How this row matched: 'exact' > 'prefix' > 'substring'
   @BuiltValueField(wireName: r'matchType')
@@ -112,6 +117,11 @@ class _$PlatformMatchResultDtoSerializer implements PrimitiveSerializer<Platform
     yield r'countryCode';
     yield object.countryCode == null ? null : serializers.serialize(
       object.countryCode,
+      specifiedType: const FullType.nullable(String),
+    );
+    yield r'category';
+    yield object.category == null ? null : serializers.serialize(
+      object.category,
       specifiedType: const FullType.nullable(String),
     );
     yield r'matchType';
@@ -192,6 +202,14 @@ class _$PlatformMatchResultDtoSerializer implements PrimitiveSerializer<Platform
           ) as String?;
           if (valueDes == null) continue;
           result.countryCode = valueDes;
+          break;
+        case r'category':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
+          result.category = valueDes;
           break;
         case r'matchType':
           final valueDes = serializers.deserialize(
