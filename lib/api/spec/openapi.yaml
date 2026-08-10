@@ -14281,6 +14281,13 @@ components:
           description: ISO 3166-1 alpha-2 (UPPERCASE); null = global platform
           example: CN
           nullable: true
+        category:
+          type: string
+          description: >-
+            Region-aware category (institution vocab, e.g. DigitalWallet/Bank).
+            null = no region-aware suggestion; fall back to type.
+          nullable: true
+          example: DigitalWallet
         isBound:
           type: boolean
           description: Whether user has accounts using this platform
@@ -14293,6 +14300,7 @@ components:
         - suggestedSegment
         - logoUrl
         - countryCode
+        - category
         - isBound
     PlatformMatchResultDto:
       type: object
@@ -14329,6 +14337,13 @@ components:
           description: ISO 3166-1 alpha-2 (UPPERCASE); null = global platform
           example: CN
           nullable: true
+        category:
+          type: string
+          description: >-
+            Region-aware category (institution vocab, e.g. DigitalWallet/Bank).
+            null = no region-aware suggestion; fall back to type.
+          nullable: true
+          example: DigitalWallet
         matchType:
           type: string
           description: 'How this row matched: ''exact'' > ''prefix'' > ''substring'''
@@ -14344,6 +14359,7 @@ components:
         - suggestedSegment
         - logoUrl
         - countryCode
+        - category
         - matchType
     PlatformMatchResponseDto:
       type: object
