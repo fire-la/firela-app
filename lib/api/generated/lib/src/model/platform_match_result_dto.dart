@@ -16,7 +16,7 @@ part 'platform_match_result_dto.g.dart';
 /// * [name] - Platform name (e.g., \"ICBC\")
 /// * [canonical] - Canonical identifier in ACCOUNT_RE format (e.g., \"icbc\")
 /// * [type] - Platform type
-/// * [suggestedSegment] - Suggested path segment — canonical, already in ACCOUNT_RE format
+/// * [suggestedSegment] - Suggested path segment — PascalCase of canonical, hyphens removed (e.g. \"ApplePay\")
 /// * [logoUrl] - Logo URL
 /// * [countryCode] - ISO 3166-1 alpha-2 (UPPERCASE); null = global platform
 /// * [category] - Region-aware category (institution vocab, e.g. DigitalWallet/Bank). null = no region-aware suggestion; fall back to type.
@@ -40,7 +40,7 @@ abstract class PlatformMatchResultDto implements Built<PlatformMatchResultDto, P
   PlatformMatchResultDtoTypeEnum get type;
   // enum typeEnum {  BANK,  BROKERAGE,  CRYPTO_EXCHANGE,  PAYMENT,  INVESTMENT,  INSURANCE,  OTHER,  };
 
-  /// Suggested path segment — canonical, already in ACCOUNT_RE format
+  /// Suggested path segment — PascalCase of canonical, hyphens removed (e.g. \"ApplePay\")
   @BuiltValueField(wireName: r'suggestedSegment')
   String get suggestedSegment;
 
