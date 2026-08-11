@@ -14270,8 +14270,8 @@ components:
         suggestedSegment:
           type: string
           description: >-
-            Suggested path segment — canonical with first char uppercased
-            (ACC_COMP_NAME_RE)
+            Suggested path segment — PascalCase of canonical, hyphens removed
+            (e.g. "ApplePay")
         logoUrl:
           type: string
           description: Logo URL
@@ -14327,7 +14327,9 @@ components:
             - OTHER
         suggestedSegment:
           type: string
-          description: Suggested path segment — canonical, already in ACCOUNT_RE format
+          description: >-
+            Suggested path segment — PascalCase of canonical, hyphens removed
+            (e.g. "ApplePay")
         logoUrl:
           type: string
           description: Logo URL
