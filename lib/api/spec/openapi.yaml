@@ -13299,7 +13299,8 @@ components:
           type: string
           description: Source account for transactions (Beancount format)
           example: Assets:CN:Alipay:Balance
-          pattern: ^[A-Z][a-zA-Z0-9-]*:[a-zA-Z0-9-:]+$
+          pattern: >-
+            ^(Assets|Liabilities|Income|Expenses|Equity)(:[A-Za-z0-9][A-Za-z0-9-]*)+$
         currency:
           type: string
           description: Default currency (ISO 4217 code)
@@ -13311,12 +13312,14 @@ components:
           type: string
           description: Default expense account (optional)
           example: Expenses:Unknown
-          pattern: ^[A-Z][a-zA-Z0-9-]*:[a-zA-Z0-9-:]+$
+          pattern: >-
+            ^(Assets|Liabilities|Income|Expenses|Equity)(:[A-Za-z0-9][A-Za-z0-9-]*)+$
         incomeAccount:
           type: string
           description: Default income account (optional)
           example: Income:Unknown
-          pattern: ^[A-Z][a-zA-Z0-9-]*:[a-zA-Z0-9-:]+$
+          pattern: >-
+            ^(Assets|Liabilities|Income|Expenses|Equity)(:[A-Za-z0-9][A-Za-z0-9-]*)+$
         methodAccountMapping:
           type: object
           description: >-
@@ -13547,9 +13550,18 @@ components:
       properties:
         message:
           type: string
-          description: Natural language text describing a transaction (Chinese)
-          example: yesterday Starbucks spent 35 yuan
+          description: >-
+            Natural language text describing a transaction. Optional when
+            `confirm` is true (structured confirm); otherwise required.
+          example: Starbucks 35
           maxLength: 500
+        confirm:
+          type: boolean
+          description: >-
+            Structured confirm signal — bypasses NL confirm-word matching when
+            true. Send parsedData field edits alongside. The NL word-list path
+            is the fallback.
+          example: true
         sessionId:
           type: string
           description: >-
@@ -13580,8 +13592,6 @@ components:
             typed path). Applied directly when the session is confirming_account
             — no NL re-parse.
           example: Expenses:Food:Coffee
-      required:
-        - message
     NlpTransactionInfoDto:
       type: object
       properties:
@@ -14270,8 +14280,8 @@ components:
         suggestedSegment:
           type: string
           description: >-
-            Suggested path segment — PascalCase of canonical, hyphens removed
-            (e.g. "ApplePay")
+            Suggested path segment — canonical PascalCased per hyphen-part,
+            hyphens preserved (e.g. "Apple-Pay")
         logoUrl:
           type: string
           description: Logo URL
@@ -14328,8 +14338,8 @@ components:
         suggestedSegment:
           type: string
           description: >-
-            Suggested path segment — PascalCase of canonical, hyphens removed
-            (e.g. "ApplePay")
+            Suggested path segment — canonical PascalCased per hyphen-part,
+            hyphens preserved (e.g. "Apple-Pay")
         logoUrl:
           type: string
           description: Logo URL
