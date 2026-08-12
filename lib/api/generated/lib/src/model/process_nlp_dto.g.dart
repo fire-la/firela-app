@@ -8,7 +8,9 @@ part of 'process_nlp_dto.dart';
 
 class _$ProcessNlpDto extends ProcessNlpDto {
   @override
-  final String message;
+  final String? message;
+  @override
+  final bool? confirm;
   @override
   final String? sessionId;
   @override
@@ -22,14 +24,13 @@ class _$ProcessNlpDto extends ProcessNlpDto {
       (new ProcessNlpDtoBuilder()..update(updates))._build();
 
   _$ProcessNlpDto._(
-      {required this.message,
+      {this.message,
+      this.confirm,
       this.sessionId,
       this.parsedData,
       this.selectedRuleId,
       this.selectedAccount})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(message, r'ProcessNlpDto', 'message');
-  }
+      : super._();
 
   @override
   ProcessNlpDto rebuild(void Function(ProcessNlpDtoBuilder) updates) =>
@@ -43,6 +44,7 @@ class _$ProcessNlpDto extends ProcessNlpDto {
     if (identical(other, this)) return true;
     return other is ProcessNlpDto &&
         message == other.message &&
+        confirm == other.confirm &&
         sessionId == other.sessionId &&
         parsedData == other.parsedData &&
         selectedRuleId == other.selectedRuleId &&
@@ -53,6 +55,7 @@ class _$ProcessNlpDto extends ProcessNlpDto {
   int get hashCode {
     var _$hash = 0;
     _$hash = $jc(_$hash, message.hashCode);
+    _$hash = $jc(_$hash, confirm.hashCode);
     _$hash = $jc(_$hash, sessionId.hashCode);
     _$hash = $jc(_$hash, parsedData.hashCode);
     _$hash = $jc(_$hash, selectedRuleId.hashCode);
@@ -65,6 +68,7 @@ class _$ProcessNlpDto extends ProcessNlpDto {
   String toString() {
     return (newBuiltValueToStringHelper(r'ProcessNlpDto')
           ..add('message', message)
+          ..add('confirm', confirm)
           ..add('sessionId', sessionId)
           ..add('parsedData', parsedData)
           ..add('selectedRuleId', selectedRuleId)
@@ -80,6 +84,10 @@ class ProcessNlpDtoBuilder
   String? _message;
   String? get message => _$this._message;
   set message(String? message) => _$this._message = message;
+
+  bool? _confirm;
+  bool? get confirm => _$this._confirm;
+  set confirm(bool? confirm) => _$this._confirm = confirm;
 
   String? _sessionId;
   String? get sessionId => _$this._sessionId;
@@ -107,6 +115,7 @@ class ProcessNlpDtoBuilder
     final $v = _$v;
     if ($v != null) {
       _message = $v.message;
+      _confirm = $v.confirm;
       _sessionId = $v.sessionId;
       _parsedData = $v.parsedData;
       _selectedRuleId = $v.selectedRuleId;
@@ -133,8 +142,8 @@ class ProcessNlpDtoBuilder
   _$ProcessNlpDto _build() {
     final _$result = _$v ??
         new _$ProcessNlpDto._(
-            message: BuiltValueNullFieldError.checkNotNull(
-                message, r'ProcessNlpDto', 'message'),
+            message: message,
+            confirm: confirm,
             sessionId: sessionId,
             parsedData: parsedData,
             selectedRuleId: selectedRuleId,
