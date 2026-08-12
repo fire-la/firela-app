@@ -12,16 +12,21 @@ part 'process_nlp_dto.g.dart';
 /// ProcessNlpDto
 ///
 /// Properties:
-/// * [message] - Natural language text describing a transaction (Chinese)
+/// * [message] - Natural language text describing a transaction. Optional when `confirm` is true (structured confirm); otherwise required.
+/// * [confirm] - Structured confirm signal — bypasses NL confirm-word matching when true. Send parsedData field edits alongside. The NL word-list path is the fallback.
 /// * [sessionId] - Session ID for multi-turn conversation (auto-generated if not provided)
 /// * [parsedData] - Parsed data from previous NLP response for session recovery. Send back the parsedData received in confirm_payee/confirm responses.
 /// * [selectedRuleId] - confirm_rule echo-back: rule id selected from the prior confirm_rule response (matchedRule.id or alternatives[i].ruleId). Applied directly when the session is confirming_rule — no NL re-parse.
 /// * [selectedAccount] - confirm_account echo-back: account path selected from the prior confirm_account response (suggestedAccount, similarAccounts[i], or a typed path). Applied directly when the session is confirming_account — no NL re-parse.
 @BuiltValue()
 abstract class ProcessNlpDto implements Built<ProcessNlpDto, ProcessNlpDtoBuilder> {
-  /// Natural language text describing a transaction (Chinese)
+  /// Natural language text describing a transaction. Optional when `confirm` is true (structured confirm); otherwise required.
   @BuiltValueField(wireName: r'message')
-  String get message;
+  String? get message;
+
+  /// Structured confirm signal — bypasses NL confirm-word matching when true. Send parsedData field edits alongside. The NL word-list path is the fallback.
+  @BuiltValueField(wireName: r'confirm')
+  bool? get confirm;
 
   /// Session ID for multi-turn conversation (auto-generated if not provided)
   @BuiltValueField(wireName: r'sessionId')
@@ -62,11 +67,20 @@ class _$ProcessNlpDtoSerializer implements PrimitiveSerializer<ProcessNlpDto> {
     ProcessNlpDto object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'message';
-    yield serializers.serialize(
-      object.message,
-      specifiedType: const FullType(String),
-    );
+    if (object.message != null) {
+      yield r'message';
+      yield serializers.serialize(
+        object.message,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.confirm != null) {
+      yield r'confirm';
+      yield serializers.serialize(
+        object.confirm,
+        specifiedType: const FullType(bool),
+      );
+    }
     if (object.sessionId != null) {
       yield r'sessionId';
       yield serializers.serialize(
@@ -124,6 +138,13 @@ class _$ProcessNlpDtoSerializer implements PrimitiveSerializer<ProcessNlpDto> {
             specifiedType: const FullType(String),
           ) as String;
           result.message = valueDes;
+          break;
+        case r'confirm':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(bool),
+          ) as bool;
+          result.confirm = valueDes;
           break;
         case r'sessionId':
           final valueDes = serializers.deserialize(

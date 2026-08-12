@@ -17,7 +17,7 @@ part 'platform_list_item_dto.g.dart';
 /// * [url] - Platform URL
 /// * [type] - Platform type
 /// * [canonical] - Canonical identifier in ACCOUNT_RE format (e.g., \"icbc\")
-/// * [suggestedSegment] - Suggested path segment — PascalCase of canonical, hyphens removed (e.g. \"ApplePay\")
+/// * [suggestedSegment] - Suggested path segment — canonical PascalCased per hyphen-part, hyphens preserved (e.g. \"Apple-Pay\")
 /// * [logoUrl] - Logo URL
 /// * [countryCode] - ISO 3166-1 alpha-2 (UPPERCASE); null = global platform
 /// * [category] - Region-aware category (institution vocab, e.g. DigitalWallet/Bank). null = no region-aware suggestion; fall back to type.
@@ -45,7 +45,7 @@ abstract class PlatformListItemDto implements Built<PlatformListItemDto, Platfor
   @BuiltValueField(wireName: r'canonical')
   String get canonical;
 
-  /// Suggested path segment — PascalCase of canonical, hyphens removed (e.g. \"ApplePay\")
+  /// Suggested path segment — canonical PascalCased per hyphen-part, hyphens preserved (e.g. \"Apple-Pay\")
   @BuiltValueField(wireName: r'suggestedSegment')
   String get suggestedSegment;
 
