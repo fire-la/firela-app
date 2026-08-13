@@ -5641,6 +5641,78 @@ paths:
         - Bean Transaction Rules
       security:
         - bearer: []
+  /api/v1/{region}/bean/categories:
+    get:
+      operationId: CategoryCatalogController_list
+      summary: List category catalog for a region
+      description: >-
+        Returns the region-scoped category slugs
+        (expense/income/investment/banking/transfer/payment) for the NLP result
+        picker. CN-exclusive payment instruments (huabei/baitiao) appear only
+        under /cn.
+      parameters:
+        - name: region
+          required: true
+          in: path
+          description: Region code (cn, us, de)
+          schema:
+            enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
+              - cn
+              - de
+              - dz
+              - es
+              - fr
+              - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
+            type: string
+        - name: scenario
+          required: false
+          in: query
+          description: Filter by scenario
+          schema:
+            example: expense
+            enum:
+              - expense
+              - income
+              - investment
+              - banking
+              - transfer
+              - payment
+            type: string
+        - name: routeBearing
+          required: false
+          in: query
+          description: Filter by routeBearing (entity-router route() consumes it)
+          schema:
+            example: true
+            type: boolean
+      responses:
+        '200':
+          description: Category catalog retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategoryCatalogListResponseDto'
+      tags:
+        - Bean Category Catalog
   /api/v1/{region}/bean/events:
     post:
       operationId: EventController_create
@@ -12695,6 +12767,60 @@ components:
         - matches
         - confidence
         - matchDetails
+    CategoryCatalogEntryDto:
+      type: object
+      properties:
+        slug:
+          type: string
+          description: Category slug (single source-of-truth)
+          example: food
+        scenario:
+          type: string
+          description: Display scenario group (maps to frontend picker _scenario)
+          enum:
+            - expense
+            - income
+            - investment
+            - banking
+            - transfer
+            - payment
+          example: expense
+        icon:
+          type: string
+          description: Lucide icon name
+          example: utensils
+        regions:
+          description: Applicable regions ('*' = all, 'cn' = CN-only)
+          example:
+            - '*'
+          type: array
+          items:
+            type: string
+      required:
+        - slug
+        - scenario
+        - icon
+        - regions
+    CategoryCatalogListResponseDto:
+      type: object
+      properties:
+        items:
+          description: Category entries (region-scoped, query-filtered)
+          type: array
+          items:
+            $ref: '#/components/schemas/CategoryCatalogEntryDto'
+        total:
+          type: number
+          description: Total category entries for the region (before query filtering)
+          example: 30
+        region:
+          type: string
+          description: Region code
+          example: cn
+      required:
+        - items
+        - total
+        - region
     CreateBeanEventDto:
       type: object
       properties:
