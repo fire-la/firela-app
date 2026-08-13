@@ -22,7 +22,7 @@ class BeanCategoryCatalogApi {
   /// Returns the region-scoped category slugs (expense/income/investment/banking/transfer/payment) for the NLP result picker. CN-exclusive payment instruments (huabei/baitiao) appear only under /cn.
   ///
   /// Parameters:
-  /// * [region] - Region code (cn, us, de)
+  /// * [region] - Region code for tenant context
   /// * [scenario] - Filter by scenario
   /// * [routeBearing] - Filter by routeBearing (entity-router route() consumes it)
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation

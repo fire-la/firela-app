@@ -283,6 +283,8 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(UpdateUserSettingDto.serializer)
       ..add(UpdateUserSettingDtoColorSchemeEnum.serializer)
       ..add(UpdateUserSettingDtoViewModeEnum.serializer)
+      ..add(UserResponseDto.serializer)
+      ..add(UserSettingsResponseDto.serializer)
       ..add(ValidateRuleDto.serializer)
       ..add(ValidateRuleDtoMatchLogicEnum.serializer)
       ..add(ValidateRuleResponseDto.serializer)
@@ -585,6 +587,9 @@ Serializers _$serializers = (new Serializers().toBuilder()
           const FullType(BuiltList,
               const [const FullType(RuleStatisticsResponseDtoRuleStatsInner)]),
           () => new ListBuilder<RuleStatisticsResponseDtoRuleStatsInner>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())
