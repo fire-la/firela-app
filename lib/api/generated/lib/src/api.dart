@@ -16,6 +16,7 @@ import 'package:firela_api/src/api/balance_reconciliation_api.dart';
 import 'package:firela_api/src/api/bean_account_standards_api.dart';
 import 'package:firela_api/src/api/bean_accounts_api.dart';
 import 'package:firela_api/src/api/bean_balances_api.dart';
+import 'package:firela_api/src/api/bean_category_catalog_api.dart';
 import 'package:firela_api/src/api/bean_commodities_api.dart';
 import 'package:firela_api/src/api/bean_export_api.dart';
 import 'package:firela_api/src/api/bean_import_api.dart';
@@ -139,6 +140,12 @@ class FirelaApi {
   /// by doing that all interceptors will not be executed
   BeanBalancesApi getBeanBalancesApi() {
     return BeanBalancesApi(dio, serializers);
+  }
+
+  /// Get BeanCategoryCatalogApi instance, base route and serializer can be overridden by a given but be careful,
+  /// by doing that all interceptors will not be executed
+  BeanCategoryCatalogApi getBeanCategoryCatalogApi() {
+    return BeanCategoryCatalogApi(dio, serializers);
   }
 
   /// Get BeanCommoditiesApi instance, base route and serializer can be overridden by a given but be careful,

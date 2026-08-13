@@ -48,6 +48,8 @@ import 'package:firela_api/src/model/cash_flow_point_dto.dart';
 import 'package:firela_api/src/model/cash_flow_response_dto.dart';
 import 'package:firela_api/src/model/cash_flow_trend_summary_dto.dart';
 import 'package:firela_api/src/model/cash_flow_trends_response_dto.dart';
+import 'package:firela_api/src/model/category_catalog_entry_dto.dart';
+import 'package:firela_api/src/model/category_catalog_list_response_dto.dart';
 import 'package:firela_api/src/model/category_group_dto.dart';
 import 'package:firela_api/src/model/close_account_dto.dart';
 import 'package:firela_api/src/model/commodity_list_response_dto.dart';
@@ -259,6 +261,8 @@ part 'serializers.g.dart';
   CashFlowResponseDto,
   CashFlowTrendSummaryDto,
   CashFlowTrendsResponseDto,
+  CategoryCatalogEntryDto,
+  CategoryCatalogListResponseDto,
   CategoryGroupDto,
   CloseAccountDto,
   CommodityListResponseDto,

@@ -57,6 +57,9 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(CashFlowResponseDto.serializer)
       ..add(CashFlowTrendSummaryDto.serializer)
       ..add(CashFlowTrendsResponseDto.serializer)
+      ..add(CategoryCatalogEntryDto.serializer)
+      ..add(CategoryCatalogEntryDtoScenarioEnum.serializer)
+      ..add(CategoryCatalogListResponseDto.serializer)
       ..add(CategoryGroupDto.serializer)
       ..add(CloseAccountDto.serializer)
       ..add(CommodityListResponseDto.serializer)
@@ -465,6 +468,10 @@ Serializers _$serializers = (new Serializers().toBuilder()
               BuiltList, const [const FullType(ExchangeRateWarningDto)]),
           () => new ListBuilder<ExchangeRateWarningDto>())
       ..addBuilderFactory(
+          const FullType(
+              BuiltList, const [const FullType(CategoryCatalogEntryDto)]),
+          () => new ListBuilder<CategoryCatalogEntryDto>())
+      ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(CategoryGroupDto)]),
           () => new ListBuilder<CategoryGroupDto>())
       ..addBuilderFactory(
@@ -578,6 +585,9 @@ Serializers _$serializers = (new Serializers().toBuilder()
           const FullType(BuiltList,
               const [const FullType(RuleStatisticsResponseDtoRuleStatsInner)]),
           () => new ListBuilder<RuleStatisticsResponseDtoRuleStatsInner>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())

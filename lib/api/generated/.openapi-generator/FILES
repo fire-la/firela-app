@@ -10,6 +10,7 @@ lib/src/api/balance_reconciliation_api.dart
 lib/src/api/bean_account_standards_api.dart
 lib/src/api/bean_accounts_api.dart
 lib/src/api/bean_balances_api.dart
+lib/src/api/bean_category_catalog_api.dart
 lib/src/api/bean_commodities_api.dart
 lib/src/api/bean_export_api.dart
 lib/src/api/bean_import_api.dart
@@ -79,6 +80,8 @@ lib/src/model/cash_flow_point_dto.dart
 lib/src/model/cash_flow_response_dto.dart
 lib/src/model/cash_flow_trend_summary_dto.dart
 lib/src/model/cash_flow_trends_response_dto.dart
+lib/src/model/category_catalog_entry_dto.dart
+lib/src/model/category_catalog_list_response_dto.dart
 lib/src/model/category_group_dto.dart
 lib/src/model/close_account_dto.dart
 lib/src/model/commodity_list_response_dto.dart
