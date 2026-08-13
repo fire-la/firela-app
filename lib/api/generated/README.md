@@ -164,6 +164,7 @@ Class | Method | HTTP request | Description
 [*BeanAccountsApi*](doc/BeanAccountsApi.md) | [**accountControllerUpdate**](doc/BeanAccountsApi.md#accountcontrollerupdate) | **PUT** /api/v1/{region}/bean/accounts/{id} | Update account
 [*BeanBalancesApi*](doc/BeanBalancesApi.md) | [**balanceControllerGetBalance**](doc/BeanBalancesApi.md#balancecontrollergetbalance) | **GET** /api/v1/{region}/bean/balances | Query account balance
 [*BeanBalancesApi*](doc/BeanBalancesApi.md) | [**balanceControllerGetMultiCurrencyBalance**](doc/BeanBalancesApi.md#balancecontrollergetmulticurrencybalance) | **GET** /api/v1/{region}/bean/balances/multi-currency | Query multi-currency account balance
+[*BeanCategoryCatalogApi*](doc/BeanCategoryCatalogApi.md) | [**categoryCatalogControllerList**](doc/BeanCategoryCatalogApi.md#categorycatalogcontrollerlist) | **GET** /api/v1/{region}/bean/categories | List category catalog for a region
 [*BeanCommoditiesApi*](doc/BeanCommoditiesApi.md) | [**commodityControllerBulkCreate**](doc/BeanCommoditiesApi.md#commoditycontrollerbulkcreate) | **POST** /api/v1/{region}/bean/commodities/bulk | Bulk create commodities
 [*BeanCommoditiesApi*](doc/BeanCommoditiesApi.md) | [**commodityControllerCreate**](doc/BeanCommoditiesApi.md#commoditycontrollercreate) | **POST** /api/v1/{region}/bean/commodities | Create a new commodity
 [*BeanCommoditiesApi*](doc/BeanCommoditiesApi.md) | [**commodityControllerDelete**](doc/BeanCommoditiesApi.md#commoditycontrollerdelete) | **DELETE** /api/v1/{region}/bean/commodities/{symbol} | Delete commodity
@@ -328,6 +329,8 @@ Class | Method | HTTP request | Description
  - [CashFlowResponseDto](doc/CashFlowResponseDto.md)
  - [CashFlowTrendSummaryDto](doc/CashFlowTrendSummaryDto.md)
  - [CashFlowTrendsResponseDto](doc/CashFlowTrendsResponseDto.md)
+ - [CategoryCatalogEntryDto](doc/CategoryCatalogEntryDto.md)
+ - [CategoryCatalogListResponseDto](doc/CategoryCatalogListResponseDto.md)
  - [CategoryGroupDto](doc/CategoryGroupDto.md)
  - [CloseAccountDto](doc/CloseAccountDto.md)
  - [CommodityListResponseDto](doc/CommodityListResponseDto.md)
