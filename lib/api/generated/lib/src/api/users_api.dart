@@ -12,6 +12,7 @@ import 'package:firela_api/src/model/delete_own_user_dto.dart';
 import 'package:firela_api/src/model/signup_dto.dart';
 import 'package:firela_api/src/model/signup_response_dto.dart';
 import 'package:firela_api/src/model/update_user_setting_dto.dart';
+import 'package:firela_api/src/model/user_response_dto.dart';
 
 class UsersApi {
 
@@ -247,9 +248,9 @@ class UsersApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future]
+  /// Returns a [Future] containing a [Response] with a [UserResponseDto] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<void>> userControllerGetUser({ 
+  Future<Response<UserResponseDto>> userControllerGetUser({ 
     required String acceptLanguage,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -280,7 +281,35 @@ class UsersApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    return _response;
+    UserResponseDto? _responseData;
+
+    try {
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(UserResponseDto),
+      ) as UserResponseDto;
+
+    } catch (error, stackTrace) {
+      throw DioException(
+        requestOptions: _response.requestOptions,
+        response: _response,
+        type: DioExceptionType.unknown,
+        error: error,
+        stackTrace: stackTrace,
+      );
+    }
+
+    return Response<UserResponseDto>(
+      data: _responseData,
+      headers: _response.headers,
+      isRedirect: _response.isRedirect,
+      requestOptions: _response.requestOptions,
+      redirects: _response.redirects,
+      statusCode: _response.statusCode,
+      statusMessage: _response.statusMessage,
+      extra: _response.extra,
+    );
   }
 
   /// Get user info by user ID

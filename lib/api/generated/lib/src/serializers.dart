@@ -220,6 +220,8 @@ import 'package:firela_api/src/model/update_recurring_rule_dto.dart';
 import 'package:firela_api/src/model/update_transaction_dto.dart';
 import 'package:firela_api/src/model/update_transaction_rule_dto.dart';
 import 'package:firela_api/src/model/update_user_setting_dto.dart';
+import 'package:firela_api/src/model/user_response_dto.dart';
+import 'package:firela_api/src/model/user_settings_response_dto.dart';
 import 'package:firela_api/src/model/validate_rule_dto.dart';
 import 'package:firela_api/src/model/validate_rule_response_dto.dart';
 import 'package:firela_api/src/model/versioned_config_dto.dart';
@@ -433,6 +435,8 @@ part 'serializers.g.dart';
   UpdateTransactionDto,
   UpdateTransactionRuleDto,
   UpdateUserSettingDto,
+  UserResponseDto,
+  UserSettingsResponseDto,
   ValidateRuleDto,
   ValidateRuleResponseDto,
   VersionedConfigDto,

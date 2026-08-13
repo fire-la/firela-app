@@ -501,6 +501,8 @@ Class | Method | HTTP request | Description
  - [UpdateTransactionDto](doc/UpdateTransactionDto.md)
  - [UpdateTransactionRuleDto](doc/UpdateTransactionRuleDto.md)
  - [UpdateUserSettingDto](doc/UpdateUserSettingDto.md)
+ - [UserResponseDto](doc/UserResponseDto.md)
+ - [UserSettingsResponseDto](doc/UserSettingsResponseDto.md)
  - [ValidateRuleDto](doc/ValidateRuleDto.md)
  - [ValidateRuleResponseDto](doc/ValidateRuleResponseDto.md)
  - [VersionedConfigDto](doc/VersionedConfigDto.md)
