@@ -4678,6 +4678,10 @@ paths:
       responses:
         '200':
           description: User retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponseDto'
       tags:
         - Users
       security:
@@ -5654,7 +5658,7 @@ paths:
         - name: region
           required: true
           in: path
-          description: Region code (cn, us, de)
+          description: Region code for tenant context
           schema:
             enum:
               - ad
@@ -12122,6 +12126,41 @@ components:
           example: abc123xyz
       required:
         - accessToken
+    UserSettingsResponseDto:
+      type: object
+      properties:
+        baseCurrency:
+          type: string
+          description: >-
+            Base currency (ISO 4217) for net-worth/report aggregation.
+            Independent of region (ADR-0006).
+          example: USD
+          nullable: true
+      required:
+        - baseCurrency
+    UserResponseDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: User ID
+        role:
+          type: string
+          description: Assigned user role
+        permissions:
+          description: Permission strings
+          type: array
+          items:
+            type: string
+        settings:
+          description: User settings
+          allOf:
+            - $ref: '#/components/schemas/UserSettingsResponseDto'
+      required:
+        - id
+        - role
+        - permissions
+        - settings
     SignupDto:
       type: object
       properties:
