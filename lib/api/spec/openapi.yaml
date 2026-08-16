@@ -13710,6 +13710,74 @@ components:
     UncoveredFormatMissDto:
       type: object
       properties: {}
+    ClientParsedDataDto:
+      type: object
+      properties:
+        amount:
+          type: number
+          description: Transaction amount
+          example: 35
+        currency:
+          type: string
+          description: Currency code
+          example: CNY
+        date:
+          type: string
+          description: Transaction date (ISO 8601)
+          example: '2026-08-15'
+        payee:
+          type: string
+          description: Payee/merchant name
+          example: Starbucks
+        narration:
+          type: string
+          description: Transaction narration
+        category:
+          type: string
+          description: Category slug
+          example: food_restaurant
+        incomeType:
+          type: string
+          description: Income type
+          example: Salary
+        incomeSource:
+          type: string
+          description: Income source
+          example: Anthropic Inc.
+        symbol:
+          type: string
+          description: Security symbol code (e.g., 600519, AAPL)
+          example: AAPL
+        quantity:
+          type: number
+          description: Quantity of shares/units
+          example: 100
+        price:
+          type: number
+          description: Unit price per share/unit
+          example: 1900
+        investmentAction:
+          type: string
+          description: Investment action
+          enum:
+            - buy
+            - sell
+          example: buy
+        paymentSource:
+          type: string
+          description: 'Payment source: asset (default) or liability (credit card)'
+          enum:
+            - asset
+            - liability
+          example: asset
+        liabilityHint:
+          type: string
+          description: Liability account hint (CreditCard/Huabei/Baitiao)
+          example: CreditCard
+        warning:
+          type: string
+          description: Display-only warning from the prior response; accepted but ignored.
+          example: Cross-currency settlement applies.
     ProcessNlpDto:
       type: object
       properties:
@@ -13734,7 +13802,6 @@ components:
             provided)
           example: session_abc123
         parsedData:
-          type: object
           description: >-
             Parsed data from previous NLP response for session recovery. Send
             back the parsedData received in confirm_payee/confirm responses.
@@ -13742,6 +13809,8 @@ components:
             amount: 35
             currency: CNY
             payee: Starbucks
+          allOf:
+            - $ref: '#/components/schemas/ClientParsedDataDto'
         selectedRuleId:
           type: string
           description: >-
