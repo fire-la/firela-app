@@ -3,7 +3,7 @@
 //
 
 // ignore_for_file: unused_element
-import 'package:built_value/json_object.dart';
+import 'package:firela_api/src/model/client_parsed_data_dto.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
@@ -15,7 +15,7 @@ part 'process_nlp_dto.g.dart';
 /// * [message] - Natural language text describing a transaction. Optional when `confirm` is true (structured confirm); otherwise required.
 /// * [confirm] - Structured confirm signal — bypasses NL confirm-word matching when true. Send parsedData field edits alongside. The NL word-list path is the fallback.
 /// * [sessionId] - Session ID for multi-turn conversation (auto-generated if not provided)
-/// * [parsedData] - Parsed data from previous NLP response for session recovery. Send back the parsedData received in confirm_payee/confirm responses.
+/// * [parsedData] 
 /// * [selectedRuleId] - confirm_rule echo-back: rule id selected from the prior confirm_rule response (matchedRule.id or alternatives[i].ruleId). Applied directly when the session is confirming_rule — no NL re-parse.
 /// * [selectedAccount] - confirm_account echo-back: account path selected from the prior confirm_account response (suggestedAccount, similarAccounts[i], or a typed path). Applied directly when the session is confirming_account — no NL re-parse.
 @BuiltValue()
@@ -32,9 +32,8 @@ abstract class ProcessNlpDto implements Built<ProcessNlpDto, ProcessNlpDtoBuilde
   @BuiltValueField(wireName: r'sessionId')
   String? get sessionId;
 
-  /// Parsed data from previous NLP response for session recovery. Send back the parsedData received in confirm_payee/confirm responses.
   @BuiltValueField(wireName: r'parsedData')
-  JsonObject? get parsedData;
+  ClientParsedDataDto? get parsedData;
 
   /// confirm_rule echo-back: rule id selected from the prior confirm_rule response (matchedRule.id or alternatives[i].ruleId). Applied directly when the session is confirming_rule — no NL re-parse.
   @BuiltValueField(wireName: r'selectedRuleId')
@@ -92,7 +91,7 @@ class _$ProcessNlpDtoSerializer implements PrimitiveSerializer<ProcessNlpDto> {
       yield r'parsedData';
       yield serializers.serialize(
         object.parsedData,
-        specifiedType: const FullType(JsonObject),
+        specifiedType: const FullType(ClientParsedDataDto),
       );
     }
     if (object.selectedRuleId != null) {
@@ -156,9 +155,9 @@ class _$ProcessNlpDtoSerializer implements PrimitiveSerializer<ProcessNlpDto> {
         case r'parsedData':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(JsonObject),
-          ) as JsonObject;
-          result.parsedData = valueDes;
+            specifiedType: const FullType(ClientParsedDataDto),
+          ) as ClientParsedDataDto;
+          result.parsedData.replace(valueDes);
           break;
         case r'selectedRuleId':
           final valueDes = serializers.deserialize(

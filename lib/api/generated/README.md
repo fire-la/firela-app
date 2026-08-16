@@ -332,6 +332,7 @@ Class | Method | HTTP request | Description
  - [CategoryCatalogEntryDto](doc/CategoryCatalogEntryDto.md)
  - [CategoryCatalogListResponseDto](doc/CategoryCatalogListResponseDto.md)
  - [CategoryGroupDto](doc/CategoryGroupDto.md)
+ - [ClientParsedDataDto](doc/ClientParsedDataDto.md)
  - [CloseAccountDto](doc/CloseAccountDto.md)
  - [CommodityListResponseDto](doc/CommodityListResponseDto.md)
  - [CommodityResponseDto](doc/CommodityResponseDto.md)
