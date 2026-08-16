@@ -83,6 +83,7 @@ lib/src/model/cash_flow_trends_response_dto.dart
 lib/src/model/category_catalog_entry_dto.dart
 lib/src/model/category_catalog_list_response_dto.dart
 lib/src/model/category_group_dto.dart
+lib/src/model/client_parsed_data_dto.dart
 lib/src/model/close_account_dto.dart
 lib/src/model/commodity_list_response_dto.dart
 lib/src/model/commodity_response_dto.dart

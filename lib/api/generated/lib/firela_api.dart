@@ -83,6 +83,7 @@ export 'package:firela_api/src/model/cash_flow_trends_response_dto.dart';
 export 'package:firela_api/src/model/category_catalog_entry_dto.dart';
 export 'package:firela_api/src/model/category_catalog_list_response_dto.dart';
 export 'package:firela_api/src/model/category_group_dto.dart';
+export 'package:firela_api/src/model/client_parsed_data_dto.dart';
 export 'package:firela_api/src/model/close_account_dto.dart';
 export 'package:firela_api/src/model/commodity_list_response_dto.dart';
 export 'package:firela_api/src/model/commodity_response_dto.dart';

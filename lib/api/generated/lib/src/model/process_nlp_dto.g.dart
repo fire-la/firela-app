@@ -14,7 +14,7 @@ class _$ProcessNlpDto extends ProcessNlpDto {
   @override
   final String? sessionId;
   @override
-  final JsonObject? parsedData;
+  final ClientParsedDataDto? parsedData;
   @override
   final String? selectedRuleId;
   @override
@@ -93,9 +93,11 @@ class ProcessNlpDtoBuilder
   String? get sessionId => _$this._sessionId;
   set sessionId(String? sessionId) => _$this._sessionId = sessionId;
 
-  JsonObject? _parsedData;
-  JsonObject? get parsedData => _$this._parsedData;
-  set parsedData(JsonObject? parsedData) => _$this._parsedData = parsedData;
+  ClientParsedDataDtoBuilder? _parsedData;
+  ClientParsedDataDtoBuilder get parsedData =>
+      _$this._parsedData ??= new ClientParsedDataDtoBuilder();
+  set parsedData(ClientParsedDataDtoBuilder? parsedData) =>
+      _$this._parsedData = parsedData;
 
   String? _selectedRuleId;
   String? get selectedRuleId => _$this._selectedRuleId;
@@ -117,7 +119,7 @@ class ProcessNlpDtoBuilder
       _message = $v.message;
       _confirm = $v.confirm;
       _sessionId = $v.sessionId;
-      _parsedData = $v.parsedData;
+      _parsedData = $v.parsedData?.toBuilder();
       _selectedRuleId = $v.selectedRuleId;
       _selectedAccount = $v.selectedAccount;
       _$v = null;
@@ -140,14 +142,27 @@ class ProcessNlpDtoBuilder
   ProcessNlpDto build() => _build();
 
   _$ProcessNlpDto _build() {
-    final _$result = _$v ??
-        new _$ProcessNlpDto._(
-            message: message,
-            confirm: confirm,
-            sessionId: sessionId,
-            parsedData: parsedData,
-            selectedRuleId: selectedRuleId,
-            selectedAccount: selectedAccount);
+    _$ProcessNlpDto _$result;
+    try {
+      _$result = _$v ??
+          new _$ProcessNlpDto._(
+              message: message,
+              confirm: confirm,
+              sessionId: sessionId,
+              parsedData: _parsedData?.build(),
+              selectedRuleId: selectedRuleId,
+              selectedAccount: selectedAccount);
+    } catch (_) {
+      late String _$failedField;
+      try {
+        _$failedField = 'parsedData';
+        _parsedData?.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            r'ProcessNlpDto', _$failedField, e.toString());
+      }
+      rethrow;
+    }
     replace(_$result);
     return _$result;
   }
