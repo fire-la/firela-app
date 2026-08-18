@@ -14333,6 +14333,8 @@ components:
             - transfer
             - banking
             - investment
+            - lend
+            - lend_collect
           example: investment
         liabilitySubType:
           type: string
