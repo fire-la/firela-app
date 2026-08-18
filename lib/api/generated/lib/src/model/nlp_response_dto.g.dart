@@ -134,6 +134,11 @@ const NlpResponseDtoAssetSubTypeEnum _$nlpResponseDtoAssetSubTypeEnum_banking =
 const NlpResponseDtoAssetSubTypeEnum
     _$nlpResponseDtoAssetSubTypeEnum_investment =
     const NlpResponseDtoAssetSubTypeEnum._('investment');
+const NlpResponseDtoAssetSubTypeEnum _$nlpResponseDtoAssetSubTypeEnum_lend =
+    const NlpResponseDtoAssetSubTypeEnum._('lend');
+const NlpResponseDtoAssetSubTypeEnum
+    _$nlpResponseDtoAssetSubTypeEnum_lendCollect =
+    const NlpResponseDtoAssetSubTypeEnum._('lendCollect');
 
 NlpResponseDtoAssetSubTypeEnum _$nlpResponseDtoAssetSubTypeEnumValueOf(
     String name) {
@@ -144,6 +149,10 @@ NlpResponseDtoAssetSubTypeEnum _$nlpResponseDtoAssetSubTypeEnumValueOf(
       return _$nlpResponseDtoAssetSubTypeEnum_banking;
     case 'investment':
       return _$nlpResponseDtoAssetSubTypeEnum_investment;
+    case 'lend':
+      return _$nlpResponseDtoAssetSubTypeEnum_lend;
+    case 'lendCollect':
+      return _$nlpResponseDtoAssetSubTypeEnum_lendCollect;
     default:
       throw new ArgumentError(name);
   }
@@ -155,6 +164,8 @@ final BuiltSet<NlpResponseDtoAssetSubTypeEnum>
   _$nlpResponseDtoAssetSubTypeEnum_transfer,
   _$nlpResponseDtoAssetSubTypeEnum_banking,
   _$nlpResponseDtoAssetSubTypeEnum_investment,
+  _$nlpResponseDtoAssetSubTypeEnum_lend,
+  _$nlpResponseDtoAssetSubTypeEnum_lendCollect,
 ]);
 
 const NlpResponseDtoLiabilitySubTypeEnum
@@ -368,11 +379,15 @@ class _$NlpResponseDtoAssetSubTypeEnumSerializer
     'transfer': 'transfer',
     'banking': 'banking',
     'investment': 'investment',
+    'lend': 'lend',
+    'lendCollect': 'lend_collect',
   };
   static const Map<Object, String> _fromWire = const <Object, String>{
     'transfer': 'transfer',
     'banking': 'banking',
     'investment': 'investment',
+    'lend': 'lend',
+    'lend_collect': 'lendCollect',
   };
 
   @override

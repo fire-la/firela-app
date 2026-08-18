@@ -68,7 +68,7 @@ abstract class NlpResponseDto implements Built<NlpResponseDto, NlpResponseDtoBui
   /// Asset sub-type (only present when intent is \"asset\"). Determines which asset-related form to render.
   @BuiltValueField(wireName: r'assetSubType')
   NlpResponseDtoAssetSubTypeEnum? get assetSubType;
-  // enum assetSubTypeEnum {  transfer,  banking,  investment,  };
+  // enum assetSubTypeEnum {  transfer,  banking,  investment,  lend,  lend_collect,  };
 
   /// Liability sub-type (only present when intent is \"liability\"). borrow: borrowing money (Liabilities → Assets), repay: repaying debt (Assets → Liabilities).
   @BuiltValueField(wireName: r'liabilitySubType')
@@ -664,6 +664,12 @@ class NlpResponseDtoAssetSubTypeEnum extends EnumClass {
   /// Asset sub-type (only present when intent is \"asset\"). Determines which asset-related form to render.
   @BuiltValueEnumConst(wireName: r'investment')
   static const NlpResponseDtoAssetSubTypeEnum investment = _$nlpResponseDtoAssetSubTypeEnum_investment;
+  /// Asset sub-type (only present when intent is \"asset\"). Determines which asset-related form to render.
+  @BuiltValueEnumConst(wireName: r'lend')
+  static const NlpResponseDtoAssetSubTypeEnum lend = _$nlpResponseDtoAssetSubTypeEnum_lend;
+  /// Asset sub-type (only present when intent is \"asset\"). Determines which asset-related form to render.
+  @BuiltValueEnumConst(wireName: r'lend_collect')
+  static const NlpResponseDtoAssetSubTypeEnum lendCollect = _$nlpResponseDtoAssetSubTypeEnum_lendCollect;
 
   static Serializer<NlpResponseDtoAssetSubTypeEnum> get serializer => _$nlpResponseDtoAssetSubTypeEnumSerializer;
 
