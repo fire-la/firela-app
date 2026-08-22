@@ -13,7 +13,7 @@ part 'posting_response_dto.g.dart';
 ///
 /// Properties:
 /// * [account] - Account name
-/// * [units] - Amount as decimal string. Typed optional but always present in responses: interpolation fills any MISSING posting before it is persisted or returned.
+/// * [units] - Amount as decimal string. Typed optional but always present in responses: interpolation fills any MISSING posting before it is persisted or returned. Carries the raw Beancount sign (credit-normal accounts such as Income post negative — the accounting truth, ADR-0126); renderers must not infer economic semantics from this sign.
 /// * [currency] - Currency
 /// * [cost] 
 @BuiltValue()
@@ -22,7 +22,7 @@ abstract class PostingResponseDto implements Built<PostingResponseDto, PostingRe
   @BuiltValueField(wireName: r'account')
   String get account;
 
-  /// Amount as decimal string. Typed optional but always present in responses: interpolation fills any MISSING posting before it is persisted or returned.
+  /// Amount as decimal string. Typed optional but always present in responses: interpolation fills any MISSING posting before it is persisted or returned. Carries the raw Beancount sign (credit-normal accounts such as Income post negative — the accounting truth, ADR-0126); renderers must not infer economic semantics from this sign.
   @BuiltValueField(wireName: r'units')
   String? get units;
 

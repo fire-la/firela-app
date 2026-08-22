@@ -3,9 +3,10 @@
 //
 
 // ignore_for_file: unused_element
+import 'package:firela_api/src/model/transaction_list_item_dto.dart';
 import 'package:firela_api/src/model/transaction_list_summary_dto.dart';
 import 'package:built_collection/built_collection.dart';
-import 'package:firela_api/src/model/transaction_detail_dto.dart';
+import 'package:firela_api/src/model/transaction_list_viewpoint_dto.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
@@ -19,11 +20,12 @@ part 'transaction_list_response_dto.g.dart';
 /// * [limit] - Number of items per page
 /// * [offset] - Number of items skipped
 /// * [summary] 
+/// * [viewpoint] 
 @BuiltValue()
 abstract class TransactionListResponseDto implements Built<TransactionListResponseDto, TransactionListResponseDtoBuilder> {
   /// List of transactions
   @BuiltValueField(wireName: r'data')
-  BuiltList<TransactionDetailDto> get data;
+  BuiltList<TransactionListItemDto> get data;
 
   /// Total count of matching transactions
   @BuiltValueField(wireName: r'total')
@@ -39,6 +41,9 @@ abstract class TransactionListResponseDto implements Built<TransactionListRespon
 
   @BuiltValueField(wireName: r'summary')
   TransactionListSummaryDto? get summary;
+
+  @BuiltValueField(wireName: r'viewpoint')
+  TransactionListViewpointDto? get viewpoint;
 
   TransactionListResponseDto._();
 
@@ -66,7 +71,7 @@ class _$TransactionListResponseDtoSerializer implements PrimitiveSerializer<Tran
     yield r'data';
     yield serializers.serialize(
       object.data,
-      specifiedType: const FullType(BuiltList, [FullType(TransactionDetailDto)]),
+      specifiedType: const FullType(BuiltList, [FullType(TransactionListItemDto)]),
     );
     yield r'total';
     yield serializers.serialize(
@@ -88,6 +93,13 @@ class _$TransactionListResponseDtoSerializer implements PrimitiveSerializer<Tran
       yield serializers.serialize(
         object.summary,
         specifiedType: const FullType(TransactionListSummaryDto),
+      );
+    }
+    if (object.viewpoint != null) {
+      yield r'viewpoint';
+      yield serializers.serialize(
+        object.viewpoint,
+        specifiedType: const FullType(TransactionListViewpointDto),
       );
     }
   }
@@ -116,8 +128,8 @@ class _$TransactionListResponseDtoSerializer implements PrimitiveSerializer<Tran
         case r'data':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(BuiltList, [FullType(TransactionDetailDto)]),
-          ) as BuiltList<TransactionDetailDto>;
+            specifiedType: const FullType(BuiltList, [FullType(TransactionListItemDto)]),
+          ) as BuiltList<TransactionListItemDto>;
           result.data.replace(valueDes);
           break;
         case r'total':
@@ -147,6 +159,13 @@ class _$TransactionListResponseDtoSerializer implements PrimitiveSerializer<Tran
             specifiedType: const FullType(TransactionListSummaryDto),
           ) as TransactionListSummaryDto;
           result.summary.replace(valueDes);
+          break;
+        case r'viewpoint':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(TransactionListViewpointDto),
+          ) as TransactionListViewpointDto;
+          result.viewpoint.replace(valueDes);
           break;
         default:
           unhandled.add(key);

@@ -16,7 +16,7 @@ part 'posting_detail_dto.g.dart';
 /// * [id] - Posting ID
 /// * [accountId] - Account ID
 /// * [account] - Fully-qualified Beancount account path
-/// * [units] - Amount as decimal string. Typed optional but always present in responses: interpolation fills any MISSING posting before it is persisted or returned.
+/// * [units] - Amount as decimal string. Typed optional but always present in responses: interpolation fills any MISSING posting before it is persisted or returned. Carries the raw Beancount sign (credit-normal accounts such as Income post negative — the accounting truth, ADR-0126); renderers must not infer economic semantics from this sign.
 /// * [currency] - Currency
 /// * [costAmount] - Cost amount
 /// * [costCurrency] - Cost currency
@@ -40,7 +40,7 @@ abstract class PostingDetailDto implements Built<PostingDetailDto, PostingDetail
   @BuiltValueField(wireName: r'account')
   String get account;
 
-  /// Amount as decimal string. Typed optional but always present in responses: interpolation fills any MISSING posting before it is persisted or returned.
+  /// Amount as decimal string. Typed optional but always present in responses: interpolation fills any MISSING posting before it is persisted or returned. Carries the raw Beancount sign (credit-normal accounts such as Income post negative — the accounting truth, ADR-0126); renderers must not infer economic semantics from this sign.
   @BuiltValueField(wireName: r'units')
   String? get units;
 

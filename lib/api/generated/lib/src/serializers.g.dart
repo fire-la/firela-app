@@ -253,8 +253,14 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(TransactionDetailDto.serializer)
       ..add(TransactionDetailDtoFlagEnum.serializer)
       ..add(TransactionDetailDtoStatusEnum.serializer)
+      ..add(TransactionListItemDto.serializer)
+      ..add(TransactionListItemDtoFlagEnum.serializer)
+      ..add(TransactionListItemDtoStatusEnum.serializer)
       ..add(TransactionListResponseDto.serializer)
       ..add(TransactionListSummaryDto.serializer)
+      ..add(TransactionListViewpointDto.serializer)
+      ..add(TransactionListViewpointDtoFlowEnum.serializer)
+      ..add(TransactionListViewpointDtoTypeEnum.serializer)
       ..add(TransactionResponseDto.serializer)
       ..add(TransactionRuleListResponseDto.serializer)
       ..add(TransactionRuleResponseDto.serializer)
@@ -696,6 +702,15 @@ Serializers _$serializers = (new Serializers().toBuilder()
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())
       ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(PostingDetailDto)]),
+          () => new ListBuilder<PostingDetailDto>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())
       ..addBuilderFactory(
@@ -760,8 +775,8 @@ Serializers _$serializers = (new Serializers().toBuilder()
           () => new ListBuilder<ExchangeRateWarningDto>())
       ..addBuilderFactory(
           const FullType(
-              BuiltList, const [const FullType(TransactionDetailDto)]),
-          () => new ListBuilder<TransactionDetailDto>())
+              BuiltList, const [const FullType(TransactionListItemDto)]),
+          () => new ListBuilder<TransactionListItemDto>())
       ..addBuilderFactory(
           const FullType(
               BuiltList, const [const FullType(TransactionResponseDto)]),

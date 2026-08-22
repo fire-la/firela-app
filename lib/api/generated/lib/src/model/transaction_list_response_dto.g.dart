@@ -8,7 +8,7 @@ part of 'transaction_list_response_dto.dart';
 
 class _$TransactionListResponseDto extends TransactionListResponseDto {
   @override
-  final BuiltList<TransactionDetailDto> data;
+  final BuiltList<TransactionListItemDto> data;
   @override
   final num total;
   @override
@@ -17,6 +17,8 @@ class _$TransactionListResponseDto extends TransactionListResponseDto {
   final num offset;
   @override
   final TransactionListSummaryDto? summary;
+  @override
+  final TransactionListViewpointDto? viewpoint;
 
   factory _$TransactionListResponseDto(
           [void Function(TransactionListResponseDtoBuilder)? updates]) =>
@@ -27,7 +29,8 @@ class _$TransactionListResponseDto extends TransactionListResponseDto {
       required this.total,
       required this.limit,
       required this.offset,
-      this.summary})
+      this.summary,
+      this.viewpoint})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(
         data, r'TransactionListResponseDto', 'data');
@@ -56,7 +59,8 @@ class _$TransactionListResponseDto extends TransactionListResponseDto {
         total == other.total &&
         limit == other.limit &&
         offset == other.offset &&
-        summary == other.summary;
+        summary == other.summary &&
+        viewpoint == other.viewpoint;
   }
 
   @override
@@ -67,6 +71,7 @@ class _$TransactionListResponseDto extends TransactionListResponseDto {
     _$hash = $jc(_$hash, limit.hashCode);
     _$hash = $jc(_$hash, offset.hashCode);
     _$hash = $jc(_$hash, summary.hashCode);
+    _$hash = $jc(_$hash, viewpoint.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -78,7 +83,8 @@ class _$TransactionListResponseDto extends TransactionListResponseDto {
           ..add('total', total)
           ..add('limit', limit)
           ..add('offset', offset)
-          ..add('summary', summary))
+          ..add('summary', summary)
+          ..add('viewpoint', viewpoint))
         .toString();
   }
 }
@@ -88,10 +94,10 @@ class TransactionListResponseDtoBuilder
         Builder<TransactionListResponseDto, TransactionListResponseDtoBuilder> {
   _$TransactionListResponseDto? _$v;
 
-  ListBuilder<TransactionDetailDto>? _data;
-  ListBuilder<TransactionDetailDto> get data =>
-      _$this._data ??= new ListBuilder<TransactionDetailDto>();
-  set data(ListBuilder<TransactionDetailDto>? data) => _$this._data = data;
+  ListBuilder<TransactionListItemDto>? _data;
+  ListBuilder<TransactionListItemDto> get data =>
+      _$this._data ??= new ListBuilder<TransactionListItemDto>();
+  set data(ListBuilder<TransactionListItemDto>? data) => _$this._data = data;
 
   num? _total;
   num? get total => _$this._total;
@@ -111,6 +117,12 @@ class TransactionListResponseDtoBuilder
   set summary(TransactionListSummaryDtoBuilder? summary) =>
       _$this._summary = summary;
 
+  TransactionListViewpointDtoBuilder? _viewpoint;
+  TransactionListViewpointDtoBuilder get viewpoint =>
+      _$this._viewpoint ??= new TransactionListViewpointDtoBuilder();
+  set viewpoint(TransactionListViewpointDtoBuilder? viewpoint) =>
+      _$this._viewpoint = viewpoint;
+
   TransactionListResponseDtoBuilder() {
     TransactionListResponseDto._defaults(this);
   }
@@ -123,6 +135,7 @@ class TransactionListResponseDtoBuilder
       _limit = $v.limit;
       _offset = $v.offset;
       _summary = $v.summary?.toBuilder();
+      _viewpoint = $v.viewpoint?.toBuilder();
       _$v = null;
     }
     return this;
@@ -154,7 +167,8 @@ class TransactionListResponseDtoBuilder
                   limit, r'TransactionListResponseDto', 'limit'),
               offset: BuiltValueNullFieldError.checkNotNull(
                   offset, r'TransactionListResponseDto', 'offset'),
-              summary: _summary?.build());
+              summary: _summary?.build(),
+              viewpoint: _viewpoint?.build());
     } catch (_) {
       late String _$failedField;
       try {
@@ -163,6 +177,8 @@ class TransactionListResponseDtoBuilder
 
         _$failedField = 'summary';
         _summary?.build();
+        _$failedField = 'viewpoint';
+        _viewpoint?.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             r'TransactionListResponseDto', _$failedField, e.toString());

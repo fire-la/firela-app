@@ -198,8 +198,10 @@ import 'package:firela_api/src/model/test_rule_dto.dart';
 import 'package:firela_api/src/model/test_rule_response_dto.dart';
 import 'package:firela_api/src/model/time_series_point_dto.dart';
 import 'package:firela_api/src/model/transaction_detail_dto.dart';
+import 'package:firela_api/src/model/transaction_list_item_dto.dart';
 import 'package:firela_api/src/model/transaction_list_response_dto.dart';
 import 'package:firela_api/src/model/transaction_list_summary_dto.dart';
+import 'package:firela_api/src/model/transaction_list_viewpoint_dto.dart';
 import 'package:firela_api/src/model/transaction_response_dto.dart';
 import 'package:firela_api/src/model/transaction_rule_list_response_dto.dart';
 import 'package:firela_api/src/model/transaction_rule_response_dto.dart';
@@ -414,8 +416,10 @@ part 'serializers.g.dart';
   TestRuleResponseDto,
   TimeSeriesPointDto,
   TransactionDetailDto,
+  TransactionListItemDto,
   TransactionListResponseDto,
   TransactionListSummaryDto,
+  TransactionListViewpointDto,
   TransactionResponseDto,
   TransactionRuleListResponseDto,
   TransactionRuleResponseDto,
