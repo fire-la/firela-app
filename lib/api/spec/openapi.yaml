@@ -854,11 +854,26 @@ paths:
           in: query
           description: >-
             Filter by ADR-0075 functional category (Group segment); matches any
-            posting to an Expenses/Income account whose derived Group segment
-            equals this value
+            posting to an account whose derived Group segment equals this value.
+            Must be accompanied by flow (ADR-0126).
           schema:
             maxLength: 64
             example: Food
+            type: string
+        - name: flow
+          required: false
+          in: query
+          description: >-
+            Required when category is present (400 otherwise) and vice versa
+            (ADR-0126). Restricts the category account set to the flow root
+            (income → Income:, expense → Expenses:) and drives the per-leg sign
+            normalization of row viewpointAmount and the summary. OpenAPI cannot
+            express conditional requiredness — the pairing is enforced at
+            runtime.
+          schema:
+            enum:
+              - income
+              - expense
             type: string
         - name: region
           required: true
@@ -9333,7 +9348,10 @@ components:
           description: >-
             Amount as decimal string. Typed optional but always present in
             responses: interpolation fills any MISSING posting before it is
-            persisted or returned.
+            persisted or returned. Carries the raw Beancount sign (credit-normal
+            accounts such as Income post negative — the accounting truth,
+            ADR-0126); renderers must not infer economic semantics from this
+            sign.
           example: '100.50'
         currency:
           type: string
@@ -9634,7 +9652,10 @@ components:
           description: >-
             Amount as decimal string. Typed optional but always present in
             responses: interpolation fills any MISSING posting before it is
-            persisted or returned.
+            persisted or returned. Carries the raw Beancount sign (credit-normal
+            accounts such as Income post negative — the accounting truth,
+            ADR-0126); renderers must not infer economic semantics from this
+            sign.
           example: '100.50'
         currency:
           type: string
@@ -9787,6 +9808,133 @@ components:
         - status
         - postings
         - createdAt
+    TransactionListItemDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Transaction ID
+          example: clh1234567890abcdef
+        date:
+          type: string
+          description: Transaction date
+          example: '2024-11-28'
+        flag:
+          type: string
+          description: Transaction flag
+          enum:
+            - CLEARED
+            - PENDING
+            - PADDING
+            - SUMMARIZE
+            - TRANSFER
+            - CONVERSIONS
+          example: CLEARED
+        customFlag:
+          type: string
+          description: Custom flag (if not using standard flags)
+          example: R
+        payee:
+          type: string
+          description: Payee name
+          example: Whole Foods Market
+        narration:
+          type: string
+          description: Transaction narration
+          example: Grocery shopping
+        tags:
+          description: Transaction tags
+          example:
+            - groceries
+          type: array
+          items:
+            type: string
+        links:
+          description: Transaction links
+          example:
+            - invoice-2024-001
+          type: array
+          items:
+            type: string
+        meta:
+          type: object
+          description: Transaction metadata
+        status:
+          type: string
+          description: Transaction status
+          enum:
+            - ACTIVE
+            - VOIDED
+            - SUPERSEDED
+          example: ACTIVE
+        sourceType:
+          type: string
+          description: >-
+            Source type (free-form string from transaction metadata, e.g.
+            import, api)
+        sourcePlatform:
+          type: string
+          description: Source platform (e.g., alipay, wechat)
+          example: alipay
+        postings:
+          description: Transaction postings
+          type: array
+          items:
+            $ref: '#/components/schemas/PostingDetailDto'
+        createdAt:
+          type: string
+          description: Created at timestamp
+          example: '2024-11-28T10:30:00.000Z'
+        voidedAt:
+          type: string
+          description: Voided at timestamp (if voided)
+          example: '2024-11-29T15:00:00.000Z'
+        voidedBy:
+          type: string
+          description: User ID who voided this transaction
+          example: clh1234567890abcdef
+        correctionReason:
+          type: string
+          description: Correction reason (if voided or superseded)
+          example: Duplicate entry
+        supersededBy:
+          type: string
+          description: >-
+            ID of the transaction that supersedes this one (set when
+            status=SUPERSEDED)
+          example: clh1234567890abcdef
+        originalTxn:
+          type: string
+          description: >-
+            ID of the transaction this one corrected/replaced (back-link on the
+            replacement)
+          example: clh1234567890abcdef
+        viewpointAmount:
+          type: string
+          description: >-
+            Per-leg sign-normalized row amount for the category viewpoint
+            (ADR-0126): each posting on the category account set contributes its
+            unitsNumber with Income-root legs negated and Expenses-root legs
+            identity. Positive under normal booking but NOT clamped (explicit
+            negative expense legs and net-flip refund months stay negative).
+            Omitted outside the category viewpoint.
+          example: '10000.00'
+        viewpointCurrency:
+          type: string
+          description: >-
+            Currency of viewpointAmount. A row spanning multiple currencies
+            takes the largest-magnitude currency group (known simplification,
+            ADR-0126). Omitted outside the category viewpoint.
+          example: CNY
+      required:
+        - id
+        - date
+        - narration
+        - tags
+        - links
+        - status
+        - postings
+        - createdAt
     BalanceByCurrencyDto:
       type: object
       properties:
@@ -9826,10 +9974,14 @@ components:
         totalAmount:
           type: string
           description: >-
-            Partial converted total in base currency (rated currencies only, raw
-            Beancount sign). When warnings is non-empty this excludes currencies
-            missing an FX rate; may be "0.00" if ALL non-base currencies lack a
-            rate. Converted at the dateTo (or current) available rate.
+            Partial converted total in base currency (rated currencies only).
+            Sign by viewpoint (ADR-0126): account viewpoint keeps the raw
+            Beancount sign (income negative); category viewpoint is per-leg
+            sign-normalized (Income legs negated, Expenses legs identity —
+            positive under normal booking, not clamped). When warnings is
+            non-empty this excludes currencies missing an FX rate; may be "0.00"
+            if ALL non-base currencies lack a rate. Converted at the dateTo (or
+            current) available rate.
           example: '-6000.00'
         currency:
           type: string
@@ -9849,6 +10001,25 @@ components:
         - totalAmount
         - currency
         - balanceByCurrency
+    TransactionListViewpointDto:
+      type: object
+      properties:
+        type:
+          type: string
+          description: Viewpoint type (only category drill-down carries a viewpoint today)
+          enum:
+            - category
+          example: category
+        flow:
+          type: string
+          description: Flow root the category account set is restricted to
+          enum:
+            - income
+            - expense
+          example: expense
+      required:
+        - type
+        - flow
     TransactionListResponseDto:
       type: object
       properties:
@@ -9856,7 +10027,7 @@ components:
           description: List of transactions
           type: array
           items:
-            $ref: '#/components/schemas/TransactionDetailDto'
+            $ref: '#/components/schemas/TransactionListItemDto'
         total:
           type: number
           description: Total count of matching transactions
@@ -9876,6 +10047,13 @@ components:
             search-only / plain-list / dual-perspective requests.
           allOf:
             - $ref: '#/components/schemas/TransactionListSummaryDto'
+        viewpoint:
+          description: >-
+            Viewpoint metadata (ADR-0126). Present only for a single category
+            filter (category + flow, no accountId); dual-perspective requests
+            are viewpoint-less (raw signs, no viewpointAmount).
+          allOf:
+            - $ref: '#/components/schemas/TransactionListViewpointDto'
       required:
         - data
         - total
