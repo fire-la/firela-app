@@ -459,7 +459,8 @@ class BeanTransactionsApi {
   /// * [status] - Filter by transaction status
   /// * [search] - Search in narration and payee fields (max 200 chars)
   /// * [accountId] - Filter by account ID (transactions with postings to this account)
-  /// * [category] - Filter by ADR-0075 functional category (Group segment); matches any posting to an Expenses/Income account whose derived Group segment equals this value
+  /// * [category] - Filter by ADR-0075 functional category (Group segment); matches any posting to an account whose derived Group segment equals this value. Must be accompanied by flow (ADR-0126).
+  /// * [flow] - Required when category is present (400 otherwise) and vice versa (ADR-0126). Restricts the category account set to the flow root (income → Income:, expense → Expenses:) and drives the per-leg sign normalization of row viewpointAmount and the summary. OpenAPI cannot express conditional requiredness — the pairing is enforced at runtime.
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -479,6 +480,7 @@ class BeanTransactionsApi {
     String? search,
     String? accountId,
     String? category,
+    String? flow,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -508,6 +510,7 @@ class BeanTransactionsApi {
       if (search != null) r'search': encodeQueryParameter(_serializers, search, const FullType(String)),
       if (accountId != null) r'accountId': encodeQueryParameter(_serializers, accountId, const FullType(String)),
       if (category != null) r'category': encodeQueryParameter(_serializers, category, const FullType(String)),
+      if (flow != null) r'flow': encodeQueryParameter(_serializers, flow, const FullType(String)),
     };
 
     final _response = await _dio.request<Object>(

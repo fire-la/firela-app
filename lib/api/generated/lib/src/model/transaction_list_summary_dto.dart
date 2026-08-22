@@ -14,13 +14,13 @@ part 'transaction_list_summary_dto.g.dart';
 /// TransactionListSummaryDto
 ///
 /// Properties:
-/// * [totalAmount] - Partial converted total in base currency (rated currencies only, raw Beancount sign). When warnings is non-empty this excludes currencies missing an FX rate; may be \"0.00\" if ALL non-base currencies lack a rate. Converted at the dateTo (or current) available rate.
+/// * [totalAmount] - Partial converted total in base currency (rated currencies only). Sign by viewpoint (ADR-0126): account viewpoint keeps the raw Beancount sign (income negative); category viewpoint is per-leg sign-normalized (Income legs negated, Expenses legs identity — positive under normal booking, not clamped). When warnings is non-empty this excludes currencies missing an FX rate; may be \"0.00\" if ALL non-base currencies lack a rate. Converted at the dateTo (or current) available rate.
 /// * [currency] - Base currency (ISO 4217)
 /// * [balanceByCurrency] - Raw (unconverted) balance per currency
 /// * [warnings] - Currencies missing an FX rate (omitted when empty)
 @BuiltValue()
 abstract class TransactionListSummaryDto implements Built<TransactionListSummaryDto, TransactionListSummaryDtoBuilder> {
-  /// Partial converted total in base currency (rated currencies only, raw Beancount sign). When warnings is non-empty this excludes currencies missing an FX rate; may be \"0.00\" if ALL non-base currencies lack a rate. Converted at the dateTo (or current) available rate.
+  /// Partial converted total in base currency (rated currencies only). Sign by viewpoint (ADR-0126): account viewpoint keeps the raw Beancount sign (income negative); category viewpoint is per-leg sign-normalized (Income legs negated, Expenses legs identity — positive under normal booking, not clamped). When warnings is non-empty this excludes currencies missing an FX rate; may be \"0.00\" if ALL non-base currencies lack a rate. Converted at the dateTo (or current) available rate.
   @BuiltValueField(wireName: r'totalAmount')
   String get totalAmount;
 
