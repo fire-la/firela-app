@@ -21,6 +21,7 @@ lib/src/api/bean_prices_api.dart
 lib/src/api/bean_reviews_api.dart
 lib/src/api/bean_transaction_rules_api.dart
 lib/src/api/bean_transactions_api.dart
+lib/src/api/community_api.dart
 lib/src/api/dashboard_api.dart
 lib/src/api/default_api.dart
 lib/src/api/exchange_rate_api.dart
@@ -118,6 +119,7 @@ lib/src/model/enter_now_dto.dart
 lib/src/model/event_list_response_dto.dart
 lib/src/model/event_response_dto.dart
 lib/src/model/exchange_rate_warning_dto.dart
+lib/src/model/expected_transaction_dto.dart
 lib/src/model/expected_transaction_list_response_dto.dart
 lib/src/model/expected_transaction_response_dto.dart
 lib/src/model/expected_transaction_rule_dto.dart
@@ -126,6 +128,7 @@ lib/src/model/expenses_by_category_summary_dto.dart
 lib/src/model/export_rules_response_dto.dart
 lib/src/model/external_account_link_list_response_dto.dart
 lib/src/model/external_account_link_response_dto.dart
+lib/src/model/field_hint_dto.dart
 lib/src/model/file_import_controller_identify_file400_response.dart
 lib/src/model/file_import_controller_import_beancount200_response.dart
 lib/src/model/file_import_controller_import_file400_response.dart
@@ -179,6 +182,12 @@ lib/src/model/onboarding_dto.dart
 lib/src/model/opening_balance_result_dto.dart
 lib/src/model/pad_reconciliation_dto.dart
 lib/src/model/pad_result_dto.dart
+lib/src/model/parser_contribution_examples_dto.dart
+lib/src/model/parser_contribution_field_hints_dto.dart
+lib/src/model/parser_contribution_meta_dto.dart
+lib/src/model/parser_contribution_relay_response_dto.dart
+lib/src/model/parser_contribution_request_dto.dart
+lib/src/model/parser_contribution_samples_dto.dart
 lib/src/model/payee_autocomplete_response_dto.dart
 lib/src/model/payee_list_response_dto.dart
 lib/src/model/payee_profile_list_response_dto.dart

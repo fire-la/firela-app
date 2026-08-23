@@ -225,6 +225,7 @@ Class | Method | HTTP request | Description
 [*BeanTransactionsApi*](doc/BeanTransactionsApi.md) | [**transactionControllerList**](doc/BeanTransactionsApi.md#transactioncontrollerlist) | **GET** /api/v1/{region}/bean/transactions | List transactions
 [*BeanTransactionsApi*](doc/BeanTransactionsApi.md) | [**transactionControllerSuggestTags**](doc/BeanTransactionsApi.md#transactioncontrollersuggesttags) | **GET** /api/v1/{region}/bean/transactions/tags | Suggest transaction tags
 [*BeanTransactionsApi*](doc/BeanTransactionsApi.md) | [**transactionControllerUpdate**](doc/BeanTransactionsApi.md#transactioncontrollerupdate) | **PATCH** /api/v1/{region}/bean/transactions/{id} | Update transaction metadata
+[*CommunityApi*](doc/CommunityApi.md) | [**parserContributionControllerCreate**](doc/CommunityApi.md#parsercontributioncontrollercreate) | **POST** /api/v1/{region}/community/parser-contributions | Relay a sanitized parser-contribution payload
 [*DashboardApi*](doc/DashboardApi.md) | [**dashboardControllerGetAccounts**](doc/DashboardApi.md#dashboardcontrollergetaccounts) | **GET** /api/v1/{region}/dashboard/accounts | Get accounts grouped by platform
 [*DashboardApi*](doc/DashboardApi.md) | [**dashboardControllerGetCashFlow**](doc/DashboardApi.md#dashboardcontrollergetcashflow) | **GET** /api/v1/{region}/dashboard/cash-flow | Get cash flow summary
 [*DashboardApi*](doc/DashboardApi.md) | [**dashboardControllerGetExpenses**](doc/DashboardApi.md#dashboardcontrollergetexpenses) | **GET** /api/v1/{region}/dashboard/expenses | Get expenses/income grouped by functional category
@@ -366,6 +367,7 @@ Class | Method | HTTP request | Description
  - [EventListResponseDto](doc/EventListResponseDto.md)
  - [EventResponseDto](doc/EventResponseDto.md)
  - [ExchangeRateWarningDto](doc/ExchangeRateWarningDto.md)
+ - [ExpectedTransactionDto](doc/ExpectedTransactionDto.md)
  - [ExpectedTransactionListResponseDto](doc/ExpectedTransactionListResponseDto.md)
  - [ExpectedTransactionResponseDto](doc/ExpectedTransactionResponseDto.md)
  - [ExpectedTransactionRuleDto](doc/ExpectedTransactionRuleDto.md)
@@ -374,6 +376,7 @@ Class | Method | HTTP request | Description
  - [ExportRulesResponseDto](doc/ExportRulesResponseDto.md)
  - [ExternalAccountLinkListResponseDto](doc/ExternalAccountLinkListResponseDto.md)
  - [ExternalAccountLinkResponseDto](doc/ExternalAccountLinkResponseDto.md)
+ - [FieldHintDto](doc/FieldHintDto.md)
  - [FileImportControllerIdentifyFile400Response](doc/FileImportControllerIdentifyFile400Response.md)
  - [FileImportControllerImportBeancount200Response](doc/FileImportControllerImportBeancount200Response.md)
  - [FileImportControllerImportFile400Response](doc/FileImportControllerImportFile400Response.md)
@@ -427,6 +430,12 @@ Class | Method | HTTP request | Description
  - [OpeningBalanceResultDto](doc/OpeningBalanceResultDto.md)
  - [PadReconciliationDto](doc/PadReconciliationDto.md)
  - [PadResultDto](doc/PadResultDto.md)
+ - [ParserContributionExamplesDto](doc/ParserContributionExamplesDto.md)
+ - [ParserContributionFieldHintsDto](doc/ParserContributionFieldHintsDto.md)
+ - [ParserContributionMetaDto](doc/ParserContributionMetaDto.md)
+ - [ParserContributionRelayResponseDto](doc/ParserContributionRelayResponseDto.md)
+ - [ParserContributionRequestDto](doc/ParserContributionRequestDto.md)
+ - [ParserContributionSamplesDto](doc/ParserContributionSamplesDto.md)
  - [PayeeAutocompleteResponseDto](doc/PayeeAutocompleteResponseDto.md)
  - [PayeeListResponseDto](doc/PayeeListResponseDto.md)
  - [PayeeProfileListResponseDto](doc/PayeeProfileListResponseDto.md)

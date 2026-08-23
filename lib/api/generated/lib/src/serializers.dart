@@ -85,6 +85,7 @@ import 'package:firela_api/src/model/enter_now_dto.dart';
 import 'package:firela_api/src/model/event_list_response_dto.dart';
 import 'package:firela_api/src/model/event_response_dto.dart';
 import 'package:firela_api/src/model/exchange_rate_warning_dto.dart';
+import 'package:firela_api/src/model/expected_transaction_dto.dart';
 import 'package:firela_api/src/model/expected_transaction_list_response_dto.dart';
 import 'package:firela_api/src/model/expected_transaction_response_dto.dart';
 import 'package:firela_api/src/model/expected_transaction_rule_dto.dart';
@@ -93,6 +94,7 @@ import 'package:firela_api/src/model/expenses_by_category_summary_dto.dart';
 import 'package:firela_api/src/model/export_rules_response_dto.dart';
 import 'package:firela_api/src/model/external_account_link_list_response_dto.dart';
 import 'package:firela_api/src/model/external_account_link_response_dto.dart';
+import 'package:firela_api/src/model/field_hint_dto.dart';
 import 'package:firela_api/src/model/file_import_controller_identify_file400_response.dart';
 import 'package:firela_api/src/model/file_import_controller_import_beancount200_response.dart';
 import 'package:firela_api/src/model/file_import_controller_import_file400_response.dart';
@@ -146,6 +148,12 @@ import 'package:firela_api/src/model/onboarding_dto.dart';
 import 'package:firela_api/src/model/opening_balance_result_dto.dart';
 import 'package:firela_api/src/model/pad_reconciliation_dto.dart';
 import 'package:firela_api/src/model/pad_result_dto.dart';
+import 'package:firela_api/src/model/parser_contribution_examples_dto.dart';
+import 'package:firela_api/src/model/parser_contribution_field_hints_dto.dart';
+import 'package:firela_api/src/model/parser_contribution_meta_dto.dart';
+import 'package:firela_api/src/model/parser_contribution_relay_response_dto.dart';
+import 'package:firela_api/src/model/parser_contribution_request_dto.dart';
+import 'package:firela_api/src/model/parser_contribution_samples_dto.dart';
 import 'package:firela_api/src/model/payee_autocomplete_response_dto.dart';
 import 'package:firela_api/src/model/payee_list_response_dto.dart';
 import 'package:firela_api/src/model/payee_profile_list_response_dto.dart';
@@ -303,6 +311,7 @@ part 'serializers.g.dart';
   EventListResponseDto,
   EventResponseDto,
   ExchangeRateWarningDto,
+  ExpectedTransactionDto,
   ExpectedTransactionListResponseDto,
   ExpectedTransactionResponseDto,
   ExpectedTransactionRuleDto,
@@ -311,6 +320,7 @@ part 'serializers.g.dart';
   ExportRulesResponseDto,
   ExternalAccountLinkListResponseDto,
   ExternalAccountLinkResponseDto,
+  FieldHintDto,
   FileImportControllerIdentifyFile400Response,
   FileImportControllerImportBeancount200Response,
   FileImportControllerImportFile400Response,
@@ -364,6 +374,12 @@ part 'serializers.g.dart';
   OpeningBalanceResultDto,
   PadReconciliationDto,
   PadResultDto,
+  ParserContributionExamplesDto,
+  ParserContributionFieldHintsDto,
+  ParserContributionMetaDto,
+  ParserContributionRelayResponseDto,
+  ParserContributionRequestDto,
+  ParserContributionSamplesDto,
   PayeeAutocompleteResponseDto,
   PayeeListResponseDto,
   PayeeProfileListResponseDto,
