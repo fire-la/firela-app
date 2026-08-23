@@ -8278,6 +8278,100 @@ paths:
         - Auth
       security:
         - bearer: []
+  /api/v1/{region}/community/parser-contributions:
+    post:
+      operationId: ParserContributionController_create
+      summary: Relay a sanitized parser-contribution payload
+      description: >-
+        A server-side bot re-sanitizes the payload and opens an issue on the
+        target repository; the issue URL is returned. The payload is never
+        persisted or logged (forward-and-drop).
+      parameters:
+        - name: region
+          required: true
+          in: path
+          description: >-
+            Region code for tenant context (routing only; the institution region
+            rides in the payload meta)
+          schema:
+            enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - au
+              - br
+              - ca
+              - cn
+              - de
+              - dz
+              - es
+              - fr
+              - gb
+              - hk
+              - in
+              - it
+              - jp
+              - kr
+              - nl
+              - sg
+              - tw
+              - us
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ParserContributionRequestDto'
+      responses:
+        '201':
+          description: Issue created by the bot
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParserContributionRelayResponseDto'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiProblemResponseDto'
+        '422':
+          description: >-
+            Validation failed (institution slug, empty samples, row/cell size
+            limits)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiProblemResponseDto'
+        '429':
+          description: Rate limited (5 submissions per user per hour)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiProblemResponseDto'
+        '501':
+          description: >-
+            Relay not configured on this deployment — clients fall back to the
+            clipboard flow
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiProblemResponseDto'
+        '502':
+          description: GitHub bot failure (upstream), safe to retry
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiProblemResponseDto'
+      tags:
+        - Community
+      security:
+        - bearer: []
   /api/v1/cache/flush:
     post:
       operationId: CacheController_flushCache
@@ -8657,6 +8751,8 @@ tags:
     description: Import transactions from CSV, PDF, OFX files
   - name: Bean NLP
     description: Natural language transaction input (Chinese)
+  - name: Community
+    description: Community contributions relayed to GitHub (forward-and-drop, no retention)
   - name: Transaction Rules
     description: Automatic transaction categorization rules
   - name: Bean Platforms
@@ -15807,6 +15903,183 @@ components:
           example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
       required:
         - authToken
+    ParserContributionMetaDto:
+      type: object
+      properties:
+        institution:
+          type: string
+          description: Institution slug (lowercase kebab-case)
+          pattern: ^[a-z0-9]+(-[a-z0-9]+)*$
+          example: icbc
+        region:
+          type: string
+          enum:
+            - cn
+            - us
+            - de
+            - fr
+            - gb
+            - hk
+            - jp
+            - sg
+            - au
+            - ca
+            - other
+        accountType:
+          type: string
+          enum:
+            - checking
+            - savings
+            - credit
+            - debit
+            - investment
+        format:
+          type: string
+          enum:
+            - csv
+            - xlsx
+            - pdf
+            - ofx
+            - qif
+        institutionDisplayName:
+          type: string
+          example: 中国工商银行
+        encoding:
+          type: string
+          example: utf-8
+        delimiter:
+          type: string
+          enum:
+            - ','
+            - ;
+            - "\t"
+            - '|'
+        headerRows:
+          type: number
+          default: 1
+          description: Header row count; the client omits the field when it is 1
+        notes:
+          type: string
+          maxLength: 2000
+      required:
+        - institution
+        - region
+        - accountType
+        - format
+    ParserContributionSamplesDto:
+      type: object
+      properties:
+        rows:
+          description: Client-sanitized sample rows (key = column name, value = cell)
+          type: array
+          items:
+            type: string
+        rawHeaders:
+          type: array
+          items:
+            type: string
+      required:
+        - rows
+    FieldHintDto:
+      type: object
+      properties:
+        columnName:
+          type: string
+          example: 交易日期
+        format:
+          type: string
+          description: Date format, e.g. yyyy-MM-dd HH:mm
+          example: yyyy-MM-dd
+        signConvention:
+          type: string
+          enum:
+            - negative-expense
+            - positive-expense
+            - separate-columns
+        creditColumn:
+          type: string
+        debitColumn:
+          type: string
+      required:
+        - columnName
+    ParserContributionFieldHintsDto:
+      type: object
+      properties:
+        date:
+          $ref: '#/components/schemas/FieldHintDto'
+        amount:
+          $ref: '#/components/schemas/FieldHintDto'
+        description:
+          $ref: '#/components/schemas/FieldHintDto'
+        balance:
+          $ref: '#/components/schemas/FieldHintDto'
+        payee:
+          $ref: '#/components/schemas/FieldHintDto'
+        reference:
+          $ref: '#/components/schemas/FieldHintDto'
+        category:
+          $ref: '#/components/schemas/FieldHintDto'
+      required:
+        - date
+        - amount
+    ExpectedTransactionDto:
+      type: object
+      properties:
+        date:
+          type: string
+          example: '2026-08-01'
+        amount:
+          type: number
+          example: -45.5
+        description:
+          type: string
+          example: 星巴克-***店
+        payee:
+          type: string
+        category:
+          type: string
+      required:
+        - date
+        - amount
+        - description
+    ParserContributionExamplesDto:
+      type: object
+      properties:
+        expectedTransactions:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExpectedTransactionDto'
+      required:
+        - expectedTransactions
+    ParserContributionRequestDto:
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/ParserContributionMetaDto'
+        samples:
+          $ref: '#/components/schemas/ParserContributionSamplesDto'
+        fieldHints:
+          $ref: '#/components/schemas/ParserContributionFieldHintsDto'
+        examples:
+          description: Omitted entirely by the client when empty
+          allOf:
+            - $ref: '#/components/schemas/ParserContributionExamplesDto'
+      required:
+        - meta
+        - samples
+        - fieldHints
+    ParserContributionRelayResponseDto:
+      type: object
+      properties:
+        issueUrl:
+          type: string
+          example: https://github.com/fire-la/parsers/issues/42
+        issueNumber:
+          type: number
+          example: 42
+      required:
+        - issueUrl
+        - issueNumber
     SymbolSearchResultDto:
       type: object
       properties:
