@@ -8,7 +8,7 @@ part of 'parser_contribution_samples_dto.dart';
 
 class _$ParserContributionSamplesDto extends ParserContributionSamplesDto {
   @override
-  final BuiltList<String> rows;
+  final BuiltList<JsonObject> rows;
   @override
   final BuiltList<String>? rawHeaders;
 
@@ -63,9 +63,10 @@ class ParserContributionSamplesDtoBuilder
             ParserContributionSamplesDtoBuilder> {
   _$ParserContributionSamplesDto? _$v;
 
-  ListBuilder<String>? _rows;
-  ListBuilder<String> get rows => _$this._rows ??= new ListBuilder<String>();
-  set rows(ListBuilder<String>? rows) => _$this._rows = rows;
+  ListBuilder<JsonObject>? _rows;
+  ListBuilder<JsonObject> get rows =>
+      _$this._rows ??= new ListBuilder<JsonObject>();
+  set rows(ListBuilder<JsonObject>? rows) => _$this._rows = rows;
 
   ListBuilder<String>? _rawHeaders;
   ListBuilder<String> get rawHeaders =>

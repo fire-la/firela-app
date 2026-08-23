@@ -4,6 +4,7 @@
 
 // ignore_for_file: unused_element
 import 'package:built_collection/built_collection.dart';
+import 'package:built_value/json_object.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
@@ -18,7 +19,7 @@ part 'parser_contribution_samples_dto.g.dart';
 abstract class ParserContributionSamplesDto implements Built<ParserContributionSamplesDto, ParserContributionSamplesDtoBuilder> {
   /// Client-sanitized sample rows (key = column name, value = cell)
   @BuiltValueField(wireName: r'rows')
-  BuiltList<String> get rows;
+  BuiltList<JsonObject> get rows;
 
   @BuiltValueField(wireName: r'rawHeaders')
   BuiltList<String>? get rawHeaders;
@@ -49,7 +50,7 @@ class _$ParserContributionSamplesDtoSerializer implements PrimitiveSerializer<Pa
     yield r'rows';
     yield serializers.serialize(
       object.rows,
-      specifiedType: const FullType(BuiltList, [FullType(String)]),
+      specifiedType: const FullType(BuiltList, [FullType(JsonObject)]),
     );
     if (object.rawHeaders != null) {
       yield r'rawHeaders';
@@ -84,8 +85,8 @@ class _$ParserContributionSamplesDtoSerializer implements PrimitiveSerializer<Pa
         case r'rows':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(BuiltList, [FullType(String)]),
-          ) as BuiltList<String>;
+            specifiedType: const FullType(BuiltList, [FullType(JsonObject)]),
+          ) as BuiltList<JsonObject>;
           result.rows.replace(valueDes);
           break;
         case r'rawHeaders':
