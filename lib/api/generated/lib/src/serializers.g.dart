@@ -109,6 +109,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(EventListResponseDto.serializer)
       ..add(EventResponseDto.serializer)
       ..add(ExchangeRateWarningDto.serializer)
+      ..add(ExpectedTransactionDto.serializer)
       ..add(ExpectedTransactionListResponseDto.serializer)
       ..add(ExpectedTransactionResponseDto.serializer)
       ..add(ExpectedTransactionRuleDto.serializer)
@@ -117,6 +118,8 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(ExportRulesResponseDto.serializer)
       ..add(ExternalAccountLinkListResponseDto.serializer)
       ..add(ExternalAccountLinkResponseDto.serializer)
+      ..add(FieldHintDto.serializer)
+      ..add(FieldHintDtoSignConventionEnum.serializer)
       ..add(FileImportControllerIdentifyFile400Response.serializer)
       ..add(FileImportControllerImportBeancount200Response.serializer)
       ..add(FileImportControllerImportFile400Response.serializer)
@@ -181,6 +184,15 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(OpeningBalanceResultDto.serializer)
       ..add(PadReconciliationDto.serializer)
       ..add(PadResultDto.serializer)
+      ..add(ParserContributionExamplesDto.serializer)
+      ..add(ParserContributionFieldHintsDto.serializer)
+      ..add(ParserContributionMetaDto.serializer)
+      ..add(ParserContributionMetaDtoAccountTypeEnum.serializer)
+      ..add(ParserContributionMetaDtoFormatEnum.serializer)
+      ..add(ParserContributionMetaDtoRegionEnum.serializer)
+      ..add(ParserContributionRelayResponseDto.serializer)
+      ..add(ParserContributionRequestDto.serializer)
+      ..add(ParserContributionSamplesDto.serializer)
       ..add(PayeeAutocompleteResponseDto.serializer)
       ..add(PayeeListResponseDto.serializer)
       ..add(PayeeProfileListResponseDto.serializer)
@@ -515,6 +527,10 @@ Serializers _$serializers = (new Serializers().toBuilder()
               BuiltList, const [const FullType(ExchangeRateWarningDto)]),
           () => new ListBuilder<ExchangeRateWarningDto>())
       ..addBuilderFactory(
+          const FullType(
+              BuiltList, const [const FullType(ExpectedTransactionDto)]),
+          () => new ListBuilder<ExpectedTransactionDto>())
+      ..addBuilderFactory(
           const FullType(BuiltList,
               const [const FullType(ExpectedTransactionResponseDto)]),
           () => new ListBuilder<ExpectedTransactionResponseDto>())
@@ -596,6 +612,12 @@ Serializers _$serializers = (new Serializers().toBuilder()
           const FullType(BuiltList,
               const [const FullType(RuleStatisticsResponseDtoRuleStatsInner)]),
           () => new ListBuilder<RuleStatisticsResponseDtoRuleStatsInner>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())

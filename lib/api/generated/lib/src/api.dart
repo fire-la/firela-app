@@ -27,6 +27,7 @@ import 'package:firela_api/src/api/bean_prices_api.dart';
 import 'package:firela_api/src/api/bean_reviews_api.dart';
 import 'package:firela_api/src/api/bean_transaction_rules_api.dart';
 import 'package:firela_api/src/api/bean_transactions_api.dart';
+import 'package:firela_api/src/api/community_api.dart';
 import 'package:firela_api/src/api/dashboard_api.dart';
 import 'package:firela_api/src/api/default_api.dart';
 import 'package:firela_api/src/api/exchange_rate_api.dart';
@@ -206,6 +207,12 @@ class FirelaApi {
   /// by doing that all interceptors will not be executed
   BeanTransactionsApi getBeanTransactionsApi() {
     return BeanTransactionsApi(dio, serializers);
+  }
+
+  /// Get CommunityApi instance, base route and serializer can be overridden by a given but be careful,
+  /// by doing that all interceptors will not be executed
+  CommunityApi getCommunityApi() {
+    return CommunityApi(dio, serializers);
   }
 
   /// Get DashboardApi instance, base route and serializer can be overridden by a given but be careful,
