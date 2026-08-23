@@ -15949,11 +15949,7 @@ components:
           example: utf-8
         delimiter:
           type: string
-          enum:
-            - ','
-            - ;
-            - "\t"
-            - '|'
+          description: 'CSV delimiter character: ",", ";", "\t" or "|"'
         headerRows:
           type: number
           default: 1
