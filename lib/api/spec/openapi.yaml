@@ -15969,7 +15969,7 @@ components:
           description: Client-sanitized sample rows (key = column name, value = cell)
           type: array
           items:
-            type: string
+            type: object
         rawHeaders:
           type: array
           items:
