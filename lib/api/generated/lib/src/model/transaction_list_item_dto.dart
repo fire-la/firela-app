@@ -33,8 +33,8 @@ part 'transaction_list_item_dto.g.dart';
 /// * [correctionReason] - Correction reason (if voided or superseded)
 /// * [supersededBy] - ID of the transaction that supersedes this one (set when status=SUPERSEDED)
 /// * [originalTxn] - ID of the transaction this one corrected/replaced (back-link on the replacement)
-/// * [viewpointAmount] - Per-leg sign-normalized row amount for the category viewpoint (ADR-0126): each posting on the category account set contributes its unitsNumber with Income-root legs negated and Expenses-root legs identity. Positive under normal booking but NOT clamped (explicit negative expense legs and net-flip refund months stay negative). Omitted outside the category viewpoint.
-/// * [viewpointCurrency] - Currency of viewpointAmount. A row spanning multiple currencies takes the largest-magnitude currency group (known simplification, ADR-0126). Omitted outside the category viewpoint.
+/// * [viewpointAmount] - Row amount under the request viewpoint (ADR-0126). Category viewpoint (category + flow): per-leg sign-normalized sum over the category account set (Income-root legs negated, Expenses-root identity) — positive under normal booking but NOT clamped (explicit negative expense legs and net-flip refund months stay negative). No viewpoint (plain list / search, no accountId): wallet money-flow net = raw-sign sum over cost-less Assets/Liabilities legs (income positive, expenses negative, transfers net ~0); color cue is the wallet sign (net < 0 = wealth-decreasing). Status-orthogonal: audit views match too (ADR-0128 amount-as-matching-key). Omitted under the account viewpoint (incl. dual) and for rows with no wallet leg.
+/// * [viewpointCurrency] - Currency of viewpointAmount. A row spanning multiple currencies takes the largest-magnitude currency group (known simplification, ADR-0126).
 @BuiltValue()
 abstract class TransactionListItemDto implements Built<TransactionListItemDto, TransactionListItemDtoBuilder> {
   /// Transaction ID
@@ -115,11 +115,11 @@ abstract class TransactionListItemDto implements Built<TransactionListItemDto, T
   @BuiltValueField(wireName: r'originalTxn')
   String? get originalTxn;
 
-  /// Per-leg sign-normalized row amount for the category viewpoint (ADR-0126): each posting on the category account set contributes its unitsNumber with Income-root legs negated and Expenses-root legs identity. Positive under normal booking but NOT clamped (explicit negative expense legs and net-flip refund months stay negative). Omitted outside the category viewpoint.
+  /// Row amount under the request viewpoint (ADR-0126). Category viewpoint (category + flow): per-leg sign-normalized sum over the category account set (Income-root legs negated, Expenses-root identity) — positive under normal booking but NOT clamped (explicit negative expense legs and net-flip refund months stay negative). No viewpoint (plain list / search, no accountId): wallet money-flow net = raw-sign sum over cost-less Assets/Liabilities legs (income positive, expenses negative, transfers net ~0); color cue is the wallet sign (net < 0 = wealth-decreasing). Status-orthogonal: audit views match too (ADR-0128 amount-as-matching-key). Omitted under the account viewpoint (incl. dual) and for rows with no wallet leg.
   @BuiltValueField(wireName: r'viewpointAmount')
   String? get viewpointAmount;
 
-  /// Currency of viewpointAmount. A row spanning multiple currencies takes the largest-magnitude currency group (known simplification, ADR-0126). Omitted outside the category viewpoint.
+  /// Currency of viewpointAmount. A row spanning multiple currencies takes the largest-magnitude currency group (known simplification, ADR-0126).
   @BuiltValueField(wireName: r'viewpointCurrency')
   String? get viewpointCurrency;
 

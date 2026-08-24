@@ -409,6 +409,7 @@ Class | Method | HTTP request | Description
  - [MultiCurrencyPointDto](doc/MultiCurrencyPointDto.md)
  - [NetWorthByCurrencyDto](doc/NetWorthByCurrencyDto.md)
  - [NetWorthResponseDto](doc/NetWorthResponseDto.md)
+ - [NlpAccountCandidateDto](doc/NlpAccountCandidateDto.md)
  - [NlpAccountConfirmationDataDto](doc/NlpAccountConfirmationDataDto.md)
  - [NlpAlternativePayeeDto](doc/NlpAlternativePayeeDto.md)
  - [NlpDefaultAccountsDto](doc/NlpDefaultAccountsDto.md)

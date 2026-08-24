@@ -456,7 +456,7 @@ class BeanTransactionsApi {
   /// * [offset] - Number of items to skip (default: 0)
   /// * [dateFrom] - Filter by start date (inclusive), format: YYYY-MM-DD
   /// * [dateTo] - Filter by end date (inclusive), format: YYYY-MM-DD
-  /// * [status] - Filter by transaction status
+  /// * [status] - Filter by transaction status: single value, comma-separated multi-value (e.g. VOIDED,SUPERSEDED), or ALL to include audit rows. Defaults to ACTIVE-only (ADR-0128; previously unfiltered — breaking change).
   /// * [search] - Search in narration and payee fields (max 200 chars)
   /// * [accountId] - Filter by account ID (transactions with postings to this account)
   /// * [category] - Filter by ADR-0075 functional category (Group segment); matches any posting to an account whose derived Group segment equals this value. Must be accompanied by flow (ADR-0126).

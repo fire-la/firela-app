@@ -12,7 +12,7 @@ class _$NlpAccountConfirmationDataDto extends NlpAccountConfirmationDataDto {
   @override
   final String? suggestedAccount;
   @override
-  final BuiltList<String> similarAccounts;
+  final BuiltList<NlpAccountCandidateDto> similarAccounts;
   @override
   final String errorMessage;
   @override
@@ -99,10 +99,10 @@ class NlpAccountConfirmationDataDtoBuilder
   set suggestedAccount(String? suggestedAccount) =>
       _$this._suggestedAccount = suggestedAccount;
 
-  ListBuilder<String>? _similarAccounts;
-  ListBuilder<String> get similarAccounts =>
-      _$this._similarAccounts ??= new ListBuilder<String>();
-  set similarAccounts(ListBuilder<String>? similarAccounts) =>
+  ListBuilder<NlpAccountCandidateDto>? _similarAccounts;
+  ListBuilder<NlpAccountCandidateDto> get similarAccounts =>
+      _$this._similarAccounts ??= new ListBuilder<NlpAccountCandidateDto>();
+  set similarAccounts(ListBuilder<NlpAccountCandidateDto>? similarAccounts) =>
       _$this._similarAccounts = similarAccounts;
 
   String? _errorMessage;

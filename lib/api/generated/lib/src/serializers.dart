@@ -127,6 +127,7 @@ import 'package:firela_api/src/model/multi_currency_balance_response_dto.dart';
 import 'package:firela_api/src/model/multi_currency_point_dto.dart';
 import 'package:firela_api/src/model/net_worth_by_currency_dto.dart';
 import 'package:firela_api/src/model/net_worth_response_dto.dart';
+import 'package:firela_api/src/model/nlp_account_candidate_dto.dart';
 import 'package:firela_api/src/model/nlp_account_confirmation_data_dto.dart';
 import 'package:firela_api/src/model/nlp_alternative_payee_dto.dart';
 import 'package:firela_api/src/model/nlp_default_accounts_dto.dart';
@@ -353,6 +354,7 @@ part 'serializers.g.dart';
   MultiCurrencyPointDto,
   NetWorthByCurrencyDto,
   NetWorthResponseDto,
+  NlpAccountCandidateDto,
   NlpAccountConfirmationDataDto,
   NlpAlternativePayeeDto,
   NlpDefaultAccountsDto,
