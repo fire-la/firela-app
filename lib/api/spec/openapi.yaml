@@ -827,12 +827,17 @@ paths:
         - name: status
           required: false
           in: query
-          description: Filter by transaction status
+          description: >-
+            Filter by transaction status: single value, comma-separated
+            multi-value (e.g. VOIDED,SUPERSEDED), or ALL to include audit rows.
+            Defaults to ACTIVE-only (ADR-0128; previously unfiltered — breaking
+            change).
           schema:
             enum:
               - ACTIVE
               - VOIDED
               - SUPERSEDED
+              - ALL
             type: string
         - name: search
           required: false
@@ -10008,19 +10013,24 @@ components:
         viewpointAmount:
           type: string
           description: >-
-            Per-leg sign-normalized row amount for the category viewpoint
-            (ADR-0126): each posting on the category account set contributes its
-            unitsNumber with Income-root legs negated and Expenses-root legs
-            identity. Positive under normal booking but NOT clamped (explicit
-            negative expense legs and net-flip refund months stay negative).
-            Omitted outside the category viewpoint.
+            Row amount under the request viewpoint (ADR-0126). Category
+            viewpoint (category + flow): per-leg sign-normalized sum over the
+            category account set (Income-root legs negated, Expenses-root
+            identity) — positive under normal booking but NOT clamped (explicit
+            negative expense legs and net-flip refund months stay negative). No
+            viewpoint (plain list / search, no accountId): wallet money-flow net
+            = raw-sign sum over cost-less Assets/Liabilities legs (income
+            positive, expenses negative, transfers net ~0); color cue is the
+            wallet sign (net < 0 = wealth-decreasing). Status-orthogonal: audit
+            views match too (ADR-0128 amount-as-matching-key). Omitted under the
+            account viewpoint (incl. dual) and for rows with no wallet leg.
           example: '10000.00'
         viewpointCurrency:
           type: string
           description: >-
             Currency of viewpointAmount. A row spanning multiple currencies
             takes the largest-magnitude currency group (known simplification,
-            ADR-0126). Omitted outside the category viewpoint.
+            ADR-0126).
           example: CNY
       required:
         - id
@@ -14096,9 +14106,9 @@ components:
           type: string
           description: >-
             confirm_account echo-back: account path selected from the prior
-            confirm_account response (suggestedAccount, similarAccounts[i], or a
-            typed path). Applied directly when the session is confirming_account
-            — no NL re-parse.
+            confirm_account response (suggestedAccount, similarAccounts[i].path,
+            or a typed path). Applied directly when the session is
+            confirming_account — no NL re-parse.
           example: Expenses:Food:Coffee
     NlpTransactionInfoDto:
       type: object
@@ -14344,6 +14354,20 @@ components:
         - suggestedAccounts
         - alternatives
         - reasons
+    NlpAccountCandidateDto:
+      type: object
+      properties:
+        path:
+          type: string
+          description: Canonical beancount account path (echo back on selection)
+          example: Expenses:Food:Dining
+        name:
+          type: string
+          description: Localized display name (ADR-0114 read-time projection, user locale)
+          example: 餐饮
+      required:
+        - path
+        - name
     NlpAccountConfirmationDataDto:
       type: object
       properties:
@@ -14356,10 +14380,10 @@ components:
           description: Suggested replacement account (omitted when no clear candidate)
           example: Expenses:Food:Drinks
         similarAccounts:
-          description: Similar accounts for user selection
+          description: 'Similar accounts for user selection (path + localized name, #680)'
           type: array
           items:
-            type: string
+            $ref: '#/components/schemas/NlpAccountCandidateDto'
         errorMessage:
           type: string
           description: Error message explaining the issue
