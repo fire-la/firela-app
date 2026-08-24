@@ -16069,7 +16069,7 @@ components:
       properties:
         issueUrl:
           type: string
-          example: https://github.com/fire-la/parsers/issues/42
+          example: https://github.com/fire-zu/firela-vlt/issues/42
         issueNumber:
           type: number
           example: 42
