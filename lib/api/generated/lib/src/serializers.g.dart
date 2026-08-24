@@ -154,6 +154,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(MultiCurrencyPointDto.serializer)
       ..add(NetWorthByCurrencyDto.serializer)
       ..add(NetWorthResponseDto.serializer)
+      ..add(NlpAccountCandidateDto.serializer)
       ..add(NlpAccountConfirmationDataDto.serializer)
       ..add(NlpAlternativePayeeDto.serializer)
       ..add(NlpDefaultAccountsDto.serializer)
@@ -573,6 +574,10 @@ Serializers _$serializers = (new Serializers().toBuilder()
           () => new ListBuilder<MonthlyForecastDto>())
       ..addBuilderFactory(
           const FullType(
+              BuiltList, const [const FullType(NlpAccountCandidateDto)]),
+          () => new ListBuilder<NlpAccountCandidateDto>())
+      ..addBuilderFactory(
+          const FullType(
               BuiltList, const [const FullType(NlpAlternativePayeeDto)]),
           () => new ListBuilder<NlpAlternativePayeeDto>())
       ..addBuilderFactory(
@@ -618,9 +623,6 @@ Serializers _$serializers = (new Serializers().toBuilder()
           const FullType(BuiltList,
               const [const FullType(RuleStatisticsResponseDtoRuleStatsInner)]),
           () => new ListBuilder<RuleStatisticsResponseDtoRuleStatsInner>())
-      ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(String)]),
-          () => new ListBuilder<String>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())

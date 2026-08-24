@@ -4,6 +4,7 @@
 
 // ignore_for_file: unused_element
 import 'package:built_collection/built_collection.dart';
+import 'package:firela_api/src/model/nlp_account_candidate_dto.dart';
 import 'package:built_value/json_object.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
@@ -15,7 +16,7 @@ part 'nlp_account_confirmation_data_dto.g.dart';
 /// Properties:
 /// * [invalidAccount] - The invalid account name
 /// * [suggestedAccount] - Suggested replacement account (omitted when no clear candidate)
-/// * [similarAccounts] - Similar accounts for user selection
+/// * [similarAccounts] - Similar accounts for user selection (path + localized name, #680)
 /// * [errorMessage] - Error message explaining the issue
 /// * [transactionContext] - Transaction context for reference
 @BuiltValue()
@@ -28,9 +29,9 @@ abstract class NlpAccountConfirmationDataDto implements Built<NlpAccountConfirma
   @BuiltValueField(wireName: r'suggestedAccount')
   String? get suggestedAccount;
 
-  /// Similar accounts for user selection
+  /// Similar accounts for user selection (path + localized name, #680)
   @BuiltValueField(wireName: r'similarAccounts')
-  BuiltList<String> get similarAccounts;
+  BuiltList<NlpAccountCandidateDto> get similarAccounts;
 
   /// Error message explaining the issue
   @BuiltValueField(wireName: r'errorMessage')
@@ -78,7 +79,7 @@ class _$NlpAccountConfirmationDataDtoSerializer implements PrimitiveSerializer<N
     yield r'similarAccounts';
     yield serializers.serialize(
       object.similarAccounts,
-      specifiedType: const FullType(BuiltList, [FullType(String)]),
+      specifiedType: const FullType(BuiltList, [FullType(NlpAccountCandidateDto)]),
     );
     yield r'errorMessage';
     yield serializers.serialize(
@@ -130,8 +131,8 @@ class _$NlpAccountConfirmationDataDtoSerializer implements PrimitiveSerializer<N
         case r'similarAccounts':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(BuiltList, [FullType(String)]),
-          ) as BuiltList<String>;
+            specifiedType: const FullType(BuiltList, [FullType(NlpAccountCandidateDto)]),
+          ) as BuiltList<NlpAccountCandidateDto>;
           result.similarAccounts.replace(valueDes);
           break;
         case r'errorMessage':

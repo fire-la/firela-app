@@ -17,7 +17,7 @@ part 'process_nlp_dto.g.dart';
 /// * [sessionId] - Session ID for multi-turn conversation (auto-generated if not provided)
 /// * [parsedData] 
 /// * [selectedRuleId] - confirm_rule echo-back: rule id selected from the prior confirm_rule response (matchedRule.id or alternatives[i].ruleId). Applied directly when the session is confirming_rule — no NL re-parse.
-/// * [selectedAccount] - confirm_account echo-back: account path selected from the prior confirm_account response (suggestedAccount, similarAccounts[i], or a typed path). Applied directly when the session is confirming_account — no NL re-parse.
+/// * [selectedAccount] - confirm_account echo-back: account path selected from the prior confirm_account response (suggestedAccount, similarAccounts[i].path, or a typed path). Applied directly when the session is confirming_account — no NL re-parse.
 @BuiltValue()
 abstract class ProcessNlpDto implements Built<ProcessNlpDto, ProcessNlpDtoBuilder> {
   /// Natural language text describing a transaction. Optional when `confirm` is true (structured confirm); otherwise required.
@@ -39,7 +39,7 @@ abstract class ProcessNlpDto implements Built<ProcessNlpDto, ProcessNlpDtoBuilde
   @BuiltValueField(wireName: r'selectedRuleId')
   String? get selectedRuleId;
 
-  /// confirm_account echo-back: account path selected from the prior confirm_account response (suggestedAccount, similarAccounts[i], or a typed path). Applied directly when the session is confirming_account — no NL re-parse.
+  /// confirm_account echo-back: account path selected from the prior confirm_account response (suggestedAccount, similarAccounts[i].path, or a typed path). Applied directly when the session is confirming_account — no NL re-parse.
   @BuiltValueField(wireName: r'selectedAccount')
   String? get selectedAccount;
 
