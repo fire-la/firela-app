@@ -14110,6 +14110,33 @@ components:
             or a typed path). Applied directly when the session is
             confirming_account — no NL re-parse.
           example: Expenses:Food:Coffee
+        viewpointAccount:
+          type: string
+          description: >-
+            Viewpoint account hint: the beancount path the user drilled into
+            (e.g. from an account drill-down). Tie-break only — never overrides
+            accounts resolved from the text. Must be an owned, OPEN
+            Assets:/Liabilities: account; unresolvable hints are silently
+            ignored.
+          example: Assets:CN:Bank:ICBC
+        viewpointCategory:
+          type: string
+          description: >-
+            Viewpoint category hint: the ADR-0075 Group segment the user drilled
+            into (e.g. 'Food'). Resolved to a concrete OPEN account in that
+            group; tie-break only — never overrides a category resolved from the
+            text.
+          example: Food
+        viewpointFlow:
+          type: string
+          description: >-
+            Companion flow root for viewpointCategory ('income' | 'expense'),
+            mirroring the ADR-0126 list-endpoint invariant. Derived from the
+            routed intent when absent.
+          enum:
+            - income
+            - expense
+          example: expense
     NlpTransactionInfoDto:
       type: object
       properties:
@@ -15177,13 +15204,15 @@ components:
           description: Platform display name
           example: CMB Bank
         accounts:
-          description: Accounts within this platform
+          description: 'Accounts within this platform (Assets and Liabilities rows, #696)'
           type: array
           items:
             $ref: '#/components/schemas/AccountItemDto'
         totalBalance:
           type: string
-          description: FX-converted total balance in base currency
+          description: >-
+            FX-converted total balance in base currency (nets Assets +
+            Liabilities rows; can be negative)
           example: '100000.00'
         balanceByCurrency:
           description: Raw (unconverted) balances grouped by currency
@@ -15198,7 +15227,9 @@ components:
           example: '100000.00'
         sharePct:
           type: number
-          description: Share of the grand converted total (0-100); 0 when grand total is 0
+          description: >-
+            Share of the converted asset-side grand total (0-100); liability
+            balances are excluded from the basis; 0 when grand total is 0 (#696)
           example: 42.5
       required:
         - platformId
@@ -15237,7 +15268,7 @@ components:
       properties:
         totalAccounts:
           type: number
-          description: Total number of accounts
+          description: 'Total number of accounts (balance sheet: Assets + Liabilities, #696)'
         totalPlatforms:
           type: number
           description: Total number of platforms
