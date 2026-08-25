@@ -16,11 +16,11 @@ part 'platform_group_dto.g.dart';
 /// Properties:
 /// * [platformId] - Platform ID
 /// * [platformName] - Platform display name
-/// * [accounts] - Accounts within this platform
-/// * [totalBalance] - FX-converted total balance in base currency
+/// * [accounts] - Accounts within this platform (Assets and Liabilities rows, #696)
+/// * [totalBalance] - FX-converted total balance in base currency (nets Assets + Liabilities rows; can be negative)
 /// * [balanceByCurrency] - Raw (unconverted) balances grouped by currency
 /// * [convertedBalance] - Converted balance in base currency (omitted when no currency is convertible)
-/// * [sharePct] - Share of the grand converted total (0-100); 0 when grand total is 0
+/// * [sharePct] - Share of the converted asset-side grand total (0-100); liability balances are excluded from the basis; 0 when grand total is 0 (#696)
 @BuiltValue()
 abstract class PlatformGroupDto implements Built<PlatformGroupDto, PlatformGroupDtoBuilder> {
   /// Platform ID
@@ -31,11 +31,11 @@ abstract class PlatformGroupDto implements Built<PlatformGroupDto, PlatformGroup
   @BuiltValueField(wireName: r'platformName')
   String get platformName;
 
-  /// Accounts within this platform
+  /// Accounts within this platform (Assets and Liabilities rows, #696)
   @BuiltValueField(wireName: r'accounts')
   BuiltList<AccountItemDto> get accounts;
 
-  /// FX-converted total balance in base currency
+  /// FX-converted total balance in base currency (nets Assets + Liabilities rows; can be negative)
   @BuiltValueField(wireName: r'totalBalance')
   String get totalBalance;
 
@@ -47,7 +47,7 @@ abstract class PlatformGroupDto implements Built<PlatformGroupDto, PlatformGroup
   @BuiltValueField(wireName: r'convertedBalance')
   String? get convertedBalance;
 
-  /// Share of the grand converted total (0-100); 0 when grand total is 0
+  /// Share of the converted asset-side grand total (0-100); liability balances are excluded from the basis; 0 when grand total is 0 (#696)
   @BuiltValueField(wireName: r'sharePct')
   num get sharePct;
 
