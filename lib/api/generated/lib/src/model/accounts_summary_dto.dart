@@ -13,13 +13,13 @@ part 'accounts_summary_dto.g.dart';
 /// AccountsSummaryDto
 ///
 /// Properties:
-/// * [totalAccounts] - Total number of accounts
+/// * [totalAccounts] - Total number of accounts (balance sheet: Assets + Liabilities, #696)
 /// * [totalPlatforms] - Total number of platforms
 /// * [baseCurrency] - Base currency for conversion
 /// * [warnings] - Per-account exchange rate warnings
 @BuiltValue()
 abstract class AccountsSummaryDto implements Built<AccountsSummaryDto, AccountsSummaryDtoBuilder> {
-  /// Total number of accounts
+  /// Total number of accounts (balance sheet: Assets + Liabilities, #696)
   @BuiltValueField(wireName: r'totalAccounts')
   num get totalAccounts;
 
