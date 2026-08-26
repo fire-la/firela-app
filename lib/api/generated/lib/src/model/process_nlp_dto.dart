@@ -21,7 +21,7 @@ part 'process_nlp_dto.g.dart';
 /// * [selectedAccount] - confirm_account echo-back: account path selected from the prior confirm_account response (suggestedAccount, similarAccounts[i].path, or a typed path). Applied directly when the session is confirming_account — no NL re-parse.
 /// * [viewpointAccount] - Viewpoint account hint: the beancount path the user drilled into (e.g. from an account drill-down). Tie-break only — never overrides accounts resolved from the text. Must be an owned, OPEN Assets:/Liabilities: account; unresolvable hints are silently ignored.
 /// * [viewpointCategory] - Viewpoint category hint: the ADR-0075 Group segment the user drilled into (e.g. 'Food'). Resolved to a concrete OPEN account in that group; tie-break only — never overrides a category resolved from the text.
-/// * [viewpointFlow] - Companion flow root for viewpointCategory ('income' | 'expense'), mirroring the ADR-0126 list-endpoint invariant. Derived from the routed intent when absent.
+/// * [viewpointFlow] - Companion flow root for viewpointCategory ('income' | 'expense'), mirroring the ADR-0126 list-endpoint invariant. Derived from the session's routed intent (multi-turn) when absent; a first-turn flow-less category hint is dropped — send the flow explicitly.
 @BuiltValue()
 abstract class ProcessNlpDto implements Built<ProcessNlpDto, ProcessNlpDtoBuilder> {
   /// Natural language text describing a transaction. Optional when `confirm` is true (structured confirm); otherwise required.
@@ -55,7 +55,7 @@ abstract class ProcessNlpDto implements Built<ProcessNlpDto, ProcessNlpDtoBuilde
   @BuiltValueField(wireName: r'viewpointCategory')
   String? get viewpointCategory;
 
-  /// Companion flow root for viewpointCategory ('income' | 'expense'), mirroring the ADR-0126 list-endpoint invariant. Derived from the routed intent when absent.
+  /// Companion flow root for viewpointCategory ('income' | 'expense'), mirroring the ADR-0126 list-endpoint invariant. Derived from the session's routed intent (multi-turn) when absent; a first-turn flow-less category hint is dropped — send the flow explicitly.
   @BuiltValueField(wireName: r'viewpointFlow')
   ProcessNlpDtoViewpointFlowEnum? get viewpointFlow;
   // enum viewpointFlowEnum {  income,  expense,  };
@@ -263,10 +263,10 @@ class _$ProcessNlpDtoSerializer implements PrimitiveSerializer<ProcessNlpDto> {
 
 class ProcessNlpDtoViewpointFlowEnum extends EnumClass {
 
-  /// Companion flow root for viewpointCategory ('income' | 'expense'), mirroring the ADR-0126 list-endpoint invariant. Derived from the routed intent when absent.
+  /// Companion flow root for viewpointCategory ('income' | 'expense'), mirroring the ADR-0126 list-endpoint invariant. Derived from the session's routed intent (multi-turn) when absent; a first-turn flow-less category hint is dropped — send the flow explicitly.
   @BuiltValueEnumConst(wireName: r'income')
   static const ProcessNlpDtoViewpointFlowEnum income = _$processNlpDtoViewpointFlowEnum_income;
-  /// Companion flow root for viewpointCategory ('income' | 'expense'), mirroring the ADR-0126 list-endpoint invariant. Derived from the routed intent when absent.
+  /// Companion flow root for viewpointCategory ('income' | 'expense'), mirroring the ADR-0126 list-endpoint invariant. Derived from the session's routed intent (multi-turn) when absent; a first-turn flow-less category hint is dropped — send the flow explicitly.
   @BuiltValueEnumConst(wireName: r'expense')
   static const ProcessNlpDtoViewpointFlowEnum expense = _$processNlpDtoViewpointFlowEnum_expense;
 

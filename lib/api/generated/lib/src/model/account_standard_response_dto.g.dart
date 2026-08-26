@@ -325,6 +325,8 @@ class _$AccountStandardResponseDto extends AccountStandardResponseDto {
   @override
   final String? name;
   @override
+  final BuiltList<String>? aliases;
+  @override
   final String description;
   @override
   final BuiltList<String> tags;
@@ -345,6 +347,7 @@ class _$AccountStandardResponseDto extends AccountStandardResponseDto {
       {required this.path,
       required this.type,
       this.name,
+      this.aliases,
       required this.description,
       required this.tags,
       required this.icon,
@@ -382,6 +385,7 @@ class _$AccountStandardResponseDto extends AccountStandardResponseDto {
         path == other.path &&
         type == other.type &&
         name == other.name &&
+        aliases == other.aliases &&
         description == other.description &&
         tags == other.tags &&
         icon == other.icon &&
@@ -396,6 +400,7 @@ class _$AccountStandardResponseDto extends AccountStandardResponseDto {
     _$hash = $jc(_$hash, path.hashCode);
     _$hash = $jc(_$hash, type.hashCode);
     _$hash = $jc(_$hash, name.hashCode);
+    _$hash = $jc(_$hash, aliases.hashCode);
     _$hash = $jc(_$hash, description.hashCode);
     _$hash = $jc(_$hash, tags.hashCode);
     _$hash = $jc(_$hash, icon.hashCode);
@@ -412,6 +417,7 @@ class _$AccountStandardResponseDto extends AccountStandardResponseDto {
           ..add('path', path)
           ..add('type', type)
           ..add('name', name)
+          ..add('aliases', aliases)
           ..add('description', description)
           ..add('tags', tags)
           ..add('icon', icon)
@@ -438,6 +444,11 @@ class AccountStandardResponseDtoBuilder
   String? _name;
   String? get name => _$this._name;
   set name(String? name) => _$this._name = name;
+
+  ListBuilder<String>? _aliases;
+  ListBuilder<String> get aliases =>
+      _$this._aliases ??= new ListBuilder<String>();
+  set aliases(ListBuilder<String>? aliases) => _$this._aliases = aliases;
 
   String? _description;
   String? get description => _$this._description;
@@ -479,6 +490,7 @@ class AccountStandardResponseDtoBuilder
       _path = $v.path;
       _type = $v.type;
       _name = $v.name;
+      _aliases = $v.aliases?.toBuilder();
       _description = $v.description;
       _tags = $v.tags.toBuilder();
       _icon = $v.icon;
@@ -514,6 +526,7 @@ class AccountStandardResponseDtoBuilder
               type: BuiltValueNullFieldError.checkNotNull(
                   type, r'AccountStandardResponseDto', 'type'),
               name: name,
+              aliases: _aliases?.build(),
               description: BuiltValueNullFieldError.checkNotNull(
                   description, r'AccountStandardResponseDto', 'description'),
               tags: tags.build(),
@@ -528,6 +541,9 @@ class AccountStandardResponseDtoBuilder
     } catch (_) {
       late String _$failedField;
       try {
+        _$failedField = 'aliases';
+        _aliases?.build();
+
         _$failedField = 'tags';
         tags.build();
       } catch (e) {

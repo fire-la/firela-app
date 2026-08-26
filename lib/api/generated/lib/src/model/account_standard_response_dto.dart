@@ -15,6 +15,7 @@ part 'account_standard_response_dto.g.dart';
 /// * [path] - Account path (hierarchical, colon-separated)
 /// * [type] - Account type in Beancount hierarchy
 /// * [name] - Short localized display name
+/// * [aliases] - Authored market-language alternative names delivered verbatim (not localized copy, not xlf-managed, not locale-projected). Flat string[] per ADR-0129 D1; ADR-0131 class A.
 /// * [description] - Account description (stable semantics only)
 /// * [tags] - Account tags for categorization
 /// * [icon] - Icon identifier for UI display
@@ -35,6 +36,10 @@ abstract class AccountStandardResponseDto implements Built<AccountStandardRespon
   /// Short localized display name
   @BuiltValueField(wireName: r'name')
   String? get name;
+
+  /// Authored market-language alternative names delivered verbatim (not localized copy, not xlf-managed, not locale-projected). Flat string[] per ADR-0129 D1; ADR-0131 class A.
+  @BuiltValueField(wireName: r'aliases')
+  BuiltList<String>? get aliases;
 
   /// Account description (stable semantics only)
   @BuiltValueField(wireName: r'description')
@@ -100,6 +105,13 @@ class _$AccountStandardResponseDtoSerializer implements PrimitiveSerializer<Acco
       yield serializers.serialize(
         object.name,
         specifiedType: const FullType(String),
+      );
+    }
+    if (object.aliases != null) {
+      yield r'aliases';
+      yield serializers.serialize(
+        object.aliases,
+        specifiedType: const FullType(BuiltList, [FullType(String)]),
       );
     }
     yield r'description';
@@ -179,6 +191,13 @@ class _$AccountStandardResponseDtoSerializer implements PrimitiveSerializer<Acco
             specifiedType: const FullType(String),
           ) as String;
           result.name = valueDes;
+          break;
+        case r'aliases':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(BuiltList, [FullType(String)]),
+          ) as BuiltList<String>;
+          result.aliases.replace(valueDes);
           break;
         case r'description':
           final valueDes = serializers.deserialize(
