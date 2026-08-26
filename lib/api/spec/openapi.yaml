@@ -587,7 +587,9 @@ paths:
         - name: search
           required: false
           in: query
-          description: Search term for path or description
+          description: >-
+            Search term for path, description, aliases, or localized display
+            name
           schema:
             example: Bank
             type: string
@@ -9106,6 +9108,17 @@ components:
           type: string
           description: Short localized display name
           example: Housing Fund
+        aliases:
+          description: >-
+            Authored market-language alternative names delivered verbatim (not
+            localized copy, not xlf-managed, not locale-projected). Flat
+            string[] per ADR-0129 D1; ADR-0131 class A.
+          example:
+            - Alipay
+            - WeChat Pay
+          type: array
+          items:
+            type: string
         description:
           type: string
           description: Account description (stable semantics only)
@@ -14132,7 +14145,8 @@ components:
           description: >-
             Companion flow root for viewpointCategory ('income' | 'expense'),
             mirroring the ADR-0126 list-endpoint invariant. Derived from the
-            routed intent when absent.
+            session's routed intent (multi-turn) when absent; a first-turn
+            flow-less category hint is dropped — send the flow explicitly.
           enum:
             - income
             - expense
