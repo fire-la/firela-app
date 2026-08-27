@@ -327,6 +327,8 @@ class _$AccountStandardResponseDto extends AccountStandardResponseDto {
   @override
   final BuiltList<String>? aliases;
   @override
+  final BuiltList<String>? searchTerms;
+  @override
   final String description;
   @override
   final BuiltList<String> tags;
@@ -348,6 +350,7 @@ class _$AccountStandardResponseDto extends AccountStandardResponseDto {
       required this.type,
       this.name,
       this.aliases,
+      this.searchTerms,
       required this.description,
       required this.tags,
       required this.icon,
@@ -386,6 +389,7 @@ class _$AccountStandardResponseDto extends AccountStandardResponseDto {
         type == other.type &&
         name == other.name &&
         aliases == other.aliases &&
+        searchTerms == other.searchTerms &&
         description == other.description &&
         tags == other.tags &&
         icon == other.icon &&
@@ -401,6 +405,7 @@ class _$AccountStandardResponseDto extends AccountStandardResponseDto {
     _$hash = $jc(_$hash, type.hashCode);
     _$hash = $jc(_$hash, name.hashCode);
     _$hash = $jc(_$hash, aliases.hashCode);
+    _$hash = $jc(_$hash, searchTerms.hashCode);
     _$hash = $jc(_$hash, description.hashCode);
     _$hash = $jc(_$hash, tags.hashCode);
     _$hash = $jc(_$hash, icon.hashCode);
@@ -418,6 +423,7 @@ class _$AccountStandardResponseDto extends AccountStandardResponseDto {
           ..add('type', type)
           ..add('name', name)
           ..add('aliases', aliases)
+          ..add('searchTerms', searchTerms)
           ..add('description', description)
           ..add('tags', tags)
           ..add('icon', icon)
@@ -449,6 +455,12 @@ class AccountStandardResponseDtoBuilder
   ListBuilder<String> get aliases =>
       _$this._aliases ??= new ListBuilder<String>();
   set aliases(ListBuilder<String>? aliases) => _$this._aliases = aliases;
+
+  ListBuilder<String>? _searchTerms;
+  ListBuilder<String> get searchTerms =>
+      _$this._searchTerms ??= new ListBuilder<String>();
+  set searchTerms(ListBuilder<String>? searchTerms) =>
+      _$this._searchTerms = searchTerms;
 
   String? _description;
   String? get description => _$this._description;
@@ -491,6 +503,7 @@ class AccountStandardResponseDtoBuilder
       _type = $v.type;
       _name = $v.name;
       _aliases = $v.aliases?.toBuilder();
+      _searchTerms = $v.searchTerms?.toBuilder();
       _description = $v.description;
       _tags = $v.tags.toBuilder();
       _icon = $v.icon;
@@ -527,6 +540,7 @@ class AccountStandardResponseDtoBuilder
                   type, r'AccountStandardResponseDto', 'type'),
               name: name,
               aliases: _aliases?.build(),
+              searchTerms: _searchTerms?.build(),
               description: BuiltValueNullFieldError.checkNotNull(
                   description, r'AccountStandardResponseDto', 'description'),
               tags: tags.build(),
@@ -543,6 +557,8 @@ class AccountStandardResponseDtoBuilder
       try {
         _$failedField = 'aliases';
         _aliases?.build();
+        _$failedField = 'searchTerms';
+        _searchTerms?.build();
 
         _$failedField = 'tags';
         tags.build();
