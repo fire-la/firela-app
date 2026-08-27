@@ -14,10 +14,11 @@ part 'account_standard_response_dto.g.dart';
 /// Properties:
 /// * [path] - Account path (hierarchical, colon-separated)
 /// * [type] - Account type in Beancount hierarchy
-/// * [name] - Short localized display name
+/// * [name] - Short display name. Universal rows project to the request locale (Accept-Language); regional rows keep the authored native name — mixed-language by design (ADR-0131 class P vs class A).
 /// * [aliases] - Authored market-language alternative names delivered verbatim (not localized copy, not xlf-managed, not locale-projected). Flat string[] per ADR-0129 D1; ADR-0131 class A.
-/// * [description] - Account description (stable semantics only)
-/// * [tags] - Account tags for categorization
+/// * [searchTerms] - Locale-projected search synonyms (e.g. the zh bank-card / debit-card everyday terms for the checking account). Pure-locale projection — absent when the locale has no seeded synonyms; English fallback rides the authored aliases field. Search-only vocabulary, not the NLP routing corpus (#698, ADR-0131 fourth-class adjudication).
+/// * [description] - Account description (stable semantics only). Mixed-language contract: universal rows deliver authored English verbatim today (ADR-0131 class P, zero translations is expected); regional rows deliver the authored market language (ADR-0131 class A, verbatim).
+/// * [tags] - Account tags for categorization — structured metadata delivered verbatim (not localized, not xlf-managed). ADR-0131 class A.
 /// * [icon] - Icon identifier for UI display
 /// * [productCategory] - Onboarding product category (coarse grouping derived from assetSubClass)
 /// * [assetClass] - Asset class (LIQUIDITY/EQUITY/.../LIABILITY), derived at read time from classification rules
@@ -33,7 +34,7 @@ abstract class AccountStandardResponseDto implements Built<AccountStandardRespon
   AccountStandardResponseDtoTypeEnum get type;
   // enum typeEnum {  Assets,  Liabilities,  Income,  Expenses,  Equity,  };
 
-  /// Short localized display name
+  /// Short display name. Universal rows project to the request locale (Accept-Language); regional rows keep the authored native name — mixed-language by design (ADR-0131 class P vs class A).
   @BuiltValueField(wireName: r'name')
   String? get name;
 
@@ -41,11 +42,15 @@ abstract class AccountStandardResponseDto implements Built<AccountStandardRespon
   @BuiltValueField(wireName: r'aliases')
   BuiltList<String>? get aliases;
 
-  /// Account description (stable semantics only)
+  /// Locale-projected search synonyms (e.g. the zh bank-card / debit-card everyday terms for the checking account). Pure-locale projection — absent when the locale has no seeded synonyms; English fallback rides the authored aliases field. Search-only vocabulary, not the NLP routing corpus (#698, ADR-0131 fourth-class adjudication).
+  @BuiltValueField(wireName: r'searchTerms')
+  BuiltList<String>? get searchTerms;
+
+  /// Account description (stable semantics only). Mixed-language contract: universal rows deliver authored English verbatim today (ADR-0131 class P, zero translations is expected); regional rows deliver the authored market language (ADR-0131 class A, verbatim).
   @BuiltValueField(wireName: r'description')
   String get description;
 
-  /// Account tags for categorization
+  /// Account tags for categorization — structured metadata delivered verbatim (not localized, not xlf-managed). ADR-0131 class A.
   @BuiltValueField(wireName: r'tags')
   BuiltList<String> get tags;
 
@@ -111,6 +116,13 @@ class _$AccountStandardResponseDtoSerializer implements PrimitiveSerializer<Acco
       yield r'aliases';
       yield serializers.serialize(
         object.aliases,
+        specifiedType: const FullType(BuiltList, [FullType(String)]),
+      );
+    }
+    if (object.searchTerms != null) {
+      yield r'searchTerms';
+      yield serializers.serialize(
+        object.searchTerms,
         specifiedType: const FullType(BuiltList, [FullType(String)]),
       );
     }
@@ -198,6 +210,13 @@ class _$AccountStandardResponseDtoSerializer implements PrimitiveSerializer<Acco
             specifiedType: const FullType(BuiltList, [FullType(String)]),
           ) as BuiltList<String>;
           result.aliases.replace(valueDes);
+          break;
+        case r'searchTerms':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(BuiltList, [FullType(String)]),
+          ) as BuiltList<String>;
+          result.searchTerms.replace(valueDes);
           break;
         case r'description':
           final valueDes = serializers.deserialize(
