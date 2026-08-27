@@ -210,6 +210,9 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(PlatformMatchResultDto.serializer)
       ..add(PlatformMatchResultDtoMatchTypeEnum.serializer)
       ..add(PlatformMatchResultDtoTypeEnum.serializer)
+      ..add(PlatformStandardsPlatformDto.serializer)
+      ..add(PlatformStandardsPlatformDtoTypeEnum.serializer)
+      ..add(PlatformStandardsResponseDto.serializer)
       ..add(PortfolioTrendsResponseDto.serializer)
       ..add(PostingDetailDto.serializer)
       ..add(PostingResponseDto.serializer)
@@ -338,6 +341,10 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(AccountResponseDto)]),
           () => new ListBuilder<AccountResponseDto>())
+      ..addBuilderFactory(
+          const FullType(
+              BuiltList, const [const FullType(AccountStandardResponseDto)]),
+          () => new ListBuilder<AccountStandardResponseDto>())
       ..addBuilderFactory(
           const FullType(
               BuiltList, const [const FullType(AccountStandardResponseDto)]),

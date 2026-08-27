@@ -12,6 +12,7 @@ import 'package:firela_api/src/api_util.dart';
 import 'package:firela_api/src/model/create_platform_dto.dart';
 import 'package:firela_api/src/model/platform_list_item_dto.dart';
 import 'package:firela_api/src/model/platform_match_response_dto.dart';
+import 'package:firela_api/src/model/platform_standards_response_dto.dart';
 import 'package:firela_api/src/model/update_platform_dto.dart';
 
 class BeanPlatformsApi {
@@ -250,6 +251,91 @@ class BeanPlatformsApi {
     }
 
     return Response<BuiltList<PlatformListItemDto>>(
+      data: _responseData,
+      headers: _response.headers,
+      isRedirect: _response.isRedirect,
+      requestOptions: _response.requestOptions,
+      redirects: _response.redirects,
+      statusCode: _response.statusCode,
+      statusMessage: _response.statusMessage,
+      extra: _response.extra,
+    );
+  }
+
+  /// Get the region and candidate account standards for a platform
+  /// 
+  ///
+  /// Parameters:
+  /// * [id] - Platform ID (from a match result)
+  /// * [region] - Region code (ISO 3166-1 alpha-2, case-insensitive). Required for global platforms (countryCode null) — resolved as their template region; ignored when the platform has its own countryCode.
+  /// * [type] - Filter templates by account type (path first segment)
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future] containing a [Response] with a [PlatformStandardsResponseDto] as data
+  /// Throws [DioException] if API call or serialization fails
+  Future<Response<PlatformStandardsResponseDto>> platformControllerGetPlatformStandards({ 
+    required String id,
+    String? region,
+    String? type,
+    CancelToken? cancelToken,
+    Map<String, dynamic>? headers,
+    Map<String, dynamic>? extra,
+    ValidateStatus? validateStatus,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {
+    final _path = r'/api/v1/bean/platforms/{id}/standards'.replaceAll('{' r'id' '}', encodeQueryParameter(_serializers, id, const FullType(String)).toString());
+    final _options = Options(
+      method: r'GET',
+      headers: <String, dynamic>{
+        ...?headers,
+      },
+      extra: <String, dynamic>{
+        'secure': <Map<String, String>>[],
+        ...?extra,
+      },
+      validateStatus: validateStatus,
+    );
+
+    final _queryParameters = <String, dynamic>{
+      if (region != null) r'region': encodeQueryParameter(_serializers, region, const FullType(String)),
+      if (type != null) r'type': encodeQueryParameter(_serializers, type, const FullType(String)),
+    };
+
+    final _response = await _dio.request<Object>(
+      _path,
+      options: _options,
+      queryParameters: _queryParameters,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+    );
+
+    PlatformStandardsResponseDto? _responseData;
+
+    try {
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(PlatformStandardsResponseDto),
+      ) as PlatformStandardsResponseDto;
+
+    } catch (error, stackTrace) {
+      throw DioException(
+        requestOptions: _response.requestOptions,
+        response: _response,
+        type: DioExceptionType.unknown,
+        error: error,
+        stackTrace: stackTrace,
+      );
+    }
+
+    return Response<PlatformStandardsResponseDto>(
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,
