@@ -7832,6 +7832,53 @@ paths:
         - Bean Platforms
       security:
         - bearer: []
+  /api/v1/bean/platforms/{id}/standards:
+    get:
+      operationId: PlatformController_getPlatformStandards
+      summary: Get the region and candidate account standards for a platform
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: Platform ID (from a match result)
+          schema:
+            type: string
+        - name: region
+          required: false
+          in: query
+          description: >-
+            Region code (ISO 3166-1 alpha-2, case-insensitive). Required for
+            global platforms (countryCode null) — resolved as their template
+            region; ignored when the platform has its own countryCode.
+          schema:
+            example: CN
+            type: string
+        - name: type
+          required: false
+          in: query
+          description: Filter templates by account type (path first segment)
+          schema:
+            example: Assets
+            enum:
+              - Assets
+              - Liabilities
+              - Income
+              - Expenses
+              - Equity
+            type: string
+      responses:
+        '200':
+          description: >-
+            Resolved region plus the merged account-standard catalog of that
+            region (groupable by productCategory client-side)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlatformStandardsResponseDto'
+      tags:
+        - Bean Platforms
+      security:
+        - bearer: []
   /api/v1/bean/platforms/{id}:
     put:
       operationId: PlatformController_update
@@ -14975,6 +15022,76 @@ components:
         - matchType
         - total
         - hasMore
+    PlatformStandardsPlatformDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Global platform ID
+        name:
+          type: string
+          description: Platform name (e.g., "ICBC")
+        canonical:
+          type: string
+          description: Canonical identifier in ACCOUNT_RE format (e.g., "icbc")
+        suggestedSegment:
+          type: string
+          description: >-
+            Suggested path segment — canonical PascalCased per hyphen-part,
+            hyphens preserved (e.g. "Apple-Pay")
+        type:
+          type: string
+          description: Platform type
+          enum:
+            - BANK
+            - BROKERAGE
+            - CRYPTO_EXCHANGE
+            - PAYMENT
+            - INVESTMENT
+            - INSURANCE
+            - OTHER
+        category:
+          type: string
+          description: >-
+            Region-aware category (institution vocab, e.g. DigitalWallet/Bank)
+            resolved against the final region. null = no region-aware
+            suggestion; fall back to type.
+          nullable: true
+          example: Bank
+      required:
+        - id
+        - name
+        - canonical
+        - suggestedSegment
+        - type
+        - category
+    PlatformStandardsResponseDto:
+      type: object
+      properties:
+        platform:
+          description: The selected platform (institution lock source)
+          allOf:
+            - $ref: '#/components/schemas/PlatformStandardsPlatformDto'
+        region:
+          type: string
+          description: >-
+            Resolved template region (ISO 3166-1 alpha-2, UPPERCASE): the
+            platform's own countryCode when set, else the region query param.
+            For regions without a regional template file the template list falls
+            back to the universal-only catalog while region still echoes the
+            code.
+          example: CN
+        templates:
+          description: >-
+            Candidate account-standard templates of the resolved region
+            (groupable by productCategory client-side)
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountStandardResponseDto'
+      required:
+        - platform
+        - region
+        - templates
     CreatePlatformDto:
       type: object
       properties:
