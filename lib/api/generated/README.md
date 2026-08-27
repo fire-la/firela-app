@@ -193,6 +193,7 @@ Class | Method | HTTP request | Description
 [*BeanPlatformsApi*](doc/BeanPlatformsApi.md) | [**platformControllerDelete**](doc/BeanPlatformsApi.md#platformcontrollerdelete) | **DELETE** /api/v1/bean/platforms/{id} | Delete a platform
 [*BeanPlatformsApi*](doc/BeanPlatformsApi.md) | [**platformControllerFindAll**](doc/BeanPlatformsApi.md#platformcontrollerfindall) | **GET** /api/v1/bean/platforms | Get all platforms with statistics
 [*BeanPlatformsApi*](doc/BeanPlatformsApi.md) | [**platformControllerGetPlatformList**](doc/BeanPlatformsApi.md#platformcontrollergetplatformlist) | **GET** /api/v1/bean/platforms/list | Get platform list for current user
+[*BeanPlatformsApi*](doc/BeanPlatformsApi.md) | [**platformControllerGetPlatformStandards**](doc/BeanPlatformsApi.md#platformcontrollergetplatformstandards) | **GET** /api/v1/bean/platforms/{id}/standards | Get the region and candidate account standards for a platform
 [*BeanPlatformsApi*](doc/BeanPlatformsApi.md) | [**platformControllerMatchPlatforms**](doc/BeanPlatformsApi.md#platformcontrollermatchplatforms) | **GET** /api/v1/bean/platforms/match | Match platforms by name or alias
 [*BeanPlatformsApi*](doc/BeanPlatformsApi.md) | [**platformControllerUpdate**](doc/BeanPlatformsApi.md#platformcontrollerupdate) | **PUT** /api/v1/bean/platforms/{id} | Update a platform
 [*BeanPricesApi*](doc/BeanPricesApi.md) | [**priceControllerBulkCreate**](doc/BeanPricesApi.md#pricecontrollerbulkcreate) | **POST** /api/v1/{region}/bean/prices/bulk | Bulk create prices
@@ -447,6 +448,8 @@ Class | Method | HTTP request | Description
  - [PlatformListItemDto](doc/PlatformListItemDto.md)
  - [PlatformMatchResponseDto](doc/PlatformMatchResponseDto.md)
  - [PlatformMatchResultDto](doc/PlatformMatchResultDto.md)
+ - [PlatformStandardsPlatformDto](doc/PlatformStandardsPlatformDto.md)
+ - [PlatformStandardsResponseDto](doc/PlatformStandardsResponseDto.md)
  - [PortfolioTrendsResponseDto](doc/PortfolioTrendsResponseDto.md)
  - [PostingDetailDto](doc/PostingDetailDto.md)
  - [PostingResponseDto](doc/PostingResponseDto.md)

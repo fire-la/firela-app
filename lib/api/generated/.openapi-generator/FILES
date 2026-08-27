@@ -199,6 +199,8 @@ lib/src/model/platform_group_dto.dart
 lib/src/model/platform_list_item_dto.dart
 lib/src/model/platform_match_response_dto.dart
 lib/src/model/platform_match_result_dto.dart
+lib/src/model/platform_standards_platform_dto.dart
+lib/src/model/platform_standards_response_dto.dart
 lib/src/model/portfolio_trends_response_dto.dart
 lib/src/model/posting_detail_dto.dart
 lib/src/model/posting_response_dto.dart

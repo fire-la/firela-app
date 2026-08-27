@@ -165,6 +165,8 @@ import 'package:firela_api/src/model/platform_group_dto.dart';
 import 'package:firela_api/src/model/platform_list_item_dto.dart';
 import 'package:firela_api/src/model/platform_match_response_dto.dart';
 import 'package:firela_api/src/model/platform_match_result_dto.dart';
+import 'package:firela_api/src/model/platform_standards_platform_dto.dart';
+import 'package:firela_api/src/model/platform_standards_response_dto.dart';
 import 'package:firela_api/src/model/portfolio_trends_response_dto.dart';
 import 'package:firela_api/src/model/posting_detail_dto.dart';
 import 'package:firela_api/src/model/posting_response_dto.dart';
@@ -392,6 +394,8 @@ part 'serializers.g.dart';
   PlatformListItemDto,
   PlatformMatchResponseDto,
   PlatformMatchResultDto,
+  PlatformStandardsPlatformDto,
+  PlatformStandardsResponseDto,
   PortfolioTrendsResponseDto,
   PostingDetailDto,
   PostingResponseDto,
