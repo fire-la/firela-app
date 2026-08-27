@@ -9153,7 +9153,10 @@ components:
           example: Assets
         name:
           type: string
-          description: Short localized display name
+          description: >-
+            Short display name. Universal rows project to the request locale
+            (Accept-Language); regional rows keep the authored native name —
+            mixed-language by design (ADR-0131 class P vs class A).
           example: Housing Fund
         aliases:
           description: >-
@@ -9166,12 +9169,31 @@ components:
           type: array
           items:
             type: string
+        searchTerms:
+          description: >-
+            Locale-projected search synonyms (e.g. the zh bank-card / debit-card
+            everyday terms for the checking account). Pure-locale projection —
+            absent when the locale has no seeded synonyms; English fallback
+            rides the authored aliases field. Search-only vocabulary, not the
+            NLP routing corpus (#698, ADR-0131 fourth-class adjudication).
+          example:
+            - yinhangka
+            - jiejika
+          type: array
+          items:
+            type: string
         description:
           type: string
-          description: Account description (stable semantics only)
+          description: >-
+            Account description (stable semantics only). Mixed-language
+            contract: universal rows deliver authored English verbatim today
+            (ADR-0131 class P, zero translations is expected); regional rows
+            deliver the authored market language (ADR-0131 class A, verbatim).
           example: ICBC checking account for daily transactions
         tags:
-          description: Account tags for categorization
+          description: >-
+            Account tags for categorization — structured metadata delivered
+            verbatim (not localized, not xlf-managed). ADR-0131 class A.
           example:
             - bank
             - checking
