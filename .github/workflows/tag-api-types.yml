@@ -1,0 +1,56 @@
+name: Tag API Types
+
+# Tags every commit that lands generated Dart API types on main, so downstream
+# firela_api pins are human-readable (ref: api-types/<sha8> instead of a raw
+# sha) and `git tag -ln` doubles as a spec-version ledger (#401, #400).
+#
+# Trigger is a separate push-to-main workflow, NOT a step inside
+# regenerate-api-types.yml: that workflow only prepares the sync/api-types PR —
+# the commit is created later by the PR's squash merge, so only a workflow
+# firing on the merged push can tag the right sha.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'lib/api/generated/**'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: tag-api-types
+  cancel-in-progress: false
+
+jobs:
+  tag:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout firela-app
+        uses: actions/checkout@v4
+        with:
+          # Full history: the ign source sha for the tag annotation is grepped
+          # from the recent commit messages (spec-sync titles carry ign@<sha>).
+          fetch-depth: 0
+
+      - name: Push api-types/<sha8> tag (idempotent)
+        run: |
+          set -euo pipefail
+          SHA="$(git rev-parse HEAD)"
+          SHORT="$(git rev-parse --short=8 HEAD)"
+          TAG="api-types/${SHORT}"
+
+          if git ls-remote --exit-code --tags origin "refs/tags/${TAG}" >/dev/null 2>&1; then
+            echo "Tag ${TAG} already exists — nothing to do."
+            exit 0
+          fi
+
+          # Best effort: carry the ign source sha from the spec-sync commit
+          # trail into the annotation (absent on manual regens — fine).
+          IGN_SHA="$(git log -5 --pretty=%B | grep -oE 'ign@[0-9a-f]{7,40}' | head -1 || true)"
+
+          git tag -a "${TAG}" -m "Generated Dart API types (${SHORT})${IGN_SHA:+ from ${IGN_SHA}}"
+          git push origin "refs/tags/${TAG}"
+          echo "Tagged ${TAG}"
