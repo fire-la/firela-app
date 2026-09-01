@@ -8,7 +8,7 @@ part of 'user_settings_response_dto.dart';
 
 class _$UserSettingsResponseDto extends UserSettingsResponseDto {
   @override
-  final JsonObject? baseCurrency;
+  final String? baseCurrency;
 
   factory _$UserSettingsResponseDto(
           [void Function(UserSettingsResponseDtoBuilder)? updates]) =>
@@ -53,10 +53,9 @@ class UserSettingsResponseDtoBuilder
         Builder<UserSettingsResponseDto, UserSettingsResponseDtoBuilder> {
   _$UserSettingsResponseDto? _$v;
 
-  JsonObject? _baseCurrency;
-  JsonObject? get baseCurrency => _$this._baseCurrency;
-  set baseCurrency(JsonObject? baseCurrency) =>
-      _$this._baseCurrency = baseCurrency;
+  String? _baseCurrency;
+  String? get baseCurrency => _$this._baseCurrency;
+  set baseCurrency(String? baseCurrency) => _$this._baseCurrency = baseCurrency;
 
   UserSettingsResponseDtoBuilder() {
     UserSettingsResponseDto._defaults(this);
