@@ -2505,12 +2505,8 @@ paths:
             example: 550e8400-e29b-41d4-a716-446655440000
             type: string
       responses:
-        '200':
+        '204':
           description: Payee profile unverified successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PayeeProfileResponseDto'
         '403':
           description: Admin access required
           content:
@@ -4666,12 +4662,8 @@ paths:
               - us
             type: string
       responses:
-        '200':
+        '204':
           description: Skip undone successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ExpectedTransactionResponseDto'
         '400':
           description: Cannot undo - not in SKIPPED status
         '404':
@@ -4789,7 +4781,7 @@ paths:
               - us
             type: string
       responses:
-        '200':
+        '204':
           description: Match removed successfully
         '400':
           description: Cannot unmatch - not in COMPLETED status
@@ -6447,7 +6439,12 @@ paths:
       parameters: []
       responses:
         '200':
-          description: ''
+          description: ZIP archive (application/zip) streamed as an attachment
+          content:
+            application/json:
+              schema:
+                type: string
+                format: binary
       tags:
         - Bean Export
       security:
@@ -8429,10 +8426,25 @@ paths:
   /api/v1/cache/flush:
     post:
       operationId: CacheController_flushCache
+      summary: Flush entire cache (L1 + L2)
+      description: >-
+        Clears ALL cache entries across ALL namespaces and users. Use only for
+        emergency cache corruption recovery, maintenance-window refresh, or
+        development resets.
       parameters: []
       responses:
-        '201':
-          description: ''
+        '200':
+          description: Cache flushed successfully
+        '403':
+          description: Admin access required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiProblemResponseDto'
+      tags:
+        - Admin Cache
+      security:
+        - bearer: []
   /api/v1/market/exchange-rates/{symbol}/{dateString}:
     get:
       operationId: ExchangeRateController_getExchangeRate
@@ -11027,10 +11039,10 @@ components:
           type: object
           description: >-
             Metadata for extended information (location, notes, contact info,
-            etc.). Will merge with existing metadata.
+            etc.)
           example:
             location: Zhongguancun
-            note: Updated note
+            note: Near subway station
             favorite: true
         isActive:
           type: boolean
@@ -12379,7 +12391,7 @@ components:
       properties:
         name:
           type: string
-          description: Rule name
+          description: Rule name (unique per user)
           maxLength: 100
         icon:
           type: string
@@ -12398,51 +12410,53 @@ components:
             - CUSTOM
         expectedAmount:
           type: number
-          description: Expected amount
+          description: Expected amount (positive number)
           minimum: 0
         expectedDay:
           type: number
           description: Expected day of month (1-31)
           minimum: 1
           maximum: 31
-        customIntervalDays:
-          type: number
-          description: Custom interval in days
-          minimum: 1
         currency:
           type: string
           description: Currency code
           maxLength: 10
         matchPayeePattern:
           type: string
-          description: Payee matching pattern
+          description: Payee matching pattern (supports wildcards)
           maxLength: 200
         matchAmountTolerance:
           type: number
           description: Amount tolerance percentage (0-1)
+          default: 0.075
           minimum: 0
           maximum: 1
         defaultExpenseAccount:
           type: string
-          description: Default expense account
+          description: Default expense account for auto-create
           maxLength: 200
         defaultPaymentAccount:
           type: string
-          description: Default payment account
+          description: Default payment account for auto-create
           maxLength: 200
         defaultPayee:
           type: string
-          description: Default payee
+          description: Default payee for auto-create
           maxLength: 200
         autoCreate:
           type: boolean
-          description: Auto-create transaction
-        isActive:
-          type: boolean
-          description: Rule active status
+          description: Auto-create transaction when expected date arrives
+          default: false
         endDate:
           type: string
           description: Rule end date (ISO format)
+        customIntervalDays:
+          type: number
+          description: Custom interval in days
+          minimum: 1
+        isActive:
+          type: boolean
+          description: Rule active status
     ExpectedTransactionRuleDto:
       type: object
       properties:
@@ -13114,6 +13128,7 @@ components:
           enum:
             - OR
             - AND
+          default: OR
         amountMin:
           type: number
           minimum: 0
@@ -13124,11 +13139,9 @@ components:
           description: Maximum transaction amount (inclusive)
         priority:
           type: number
+          default: 50
           minimum: 0
           maximum: 1000
-        enabled:
-          type: boolean
-          description: Enable or disable the rule
         additionalTags:
           items:
             type: array
@@ -13136,6 +13149,9 @@ components:
           type: array
         additionalMetadata:
           type: object
+        enabled:
+          type: boolean
+          description: Enable or disable the rule
     TestRuleDto:
       type: object
       properties:
@@ -15216,6 +15232,7 @@ components:
         isActive:
           type: boolean
           description: Whether the platform is active
+          default: true
     NetWorthByCurrencyDto:
       type: object
       properties:
