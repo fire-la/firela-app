@@ -9019,7 +9019,7 @@ components:
           example:
             branch: Downtown
         platformId:
-          type: object
+          type: string
           description: Platform ID (null if unbound)
           example: c98e5d4a-2f71-4a5a-bb3c-92c9f231d5e2
         platform:
@@ -11577,7 +11577,7 @@ components:
           description: Value at this date (in base currency)
           example: '500000.00'
         change:
-          type: object
+          type: string
           description: Change from previous point
           example: '5000.00'
         assets:
@@ -12167,7 +12167,7 @@ components:
           type: string
           description: Rule name
         icon:
-          type: object
+          type: string
           description: Icon emoji
         frequency:
           type: string
@@ -12176,28 +12176,28 @@ components:
           type: number
           description: Expected amount
         expectedDay:
-          type: object
+          type: number
           description: Expected day of month
         customIntervalDays:
-          type: object
+          type: number
           description: Custom interval in days
         currency:
           type: string
           description: Currency code
         matchPayeePattern:
-          type: object
+          type: string
           description: Payee matching pattern
         matchAmountTolerance:
           type: number
           description: Amount tolerance percentage
         defaultExpenseAccount:
-          type: object
+          type: string
           description: Default expense account
         defaultPaymentAccount:
-          type: object
+          type: string
           description: Default payment account
         defaultPayee:
-          type: object
+          type: string
           description: Default payee
         isActive:
           type: boolean
@@ -12206,13 +12206,13 @@ components:
           type: string
           description: Rule start date (YYYY-MM-DD)
         endDate:
-          type: object
+          type: string
           description: Rule end date (YYYY-MM-DD)
         autoCreate:
           type: boolean
           description: Auto-create transaction on expected date
         lastOccurrence:
-          type: object
+          type: string
           description: Last matched occurrence date (YYYY-MM-DD)
         totalCount:
           type: number
@@ -12277,7 +12277,7 @@ components:
           type: string
           description: Rule name
         icon:
-          type: object
+          type: string
           description: Icon emoji
         frequency:
           type: string
@@ -12286,28 +12286,28 @@ components:
           type: number
           description: Expected amount
         expectedDay:
-          type: object
+          type: number
           description: Expected day of month
         customIntervalDays:
-          type: object
+          type: number
           description: Custom interval in days
         currency:
           type: string
           description: Currency code
         matchPayeePattern:
-          type: object
+          type: string
           description: Payee matching pattern
         matchAmountTolerance:
           type: number
           description: Amount tolerance percentage
         defaultExpenseAccount:
-          type: object
+          type: string
           description: Default expense account
         defaultPaymentAccount:
-          type: object
+          type: string
           description: Default payment account
         defaultPayee:
-          type: object
+          type: string
           description: Default payee
         isActive:
           type: boolean
@@ -12316,13 +12316,13 @@ components:
           type: string
           description: Rule start date (YYYY-MM-DD)
         endDate:
-          type: object
+          type: string
           description: Rule end date (YYYY-MM-DD)
         autoCreate:
           type: boolean
           description: Auto-create transaction on expected date
         lastOccurrence:
-          type: object
+          type: string
           description: Last matched occurrence date (YYYY-MM-DD)
         totalCount:
           type: number
@@ -12342,7 +12342,7 @@ components:
           type: number
           description: Number of overdue expected transactions
         nextExpectedDate:
-          type: object
+          type: string
           description: Next expected date (YYYY-MM-DD)
         totalAmount:
           type: number
@@ -12354,10 +12354,10 @@ components:
           type: number
           description: Number of matched transactions
         firstDate:
-          type: object
+          type: string
           description: First matched transaction date (YYYY-MM-DD)
         lastDate:
-          type: object
+          type: string
           description: Last matched transaction date (YYYY-MM-DD)
         variance:
           type: number
@@ -12464,7 +12464,7 @@ components:
           type: string
           description: Rule name
         icon:
-          type: object
+          type: string
           description: Rule icon
         frequency:
           type: string
@@ -12498,13 +12498,13 @@ components:
           type: string
           description: Status (PENDING, COMPLETED, SKIPPED)
         matchedTransactionId:
-          type: object
+          type: string
           description: Matched transaction ID
         matchedAt:
-          type: object
+          type: string
           description: Match timestamp (ISO 8601)
         matchConfidence:
-          type: object
+          type: number
           description: Match confidence score (0-1)
         isOverdue:
           type: boolean
@@ -15892,7 +15892,7 @@ components:
           description: ISO 4217 currency
           example: USD
         baseCcyEquivalent:
-          type: object
+          type: string
           description: Converted to user base currency (Decimal string)
           example: '21600'
           nullable: true
@@ -15961,12 +15961,12 @@ components:
           description: Full account path
           example: Assets:US:Broker:AAPL
         accountCcy:
-          type: object
+          type: string
           description: Account settlement currency (ISO 4217), from cost currency
           nullable: true
           example: USD
         brokerType:
-          type: object
+          type: string
           description: Broker type derived from Platform.type
           nullable: true
           example: broker
@@ -15988,7 +15988,7 @@ components:
           type: string
           example: EQUITY
         assetSubClass:
-          type: object
+          type: string
           nullable: true
           example: STOCK
         units:
@@ -16016,14 +16016,14 @@ components:
           allOf:
             - $ref: '#/components/schemas/CurrentPriceDto'
         unrealizedPnlBase:
-          type: object
+          type: string
           description: >-
             Unrealized P&L in base currency (Decimal string); null when any
             FX/price missing
           nullable: true
           example: '6000'
         unrealizedPnlPct:
-          type: object
+          type: string
           description: Unrealized P&L % (Decimal string)
           nullable: true
           example: '25'
@@ -16038,7 +16038,7 @@ components:
           allOf:
             - $ref: '#/components/schemas/FxRateDto'
         pctOfInvestedAssets:
-          type: object
+          type: string
           description: >-
             Share of invested assets % (Decimal string); only for invested
             chartTokens
@@ -16078,13 +16078,13 @@ components:
             - NO_PRICE
             - MIXED_COST_CURRENCY
         symbol:
-          type: object
+          type: string
           nullable: true
         accountId:
-          type: object
+          type: string
           nullable: true
         currency:
-          type: object
+          type: string
           nullable: true
       required:
         - type
@@ -16317,30 +16317,30 @@ components:
           type: string
           example: AAPL
         name:
-          type: object
+          type: string
           example: Apple Inc.
           nullable: true
         exchange:
-          type: object
+          type: string
           example: US
           nullable: true
         assetType:
-          type: object
+          type: string
           description: OpenBB asset_type (e.g. stock, etf)
           example: stock
           nullable: true
         assetClass:
-          type: object
+          type: string
           description: IGN asset class (region.types.ts ASSET_CLASSES)
           example: EQUITY
           nullable: true
         assetSubClass:
-          type: object
+          type: string
           description: IGN asset sub-class (region.types.ts ASSET_SUB_CLASSES)
           example: STOCK
           nullable: true
         currency:
-          type: object
+          type: string
           description: Trading currency (extra_data or inferred from exchange)
           example: USD
           nullable: true
@@ -16353,45 +16353,45 @@ components:
           type: string
           example: AAPL
         name:
-          type: object
+          type: string
           example: Apple Inc.
           nullable: true
         exchange:
-          type: object
+          type: string
           example: US
           nullable: true
         assetType:
-          type: object
+          type: string
           description: OpenBB asset_type
           example: stock
           nullable: true
         assetClass:
-          type: object
+          type: string
           description: IGN asset class
           example: EQUITY
           nullable: true
         assetSubClass:
-          type: object
+          type: string
           description: IGN asset sub-class
           example: STOCK
           nullable: true
         currency:
-          type: object
+          type: string
           description: Trading currency (extra_data or inferred from exchange)
           example: USD
           nullable: true
         price:
-          type: object
+          type: string
           description: Latest price (Decimal string)
           example: '189.84'
           nullable: true
         priceDate:
-          type: object
+          type: string
           description: Date the price was observed (ISO yyyy-MM-dd)
           example: '2026-08-05'
           nullable: true
         changePercent:
-          type: object
+          type: number
           description: >-
             Change vs previous close, in percentage points (1.7 == 1.7%). openbb
             stores change_percent as a normalized decimal; this exposes
@@ -16399,30 +16399,30 @@ components:
           example: 1.7
           nullable: true
         prevClose:
-          type: object
+          type: string
           description: Previous close (Decimal string)
           nullable: true
         open:
-          type: object
+          type: string
           description: Day open (Decimal string)
           nullable: true
         high:
-          type: object
+          type: string
           description: Day high (Decimal string)
           nullable: true
         low:
-          type: object
+          type: string
           description: Day low (Decimal string)
           nullable: true
         volume:
-          type: object
+          type: string
           description: Day volume (Decimal string)
           nullable: true
         yearHigh:
-          type: object
+          type: string
           description: 52-week high (Decimal string)
           nullable: true
         yearLow:
-          type: object
+          type: string
           description: 52-week low (Decimal string)
           nullable: true
