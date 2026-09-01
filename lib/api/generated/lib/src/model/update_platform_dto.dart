@@ -55,7 +55,8 @@ abstract class UpdatePlatformDto implements Built<UpdatePlatformDto, UpdatePlatf
   factory UpdatePlatformDto([void updates(UpdatePlatformDtoBuilder b)]) = _$UpdatePlatformDto;
 
   @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(UpdatePlatformDtoBuilder b) => b;
+  static void _defaults(UpdatePlatformDtoBuilder b) => b
+      ..isActive = true;
 
   @BuiltValueSerializer(custom: true)
   static Serializer<UpdatePlatformDto> get serializer => _$UpdatePlatformDtoSerializer();

@@ -12,24 +12,24 @@ part 'update_recurring_rule_dto.g.dart';
 /// UpdateRecurringRuleDto
 ///
 /// Properties:
-/// * [name] - Rule name
+/// * [name] - Rule name (unique per user)
 /// * [icon] - Icon emoji
 /// * [frequency] - Recurring frequency
-/// * [expectedAmount] - Expected amount
+/// * [expectedAmount] - Expected amount (positive number)
 /// * [expectedDay] - Expected day of month (1-31)
-/// * [customIntervalDays] - Custom interval in days
 /// * [currency] - Currency code
-/// * [matchPayeePattern] - Payee matching pattern
+/// * [matchPayeePattern] - Payee matching pattern (supports wildcards)
 /// * [matchAmountTolerance] - Amount tolerance percentage (0-1)
-/// * [defaultExpenseAccount] - Default expense account
-/// * [defaultPaymentAccount] - Default payment account
-/// * [defaultPayee] - Default payee
-/// * [autoCreate] - Auto-create transaction
-/// * [isActive] - Rule active status
+/// * [defaultExpenseAccount] - Default expense account for auto-create
+/// * [defaultPaymentAccount] - Default payment account for auto-create
+/// * [defaultPayee] - Default payee for auto-create
+/// * [autoCreate] - Auto-create transaction when expected date arrives
 /// * [endDate] - Rule end date (ISO format)
+/// * [customIntervalDays] - Custom interval in days
+/// * [isActive] - Rule active status
 @BuiltValue()
 abstract class UpdateRecurringRuleDto implements Built<UpdateRecurringRuleDto, UpdateRecurringRuleDtoBuilder> {
-  /// Rule name
+  /// Rule name (unique per user)
   @BuiltValueField(wireName: r'name')
   String? get name;
 
@@ -42,7 +42,7 @@ abstract class UpdateRecurringRuleDto implements Built<UpdateRecurringRuleDto, U
   UpdateRecurringRuleDtoFrequencyEnum? get frequency;
   // enum frequencyEnum {  WEEKLY,  BIWEEKLY,  MONTHLY,  BIMONTHLY,  QUARTERLY,  YEARLY,  CUSTOM,  };
 
-  /// Expected amount
+  /// Expected amount (positive number)
   @BuiltValueField(wireName: r'expectedAmount')
   num? get expectedAmount;
 
@@ -50,15 +50,11 @@ abstract class UpdateRecurringRuleDto implements Built<UpdateRecurringRuleDto, U
   @BuiltValueField(wireName: r'expectedDay')
   num? get expectedDay;
 
-  /// Custom interval in days
-  @BuiltValueField(wireName: r'customIntervalDays')
-  num? get customIntervalDays;
-
   /// Currency code
   @BuiltValueField(wireName: r'currency')
   String? get currency;
 
-  /// Payee matching pattern
+  /// Payee matching pattern (supports wildcards)
   @BuiltValueField(wireName: r'matchPayeePattern')
   String? get matchPayeePattern;
 
@@ -66,36 +62,42 @@ abstract class UpdateRecurringRuleDto implements Built<UpdateRecurringRuleDto, U
   @BuiltValueField(wireName: r'matchAmountTolerance')
   num? get matchAmountTolerance;
 
-  /// Default expense account
+  /// Default expense account for auto-create
   @BuiltValueField(wireName: r'defaultExpenseAccount')
   String? get defaultExpenseAccount;
 
-  /// Default payment account
+  /// Default payment account for auto-create
   @BuiltValueField(wireName: r'defaultPaymentAccount')
   String? get defaultPaymentAccount;
 
-  /// Default payee
+  /// Default payee for auto-create
   @BuiltValueField(wireName: r'defaultPayee')
   String? get defaultPayee;
 
-  /// Auto-create transaction
+  /// Auto-create transaction when expected date arrives
   @BuiltValueField(wireName: r'autoCreate')
   bool? get autoCreate;
-
-  /// Rule active status
-  @BuiltValueField(wireName: r'isActive')
-  bool? get isActive;
 
   /// Rule end date (ISO format)
   @BuiltValueField(wireName: r'endDate')
   String? get endDate;
+
+  /// Custom interval in days
+  @BuiltValueField(wireName: r'customIntervalDays')
+  num? get customIntervalDays;
+
+  /// Rule active status
+  @BuiltValueField(wireName: r'isActive')
+  bool? get isActive;
 
   UpdateRecurringRuleDto._();
 
   factory UpdateRecurringRuleDto([void updates(UpdateRecurringRuleDtoBuilder b)]) = _$UpdateRecurringRuleDto;
 
   @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(UpdateRecurringRuleDtoBuilder b) => b;
+  static void _defaults(UpdateRecurringRuleDtoBuilder b) => b
+      ..matchAmountTolerance = 0.075
+      ..autoCreate = false;
 
   @BuiltValueSerializer(custom: true)
   static Serializer<UpdateRecurringRuleDto> get serializer => _$UpdateRecurringRuleDtoSerializer();
@@ -148,13 +150,6 @@ class _$UpdateRecurringRuleDtoSerializer implements PrimitiveSerializer<UpdateRe
         specifiedType: const FullType(num),
       );
     }
-    if (object.customIntervalDays != null) {
-      yield r'customIntervalDays';
-      yield serializers.serialize(
-        object.customIntervalDays,
-        specifiedType: const FullType(num),
-      );
-    }
     if (object.currency != null) {
       yield r'currency';
       yield serializers.serialize(
@@ -204,18 +199,25 @@ class _$UpdateRecurringRuleDtoSerializer implements PrimitiveSerializer<UpdateRe
         specifiedType: const FullType(bool),
       );
     }
-    if (object.isActive != null) {
-      yield r'isActive';
-      yield serializers.serialize(
-        object.isActive,
-        specifiedType: const FullType(bool),
-      );
-    }
     if (object.endDate != null) {
       yield r'endDate';
       yield serializers.serialize(
         object.endDate,
         specifiedType: const FullType(String),
+      );
+    }
+    if (object.customIntervalDays != null) {
+      yield r'customIntervalDays';
+      yield serializers.serialize(
+        object.customIntervalDays,
+        specifiedType: const FullType(num),
+      );
+    }
+    if (object.isActive != null) {
+      yield r'isActive';
+      yield serializers.serialize(
+        object.isActive,
+        specifiedType: const FullType(bool),
       );
     }
   }
@@ -276,13 +278,6 @@ class _$UpdateRecurringRuleDtoSerializer implements PrimitiveSerializer<UpdateRe
           ) as num;
           result.expectedDay = valueDes;
           break;
-        case r'customIntervalDays':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(num),
-          ) as num;
-          result.customIntervalDays = valueDes;
-          break;
         case r'currency':
           final valueDes = serializers.deserialize(
             value,
@@ -332,19 +327,26 @@ class _$UpdateRecurringRuleDtoSerializer implements PrimitiveSerializer<UpdateRe
           ) as bool;
           result.autoCreate = valueDes;
           break;
-        case r'isActive':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(bool),
-          ) as bool;
-          result.isActive = valueDes;
-          break;
         case r'endDate':
           final valueDes = serializers.deserialize(
             value,
             specifiedType: const FullType(String),
           ) as String;
           result.endDate = valueDes;
+          break;
+        case r'customIntervalDays':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(num),
+          ) as num;
+          result.customIntervalDays = valueDes;
+          break;
+        case r'isActive':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(bool),
+          ) as bool;
+          result.isActive = valueDes;
           break;
         default:
           unhandled.add(key);

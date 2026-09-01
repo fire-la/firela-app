@@ -24,9 +24,9 @@ part 'update_transaction_rule_dto.g.dart';
 /// * [amountMin] - Minimum transaction amount (inclusive)
 /// * [amountMax] - Maximum transaction amount (inclusive)
 /// * [priority] 
-/// * [enabled] - Enable or disable the rule
 /// * [additionalTags] 
 /// * [additionalMetadata] 
+/// * [enabled] - Enable or disable the rule
 @BuiltValue()
 abstract class UpdateTransactionRuleDto implements Built<UpdateTransactionRuleDto, UpdateTransactionRuleDtoBuilder> {
   @BuiltValueField(wireName: r'name')
@@ -67,22 +67,24 @@ abstract class UpdateTransactionRuleDto implements Built<UpdateTransactionRuleDt
   @BuiltValueField(wireName: r'priority')
   num? get priority;
 
-  /// Enable or disable the rule
-  @BuiltValueField(wireName: r'enabled')
-  bool? get enabled;
-
   @BuiltValueField(wireName: r'additionalTags')
   BuiltList<BuiltList>? get additionalTags;
 
   @BuiltValueField(wireName: r'additionalMetadata')
   JsonObject? get additionalMetadata;
 
+  /// Enable or disable the rule
+  @BuiltValueField(wireName: r'enabled')
+  bool? get enabled;
+
   UpdateTransactionRuleDto._();
 
   factory UpdateTransactionRuleDto([void updates(UpdateTransactionRuleDtoBuilder b)]) = _$UpdateTransactionRuleDto;
 
   @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(UpdateTransactionRuleDtoBuilder b) => b;
+  static void _defaults(UpdateTransactionRuleDtoBuilder b) => b
+      ..matchLogic = const UpdateTransactionRuleDtoMatchLogicEnum._('OR')
+      ..priority = 50;
 
   @BuiltValueSerializer(custom: true)
   static Serializer<UpdateTransactionRuleDto> get serializer => _$UpdateTransactionRuleDtoSerializer();
@@ -177,13 +179,6 @@ class _$UpdateTransactionRuleDtoSerializer implements PrimitiveSerializer<Update
         specifiedType: const FullType(num),
       );
     }
-    if (object.enabled != null) {
-      yield r'enabled';
-      yield serializers.serialize(
-        object.enabled,
-        specifiedType: const FullType(bool),
-      );
-    }
     if (object.additionalTags != null) {
       yield r'additionalTags';
       yield serializers.serialize(
@@ -196,6 +191,13 @@ class _$UpdateTransactionRuleDtoSerializer implements PrimitiveSerializer<Update
       yield serializers.serialize(
         object.additionalMetadata,
         specifiedType: const FullType(JsonObject),
+      );
+    }
+    if (object.enabled != null) {
+      yield r'enabled';
+      yield serializers.serialize(
+        object.enabled,
+        specifiedType: const FullType(bool),
       );
     }
   }
@@ -298,13 +300,6 @@ class _$UpdateTransactionRuleDtoSerializer implements PrimitiveSerializer<Update
           ) as num;
           result.priority = valueDes;
           break;
-        case r'enabled':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(bool),
-          ) as bool;
-          result.enabled = valueDes;
-          break;
         case r'additionalTags':
           final valueDes = serializers.deserialize(
             value,
@@ -318,6 +313,13 @@ class _$UpdateTransactionRuleDtoSerializer implements PrimitiveSerializer<Update
             specifiedType: const FullType(JsonObject),
           ) as JsonObject;
           result.additionalMetadata = valueDes;
+          break;
+        case r'enabled':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(bool),
+          ) as bool;
+          result.enabled = valueDes;
           break;
         default:
           unhandled.add(key);
