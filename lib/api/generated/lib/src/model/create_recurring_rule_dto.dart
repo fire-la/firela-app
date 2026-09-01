@@ -56,7 +56,7 @@ abstract class CreateRecurringRuleDto implements Built<CreateRecurringRuleDto, C
 
   /// Currency code
   @BuiltValueField(wireName: r'currency')
-  String get currency;
+  String? get currency;
 
   /// Payee matching pattern (supports wildcards)
   @BuiltValueField(wireName: r'matchPayeePattern')
@@ -96,7 +96,6 @@ abstract class CreateRecurringRuleDto implements Built<CreateRecurringRuleDto, C
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(CreateRecurringRuleDtoBuilder b) => b
-      ..currency = 'CNY'
       ..matchAmountTolerance = 0.075
       ..autoCreate = false;
 
@@ -152,11 +151,13 @@ class _$CreateRecurringRuleDtoSerializer implements PrimitiveSerializer<CreateRe
         specifiedType: const FullType(num),
       );
     }
-    yield r'currency';
-    yield serializers.serialize(
-      object.currency,
-      specifiedType: const FullType(String),
-    );
+    if (object.currency != null) {
+      yield r'currency';
+      yield serializers.serialize(
+        object.currency,
+        specifiedType: const FullType(String),
+      );
+    }
     if (object.matchPayeePattern != null) {
       yield r'matchPayeePattern';
       yield serializers.serialize(

@@ -329,6 +329,8 @@ class _$AccountStandardResponseDto extends AccountStandardResponseDto {
   @override
   final BuiltList<String>? searchTerms;
   @override
+  final String? currency;
+  @override
   final String description;
   @override
   final BuiltList<String> tags;
@@ -351,6 +353,7 @@ class _$AccountStandardResponseDto extends AccountStandardResponseDto {
       this.name,
       this.aliases,
       this.searchTerms,
+      this.currency,
       required this.description,
       required this.tags,
       required this.icon,
@@ -390,6 +393,7 @@ class _$AccountStandardResponseDto extends AccountStandardResponseDto {
         name == other.name &&
         aliases == other.aliases &&
         searchTerms == other.searchTerms &&
+        currency == other.currency &&
         description == other.description &&
         tags == other.tags &&
         icon == other.icon &&
@@ -406,6 +410,7 @@ class _$AccountStandardResponseDto extends AccountStandardResponseDto {
     _$hash = $jc(_$hash, name.hashCode);
     _$hash = $jc(_$hash, aliases.hashCode);
     _$hash = $jc(_$hash, searchTerms.hashCode);
+    _$hash = $jc(_$hash, currency.hashCode);
     _$hash = $jc(_$hash, description.hashCode);
     _$hash = $jc(_$hash, tags.hashCode);
     _$hash = $jc(_$hash, icon.hashCode);
@@ -424,6 +429,7 @@ class _$AccountStandardResponseDto extends AccountStandardResponseDto {
           ..add('name', name)
           ..add('aliases', aliases)
           ..add('searchTerms', searchTerms)
+          ..add('currency', currency)
           ..add('description', description)
           ..add('tags', tags)
           ..add('icon', icon)
@@ -461,6 +467,10 @@ class AccountStandardResponseDtoBuilder
       _$this._searchTerms ??= new ListBuilder<String>();
   set searchTerms(ListBuilder<String>? searchTerms) =>
       _$this._searchTerms = searchTerms;
+
+  String? _currency;
+  String? get currency => _$this._currency;
+  set currency(String? currency) => _$this._currency = currency;
 
   String? _description;
   String? get description => _$this._description;
@@ -504,6 +514,7 @@ class AccountStandardResponseDtoBuilder
       _name = $v.name;
       _aliases = $v.aliases?.toBuilder();
       _searchTerms = $v.searchTerms?.toBuilder();
+      _currency = $v.currency;
       _description = $v.description;
       _tags = $v.tags.toBuilder();
       _icon = $v.icon;
@@ -541,6 +552,7 @@ class AccountStandardResponseDtoBuilder
               name: name,
               aliases: _aliases?.build(),
               searchTerms: _searchTerms?.build(),
+              currency: currency,
               description: BuiltValueNullFieldError.checkNotNull(
                   description, r'AccountStandardResponseDto', 'description'),
               tags: tags.build(),

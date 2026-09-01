@@ -17,7 +17,8 @@ part 'account_standard_response_dto.g.dart';
 /// * [name] - Short display name. Universal rows project to the request locale (Accept-Language); regional rows keep the authored native name — mixed-language by design (ADR-0131 class P vs class A).
 /// * [aliases] - Authored market-language alternative names delivered verbatim (not localized copy, not xlf-managed, not locale-projected). Flat string[] per ADR-0129 D1; ADR-0131 class A.
 /// * [searchTerms] - Locale-projected search synonyms (e.g. the zh bank-card / debit-card everyday terms for the checking account). Pure-locale projection — absent when the locale has no seeded synonyms; English fallback rides the authored aliases field. Search-only vocabulary, not the NLP routing corpus (#698, ADR-0131 fourth-class adjudication).
-/// * [description] - Account description (stable semantics only). Mixed-language contract: universal rows deliver authored English verbatim today (ADR-0131 class P, zero translations is expected); regional rows deliver the authored market language (ADR-0131 class A, verbatim).
+/// * [currency] - Product denomination as a 3-letter ISO 4217 code, authored market data delivered verbatim (not localized, not xlf-managed). ADR-0131 class A. Absent = single-currency not asserted — consumers fall back to their own region currency (#714).
+/// * [description] - Account description (stable semantics only). Mixed-language contract: universal rows project to the request locale via the accountDesc xlf axis with an en fallback (ADR-0131 class P, ADR-0132; unseeded locales falling back to English are expected); regional rows deliver the authored market language (ADR-0131 class A, verbatim, never xlf-managed).
 /// * [tags] - Account tags for categorization — structured metadata delivered verbatim (not localized, not xlf-managed). ADR-0131 class A.
 /// * [icon] - Icon identifier for UI display
 /// * [productCategory] - Onboarding product category (coarse grouping derived from assetSubClass)
@@ -46,7 +47,11 @@ abstract class AccountStandardResponseDto implements Built<AccountStandardRespon
   @BuiltValueField(wireName: r'searchTerms')
   BuiltList<String>? get searchTerms;
 
-  /// Account description (stable semantics only). Mixed-language contract: universal rows deliver authored English verbatim today (ADR-0131 class P, zero translations is expected); regional rows deliver the authored market language (ADR-0131 class A, verbatim).
+  /// Product denomination as a 3-letter ISO 4217 code, authored market data delivered verbatim (not localized, not xlf-managed). ADR-0131 class A. Absent = single-currency not asserted — consumers fall back to their own region currency (#714).
+  @BuiltValueField(wireName: r'currency')
+  String? get currency;
+
+  /// Account description (stable semantics only). Mixed-language contract: universal rows project to the request locale via the accountDesc xlf axis with an en fallback (ADR-0131 class P, ADR-0132; unseeded locales falling back to English are expected); regional rows deliver the authored market language (ADR-0131 class A, verbatim, never xlf-managed).
   @BuiltValueField(wireName: r'description')
   String get description;
 
@@ -124,6 +129,13 @@ class _$AccountStandardResponseDtoSerializer implements PrimitiveSerializer<Acco
       yield serializers.serialize(
         object.searchTerms,
         specifiedType: const FullType(BuiltList, [FullType(String)]),
+      );
+    }
+    if (object.currency != null) {
+      yield r'currency';
+      yield serializers.serialize(
+        object.currency,
+        specifiedType: const FullType(String),
       );
     }
     yield r'description';
@@ -217,6 +229,13 @@ class _$AccountStandardResponseDtoSerializer implements PrimitiveSerializer<Acco
             specifiedType: const FullType(BuiltList, [FullType(String)]),
           ) as BuiltList<String>;
           result.searchTerms.replace(valueDes);
+          break;
+        case r'currency':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.currency = valueDes;
           break;
         case r'description':
           final valueDes = serializers.deserialize(
