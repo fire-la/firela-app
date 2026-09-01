@@ -120,8 +120,6 @@ class _$UpdateRecurringRuleDto extends UpdateRecurringRuleDto {
   @override
   final num? expectedDay;
   @override
-  final num? customIntervalDays;
-  @override
   final String? currency;
   @override
   final String? matchPayeePattern;
@@ -136,9 +134,11 @@ class _$UpdateRecurringRuleDto extends UpdateRecurringRuleDto {
   @override
   final bool? autoCreate;
   @override
-  final bool? isActive;
-  @override
   final String? endDate;
+  @override
+  final num? customIntervalDays;
+  @override
+  final bool? isActive;
 
   factory _$UpdateRecurringRuleDto(
           [void Function(UpdateRecurringRuleDtoBuilder)? updates]) =>
@@ -150,7 +150,6 @@ class _$UpdateRecurringRuleDto extends UpdateRecurringRuleDto {
       this.frequency,
       this.expectedAmount,
       this.expectedDay,
-      this.customIntervalDays,
       this.currency,
       this.matchPayeePattern,
       this.matchAmountTolerance,
@@ -158,8 +157,9 @@ class _$UpdateRecurringRuleDto extends UpdateRecurringRuleDto {
       this.defaultPaymentAccount,
       this.defaultPayee,
       this.autoCreate,
-      this.isActive,
-      this.endDate})
+      this.endDate,
+      this.customIntervalDays,
+      this.isActive})
       : super._();
 
   @override
@@ -180,7 +180,6 @@ class _$UpdateRecurringRuleDto extends UpdateRecurringRuleDto {
         frequency == other.frequency &&
         expectedAmount == other.expectedAmount &&
         expectedDay == other.expectedDay &&
-        customIntervalDays == other.customIntervalDays &&
         currency == other.currency &&
         matchPayeePattern == other.matchPayeePattern &&
         matchAmountTolerance == other.matchAmountTolerance &&
@@ -188,8 +187,9 @@ class _$UpdateRecurringRuleDto extends UpdateRecurringRuleDto {
         defaultPaymentAccount == other.defaultPaymentAccount &&
         defaultPayee == other.defaultPayee &&
         autoCreate == other.autoCreate &&
-        isActive == other.isActive &&
-        endDate == other.endDate;
+        endDate == other.endDate &&
+        customIntervalDays == other.customIntervalDays &&
+        isActive == other.isActive;
   }
 
   @override
@@ -200,7 +200,6 @@ class _$UpdateRecurringRuleDto extends UpdateRecurringRuleDto {
     _$hash = $jc(_$hash, frequency.hashCode);
     _$hash = $jc(_$hash, expectedAmount.hashCode);
     _$hash = $jc(_$hash, expectedDay.hashCode);
-    _$hash = $jc(_$hash, customIntervalDays.hashCode);
     _$hash = $jc(_$hash, currency.hashCode);
     _$hash = $jc(_$hash, matchPayeePattern.hashCode);
     _$hash = $jc(_$hash, matchAmountTolerance.hashCode);
@@ -208,8 +207,9 @@ class _$UpdateRecurringRuleDto extends UpdateRecurringRuleDto {
     _$hash = $jc(_$hash, defaultPaymentAccount.hashCode);
     _$hash = $jc(_$hash, defaultPayee.hashCode);
     _$hash = $jc(_$hash, autoCreate.hashCode);
-    _$hash = $jc(_$hash, isActive.hashCode);
     _$hash = $jc(_$hash, endDate.hashCode);
+    _$hash = $jc(_$hash, customIntervalDays.hashCode);
+    _$hash = $jc(_$hash, isActive.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -222,7 +222,6 @@ class _$UpdateRecurringRuleDto extends UpdateRecurringRuleDto {
           ..add('frequency', frequency)
           ..add('expectedAmount', expectedAmount)
           ..add('expectedDay', expectedDay)
-          ..add('customIntervalDays', customIntervalDays)
           ..add('currency', currency)
           ..add('matchPayeePattern', matchPayeePattern)
           ..add('matchAmountTolerance', matchAmountTolerance)
@@ -230,8 +229,9 @@ class _$UpdateRecurringRuleDto extends UpdateRecurringRuleDto {
           ..add('defaultPaymentAccount', defaultPaymentAccount)
           ..add('defaultPayee', defaultPayee)
           ..add('autoCreate', autoCreate)
-          ..add('isActive', isActive)
-          ..add('endDate', endDate))
+          ..add('endDate', endDate)
+          ..add('customIntervalDays', customIntervalDays)
+          ..add('isActive', isActive))
         .toString();
   }
 }
@@ -261,11 +261,6 @@ class UpdateRecurringRuleDtoBuilder
   num? _expectedDay;
   num? get expectedDay => _$this._expectedDay;
   set expectedDay(num? expectedDay) => _$this._expectedDay = expectedDay;
-
-  num? _customIntervalDays;
-  num? get customIntervalDays => _$this._customIntervalDays;
-  set customIntervalDays(num? customIntervalDays) =>
-      _$this._customIntervalDays = customIntervalDays;
 
   String? _currency;
   String? get currency => _$this._currency;
@@ -299,13 +294,18 @@ class UpdateRecurringRuleDtoBuilder
   bool? get autoCreate => _$this._autoCreate;
   set autoCreate(bool? autoCreate) => _$this._autoCreate = autoCreate;
 
-  bool? _isActive;
-  bool? get isActive => _$this._isActive;
-  set isActive(bool? isActive) => _$this._isActive = isActive;
-
   String? _endDate;
   String? get endDate => _$this._endDate;
   set endDate(String? endDate) => _$this._endDate = endDate;
+
+  num? _customIntervalDays;
+  num? get customIntervalDays => _$this._customIntervalDays;
+  set customIntervalDays(num? customIntervalDays) =>
+      _$this._customIntervalDays = customIntervalDays;
+
+  bool? _isActive;
+  bool? get isActive => _$this._isActive;
+  set isActive(bool? isActive) => _$this._isActive = isActive;
 
   UpdateRecurringRuleDtoBuilder() {
     UpdateRecurringRuleDto._defaults(this);
@@ -319,7 +319,6 @@ class UpdateRecurringRuleDtoBuilder
       _frequency = $v.frequency;
       _expectedAmount = $v.expectedAmount;
       _expectedDay = $v.expectedDay;
-      _customIntervalDays = $v.customIntervalDays;
       _currency = $v.currency;
       _matchPayeePattern = $v.matchPayeePattern;
       _matchAmountTolerance = $v.matchAmountTolerance;
@@ -327,8 +326,9 @@ class UpdateRecurringRuleDtoBuilder
       _defaultPaymentAccount = $v.defaultPaymentAccount;
       _defaultPayee = $v.defaultPayee;
       _autoCreate = $v.autoCreate;
-      _isActive = $v.isActive;
       _endDate = $v.endDate;
+      _customIntervalDays = $v.customIntervalDays;
+      _isActive = $v.isActive;
       _$v = null;
     }
     return this;
@@ -356,7 +356,6 @@ class UpdateRecurringRuleDtoBuilder
             frequency: frequency,
             expectedAmount: expectedAmount,
             expectedDay: expectedDay,
-            customIntervalDays: customIntervalDays,
             currency: currency,
             matchPayeePattern: matchPayeePattern,
             matchAmountTolerance: matchAmountTolerance,
@@ -364,8 +363,9 @@ class UpdateRecurringRuleDtoBuilder
             defaultPaymentAccount: defaultPaymentAccount,
             defaultPayee: defaultPayee,
             autoCreate: autoCreate,
-            isActive: isActive,
-            endDate: endDate);
+            endDate: endDate,
+            customIntervalDays: customIntervalDays,
+            isActive: isActive);
     replace(_$result);
     return _$result;
   }

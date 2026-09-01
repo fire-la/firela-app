@@ -16,7 +16,7 @@ part 'update_payee_dto.g.dart';
 /// * [payeeProfileId] - Optional reference to global PayeeProfile for standardized data (merchant info, i18n keys, categories)
 /// * [customCategory] - User's custom category for this payee (overrides PayeeProfile category)
 /// * [customTags] - User's custom tags for this payee (e.g., ['favorite', 'work_meal'])
-/// * [meta] - Metadata for extended information (location, notes, contact info, etc.). Will merge with existing metadata.
+/// * [meta] - Metadata for extended information (location, notes, contact info, etc.)
 /// * [isActive] - Enable or disable this payee. Disabled payees will not appear in autocomplete suggestions.
 @BuiltValue()
 abstract class UpdatePayeeDto implements Built<UpdatePayeeDto, UpdatePayeeDtoBuilder> {
@@ -32,7 +32,7 @@ abstract class UpdatePayeeDto implements Built<UpdatePayeeDto, UpdatePayeeDtoBui
   @BuiltValueField(wireName: r'customTags')
   BuiltList<String>? get customTags;
 
-  /// Metadata for extended information (location, notes, contact info, etc.). Will merge with existing metadata.
+  /// Metadata for extended information (location, notes, contact info, etc.)
   @BuiltValueField(wireName: r'meta')
   JsonObject? get meta;
 

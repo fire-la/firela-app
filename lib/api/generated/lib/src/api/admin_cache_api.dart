@@ -8,16 +8,16 @@ import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
 
 
-class DefaultApi {
+class AdminCacheApi {
 
   final Dio _dio;
 
   final Serializers _serializers;
 
-  const DefaultApi(this._dio, this._serializers);
+  const AdminCacheApi(this._dio, this._serializers);
 
-  /// cacheControllerFlushCache
-  /// 
+  /// Flush entire cache (L1 + L2)
+  /// Clears ALL cache entries across ALL namespaces and users. Use only for emergency cache corruption recovery, maintenance-window refresh, or development resets.
   ///
   /// Parameters:
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation

@@ -3,6 +3,7 @@ README.md
 analysis_options.yaml
 lib/firela_api.dart
 lib/src/api.dart
+lib/src/api/admin_cache_api.dart
 lib/src/api/admin_payee_profiles_api.dart
 lib/src/api/api_keys_api.dart
 lib/src/api/auth_api.dart
@@ -23,7 +24,6 @@ lib/src/api/bean_transaction_rules_api.dart
 lib/src/api/bean_transactions_api.dart
 lib/src/api/community_api.dart
 lib/src/api/dashboard_api.dart
-lib/src/api/default_api.dart
 lib/src/api/exchange_rate_api.dart
 lib/src/api/expected_transactions_api.dart
 lib/src/api/external_account_links_api.dart

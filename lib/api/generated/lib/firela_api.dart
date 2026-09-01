@@ -10,6 +10,7 @@ export 'package:firela_api/src/serializers.dart';
 export 'package:firela_api/src/model/date.dart';
 
 export 'package:firela_api/src/api/api_keys_api.dart';
+export 'package:firela_api/src/api/admin_cache_api.dart';
 export 'package:firela_api/src/api/admin_payee_profiles_api.dart';
 export 'package:firela_api/src/api/auth_api.dart';
 export 'package:firela_api/src/api/balance_reconciliation_api.dart';
@@ -29,7 +30,6 @@ export 'package:firela_api/src/api/bean_transaction_rules_api.dart';
 export 'package:firela_api/src/api/bean_transactions_api.dart';
 export 'package:firela_api/src/api/community_api.dart';
 export 'package:firela_api/src/api/dashboard_api.dart';
-export 'package:firela_api/src/api/default_api.dart';
 export 'package:firela_api/src/api/exchange_rate_api.dart';
 export 'package:firela_api/src/api/expected_transactions_api.dart';
 export 'package:firela_api/src/api/external_account_links_api.dart';

@@ -10,6 +10,7 @@ import 'package:firela_api/src/auth/basic_auth.dart';
 import 'package:firela_api/src/auth/bearer_auth.dart';
 import 'package:firela_api/src/auth/oauth.dart';
 import 'package:firela_api/src/api/api_keys_api.dart';
+import 'package:firela_api/src/api/admin_cache_api.dart';
 import 'package:firela_api/src/api/admin_payee_profiles_api.dart';
 import 'package:firela_api/src/api/auth_api.dart';
 import 'package:firela_api/src/api/balance_reconciliation_api.dart';
@@ -29,7 +30,6 @@ import 'package:firela_api/src/api/bean_transaction_rules_api.dart';
 import 'package:firela_api/src/api/bean_transactions_api.dart';
 import 'package:firela_api/src/api/community_api.dart';
 import 'package:firela_api/src/api/dashboard_api.dart';
-import 'package:firela_api/src/api/default_api.dart';
 import 'package:firela_api/src/api/exchange_rate_api.dart';
 import 'package:firela_api/src/api/expected_transactions_api.dart';
 import 'package:firela_api/src/api/external_account_links_api.dart';
@@ -105,6 +105,12 @@ class FirelaApi {
   /// by doing that all interceptors will not be executed
   APIKeysApi getAPIKeysApi() {
     return APIKeysApi(dio, serializers);
+  }
+
+  /// Get AdminCacheApi instance, base route and serializer can be overridden by a given but be careful,
+  /// by doing that all interceptors will not be executed
+  AdminCacheApi getAdminCacheApi() {
+    return AdminCacheApi(dio, serializers);
   }
 
   /// Get AdminPayeeProfilesApi instance, base route and serializer can be overridden by a given but be careful,
@@ -219,12 +225,6 @@ class FirelaApi {
   /// by doing that all interceptors will not be executed
   DashboardApi getDashboardApi() {
     return DashboardApi(dio, serializers);
-  }
-
-  /// Get DefaultApi instance, base route and serializer can be overridden by a given but be careful,
-  /// by doing that all interceptors will not be executed
-  DefaultApi getDefaultApi() {
-    return DefaultApi(dio, serializers);
   }
 
   /// Get ExchangeRateApi instance, base route and serializer can be overridden by a given but be careful,

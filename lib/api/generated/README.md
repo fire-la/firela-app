@@ -139,6 +139,7 @@ All URIs are relative to *http://localhost*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 [*APIKeysApi*](doc/APIKeysApi.md) | [**apiKeysControllerCreateApiKey**](doc/APIKeysApi.md#apikeyscontrollercreateapikey) | **POST** /api/v1/auth/api-keys | Create API key
+[*AdminCacheApi*](doc/AdminCacheApi.md) | [**cacheControllerFlushCache**](doc/AdminCacheApi.md#cachecontrollerflushcache) | **POST** /api/v1/cache/flush | Flush entire cache (L1 + L2)
 [*AdminPayeeProfilesApi*](doc/AdminPayeeProfilesApi.md) | [**payeeProfileAdminControllerCreate**](doc/AdminPayeeProfilesApi.md#payeeprofileadmincontrollercreate) | **POST** /api/v1/admin/payee-profiles | Create payee profile (Admin only)
 [*AdminPayeeProfilesApi*](doc/AdminPayeeProfilesApi.md) | [**payeeProfileAdminControllerDelete**](doc/AdminPayeeProfilesApi.md#payeeprofileadmincontrollerdelete) | **DELETE** /api/v1/admin/payee-profiles/{id} | Soft delete payee profile (Admin only)
 [*AdminPayeeProfilesApi*](doc/AdminPayeeProfilesApi.md) | [**payeeProfileAdminControllerFindAll**](doc/AdminPayeeProfilesApi.md#payeeprofileadmincontrollerfindall) | **GET** /api/v1/admin/payee-profiles | List payee profiles (Admin only)
@@ -231,7 +232,6 @@ Class | Method | HTTP request | Description
 [*DashboardApi*](doc/DashboardApi.md) | [**dashboardControllerGetCashFlow**](doc/DashboardApi.md#dashboardcontrollergetcashflow) | **GET** /api/v1/{region}/dashboard/cash-flow | Get cash flow summary
 [*DashboardApi*](doc/DashboardApi.md) | [**dashboardControllerGetExpenses**](doc/DashboardApi.md#dashboardcontrollergetexpenses) | **GET** /api/v1/{region}/dashboard/expenses | Get expenses/income grouped by functional category
 [*DashboardApi*](doc/DashboardApi.md) | [**dashboardControllerGetNetWorth**](doc/DashboardApi.md#dashboardcontrollergetnetworth) | **GET** /api/v1/{region}/dashboard/net-worth | Get net worth overview
-[*DefaultApi*](doc/DefaultApi.md) | [**cacheControllerFlushCache**](doc/DefaultApi.md#cachecontrollerflushcache) | **POST** /api/v1/cache/flush | 
 [*ExchangeRateApi*](doc/ExchangeRateApi.md) | [**exchangeRateControllerGetExchangeRate**](doc/ExchangeRateApi.md#exchangeratecontrollergetexchangerate) | **GET** /api/v1/market/exchange-rates/{symbol}/{dateString} | Get exchange rate for currency pair
 [*ExpectedTransactionsApi*](doc/ExpectedTransactionsApi.md) | [**expectedTransactionControllerConfirmMatch**](doc/ExpectedTransactionsApi.md#expectedtransactioncontrollerconfirmmatch) | **POST** /api/v1/{region}/bean/expected-transactions/{id}/match | Confirm transaction match
 [*ExpectedTransactionsApi*](doc/ExpectedTransactionsApi.md) | [**expectedTransactionControllerEnterNow**](doc/ExpectedTransactionsApi.md#expectedtransactioncontrollerenternow) | **POST** /api/v1/{region}/bean/expected-transactions/{id}/enter | Enter Now

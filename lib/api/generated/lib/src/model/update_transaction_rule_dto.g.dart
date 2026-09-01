@@ -92,11 +92,11 @@ class _$UpdateTransactionRuleDto extends UpdateTransactionRuleDto {
   @override
   final num? priority;
   @override
-  final bool? enabled;
-  @override
   final BuiltList<BuiltList<dynamic>>? additionalTags;
   @override
   final JsonObject? additionalMetadata;
+  @override
+  final bool? enabled;
 
   factory _$UpdateTransactionRuleDto(
           [void Function(UpdateTransactionRuleDtoBuilder)? updates]) =>
@@ -114,9 +114,9 @@ class _$UpdateTransactionRuleDto extends UpdateTransactionRuleDto {
       this.amountMin,
       this.amountMax,
       this.priority,
-      this.enabled,
       this.additionalTags,
-      this.additionalMetadata})
+      this.additionalMetadata,
+      this.enabled})
       : super._();
 
   @override
@@ -143,9 +143,9 @@ class _$UpdateTransactionRuleDto extends UpdateTransactionRuleDto {
         amountMin == other.amountMin &&
         amountMax == other.amountMax &&
         priority == other.priority &&
-        enabled == other.enabled &&
         additionalTags == other.additionalTags &&
-        additionalMetadata == other.additionalMetadata;
+        additionalMetadata == other.additionalMetadata &&
+        enabled == other.enabled;
   }
 
   @override
@@ -162,9 +162,9 @@ class _$UpdateTransactionRuleDto extends UpdateTransactionRuleDto {
     _$hash = $jc(_$hash, amountMin.hashCode);
     _$hash = $jc(_$hash, amountMax.hashCode);
     _$hash = $jc(_$hash, priority.hashCode);
-    _$hash = $jc(_$hash, enabled.hashCode);
     _$hash = $jc(_$hash, additionalTags.hashCode);
     _$hash = $jc(_$hash, additionalMetadata.hashCode);
+    _$hash = $jc(_$hash, enabled.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -183,9 +183,9 @@ class _$UpdateTransactionRuleDto extends UpdateTransactionRuleDto {
           ..add('amountMin', amountMin)
           ..add('amountMax', amountMax)
           ..add('priority', priority)
-          ..add('enabled', enabled)
           ..add('additionalTags', additionalTags)
-          ..add('additionalMetadata', additionalMetadata))
+          ..add('additionalMetadata', additionalMetadata)
+          ..add('enabled', enabled))
         .toString();
   }
 }
@@ -249,10 +249,6 @@ class UpdateTransactionRuleDtoBuilder
   num? get priority => _$this._priority;
   set priority(num? priority) => _$this._priority = priority;
 
-  bool? _enabled;
-  bool? get enabled => _$this._enabled;
-  set enabled(bool? enabled) => _$this._enabled = enabled;
-
   ListBuilder<BuiltList<dynamic>>? _additionalTags;
   ListBuilder<BuiltList<dynamic>> get additionalTags =>
       _$this._additionalTags ??= new ListBuilder<BuiltList<dynamic>>();
@@ -263,6 +259,10 @@ class UpdateTransactionRuleDtoBuilder
   JsonObject? get additionalMetadata => _$this._additionalMetadata;
   set additionalMetadata(JsonObject? additionalMetadata) =>
       _$this._additionalMetadata = additionalMetadata;
+
+  bool? _enabled;
+  bool? get enabled => _$this._enabled;
+  set enabled(bool? enabled) => _$this._enabled = enabled;
 
   UpdateTransactionRuleDtoBuilder() {
     UpdateTransactionRuleDto._defaults(this);
@@ -282,9 +282,9 @@ class UpdateTransactionRuleDtoBuilder
       _amountMin = $v.amountMin;
       _amountMax = $v.amountMax;
       _priority = $v.priority;
-      _enabled = $v.enabled;
       _additionalTags = $v.additionalTags?.toBuilder();
       _additionalMetadata = $v.additionalMetadata;
+      _enabled = $v.enabled;
       _$v = null;
     }
     return this;
@@ -320,9 +320,9 @@ class UpdateTransactionRuleDtoBuilder
               amountMin: amountMin,
               amountMax: amountMax,
               priority: priority,
-              enabled: enabled,
               additionalTags: _additionalTags?.build(),
-              additionalMetadata: additionalMetadata);
+              additionalMetadata: additionalMetadata,
+              enabled: enabled);
     } catch (_) {
       late String _$failedField;
       try {
