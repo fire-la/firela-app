@@ -3,6 +3,7 @@
 //
 
 // ignore_for_file: unused_element
+import 'package:built_value/json_object.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
@@ -11,12 +12,12 @@ part 'user_settings_response_dto.g.dart';
 /// UserSettingsResponseDto
 ///
 /// Properties:
-/// * [baseCurrency] - Base currency (ISO 4217) for net-worth/report aggregation. Independent of region (ADR-0006).
+/// * [baseCurrency] - Stored base currency choice (ISO 4217) for net-worth/report aggregation. null = user never chose; aggregates fall back to the region default at display time (#713).
 @BuiltValue()
 abstract class UserSettingsResponseDto implements Built<UserSettingsResponseDto, UserSettingsResponseDtoBuilder> {
-  /// Base currency (ISO 4217) for net-worth/report aggregation. Independent of region (ADR-0006).
+  /// Stored base currency choice (ISO 4217) for net-worth/report aggregation. null = user never chose; aggregates fall back to the region default at display time (#713).
   @BuiltValueField(wireName: r'baseCurrency')
-  String? get baseCurrency;
+  JsonObject? get baseCurrency;
 
   UserSettingsResponseDto._();
 
@@ -44,7 +45,7 @@ class _$UserSettingsResponseDtoSerializer implements PrimitiveSerializer<UserSet
     yield r'baseCurrency';
     yield object.baseCurrency == null ? null : serializers.serialize(
       object.baseCurrency,
-      specifiedType: const FullType.nullable(String),
+      specifiedType: const FullType.nullable(JsonObject),
     );
   }
 
@@ -72,8 +73,8 @@ class _$UserSettingsResponseDtoSerializer implements PrimitiveSerializer<UserSet
         case r'baseCurrency':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType.nullable(String),
-          ) as String?;
+            specifiedType: const FullType.nullable(JsonObject),
+          ) as JsonObject?;
           if (valueDes == null) continue;
           result.baseCurrency = valueDes;
           break;

@@ -122,7 +122,7 @@ class _$CreateRecurringRuleDto extends CreateRecurringRuleDto {
   @override
   final num? customIntervalDays;
   @override
-  final String currency;
+  final String? currency;
   @override
   final String? matchPayeePattern;
   @override
@@ -151,7 +151,7 @@ class _$CreateRecurringRuleDto extends CreateRecurringRuleDto {
       required this.expectedAmount,
       this.expectedDay,
       this.customIntervalDays,
-      required this.currency,
+      this.currency,
       this.matchPayeePattern,
       required this.matchAmountTolerance,
       this.defaultExpenseAccount,
@@ -167,8 +167,6 @@ class _$CreateRecurringRuleDto extends CreateRecurringRuleDto {
         frequency, r'CreateRecurringRuleDto', 'frequency');
     BuiltValueNullFieldError.checkNotNull(
         expectedAmount, r'CreateRecurringRuleDto', 'expectedAmount');
-    BuiltValueNullFieldError.checkNotNull(
-        currency, r'CreateRecurringRuleDto', 'currency');
     BuiltValueNullFieldError.checkNotNull(matchAmountTolerance,
         r'CreateRecurringRuleDto', 'matchAmountTolerance');
     BuiltValueNullFieldError.checkNotNull(
@@ -373,8 +371,7 @@ class CreateRecurringRuleDtoBuilder
                 expectedAmount, r'CreateRecurringRuleDto', 'expectedAmount'),
             expectedDay: expectedDay,
             customIntervalDays: customIntervalDays,
-            currency: BuiltValueNullFieldError.checkNotNull(
-                currency, r'CreateRecurringRuleDto', 'currency'),
+            currency: currency,
             matchPayeePattern: matchPayeePattern,
             matchAmountTolerance: BuiltValueNullFieldError.checkNotNull(
                 matchAmountTolerance,
