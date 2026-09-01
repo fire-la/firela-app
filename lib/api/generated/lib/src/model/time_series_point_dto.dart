@@ -5,7 +5,6 @@
 // ignore_for_file: unused_element
 import 'package:built_collection/built_collection.dart';
 import 'package:firela_api/src/model/currency_balance_dto.dart';
-import 'package:built_value/json_object.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
@@ -32,7 +31,7 @@ abstract class TimeSeriesPointDto implements Built<TimeSeriesPointDto, TimeSerie
 
   /// Change from previous point
   @BuiltValueField(wireName: r'change')
-  JsonObject? get change;
+  String? get change;
 
   /// Total assets at this date (in base currency)
   @BuiltValueField(wireName: r'assets')
@@ -83,7 +82,7 @@ class _$TimeSeriesPointDtoSerializer implements PrimitiveSerializer<TimeSeriesPo
       yield r'change';
       yield serializers.serialize(
         object.change,
-        specifiedType: const FullType(JsonObject),
+        specifiedType: const FullType(String),
       );
     }
     if (object.assets != null) {
@@ -147,8 +146,8 @@ class _$TimeSeriesPointDtoSerializer implements PrimitiveSerializer<TimeSeriesPo
         case r'change':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(JsonObject),
-          ) as JsonObject;
+            specifiedType: const FullType(String),
+          ) as String;
           result.change = valueDes;
           break;
         case r'assets':

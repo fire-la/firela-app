@@ -13,7 +13,7 @@ class _$HoldingPnlRowDtoAverageCostPerUnit
   @override
   final String currency;
   @override
-  final JsonObject? baseCcyEquivalent;
+  final String? baseCcyEquivalent;
 
   factory _$HoldingPnlRowDtoAverageCostPerUnit(
           [void Function(HoldingPnlRowDtoAverageCostPerUnitBuilder)?
@@ -83,9 +83,9 @@ class HoldingPnlRowDtoAverageCostPerUnitBuilder
   String? get currency => _$this._currency;
   set currency(covariant String? currency) => _$this._currency = currency;
 
-  JsonObject? _baseCcyEquivalent;
-  JsonObject? get baseCcyEquivalent => _$this._baseCcyEquivalent;
-  set baseCcyEquivalent(covariant JsonObject? baseCcyEquivalent) =>
+  String? _baseCcyEquivalent;
+  String? get baseCcyEquivalent => _$this._baseCcyEquivalent;
+  set baseCcyEquivalent(covariant String? baseCcyEquivalent) =>
       _$this._baseCcyEquivalent = baseCcyEquivalent;
 
   HoldingPnlRowDtoAverageCostPerUnitBuilder() {

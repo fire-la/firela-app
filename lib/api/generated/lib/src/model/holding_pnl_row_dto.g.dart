@@ -91,9 +91,9 @@ class _$HoldingPnlRowDto extends HoldingPnlRowDto {
   @override
   final String accountPath;
   @override
-  final JsonObject? accountCcy;
+  final String? accountCcy;
   @override
-  final JsonObject? brokerType;
+  final String? brokerType;
   @override
   final String symbol;
   @override
@@ -101,7 +101,7 @@ class _$HoldingPnlRowDto extends HoldingPnlRowDto {
   @override
   final String assetClass;
   @override
-  final JsonObject? assetSubClass;
+  final String? assetSubClass;
   @override
   final String units;
   @override
@@ -113,15 +113,15 @@ class _$HoldingPnlRowDto extends HoldingPnlRowDto {
   @override
   final HoldingPnlRowDtoCurrentPrice? currentPrice;
   @override
-  final JsonObject? unrealizedPnlBase;
+  final String? unrealizedPnlBase;
   @override
-  final JsonObject? unrealizedPnlPct;
+  final String? unrealizedPnlPct;
   @override
   final HoldingPnlRowDtoCostFxRate? costFxRate;
   @override
   final HoldingPnlRowDtoMarketFxRate? marketFxRate;
   @override
-  final JsonObject? pctOfInvestedAssets;
+  final String? pctOfInvestedAssets;
   @override
   final HoldingPnlRowDtoRealizedPnl? realizedPnl;
 
@@ -260,13 +260,13 @@ class HoldingPnlRowDtoBuilder
   String? get accountPath => _$this._accountPath;
   set accountPath(String? accountPath) => _$this._accountPath = accountPath;
 
-  JsonObject? _accountCcy;
-  JsonObject? get accountCcy => _$this._accountCcy;
-  set accountCcy(JsonObject? accountCcy) => _$this._accountCcy = accountCcy;
+  String? _accountCcy;
+  String? get accountCcy => _$this._accountCcy;
+  set accountCcy(String? accountCcy) => _$this._accountCcy = accountCcy;
 
-  JsonObject? _brokerType;
-  JsonObject? get brokerType => _$this._brokerType;
-  set brokerType(JsonObject? brokerType) => _$this._brokerType = brokerType;
+  String? _brokerType;
+  String? get brokerType => _$this._brokerType;
+  set brokerType(String? brokerType) => _$this._brokerType = brokerType;
 
   String? _symbol;
   String? get symbol => _$this._symbol;
@@ -281,9 +281,9 @@ class HoldingPnlRowDtoBuilder
   String? get assetClass => _$this._assetClass;
   set assetClass(String? assetClass) => _$this._assetClass = assetClass;
 
-  JsonObject? _assetSubClass;
-  JsonObject? get assetSubClass => _$this._assetSubClass;
-  set assetSubClass(JsonObject? assetSubClass) =>
+  String? _assetSubClass;
+  String? get assetSubClass => _$this._assetSubClass;
+  set assetSubClass(String? assetSubClass) =>
       _$this._assetSubClass = assetSubClass;
 
   String? _units;
@@ -316,14 +316,14 @@ class HoldingPnlRowDtoBuilder
   set currentPrice(HoldingPnlRowDtoCurrentPriceBuilder? currentPrice) =>
       _$this._currentPrice = currentPrice;
 
-  JsonObject? _unrealizedPnlBase;
-  JsonObject? get unrealizedPnlBase => _$this._unrealizedPnlBase;
-  set unrealizedPnlBase(JsonObject? unrealizedPnlBase) =>
+  String? _unrealizedPnlBase;
+  String? get unrealizedPnlBase => _$this._unrealizedPnlBase;
+  set unrealizedPnlBase(String? unrealizedPnlBase) =>
       _$this._unrealizedPnlBase = unrealizedPnlBase;
 
-  JsonObject? _unrealizedPnlPct;
-  JsonObject? get unrealizedPnlPct => _$this._unrealizedPnlPct;
-  set unrealizedPnlPct(JsonObject? unrealizedPnlPct) =>
+  String? _unrealizedPnlPct;
+  String? get unrealizedPnlPct => _$this._unrealizedPnlPct;
+  set unrealizedPnlPct(String? unrealizedPnlPct) =>
       _$this._unrealizedPnlPct = unrealizedPnlPct;
 
   HoldingPnlRowDtoCostFxRateBuilder? _costFxRate;
@@ -338,9 +338,9 @@ class HoldingPnlRowDtoBuilder
   set marketFxRate(HoldingPnlRowDtoMarketFxRateBuilder? marketFxRate) =>
       _$this._marketFxRate = marketFxRate;
 
-  JsonObject? _pctOfInvestedAssets;
-  JsonObject? get pctOfInvestedAssets => _$this._pctOfInvestedAssets;
-  set pctOfInvestedAssets(JsonObject? pctOfInvestedAssets) =>
+  String? _pctOfInvestedAssets;
+  String? get pctOfInvestedAssets => _$this._pctOfInvestedAssets;
+  set pctOfInvestedAssets(String? pctOfInvestedAssets) =>
       _$this._pctOfInvestedAssets = pctOfInvestedAssets;
 
   HoldingPnlRowDtoRealizedPnlBuilder? _realizedPnl;

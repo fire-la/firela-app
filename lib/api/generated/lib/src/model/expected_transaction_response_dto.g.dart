@@ -20,11 +20,11 @@ class _$ExpectedTransactionResponseDto extends ExpectedTransactionResponseDto {
   @override
   final String status;
   @override
-  final JsonObject? matchedTransactionId;
+  final String? matchedTransactionId;
   @override
-  final JsonObject? matchedAt;
+  final String? matchedAt;
   @override
-  final JsonObject? matchConfidence;
+  final num? matchConfidence;
   @override
   final bool isOverdue;
   @override
@@ -174,18 +174,18 @@ class ExpectedTransactionResponseDtoBuilder
   String? get status => _$this._status;
   set status(String? status) => _$this._status = status;
 
-  JsonObject? _matchedTransactionId;
-  JsonObject? get matchedTransactionId => _$this._matchedTransactionId;
-  set matchedTransactionId(JsonObject? matchedTransactionId) =>
+  String? _matchedTransactionId;
+  String? get matchedTransactionId => _$this._matchedTransactionId;
+  set matchedTransactionId(String? matchedTransactionId) =>
       _$this._matchedTransactionId = matchedTransactionId;
 
-  JsonObject? _matchedAt;
-  JsonObject? get matchedAt => _$this._matchedAt;
-  set matchedAt(JsonObject? matchedAt) => _$this._matchedAt = matchedAt;
+  String? _matchedAt;
+  String? get matchedAt => _$this._matchedAt;
+  set matchedAt(String? matchedAt) => _$this._matchedAt = matchedAt;
 
-  JsonObject? _matchConfidence;
-  JsonObject? get matchConfidence => _$this._matchConfidence;
-  set matchConfidence(JsonObject? matchConfidence) =>
+  num? _matchConfidence;
+  num? get matchConfidence => _$this._matchConfidence;
+  set matchConfidence(num? matchConfidence) =>
       _$this._matchConfidence = matchConfidence;
 
   bool? _isOverdue;

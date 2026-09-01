@@ -4,7 +4,6 @@
 
 // ignore_for_file: unused_element
 import 'package:firela_api/src/model/monetary_dto.dart';
-import 'package:built_value/json_object.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
@@ -55,7 +54,7 @@ class _$HoldingPnlRowDtoCostBasisSerializer implements PrimitiveSerializer<Holdi
       yield r'baseCcyEquivalent';
       yield serializers.serialize(
         object.baseCcyEquivalent,
-        specifiedType: const FullType.nullable(JsonObject),
+        specifiedType: const FullType.nullable(String),
       );
     }
   }
@@ -98,8 +97,8 @@ class _$HoldingPnlRowDtoCostBasisSerializer implements PrimitiveSerializer<Holdi
         case r'baseCcyEquivalent':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType.nullable(JsonObject),
-          ) as JsonObject?;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
           if (valueDes == null) continue;
           result.baseCcyEquivalent = valueDes;
           break;

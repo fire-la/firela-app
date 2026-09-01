@@ -15,8 +15,8 @@ abstract mixin class MonetaryDtoBuilder {
   String? get currency;
   set currency(String? currency);
 
-  JsonObject? get baseCcyEquivalent;
-  set baseCcyEquivalent(JsonObject? baseCcyEquivalent);
+  String? get baseCcyEquivalent;
+  set baseCcyEquivalent(String? baseCcyEquivalent);
 }
 
 class _$$MonetaryDto extends $MonetaryDto {
@@ -25,7 +25,7 @@ class _$$MonetaryDto extends $MonetaryDto {
   @override
   final String currency;
   @override
-  final JsonObject? baseCcyEquivalent;
+  final String? baseCcyEquivalent;
 
   factory _$$MonetaryDto([void Function($MonetaryDtoBuilder)? updates]) =>
       (new $MonetaryDtoBuilder()..update(updates))._build();
@@ -86,9 +86,9 @@ class $MonetaryDtoBuilder
   String? get currency => _$this._currency;
   set currency(covariant String? currency) => _$this._currency = currency;
 
-  JsonObject? _baseCcyEquivalent;
-  JsonObject? get baseCcyEquivalent => _$this._baseCcyEquivalent;
-  set baseCcyEquivalent(covariant JsonObject? baseCcyEquivalent) =>
+  String? _baseCcyEquivalent;
+  String? get baseCcyEquivalent => _$this._baseCcyEquivalent;
+  set baseCcyEquivalent(covariant String? baseCcyEquivalent) =>
       _$this._baseCcyEquivalent = baseCcyEquivalent;
 
   $MonetaryDtoBuilder() {

@@ -95,7 +95,7 @@ abstract class AccountResponseDto implements Built<AccountResponseDto, AccountRe
 
   /// Platform ID (null if unbound)
   @BuiltValueField(wireName: r'platformId')
-  JsonObject? get platformId;
+  String? get platformId;
 
   /// Platform details (populated if platformId is set)
   @BuiltValueField(wireName: r'platform')
@@ -220,7 +220,7 @@ class _$AccountResponseDtoSerializer implements PrimitiveSerializer<AccountRespo
       yield r'platformId';
       yield serializers.serialize(
         object.platformId,
-        specifiedType: const FullType(JsonObject),
+        specifiedType: const FullType(String),
       );
     }
     if (object.platform != null) {
@@ -365,8 +365,8 @@ class _$AccountResponseDtoSerializer implements PrimitiveSerializer<AccountRespo
         case r'platformId':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(JsonObject),
-          ) as JsonObject;
+            specifiedType: const FullType(String),
+          ) as String;
           result.platformId = valueDes;
           break;
         case r'platform':

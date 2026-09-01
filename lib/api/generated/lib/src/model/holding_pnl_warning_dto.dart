@@ -4,7 +4,6 @@
 
 // ignore_for_file: unused_element
 import 'package:built_collection/built_collection.dart';
-import 'package:built_value/json_object.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
@@ -25,13 +24,13 @@ abstract class HoldingPnlWarningDto implements Built<HoldingPnlWarningDto, Holdi
   // enum typeEnum {  MISSING_COST_FX_RATE,  MISSING_MARKET_FX_RATE,  MISSING_SALE_PRICE,  MISSING_REALIZED_FX_RATE,  OVERSOLD_LOTS,  NO_PRICE,  MIXED_COST_CURRENCY,  };
 
   @BuiltValueField(wireName: r'symbol')
-  JsonObject? get symbol;
+  String? get symbol;
 
   @BuiltValueField(wireName: r'accountId')
-  JsonObject? get accountId;
+  String? get accountId;
 
   @BuiltValueField(wireName: r'currency')
-  JsonObject? get currency;
+  String? get currency;
 
   HoldingPnlWarningDto._();
 
@@ -65,21 +64,21 @@ class _$HoldingPnlWarningDtoSerializer implements PrimitiveSerializer<HoldingPnl
       yield r'symbol';
       yield serializers.serialize(
         object.symbol,
-        specifiedType: const FullType.nullable(JsonObject),
+        specifiedType: const FullType.nullable(String),
       );
     }
     if (object.accountId != null) {
       yield r'accountId';
       yield serializers.serialize(
         object.accountId,
-        specifiedType: const FullType.nullable(JsonObject),
+        specifiedType: const FullType.nullable(String),
       );
     }
     if (object.currency != null) {
       yield r'currency';
       yield serializers.serialize(
         object.currency,
-        specifiedType: const FullType.nullable(JsonObject),
+        specifiedType: const FullType.nullable(String),
       );
     }
   }
@@ -115,24 +114,24 @@ class _$HoldingPnlWarningDtoSerializer implements PrimitiveSerializer<HoldingPnl
         case r'symbol':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType.nullable(JsonObject),
-          ) as JsonObject?;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
           if (valueDes == null) continue;
           result.symbol = valueDes;
           break;
         case r'accountId':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType.nullable(JsonObject),
-          ) as JsonObject?;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
           if (valueDes == null) continue;
           result.accountId = valueDes;
           break;
         case r'currency':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType.nullable(JsonObject),
-          ) as JsonObject?;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
           if (valueDes == null) continue;
           result.currency = valueDes;
           break;

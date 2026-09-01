@@ -108,11 +108,11 @@ class _$HoldingPnlWarningDto extends HoldingPnlWarningDto {
   @override
   final HoldingPnlWarningDtoTypeEnum type;
   @override
-  final JsonObject? symbol;
+  final String? symbol;
   @override
-  final JsonObject? accountId;
+  final String? accountId;
   @override
-  final JsonObject? currency;
+  final String? currency;
 
   factory _$HoldingPnlWarningDto(
           [void Function(HoldingPnlWarningDtoBuilder)? updates]) =>
@@ -174,17 +174,17 @@ class HoldingPnlWarningDtoBuilder
   HoldingPnlWarningDtoTypeEnum? get type => _$this._type;
   set type(HoldingPnlWarningDtoTypeEnum? type) => _$this._type = type;
 
-  JsonObject? _symbol;
-  JsonObject? get symbol => _$this._symbol;
-  set symbol(JsonObject? symbol) => _$this._symbol = symbol;
+  String? _symbol;
+  String? get symbol => _$this._symbol;
+  set symbol(String? symbol) => _$this._symbol = symbol;
 
-  JsonObject? _accountId;
-  JsonObject? get accountId => _$this._accountId;
-  set accountId(JsonObject? accountId) => _$this._accountId = accountId;
+  String? _accountId;
+  String? get accountId => _$this._accountId;
+  set accountId(String? accountId) => _$this._accountId = accountId;
 
-  JsonObject? _currency;
-  JsonObject? get currency => _$this._currency;
-  set currency(JsonObject? currency) => _$this._currency = currency;
+  String? _currency;
+  String? get currency => _$this._currency;
+  set currency(String? currency) => _$this._currency = currency;
 
   HoldingPnlWarningDtoBuilder() {
     HoldingPnlWarningDto._defaults(this);

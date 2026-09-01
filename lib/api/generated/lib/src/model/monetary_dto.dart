@@ -3,7 +3,6 @@
 //
 
 // ignore_for_file: unused_element
-import 'package:built_value/json_object.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
@@ -27,7 +26,7 @@ abstract class MonetaryDto  {
 
   /// Converted to user base currency (Decimal string)
   @BuiltValueField(wireName: r'baseCcyEquivalent')
-  JsonObject? get baseCcyEquivalent;
+  String? get baseCcyEquivalent;
 
   @BuiltValueSerializer(custom: true)
   static Serializer<MonetaryDto> get serializer => _$MonetaryDtoSerializer();
@@ -59,7 +58,7 @@ class _$MonetaryDtoSerializer implements PrimitiveSerializer<MonetaryDto> {
       yield r'baseCcyEquivalent';
       yield serializers.serialize(
         object.baseCcyEquivalent,
-        specifiedType: const FullType.nullable(JsonObject),
+        specifiedType: const FullType.nullable(String),
       );
     }
   }
@@ -142,8 +141,8 @@ class _$$MonetaryDtoSerializer implements PrimitiveSerializer<$MonetaryDto> {
         case r'baseCcyEquivalent':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType.nullable(JsonObject),
-          ) as JsonObject?;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
           if (valueDes == null) continue;
           result.baseCcyEquivalent = valueDes;
           break;

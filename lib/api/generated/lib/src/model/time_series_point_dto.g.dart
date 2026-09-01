@@ -12,7 +12,7 @@ class _$TimeSeriesPointDto extends TimeSeriesPointDto {
   @override
   final String value;
   @override
-  final JsonObject? change;
+  final String? change;
   @override
   final String? assets;
   @override
@@ -96,9 +96,9 @@ class TimeSeriesPointDtoBuilder
   String? get value => _$this._value;
   set value(String? value) => _$this._value = value;
 
-  JsonObject? _change;
-  JsonObject? get change => _$this._change;
-  set change(JsonObject? change) => _$this._change = change;
+  String? _change;
+  String? get change => _$this._change;
+  set change(String? change) => _$this._change = change;
 
   String? _assets;
   String? get assets => _$this._assets;

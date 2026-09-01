@@ -3,7 +3,6 @@
 //
 
 // ignore_for_file: unused_element
-import 'package:built_value/json_object.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
@@ -35,66 +34,66 @@ abstract class SymbolQuoteDto implements Built<SymbolQuoteDto, SymbolQuoteDtoBui
   String? get symbol;
 
   @BuiltValueField(wireName: r'name')
-  JsonObject? get name;
+  String? get name;
 
   @BuiltValueField(wireName: r'exchange')
-  JsonObject? get exchange;
+  String? get exchange;
 
   /// OpenBB asset_type
   @BuiltValueField(wireName: r'assetType')
-  JsonObject? get assetType;
+  String? get assetType;
 
   /// IGN asset class
   @BuiltValueField(wireName: r'assetClass')
-  JsonObject? get assetClass;
+  String? get assetClass;
 
   /// IGN asset sub-class
   @BuiltValueField(wireName: r'assetSubClass')
-  JsonObject? get assetSubClass;
+  String? get assetSubClass;
 
   /// Trading currency (extra_data or inferred from exchange)
   @BuiltValueField(wireName: r'currency')
-  JsonObject? get currency;
+  String? get currency;
 
   /// Latest price (Decimal string)
   @BuiltValueField(wireName: r'price')
-  JsonObject? get price;
+  String? get price;
 
   /// Date the price was observed (ISO yyyy-MM-dd)
   @BuiltValueField(wireName: r'priceDate')
-  JsonObject? get priceDate;
+  String? get priceDate;
 
   /// Change vs previous close, in percentage points (1.7 == 1.7%). openbb stores change_percent as a normalized decimal; this exposes percentage points for frontend convenience.
   @BuiltValueField(wireName: r'changePercent')
-  JsonObject? get changePercent;
+  num? get changePercent;
 
   /// Previous close (Decimal string)
   @BuiltValueField(wireName: r'prevClose')
-  JsonObject? get prevClose;
+  String? get prevClose;
 
   /// Day open (Decimal string)
   @BuiltValueField(wireName: r'open')
-  JsonObject? get open;
+  String? get open;
 
   /// Day high (Decimal string)
   @BuiltValueField(wireName: r'high')
-  JsonObject? get high;
+  String? get high;
 
   /// Day low (Decimal string)
   @BuiltValueField(wireName: r'low')
-  JsonObject? get low;
+  String? get low;
 
   /// Day volume (Decimal string)
   @BuiltValueField(wireName: r'volume')
-  JsonObject? get volume;
+  String? get volume;
 
   /// 52-week high (Decimal string)
   @BuiltValueField(wireName: r'yearHigh')
-  JsonObject? get yearHigh;
+  String? get yearHigh;
 
   /// 52-week low (Decimal string)
   @BuiltValueField(wireName: r'yearLow')
-  JsonObject? get yearLow;
+  String? get yearLow;
 
   SymbolQuoteDto._();
 
@@ -130,112 +129,112 @@ class _$SymbolQuoteDtoSerializer implements PrimitiveSerializer<SymbolQuoteDto> 
       yield r'name';
       yield serializers.serialize(
         object.name,
-        specifiedType: const FullType.nullable(JsonObject),
+        specifiedType: const FullType.nullable(String),
       );
     }
     if (object.exchange != null) {
       yield r'exchange';
       yield serializers.serialize(
         object.exchange,
-        specifiedType: const FullType.nullable(JsonObject),
+        specifiedType: const FullType.nullable(String),
       );
     }
     if (object.assetType != null) {
       yield r'assetType';
       yield serializers.serialize(
         object.assetType,
-        specifiedType: const FullType.nullable(JsonObject),
+        specifiedType: const FullType.nullable(String),
       );
     }
     if (object.assetClass != null) {
       yield r'assetClass';
       yield serializers.serialize(
         object.assetClass,
-        specifiedType: const FullType.nullable(JsonObject),
+        specifiedType: const FullType.nullable(String),
       );
     }
     if (object.assetSubClass != null) {
       yield r'assetSubClass';
       yield serializers.serialize(
         object.assetSubClass,
-        specifiedType: const FullType.nullable(JsonObject),
+        specifiedType: const FullType.nullable(String),
       );
     }
     if (object.currency != null) {
       yield r'currency';
       yield serializers.serialize(
         object.currency,
-        specifiedType: const FullType.nullable(JsonObject),
+        specifiedType: const FullType.nullable(String),
       );
     }
     if (object.price != null) {
       yield r'price';
       yield serializers.serialize(
         object.price,
-        specifiedType: const FullType.nullable(JsonObject),
+        specifiedType: const FullType.nullable(String),
       );
     }
     if (object.priceDate != null) {
       yield r'priceDate';
       yield serializers.serialize(
         object.priceDate,
-        specifiedType: const FullType.nullable(JsonObject),
+        specifiedType: const FullType.nullable(String),
       );
     }
     if (object.changePercent != null) {
       yield r'changePercent';
       yield serializers.serialize(
         object.changePercent,
-        specifiedType: const FullType.nullable(JsonObject),
+        specifiedType: const FullType.nullable(num),
       );
     }
     if (object.prevClose != null) {
       yield r'prevClose';
       yield serializers.serialize(
         object.prevClose,
-        specifiedType: const FullType.nullable(JsonObject),
+        specifiedType: const FullType.nullable(String),
       );
     }
     if (object.open != null) {
       yield r'open';
       yield serializers.serialize(
         object.open,
-        specifiedType: const FullType.nullable(JsonObject),
+        specifiedType: const FullType.nullable(String),
       );
     }
     if (object.high != null) {
       yield r'high';
       yield serializers.serialize(
         object.high,
-        specifiedType: const FullType.nullable(JsonObject),
+        specifiedType: const FullType.nullable(String),
       );
     }
     if (object.low != null) {
       yield r'low';
       yield serializers.serialize(
         object.low,
-        specifiedType: const FullType.nullable(JsonObject),
+        specifiedType: const FullType.nullable(String),
       );
     }
     if (object.volume != null) {
       yield r'volume';
       yield serializers.serialize(
         object.volume,
-        specifiedType: const FullType.nullable(JsonObject),
+        specifiedType: const FullType.nullable(String),
       );
     }
     if (object.yearHigh != null) {
       yield r'yearHigh';
       yield serializers.serialize(
         object.yearHigh,
-        specifiedType: const FullType.nullable(JsonObject),
+        specifiedType: const FullType.nullable(String),
       );
     }
     if (object.yearLow != null) {
       yield r'yearLow';
       yield serializers.serialize(
         object.yearLow,
-        specifiedType: const FullType.nullable(JsonObject),
+        specifiedType: const FullType.nullable(String),
       );
     }
   }
@@ -271,128 +270,128 @@ class _$SymbolQuoteDtoSerializer implements PrimitiveSerializer<SymbolQuoteDto> 
         case r'name':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType.nullable(JsonObject),
-          ) as JsonObject?;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
           if (valueDes == null) continue;
           result.name = valueDes;
           break;
         case r'exchange':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType.nullable(JsonObject),
-          ) as JsonObject?;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
           if (valueDes == null) continue;
           result.exchange = valueDes;
           break;
         case r'assetType':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType.nullable(JsonObject),
-          ) as JsonObject?;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
           if (valueDes == null) continue;
           result.assetType = valueDes;
           break;
         case r'assetClass':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType.nullable(JsonObject),
-          ) as JsonObject?;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
           if (valueDes == null) continue;
           result.assetClass = valueDes;
           break;
         case r'assetSubClass':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType.nullable(JsonObject),
-          ) as JsonObject?;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
           if (valueDes == null) continue;
           result.assetSubClass = valueDes;
           break;
         case r'currency':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType.nullable(JsonObject),
-          ) as JsonObject?;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
           if (valueDes == null) continue;
           result.currency = valueDes;
           break;
         case r'price':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType.nullable(JsonObject),
-          ) as JsonObject?;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
           if (valueDes == null) continue;
           result.price = valueDes;
           break;
         case r'priceDate':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType.nullable(JsonObject),
-          ) as JsonObject?;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
           if (valueDes == null) continue;
           result.priceDate = valueDes;
           break;
         case r'changePercent':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType.nullable(JsonObject),
-          ) as JsonObject?;
+            specifiedType: const FullType.nullable(num),
+          ) as num?;
           if (valueDes == null) continue;
           result.changePercent = valueDes;
           break;
         case r'prevClose':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType.nullable(JsonObject),
-          ) as JsonObject?;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
           if (valueDes == null) continue;
           result.prevClose = valueDes;
           break;
         case r'open':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType.nullable(JsonObject),
-          ) as JsonObject?;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
           if (valueDes == null) continue;
           result.open = valueDes;
           break;
         case r'high':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType.nullable(JsonObject),
-          ) as JsonObject?;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
           if (valueDes == null) continue;
           result.high = valueDes;
           break;
         case r'low':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType.nullable(JsonObject),
-          ) as JsonObject?;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
           if (valueDes == null) continue;
           result.low = valueDes;
           break;
         case r'volume':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType.nullable(JsonObject),
-          ) as JsonObject?;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
           if (valueDes == null) continue;
           result.volume = valueDes;
           break;
         case r'yearHigh':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType.nullable(JsonObject),
-          ) as JsonObject?;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
           if (valueDes == null) continue;
           result.yearHigh = valueDes;
           break;
         case r'yearLow':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType.nullable(JsonObject),
-          ) as JsonObject?;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
           if (valueDes == null) continue;
           result.yearLow = valueDes;
           break;

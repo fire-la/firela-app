@@ -10,17 +10,17 @@ class _$SymbolSearchResultDto extends SymbolSearchResultDto {
   @override
   final String symbol;
   @override
-  final JsonObject? name;
+  final String? name;
   @override
-  final JsonObject? exchange;
+  final String? exchange;
   @override
-  final JsonObject? assetType;
+  final String? assetType;
   @override
-  final JsonObject? assetClass;
+  final String? assetClass;
   @override
-  final JsonObject? assetSubClass;
+  final String? assetSubClass;
   @override
-  final JsonObject? currency;
+  final String? currency;
 
   factory _$SymbolSearchResultDto(
           [void Function(SymbolSearchResultDtoBuilder)? updates]) =>
@@ -97,30 +97,30 @@ class SymbolSearchResultDtoBuilder
   String? get symbol => _$this._symbol;
   set symbol(String? symbol) => _$this._symbol = symbol;
 
-  JsonObject? _name;
-  JsonObject? get name => _$this._name;
-  set name(JsonObject? name) => _$this._name = name;
+  String? _name;
+  String? get name => _$this._name;
+  set name(String? name) => _$this._name = name;
 
-  JsonObject? _exchange;
-  JsonObject? get exchange => _$this._exchange;
-  set exchange(JsonObject? exchange) => _$this._exchange = exchange;
+  String? _exchange;
+  String? get exchange => _$this._exchange;
+  set exchange(String? exchange) => _$this._exchange = exchange;
 
-  JsonObject? _assetType;
-  JsonObject? get assetType => _$this._assetType;
-  set assetType(JsonObject? assetType) => _$this._assetType = assetType;
+  String? _assetType;
+  String? get assetType => _$this._assetType;
+  set assetType(String? assetType) => _$this._assetType = assetType;
 
-  JsonObject? _assetClass;
-  JsonObject? get assetClass => _$this._assetClass;
-  set assetClass(JsonObject? assetClass) => _$this._assetClass = assetClass;
+  String? _assetClass;
+  String? get assetClass => _$this._assetClass;
+  set assetClass(String? assetClass) => _$this._assetClass = assetClass;
 
-  JsonObject? _assetSubClass;
-  JsonObject? get assetSubClass => _$this._assetSubClass;
-  set assetSubClass(JsonObject? assetSubClass) =>
+  String? _assetSubClass;
+  String? get assetSubClass => _$this._assetSubClass;
+  set assetSubClass(String? assetSubClass) =>
       _$this._assetSubClass = assetSubClass;
 
-  JsonObject? _currency;
-  JsonObject? get currency => _$this._currency;
-  set currency(JsonObject? currency) => _$this._currency = currency;
+  String? _currency;
+  String? get currency => _$this._currency;
+  set currency(String? currency) => _$this._currency = currency;
 
   SymbolSearchResultDtoBuilder() {
     SymbolSearchResultDto._defaults(this);
