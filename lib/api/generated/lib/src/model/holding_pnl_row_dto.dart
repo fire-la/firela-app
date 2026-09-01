@@ -11,7 +11,6 @@ import 'package:firela_api/src/model/holding_pnl_row_dto_realized_pnl.dart';
 import 'package:firela_api/src/model/holding_pnl_row_dto_cost_basis.dart';
 import 'package:firela_api/src/model/holding_pnl_row_dto_current_price.dart';
 import 'package:firela_api/src/model/holding_pnl_row_dto_market_value.dart';
-import 'package:built_value/json_object.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
@@ -51,11 +50,11 @@ abstract class HoldingPnlRowDto implements Built<HoldingPnlRowDto, HoldingPnlRow
 
   /// Account settlement currency (ISO 4217), from cost currency
   @BuiltValueField(wireName: r'accountCcy')
-  JsonObject? get accountCcy;
+  String? get accountCcy;
 
   /// Broker type derived from Platform.type
   @BuiltValueField(wireName: r'brokerType')
-  JsonObject? get brokerType;
+  String? get brokerType;
 
   /// Commodity symbol
   @BuiltValueField(wireName: r'symbol')
@@ -70,7 +69,7 @@ abstract class HoldingPnlRowDto implements Built<HoldingPnlRowDto, HoldingPnlRow
   String get assetClass;
 
   @BuiltValueField(wireName: r'assetSubClass')
-  JsonObject? get assetSubClass;
+  String? get assetSubClass;
 
   /// Net held units (Decimal string)
   @BuiltValueField(wireName: r'units')
@@ -90,11 +89,11 @@ abstract class HoldingPnlRowDto implements Built<HoldingPnlRowDto, HoldingPnlRow
 
   /// Unrealized P&L in base currency (Decimal string); null when any FX/price missing
   @BuiltValueField(wireName: r'unrealizedPnlBase')
-  JsonObject? get unrealizedPnlBase;
+  String? get unrealizedPnlBase;
 
   /// Unrealized P&L % (Decimal string)
   @BuiltValueField(wireName: r'unrealizedPnlPct')
-  JsonObject? get unrealizedPnlPct;
+  String? get unrealizedPnlPct;
 
   @BuiltValueField(wireName: r'costFxRate')
   HoldingPnlRowDtoCostFxRate? get costFxRate;
@@ -104,7 +103,7 @@ abstract class HoldingPnlRowDto implements Built<HoldingPnlRowDto, HoldingPnlRow
 
   /// Share of invested assets % (Decimal string); only for invested chartTokens
   @BuiltValueField(wireName: r'pctOfInvestedAssets')
-  JsonObject? get pctOfInvestedAssets;
+  String? get pctOfInvestedAssets;
 
   @BuiltValueField(wireName: r'realizedPnl')
   HoldingPnlRowDtoRealizedPnl? get realizedPnl;
@@ -146,14 +145,14 @@ class _$HoldingPnlRowDtoSerializer implements PrimitiveSerializer<HoldingPnlRowD
       yield r'accountCcy';
       yield serializers.serialize(
         object.accountCcy,
-        specifiedType: const FullType.nullable(JsonObject),
+        specifiedType: const FullType.nullable(String),
       );
     }
     if (object.brokerType != null) {
       yield r'brokerType';
       yield serializers.serialize(
         object.brokerType,
-        specifiedType: const FullType.nullable(JsonObject),
+        specifiedType: const FullType.nullable(String),
       );
     }
     yield r'symbol';
@@ -175,7 +174,7 @@ class _$HoldingPnlRowDtoSerializer implements PrimitiveSerializer<HoldingPnlRowD
       yield r'assetSubClass';
       yield serializers.serialize(
         object.assetSubClass,
-        specifiedType: const FullType.nullable(JsonObject),
+        specifiedType: const FullType.nullable(String),
       );
     }
     yield r'units';
@@ -215,14 +214,14 @@ class _$HoldingPnlRowDtoSerializer implements PrimitiveSerializer<HoldingPnlRowD
       yield r'unrealizedPnlBase';
       yield serializers.serialize(
         object.unrealizedPnlBase,
-        specifiedType: const FullType.nullable(JsonObject),
+        specifiedType: const FullType.nullable(String),
       );
     }
     if (object.unrealizedPnlPct != null) {
       yield r'unrealizedPnlPct';
       yield serializers.serialize(
         object.unrealizedPnlPct,
-        specifiedType: const FullType.nullable(JsonObject),
+        specifiedType: const FullType.nullable(String),
       );
     }
     if (object.costFxRate != null) {
@@ -243,7 +242,7 @@ class _$HoldingPnlRowDtoSerializer implements PrimitiveSerializer<HoldingPnlRowD
       yield r'pctOfInvestedAssets';
       yield serializers.serialize(
         object.pctOfInvestedAssets,
-        specifiedType: const FullType.nullable(JsonObject),
+        specifiedType: const FullType.nullable(String),
       );
     }
     if (object.realizedPnl != null) {
@@ -293,16 +292,16 @@ class _$HoldingPnlRowDtoSerializer implements PrimitiveSerializer<HoldingPnlRowD
         case r'accountCcy':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType.nullable(JsonObject),
-          ) as JsonObject?;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
           if (valueDes == null) continue;
           result.accountCcy = valueDes;
           break;
         case r'brokerType':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType.nullable(JsonObject),
-          ) as JsonObject?;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
           if (valueDes == null) continue;
           result.brokerType = valueDes;
           break;
@@ -330,8 +329,8 @@ class _$HoldingPnlRowDtoSerializer implements PrimitiveSerializer<HoldingPnlRowD
         case r'assetSubClass':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType.nullable(JsonObject),
-          ) as JsonObject?;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
           if (valueDes == null) continue;
           result.assetSubClass = valueDes;
           break;
@@ -377,16 +376,16 @@ class _$HoldingPnlRowDtoSerializer implements PrimitiveSerializer<HoldingPnlRowD
         case r'unrealizedPnlBase':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType.nullable(JsonObject),
-          ) as JsonObject?;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
           if (valueDes == null) continue;
           result.unrealizedPnlBase = valueDes;
           break;
         case r'unrealizedPnlPct':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType.nullable(JsonObject),
-          ) as JsonObject?;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
           if (valueDes == null) continue;
           result.unrealizedPnlPct = valueDes;
           break;
@@ -409,8 +408,8 @@ class _$HoldingPnlRowDtoSerializer implements PrimitiveSerializer<HoldingPnlRowD
         case r'pctOfInvestedAssets':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType.nullable(JsonObject),
-          ) as JsonObject?;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
           if (valueDes == null) continue;
           result.pctOfInvestedAssets = valueDes;
           break;

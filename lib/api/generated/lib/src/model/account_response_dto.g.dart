@@ -592,7 +592,7 @@ class _$AccountResponseDto extends AccountResponseDto {
   @override
   final JsonObject? openDirectiveMeta;
   @override
-  final JsonObject? platformId;
+  final String? platformId;
   @override
   final JsonObject? platform;
   @override
@@ -791,9 +791,9 @@ class AccountResponseDtoBuilder
   set openDirectiveMeta(JsonObject? openDirectiveMeta) =>
       _$this._openDirectiveMeta = openDirectiveMeta;
 
-  JsonObject? _platformId;
-  JsonObject? get platformId => _$this._platformId;
-  set platformId(JsonObject? platformId) => _$this._platformId = platformId;
+  String? _platformId;
+  String? get platformId => _$this._platformId;
+  set platformId(String? platformId) => _$this._platformId = platformId;
 
   JsonObject? _platform;
   JsonObject? get platform => _$this._platform;

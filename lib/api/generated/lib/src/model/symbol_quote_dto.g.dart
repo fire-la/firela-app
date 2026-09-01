@@ -10,37 +10,37 @@ class _$SymbolQuoteDto extends SymbolQuoteDto {
   @override
   final String? symbol;
   @override
-  final JsonObject? name;
+  final String? name;
   @override
-  final JsonObject? exchange;
+  final String? exchange;
   @override
-  final JsonObject? assetType;
+  final String? assetType;
   @override
-  final JsonObject? assetClass;
+  final String? assetClass;
   @override
-  final JsonObject? assetSubClass;
+  final String? assetSubClass;
   @override
-  final JsonObject? currency;
+  final String? currency;
   @override
-  final JsonObject? price;
+  final String? price;
   @override
-  final JsonObject? priceDate;
+  final String? priceDate;
   @override
-  final JsonObject? changePercent;
+  final num? changePercent;
   @override
-  final JsonObject? prevClose;
+  final String? prevClose;
   @override
-  final JsonObject? open;
+  final String? open;
   @override
-  final JsonObject? high;
+  final String? high;
   @override
-  final JsonObject? low;
+  final String? low;
   @override
-  final JsonObject? volume;
+  final String? volume;
   @override
-  final JsonObject? yearHigh;
+  final String? yearHigh;
   @override
-  final JsonObject? yearLow;
+  final String? yearLow;
 
   factory _$SymbolQuoteDto([void Function(SymbolQuoteDtoBuilder)? updates]) =>
       (new SymbolQuoteDtoBuilder()..update(updates))._build();
@@ -152,71 +152,71 @@ class SymbolQuoteDtoBuilder
   String? get symbol => _$this._symbol;
   set symbol(String? symbol) => _$this._symbol = symbol;
 
-  JsonObject? _name;
-  JsonObject? get name => _$this._name;
-  set name(JsonObject? name) => _$this._name = name;
+  String? _name;
+  String? get name => _$this._name;
+  set name(String? name) => _$this._name = name;
 
-  JsonObject? _exchange;
-  JsonObject? get exchange => _$this._exchange;
-  set exchange(JsonObject? exchange) => _$this._exchange = exchange;
+  String? _exchange;
+  String? get exchange => _$this._exchange;
+  set exchange(String? exchange) => _$this._exchange = exchange;
 
-  JsonObject? _assetType;
-  JsonObject? get assetType => _$this._assetType;
-  set assetType(JsonObject? assetType) => _$this._assetType = assetType;
+  String? _assetType;
+  String? get assetType => _$this._assetType;
+  set assetType(String? assetType) => _$this._assetType = assetType;
 
-  JsonObject? _assetClass;
-  JsonObject? get assetClass => _$this._assetClass;
-  set assetClass(JsonObject? assetClass) => _$this._assetClass = assetClass;
+  String? _assetClass;
+  String? get assetClass => _$this._assetClass;
+  set assetClass(String? assetClass) => _$this._assetClass = assetClass;
 
-  JsonObject? _assetSubClass;
-  JsonObject? get assetSubClass => _$this._assetSubClass;
-  set assetSubClass(JsonObject? assetSubClass) =>
+  String? _assetSubClass;
+  String? get assetSubClass => _$this._assetSubClass;
+  set assetSubClass(String? assetSubClass) =>
       _$this._assetSubClass = assetSubClass;
 
-  JsonObject? _currency;
-  JsonObject? get currency => _$this._currency;
-  set currency(JsonObject? currency) => _$this._currency = currency;
+  String? _currency;
+  String? get currency => _$this._currency;
+  set currency(String? currency) => _$this._currency = currency;
 
-  JsonObject? _price;
-  JsonObject? get price => _$this._price;
-  set price(JsonObject? price) => _$this._price = price;
+  String? _price;
+  String? get price => _$this._price;
+  set price(String? price) => _$this._price = price;
 
-  JsonObject? _priceDate;
-  JsonObject? get priceDate => _$this._priceDate;
-  set priceDate(JsonObject? priceDate) => _$this._priceDate = priceDate;
+  String? _priceDate;
+  String? get priceDate => _$this._priceDate;
+  set priceDate(String? priceDate) => _$this._priceDate = priceDate;
 
-  JsonObject? _changePercent;
-  JsonObject? get changePercent => _$this._changePercent;
-  set changePercent(JsonObject? changePercent) =>
+  num? _changePercent;
+  num? get changePercent => _$this._changePercent;
+  set changePercent(num? changePercent) =>
       _$this._changePercent = changePercent;
 
-  JsonObject? _prevClose;
-  JsonObject? get prevClose => _$this._prevClose;
-  set prevClose(JsonObject? prevClose) => _$this._prevClose = prevClose;
+  String? _prevClose;
+  String? get prevClose => _$this._prevClose;
+  set prevClose(String? prevClose) => _$this._prevClose = prevClose;
 
-  JsonObject? _open;
-  JsonObject? get open => _$this._open;
-  set open(JsonObject? open) => _$this._open = open;
+  String? _open;
+  String? get open => _$this._open;
+  set open(String? open) => _$this._open = open;
 
-  JsonObject? _high;
-  JsonObject? get high => _$this._high;
-  set high(JsonObject? high) => _$this._high = high;
+  String? _high;
+  String? get high => _$this._high;
+  set high(String? high) => _$this._high = high;
 
-  JsonObject? _low;
-  JsonObject? get low => _$this._low;
-  set low(JsonObject? low) => _$this._low = low;
+  String? _low;
+  String? get low => _$this._low;
+  set low(String? low) => _$this._low = low;
 
-  JsonObject? _volume;
-  JsonObject? get volume => _$this._volume;
-  set volume(JsonObject? volume) => _$this._volume = volume;
+  String? _volume;
+  String? get volume => _$this._volume;
+  set volume(String? volume) => _$this._volume = volume;
 
-  JsonObject? _yearHigh;
-  JsonObject? get yearHigh => _$this._yearHigh;
-  set yearHigh(JsonObject? yearHigh) => _$this._yearHigh = yearHigh;
+  String? _yearHigh;
+  String? get yearHigh => _$this._yearHigh;
+  set yearHigh(String? yearHigh) => _$this._yearHigh = yearHigh;
 
-  JsonObject? _yearLow;
-  JsonObject? get yearLow => _$this._yearLow;
-  set yearLow(JsonObject? yearLow) => _$this._yearLow = yearLow;
+  String? _yearLow;
+  String? get yearLow => _$this._yearLow;
+  set yearLow(String? yearLow) => _$this._yearLow = yearLow;
 
   SymbolQuoteDtoBuilder() {
     SymbolQuoteDto._defaults(this);

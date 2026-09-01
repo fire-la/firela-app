@@ -3,7 +3,6 @@
 //
 
 // ignore_for_file: unused_element
-import 'package:built_value/json_object.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
@@ -24,7 +23,7 @@ abstract class ExpectedTransactionRuleDto implements Built<ExpectedTransactionRu
 
   /// Rule icon
   @BuiltValueField(wireName: r'icon')
-  JsonObject? get icon;
+  String? get icon;
 
   /// Rule frequency
   @BuiltValueField(wireName: r'frequency')
@@ -66,7 +65,7 @@ class _$ExpectedTransactionRuleDtoSerializer implements PrimitiveSerializer<Expe
       yield r'icon';
       yield serializers.serialize(
         object.icon,
-        specifiedType: const FullType(JsonObject),
+        specifiedType: const FullType(String),
       );
     }
     yield r'frequency';
@@ -112,8 +111,8 @@ class _$ExpectedTransactionRuleDtoSerializer implements PrimitiveSerializer<Expe
         case r'icon':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(JsonObject),
-          ) as JsonObject;
+            specifiedType: const FullType(String),
+          ) as String;
           result.icon = valueDes;
           break;
         case r'frequency':

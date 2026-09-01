@@ -3,7 +3,6 @@
 //
 
 // ignore_for_file: unused_element
-import 'package:built_value/json_object.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
@@ -25,26 +24,26 @@ abstract class SymbolSearchResultDto implements Built<SymbolSearchResultDto, Sym
   String get symbol;
 
   @BuiltValueField(wireName: r'name')
-  JsonObject? get name;
+  String? get name;
 
   @BuiltValueField(wireName: r'exchange')
-  JsonObject? get exchange;
+  String? get exchange;
 
   /// OpenBB asset_type (e.g. stock, etf)
   @BuiltValueField(wireName: r'assetType')
-  JsonObject? get assetType;
+  String? get assetType;
 
   /// IGN asset class (region.types.ts ASSET_CLASSES)
   @BuiltValueField(wireName: r'assetClass')
-  JsonObject? get assetClass;
+  String? get assetClass;
 
   /// IGN asset sub-class (region.types.ts ASSET_SUB_CLASSES)
   @BuiltValueField(wireName: r'assetSubClass')
-  JsonObject? get assetSubClass;
+  String? get assetSubClass;
 
   /// Trading currency (extra_data or inferred from exchange)
   @BuiltValueField(wireName: r'currency')
-  JsonObject? get currency;
+  String? get currency;
 
   SymbolSearchResultDto._();
 
@@ -78,42 +77,42 @@ class _$SymbolSearchResultDtoSerializer implements PrimitiveSerializer<SymbolSea
       yield r'name';
       yield serializers.serialize(
         object.name,
-        specifiedType: const FullType.nullable(JsonObject),
+        specifiedType: const FullType.nullable(String),
       );
     }
     if (object.exchange != null) {
       yield r'exchange';
       yield serializers.serialize(
         object.exchange,
-        specifiedType: const FullType.nullable(JsonObject),
+        specifiedType: const FullType.nullable(String),
       );
     }
     if (object.assetType != null) {
       yield r'assetType';
       yield serializers.serialize(
         object.assetType,
-        specifiedType: const FullType.nullable(JsonObject),
+        specifiedType: const FullType.nullable(String),
       );
     }
     if (object.assetClass != null) {
       yield r'assetClass';
       yield serializers.serialize(
         object.assetClass,
-        specifiedType: const FullType.nullable(JsonObject),
+        specifiedType: const FullType.nullable(String),
       );
     }
     if (object.assetSubClass != null) {
       yield r'assetSubClass';
       yield serializers.serialize(
         object.assetSubClass,
-        specifiedType: const FullType.nullable(JsonObject),
+        specifiedType: const FullType.nullable(String),
       );
     }
     if (object.currency != null) {
       yield r'currency';
       yield serializers.serialize(
         object.currency,
-        specifiedType: const FullType.nullable(JsonObject),
+        specifiedType: const FullType.nullable(String),
       );
     }
   }
@@ -149,48 +148,48 @@ class _$SymbolSearchResultDtoSerializer implements PrimitiveSerializer<SymbolSea
         case r'name':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType.nullable(JsonObject),
-          ) as JsonObject?;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
           if (valueDes == null) continue;
           result.name = valueDes;
           break;
         case r'exchange':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType.nullable(JsonObject),
-          ) as JsonObject?;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
           if (valueDes == null) continue;
           result.exchange = valueDes;
           break;
         case r'assetType':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType.nullable(JsonObject),
-          ) as JsonObject?;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
           if (valueDes == null) continue;
           result.assetType = valueDes;
           break;
         case r'assetClass':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType.nullable(JsonObject),
-          ) as JsonObject?;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
           if (valueDes == null) continue;
           result.assetClass = valueDes;
           break;
         case r'assetSubClass':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType.nullable(JsonObject),
-          ) as JsonObject?;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
           if (valueDes == null) continue;
           result.assetSubClass = valueDes;
           break;
         case r'currency':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType.nullable(JsonObject),
-          ) as JsonObject?;
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
           if (valueDes == null) continue;
           result.currency = valueDes;
           break;

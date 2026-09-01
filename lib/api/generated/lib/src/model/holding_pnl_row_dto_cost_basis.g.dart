@@ -12,7 +12,7 @@ class _$HoldingPnlRowDtoCostBasis extends HoldingPnlRowDtoCostBasis {
   @override
   final String currency;
   @override
-  final JsonObject? baseCcyEquivalent;
+  final String? baseCcyEquivalent;
 
   factory _$HoldingPnlRowDtoCostBasis(
           [void Function(HoldingPnlRowDtoCostBasisBuilder)? updates]) =>
@@ -79,9 +79,9 @@ class HoldingPnlRowDtoCostBasisBuilder
   String? get currency => _$this._currency;
   set currency(covariant String? currency) => _$this._currency = currency;
 
-  JsonObject? _baseCcyEquivalent;
-  JsonObject? get baseCcyEquivalent => _$this._baseCcyEquivalent;
-  set baseCcyEquivalent(covariant JsonObject? baseCcyEquivalent) =>
+  String? _baseCcyEquivalent;
+  String? get baseCcyEquivalent => _$this._baseCcyEquivalent;
+  set baseCcyEquivalent(covariant String? baseCcyEquivalent) =>
       _$this._baseCcyEquivalent = baseCcyEquivalent;
 
   HoldingPnlRowDtoCostBasisBuilder() {

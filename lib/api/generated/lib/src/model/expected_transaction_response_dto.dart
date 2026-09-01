@@ -4,7 +4,6 @@
 
 // ignore_for_file: unused_element
 import 'package:firela_api/src/model/expected_transaction_rule_dto.dart';
-import 'package:built_value/json_object.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
@@ -54,15 +53,15 @@ abstract class ExpectedTransactionResponseDto implements Built<ExpectedTransacti
 
   /// Matched transaction ID
   @BuiltValueField(wireName: r'matchedTransactionId')
-  JsonObject? get matchedTransactionId;
+  String? get matchedTransactionId;
 
   /// Match timestamp (ISO 8601)
   @BuiltValueField(wireName: r'matchedAt')
-  JsonObject? get matchedAt;
+  String? get matchedAt;
 
   /// Match confidence score (0-1)
   @BuiltValueField(wireName: r'matchConfidence')
-  JsonObject? get matchConfidence;
+  num? get matchConfidence;
 
   /// Whether this expected transaction is overdue
   @BuiltValueField(wireName: r'isOverdue')
@@ -136,21 +135,21 @@ class _$ExpectedTransactionResponseDtoSerializer implements PrimitiveSerializer<
       yield r'matchedTransactionId';
       yield serializers.serialize(
         object.matchedTransactionId,
-        specifiedType: const FullType(JsonObject),
+        specifiedType: const FullType(String),
       );
     }
     if (object.matchedAt != null) {
       yield r'matchedAt';
       yield serializers.serialize(
         object.matchedAt,
-        specifiedType: const FullType(JsonObject),
+        specifiedType: const FullType(String),
       );
     }
     if (object.matchConfidence != null) {
       yield r'matchConfidence';
       yield serializers.serialize(
         object.matchConfidence,
-        specifiedType: const FullType(JsonObject),
+        specifiedType: const FullType(num),
       );
     }
     yield r'isOverdue';
@@ -241,22 +240,22 @@ class _$ExpectedTransactionResponseDtoSerializer implements PrimitiveSerializer<
         case r'matchedTransactionId':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(JsonObject),
-          ) as JsonObject;
+            specifiedType: const FullType(String),
+          ) as String;
           result.matchedTransactionId = valueDes;
           break;
         case r'matchedAt':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(JsonObject),
-          ) as JsonObject;
+            specifiedType: const FullType(String),
+          ) as String;
           result.matchedAt = valueDes;
           break;
         case r'matchConfidence':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(JsonObject),
-          ) as JsonObject;
+            specifiedType: const FullType(num),
+          ) as num;
           result.matchConfidence = valueDes;
           break;
         case r'isOverdue':

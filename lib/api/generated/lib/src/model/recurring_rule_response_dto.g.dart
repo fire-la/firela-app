@@ -14,37 +14,37 @@ class _$RecurringRuleResponseDto extends RecurringRuleResponseDto {
   @override
   final String name;
   @override
-  final JsonObject? icon;
+  final String? icon;
   @override
   final String frequency;
   @override
   final num expectedAmount;
   @override
-  final JsonObject? expectedDay;
+  final num? expectedDay;
   @override
-  final JsonObject? customIntervalDays;
+  final num? customIntervalDays;
   @override
   final String currency;
   @override
-  final JsonObject? matchPayeePattern;
+  final String? matchPayeePattern;
   @override
   final num matchAmountTolerance;
   @override
-  final JsonObject? defaultExpenseAccount;
+  final String? defaultExpenseAccount;
   @override
-  final JsonObject? defaultPaymentAccount;
+  final String? defaultPaymentAccount;
   @override
-  final JsonObject? defaultPayee;
+  final String? defaultPayee;
   @override
   final bool isActive;
   @override
   final String startDate;
   @override
-  final JsonObject? endDate;
+  final String? endDate;
   @override
   final bool autoCreate;
   @override
-  final JsonObject? lastOccurrence;
+  final String? lastOccurrence;
   @override
   final num totalCount;
   @override
@@ -220,9 +220,9 @@ class RecurringRuleResponseDtoBuilder
   String? get name => _$this._name;
   set name(String? name) => _$this._name = name;
 
-  JsonObject? _icon;
-  JsonObject? get icon => _$this._icon;
-  set icon(JsonObject? icon) => _$this._icon = icon;
+  String? _icon;
+  String? get icon => _$this._icon;
+  set icon(String? icon) => _$this._icon = icon;
 
   String? _frequency;
   String? get frequency => _$this._frequency;
@@ -233,22 +233,22 @@ class RecurringRuleResponseDtoBuilder
   set expectedAmount(num? expectedAmount) =>
       _$this._expectedAmount = expectedAmount;
 
-  JsonObject? _expectedDay;
-  JsonObject? get expectedDay => _$this._expectedDay;
-  set expectedDay(JsonObject? expectedDay) => _$this._expectedDay = expectedDay;
+  num? _expectedDay;
+  num? get expectedDay => _$this._expectedDay;
+  set expectedDay(num? expectedDay) => _$this._expectedDay = expectedDay;
 
-  JsonObject? _customIntervalDays;
-  JsonObject? get customIntervalDays => _$this._customIntervalDays;
-  set customIntervalDays(JsonObject? customIntervalDays) =>
+  num? _customIntervalDays;
+  num? get customIntervalDays => _$this._customIntervalDays;
+  set customIntervalDays(num? customIntervalDays) =>
       _$this._customIntervalDays = customIntervalDays;
 
   String? _currency;
   String? get currency => _$this._currency;
   set currency(String? currency) => _$this._currency = currency;
 
-  JsonObject? _matchPayeePattern;
-  JsonObject? get matchPayeePattern => _$this._matchPayeePattern;
-  set matchPayeePattern(JsonObject? matchPayeePattern) =>
+  String? _matchPayeePattern;
+  String? get matchPayeePattern => _$this._matchPayeePattern;
+  set matchPayeePattern(String? matchPayeePattern) =>
       _$this._matchPayeePattern = matchPayeePattern;
 
   num? _matchAmountTolerance;
@@ -256,20 +256,19 @@ class RecurringRuleResponseDtoBuilder
   set matchAmountTolerance(num? matchAmountTolerance) =>
       _$this._matchAmountTolerance = matchAmountTolerance;
 
-  JsonObject? _defaultExpenseAccount;
-  JsonObject? get defaultExpenseAccount => _$this._defaultExpenseAccount;
-  set defaultExpenseAccount(JsonObject? defaultExpenseAccount) =>
+  String? _defaultExpenseAccount;
+  String? get defaultExpenseAccount => _$this._defaultExpenseAccount;
+  set defaultExpenseAccount(String? defaultExpenseAccount) =>
       _$this._defaultExpenseAccount = defaultExpenseAccount;
 
-  JsonObject? _defaultPaymentAccount;
-  JsonObject? get defaultPaymentAccount => _$this._defaultPaymentAccount;
-  set defaultPaymentAccount(JsonObject? defaultPaymentAccount) =>
+  String? _defaultPaymentAccount;
+  String? get defaultPaymentAccount => _$this._defaultPaymentAccount;
+  set defaultPaymentAccount(String? defaultPaymentAccount) =>
       _$this._defaultPaymentAccount = defaultPaymentAccount;
 
-  JsonObject? _defaultPayee;
-  JsonObject? get defaultPayee => _$this._defaultPayee;
-  set defaultPayee(JsonObject? defaultPayee) =>
-      _$this._defaultPayee = defaultPayee;
+  String? _defaultPayee;
+  String? get defaultPayee => _$this._defaultPayee;
+  set defaultPayee(String? defaultPayee) => _$this._defaultPayee = defaultPayee;
 
   bool? _isActive;
   bool? get isActive => _$this._isActive;
@@ -279,17 +278,17 @@ class RecurringRuleResponseDtoBuilder
   String? get startDate => _$this._startDate;
   set startDate(String? startDate) => _$this._startDate = startDate;
 
-  JsonObject? _endDate;
-  JsonObject? get endDate => _$this._endDate;
-  set endDate(JsonObject? endDate) => _$this._endDate = endDate;
+  String? _endDate;
+  String? get endDate => _$this._endDate;
+  set endDate(String? endDate) => _$this._endDate = endDate;
 
   bool? _autoCreate;
   bool? get autoCreate => _$this._autoCreate;
   set autoCreate(bool? autoCreate) => _$this._autoCreate = autoCreate;
 
-  JsonObject? _lastOccurrence;
-  JsonObject? get lastOccurrence => _$this._lastOccurrence;
-  set lastOccurrence(JsonObject? lastOccurrence) =>
+  String? _lastOccurrence;
+  String? get lastOccurrence => _$this._lastOccurrence;
+  set lastOccurrence(String? lastOccurrence) =>
       _$this._lastOccurrence = lastOccurrence;
 
   num? _totalCount;

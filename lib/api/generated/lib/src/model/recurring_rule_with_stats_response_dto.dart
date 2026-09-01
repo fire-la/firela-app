@@ -3,7 +3,6 @@
 //
 
 // ignore_for_file: unused_element
-import 'package:built_value/json_object.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
@@ -60,7 +59,7 @@ abstract class RecurringRuleWithStatsResponseDto implements Built<RecurringRuleW
 
   /// Icon emoji
   @BuiltValueField(wireName: r'icon')
-  JsonObject? get icon;
+  String? get icon;
 
   /// Recurring frequency
   @BuiltValueField(wireName: r'frequency')
@@ -72,11 +71,11 @@ abstract class RecurringRuleWithStatsResponseDto implements Built<RecurringRuleW
 
   /// Expected day of month
   @BuiltValueField(wireName: r'expectedDay')
-  JsonObject? get expectedDay;
+  num? get expectedDay;
 
   /// Custom interval in days
   @BuiltValueField(wireName: r'customIntervalDays')
-  JsonObject? get customIntervalDays;
+  num? get customIntervalDays;
 
   /// Currency code
   @BuiltValueField(wireName: r'currency')
@@ -84,7 +83,7 @@ abstract class RecurringRuleWithStatsResponseDto implements Built<RecurringRuleW
 
   /// Payee matching pattern
   @BuiltValueField(wireName: r'matchPayeePattern')
-  JsonObject? get matchPayeePattern;
+  String? get matchPayeePattern;
 
   /// Amount tolerance percentage
   @BuiltValueField(wireName: r'matchAmountTolerance')
@@ -92,15 +91,15 @@ abstract class RecurringRuleWithStatsResponseDto implements Built<RecurringRuleW
 
   /// Default expense account
   @BuiltValueField(wireName: r'defaultExpenseAccount')
-  JsonObject? get defaultExpenseAccount;
+  String? get defaultExpenseAccount;
 
   /// Default payment account
   @BuiltValueField(wireName: r'defaultPaymentAccount')
-  JsonObject? get defaultPaymentAccount;
+  String? get defaultPaymentAccount;
 
   /// Default payee
   @BuiltValueField(wireName: r'defaultPayee')
-  JsonObject? get defaultPayee;
+  String? get defaultPayee;
 
   /// Whether rule is active
   @BuiltValueField(wireName: r'isActive')
@@ -112,7 +111,7 @@ abstract class RecurringRuleWithStatsResponseDto implements Built<RecurringRuleW
 
   /// Rule end date (YYYY-MM-DD)
   @BuiltValueField(wireName: r'endDate')
-  JsonObject? get endDate;
+  String? get endDate;
 
   /// Auto-create transaction on expected date
   @BuiltValueField(wireName: r'autoCreate')
@@ -120,7 +119,7 @@ abstract class RecurringRuleWithStatsResponseDto implements Built<RecurringRuleW
 
   /// Last matched occurrence date (YYYY-MM-DD)
   @BuiltValueField(wireName: r'lastOccurrence')
-  JsonObject? get lastOccurrence;
+  String? get lastOccurrence;
 
   /// Total matched transactions count
   @BuiltValueField(wireName: r'totalCount')
@@ -144,7 +143,7 @@ abstract class RecurringRuleWithStatsResponseDto implements Built<RecurringRuleW
 
   /// Next expected date (YYYY-MM-DD)
   @BuiltValueField(wireName: r'nextExpectedDate')
-  JsonObject? get nextExpectedDate;
+  String? get nextExpectedDate;
 
   /// Total amount of all matched transactions
   @BuiltValueField(wireName: r'totalAmount')
@@ -160,11 +159,11 @@ abstract class RecurringRuleWithStatsResponseDto implements Built<RecurringRuleW
 
   /// First matched transaction date (YYYY-MM-DD)
   @BuiltValueField(wireName: r'firstDate')
-  JsonObject? get firstDate;
+  String? get firstDate;
 
   /// Last matched transaction date (YYYY-MM-DD)
   @BuiltValueField(wireName: r'lastDate')
-  JsonObject? get lastDate;
+  String? get lastDate;
 
   /// Amount variance (standard deviation squared)
   @BuiltValueField(wireName: r'variance')
@@ -216,7 +215,7 @@ class _$RecurringRuleWithStatsResponseDtoSerializer implements PrimitiveSerializ
       yield r'icon';
       yield serializers.serialize(
         object.icon,
-        specifiedType: const FullType(JsonObject),
+        specifiedType: const FullType(String),
       );
     }
     yield r'frequency';
@@ -233,14 +232,14 @@ class _$RecurringRuleWithStatsResponseDtoSerializer implements PrimitiveSerializ
       yield r'expectedDay';
       yield serializers.serialize(
         object.expectedDay,
-        specifiedType: const FullType(JsonObject),
+        specifiedType: const FullType(num),
       );
     }
     if (object.customIntervalDays != null) {
       yield r'customIntervalDays';
       yield serializers.serialize(
         object.customIntervalDays,
-        specifiedType: const FullType(JsonObject),
+        specifiedType: const FullType(num),
       );
     }
     yield r'currency';
@@ -252,7 +251,7 @@ class _$RecurringRuleWithStatsResponseDtoSerializer implements PrimitiveSerializ
       yield r'matchPayeePattern';
       yield serializers.serialize(
         object.matchPayeePattern,
-        specifiedType: const FullType(JsonObject),
+        specifiedType: const FullType(String),
       );
     }
     yield r'matchAmountTolerance';
@@ -264,21 +263,21 @@ class _$RecurringRuleWithStatsResponseDtoSerializer implements PrimitiveSerializ
       yield r'defaultExpenseAccount';
       yield serializers.serialize(
         object.defaultExpenseAccount,
-        specifiedType: const FullType(JsonObject),
+        specifiedType: const FullType(String),
       );
     }
     if (object.defaultPaymentAccount != null) {
       yield r'defaultPaymentAccount';
       yield serializers.serialize(
         object.defaultPaymentAccount,
-        specifiedType: const FullType(JsonObject),
+        specifiedType: const FullType(String),
       );
     }
     if (object.defaultPayee != null) {
       yield r'defaultPayee';
       yield serializers.serialize(
         object.defaultPayee,
-        specifiedType: const FullType(JsonObject),
+        specifiedType: const FullType(String),
       );
     }
     yield r'isActive';
@@ -295,7 +294,7 @@ class _$RecurringRuleWithStatsResponseDtoSerializer implements PrimitiveSerializ
       yield r'endDate';
       yield serializers.serialize(
         object.endDate,
-        specifiedType: const FullType(JsonObject),
+        specifiedType: const FullType(String),
       );
     }
     yield r'autoCreate';
@@ -307,7 +306,7 @@ class _$RecurringRuleWithStatsResponseDtoSerializer implements PrimitiveSerializ
       yield r'lastOccurrence';
       yield serializers.serialize(
         object.lastOccurrence,
-        specifiedType: const FullType(JsonObject),
+        specifiedType: const FullType(String),
       );
     }
     yield r'totalCount';
@@ -339,7 +338,7 @@ class _$RecurringRuleWithStatsResponseDtoSerializer implements PrimitiveSerializ
       yield r'nextExpectedDate';
       yield serializers.serialize(
         object.nextExpectedDate,
-        specifiedType: const FullType(JsonObject),
+        specifiedType: const FullType(String),
       );
     }
     yield r'totalAmount';
@@ -361,14 +360,14 @@ class _$RecurringRuleWithStatsResponseDtoSerializer implements PrimitiveSerializ
       yield r'firstDate';
       yield serializers.serialize(
         object.firstDate,
-        specifiedType: const FullType(JsonObject),
+        specifiedType: const FullType(String),
       );
     }
     if (object.lastDate != null) {
       yield r'lastDate';
       yield serializers.serialize(
         object.lastDate,
-        specifiedType: const FullType(JsonObject),
+        specifiedType: const FullType(String),
       );
     }
     yield r'variance';
@@ -428,8 +427,8 @@ class _$RecurringRuleWithStatsResponseDtoSerializer implements PrimitiveSerializ
         case r'icon':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(JsonObject),
-          ) as JsonObject;
+            specifiedType: const FullType(String),
+          ) as String;
           result.icon = valueDes;
           break;
         case r'frequency':
@@ -449,15 +448,15 @@ class _$RecurringRuleWithStatsResponseDtoSerializer implements PrimitiveSerializ
         case r'expectedDay':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(JsonObject),
-          ) as JsonObject;
+            specifiedType: const FullType(num),
+          ) as num;
           result.expectedDay = valueDes;
           break;
         case r'customIntervalDays':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(JsonObject),
-          ) as JsonObject;
+            specifiedType: const FullType(num),
+          ) as num;
           result.customIntervalDays = valueDes;
           break;
         case r'currency':
@@ -470,8 +469,8 @@ class _$RecurringRuleWithStatsResponseDtoSerializer implements PrimitiveSerializ
         case r'matchPayeePattern':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(JsonObject),
-          ) as JsonObject;
+            specifiedType: const FullType(String),
+          ) as String;
           result.matchPayeePattern = valueDes;
           break;
         case r'matchAmountTolerance':
@@ -484,22 +483,22 @@ class _$RecurringRuleWithStatsResponseDtoSerializer implements PrimitiveSerializ
         case r'defaultExpenseAccount':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(JsonObject),
-          ) as JsonObject;
+            specifiedType: const FullType(String),
+          ) as String;
           result.defaultExpenseAccount = valueDes;
           break;
         case r'defaultPaymentAccount':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(JsonObject),
-          ) as JsonObject;
+            specifiedType: const FullType(String),
+          ) as String;
           result.defaultPaymentAccount = valueDes;
           break;
         case r'defaultPayee':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(JsonObject),
-          ) as JsonObject;
+            specifiedType: const FullType(String),
+          ) as String;
           result.defaultPayee = valueDes;
           break;
         case r'isActive':
@@ -519,8 +518,8 @@ class _$RecurringRuleWithStatsResponseDtoSerializer implements PrimitiveSerializ
         case r'endDate':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(JsonObject),
-          ) as JsonObject;
+            specifiedType: const FullType(String),
+          ) as String;
           result.endDate = valueDes;
           break;
         case r'autoCreate':
@@ -533,8 +532,8 @@ class _$RecurringRuleWithStatsResponseDtoSerializer implements PrimitiveSerializ
         case r'lastOccurrence':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(JsonObject),
-          ) as JsonObject;
+            specifiedType: const FullType(String),
+          ) as String;
           result.lastOccurrence = valueDes;
           break;
         case r'totalCount':
@@ -575,8 +574,8 @@ class _$RecurringRuleWithStatsResponseDtoSerializer implements PrimitiveSerializ
         case r'nextExpectedDate':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(JsonObject),
-          ) as JsonObject;
+            specifiedType: const FullType(String),
+          ) as String;
           result.nextExpectedDate = valueDes;
           break;
         case r'totalAmount':
@@ -603,15 +602,15 @@ class _$RecurringRuleWithStatsResponseDtoSerializer implements PrimitiveSerializ
         case r'firstDate':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(JsonObject),
-          ) as JsonObject;
+            specifiedType: const FullType(String),
+          ) as String;
           result.firstDate = valueDes;
           break;
         case r'lastDate':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(JsonObject),
-          ) as JsonObject;
+            specifiedType: const FullType(String),
+          ) as String;
           result.lastDate = valueDes;
           break;
         case r'variance':

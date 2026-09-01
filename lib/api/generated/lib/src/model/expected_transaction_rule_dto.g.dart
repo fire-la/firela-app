@@ -10,7 +10,7 @@ class _$ExpectedTransactionRuleDto extends ExpectedTransactionRuleDto {
   @override
   final String name;
   @override
-  final JsonObject? icon;
+  final String? icon;
   @override
   final String frequency;
   @override
@@ -84,9 +84,9 @@ class ExpectedTransactionRuleDtoBuilder
   String? get name => _$this._name;
   set name(String? name) => _$this._name = name;
 
-  JsonObject? _icon;
-  JsonObject? get icon => _$this._icon;
-  set icon(JsonObject? icon) => _$this._icon = icon;
+  String? _icon;
+  String? get icon => _$this._icon;
+  set icon(String? icon) => _$this._icon = icon;
 
   String? _frequency;
   String? get frequency => _$this._frequency;
