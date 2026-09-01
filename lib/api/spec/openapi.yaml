@@ -11915,7 +11915,7 @@ components:
       type: object
       properties:
         baseCurrency:
-          type: object
+          type: string
           description: >-
             Stored base currency choice (ISO 4217) for net-worth/report
             aggregation. null = user never chose; aggregates fall back to the
