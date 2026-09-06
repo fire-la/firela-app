@@ -9570,6 +9570,12 @@ components:
           type: string
           description: Icon identifier (overrides template)
           example: bank-custom
+        displayName:
+          type: string
+          description: User-set display name override (omit/null = keep the derived name)
+          nullable: true
+          maxLength: 50
+          example: Salary card
         openDirectiveMeta:
           type: object
           description: >-
@@ -9695,7 +9701,9 @@ components:
           example: false
         displayName:
           type: string
-          description: Localized display name (ADR-0114, read-time projection)
+          description: >-
+            Display name with precedence: user-set name (#762) > ADR-0114
+            localized name > path leaf (read-time projection)
           example: Checking
         icon:
           type: string
@@ -14088,6 +14096,12 @@ components:
             Platform ID to bind the account to (references Platform.id); omit
             for unbound
           example: c98e5d4a-2f71-4a5a-bb3c-92c9f231d5e2
+        displayName:
+          type: string
+          description: User-set display name override (omit/null = keep the derived name)
+          nullable: true
+          maxLength: 50
+          example: Salary card
       required:
         - path
         - currency
@@ -16052,7 +16066,9 @@ components:
           example: Assets:CN:CMB:Savings
         displayName:
           type: string
-          description: Display name (last part of account path)
+          description: >-
+            Display name: user-set name if provided (#762), else last part of
+            account path
           example: Savings
         balance:
           type: string
@@ -16191,7 +16207,9 @@ components:
           example: Assets:CN:CMB:Savings
         displayName:
           type: string
-          description: Display name (last part of account path)
+          description: >-
+            Display name: user-set name if provided (#762), else last part of
+            account path
           example: Savings
         balance:
           type: string
