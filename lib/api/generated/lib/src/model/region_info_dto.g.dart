@@ -10,6 +10,8 @@ class _$RegionInfoDto extends RegionInfoDto {
   @override
   final String code;
   @override
+  final bool open;
+  @override
   final String displayName;
   @override
   final String? parent;
@@ -23,12 +25,14 @@ class _$RegionInfoDto extends RegionInfoDto {
 
   _$RegionInfoDto._(
       {required this.code,
+      required this.open,
       required this.displayName,
       this.parent,
       required this.chain,
       required this.config})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(code, r'RegionInfoDto', 'code');
+    BuiltValueNullFieldError.checkNotNull(open, r'RegionInfoDto', 'open');
     BuiltValueNullFieldError.checkNotNull(
         displayName, r'RegionInfoDto', 'displayName');
     BuiltValueNullFieldError.checkNotNull(chain, r'RegionInfoDto', 'chain');
@@ -47,6 +51,7 @@ class _$RegionInfoDto extends RegionInfoDto {
     if (identical(other, this)) return true;
     return other is RegionInfoDto &&
         code == other.code &&
+        open == other.open &&
         displayName == other.displayName &&
         parent == other.parent &&
         chain == other.chain &&
@@ -57,6 +62,7 @@ class _$RegionInfoDto extends RegionInfoDto {
   int get hashCode {
     var _$hash = 0;
     _$hash = $jc(_$hash, code.hashCode);
+    _$hash = $jc(_$hash, open.hashCode);
     _$hash = $jc(_$hash, displayName.hashCode);
     _$hash = $jc(_$hash, parent.hashCode);
     _$hash = $jc(_$hash, chain.hashCode);
@@ -69,6 +75,7 @@ class _$RegionInfoDto extends RegionInfoDto {
   String toString() {
     return (newBuiltValueToStringHelper(r'RegionInfoDto')
           ..add('code', code)
+          ..add('open', open)
           ..add('displayName', displayName)
           ..add('parent', parent)
           ..add('chain', chain)
@@ -84,6 +91,10 @@ class RegionInfoDtoBuilder
   String? _code;
   String? get code => _$this._code;
   set code(String? code) => _$this._code = code;
+
+  bool? _open;
+  bool? get open => _$this._open;
+  set open(bool? open) => _$this._open = open;
 
   String? _displayName;
   String? get displayName => _$this._displayName;
@@ -110,6 +121,7 @@ class RegionInfoDtoBuilder
     final $v = _$v;
     if ($v != null) {
       _code = $v.code;
+      _open = $v.open;
       _displayName = $v.displayName;
       _parent = $v.parent;
       _chain = $v.chain.toBuilder();
@@ -140,6 +152,8 @@ class RegionInfoDtoBuilder
           new _$RegionInfoDto._(
               code: BuiltValueNullFieldError.checkNotNull(
                   code, r'RegionInfoDto', 'code'),
+              open: BuiltValueNullFieldError.checkNotNull(
+                  open, r'RegionInfoDto', 'open'),
               displayName: BuiltValueNullFieldError.checkNotNull(
                   displayName, r'RegionInfoDto', 'displayName'),
               parent: parent,

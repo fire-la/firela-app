@@ -22,7 +22,7 @@ class OnboardingApi {
   /// 
   ///
   /// Parameters:
-  /// * [region] - Region code for tenant context
+  /// * [region] - Region code for tenant context. Not-yet-open codes are accepted: the universal catalog backs onboarding regardless of region (#759)
   /// * [onboardingDto] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
