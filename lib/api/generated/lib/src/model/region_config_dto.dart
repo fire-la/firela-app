@@ -13,7 +13,7 @@ part 'region_config_dto.g.dart';
 /// Properties:
 /// * [currency] 
 /// * [dateFormat] 
-/// * [locale] - Region-qualified BCP-47 tag whose region subtag equals the region's own ISO 3166-1 code (e.g., ja-JP, zh-CN, en-HK)
+/// * [locale] - Region-qualified BCP-47 tag whose region subtag equals the region's own ISO 3166-1 code (e.g., ja-JP, zh-CN, zh-HK)
 @BuiltValue()
 abstract class RegionConfigDto implements Built<RegionConfigDto, RegionConfigDtoBuilder> {
   @BuiltValueField(wireName: r'currency')
@@ -22,7 +22,7 @@ abstract class RegionConfigDto implements Built<RegionConfigDto, RegionConfigDto
   @BuiltValueField(wireName: r'dateFormat')
   String get dateFormat;
 
-  /// Region-qualified BCP-47 tag whose region subtag equals the region's own ISO 3166-1 code (e.g., ja-JP, zh-CN, en-HK)
+  /// Region-qualified BCP-47 tag whose region subtag equals the region's own ISO 3166-1 code (e.g., ja-JP, zh-CN, zh-HK)
   @BuiltValueField(wireName: r'locale')
   String get locale;
 
