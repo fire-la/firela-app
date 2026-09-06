@@ -21,10 +21,10 @@ class BeanAccountStandardsApi {
   const BeanAccountStandardsApi(this._dio, this._serializers);
 
   /// Get available regions with hierarchy
-  /// Returns supported regions with inheritance metadata
+  /// Returns the full region catalog (every ISO 3166-1 entry) with an &#39;open&#39; flag and inheritance metadata (#759)
   ///
   /// Parameters:
-  /// * [region] - Region code for tenant context
+  /// * [region] - Region code for tenant context. Not-yet-open codes degrade to the universal-only catalog (#759)
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -99,7 +99,7 @@ class BeanAccountStandardsApi {
   /// Returns root type for a template path.
   ///
   /// Parameters:
-  /// * [region] - Region code for tenant context
+  /// * [region] - Region code for tenant context. Not-yet-open codes degrade to the universal-only catalog (#759)
   /// * [path] - Account path to check
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
@@ -178,10 +178,10 @@ class BeanAccountStandardsApi {
   }
 
   /// Get account templates
-  /// Returns predefined account templates for a region. Supports filtering by account type and search term.
+  /// Returns predefined account templates for a region. Supports filtering by account type and search term. Not-yet-open region codes return the universal-only catalog (#759).
   ///
   /// Parameters:
-  /// * [region] - Region code (cn, us, de)
+  /// * [region] - Region code (any ISO alpha-2; not-yet-open codes return the universal-only catalog)
   /// * [type] - Filter by account type
   /// * [search] - Search term for path, description, aliases, or localized display name
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation

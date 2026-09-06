@@ -14,6 +14,7 @@ part 'region_info_dto.g.dart';
 ///
 /// Properties:
 /// * [code] 
+/// * [open] - Whether the region is open (has a ready regional account template). Not-yet-open regions still return identity metadata and degrade to the universal-only catalog.
 /// * [displayName] 
 /// * [parent] 
 /// * [chain] 
@@ -22,6 +23,10 @@ part 'region_info_dto.g.dart';
 abstract class RegionInfoDto implements Built<RegionInfoDto, RegionInfoDtoBuilder> {
   @BuiltValueField(wireName: r'code')
   String get code;
+
+  /// Whether the region is open (has a ready regional account template). Not-yet-open regions still return identity metadata and degrade to the universal-only catalog.
+  @BuiltValueField(wireName: r'open')
+  bool get open;
 
   @BuiltValueField(wireName: r'displayName')
   String get displayName;
@@ -62,6 +67,11 @@ class _$RegionInfoDtoSerializer implements PrimitiveSerializer<RegionInfoDto> {
     yield serializers.serialize(
       object.code,
       specifiedType: const FullType(String),
+    );
+    yield r'open';
+    yield serializers.serialize(
+      object.open,
+      specifiedType: const FullType(bool),
     );
     yield r'displayName';
     yield serializers.serialize(
@@ -114,6 +124,13 @@ class _$RegionInfoDtoSerializer implements PrimitiveSerializer<RegionInfoDto> {
             specifiedType: const FullType(String),
           ) as String;
           result.code = valueDes;
+          break;
+        case r'open':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(bool),
+          ) as bool;
+          result.open = valueDes;
           break;
         case r'displayName':
           final valueDes = serializers.deserialize(

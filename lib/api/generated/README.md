@@ -69,7 +69,14 @@ Current version: **v1**. All paths are prefixed with `/api/v1`
 
 All Bean module endpoints require a lowercase ISO 3166-1 alpha-2 region prefix
 in the URL path. See `GET /{region}/bean/account-standards/regions` for the
-full list of open regions and their metadata (currency, locale, display name).
+full region catalog (every ISO 3166-1 entry) with an `open` flag plus display
+name and config (currency, locale) per region — open regions carry their
+loaded template config, not-yet-open regions carry registry identity fields.
+
+Not-yet-open region codes are accepted by the account-standards catalog and
+onboarding routes, where they degrade to the universal-only template catalog
+(#759, mirroring the /platforms/:id/standards fallback of #706). All other
+region-scoped routes still expect open region codes.
 
 Example: GET /api/v1/cn/bean/accounts
 
