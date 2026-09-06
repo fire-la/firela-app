@@ -9316,6 +9316,10 @@ components:
         locale:
           type: string
           example: de-DE
+          pattern: ^[a-z]{2,8}-[A-Z]{2}$
+          description: >-
+            Region-qualified BCP-47 tag whose region subtag equals the region's
+            own ISO 3166-1 code (e.g., ja-JP, zh-CN, en-HK)
       required:
         - currency
         - dateFormat
