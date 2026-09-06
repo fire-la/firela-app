@@ -24,7 +24,7 @@ part 'account_response_dto.g.dart';
 /// * [bookingMethod] - Booking method
 /// * [templatePath] - Template path reference
 /// * [isCustom] - Whether this is a custom (user-created) account
-/// * [displayName] - Localized display name (ADR-0114, read-time projection)
+/// * [displayName] - Display name with precedence: user-set name (#762) > ADR-0114 localized name > path leaf (read-time projection)
 /// * [icon] - Icon identifier
 /// * [openDirectiveMeta] - Open directive metadata (ADR-0115 Decision 9)
 /// * [platformId] - Platform ID (null if unbound)
@@ -81,7 +81,7 @@ abstract class AccountResponseDto implements Built<AccountResponseDto, AccountRe
   @BuiltValueField(wireName: r'isCustom')
   bool get isCustom;
 
-  /// Localized display name (ADR-0114, read-time projection)
+  /// Display name with precedence: user-set name (#762) > ADR-0114 localized name > path leaf (read-time projection)
   @BuiltValueField(wireName: r'displayName')
   String? get displayName;
 

@@ -20,6 +20,7 @@ part 'create_account_dto.g.dart';
 /// * [templatePath] - Reference to account-standards template path
 /// * [isCustom] - Whether this is a custom (user-created) account
 /// * [icon] - Icon identifier (overrides template)
+/// * [displayName] - User-set display name override (omit/null = keep the derived name)
 /// * [openDirectiveMeta] - Open directive metadata (NOT an opening-balance amount — use the opening-balance endpoint)
 /// * [platformId] - Platform ID (references Platform.id)
 @BuiltValue()
@@ -52,6 +53,10 @@ abstract class CreateAccountDto implements Built<CreateAccountDto, CreateAccount
   /// Icon identifier (overrides template)
   @BuiltValueField(wireName: r'icon')
   String? get icon;
+
+  /// User-set display name override (omit/null = keep the derived name)
+  @BuiltValueField(wireName: r'displayName')
+  String? get displayName;
 
   /// Open directive metadata (NOT an opening-balance amount — use the opening-balance endpoint)
   @BuiltValueField(wireName: r'openDirectiveMeta')
@@ -131,6 +136,13 @@ class _$CreateAccountDtoSerializer implements PrimitiveSerializer<CreateAccountD
       yield serializers.serialize(
         object.icon,
         specifiedType: const FullType(String),
+      );
+    }
+    if (object.displayName != null) {
+      yield r'displayName';
+      yield serializers.serialize(
+        object.displayName,
+        specifiedType: const FullType.nullable(String),
       );
     }
     if (object.openDirectiveMeta != null) {
@@ -218,6 +230,14 @@ class _$CreateAccountDtoSerializer implements PrimitiveSerializer<CreateAccountD
             specifiedType: const FullType(String),
           ) as String;
           result.icon = valueDes;
+          break;
+        case r'displayName':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
+          result.displayName = valueDes;
           break;
         case r'openDirectiveMeta':
           final valueDes = serializers.deserialize(

@@ -14,7 +14,7 @@ part 'account_item_with_asset_class_dto.g.dart';
 /// Properties:
 /// * [id] - Account ID
 /// * [name] - Full account name
-/// * [displayName] - Display name (last part of account path)
+/// * [displayName] - Display name: user-set name if provided (#762), else last part of account path
 /// * [balance] - Account balance
 /// * [currency] - Currency code
 /// * [convertedBalance] - FX-converted balance in base currency; omitted when not convertible
@@ -33,7 +33,7 @@ abstract class AccountItemWithAssetClassDto implements Built<AccountItemWithAsse
   @BuiltValueField(wireName: r'name')
   String get name;
 
-  /// Display name (last part of account path)
+  /// Display name: user-set name if provided (#762), else last part of account path
   @BuiltValueField(wireName: r'displayName')
   String get displayName;
 
