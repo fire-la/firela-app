@@ -537,12 +537,15 @@ paths:
       summary: Get account templates
       description: >-
         Returns predefined account templates for a region. Supports filtering by
-        account type and search term.
+        account type and search term. Not-yet-open region codes return the
+        universal-only catalog (#759).
       parameters:
         - name: region
           required: true
           in: path
-          description: Region code (cn, us, de)
+          description: >-
+            Region code (any ISO alpha-2; not-yet-open codes return the
+            universal-only catalog)
           schema:
             enum:
               - ad
@@ -552,24 +555,190 @@ paths:
               - al
               - am
               - ao
+              - ar
+              - at
               - au
+              - az
+              - ba
+              - bb
+              - bd
+              - be
+              - bf
+              - bg
+              - bh
+              - bi
+              - bj
+              - bn
+              - bo
               - br
+              - bs
+              - bt
+              - bw
+              - by
+              - bz
               - ca
+              - cd
+              - cf
+              - cg
+              - ch
+              - ci
+              - cl
+              - cm
               - cn
+              - co
+              - cr
+              - cu
+              - cv
+              - cy
+              - cz
               - de
+              - dj
+              - dk
+              - dm
+              - do
               - dz
+              - ec
+              - ee
+              - eg
+              - er
               - es
+              - et
+              - fj
+              - fm
               - fr
+              - ga
               - gb
+              - gd
+              - ge
+              - gh
+              - gm
+              - gn
+              - gq
+              - gr
+              - gt
+              - gw
+              - gy
               - hk
+              - hn
+              - hr
+              - ht
+              - hu
+              - id
+              - ie
+              - il
               - in
+              - iq
+              - ir
+              - is
               - it
+              - jm
+              - jo
               - jp
+              - ke
+              - kg
+              - kh
+              - ki
+              - km
+              - kn
               - kr
+              - kw
+              - kz
+              - la
+              - lb
+              - lc
+              - li
+              - lk
+              - lr
+              - ls
+              - lt
+              - lu
+              - lv
+              - ly
+              - ma
+              - mc
+              - md
+              - me
+              - mg
+              - mh
+              - mk
+              - ml
+              - mm
+              - mn
+              - mr
+              - mt
+              - mu
+              - mv
+              - mw
+              - mx
+              - mz
+              - na
+              - ne
+              - ng
+              - ni
               - nl
+              - 'no'
+              - np
+              - nr
+              - nz
+              - om
+              - pa
+              - pe
+              - pg
+              - ph
+              - pk
+              - pl
+              - ps
+              - pt
+              - pw
+              - py
+              - qa
+              - ro
+              - rs
+              - ru
+              - rw
+              - sa
+              - sb
+              - sc
+              - sd
+              - se
               - sg
+              - sl
+              - sm
+              - sn
+              - so
+              - sr
+              - st
+              - sv
+              - sy
+              - sz
+              - td
+              - tg
+              - th
+              - tj
+              - tl
+              - tm
+              - tn
+              - to
+              - tr
+              - tt
+              - tv
               - tw
+              - tz
+              - ua
+              - ug
               - us
+              - uy
+              - uz
+              - va
+              - vc
+              - ve
+              - vn
+              - vu
+              - ws
+              - ye
+              - za
+              - zm
+              - zw
             type: string
         - name: type
           required: false
@@ -611,7 +780,9 @@ paths:
         - name: region
           required: true
           in: path
-          description: Region code for tenant context
+          description: >-
+            Region code for tenant context. Not-yet-open codes degrade to the
+            universal-only catalog (#759)
           schema:
             enum:
               - ad
@@ -621,24 +792,190 @@ paths:
               - al
               - am
               - ao
+              - ar
+              - at
               - au
+              - az
+              - ba
+              - bb
+              - bd
+              - be
+              - bf
+              - bg
+              - bh
+              - bi
+              - bj
+              - bn
+              - bo
               - br
+              - bs
+              - bt
+              - bw
+              - by
+              - bz
               - ca
+              - cd
+              - cf
+              - cg
+              - ch
+              - ci
+              - cl
+              - cm
               - cn
+              - co
+              - cr
+              - cu
+              - cv
+              - cy
+              - cz
               - de
+              - dj
+              - dk
+              - dm
+              - do
               - dz
+              - ec
+              - ee
+              - eg
+              - er
               - es
+              - et
+              - fj
+              - fm
               - fr
+              - ga
               - gb
+              - gd
+              - ge
+              - gh
+              - gm
+              - gn
+              - gq
+              - gr
+              - gt
+              - gw
+              - gy
               - hk
+              - hn
+              - hr
+              - ht
+              - hu
+              - id
+              - ie
+              - il
               - in
+              - iq
+              - ir
+              - is
               - it
+              - jm
+              - jo
               - jp
+              - ke
+              - kg
+              - kh
+              - ki
+              - km
+              - kn
               - kr
+              - kw
+              - kz
+              - la
+              - lb
+              - lc
+              - li
+              - lk
+              - lr
+              - ls
+              - lt
+              - lu
+              - lv
+              - ly
+              - ma
+              - mc
+              - md
+              - me
+              - mg
+              - mh
+              - mk
+              - ml
+              - mm
+              - mn
+              - mr
+              - mt
+              - mu
+              - mv
+              - mw
+              - mx
+              - mz
+              - na
+              - ne
+              - ng
+              - ni
               - nl
+              - 'no'
+              - np
+              - nr
+              - nz
+              - om
+              - pa
+              - pe
+              - pg
+              - ph
+              - pk
+              - pl
+              - ps
+              - pt
+              - pw
+              - py
+              - qa
+              - ro
+              - rs
+              - ru
+              - rw
+              - sa
+              - sb
+              - sc
+              - sd
+              - se
               - sg
+              - sl
+              - sm
+              - sn
+              - so
+              - sr
+              - st
+              - sv
+              - sy
+              - sz
+              - td
+              - tg
+              - th
+              - tj
+              - tl
+              - tm
+              - tn
+              - to
+              - tr
+              - tt
+              - tv
               - tw
+              - tz
+              - ua
+              - ug
               - us
+              - uy
+              - uz
+              - va
+              - vc
+              - ve
+              - vn
+              - vu
+              - ws
+              - ye
+              - za
+              - zm
+              - zw
             type: string
         - name: path
           required: true
@@ -660,12 +997,16 @@ paths:
     get:
       operationId: AccountStandardsController_getRegions
       summary: Get available regions with hierarchy
-      description: Returns supported regions with inheritance metadata
+      description: >-
+        Returns the full region catalog (every ISO 3166-1 entry) with an 'open'
+        flag and inheritance metadata (#759)
       parameters:
         - name: region
           required: true
           in: path
-          description: Region code for tenant context
+          description: >-
+            Region code for tenant context. Not-yet-open codes degrade to the
+            universal-only catalog (#759)
           schema:
             enum:
               - ad
@@ -675,24 +1016,190 @@ paths:
               - al
               - am
               - ao
+              - ar
+              - at
               - au
+              - az
+              - ba
+              - bb
+              - bd
+              - be
+              - bf
+              - bg
+              - bh
+              - bi
+              - bj
+              - bn
+              - bo
               - br
+              - bs
+              - bt
+              - bw
+              - by
+              - bz
               - ca
+              - cd
+              - cf
+              - cg
+              - ch
+              - ci
+              - cl
+              - cm
               - cn
+              - co
+              - cr
+              - cu
+              - cv
+              - cy
+              - cz
               - de
+              - dj
+              - dk
+              - dm
+              - do
               - dz
+              - ec
+              - ee
+              - eg
+              - er
               - es
+              - et
+              - fj
+              - fm
               - fr
+              - ga
               - gb
+              - gd
+              - ge
+              - gh
+              - gm
+              - gn
+              - gq
+              - gr
+              - gt
+              - gw
+              - gy
               - hk
+              - hn
+              - hr
+              - ht
+              - hu
+              - id
+              - ie
+              - il
               - in
+              - iq
+              - ir
+              - is
               - it
+              - jm
+              - jo
               - jp
+              - ke
+              - kg
+              - kh
+              - ki
+              - km
+              - kn
               - kr
+              - kw
+              - kz
+              - la
+              - lb
+              - lc
+              - li
+              - lk
+              - lr
+              - ls
+              - lt
+              - lu
+              - lv
+              - ly
+              - ma
+              - mc
+              - md
+              - me
+              - mg
+              - mh
+              - mk
+              - ml
+              - mm
+              - mn
+              - mr
+              - mt
+              - mu
+              - mv
+              - mw
+              - mx
+              - mz
+              - na
+              - ne
+              - ng
+              - ni
               - nl
+              - 'no'
+              - np
+              - nr
+              - nz
+              - om
+              - pa
+              - pe
+              - pg
+              - ph
+              - pk
+              - pl
+              - ps
+              - pt
+              - pw
+              - py
+              - qa
+              - ro
+              - rs
+              - ru
+              - rw
+              - sa
+              - sb
+              - sc
+              - sd
+              - se
               - sg
+              - sl
+              - sm
+              - sn
+              - so
+              - sr
+              - st
+              - sv
+              - sy
+              - sz
+              - td
+              - tg
+              - th
+              - tj
+              - tl
+              - tm
+              - tn
+              - to
+              - tr
+              - tt
+              - tv
               - tw
+              - tz
+              - ua
+              - ug
               - us
+              - uy
+              - uz
+              - va
+              - vc
+              - ve
+              - vn
+              - vu
+              - ws
+              - ye
+              - za
+              - zm
+              - zw
             type: string
       responses:
         '200':
@@ -6143,7 +6650,9 @@ paths:
         - name: region
           required: true
           in: path
-          description: Region code for tenant context
+          description: >-
+            Region code for tenant context. Not-yet-open codes are accepted: the
+            universal catalog backs onboarding regardless of region (#759)
           schema:
             enum:
               - ad
@@ -6153,24 +6662,190 @@ paths:
               - al
               - am
               - ao
+              - ar
+              - at
               - au
+              - az
+              - ba
+              - bb
+              - bd
+              - be
+              - bf
+              - bg
+              - bh
+              - bi
+              - bj
+              - bn
+              - bo
               - br
+              - bs
+              - bt
+              - bw
+              - by
+              - bz
               - ca
+              - cd
+              - cf
+              - cg
+              - ch
+              - ci
+              - cl
+              - cm
               - cn
+              - co
+              - cr
+              - cu
+              - cv
+              - cy
+              - cz
               - de
+              - dj
+              - dk
+              - dm
+              - do
               - dz
+              - ec
+              - ee
+              - eg
+              - er
               - es
+              - et
+              - fj
+              - fm
               - fr
+              - ga
               - gb
+              - gd
+              - ge
+              - gh
+              - gm
+              - gn
+              - gq
+              - gr
+              - gt
+              - gw
+              - gy
               - hk
+              - hn
+              - hr
+              - ht
+              - hu
+              - id
+              - ie
+              - il
               - in
+              - iq
+              - ir
+              - is
               - it
+              - jm
+              - jo
               - jp
+              - ke
+              - kg
+              - kh
+              - ki
+              - km
+              - kn
               - kr
+              - kw
+              - kz
+              - la
+              - lb
+              - lc
+              - li
+              - lk
+              - lr
+              - ls
+              - lt
+              - lu
+              - lv
+              - ly
+              - ma
+              - mc
+              - md
+              - me
+              - mg
+              - mh
+              - mk
+              - ml
+              - mm
+              - mn
+              - mr
+              - mt
+              - mu
+              - mv
+              - mw
+              - mx
+              - mz
+              - na
+              - ne
+              - ng
+              - ni
               - nl
+              - 'no'
+              - np
+              - nr
+              - nz
+              - om
+              - pa
+              - pe
+              - pg
+              - ph
+              - pk
+              - pl
+              - ps
+              - pt
+              - pw
+              - py
+              - qa
+              - ro
+              - rs
+              - ru
+              - rw
+              - sa
+              - sb
+              - sc
+              - sd
+              - se
               - sg
+              - sl
+              - sm
+              - sn
+              - so
+              - sr
+              - st
+              - sv
+              - sy
+              - sz
+              - td
+              - tg
+              - th
+              - tj
+              - tl
+              - tm
+              - tn
+              - to
+              - tr
+              - tt
+              - tv
               - tw
+              - tz
+              - ua
+              - ug
               - us
+              - uy
+              - uz
+              - va
+              - vc
+              - ve
+              - vn
+              - vu
+              - ws
+              - ye
+              - za
+              - zm
+              - zw
             type: string
       requestBody:
         required: true
@@ -8784,8 +9459,21 @@ info:
 
     in the URL path. See `GET /{region}/bean/account-standards/regions` for the
 
-    full list of open regions and their metadata (currency, locale, display
-    name).
+    full region catalog (every ISO 3166-1 entry) with an `open` flag plus
+    display
+
+    name and config (currency, locale) per region — open regions carry their
+
+    loaded template config, not-yet-open regions carry registry identity fields.
+
+
+    Not-yet-open region codes are accepted by the account-standards catalog and
+
+    onboarding routes, where they degrade to the universal-only template catalog
+
+    (#759, mirroring the /platforms/:id/standards fallback of #706). All other
+
+    region-scoped routes still expect open region codes.
 
 
     Example: GET /api/v1/cn/bean/accounts
@@ -9330,6 +10018,13 @@ components:
         code:
           type: string
           example: de
+        open:
+          type: boolean
+          example: true
+          description: >-
+            Whether the region is open (has a ready regional account template).
+            Not-yet-open regions still return identity metadata and degrade to
+            the universal-only catalog.
         displayName:
           type: string
           example: Germany
@@ -9345,6 +10040,7 @@ components:
           $ref: '#/components/schemas/RegionConfigDto'
       required:
         - code
+        - open
         - displayName
         - chain
         - config
