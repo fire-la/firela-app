@@ -122,6 +122,8 @@ class _$CreateAccountDto extends CreateAccountDto {
   @override
   final String? icon;
   @override
+  final String? displayName;
+  @override
   final JsonObject? openDirectiveMeta;
   @override
   final String? platformId;
@@ -138,6 +140,7 @@ class _$CreateAccountDto extends CreateAccountDto {
       this.templatePath,
       this.isCustom,
       this.icon,
+      this.displayName,
       this.openDirectiveMeta,
       this.platformId})
       : super._() {
@@ -163,6 +166,7 @@ class _$CreateAccountDto extends CreateAccountDto {
         templatePath == other.templatePath &&
         isCustom == other.isCustom &&
         icon == other.icon &&
+        displayName == other.displayName &&
         openDirectiveMeta == other.openDirectiveMeta &&
         platformId == other.platformId;
   }
@@ -177,6 +181,7 @@ class _$CreateAccountDto extends CreateAccountDto {
     _$hash = $jc(_$hash, templatePath.hashCode);
     _$hash = $jc(_$hash, isCustom.hashCode);
     _$hash = $jc(_$hash, icon.hashCode);
+    _$hash = $jc(_$hash, displayName.hashCode);
     _$hash = $jc(_$hash, openDirectiveMeta.hashCode);
     _$hash = $jc(_$hash, platformId.hashCode);
     _$hash = $jf(_$hash);
@@ -193,6 +198,7 @@ class _$CreateAccountDto extends CreateAccountDto {
           ..add('templatePath', templatePath)
           ..add('isCustom', isCustom)
           ..add('icon', icon)
+          ..add('displayName', displayName)
           ..add('openDirectiveMeta', openDirectiveMeta)
           ..add('platformId', platformId))
         .toString();
@@ -234,6 +240,10 @@ class CreateAccountDtoBuilder
   String? get icon => _$this._icon;
   set icon(String? icon) => _$this._icon = icon;
 
+  String? _displayName;
+  String? get displayName => _$this._displayName;
+  set displayName(String? displayName) => _$this._displayName = displayName;
+
   JsonObject? _openDirectiveMeta;
   JsonObject? get openDirectiveMeta => _$this._openDirectiveMeta;
   set openDirectiveMeta(JsonObject? openDirectiveMeta) =>
@@ -257,6 +267,7 @@ class CreateAccountDtoBuilder
       _templatePath = $v.templatePath;
       _isCustom = $v.isCustom;
       _icon = $v.icon;
+      _displayName = $v.displayName;
       _openDirectiveMeta = $v.openDirectiveMeta;
       _platformId = $v.platformId;
       _$v = null;
@@ -291,6 +302,7 @@ class CreateAccountDtoBuilder
               templatePath: templatePath,
               isCustom: isCustom,
               icon: icon,
+              displayName: displayName,
               openDirectiveMeta: openDirectiveMeta,
               platformId: platformId);
     } catch (_) {

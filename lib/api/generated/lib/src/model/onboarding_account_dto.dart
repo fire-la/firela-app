@@ -15,6 +15,7 @@ part 'onboarding_account_dto.g.dart';
 /// * [currency] - ISO 4217 currency code (3 letters)
 /// * [openingBalance] - Opening balance as a non-negative Decimal string (e.g. \"1000.00\")
 /// * [platformId] - Platform ID to bind the account to (references Platform.id); omit for unbound
+/// * [displayName] - User-set display name override (omit/null = keep the derived name)
 @BuiltValue()
 abstract class OnboardingAccountDto implements Built<OnboardingAccountDto, OnboardingAccountDtoBuilder> {
   /// Account path (Assets/Liabilities only; format validated by the account service)
@@ -32,6 +33,10 @@ abstract class OnboardingAccountDto implements Built<OnboardingAccountDto, Onboa
   /// Platform ID to bind the account to (references Platform.id); omit for unbound
   @BuiltValueField(wireName: r'platformId')
   String? get platformId;
+
+  /// User-set display name override (omit/null = keep the derived name)
+  @BuiltValueField(wireName: r'displayName')
+  String? get displayName;
 
   OnboardingAccountDto._();
 
@@ -78,6 +83,13 @@ class _$OnboardingAccountDtoSerializer implements PrimitiveSerializer<Onboarding
       yield serializers.serialize(
         object.platformId,
         specifiedType: const FullType(String),
+      );
+    }
+    if (object.displayName != null) {
+      yield r'displayName';
+      yield serializers.serialize(
+        object.displayName,
+        specifiedType: const FullType.nullable(String),
       );
     }
   }
@@ -130,6 +142,14 @@ class _$OnboardingAccountDtoSerializer implements PrimitiveSerializer<Onboarding
             specifiedType: const FullType(String),
           ) as String;
           result.platformId = valueDes;
+          break;
+        case r'displayName':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
+          result.displayName = valueDes;
           break;
         default:
           unhandled.add(key);
