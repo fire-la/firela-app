@@ -16075,8 +16075,9 @@ components:
         displayName:
           type: string
           description: >-
-            Display name: user-set name if provided (#762), else last part of
-            account path
+            Display name: user-set name if provided (#762), else the ADR-0114
+            chain — request-locale catalog name, en pivot, then the last part of
+            the account path (#771)
           example: Savings
         balance:
           type: string
@@ -16216,8 +16217,9 @@ components:
         displayName:
           type: string
           description: >-
-            Display name: user-set name if provided (#762), else last part of
-            account path
+            Display name: user-set name if provided (#762), else the ADR-0114
+            chain — request-locale catalog name, en pivot, then the last part of
+            the account path (#771)
           example: Savings
         balance:
           type: string
