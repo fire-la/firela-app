@@ -9780,6 +9780,14 @@ components:
           type: string
           description: Icon identifier
           example: bank-custom
+        displayName:
+          type: string
+          description: >-
+            User-set display name override (null = clear the override and fall
+            back to the derived name, omit = unchanged)
+          nullable: true
+          maxLength: 50
+          example: Salary card
         openDirectiveMeta:
           type: object
           description: >-
