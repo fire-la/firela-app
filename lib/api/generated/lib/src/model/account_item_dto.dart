@@ -13,7 +13,7 @@ part 'account_item_dto.g.dart';
 /// Properties:
 /// * [id] - Account ID
 /// * [name] - Full account name
-/// * [displayName] - Display name: user-set name if provided (#762), else last part of account path
+/// * [displayName] - Display name: user-set name if provided (#762), else the ADR-0114 chain — request-locale catalog name, en pivot, then the last part of the account path (#771)
 /// * [balance] - Account balance
 /// * [currency] - Currency code
 /// * [convertedBalance] - FX-converted balance in base currency; omitted when not convertible
@@ -27,7 +27,7 @@ abstract class AccountItemDto implements Built<AccountItemDto, AccountItemDtoBui
   @BuiltValueField(wireName: r'name')
   String get name;
 
-  /// Display name: user-set name if provided (#762), else last part of account path
+  /// Display name: user-set name if provided (#762), else the ADR-0114 chain — request-locale catalog name, en pivot, then the last part of the account path (#771)
   @BuiltValueField(wireName: r'displayName')
   String get displayName;
 
