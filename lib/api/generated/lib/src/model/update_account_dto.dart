@@ -16,6 +16,7 @@ part 'update_account_dto.g.dart';
 /// * [currencies] - Allowed currencies (null = no restriction)
 /// * [bookingMethod] - Booking method for cost basis
 /// * [icon] - Icon identifier
+/// * [displayName] - User-set display name override (null = clear the override and fall back to the derived name, omit = unchanged)
 /// * [openDirectiveMeta] - Open directive metadata (merged with existing; NOT an opening-balance amount)
 /// * [platformId] - Platform ID (references Platform.id), null to clear association
 @BuiltValue()
@@ -32,6 +33,10 @@ abstract class UpdateAccountDto implements Built<UpdateAccountDto, UpdateAccount
   /// Icon identifier
   @BuiltValueField(wireName: r'icon')
   String? get icon;
+
+  /// User-set display name override (null = clear the override and fall back to the derived name, omit = unchanged)
+  @BuiltValueField(wireName: r'displayName')
+  String? get displayName;
 
   /// Open directive metadata (merged with existing; NOT an opening-balance amount)
   @BuiltValueField(wireName: r'openDirectiveMeta')
@@ -83,6 +88,13 @@ class _$UpdateAccountDtoSerializer implements PrimitiveSerializer<UpdateAccountD
       yield serializers.serialize(
         object.icon,
         specifiedType: const FullType(String),
+      );
+    }
+    if (object.displayName != null) {
+      yield r'displayName';
+      yield serializers.serialize(
+        object.displayName,
+        specifiedType: const FullType.nullable(String),
       );
     }
     if (object.openDirectiveMeta != null) {
@@ -142,6 +154,14 @@ class _$UpdateAccountDtoSerializer implements PrimitiveSerializer<UpdateAccountD
             specifiedType: const FullType(String),
           ) as String;
           result.icon = valueDes;
+          break;
+        case r'displayName':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
+          result.displayName = valueDes;
           break;
         case r'openDirectiveMeta':
           final valueDes = serializers.deserialize(
