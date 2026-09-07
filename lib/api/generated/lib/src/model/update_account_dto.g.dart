@@ -114,6 +114,8 @@ class _$UpdateAccountDto extends UpdateAccountDto {
   @override
   final String? icon;
   @override
+  final String? displayName;
+  @override
   final JsonObject? openDirectiveMeta;
   @override
   final String? platformId;
@@ -126,6 +128,7 @@ class _$UpdateAccountDto extends UpdateAccountDto {
       {this.currencies,
       this.bookingMethod,
       this.icon,
+      this.displayName,
       this.openDirectiveMeta,
       this.platformId})
       : super._();
@@ -145,6 +148,7 @@ class _$UpdateAccountDto extends UpdateAccountDto {
         currencies == other.currencies &&
         bookingMethod == other.bookingMethod &&
         icon == other.icon &&
+        displayName == other.displayName &&
         openDirectiveMeta == other.openDirectiveMeta &&
         platformId == other.platformId;
   }
@@ -155,6 +159,7 @@ class _$UpdateAccountDto extends UpdateAccountDto {
     _$hash = $jc(_$hash, currencies.hashCode);
     _$hash = $jc(_$hash, bookingMethod.hashCode);
     _$hash = $jc(_$hash, icon.hashCode);
+    _$hash = $jc(_$hash, displayName.hashCode);
     _$hash = $jc(_$hash, openDirectiveMeta.hashCode);
     _$hash = $jc(_$hash, platformId.hashCode);
     _$hash = $jf(_$hash);
@@ -167,6 +172,7 @@ class _$UpdateAccountDto extends UpdateAccountDto {
           ..add('currencies', currencies)
           ..add('bookingMethod', bookingMethod)
           ..add('icon', icon)
+          ..add('displayName', displayName)
           ..add('openDirectiveMeta', openDirectiveMeta)
           ..add('platformId', platformId))
         .toString();
@@ -192,6 +198,10 @@ class UpdateAccountDtoBuilder
   String? get icon => _$this._icon;
   set icon(String? icon) => _$this._icon = icon;
 
+  String? _displayName;
+  String? get displayName => _$this._displayName;
+  set displayName(String? displayName) => _$this._displayName = displayName;
+
   JsonObject? _openDirectiveMeta;
   JsonObject? get openDirectiveMeta => _$this._openDirectiveMeta;
   set openDirectiveMeta(JsonObject? openDirectiveMeta) =>
@@ -211,6 +221,7 @@ class UpdateAccountDtoBuilder
       _currencies = $v.currencies?.toBuilder();
       _bookingMethod = $v.bookingMethod;
       _icon = $v.icon;
+      _displayName = $v.displayName;
       _openDirectiveMeta = $v.openDirectiveMeta;
       _platformId = $v.platformId;
       _$v = null;
@@ -240,6 +251,7 @@ class UpdateAccountDtoBuilder
               currencies: _currencies?.build(),
               bookingMethod: bookingMethod,
               icon: icon,
+              displayName: displayName,
               openDirectiveMeta: openDirectiveMeta,
               platformId: platformId);
     } catch (_) {
