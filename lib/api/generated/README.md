@@ -73,10 +73,10 @@ full region catalog (every ISO 3166-1 entry) with an `open` flag plus display
 name and config (currency, locale) per region — open regions carry their
 loaded template config, not-yet-open regions carry registry identity fields.
 
-Not-yet-open region codes are accepted by the account-standards catalog and
-onboarding routes, where they degrade to the universal-only template catalog
-(#759, mirroring the /platforms/:id/standards fallback of #706). All other
-region-scoped routes still expect open region codes.
+Not-yet-open region codes are recognized on every region-scoped route (#768:
+the middleware and the route path-parameter enums accept the full catalog),
+and their content degrades to the universal-only template catalog (#759,
+mirroring the /platforms/:id/standards fallback of #706).
 
 Example: GET /api/v1/cn/bean/accounts
 
