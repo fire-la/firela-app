@@ -17295,8 +17295,9 @@ paths:
       description: >-
         Returns the region-scoped category slugs
         (expense/income/investment/banking/transfer/payment) for the NLP result
-        picker. CN-exclusive payment instruments (huabei/baitiao) appear only
-        under /cn.
+        picker, each with the categoryAccount paths the region-enabled system
+        rules map it to (#816). CN-exclusive payment instruments
+        (huabei/baitiao) appear only under /cn.
       parameters:
         - name: region
           required: true
@@ -31040,11 +31041,27 @@ components:
           type: array
           items:
             type: string
+        categoryAccounts:
+          description: >-
+            Beancount account paths (categoryAccount) of the region-enabled
+            system rules whose categoryKeywords include this slug (#816). System
+            rules only (public endpoint — user rules excluded); one-to-many by
+            design (e.g. 'utilities' → Electricity/Water/Internet/Gas), sorted,
+            [] when no rule maps the slug.
+          example:
+            - Expenses:Utilities:Electricity
+            - Expenses:Utilities:Gas
+            - Expenses:Utilities:Internet
+            - Expenses:Utilities:Water
+          type: array
+          items:
+            type: string
       required:
         - slug
         - scenario
         - icon
         - regions
+        - categoryAccounts
     CategoryCatalogListResponseDto:
       type: object
       properties:
@@ -31945,8 +31962,12 @@ components:
           description: Transaction narration
         category:
           type: string
-          description: Category slug
-          example: food_restaurant
+          description: >-
+            Category in canonical form (catalog slug or Stage-2 rule keyword
+            token, ADR-0116) — echo back verbatim from parsedData.category.
+            Foreign forms (locale display names, account paths) are rejected
+            with nlp.category.invalid.
+          example: food
         incomeType:
           type: string
           description: Income type
@@ -32118,7 +32139,12 @@ components:
           description: Transaction narration
         category:
           type: string
-          description: Category
+          description: >-
+            Category in canonical form: a CATEGORY_CATALOG slug (GET
+            /{region}/bean/categories) or a Stage-2 rule categoryKeywords token
+            (ADR-0116 D2). Never a locale display name or a beancount account
+            path. Echo back verbatim on confirm.
+          example: food
         incomeType:
           type: string
           description: Income type (e.g., Salary, Bonus, Dividend, Interest)
