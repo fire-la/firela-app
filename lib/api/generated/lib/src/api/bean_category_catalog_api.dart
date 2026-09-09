@@ -19,7 +19,7 @@ class BeanCategoryCatalogApi {
   const BeanCategoryCatalogApi(this._dio, this._serializers);
 
   /// List category catalog for a region
-  /// Returns the region-scoped category slugs (expense/income/investment/banking/transfer/payment) for the NLP result picker. CN-exclusive payment instruments (huabei/baitiao) appear only under /cn.
+  /// Returns the region-scoped category slugs (expense/income/investment/banking/transfer/payment) for the NLP result picker, each with the categoryAccount paths the region-enabled system rules map it to (#816). CN-exclusive payment instruments (huabei/baitiao) appear only under /cn.
   ///
   /// Parameters:
   /// * [region] - Region code for tenant context

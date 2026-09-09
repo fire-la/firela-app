@@ -17,7 +17,7 @@ part 'client_parsed_data_dto.g.dart';
 /// * [date] - Transaction date (ISO 8601)
 /// * [payee] - Payee/merchant name
 /// * [narration] - Transaction narration
-/// * [category] - Category slug
+/// * [category] - Category in canonical form (catalog slug or Stage-2 rule keyword token, ADR-0116) — echo back verbatim from parsedData.category. Foreign forms (locale display names, account paths) are rejected with nlp.category.invalid.
 /// * [incomeType] - Income type
 /// * [incomeSource] - Income source
 /// * [symbol] - Security symbol code (e.g., 600519, AAPL)
@@ -49,7 +49,7 @@ abstract class ClientParsedDataDto implements Built<ClientParsedDataDto, ClientP
   @BuiltValueField(wireName: r'narration')
   String? get narration;
 
-  /// Category slug
+  /// Category in canonical form (catalog slug or Stage-2 rule keyword token, ADR-0116) — echo back verbatim from parsedData.category. Foreign forms (locale display names, account paths) are rejected with nlp.category.invalid.
   @BuiltValueField(wireName: r'category')
   String? get category;
 
