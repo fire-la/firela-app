@@ -16,6 +16,7 @@ part 'category_catalog_entry_dto.g.dart';
 /// * [scenario] - Display scenario group (maps to frontend picker _scenario)
 /// * [icon] - Lucide icon name
 /// * [regions] - Applicable regions ('*' = all, 'cn' = CN-only)
+/// * [categoryAccounts] - Beancount account paths (categoryAccount) of the region-enabled system rules whose categoryKeywords include this slug (#816). System rules only (public endpoint — user rules excluded); one-to-many by design (e.g. 'utilities' → Electricity/Water/Internet/Gas), sorted, [] when no rule maps the slug.
 @BuiltValue()
 abstract class CategoryCatalogEntryDto implements Built<CategoryCatalogEntryDto, CategoryCatalogEntryDtoBuilder> {
   /// Category slug (single source-of-truth)
@@ -34,6 +35,10 @@ abstract class CategoryCatalogEntryDto implements Built<CategoryCatalogEntryDto,
   /// Applicable regions ('*' = all, 'cn' = CN-only)
   @BuiltValueField(wireName: r'regions')
   BuiltList<String> get regions;
+
+  /// Beancount account paths (categoryAccount) of the region-enabled system rules whose categoryKeywords include this slug (#816). System rules only (public endpoint — user rules excluded); one-to-many by design (e.g. 'utilities' → Electricity/Water/Internet/Gas), sorted, [] when no rule maps the slug.
+  @BuiltValueField(wireName: r'categoryAccounts')
+  BuiltList<String> get categoryAccounts;
 
   CategoryCatalogEntryDto._();
 
@@ -76,6 +81,11 @@ class _$CategoryCatalogEntryDtoSerializer implements PrimitiveSerializer<Categor
     yield r'regions';
     yield serializers.serialize(
       object.regions,
+      specifiedType: const FullType(BuiltList, [FullType(String)]),
+    );
+    yield r'categoryAccounts';
+    yield serializers.serialize(
+      object.categoryAccounts,
       specifiedType: const FullType(BuiltList, [FullType(String)]),
     );
   }
@@ -128,6 +138,13 @@ class _$CategoryCatalogEntryDtoSerializer implements PrimitiveSerializer<Categor
             specifiedType: const FullType(BuiltList, [FullType(String)]),
           ) as BuiltList<String>;
           result.regions.replace(valueDes);
+          break;
+        case r'categoryAccounts':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(BuiltList, [FullType(String)]),
+          ) as BuiltList<String>;
+          result.categoryAccounts.replace(valueDes);
           break;
         default:
           unhandled.add(key);

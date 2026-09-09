@@ -109,6 +109,8 @@ class _$CategoryCatalogEntryDto extends CategoryCatalogEntryDto {
   final String icon;
   @override
   final BuiltList<String> regions;
+  @override
+  final BuiltList<String> categoryAccounts;
 
   factory _$CategoryCatalogEntryDto(
           [void Function(CategoryCatalogEntryDtoBuilder)? updates]) =>
@@ -118,7 +120,8 @@ class _$CategoryCatalogEntryDto extends CategoryCatalogEntryDto {
       {required this.slug,
       required this.scenario,
       required this.icon,
-      required this.regions})
+      required this.regions,
+      required this.categoryAccounts})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(
         slug, r'CategoryCatalogEntryDto', 'slug');
@@ -128,6 +131,8 @@ class _$CategoryCatalogEntryDto extends CategoryCatalogEntryDto {
         icon, r'CategoryCatalogEntryDto', 'icon');
     BuiltValueNullFieldError.checkNotNull(
         regions, r'CategoryCatalogEntryDto', 'regions');
+    BuiltValueNullFieldError.checkNotNull(
+        categoryAccounts, r'CategoryCatalogEntryDto', 'categoryAccounts');
   }
 
   @override
@@ -146,7 +151,8 @@ class _$CategoryCatalogEntryDto extends CategoryCatalogEntryDto {
         slug == other.slug &&
         scenario == other.scenario &&
         icon == other.icon &&
-        regions == other.regions;
+        regions == other.regions &&
+        categoryAccounts == other.categoryAccounts;
   }
 
   @override
@@ -156,6 +162,7 @@ class _$CategoryCatalogEntryDto extends CategoryCatalogEntryDto {
     _$hash = $jc(_$hash, scenario.hashCode);
     _$hash = $jc(_$hash, icon.hashCode);
     _$hash = $jc(_$hash, regions.hashCode);
+    _$hash = $jc(_$hash, categoryAccounts.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -166,7 +173,8 @@ class _$CategoryCatalogEntryDto extends CategoryCatalogEntryDto {
           ..add('slug', slug)
           ..add('scenario', scenario)
           ..add('icon', icon)
-          ..add('regions', regions))
+          ..add('regions', regions)
+          ..add('categoryAccounts', categoryAccounts))
         .toString();
   }
 }
@@ -194,6 +202,12 @@ class CategoryCatalogEntryDtoBuilder
       _$this._regions ??= new ListBuilder<String>();
   set regions(ListBuilder<String>? regions) => _$this._regions = regions;
 
+  ListBuilder<String>? _categoryAccounts;
+  ListBuilder<String> get categoryAccounts =>
+      _$this._categoryAccounts ??= new ListBuilder<String>();
+  set categoryAccounts(ListBuilder<String>? categoryAccounts) =>
+      _$this._categoryAccounts = categoryAccounts;
+
   CategoryCatalogEntryDtoBuilder() {
     CategoryCatalogEntryDto._defaults(this);
   }
@@ -205,6 +219,7 @@ class CategoryCatalogEntryDtoBuilder
       _scenario = $v.scenario;
       _icon = $v.icon;
       _regions = $v.regions.toBuilder();
+      _categoryAccounts = $v.categoryAccounts.toBuilder();
       _$v = null;
     }
     return this;
@@ -235,12 +250,15 @@ class CategoryCatalogEntryDtoBuilder
                   scenario, r'CategoryCatalogEntryDto', 'scenario'),
               icon: BuiltValueNullFieldError.checkNotNull(
                   icon, r'CategoryCatalogEntryDto', 'icon'),
-              regions: regions.build());
+              regions: regions.build(),
+              categoryAccounts: categoryAccounts.build());
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'regions';
         regions.build();
+        _$failedField = 'categoryAccounts';
+        categoryAccounts.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             r'CategoryCatalogEntryDto', _$failedField, e.toString());

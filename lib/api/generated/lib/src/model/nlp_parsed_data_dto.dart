@@ -17,7 +17,7 @@ part 'nlp_parsed_data_dto.g.dart';
 /// * [date] - Transaction date (ISO format)
 /// * [payee] - Payee name
 /// * [narration] - Transaction narration
-/// * [category] - Category
+/// * [category] - Category in canonical form: a CATEGORY_CATALOG slug (GET /{region}/bean/categories) or a Stage-2 rule categoryKeywords token (ADR-0116 D2). Never a locale display name or a beancount account path. Echo back verbatim on confirm.
 /// * [incomeType] - Income type (e.g., Salary, Bonus, Dividend, Interest)
 /// * [incomeSource] - Income source (e.g., company name)
 /// * [symbol] - Security symbol code (e.g., 600519, AAPL)
@@ -49,7 +49,7 @@ abstract class NlpParsedDataDto implements Built<NlpParsedDataDto, NlpParsedData
   @BuiltValueField(wireName: r'narration')
   String? get narration;
 
-  /// Category
+  /// Category in canonical form: a CATEGORY_CATALOG slug (GET /{region}/bean/categories) or a Stage-2 rule categoryKeywords token (ADR-0116 D2). Never a locale display name or a beancount account path. Echo back verbatim on confirm.
   @BuiltValueField(wireName: r'category')
   String? get category;
 
