@@ -260,7 +260,9 @@ paths:
         - name: search
           required: false
           in: query
-          description: Search term for account path
+          description: >-
+            Search term matched against account path and user-set display name
+            (case-insensitive)
           schema:
             type: string
         - name: limit
