@@ -28377,6 +28377,9 @@ components:
         byType:
           type: object
           description: Count by type
+        resolved:
+          type: number
+          description: Current count of reviews in RESOLVED status
         oldestPending:
           format: date-time
           type: string
@@ -28384,6 +28387,7 @@ components:
       required:
         - total
         - byType
+        - resolved
     DecisionOptionDto:
       type: object
       properties:
