@@ -12,16 +12,23 @@ class _$ReviewStatsDto extends ReviewStatsDto {
   @override
   final JsonObject byType;
   @override
+  final num resolved;
+  @override
   final DateTime? oldestPending;
 
   factory _$ReviewStatsDto([void Function(ReviewStatsDtoBuilder)? updates]) =>
       (new ReviewStatsDtoBuilder()..update(updates))._build();
 
   _$ReviewStatsDto._(
-      {required this.total, required this.byType, this.oldestPending})
+      {required this.total,
+      required this.byType,
+      required this.resolved,
+      this.oldestPending})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(total, r'ReviewStatsDto', 'total');
     BuiltValueNullFieldError.checkNotNull(byType, r'ReviewStatsDto', 'byType');
+    BuiltValueNullFieldError.checkNotNull(
+        resolved, r'ReviewStatsDto', 'resolved');
   }
 
   @override
@@ -38,6 +45,7 @@ class _$ReviewStatsDto extends ReviewStatsDto {
     return other is ReviewStatsDto &&
         total == other.total &&
         byType == other.byType &&
+        resolved == other.resolved &&
         oldestPending == other.oldestPending;
   }
 
@@ -46,6 +54,7 @@ class _$ReviewStatsDto extends ReviewStatsDto {
     var _$hash = 0;
     _$hash = $jc(_$hash, total.hashCode);
     _$hash = $jc(_$hash, byType.hashCode);
+    _$hash = $jc(_$hash, resolved.hashCode);
     _$hash = $jc(_$hash, oldestPending.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
@@ -56,6 +65,7 @@ class _$ReviewStatsDto extends ReviewStatsDto {
     return (newBuiltValueToStringHelper(r'ReviewStatsDto')
           ..add('total', total)
           ..add('byType', byType)
+          ..add('resolved', resolved)
           ..add('oldestPending', oldestPending))
         .toString();
   }
@@ -73,6 +83,10 @@ class ReviewStatsDtoBuilder
   JsonObject? get byType => _$this._byType;
   set byType(JsonObject? byType) => _$this._byType = byType;
 
+  num? _resolved;
+  num? get resolved => _$this._resolved;
+  set resolved(num? resolved) => _$this._resolved = resolved;
+
   DateTime? _oldestPending;
   DateTime? get oldestPending => _$this._oldestPending;
   set oldestPending(DateTime? oldestPending) =>
@@ -87,6 +101,7 @@ class ReviewStatsDtoBuilder
     if ($v != null) {
       _total = $v.total;
       _byType = $v.byType;
+      _resolved = $v.resolved;
       _oldestPending = $v.oldestPending;
       _$v = null;
     }
@@ -114,6 +129,8 @@ class ReviewStatsDtoBuilder
                 total, r'ReviewStatsDto', 'total'),
             byType: BuiltValueNullFieldError.checkNotNull(
                 byType, r'ReviewStatsDto', 'byType'),
+            resolved: BuiltValueNullFieldError.checkNotNull(
+                resolved, r'ReviewStatsDto', 'resolved'),
             oldestPending: oldestPending);
     replace(_$result);
     return _$result;
