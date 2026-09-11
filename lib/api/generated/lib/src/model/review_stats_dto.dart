@@ -14,6 +14,7 @@ part 'review_stats_dto.g.dart';
 /// Properties:
 /// * [total] - Total pending reviews
 /// * [byType] - Count by type
+/// * [resolved] - Current count of reviews in RESOLVED status
 /// * [oldestPending] - Oldest pending review date
 @BuiltValue()
 abstract class ReviewStatsDto implements Built<ReviewStatsDto, ReviewStatsDtoBuilder> {
@@ -24,6 +25,10 @@ abstract class ReviewStatsDto implements Built<ReviewStatsDto, ReviewStatsDtoBui
   /// Count by type
   @BuiltValueField(wireName: r'byType')
   JsonObject get byType;
+
+  /// Current count of reviews in RESOLVED status
+  @BuiltValueField(wireName: r'resolved')
+  num get resolved;
 
   /// Oldest pending review date
   @BuiltValueField(wireName: r'oldestPending')
@@ -61,6 +66,11 @@ class _$ReviewStatsDtoSerializer implements PrimitiveSerializer<ReviewStatsDto> 
     yield serializers.serialize(
       object.byType,
       specifiedType: const FullType(JsonObject),
+    );
+    yield r'resolved';
+    yield serializers.serialize(
+      object.resolved,
+      specifiedType: const FullType(num),
     );
     if (object.oldestPending != null) {
       yield r'oldestPending';
@@ -105,6 +115,13 @@ class _$ReviewStatsDtoSerializer implements PrimitiveSerializer<ReviewStatsDto> 
             specifiedType: const FullType(JsonObject),
           ) as JsonObject;
           result.byType = valueDes;
+          break;
+        case r'resolved':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(num),
+          ) as num;
+          result.resolved = valueDes;
           break;
         case r'oldestPending':
           final valueDes = serializers.deserialize(
