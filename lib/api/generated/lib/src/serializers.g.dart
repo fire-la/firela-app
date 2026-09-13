@@ -45,6 +45,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(BatchCreateTransactionDto.serializer)
       ..add(BatchResolveDto.serializer)
       ..add(BatchResolveDtoActionEnum.serializer)
+      ..add(BatchResolveItemDto.serializer)
       ..add(BatchResolveResultDto.serializer)
       ..add(BatchTransactionErrorDto.serializer)
       ..add(BatchTransactionResponseDto.serializer)
@@ -396,6 +397,10 @@ Serializers _$serializers = (new Serializers().toBuilder()
               BuiltList, const [const FullType(ExchangeRateWarningDto)]),
           () => new ListBuilder<ExchangeRateWarningDto>())
       ..addBuilderFactory(
+          const FullType(
+              BuiltList, const [const FullType(BatchResolveItemDto)]),
+          () => new ListBuilder<BatchResolveItemDto>())
+      ..addBuilderFactory(
           const FullType(BuiltList, const [
             const FullType(BuiltList, const [const FullType(dynamic)])
           ]),
@@ -704,9 +709,6 @@ Serializers _$serializers = (new Serializers().toBuilder()
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())
       ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(String)]),
-          () => new ListBuilder<String>())
-      ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(CreatePostingDto)]),
           () => new ListBuilder<CreatePostingDto>())
       ..addBuilderFactory(
@@ -842,6 +844,10 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(
+              BuiltMap, const [const FullType(String), const FullType(String)]),
+          () => new MapBuilder<String, String>())
       ..addBuilderFactory(
           const FullType(
               BuiltMap, const [const FullType(String), const FullType(String)]),

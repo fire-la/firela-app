@@ -327,6 +327,7 @@ Class | Method | HTTP request | Description
  - [BalanceResponseDto](doc/BalanceResponseDto.md)
  - [BatchCreateTransactionDto](doc/BatchCreateTransactionDto.md)
  - [BatchResolveDto](doc/BatchResolveDto.md)
+ - [BatchResolveItemDto](doc/BatchResolveItemDto.md)
  - [BatchResolveResultDto](doc/BatchResolveResultDto.md)
  - [BatchTransactionErrorDto](doc/BatchTransactionErrorDto.md)
  - [BatchTransactionResponseDto](doc/BatchTransactionResponseDto.md)

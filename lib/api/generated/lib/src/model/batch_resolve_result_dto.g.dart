@@ -12,7 +12,7 @@ class _$BatchResolveResultDto extends BatchResolveResultDto {
   @override
   final num failedCount;
   @override
-  final BuiltList<String> results;
+  final BuiltList<BatchResolveItemDto> results;
 
   factory _$BatchResolveResultDto(
           [void Function(BatchResolveResultDtoBuilder)? updates]) =>
@@ -81,10 +81,11 @@ class BatchResolveResultDtoBuilder
   num? get failedCount => _$this._failedCount;
   set failedCount(num? failedCount) => _$this._failedCount = failedCount;
 
-  ListBuilder<String>? _results;
-  ListBuilder<String> get results =>
-      _$this._results ??= new ListBuilder<String>();
-  set results(ListBuilder<String>? results) => _$this._results = results;
+  ListBuilder<BatchResolveItemDto>? _results;
+  ListBuilder<BatchResolveItemDto> get results =>
+      _$this._results ??= new ListBuilder<BatchResolveItemDto>();
+  set results(ListBuilder<BatchResolveItemDto>? results) =>
+      _$this._results = results;
 
   BatchResolveResultDtoBuilder() {
     BatchResolveResultDto._defaults(this);
