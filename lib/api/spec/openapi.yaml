@@ -28645,6 +28645,41 @@ components:
       required:
         - reviewIds
         - action
+    BatchResolveItemDto:
+      type: object
+      properties:
+        reviewId:
+          type: string
+          description: Review item ID
+        success:
+          type: boolean
+          description: Whether this item was resolved successfully
+        resolutionId:
+          type: string
+          description: >-
+            Resolution ID for undo. Present only on successful items (failed
+            items stay PENDING).
+        messageKey:
+          type: string
+          description: >-
+            i18n message key for the per-item failure reason (e.g.,
+            review.payee.error.no_suggestion), mirroring the single-item resolve
+            response. Present only on resolver rejections, not on unexpected
+            errors.
+        messageParams:
+          type: object
+          description: 'Parameters for message interpolation (e.g., { name: "PayeeName" })'
+          additionalProperties:
+            type: string
+        error:
+          type: string
+          description: >-
+            Diagnostic string: the messageKey on the resolver-rejection path; an
+            i18n key mapped from the exception type on the unexpected-error path
+            (#903, raw exception detail stays in server logs).
+      required:
+        - reviewId
+        - success
     BatchResolveResultDto:
       type: object
       properties:
@@ -28658,7 +28693,7 @@ components:
           description: Details for each item
           type: array
           items:
-            type: string
+            $ref: '#/components/schemas/BatchResolveItemDto'
       required:
         - successCount
         - failedCount
