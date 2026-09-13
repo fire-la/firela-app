@@ -70,6 +70,7 @@ export 'package:firela_api/src/model/balance_by_currency_dto.dart';
 export 'package:firela_api/src/model/balance_response_dto.dart';
 export 'package:firela_api/src/model/batch_create_transaction_dto.dart';
 export 'package:firela_api/src/model/batch_resolve_dto.dart';
+export 'package:firela_api/src/model/batch_resolve_item_dto.dart';
 export 'package:firela_api/src/model/batch_resolve_result_dto.dart';
 export 'package:firela_api/src/model/batch_transaction_error_dto.dart';
 export 'package:firela_api/src/model/batch_transaction_response_dto.dart';

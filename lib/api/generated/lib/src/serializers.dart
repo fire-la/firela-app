@@ -37,6 +37,7 @@ import 'package:firela_api/src/model/balance_by_currency_dto.dart';
 import 'package:firela_api/src/model/balance_response_dto.dart';
 import 'package:firela_api/src/model/batch_create_transaction_dto.dart';
 import 'package:firela_api/src/model/batch_resolve_dto.dart';
+import 'package:firela_api/src/model/batch_resolve_item_dto.dart';
 import 'package:firela_api/src/model/batch_resolve_result_dto.dart';
 import 'package:firela_api/src/model/batch_transaction_error_dto.dart';
 import 'package:firela_api/src/model/batch_transaction_response_dto.dart';
@@ -266,6 +267,7 @@ part 'serializers.g.dart';
   BalanceResponseDto,
   BatchCreateTransactionDto,
   BatchResolveDto,
+  BatchResolveItemDto,
   BatchResolveResultDto,
   BatchTransactionErrorDto,
   BatchTransactionResponseDto,

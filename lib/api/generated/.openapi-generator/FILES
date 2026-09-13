@@ -70,6 +70,7 @@ lib/src/model/balance_by_currency_dto.dart
 lib/src/model/balance_response_dto.dart
 lib/src/model/batch_create_transaction_dto.dart
 lib/src/model/batch_resolve_dto.dart
+lib/src/model/batch_resolve_item_dto.dart
 lib/src/model/batch_resolve_result_dto.dart
 lib/src/model/batch_transaction_error_dto.dart
 lib/src/model/batch_transaction_response_dto.dart

@@ -4,6 +4,7 @@
 
 // ignore_for_file: unused_element
 import 'package:built_collection/built_collection.dart';
+import 'package:firela_api/src/model/batch_resolve_item_dto.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
@@ -27,7 +28,7 @@ abstract class BatchResolveResultDto implements Built<BatchResolveResultDto, Bat
 
   /// Details for each item
   @BuiltValueField(wireName: r'results')
-  BuiltList<String> get results;
+  BuiltList<BatchResolveItemDto> get results;
 
   BatchResolveResultDto._();
 
@@ -65,7 +66,7 @@ class _$BatchResolveResultDtoSerializer implements PrimitiveSerializer<BatchReso
     yield r'results';
     yield serializers.serialize(
       object.results,
-      specifiedType: const FullType(BuiltList, [FullType(String)]),
+      specifiedType: const FullType(BuiltList, [FullType(BatchResolveItemDto)]),
     );
   }
 
@@ -107,8 +108,8 @@ class _$BatchResolveResultDtoSerializer implements PrimitiveSerializer<BatchReso
         case r'results':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(BuiltList, [FullType(String)]),
-          ) as BuiltList<String>;
+            specifiedType: const FullType(BuiltList, [FullType(BatchResolveItemDto)]),
+          ) as BuiltList<BatchResolveItemDto>;
           result.results.replace(valueDes);
           break;
         default:
