@@ -51,6 +51,11 @@ jobs:
           # trail into the annotation (absent on manual regens — fine).
           IGN_SHA="$(git log -5 --pretty=%B | grep -oE 'ign@[0-9a-f]{7,40}' | head -1 || true)"
 
+          # git tag -a needs an identity; the runner has none (runs failed
+          # with "empty ident name" since 2026-09-06 — fire-la/firela-app-private#162).
+          git config user.name "firela-ci"
+          git config user.email "ci@firela.io"
+
           git tag -a "${TAG}" -m "Generated Dart API types (${SHORT})${IGN_SHA:+ from ${IGN_SHA}}"
           git push origin "refs/tags/${TAG}"
           echo "Tagged ${TAG}"
