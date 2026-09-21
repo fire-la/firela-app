@@ -19,7 +19,7 @@ part 'review_summary_dto.g.dart';
 /// * [confidence] - Confidence score (0-1)
 /// * [confidenceLevel] - Confidence level derived from score. Null for error-type reviews (ACCOUNT_VALIDATION/PIPELINE_ERROR) which carry no confidence.
 /// * [summaryKey] - i18n message key for summary (e.g., review.summary.duplicate). Translate on frontend with summaryParams.
-/// * [summaryParams] - Parameters for summary message interpolation (e.g., { date: \"2024-01-15\", amount: \"50\" })
+/// * [summaryParams] - Parameters for summary message interpolation (e.g., { date: \"2024-01-15\", amount: \"50\" }). PAYEE_MATCH items may additionally carry suggestedDisplay — the localized dir PayeeProfile display name per request locale (#1389); absent when untranslated (use suggested, the canonical).
 /// * [matchReasons] - Human-readable reasons for branching
 /// * [sourceType] - Source type (free-form string from transaction metadata, e.g. import, api)
 /// * [sourcePlatform] - Source platform (e.g., alipay, wechat)
@@ -59,7 +59,7 @@ abstract class ReviewSummaryDto implements Built<ReviewSummaryDto, ReviewSummary
   @BuiltValueField(wireName: r'summaryKey')
   String get summaryKey;
 
-  /// Parameters for summary message interpolation (e.g., { date: \"2024-01-15\", amount: \"50\" })
+  /// Parameters for summary message interpolation (e.g., { date: \"2024-01-15\", amount: \"50\" }). PAYEE_MATCH items may additionally carry suggestedDisplay — the localized dir PayeeProfile display name per request locale (#1389); absent when untranslated (use suggested, the canonical).
   @BuiltValueField(wireName: r'summaryParams')
   BuiltMap<String, String>? get summaryParams;
 
