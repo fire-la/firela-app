@@ -28293,7 +28293,10 @@ components:
           type: object
           description: >-
             Parameters for summary message interpolation (e.g., { date:
-            "2024-01-15", amount: "50" })
+            "2024-01-15", amount: "50" }). PAYEE_MATCH items may additionally
+            carry suggestedDisplay — the localized dir PayeeProfile display name
+            per request locale (#1389); absent when untranslated (use suggested,
+            the canonical).
           additionalProperties:
             type: string
         matchReasons:
@@ -28463,7 +28466,10 @@ components:
           type: object
           description: >-
             Parameters for summary message interpolation (e.g., { date:
-            "2024-01-15", amount: "50" })
+            "2024-01-15", amount: "50" }). PAYEE_MATCH items may additionally
+            carry suggestedDisplay — the localized dir PayeeProfile display name
+            per request locale (#1389); absent when untranslated (use suggested,
+            the canonical).
           additionalProperties:
             type: string
         matchReasons:
@@ -28509,9 +28515,10 @@ components:
             Review-type-specific data (JSONB). Structure varies by type:
             DUPLICATE: {newTransaction, existingTransaction, matchScore},
             RULE_MATCH: {transaction, matchedRule, suggestedAccount},
-            PAYEE_MATCH: {originalPayee, suggestedPayee}, ACCOUNT_VALIDATION:
-            {invalidAccount, suggestedCorrection, similarAccounts},
-            PIPELINE_ERROR: {errorType, errorMessage}
+            PAYEE_MATCH: {originalPayee, suggestedPayee (optional displayName —
+            localized dir PayeeProfile display name per request locale, #1389)},
+            ACCOUNT_VALIDATION: {invalidAccount, suggestedCorrection,
+            similarAccounts}, PIPELINE_ERROR: {errorType, errorMessage}
         decisionOptions:
           description: Available decision options
           type: array
