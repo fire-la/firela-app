@@ -5,6 +5,7 @@
 // ignore_for_file: unused_element
 import 'package:firela_api/src/model/provider_sync_config_dto.dart';
 import 'package:built_collection/built_collection.dart';
+import 'package:built_value/json_object.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
@@ -32,7 +33,7 @@ abstract class ProviderSyncDto implements Built<ProviderSyncDto, ProviderSyncDto
 
   /// Raw transactions from provider
   @BuiltValueField(wireName: r'transactions')
-  BuiltList get transactions;
+  BuiltList<JsonObject> get transactions;
 
   ProviderSyncDto._();
 
@@ -79,7 +80,7 @@ class _$ProviderSyncDtoSerializer implements PrimitiveSerializer<ProviderSyncDto
     yield r'transactions';
     yield serializers.serialize(
       object.transactions,
-      specifiedType: const FullType(BuiltList),
+      specifiedType: const FullType(BuiltList, [FullType(JsonObject)]),
     );
   }
 
@@ -128,8 +129,8 @@ class _$ProviderSyncDtoSerializer implements PrimitiveSerializer<ProviderSyncDto
         case r'transactions':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(BuiltList),
-          ) as BuiltList;
+            specifiedType: const FullType(BuiltList, [FullType(JsonObject)]),
+          ) as BuiltList<JsonObject>;
           result.transactions.replace(valueDes);
           break;
         default:

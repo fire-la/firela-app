@@ -14,7 +14,7 @@ class _$ProviderSyncDto extends ProviderSyncDto {
   @override
   final ProviderSyncConfigDto config;
   @override
-  final BuiltList<dynamic> transactions;
+  final BuiltList<JsonObject> transactions;
 
   factory _$ProviderSyncDto([void Function(ProviderSyncDtoBuilder)? updates]) =>
       (new ProviderSyncDtoBuilder()..update(updates))._build();
@@ -87,10 +87,10 @@ class ProviderSyncDtoBuilder
       _$this._config ??= new ProviderSyncConfigDtoBuilder();
   set config(ProviderSyncConfigDtoBuilder? config) => _$this._config = config;
 
-  ListBuilder<dynamic>? _transactions;
-  ListBuilder<dynamic> get transactions =>
-      _$this._transactions ??= new ListBuilder<dynamic>();
-  set transactions(ListBuilder<dynamic>? transactions) =>
+  ListBuilder<JsonObject>? _transactions;
+  ListBuilder<JsonObject> get transactions =>
+      _$this._transactions ??= new ListBuilder<JsonObject>();
+  set transactions(ListBuilder<JsonObject>? transactions) =>
       _$this._transactions = transactions;
 
   ProviderSyncDtoBuilder() {

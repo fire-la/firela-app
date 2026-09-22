@@ -36,17 +36,17 @@ abstract class ValidateRuleDto implements Built<ValidateRuleDto, ValidateRuleDto
   String? get description;
 
   @BuiltValueField(wireName: r'narrationKeywords')
-  BuiltList<BuiltList>? get narrationKeywords;
+  BuiltList<String>? get narrationKeywords;
 
   @BuiltValueField(wireName: r'payeeKeywords')
-  BuiltList<BuiltList>? get payeeKeywords;
+  BuiltList<String>? get payeeKeywords;
 
   @BuiltValueField(wireName: r'categoryKeywords')
-  BuiltList<BuiltList>? get categoryKeywords;
+  BuiltList<String>? get categoryKeywords;
 
   /// Payment method keywords (e.g., HuaBei, YuEBao)
   @BuiltValueField(wireName: r'methodKeywords')
-  BuiltList<BuiltList>? get methodKeywords;
+  BuiltList<String>? get methodKeywords;
 
   /// Destination account for expenses/income (e.g., Expenses:Food:Coffee)
   @BuiltValueField(wireName: r'categoryAccount')
@@ -68,7 +68,7 @@ abstract class ValidateRuleDto implements Built<ValidateRuleDto, ValidateRuleDto
   num get priority;
 
   @BuiltValueField(wireName: r'additionalTags')
-  BuiltList<BuiltList>? get additionalTags;
+  BuiltList<String>? get additionalTags;
 
   @BuiltValueField(wireName: r'additionalMetadata')
   JsonObject? get additionalMetadata;
@@ -118,28 +118,28 @@ class _$ValidateRuleDtoSerializer implements PrimitiveSerializer<ValidateRuleDto
       yield r'narrationKeywords';
       yield serializers.serialize(
         object.narrationKeywords,
-        specifiedType: const FullType(BuiltList, [FullType(BuiltList)]),
+        specifiedType: const FullType(BuiltList, [FullType(String)]),
       );
     }
     if (object.payeeKeywords != null) {
       yield r'payeeKeywords';
       yield serializers.serialize(
         object.payeeKeywords,
-        specifiedType: const FullType(BuiltList, [FullType(BuiltList)]),
+        specifiedType: const FullType(BuiltList, [FullType(String)]),
       );
     }
     if (object.categoryKeywords != null) {
       yield r'categoryKeywords';
       yield serializers.serialize(
         object.categoryKeywords,
-        specifiedType: const FullType(BuiltList, [FullType(BuiltList)]),
+        specifiedType: const FullType(BuiltList, [FullType(String)]),
       );
     }
     if (object.methodKeywords != null) {
       yield r'methodKeywords';
       yield serializers.serialize(
         object.methodKeywords,
-        specifiedType: const FullType(BuiltList, [FullType(BuiltList)]),
+        specifiedType: const FullType(BuiltList, [FullType(String)]),
       );
     }
     if (object.categoryAccount != null) {
@@ -177,7 +177,7 @@ class _$ValidateRuleDtoSerializer implements PrimitiveSerializer<ValidateRuleDto
       yield r'additionalTags';
       yield serializers.serialize(
         object.additionalTags,
-        specifiedType: const FullType(BuiltList, [FullType(BuiltList)]),
+        specifiedType: const FullType(BuiltList, [FullType(String)]),
       );
     }
     if (object.additionalMetadata != null) {
@@ -234,29 +234,29 @@ class _$ValidateRuleDtoSerializer implements PrimitiveSerializer<ValidateRuleDto
         case r'narrationKeywords':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(BuiltList, [FullType(BuiltList)]),
-          ) as BuiltList<BuiltList>;
+            specifiedType: const FullType(BuiltList, [FullType(String)]),
+          ) as BuiltList<String>;
           result.narrationKeywords.replace(valueDes);
           break;
         case r'payeeKeywords':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(BuiltList, [FullType(BuiltList)]),
-          ) as BuiltList<BuiltList>;
+            specifiedType: const FullType(BuiltList, [FullType(String)]),
+          ) as BuiltList<String>;
           result.payeeKeywords.replace(valueDes);
           break;
         case r'categoryKeywords':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(BuiltList, [FullType(BuiltList)]),
-          ) as BuiltList<BuiltList>;
+            specifiedType: const FullType(BuiltList, [FullType(String)]),
+          ) as BuiltList<String>;
           result.categoryKeywords.replace(valueDes);
           break;
         case r'methodKeywords':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(BuiltList, [FullType(BuiltList)]),
-          ) as BuiltList<BuiltList>;
+            specifiedType: const FullType(BuiltList, [FullType(String)]),
+          ) as BuiltList<String>;
           result.methodKeywords.replace(valueDes);
           break;
         case r'categoryAccount':
@@ -297,8 +297,8 @@ class _$ValidateRuleDtoSerializer implements PrimitiveSerializer<ValidateRuleDto
         case r'additionalTags':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(BuiltList, [FullType(BuiltList)]),
-          ) as BuiltList<BuiltList>;
+            specifiedType: const FullType(BuiltList, [FullType(String)]),
+          ) as BuiltList<String>;
           result.additionalTags.replace(valueDes);
           break;
         case r'additionalMetadata':

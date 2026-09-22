@@ -10,9 +10,9 @@ class _$ValidateRuleResponseDto extends ValidateRuleResponseDto {
   @override
   final bool valid;
   @override
-  final BuiltList<BuiltList<dynamic>> errors;
+  final BuiltList<String> errors;
   @override
-  final BuiltList<BuiltList<dynamic>> warnings;
+  final BuiltList<String> warnings;
 
   factory _$ValidateRuleResponseDto(
           [void Function(ValidateRuleResponseDtoBuilder)? updates]) =>
@@ -76,17 +76,15 @@ class ValidateRuleResponseDtoBuilder
   bool? get valid => _$this._valid;
   set valid(bool? valid) => _$this._valid = valid;
 
-  ListBuilder<BuiltList<dynamic>>? _errors;
-  ListBuilder<BuiltList<dynamic>> get errors =>
-      _$this._errors ??= new ListBuilder<BuiltList<dynamic>>();
-  set errors(ListBuilder<BuiltList<dynamic>>? errors) =>
-      _$this._errors = errors;
+  ListBuilder<String>? _errors;
+  ListBuilder<String> get errors =>
+      _$this._errors ??= new ListBuilder<String>();
+  set errors(ListBuilder<String>? errors) => _$this._errors = errors;
 
-  ListBuilder<BuiltList<dynamic>>? _warnings;
-  ListBuilder<BuiltList<dynamic>> get warnings =>
-      _$this._warnings ??= new ListBuilder<BuiltList<dynamic>>();
-  set warnings(ListBuilder<BuiltList<dynamic>>? warnings) =>
-      _$this._warnings = warnings;
+  ListBuilder<String>? _warnings;
+  ListBuilder<String> get warnings =>
+      _$this._warnings ??= new ListBuilder<String>();
+  set warnings(ListBuilder<String>? warnings) => _$this._warnings = warnings;
 
   ValidateRuleResponseDtoBuilder() {
     ValidateRuleResponseDto._defaults(this);

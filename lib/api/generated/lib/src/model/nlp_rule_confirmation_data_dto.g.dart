@@ -14,7 +14,7 @@ class _$NlpRuleConfirmationDataDto extends NlpRuleConfirmationDataDto {
   @override
   final JsonObject suggestedAccounts;
   @override
-  final BuiltList<dynamic> alternatives;
+  final BuiltList<NlpRuleConfirmationDataDtoAlternativesInner> alternatives;
   @override
   final BuiltList<String> reasons;
 
@@ -103,10 +103,13 @@ class NlpRuleConfirmationDataDtoBuilder
   set suggestedAccounts(JsonObject? suggestedAccounts) =>
       _$this._suggestedAccounts = suggestedAccounts;
 
-  ListBuilder<dynamic>? _alternatives;
-  ListBuilder<dynamic> get alternatives =>
-      _$this._alternatives ??= new ListBuilder<dynamic>();
-  set alternatives(ListBuilder<dynamic>? alternatives) =>
+  ListBuilder<NlpRuleConfirmationDataDtoAlternativesInner>? _alternatives;
+  ListBuilder<NlpRuleConfirmationDataDtoAlternativesInner> get alternatives =>
+      _$this._alternatives ??=
+          new ListBuilder<NlpRuleConfirmationDataDtoAlternativesInner>();
+  set alternatives(
+          ListBuilder<NlpRuleConfirmationDataDtoAlternativesInner>?
+              alternatives) =>
       _$this._alternatives = alternatives;
 
   ListBuilder<String>? _reasons;

@@ -4,6 +4,7 @@
 
 // ignore_for_file: unused_element
 import 'package:built_collection/built_collection.dart';
+import 'package:built_value/json_object.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
@@ -32,7 +33,7 @@ abstract class ExportRulesResponseDto implements Built<ExportRulesResponseDto, E
 
   /// Exported rules
   @BuiltValueField(wireName: r'rules')
-  BuiltList get rules;
+  BuiltList<JsonObject> get rules;
 
   ExportRulesResponseDto._();
 
@@ -75,7 +76,7 @@ class _$ExportRulesResponseDtoSerializer implements PrimitiveSerializer<ExportRu
     yield r'rules';
     yield serializers.serialize(
       object.rules,
-      specifiedType: const FullType(BuiltList),
+      specifiedType: const FullType(BuiltList, [FullType(JsonObject)]),
     );
   }
 
@@ -124,8 +125,8 @@ class _$ExportRulesResponseDtoSerializer implements PrimitiveSerializer<ExportRu
         case r'rules':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(BuiltList),
-          ) as BuiltList;
+            specifiedType: const FullType(BuiltList, [FullType(JsonObject)]),
+          ) as BuiltList<JsonObject>;
           result.rules.replace(valueDes);
           break;
         default:

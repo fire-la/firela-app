@@ -23,11 +23,11 @@ abstract class ValidateRuleResponseDto implements Built<ValidateRuleResponseDto,
 
   /// List of validation errors (empty if valid)
   @BuiltValueField(wireName: r'errors')
-  BuiltList<BuiltList> get errors;
+  BuiltList<String> get errors;
 
   /// List of validation warnings (non-blocking issues)
   @BuiltValueField(wireName: r'warnings')
-  BuiltList<BuiltList> get warnings;
+  BuiltList<String> get warnings;
 
   ValidateRuleResponseDto._();
 
@@ -60,12 +60,12 @@ class _$ValidateRuleResponseDtoSerializer implements PrimitiveSerializer<Validat
     yield r'errors';
     yield serializers.serialize(
       object.errors,
-      specifiedType: const FullType(BuiltList, [FullType(BuiltList)]),
+      specifiedType: const FullType(BuiltList, [FullType(String)]),
     );
     yield r'warnings';
     yield serializers.serialize(
       object.warnings,
-      specifiedType: const FullType(BuiltList, [FullType(BuiltList)]),
+      specifiedType: const FullType(BuiltList, [FullType(String)]),
     );
   }
 
@@ -100,15 +100,15 @@ class _$ValidateRuleResponseDtoSerializer implements PrimitiveSerializer<Validat
         case r'errors':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(BuiltList, [FullType(BuiltList)]),
-          ) as BuiltList<BuiltList>;
+            specifiedType: const FullType(BuiltList, [FullType(String)]),
+          ) as BuiltList<String>;
           result.errors.replace(valueDes);
           break;
         case r'warnings':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(BuiltList, [FullType(BuiltList)]),
-          ) as BuiltList<BuiltList>;
+            specifiedType: const FullType(BuiltList, [FullType(String)]),
+          ) as BuiltList<String>;
           result.warnings.replace(valueDes);
           break;
         default:

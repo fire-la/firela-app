@@ -3,6 +3,7 @@
 //
 
 // ignore_for_file: unused_element
+import 'package:firela_api/src/model/nlp_rule_confirmation_data_dto_alternatives_inner.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/json_object.dart';
 import 'package:built_value/built_value.dart';
@@ -34,7 +35,7 @@ abstract class NlpRuleConfirmationDataDto implements Built<NlpRuleConfirmationDa
 
   /// Alternative rules that also match
   @BuiltValueField(wireName: r'alternatives')
-  BuiltList get alternatives;
+  BuiltList<NlpRuleConfirmationDataDtoAlternativesInner> get alternatives;
 
   /// Human-readable reasons for the match
   @BuiltValueField(wireName: r'reasons')
@@ -81,7 +82,7 @@ class _$NlpRuleConfirmationDataDtoSerializer implements PrimitiveSerializer<NlpR
     yield r'alternatives';
     yield serializers.serialize(
       object.alternatives,
-      specifiedType: const FullType(BuiltList),
+      specifiedType: const FullType(BuiltList, [FullType(NlpRuleConfirmationDataDtoAlternativesInner)]),
     );
     yield r'reasons';
     yield serializers.serialize(
@@ -135,8 +136,8 @@ class _$NlpRuleConfirmationDataDtoSerializer implements PrimitiveSerializer<NlpR
         case r'alternatives':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(BuiltList),
-          ) as BuiltList;
+            specifiedType: const FullType(BuiltList, [FullType(NlpRuleConfirmationDataDtoAlternativesInner)]),
+          ) as BuiltList<NlpRuleConfirmationDataDtoAlternativesInner>;
           result.alternatives.replace(valueDes);
           break;
         case r'reasons':

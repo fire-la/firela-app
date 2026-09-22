@@ -3,6 +3,7 @@
 //
 
 // ignore_for_file: unused_element
+import 'package:firela_api/src/model/create_transaction_rule_dto.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
@@ -18,7 +19,7 @@ part 'bulk_create_rules_dto.g.dart';
 abstract class BulkCreateRulesDto implements Built<BulkCreateRulesDto, BulkCreateRulesDtoBuilder> {
   /// Array of rules to import
   @BuiltValueField(wireName: r'rules')
-  BuiltList<BuiltList> get rules;
+  BuiltList<CreateTransactionRuleDto> get rules;
 
   /// Conflict handling strategy: skip (default) ignores duplicates, replace soft-deletes existing rule
   @BuiltValueField(wireName: r'conflictStrategy')
@@ -52,7 +53,7 @@ class _$BulkCreateRulesDtoSerializer implements PrimitiveSerializer<BulkCreateRu
     yield r'rules';
     yield serializers.serialize(
       object.rules,
-      specifiedType: const FullType(BuiltList, [FullType(BuiltList)]),
+      specifiedType: const FullType(BuiltList, [FullType(CreateTransactionRuleDto)]),
     );
     yield r'conflictStrategy';
     yield serializers.serialize(
@@ -85,8 +86,8 @@ class _$BulkCreateRulesDtoSerializer implements PrimitiveSerializer<BulkCreateRu
         case r'rules':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(BuiltList, [FullType(BuiltList)]),
-          ) as BuiltList<BuiltList>;
+            specifiedType: const FullType(BuiltList, [FullType(CreateTransactionRuleDto)]),
+          ) as BuiltList<CreateTransactionRuleDto>;
           result.rules.replace(valueDes);
           break;
         case r'conflictStrategy':

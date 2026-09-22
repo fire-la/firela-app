@@ -171,6 +171,7 @@ export 'package:firela_api/src/model/nlp_payee_confirmation_data_dto.dart';
 export 'package:firela_api/src/model/nlp_payee_confirmation_data_dto_suggested_payee.dart';
 export 'package:firela_api/src/model/nlp_response_dto.dart';
 export 'package:firela_api/src/model/nlp_rule_confirmation_data_dto.dart';
+export 'package:firela_api/src/model/nlp_rule_confirmation_data_dto_alternatives_inner.dart';
 export 'package:firela_api/src/model/nlp_similarity_dto.dart';
 export 'package:firela_api/src/model/nlp_source_transaction_dto.dart';
 export 'package:firela_api/src/model/nlp_suggested_account_dto.dart';

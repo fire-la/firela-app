@@ -70,13 +70,13 @@ class _$ValidateRuleDto extends ValidateRuleDto {
   @override
   final String? description;
   @override
-  final BuiltList<BuiltList<dynamic>>? narrationKeywords;
+  final BuiltList<String>? narrationKeywords;
   @override
-  final BuiltList<BuiltList<dynamic>>? payeeKeywords;
+  final BuiltList<String>? payeeKeywords;
   @override
-  final BuiltList<BuiltList<dynamic>>? categoryKeywords;
+  final BuiltList<String>? categoryKeywords;
   @override
-  final BuiltList<BuiltList<dynamic>>? methodKeywords;
+  final BuiltList<String>? methodKeywords;
   @override
   final String? categoryAccount;
   @override
@@ -88,7 +88,7 @@ class _$ValidateRuleDto extends ValidateRuleDto {
   @override
   final num priority;
   @override
-  final BuiltList<BuiltList<dynamic>>? additionalTags;
+  final BuiltList<String>? additionalTags;
   @override
   final JsonObject? additionalMetadata;
   @override
@@ -202,28 +202,28 @@ class ValidateRuleDtoBuilder
   String? get description => _$this._description;
   set description(String? description) => _$this._description = description;
 
-  ListBuilder<BuiltList<dynamic>>? _narrationKeywords;
-  ListBuilder<BuiltList<dynamic>> get narrationKeywords =>
-      _$this._narrationKeywords ??= new ListBuilder<BuiltList<dynamic>>();
-  set narrationKeywords(ListBuilder<BuiltList<dynamic>>? narrationKeywords) =>
+  ListBuilder<String>? _narrationKeywords;
+  ListBuilder<String> get narrationKeywords =>
+      _$this._narrationKeywords ??= new ListBuilder<String>();
+  set narrationKeywords(ListBuilder<String>? narrationKeywords) =>
       _$this._narrationKeywords = narrationKeywords;
 
-  ListBuilder<BuiltList<dynamic>>? _payeeKeywords;
-  ListBuilder<BuiltList<dynamic>> get payeeKeywords =>
-      _$this._payeeKeywords ??= new ListBuilder<BuiltList<dynamic>>();
-  set payeeKeywords(ListBuilder<BuiltList<dynamic>>? payeeKeywords) =>
+  ListBuilder<String>? _payeeKeywords;
+  ListBuilder<String> get payeeKeywords =>
+      _$this._payeeKeywords ??= new ListBuilder<String>();
+  set payeeKeywords(ListBuilder<String>? payeeKeywords) =>
       _$this._payeeKeywords = payeeKeywords;
 
-  ListBuilder<BuiltList<dynamic>>? _categoryKeywords;
-  ListBuilder<BuiltList<dynamic>> get categoryKeywords =>
-      _$this._categoryKeywords ??= new ListBuilder<BuiltList<dynamic>>();
-  set categoryKeywords(ListBuilder<BuiltList<dynamic>>? categoryKeywords) =>
+  ListBuilder<String>? _categoryKeywords;
+  ListBuilder<String> get categoryKeywords =>
+      _$this._categoryKeywords ??= new ListBuilder<String>();
+  set categoryKeywords(ListBuilder<String>? categoryKeywords) =>
       _$this._categoryKeywords = categoryKeywords;
 
-  ListBuilder<BuiltList<dynamic>>? _methodKeywords;
-  ListBuilder<BuiltList<dynamic>> get methodKeywords =>
-      _$this._methodKeywords ??= new ListBuilder<BuiltList<dynamic>>();
-  set methodKeywords(ListBuilder<BuiltList<dynamic>>? methodKeywords) =>
+  ListBuilder<String>? _methodKeywords;
+  ListBuilder<String> get methodKeywords =>
+      _$this._methodKeywords ??= new ListBuilder<String>();
+  set methodKeywords(ListBuilder<String>? methodKeywords) =>
       _$this._methodKeywords = methodKeywords;
 
   String? _categoryAccount;
@@ -248,10 +248,10 @@ class ValidateRuleDtoBuilder
   num? get priority => _$this._priority;
   set priority(num? priority) => _$this._priority = priority;
 
-  ListBuilder<BuiltList<dynamic>>? _additionalTags;
-  ListBuilder<BuiltList<dynamic>> get additionalTags =>
-      _$this._additionalTags ??= new ListBuilder<BuiltList<dynamic>>();
-  set additionalTags(ListBuilder<BuiltList<dynamic>>? additionalTags) =>
+  ListBuilder<String>? _additionalTags;
+  ListBuilder<String> get additionalTags =>
+      _$this._additionalTags ??= new ListBuilder<String>();
+  set additionalTags(ListBuilder<String>? additionalTags) =>
       _$this._additionalTags = additionalTags;
 
   JsonObject? _additionalMetadata;

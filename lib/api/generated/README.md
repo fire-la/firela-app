@@ -428,6 +428,7 @@ Class | Method | HTTP request | Description
  - [NlpPayeeConfirmationDataDtoSuggestedPayee](doc/NlpPayeeConfirmationDataDtoSuggestedPayee.md)
  - [NlpResponseDto](doc/NlpResponseDto.md)
  - [NlpRuleConfirmationDataDto](doc/NlpRuleConfirmationDataDto.md)
+ - [NlpRuleConfirmationDataDtoAlternativesInner](doc/NlpRuleConfirmationDataDtoAlternativesInner.md)
  - [NlpSimilarityDto](doc/NlpSimilarityDto.md)
  - [NlpSourceTransactionDto](doc/NlpSourceTransactionDto.md)
  - [NlpSuggestedAccountDto](doc/NlpSuggestedAccountDto.md)
