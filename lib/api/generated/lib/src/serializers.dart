@@ -138,6 +138,7 @@ import 'package:firela_api/src/model/nlp_payee_confirmation_data_dto.dart';
 import 'package:firela_api/src/model/nlp_payee_confirmation_data_dto_suggested_payee.dart';
 import 'package:firela_api/src/model/nlp_response_dto.dart';
 import 'package:firela_api/src/model/nlp_rule_confirmation_data_dto.dart';
+import 'package:firela_api/src/model/nlp_rule_confirmation_data_dto_alternatives_inner.dart';
 import 'package:firela_api/src/model/nlp_similarity_dto.dart';
 import 'package:firela_api/src/model/nlp_source_transaction_dto.dart';
 import 'package:firela_api/src/model/nlp_suggested_account_dto.dart';
@@ -368,6 +369,7 @@ part 'serializers.g.dart';
   NlpPayeeConfirmationDataDtoSuggestedPayee,
   NlpResponseDto,
   NlpRuleConfirmationDataDto,
+  NlpRuleConfirmationDataDtoAlternativesInner,
   NlpSimilarityDto,
   NlpSourceTransactionDto,
   NlpSuggestedAccountDto,

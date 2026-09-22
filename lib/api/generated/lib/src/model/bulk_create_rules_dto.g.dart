@@ -70,7 +70,7 @@ class _$BulkCreateRulesDtoConflictStrategyEnumSerializer
 
 class _$BulkCreateRulesDto extends BulkCreateRulesDto {
   @override
-  final BuiltList<BuiltList<dynamic>> rules;
+  final BuiltList<CreateTransactionRuleDto> rules;
   @override
   final BulkCreateRulesDtoConflictStrategyEnum conflictStrategy;
 
@@ -125,10 +125,11 @@ class BulkCreateRulesDtoBuilder
     implements Builder<BulkCreateRulesDto, BulkCreateRulesDtoBuilder> {
   _$BulkCreateRulesDto? _$v;
 
-  ListBuilder<BuiltList<dynamic>>? _rules;
-  ListBuilder<BuiltList<dynamic>> get rules =>
-      _$this._rules ??= new ListBuilder<BuiltList<dynamic>>();
-  set rules(ListBuilder<BuiltList<dynamic>>? rules) => _$this._rules = rules;
+  ListBuilder<CreateTransactionRuleDto>? _rules;
+  ListBuilder<CreateTransactionRuleDto> get rules =>
+      _$this._rules ??= new ListBuilder<CreateTransactionRuleDto>();
+  set rules(ListBuilder<CreateTransactionRuleDto>? rules) =>
+      _$this._rules = rules;
 
   BulkCreateRulesDtoConflictStrategyEnum? _conflictStrategy;
   BulkCreateRulesDtoConflictStrategyEnum? get conflictStrategy =>

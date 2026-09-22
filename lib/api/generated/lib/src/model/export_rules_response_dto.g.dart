@@ -14,7 +14,7 @@ class _$ExportRulesResponseDto extends ExportRulesResponseDto {
   @override
   final num ruleCount;
   @override
-  final BuiltList<dynamic> rules;
+  final BuiltList<JsonObject> rules;
 
   factory _$ExportRulesResponseDto(
           [void Function(ExportRulesResponseDtoBuilder)? updates]) =>
@@ -93,10 +93,10 @@ class ExportRulesResponseDtoBuilder
   num? get ruleCount => _$this._ruleCount;
   set ruleCount(num? ruleCount) => _$this._ruleCount = ruleCount;
 
-  ListBuilder<dynamic>? _rules;
-  ListBuilder<dynamic> get rules =>
-      _$this._rules ??= new ListBuilder<dynamic>();
-  set rules(ListBuilder<dynamic>? rules) => _$this._rules = rules;
+  ListBuilder<JsonObject>? _rules;
+  ListBuilder<JsonObject> get rules =>
+      _$this._rules ??= new ListBuilder<JsonObject>();
+  set rules(ListBuilder<JsonObject>? rules) => _$this._rules = rules;
 
   ExportRulesResponseDtoBuilder() {
     ExportRulesResponseDto._defaults(this);

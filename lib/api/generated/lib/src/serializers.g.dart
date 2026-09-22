@@ -174,6 +174,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(NlpResponseDtoPaymentSourceEnum.serializer)
       ..add(NlpResponseDtoStatusEnum.serializer)
       ..add(NlpRuleConfirmationDataDto.serializer)
+      ..add(NlpRuleConfirmationDataDtoAlternativesInner.serializer)
       ..add(NlpSimilarityDto.serializer)
       ..add(NlpSourceTransactionDto.serializer)
       ..add(NlpSuggestedAccountDto.serializer)
@@ -401,96 +402,6 @@ Serializers _$serializers = (new Serializers().toBuilder()
               BuiltList, const [const FullType(BatchResolveItemDto)]),
           () => new ListBuilder<BatchResolveItemDto>())
       ..addBuilderFactory(
-          const FullType(BuiltList, const [
-            const FullType(BuiltList, const [const FullType(dynamic)])
-          ]),
-          () => new ListBuilder<BuiltList<dynamic>>())
-      ..addBuilderFactory(
-          const FullType(BuiltList, const [
-            const FullType(BuiltList, const [const FullType(dynamic)])
-          ]),
-          () => new ListBuilder<BuiltList<dynamic>>())
-      ..addBuilderFactory(
-          const FullType(BuiltList, const [
-            const FullType(BuiltList, const [const FullType(dynamic)])
-          ]),
-          () => new ListBuilder<BuiltList<dynamic>>())
-      ..addBuilderFactory(
-          const FullType(BuiltList, const [
-            const FullType(BuiltList, const [const FullType(dynamic)])
-          ]),
-          () => new ListBuilder<BuiltList<dynamic>>())
-      ..addBuilderFactory(
-          const FullType(BuiltList, const [
-            const FullType(BuiltList, const [const FullType(dynamic)])
-          ]),
-          () => new ListBuilder<BuiltList<dynamic>>())
-      ..addBuilderFactory(
-          const FullType(BuiltList, const [
-            const FullType(BuiltList, const [const FullType(dynamic)])
-          ]),
-          () => new ListBuilder<BuiltList<dynamic>>())
-      ..addBuilderFactory(
-          const FullType(BuiltList, const [
-            const FullType(BuiltList, const [const FullType(dynamic)])
-          ]),
-          () => new ListBuilder<BuiltList<dynamic>>())
-      ..addBuilderFactory(
-          const FullType(BuiltList, const [
-            const FullType(BuiltList, const [const FullType(dynamic)])
-          ]),
-          () => new ListBuilder<BuiltList<dynamic>>())
-      ..addBuilderFactory(
-          const FullType(BuiltList, const [
-            const FullType(BuiltList, const [const FullType(dynamic)])
-          ]),
-          () => new ListBuilder<BuiltList<dynamic>>())
-      ..addBuilderFactory(
-          const FullType(BuiltList, const [
-            const FullType(BuiltList, const [const FullType(dynamic)])
-          ]),
-          () => new ListBuilder<BuiltList<dynamic>>())
-      ..addBuilderFactory(
-          const FullType(BuiltList, const [
-            const FullType(BuiltList, const [const FullType(dynamic)])
-          ]),
-          () => new ListBuilder<BuiltList<dynamic>>())
-      ..addBuilderFactory(
-          const FullType(BuiltList, const [
-            const FullType(BuiltList, const [const FullType(dynamic)])
-          ]),
-          () => new ListBuilder<BuiltList<dynamic>>())
-      ..addBuilderFactory(
-          const FullType(BuiltList, const [
-            const FullType(BuiltList, const [const FullType(dynamic)])
-          ]),
-          () => new ListBuilder<BuiltList<dynamic>>())
-      ..addBuilderFactory(
-          const FullType(BuiltList, const [
-            const FullType(BuiltList, const [const FullType(dynamic)])
-          ]),
-          () => new ListBuilder<BuiltList<dynamic>>())
-      ..addBuilderFactory(
-          const FullType(BuiltList, const [
-            const FullType(BuiltList, const [const FullType(dynamic)])
-          ]),
-          () => new ListBuilder<BuiltList<dynamic>>())
-      ..addBuilderFactory(
-          const FullType(BuiltList, const [
-            const FullType(BuiltList, const [const FullType(dynamic)])
-          ]),
-          () => new ListBuilder<BuiltList<dynamic>>())
-      ..addBuilderFactory(
-          const FullType(BuiltList, const [
-            const FullType(BuiltList, const [const FullType(dynamic)])
-          ]),
-          () => new ListBuilder<BuiltList<dynamic>>())
-      ..addBuilderFactory(
-          const FullType(BuiltList, const [
-            const FullType(BuiltList, const [const FullType(dynamic)])
-          ]),
-          () => new ListBuilder<BuiltList<dynamic>>())
-      ..addBuilderFactory(
           const FullType(BuiltList,
               const [const FullType(BulkCreateRulesResponseDtoErrorsInner)]),
           () => new ListBuilder<BulkCreateRulesResponseDtoErrorsInner>())
@@ -523,6 +434,10 @@ Serializers _$serializers = (new Serializers().toBuilder()
           const FullType(
               BuiltList, const [const FullType(CreateTransactionDto)]),
           () => new ListBuilder<CreateTransactionDto>())
+      ..addBuilderFactory(
+          const FullType(
+              BuiltList, const [const FullType(CreateTransactionRuleDto)]),
+          () => new ListBuilder<CreateTransactionRuleDto>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(CurrencyBalanceDto)]),
           () => new ListBuilder<CurrencyBalanceDto>())
@@ -580,6 +495,12 @@ Serializers _$serializers = (new Serializers().toBuilder()
           const FullType(BuiltList, const [const FullType(JsonObject)]),
           () => new ListBuilder<JsonObject>())
       ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(JsonObject)]),
+          () => new ListBuilder<JsonObject>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(JsonObject)]),
+          () => new ListBuilder<JsonObject>())
+      ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())
       ..addBuilderFactory(
@@ -593,6 +514,14 @@ Serializers _$serializers = (new Serializers().toBuilder()
           const FullType(
               BuiltList, const [const FullType(NlpAlternativePayeeDto)]),
           () => new ListBuilder<NlpAlternativePayeeDto>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [
+            const FullType(NlpRuleConfirmationDataDtoAlternativesInner)
+          ]),
+          () => new ListBuilder<NlpRuleConfirmationDataDtoAlternativesInner>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())
@@ -709,6 +638,12 @@ Serializers _$serializers = (new Serializers().toBuilder()
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())
       ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(CreatePostingDto)]),
           () => new ListBuilder<CreatePostingDto>())
       ..addBuilderFactory(
@@ -738,6 +673,51 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(PostingDetailDto)]),
           () => new ListBuilder<PostingDetailDto>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())
@@ -832,18 +812,6 @@ Serializers _$serializers = (new Serializers().toBuilder()
           const FullType(
               BuiltList, const [const FullType(TransactionRuleResponseDto)]),
           () => new ListBuilder<TransactionRuleResponseDto>())
-      ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(dynamic)]),
-          () => new ListBuilder<dynamic>())
-      ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(dynamic)]),
-          () => new ListBuilder<dynamic>())
-      ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(dynamic)]),
-          () => new ListBuilder<dynamic>())
-      ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(String)]),
-          () => new ListBuilder<String>())
       ..addBuilderFactory(
           const FullType(
               BuiltMap, const [const FullType(String), const FullType(String)]),
