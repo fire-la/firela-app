@@ -18,6 +18,7 @@ part 'nlp_payee_confirmation_data_dto_suggested_payee.g.dart';
 /// * [category] - Payee category
 /// * [source_] - Source of the payee
 /// * [payeeProfileId] - PayeeProfile ID (if matched from global)
+/// * [displayName] - Localized display name resolved at read time from the dir PayeeProfile i18nKey per request locale (#1406, ADR-0035). Absent when the profile has no translation — fall back to name (the canonical).
 @BuiltValue()
 abstract class NlpPayeeConfirmationDataDtoSuggestedPayee implements NlpSuggestedPayeeDto, Built<NlpPayeeConfirmationDataDtoSuggestedPayee, NlpPayeeConfirmationDataDtoSuggestedPayeeBuilder> {
   NlpPayeeConfirmationDataDtoSuggestedPayee._();
@@ -43,6 +44,20 @@ class _$NlpPayeeConfirmationDataDtoSuggestedPayeeSerializer implements Primitive
     NlpPayeeConfirmationDataDtoSuggestedPayee object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
+    if (object.payeeProfileId != null) {
+      yield r'payeeProfileId';
+      yield serializers.serialize(
+        object.payeeProfileId,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.displayName != null) {
+      yield r'displayName';
+      yield serializers.serialize(
+        object.displayName,
+        specifiedType: const FullType(String),
+      );
+    }
     yield r'name';
     yield serializers.serialize(
       object.name,
@@ -53,13 +68,6 @@ class _$NlpPayeeConfirmationDataDtoSuggestedPayeeSerializer implements Primitive
       yield serializers.serialize(
         object.source_,
         specifiedType: const FullType(NlpSuggestedPayeeDtoSource_Enum),
-      );
-    }
-    if (object.payeeProfileId != null) {
-      yield r'payeeProfileId';
-      yield serializers.serialize(
-        object.payeeProfileId,
-        specifiedType: const FullType(String),
       );
     }
     yield r'id';
@@ -97,6 +105,20 @@ class _$NlpPayeeConfirmationDataDtoSuggestedPayeeSerializer implements Primitive
       final key = serializedList[i] as String;
       final value = serializedList[i + 1];
       switch (key) {
+        case r'payeeProfileId':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.payeeProfileId = valueDes;
+          break;
+        case r'displayName':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.displayName = valueDes;
+          break;
         case r'name':
           final valueDes = serializers.deserialize(
             value,
@@ -110,13 +132,6 @@ class _$NlpPayeeConfirmationDataDtoSuggestedPayeeSerializer implements Primitive
             specifiedType: const FullType(NlpSuggestedPayeeDtoSource_Enum),
           ) as NlpSuggestedPayeeDtoSource_Enum;
           result.source_ = valueDes;
-          break;
-        case r'payeeProfileId':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.payeeProfileId = valueDes;
           break;
         case r'id':
           final valueDes = serializers.deserialize(

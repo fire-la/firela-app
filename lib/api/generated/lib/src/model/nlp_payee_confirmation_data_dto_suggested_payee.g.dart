@@ -83,6 +83,8 @@ class _$NlpPayeeConfirmationDataDtoSuggestedPayee
   final NlpSuggestedPayeeDtoSource_Enum? source_;
   @override
   final String? payeeProfileId;
+  @override
+  final String? displayName;
 
   factory _$NlpPayeeConfirmationDataDtoSuggestedPayee(
           [void Function(NlpPayeeConfirmationDataDtoSuggestedPayeeBuilder)?
@@ -95,7 +97,8 @@ class _$NlpPayeeConfirmationDataDtoSuggestedPayee
       required this.name,
       this.category,
       this.source_,
-      this.payeeProfileId})
+      this.payeeProfileId,
+      this.displayName})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(
         id, r'NlpPayeeConfirmationDataDtoSuggestedPayee', 'id');
@@ -121,7 +124,8 @@ class _$NlpPayeeConfirmationDataDtoSuggestedPayee
         name == other.name &&
         category == other.category &&
         source_ == other.source_ &&
-        payeeProfileId == other.payeeProfileId;
+        payeeProfileId == other.payeeProfileId &&
+        displayName == other.displayName;
   }
 
   @override
@@ -132,6 +136,7 @@ class _$NlpPayeeConfirmationDataDtoSuggestedPayee
     _$hash = $jc(_$hash, category.hashCode);
     _$hash = $jc(_$hash, source_.hashCode);
     _$hash = $jc(_$hash, payeeProfileId.hashCode);
+    _$hash = $jc(_$hash, displayName.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -144,7 +149,8 @@ class _$NlpPayeeConfirmationDataDtoSuggestedPayee
           ..add('name', name)
           ..add('category', category)
           ..add('source_', source_)
-          ..add('payeeProfileId', payeeProfileId))
+          ..add('payeeProfileId', payeeProfileId)
+          ..add('displayName', displayName))
         .toString();
   }
 }
@@ -178,6 +184,11 @@ class NlpPayeeConfirmationDataDtoSuggestedPayeeBuilder
   set payeeProfileId(covariant String? payeeProfileId) =>
       _$this._payeeProfileId = payeeProfileId;
 
+  String? _displayName;
+  String? get displayName => _$this._displayName;
+  set displayName(covariant String? displayName) =>
+      _$this._displayName = displayName;
+
   NlpPayeeConfirmationDataDtoSuggestedPayeeBuilder() {
     NlpPayeeConfirmationDataDtoSuggestedPayee._defaults(this);
   }
@@ -190,6 +201,7 @@ class NlpPayeeConfirmationDataDtoSuggestedPayeeBuilder
       _category = $v.category;
       _source_ = $v.source_;
       _payeeProfileId = $v.payeeProfileId;
+      _displayName = $v.displayName;
       _$v = null;
     }
     return this;
@@ -220,7 +232,8 @@ class NlpPayeeConfirmationDataDtoSuggestedPayeeBuilder
                 name, r'NlpPayeeConfirmationDataDtoSuggestedPayee', 'name'),
             category: category,
             source_: source_,
-            payeeProfileId: payeeProfileId);
+            payeeProfileId: payeeProfileId,
+            displayName: displayName);
     replace(_$result);
     return _$result;
   }

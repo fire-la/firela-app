@@ -17,6 +17,7 @@ part 'nlp_suggested_payee_dto.g.dart';
 /// * [category] - Payee category
 /// * [source_] - Source of the payee
 /// * [payeeProfileId] - PayeeProfile ID (if matched from global)
+/// * [displayName] - Localized display name resolved at read time from the dir PayeeProfile i18nKey per request locale (#1406, ADR-0035). Absent when the profile has no translation — fall back to name (the canonical).
 @BuiltValue(instantiable: false)
 abstract class NlpSuggestedPayeeDto  {
   /// Payee ID
@@ -39,6 +40,10 @@ abstract class NlpSuggestedPayeeDto  {
   /// PayeeProfile ID (if matched from global)
   @BuiltValueField(wireName: r'payeeProfileId')
   String? get payeeProfileId;
+
+  /// Localized display name resolved at read time from the dir PayeeProfile i18nKey per request locale (#1406, ADR-0035). Absent when the profile has no translation — fall back to name (the canonical).
+  @BuiltValueField(wireName: r'displayName')
+  String? get displayName;
 
   @BuiltValueSerializer(custom: true)
   static Serializer<NlpSuggestedPayeeDto> get serializer => _$NlpSuggestedPayeeDtoSerializer();
@@ -84,6 +89,13 @@ class _$NlpSuggestedPayeeDtoSerializer implements PrimitiveSerializer<NlpSuggest
       yield r'payeeProfileId';
       yield serializers.serialize(
         object.payeeProfileId,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.displayName != null) {
+      yield r'displayName';
+      yield serializers.serialize(
+        object.displayName,
         specifiedType: const FullType(String),
       );
     }
@@ -184,6 +196,13 @@ class _$$NlpSuggestedPayeeDtoSerializer implements PrimitiveSerializer<$NlpSugge
             specifiedType: const FullType(String),
           ) as String;
           result.payeeProfileId = valueDes;
+          break;
+        case r'displayName':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.displayName = valueDes;
           break;
         default:
           unhandled.add(key);
