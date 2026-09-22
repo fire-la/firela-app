@@ -81,6 +81,9 @@ abstract mixin class NlpSuggestedPayeeDtoBuilder {
 
   String? get payeeProfileId;
   set payeeProfileId(String? payeeProfileId);
+
+  String? get displayName;
+  set displayName(String? displayName);
 }
 
 class _$$NlpSuggestedPayeeDto extends $NlpSuggestedPayeeDto {
@@ -94,6 +97,8 @@ class _$$NlpSuggestedPayeeDto extends $NlpSuggestedPayeeDto {
   final NlpSuggestedPayeeDtoSource_Enum? source_;
   @override
   final String? payeeProfileId;
+  @override
+  final String? displayName;
 
   factory _$$NlpSuggestedPayeeDto(
           [void Function($NlpSuggestedPayeeDtoBuilder)? updates]) =>
@@ -104,7 +109,8 @@ class _$$NlpSuggestedPayeeDto extends $NlpSuggestedPayeeDto {
       required this.name,
       this.category,
       this.source_,
-      this.payeeProfileId})
+      this.payeeProfileId,
+      this.displayName})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(id, r'$NlpSuggestedPayeeDto', 'id');
     BuiltValueNullFieldError.checkNotNull(
@@ -128,7 +134,8 @@ class _$$NlpSuggestedPayeeDto extends $NlpSuggestedPayeeDto {
         name == other.name &&
         category == other.category &&
         source_ == other.source_ &&
-        payeeProfileId == other.payeeProfileId;
+        payeeProfileId == other.payeeProfileId &&
+        displayName == other.displayName;
   }
 
   @override
@@ -139,6 +146,7 @@ class _$$NlpSuggestedPayeeDto extends $NlpSuggestedPayeeDto {
     _$hash = $jc(_$hash, category.hashCode);
     _$hash = $jc(_$hash, source_.hashCode);
     _$hash = $jc(_$hash, payeeProfileId.hashCode);
+    _$hash = $jc(_$hash, displayName.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -150,7 +158,8 @@ class _$$NlpSuggestedPayeeDto extends $NlpSuggestedPayeeDto {
           ..add('name', name)
           ..add('category', category)
           ..add('source_', source_)
-          ..add('payeeProfileId', payeeProfileId))
+          ..add('payeeProfileId', payeeProfileId)
+          ..add('displayName', displayName))
         .toString();
   }
 }
@@ -183,6 +192,11 @@ class $NlpSuggestedPayeeDtoBuilder
   set payeeProfileId(covariant String? payeeProfileId) =>
       _$this._payeeProfileId = payeeProfileId;
 
+  String? _displayName;
+  String? get displayName => _$this._displayName;
+  set displayName(covariant String? displayName) =>
+      _$this._displayName = displayName;
+
   $NlpSuggestedPayeeDtoBuilder() {
     $NlpSuggestedPayeeDto._defaults(this);
   }
@@ -195,6 +209,7 @@ class $NlpSuggestedPayeeDtoBuilder
       _category = $v.category;
       _source_ = $v.source_;
       _payeeProfileId = $v.payeeProfileId;
+      _displayName = $v.displayName;
       _$v = null;
     }
     return this;
@@ -223,7 +238,8 @@ class $NlpSuggestedPayeeDtoBuilder
                 name, r'$NlpSuggestedPayeeDto', 'name'),
             category: category,
             source_: source_,
-            payeeProfileId: payeeProfileId);
+            payeeProfileId: payeeProfileId,
+            displayName: displayName);
     replace(_$result);
     return _$result;
   }
