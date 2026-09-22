@@ -32450,6 +32450,13 @@ components:
           type: string
           description: PayeeProfile ID (if matched from global)
           example: profile-456
+        displayName:
+          type: string
+          description: >-
+            Localized display name resolved at read time from the dir
+            PayeeProfile i18nKey per request locale (#1406, ADR-0035). Absent
+            when the profile has no translation — fall back to name (the
+            canonical).
       required:
         - id
         - name
