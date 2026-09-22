@@ -26638,7 +26638,7 @@ components:
           format: date-time
           type: string
           description: Account open date (server defaults to today)
-          example: '2024-01-01'
+          example: '2024-01-01T00:00:00Z'
         currencies:
           description: Allowed currencies (null = no restriction)
           example:
@@ -26908,7 +26908,7 @@ components:
           format: date-time
           type: string
           description: Account close date
-          example: '2024-12-31'
+          example: '2024-12-31T00:00:00Z'
         closeMeta:
           type: object
           description: Close directive metadata
@@ -26923,7 +26923,7 @@ components:
           format: date-time
           type: string
           description: New open date (optional)
-          example: '2025-01-01'
+          example: '2025-01-01T00:00:00Z'
     CreateOpeningBalanceDto:
       type: object
       properties:
@@ -26939,7 +26939,7 @@ components:
           format: date-time
           type: string
           description: Opening-balance date (defaults to now)
-          example: '2024-01-01'
+          example: '2024-01-01T00:00:00Z'
       required:
         - amount
         - currency
@@ -28720,7 +28720,7 @@ components:
           description: >-
             Optional reference to global PayeeProfile for standardized data
             (merchant info, i18n keys, categories)
-          example: uuid-123
+          example: d1e2f3a4-b5c6-4d7e-8f9a-0b1c2d3e4f5a
           format: uuid
         customCategory:
           type: string
@@ -28881,7 +28881,7 @@ components:
           description: >-
             Optional reference to global PayeeProfile for standardized data
             (merchant info, i18n keys, categories)
-          example: uuid-123
+          example: d1e2f3a4-b5c6-4d7e-8f9a-0b1c2d3e4f5a
           format: uuid
         customCategory:
           type: string
@@ -30554,26 +30554,26 @@ components:
           type: string
           maxLength: 500
         narrationKeywords:
-          items:
-            type: array
           maxItems: 50
           type: array
+          items:
+            type: string
         payeeKeywords:
-          items:
-            type: array
           maxItems: 50
           type: array
+          items:
+            type: string
         categoryKeywords:
-          items:
-            type: array
           maxItems: 50
           type: array
-        methodKeywords:
           items:
-            type: array
+            type: string
+        methodKeywords:
           maxItems: 50
           description: Payment method keywords (e.g., HuaBei, YuEBao)
           type: array
+          items:
+            type: string
         categoryAccount:
           type: string
           maxLength: 200
@@ -30598,10 +30598,10 @@ components:
           minimum: 0
           maximum: 1000
         additionalTags:
-          items:
-            type: array
           maxItems: 20
           type: array
+          items:
+            type: string
         additionalMetadata:
           type: object
         upsertByPayee:
@@ -30755,26 +30755,26 @@ components:
           type: string
           maxLength: 500
         narrationKeywords:
-          items:
-            type: array
           maxItems: 50
           type: array
+          items:
+            type: string
         payeeKeywords:
-          items:
-            type: array
           maxItems: 50
           type: array
+          items:
+            type: string
         categoryKeywords:
-          items:
-            type: array
           maxItems: 50
           type: array
-        methodKeywords:
           items:
-            type: array
+            type: string
+        methodKeywords:
           maxItems: 50
           description: Payment method keywords (e.g., HuaBei, YuEBao)
           type: array
+          items:
+            type: string
         categoryAccount:
           type: string
           maxLength: 200
@@ -30799,10 +30799,10 @@ components:
           minimum: 0
           maximum: 1000
         additionalTags:
-          items:
-            type: array
           maxItems: 20
           type: array
+          items:
+            type: string
         additionalMetadata:
           type: object
         upsertByPayee:
@@ -30824,16 +30824,16 @@ components:
         errors:
           description: List of validation errors (empty if valid)
           example: []
-          items:
-            type: array
           type: array
+          items:
+            type: string
         warnings:
           description: List of validation warnings (non-blocking issues)
           example:
             - No account constraints specified - rule will match any account
-          items:
-            type: array
           type: array
+          items:
+            type: string
       required:
         - valid
         - errors
@@ -30842,10 +30842,10 @@ components:
       type: object
       properties:
         rules:
-          items:
-            type: array
           description: Array of rules to import
           type: array
+          items:
+            $ref: '#/components/schemas/CreateTransactionRuleDto'
         conflictStrategy:
           type: string
           enum:
@@ -30902,6 +30902,8 @@ components:
         rules:
           type: array
           description: Exported rules
+          items:
+            type: object
       required:
         - exportedAt
         - userId
@@ -30962,26 +30964,26 @@ components:
           type: string
           maxLength: 500
         narrationKeywords:
-          items:
-            type: array
           maxItems: 50
           type: array
+          items:
+            type: string
         payeeKeywords:
-          items:
-            type: array
           maxItems: 50
           type: array
+          items:
+            type: string
         categoryKeywords:
-          items:
-            type: array
           maxItems: 50
           type: array
-        methodKeywords:
           items:
-            type: array
+            type: string
+        methodKeywords:
           maxItems: 50
           description: Payment method keywords (e.g., HuaBei, YuEBao)
           type: array
+          items:
+            type: string
         categoryAccount:
           type: string
           maxLength: 200
@@ -31006,10 +31008,10 @@ components:
           minimum: 0
           maximum: 1000
         additionalTags:
-          items:
-            type: array
           maxItems: 20
           type: array
+          items:
+            type: string
         additionalMetadata:
           type: object
         enabled:
@@ -31841,6 +31843,8 @@ components:
         transactions:
           type: array
           description: Raw transactions from provider
+          items:
+            type: object
           example:
             - transaction_id: txn-001
               amount: 50
@@ -32369,6 +32373,15 @@ components:
         alternatives:
           type: array
           description: Alternative rules that also match
+          items:
+            type: object
+            properties:
+              ruleId:
+                type: string
+              ruleName:
+                type: string
+              confidence:
+                type: number
         reasons:
           description: Human-readable reasons for the match
           example:
