@@ -7016,6 +7016,32 @@ paths:
         - Admin - Payee Profiles
       security:
         - bearer: []
+  /api/v1/bean/payee-profiles:
+    get:
+      operationId: PayeeProfileController_listActive
+      summary: List active payee profiles (directory dump)
+      description: >-
+        Returns the full active PayeeProfile set as a trimmed projection for
+        client-side dictionary caching. Aliases are verbatim as stored; clients
+        normalize on their side.
+      parameters: []
+      responses:
+        '200':
+          description: Active payee profiles
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PayeeProfileDirectoryResponseDto'
+        '401':
+          description: Missing or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiProblemResponseDto'
+      tags:
+        - Payee Profiles
+      security:
+        - bearer: []
   /api/v1/{region}/bean/commodities:
     post:
       operationId: CommodityController_create
@@ -29292,6 +29318,73 @@ components:
           example: '2025-01-01T00:00:00.000Z'
           format: date-time
           nullable: true
+    PayeeProfileDirectoryEntryDto:
+      type: object
+      properties:
+        canonical:
+          type: string
+          description: Canonical payee name (unique, case-insensitive)
+          example: Starbucks
+        aliases:
+          description: Multi-language aliases (verbatim as stored)
+          example:
+            - Starbucks Coffee
+            - 星巴克
+          type: array
+          items:
+            type: string
+        category:
+          type: string
+          description: Payee category
+          enum:
+            - RESTAURANT
+            - CAFE
+            - FAST_FOOD
+            - BAR
+            - SUPERMARKET
+            - CONVENIENCE_STORE
+            - SHOPPING_MALL
+            - ONLINE_SHOPPING
+            - TAXI
+            - RIDE_SHARING
+            - PUBLIC_TRANSPORT
+            - PARKING
+            - GAS_STATION
+            - UTILITIES
+            - TELECOM
+            - STREAMING
+            - HEALTHCARE
+            - EDUCATION
+            - ENTERTAINMENT
+            - SPORTS
+            - TRAVEL
+            - HOTEL
+            - OTHER
+          example: CAFE
+        subCategory:
+          type: string
+          description: Sub-category
+          example: coffee_chain
+          nullable: true
+      required:
+        - canonical
+        - aliases
+        - category
+    PayeeProfileDirectoryResponseDto:
+      type: object
+      properties:
+        total:
+          type: number
+          description: Total number of active profiles
+          example: 187
+        profiles:
+          description: Active payee profiles
+          type: array
+          items:
+            $ref: '#/components/schemas/PayeeProfileDirectoryEntryDto'
+      required:
+        - total
+        - profiles
     CreateCommodityDto:
       type: object
       properties:
