@@ -273,6 +273,7 @@ Class | Method | HTTP request | Description
 [*MarketDataApi*](doc/MarketDataApi.md) | [**symbolControllerGetQuote**](doc/MarketDataApi.md#symbolcontrollergetquote) | **GET** /api/v1/market/symbols/{symbol}/quote | Get a market symbol quote
 [*MarketDataApi*](doc/MarketDataApi.md) | [**symbolControllerSearch**](doc/MarketDataApi.md#symbolcontrollersearch) | **GET** /api/v1/market/symbols/search | Search market symbols by name or code
 [*OnboardingApi*](doc/OnboardingApi.md) | [**onboardingControllerBootstrap**](doc/OnboardingApi.md#onboardingcontrollerbootstrap) | **POST** /api/v1/{region}/bean/onboarding | Bootstrap core accounts + register asset accounts with opening balances (ADR-0113)
+[*PayeeProfilesApi*](doc/PayeeProfilesApi.md) | [**payeeProfileControllerListActive**](doc/PayeeProfilesApi.md#payeeprofilecontrollerlistactive) | **GET** /api/v1/bean/payee-profiles | List active payee profiles (directory dump)
 [*PropertiesApi*](doc/PropertiesApi.md) | [**propertyControllerDelete**](doc/PropertiesApi.md#propertycontrollerdelete) | **DELETE** /api/v1/admin/properties/{key} | Delete a system property
 [*PropertiesApi*](doc/PropertiesApi.md) | [**propertyControllerGetAll**](doc/PropertiesApi.md#propertycontrollergetall) | **GET** /api/v1/admin/properties | Get all system properties
 [*PropertiesApi*](doc/PropertiesApi.md) | [**propertyControllerGetByKey**](doc/PropertiesApi.md#propertycontrollergetbykey) | **GET** /api/v1/admin/properties/{key} | Get property by key
@@ -449,6 +450,8 @@ Class | Method | HTTP request | Description
  - [ParserContributionSamplesDto](doc/ParserContributionSamplesDto.md)
  - [PayeeAutocompleteResponseDto](doc/PayeeAutocompleteResponseDto.md)
  - [PayeeListResponseDto](doc/PayeeListResponseDto.md)
+ - [PayeeProfileDirectoryEntryDto](doc/PayeeProfileDirectoryEntryDto.md)
+ - [PayeeProfileDirectoryResponseDto](doc/PayeeProfileDirectoryResponseDto.md)
  - [PayeeProfileListResponseDto](doc/PayeeProfileListResponseDto.md)
  - [PayeeProfileResponseDto](doc/PayeeProfileResponseDto.md)
  - [PayeeResponseDto](doc/PayeeResponseDto.md)
