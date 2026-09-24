@@ -198,6 +198,9 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(ParserContributionSamplesDto.serializer)
       ..add(PayeeAutocompleteResponseDto.serializer)
       ..add(PayeeListResponseDto.serializer)
+      ..add(PayeeProfileDirectoryEntryDto.serializer)
+      ..add(PayeeProfileDirectoryEntryDtoCategoryEnum.serializer)
+      ..add(PayeeProfileDirectoryResponseDto.serializer)
       ..add(PayeeProfileListResponseDto.serializer)
       ..add(PayeeProfileResponseDto.serializer)
       ..add(PayeeProfileResponseDtoCategoryEnum.serializer)
@@ -531,6 +534,10 @@ Serializers _$serializers = (new Serializers().toBuilder()
           () => new ListBuilder<OnboardingAccountDto>())
       ..addBuilderFactory(
           const FullType(
+              BuiltList, const [const FullType(PayeeProfileDirectoryEntryDto)]),
+          () => new ListBuilder<PayeeProfileDirectoryEntryDto>())
+      ..addBuilderFactory(
+          const FullType(
               BuiltList, const [const FullType(PayeeProfileResponseDto)]),
           () => new ListBuilder<PayeeProfileResponseDto>())
       ..addBuilderFactory(
@@ -565,6 +572,9 @@ Serializers _$serializers = (new Serializers().toBuilder()
           const FullType(BuiltList,
               const [const FullType(RuleStatisticsResponseDtoRuleStatsInner)]),
           () => new ListBuilder<RuleStatisticsResponseDtoRuleStatsInner>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())

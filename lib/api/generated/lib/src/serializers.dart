@@ -159,6 +159,8 @@ import 'package:firela_api/src/model/parser_contribution_request_dto.dart';
 import 'package:firela_api/src/model/parser_contribution_samples_dto.dart';
 import 'package:firela_api/src/model/payee_autocomplete_response_dto.dart';
 import 'package:firela_api/src/model/payee_list_response_dto.dart';
+import 'package:firela_api/src/model/payee_profile_directory_entry_dto.dart';
+import 'package:firela_api/src/model/payee_profile_directory_response_dto.dart';
 import 'package:firela_api/src/model/payee_profile_list_response_dto.dart';
 import 'package:firela_api/src/model/payee_profile_response_dto.dart';
 import 'package:firela_api/src/model/payee_response_dto.dart';
@@ -390,6 +392,8 @@ part 'serializers.g.dart';
   ParserContributionSamplesDto,
   PayeeAutocompleteResponseDto,
   PayeeListResponseDto,
+  PayeeProfileDirectoryEntryDto,
+  PayeeProfileDirectoryResponseDto,
   PayeeProfileListResponseDto,
   PayeeProfileResponseDto,
   PayeeResponseDto,

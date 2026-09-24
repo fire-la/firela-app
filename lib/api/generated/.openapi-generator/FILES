@@ -34,6 +34,7 @@ lib/src/api/investment_api.dart
 lib/src/api/life_events_api.dart
 lib/src/api/market_data_api.dart
 lib/src/api/onboarding_api.dart
+lib/src/api/payee_profiles_api.dart
 lib/src/api/properties_api.dart
 lib/src/api/provider_sync_api.dart
 lib/src/api/recurring_forecast_api.dart
@@ -193,6 +194,8 @@ lib/src/model/parser_contribution_request_dto.dart
 lib/src/model/parser_contribution_samples_dto.dart
 lib/src/model/payee_autocomplete_response_dto.dart
 lib/src/model/payee_list_response_dto.dart
+lib/src/model/payee_profile_directory_entry_dto.dart
+lib/src/model/payee_profile_directory_response_dto.dart
 lib/src/model/payee_profile_list_response_dto.dart
 lib/src/model/payee_profile_response_dto.dart
 lib/src/model/payee_response_dto.dart
