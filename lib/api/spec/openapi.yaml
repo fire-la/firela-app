@@ -25678,6 +25678,241 @@ paths:
         - Dashboard
       security:
         - bearer: []
+  /api/v1/{region}/dashboard/advisor-context:
+    get:
+      operationId: DashboardController_getAdvisorContext
+      summary: Get the composite P8 advisor context
+      description: >-
+        Assembles the P8 data context in one call: net worth (verbatim GET
+        /dashboard/net-worth shape, user base currency semantics per ADR-0070),
+        trailing-12m flow totals over the 12 calendar months including the as-of
+        month, and top-3 expense categories by account-path leaf key — both flow
+        blocks priced in CNY per the P8 contract. The P8 snake_case field
+        spellings (as_of, net_worth, trailing_12m) are mapped by the consumer;
+        the wire keeps the family camelCase
+      parameters:
+        - name: date
+          required: false
+          in: query
+          description: >-
+            As-of date for the snapshot and the trailing-12m window anchor (ISO
+            8601 format)
+          schema:
+            example: '2024-06-15'
+            type: string
+        - name: region
+          required: true
+          in: path
+          description: Region code for tenant context
+          schema:
+            enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - ar
+              - at
+              - au
+              - az
+              - ba
+              - bb
+              - bd
+              - be
+              - bf
+              - bg
+              - bh
+              - bi
+              - bj
+              - bn
+              - bo
+              - br
+              - bs
+              - bt
+              - bw
+              - by
+              - bz
+              - ca
+              - cd
+              - cf
+              - cg
+              - ch
+              - ci
+              - cl
+              - cm
+              - cn
+              - co
+              - cr
+              - cu
+              - cv
+              - cy
+              - cz
+              - de
+              - dj
+              - dk
+              - dm
+              - do
+              - dz
+              - ec
+              - ee
+              - eg
+              - er
+              - es
+              - et
+              - fj
+              - fm
+              - fr
+              - ga
+              - gb
+              - gd
+              - ge
+              - gh
+              - gm
+              - gn
+              - gq
+              - gr
+              - gt
+              - gw
+              - gy
+              - hk
+              - hn
+              - hr
+              - ht
+              - hu
+              - id
+              - ie
+              - il
+              - in
+              - iq
+              - ir
+              - is
+              - it
+              - jm
+              - jo
+              - jp
+              - ke
+              - kg
+              - kh
+              - ki
+              - km
+              - kn
+              - kr
+              - kw
+              - kz
+              - la
+              - lb
+              - lc
+              - li
+              - lk
+              - lr
+              - ls
+              - lt
+              - lu
+              - lv
+              - ly
+              - ma
+              - mc
+              - md
+              - me
+              - mg
+              - mh
+              - mk
+              - ml
+              - mm
+              - mn
+              - mr
+              - mt
+              - mu
+              - mv
+              - mw
+              - mx
+              - mz
+              - na
+              - ne
+              - ng
+              - ni
+              - nl
+              - 'no'
+              - np
+              - nr
+              - nz
+              - om
+              - pa
+              - pe
+              - pg
+              - ph
+              - pk
+              - pl
+              - ps
+              - pt
+              - pw
+              - py
+              - qa
+              - ro
+              - rs
+              - ru
+              - rw
+              - sa
+              - sb
+              - sc
+              - sd
+              - se
+              - sg
+              - sl
+              - sm
+              - sn
+              - so
+              - sr
+              - st
+              - sv
+              - sy
+              - sz
+              - td
+              - tg
+              - th
+              - tj
+              - tl
+              - tm
+              - tn
+              - to
+              - tr
+              - tt
+              - tv
+              - tw
+              - tz
+              - ua
+              - ug
+              - us
+              - uy
+              - uz
+              - va
+              - vc
+              - ve
+              - vn
+              - vu
+              - ws
+              - ye
+              - za
+              - zm
+              - zw
+            type: string
+      responses:
+        '200':
+          description: Advisor context retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdvisorContextResponseDto'
+        '400':
+          description: Invalid date format
+        '401':
+          description: User not authenticated
+      tags:
+        - Dashboard
+      security:
+        - bearer: []
   /api/v1/{region}/investment/holdings/pnl:
     get:
       operationId: HoldingPnlController_getHoldingPnl
@@ -33902,6 +34137,89 @@ components:
         - baseCurrency
         - groups
         - summary
+    Trailing12mDto:
+      type: object
+      properties:
+        currency:
+          type: string
+          description: 'Conversion target currency (P8 contract: CNY)'
+          example: CNY
+        expense:
+          type: string
+          description: >-
+            Trailing-12m expense total, CNY-converted (absolute magnitude;
+            convertible currencies only)
+          example: '18000.00'
+        income:
+          type: string
+          description: >-
+            Trailing-12m income total, CNY-converted (absolute magnitude;
+            convertible currencies only)
+          example: '25000.00'
+        saving:
+          type: string
+          description: >-
+            Trailing-12m saving = income − expense (positive = saving),
+            CNY-converted
+          example: '7000.00'
+        warnings:
+          description: Exchange rate warnings (e.g. missing rate for a currency)
+          type: array
+          items:
+            $ref: '#/components/schemas/ExchangeRateWarningDto'
+      required:
+        - currency
+        - expense
+        - income
+        - saving
+    TopExpenseCategoryDto:
+      type: object
+      properties:
+        category:
+          type: string
+          description: Account-path leaf key (last path segment)
+          example: Coffee
+        totalExpense:
+          type: string
+          description: >-
+            Converted total for this category in CNY (convertible currencies
+            only)
+          example: '1200.00'
+      required:
+        - category
+        - totalExpense
+    AdvisorContextResponseDto:
+      type: object
+      properties:
+        asOf:
+          type: string
+          description: Data as of date (ISO 8601)
+          example: '2024-06-15T00:00:00.000Z'
+        netWorth:
+          description: >-
+            Net worth snapshot — verbatim GET /dashboard/net-worth shape (user
+            base currency semantics, ADR-0070)
+          allOf:
+            - $ref: '#/components/schemas/NetWorthResponseDto'
+        trailing12m:
+          description: >-
+            Trailing-12m flow totals over the 12 calendar months including the
+            as-of month, priced in CNY (P8 contract)
+          allOf:
+            - $ref: '#/components/schemas/Trailing12mDto'
+        topExpenseCategories:
+          description: >-
+            Top-3 expense categories by converted total desc (account-path leaf
+            keys, same 12-month window; fewer entries when fewer categories have
+            activity)
+          type: array
+          items:
+            $ref: '#/components/schemas/TopExpenseCategoryDto'
+      required:
+        - asOf
+        - netWorth
+        - trailing12m
+        - topExpenseCategories
     MonetaryDto:
       type: object
       properties:
