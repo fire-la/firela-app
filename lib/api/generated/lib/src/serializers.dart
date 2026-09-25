@@ -24,6 +24,7 @@ import 'package:firela_api/src/model/account_standard_response_dto.dart';
 import 'package:firela_api/src/model/accounts_response_dto.dart';
 import 'package:firela_api/src/model/accounts_summary_dto.dart';
 import 'package:firela_api/src/model/actual_balance_dto.dart';
+import 'package:firela_api/src/model/advisor_context_response_dto.dart';
 import 'package:firela_api/src/model/amount_dto.dart';
 import 'package:firela_api/src/model/amount_range_dto.dart';
 import 'package:firela_api/src/model/anonymous_login_dto.dart';
@@ -212,6 +213,8 @@ import 'package:firela_api/src/model/template_metadata_response_dto.dart';
 import 'package:firela_api/src/model/test_rule_dto.dart';
 import 'package:firela_api/src/model/test_rule_response_dto.dart';
 import 'package:firela_api/src/model/time_series_point_dto.dart';
+import 'package:firela_api/src/model/top_expense_category_dto.dart';
+import 'package:firela_api/src/model/trailing12m_dto.dart';
 import 'package:firela_api/src/model/transaction_detail_dto.dart';
 import 'package:firela_api/src/model/transaction_list_item_dto.dart';
 import 'package:firela_api/src/model/transaction_list_response_dto.dart';
@@ -257,6 +260,7 @@ part 'serializers.g.dart';
   AccountsResponseDto,
   AccountsSummaryDto,
   ActualBalanceDto,
+  AdvisorContextResponseDto,
   AmountDto,
   AmountRangeDto,
   AnonymousLoginDto,
@@ -445,6 +449,8 @@ part 'serializers.g.dart';
   TestRuleDto,
   TestRuleResponseDto,
   TimeSeriesPointDto,
+  TopExpenseCategoryDto,
+  Trailing12mDto,
   TransactionDetailDto,
   TransactionListItemDto,
   TransactionListResponseDto,
