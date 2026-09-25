@@ -27033,6 +27033,15 @@ components:
             class A. Absent = single-currency not asserted — consumers fall back
             to their own region currency (#714).
           example: HKD
+        sortKey:
+          type: integer
+          description: >-
+            Authored in-group display rank delivered verbatim (not localized,
+            not xlf-managed). ADR-0131 class A. Ascending within productCategory
+            (lower sorts first); absent = no curation intent — clients fall back
+            to name ordering (#1505).
+          nullable: true
+          example: 1
         description:
           type: string
           description: >-
