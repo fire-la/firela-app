@@ -236,6 +236,7 @@ Class | Method | HTTP request | Description
 [*BeanTransactionsApi*](doc/BeanTransactionsApi.md) | [**transactionControllerUpdate**](doc/BeanTransactionsApi.md#transactioncontrollerupdate) | **PATCH** /api/v1/{region}/bean/transactions/{id} | Update transaction metadata
 [*CommunityApi*](doc/CommunityApi.md) | [**parserContributionControllerCreate**](doc/CommunityApi.md#parsercontributioncontrollercreate) | **POST** /api/v1/{region}/community/parser-contributions | Relay a sanitized parser-contribution payload
 [*DashboardApi*](doc/DashboardApi.md) | [**dashboardControllerGetAccounts**](doc/DashboardApi.md#dashboardcontrollergetaccounts) | **GET** /api/v1/{region}/dashboard/accounts | Get accounts grouped by platform
+[*DashboardApi*](doc/DashboardApi.md) | [**dashboardControllerGetAdvisorContext**](doc/DashboardApi.md#dashboardcontrollergetadvisorcontext) | **GET** /api/v1/{region}/dashboard/advisor-context | Get the composite P8 advisor context
 [*DashboardApi*](doc/DashboardApi.md) | [**dashboardControllerGetCashFlow**](doc/DashboardApi.md#dashboardcontrollergetcashflow) | **GET** /api/v1/{region}/dashboard/cash-flow | Get cash flow summary
 [*DashboardApi*](doc/DashboardApi.md) | [**dashboardControllerGetExpenses**](doc/DashboardApi.md#dashboardcontrollergetexpenses) | **GET** /api/v1/{region}/dashboard/expenses | Get expenses/income grouped by functional category
 [*DashboardApi*](doc/DashboardApi.md) | [**dashboardControllerGetNetWorth**](doc/DashboardApi.md#dashboardcontrollergetnetworth) | **GET** /api/v1/{region}/dashboard/net-worth | Get net worth overview
@@ -315,6 +316,7 @@ Class | Method | HTTP request | Description
  - [AccountsResponseDto](doc/AccountsResponseDto.md)
  - [AccountsSummaryDto](doc/AccountsSummaryDto.md)
  - [ActualBalanceDto](doc/ActualBalanceDto.md)
+ - [AdvisorContextResponseDto](doc/AdvisorContextResponseDto.md)
  - [AmountDto](doc/AmountDto.md)
  - [AmountRangeDto](doc/AmountRangeDto.md)
  - [AnonymousLoginDto](doc/AnonymousLoginDto.md)
@@ -503,6 +505,8 @@ Class | Method | HTTP request | Description
  - [TestRuleDto](doc/TestRuleDto.md)
  - [TestRuleResponseDto](doc/TestRuleResponseDto.md)
  - [TimeSeriesPointDto](doc/TimeSeriesPointDto.md)
+ - [TopExpenseCategoryDto](doc/TopExpenseCategoryDto.md)
+ - [Trailing12mDto](doc/Trailing12mDto.md)
  - [TransactionDetailDto](doc/TransactionDetailDto.md)
  - [TransactionListItemDto](doc/TransactionListItemDto.md)
  - [TransactionListResponseDto](doc/TransactionListResponseDto.md)

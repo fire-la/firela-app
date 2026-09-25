@@ -8,6 +8,7 @@ import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
 
 import 'package:firela_api/src/api_util.dart';
+import 'package:firela_api/src/model/advisor_context_response_dto.dart';
 import 'package:firela_api/src/model/cash_flow_response_dto.dart';
 import 'package:firela_api/src/model/dashboard_controller_get_accounts200_response.dart';
 import 'package:firela_api/src/model/expenses_by_category_response_dto.dart';
@@ -98,6 +99,88 @@ class DashboardApi {
     }
 
     return Response<DashboardControllerGetAccounts200Response>(
+      data: _responseData,
+      headers: _response.headers,
+      isRedirect: _response.isRedirect,
+      requestOptions: _response.requestOptions,
+      redirects: _response.redirects,
+      statusCode: _response.statusCode,
+      statusMessage: _response.statusMessage,
+      extra: _response.extra,
+    );
+  }
+
+  /// Get the composite P8 advisor context
+  /// Assembles the P8 data context in one call: net worth (verbatim GET /dashboard/net-worth shape, user base currency semantics per ADR-0070), trailing-12m flow totals over the 12 calendar months including the as-of month, and top-3 expense categories by account-path leaf key — both flow blocks priced in CNY per the P8 contract. The P8 snake_case field spellings (as_of, net_worth, trailing_12m) are mapped by the consumer; the wire keeps the family camelCase
+  ///
+  /// Parameters:
+  /// * [region] - Region code for tenant context
+  /// * [date] - As-of date for the snapshot and the trailing-12m window anchor (ISO 8601 format)
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future] containing a [Response] with a [AdvisorContextResponseDto] as data
+  /// Throws [DioException] if API call or serialization fails
+  Future<Response<AdvisorContextResponseDto>> dashboardControllerGetAdvisorContext({ 
+    required String region,
+    String? date,
+    CancelToken? cancelToken,
+    Map<String, dynamic>? headers,
+    Map<String, dynamic>? extra,
+    ValidateStatus? validateStatus,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {
+    final _path = r'/api/v1/{region}/dashboard/advisor-context'.replaceAll('{' r'region' '}', encodeQueryParameter(_serializers, region, const FullType(String)).toString());
+    final _options = Options(
+      method: r'GET',
+      headers: <String, dynamic>{
+        ...?headers,
+      },
+      extra: <String, dynamic>{
+        'secure': <Map<String, String>>[],
+        ...?extra,
+      },
+      validateStatus: validateStatus,
+    );
+
+    final _queryParameters = <String, dynamic>{
+      if (date != null) r'date': encodeQueryParameter(_serializers, date, const FullType(String)),
+    };
+
+    final _response = await _dio.request<Object>(
+      _path,
+      options: _options,
+      queryParameters: _queryParameters,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+    );
+
+    AdvisorContextResponseDto? _responseData;
+
+    try {
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(AdvisorContextResponseDto),
+      ) as AdvisorContextResponseDto;
+
+    } catch (error, stackTrace) {
+      throw DioException(
+        requestOptions: _response.requestOptions,
+        response: _response,
+        type: DioExceptionType.unknown,
+        error: error,
+        stackTrace: stackTrace,
+      );
+    }
+
+    return Response<AdvisorContextResponseDto>(
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,
