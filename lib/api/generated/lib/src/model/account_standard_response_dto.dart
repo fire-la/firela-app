@@ -18,6 +18,7 @@ part 'account_standard_response_dto.g.dart';
 /// * [aliases] - Authored market-language alternative names delivered verbatim (not localized copy, not xlf-managed, not locale-projected). Flat string[] per ADR-0129 D1; ADR-0131 class A.
 /// * [searchTerms] - Locale-projected search synonyms (e.g. the zh bank-card / debit-card everyday terms for the checking account). Pure-locale projection — absent when the locale has no seeded synonyms; English fallback rides the authored aliases field. Search-only vocabulary, not the NLP routing corpus (#698, ADR-0131 fourth-class adjudication).
 /// * [currency] - Product denomination as a 3-letter ISO 4217 code, authored market data delivered verbatim (not localized, not xlf-managed). ADR-0131 class A. Absent = single-currency not asserted — consumers fall back to their own region currency (#714).
+/// * [sortKey] - Authored in-group display rank delivered verbatim (not localized, not xlf-managed). ADR-0131 class A. Ascending within productCategory (lower sorts first); absent = no curation intent — clients fall back to name ordering (#1505).
 /// * [description] - Account description (stable semantics only). Mixed-language contract: universal rows project to the request locale via the accountDesc xlf axis with an en fallback (ADR-0131 class P, ADR-0132; unseeded locales falling back to English are expected); regional rows deliver the authored market language (ADR-0131 class A, verbatim, never xlf-managed).
 /// * [tags] - Account tags for categorization — structured metadata delivered verbatim (not localized, not xlf-managed). ADR-0131 class A.
 /// * [icon] - Icon identifier for UI display
@@ -50,6 +51,10 @@ abstract class AccountStandardResponseDto implements Built<AccountStandardRespon
   /// Product denomination as a 3-letter ISO 4217 code, authored market data delivered verbatim (not localized, not xlf-managed). ADR-0131 class A. Absent = single-currency not asserted — consumers fall back to their own region currency (#714).
   @BuiltValueField(wireName: r'currency')
   String? get currency;
+
+  /// Authored in-group display rank delivered verbatim (not localized, not xlf-managed). ADR-0131 class A. Ascending within productCategory (lower sorts first); absent = no curation intent — clients fall back to name ordering (#1505).
+  @BuiltValueField(wireName: r'sortKey')
+  int? get sortKey;
 
   /// Account description (stable semantics only). Mixed-language contract: universal rows project to the request locale via the accountDesc xlf axis with an en fallback (ADR-0131 class P, ADR-0132; unseeded locales falling back to English are expected); regional rows deliver the authored market language (ADR-0131 class A, verbatim, never xlf-managed).
   @BuiltValueField(wireName: r'description')
@@ -136,6 +141,13 @@ class _$AccountStandardResponseDtoSerializer implements PrimitiveSerializer<Acco
       yield serializers.serialize(
         object.currency,
         specifiedType: const FullType(String),
+      );
+    }
+    if (object.sortKey != null) {
+      yield r'sortKey';
+      yield serializers.serialize(
+        object.sortKey,
+        specifiedType: const FullType.nullable(int),
       );
     }
     yield r'description';
@@ -236,6 +248,14 @@ class _$AccountStandardResponseDtoSerializer implements PrimitiveSerializer<Acco
             specifiedType: const FullType(String),
           ) as String;
           result.currency = valueDes;
+          break;
+        case r'sortKey':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType.nullable(int),
+          ) as int?;
+          if (valueDes == null) continue;
+          result.sortKey = valueDes;
           break;
         case r'description':
           final valueDes = serializers.deserialize(
