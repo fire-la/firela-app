@@ -10,7 +10,7 @@ import 'package:built_value/serializer.dart';
 
 part 'nlp_payee_confirmation_data_dto_suggested_payee.g.dart';
 
-/// Suggested payee to use (null when no similar payees found)
+/// Suggested payee to use (null when no suggestion is emitted — below the auto-map threshold or no similar payees found, #1524)
 ///
 /// Properties:
 /// * [id] - Payee ID

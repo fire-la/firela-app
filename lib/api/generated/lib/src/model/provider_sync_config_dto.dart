@@ -17,6 +17,7 @@ part 'provider_sync_config_dto.g.dart';
 /// * [defaultIncomeAccount] - Default income account for the second posting. Omit when no real default exists; the pipeline routes to Review via the Uncategorized sentinel (#618).
 /// * [filterPending] - Filter pending transactions
 /// * [externalAccountId] - External account ID for per-batch providers (e.g. GoCardless). Overrides sourceAccount when an ExternalAccountLink mapping exists.
+/// * [skipPayeeMatch] - Skip Stage 1 payee matching for this sync (#1518). Deterministic learning path: transactions with unknown payees fall through to rule matching / the uncategorized (ACCOUNT_VALIDATION) branch instead of a global fuzzy PAYEE_MATCH review. Omit to keep the default behavior (payee matching runs).
 @BuiltValue()
 abstract class ProviderSyncConfigDto implements Built<ProviderSyncConfigDto, ProviderSyncConfigDtoBuilder> {
   /// Source account for the first posting
@@ -43,13 +44,18 @@ abstract class ProviderSyncConfigDto implements Built<ProviderSyncConfigDto, Pro
   @BuiltValueField(wireName: r'externalAccountId')
   String? get externalAccountId;
 
+  /// Skip Stage 1 payee matching for this sync (#1518). Deterministic learning path: transactions with unknown payees fall through to rule matching / the uncategorized (ACCOUNT_VALIDATION) branch instead of a global fuzzy PAYEE_MATCH review. Omit to keep the default behavior (payee matching runs).
+  @BuiltValueField(wireName: r'skipPayeeMatch')
+  bool? get skipPayeeMatch;
+
   ProviderSyncConfigDto._();
 
   factory ProviderSyncConfigDto([void updates(ProviderSyncConfigDtoBuilder b)]) = _$ProviderSyncConfigDto;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(ProviderSyncConfigDtoBuilder b) => b
-      ..filterPending = true;
+      ..filterPending = true
+      ..skipPayeeMatch = false;
 
   @BuiltValueSerializer(custom: true)
   static Serializer<ProviderSyncConfigDto> get serializer => _$ProviderSyncConfigDtoSerializer();
@@ -103,6 +109,13 @@ class _$ProviderSyncConfigDtoSerializer implements PrimitiveSerializer<ProviderS
       yield serializers.serialize(
         object.externalAccountId,
         specifiedType: const FullType(String),
+      );
+    }
+    if (object.skipPayeeMatch != null) {
+      yield r'skipPayeeMatch';
+      yield serializers.serialize(
+        object.skipPayeeMatch,
+        specifiedType: const FullType(bool),
       );
     }
   }
@@ -169,6 +182,13 @@ class _$ProviderSyncConfigDtoSerializer implements PrimitiveSerializer<ProviderS
             specifiedType: const FullType(String),
           ) as String;
           result.externalAccountId = valueDes;
+          break;
+        case r'skipPayeeMatch':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(bool),
+          ) as bool;
+          result.skipPayeeMatch = valueDes;
           break;
         default:
           unhandled.add(key);

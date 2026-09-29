@@ -12,14 +12,14 @@ part 'nlp_suggested_account_dto.g.dart';
 ///
 /// Properties:
 /// * [account] - Suggested account path
-/// * [confidence] - Confidence score for this suggestion (0-1). Present = predicted (confirm/confirm_rule/confirm_account); omitted = actual persisted account (created). (#586)
+/// * [confidence] - Confidence score for this suggestion (0-1). Present only when a real match signal exists (confirm_rule legs carry the rule-engine score). Zero-signal predicted legs omit it entirely (#1525, fire-la/firela-app-private#488 ruling: no flat constant), and created legs omit it = actual persisted account (#586).
 @BuiltValue()
 abstract class NlpSuggestedAccountDto implements Built<NlpSuggestedAccountDto, NlpSuggestedAccountDtoBuilder> {
   /// Suggested account path
   @BuiltValueField(wireName: r'account')
   String get account;
 
-  /// Confidence score for this suggestion (0-1). Present = predicted (confirm/confirm_rule/confirm_account); omitted = actual persisted account (created). (#586)
+  /// Confidence score for this suggestion (0-1). Present only when a real match signal exists (confirm_rule legs carry the rule-engine score). Zero-signal predicted legs omit it entirely (#1525, fire-la/firela-app-private#488 ruling: no flat constant), and created legs omit it = actual persisted account (#586).
   @BuiltValueField(wireName: r'confidence')
   num? get confidence;
 

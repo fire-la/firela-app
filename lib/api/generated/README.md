@@ -155,6 +155,7 @@ Class | Method | HTTP request | Description
 [*AdminPayeeProfilesApi*](doc/AdminPayeeProfilesApi.md) | [**payeeProfileAdminControllerUpdate**](doc/AdminPayeeProfilesApi.md#payeeprofileadmincontrollerupdate) | **PUT** /api/v1/admin/payee-profiles/{id} | Update payee profile (Admin only)
 [*AdminPayeeProfilesApi*](doc/AdminPayeeProfilesApi.md) | [**payeeProfileAdminControllerVerify**](doc/AdminPayeeProfilesApi.md#payeeprofileadmincontrollerverify) | **POST** /api/v1/admin/payee-profiles/{id}/verify | Verify payee profile (Admin only)
 [*AuthApi*](doc/AuthApi.md) | [**authControllerAccessTokenLogin**](doc/AuthApi.md#authcontrolleraccesstokenlogin) | **POST** /api/v1/auth/sessions/anonymous | Anonymous login with access token
+[*AuthApi*](doc/AuthApi.md) | [**authControllerAdvisorTokenLogin**](doc/AuthApi.md#authcontrolleradvisortokenlogin) | **POST** /api/v1/auth/sessions/advisor | Exchange an access token for an advisor-scoped, short-TTL JWT (#1512)
 [*BalanceReconciliationApi*](doc/BalanceReconciliationApi.md) | [**reconciliationControllerAssert**](doc/BalanceReconciliationApi.md#reconciliationcontrollerassert) | **POST** /api/v1/{region}/bean/reconciliations/assert | Record a balance assertion
 [*BalanceReconciliationApi*](doc/BalanceReconciliationApi.md) | [**reconciliationControllerCompute**](doc/BalanceReconciliationApi.md#reconciliationcontrollercompute) | **POST** /api/v1/{region}/bean/reconciliations | Preview reconciliation (book vs actual)
 [*BalanceReconciliationApi*](doc/BalanceReconciliationApi.md) | [**reconciliationControllerHistory**](doc/BalanceReconciliationApi.md#reconciliationcontrollerhistory) | **GET** /api/v1/{region}/bean/accounts/{accountId}/reconciliations | List reconciliation history for an account
@@ -317,6 +318,8 @@ Class | Method | HTTP request | Description
  - [AccountsSummaryDto](doc/AccountsSummaryDto.md)
  - [ActualBalanceDto](doc/ActualBalanceDto.md)
  - [AdvisorContextResponseDto](doc/AdvisorContextResponseDto.md)
+ - [AdvisorLoginDto](doc/AdvisorLoginDto.md)
+ - [AdvisorLoginResponseDto](doc/AdvisorLoginResponseDto.md)
  - [AmountDto](doc/AmountDto.md)
  - [AmountRangeDto](doc/AmountRangeDto.md)
  - [AnonymousLoginDto](doc/AnonymousLoginDto.md)
