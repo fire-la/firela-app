@@ -26,6 +26,8 @@ class _$SymbolQuoteDto extends SymbolQuoteDto {
   @override
   final String? priceDate;
   @override
+  final String? asOf;
+  @override
   final num? changePercent;
   @override
   final String? prevClose;
@@ -55,6 +57,7 @@ class _$SymbolQuoteDto extends SymbolQuoteDto {
       this.currency,
       this.price,
       this.priceDate,
+      this.asOf,
       this.changePercent,
       this.prevClose,
       this.open,
@@ -86,6 +89,7 @@ class _$SymbolQuoteDto extends SymbolQuoteDto {
         currency == other.currency &&
         price == other.price &&
         priceDate == other.priceDate &&
+        asOf == other.asOf &&
         changePercent == other.changePercent &&
         prevClose == other.prevClose &&
         open == other.open &&
@@ -108,6 +112,7 @@ class _$SymbolQuoteDto extends SymbolQuoteDto {
     _$hash = $jc(_$hash, currency.hashCode);
     _$hash = $jc(_$hash, price.hashCode);
     _$hash = $jc(_$hash, priceDate.hashCode);
+    _$hash = $jc(_$hash, asOf.hashCode);
     _$hash = $jc(_$hash, changePercent.hashCode);
     _$hash = $jc(_$hash, prevClose.hashCode);
     _$hash = $jc(_$hash, open.hashCode);
@@ -132,6 +137,7 @@ class _$SymbolQuoteDto extends SymbolQuoteDto {
           ..add('currency', currency)
           ..add('price', price)
           ..add('priceDate', priceDate)
+          ..add('asOf', asOf)
           ..add('changePercent', changePercent)
           ..add('prevClose', prevClose)
           ..add('open', open)
@@ -185,6 +191,10 @@ class SymbolQuoteDtoBuilder
   String? get priceDate => _$this._priceDate;
   set priceDate(String? priceDate) => _$this._priceDate = priceDate;
 
+  String? _asOf;
+  String? get asOf => _$this._asOf;
+  set asOf(String? asOf) => _$this._asOf = asOf;
+
   num? _changePercent;
   num? get changePercent => _$this._changePercent;
   set changePercent(num? changePercent) =>
@@ -234,6 +244,7 @@ class SymbolQuoteDtoBuilder
       _currency = $v.currency;
       _price = $v.price;
       _priceDate = $v.priceDate;
+      _asOf = $v.asOf;
       _changePercent = $v.changePercent;
       _prevClose = $v.prevClose;
       _open = $v.open;
@@ -273,6 +284,7 @@ class SymbolQuoteDtoBuilder
             currency: currency,
             price: price,
             priceDate: priceDate,
+            asOf: asOf,
             changePercent: changePercent,
             prevClose: prevClose,
             open: open,
