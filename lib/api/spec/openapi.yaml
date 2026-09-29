@@ -34789,6 +34789,16 @@ components:
           description: Date the price was observed (ISO yyyy-MM-dd)
           example: '2026-08-05'
           nullable: true
+        asOf:
+          type: string
+          description: >-
+            Ingest timestamp (ISO 8601) of the quote row the price came from;
+            NOT the trade date. Present only when the price is sourced from the
+            latest quote row (then priceDate is null); null when the price falls
+            back to a historical close (priceDate carries the trade day). Use
+            for as-of / staleness rendering.
+          example: '2026-09-29T13:30:00.000Z'
+          nullable: true
         changePercent:
           type: number
           description: >-
