@@ -20,6 +20,7 @@ part 'symbol_quote_dto.g.dart';
 /// * [currency] - Trading currency (extra_data or inferred from exchange)
 /// * [price] - Latest price (Decimal string)
 /// * [priceDate] - Date the price was observed (ISO yyyy-MM-dd)
+/// * [asOf] - Ingest timestamp (ISO 8601) of the quote row the price came from; NOT the trade date. Present only when the price is sourced from the latest quote row (then priceDate is null); null when the price falls back to a historical close (priceDate carries the trade day). Use for as-of / staleness rendering.
 /// * [changePercent] - Change vs previous close, in percentage points (1.7 == 1.7%). openbb stores change_percent as a normalized decimal; this exposes percentage points for frontend convenience.
 /// * [prevClose] - Previous close (Decimal string)
 /// * [open] - Day open (Decimal string)
@@ -62,6 +63,10 @@ abstract class SymbolQuoteDto implements Built<SymbolQuoteDto, SymbolQuoteDtoBui
   /// Date the price was observed (ISO yyyy-MM-dd)
   @BuiltValueField(wireName: r'priceDate')
   String? get priceDate;
+
+  /// Ingest timestamp (ISO 8601) of the quote row the price came from; NOT the trade date. Present only when the price is sourced from the latest quote row (then priceDate is null); null when the price falls back to a historical close (priceDate carries the trade day). Use for as-of / staleness rendering.
+  @BuiltValueField(wireName: r'asOf')
+  String? get asOf;
 
   /// Change vs previous close, in percentage points (1.7 == 1.7%). openbb stores change_percent as a normalized decimal; this exposes percentage points for frontend convenience.
   @BuiltValueField(wireName: r'changePercent')
@@ -178,6 +183,13 @@ class _$SymbolQuoteDtoSerializer implements PrimitiveSerializer<SymbolQuoteDto> 
       yield r'priceDate';
       yield serializers.serialize(
         object.priceDate,
+        specifiedType: const FullType.nullable(String),
+      );
+    }
+    if (object.asOf != null) {
+      yield r'asOf';
+      yield serializers.serialize(
+        object.asOf,
         specifiedType: const FullType.nullable(String),
       );
     }
@@ -330,6 +342,14 @@ class _$SymbolQuoteDtoSerializer implements PrimitiveSerializer<SymbolQuoteDto> 
           ) as String?;
           if (valueDes == null) continue;
           result.priceDate = valueDes;
+          break;
+        case r'asOf':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType.nullable(String),
+          ) as String?;
+          if (valueDes == null) continue;
+          result.asOf = valueDes;
           break;
         case r'changePercent':
           final valueDes = serializers.deserialize(
