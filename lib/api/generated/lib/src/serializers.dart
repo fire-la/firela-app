@@ -25,6 +25,8 @@ import 'package:firela_api/src/model/accounts_response_dto.dart';
 import 'package:firela_api/src/model/accounts_summary_dto.dart';
 import 'package:firela_api/src/model/actual_balance_dto.dart';
 import 'package:firela_api/src/model/advisor_context_response_dto.dart';
+import 'package:firela_api/src/model/advisor_login_dto.dart';
+import 'package:firela_api/src/model/advisor_login_response_dto.dart';
 import 'package:firela_api/src/model/amount_dto.dart';
 import 'package:firela_api/src/model/amount_range_dto.dart';
 import 'package:firela_api/src/model/anonymous_login_dto.dart';
@@ -261,6 +263,8 @@ part 'serializers.g.dart';
   AccountsSummaryDto,
   ActualBalanceDto,
   AdvisorContextResponseDto,
+  AdvisorLoginDto,
+  AdvisorLoginResponseDto,
   AmountDto,
   AmountRangeDto,
   AnonymousLoginDto,

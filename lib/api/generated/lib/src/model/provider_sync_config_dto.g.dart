@@ -19,6 +19,8 @@ class _$ProviderSyncConfigDto extends ProviderSyncConfigDto {
   final bool? filterPending;
   @override
   final String? externalAccountId;
+  @override
+  final bool? skipPayeeMatch;
 
   factory _$ProviderSyncConfigDto(
           [void Function(ProviderSyncConfigDtoBuilder)? updates]) =>
@@ -30,7 +32,8 @@ class _$ProviderSyncConfigDto extends ProviderSyncConfigDto {
       this.defaultExpenseAccount,
       this.defaultIncomeAccount,
       this.filterPending,
-      this.externalAccountId})
+      this.externalAccountId,
+      this.skipPayeeMatch})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(
         sourceAccount, r'ProviderSyncConfigDto', 'sourceAccount');
@@ -56,7 +59,8 @@ class _$ProviderSyncConfigDto extends ProviderSyncConfigDto {
         defaultExpenseAccount == other.defaultExpenseAccount &&
         defaultIncomeAccount == other.defaultIncomeAccount &&
         filterPending == other.filterPending &&
-        externalAccountId == other.externalAccountId;
+        externalAccountId == other.externalAccountId &&
+        skipPayeeMatch == other.skipPayeeMatch;
   }
 
   @override
@@ -68,6 +72,7 @@ class _$ProviderSyncConfigDto extends ProviderSyncConfigDto {
     _$hash = $jc(_$hash, defaultIncomeAccount.hashCode);
     _$hash = $jc(_$hash, filterPending.hashCode);
     _$hash = $jc(_$hash, externalAccountId.hashCode);
+    _$hash = $jc(_$hash, skipPayeeMatch.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -80,7 +85,8 @@ class _$ProviderSyncConfigDto extends ProviderSyncConfigDto {
           ..add('defaultExpenseAccount', defaultExpenseAccount)
           ..add('defaultIncomeAccount', defaultIncomeAccount)
           ..add('filterPending', filterPending)
-          ..add('externalAccountId', externalAccountId))
+          ..add('externalAccountId', externalAccountId)
+          ..add('skipPayeeMatch', skipPayeeMatch))
         .toString();
   }
 }
@@ -119,6 +125,11 @@ class ProviderSyncConfigDtoBuilder
   set externalAccountId(String? externalAccountId) =>
       _$this._externalAccountId = externalAccountId;
 
+  bool? _skipPayeeMatch;
+  bool? get skipPayeeMatch => _$this._skipPayeeMatch;
+  set skipPayeeMatch(bool? skipPayeeMatch) =>
+      _$this._skipPayeeMatch = skipPayeeMatch;
+
   ProviderSyncConfigDtoBuilder() {
     ProviderSyncConfigDto._defaults(this);
   }
@@ -132,6 +143,7 @@ class ProviderSyncConfigDtoBuilder
       _defaultIncomeAccount = $v.defaultIncomeAccount;
       _filterPending = $v.filterPending;
       _externalAccountId = $v.externalAccountId;
+      _skipPayeeMatch = $v.skipPayeeMatch;
       _$v = null;
     }
     return this;
@@ -161,7 +173,8 @@ class ProviderSyncConfigDtoBuilder
             defaultExpenseAccount: defaultExpenseAccount,
             defaultIncomeAccount: defaultIncomeAccount,
             filterPending: filterPending,
-            externalAccountId: externalAccountId);
+            externalAccountId: externalAccountId,
+            skipPayeeMatch: skipPayeeMatch);
     replace(_$result);
     return _$result;
   }

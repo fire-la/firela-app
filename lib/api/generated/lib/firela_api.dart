@@ -59,6 +59,8 @@ export 'package:firela_api/src/model/accounts_response_dto.dart';
 export 'package:firela_api/src/model/accounts_summary_dto.dart';
 export 'package:firela_api/src/model/actual_balance_dto.dart';
 export 'package:firela_api/src/model/advisor_context_response_dto.dart';
+export 'package:firela_api/src/model/advisor_login_dto.dart';
+export 'package:firela_api/src/model/advisor_login_response_dto.dart';
 export 'package:firela_api/src/model/amount_dto.dart';
 export 'package:firela_api/src/model/amount_range_dto.dart';
 export 'package:firela_api/src/model/anonymous_login_dto.dart';
