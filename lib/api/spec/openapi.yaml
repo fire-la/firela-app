@@ -25908,7 +25908,9 @@ paths:
         '400':
           description: Invalid date format
         '401':
-          description: User not authenticated
+          description: >-
+            User not authenticated, or the token is not advisor-scoped (exchange
+            via POST /auth/sessions/advisor, #1512)
       tags:
         - Dashboard
       security:
@@ -26194,6 +26196,32 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AnonymousLoginResponseDto'
+        '401':
+          description: Invalid access token
+      tags:
+        - Auth
+      security:
+        - bearer: []
+  /api/v1/auth/sessions/advisor:
+    post:
+      operationId: AuthController_advisorTokenLogin
+      summary: Exchange an access token for an advisor-scoped, short-TTL JWT (#1512)
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdvisorLoginDto'
+      responses:
+        '200':
+          description: >-
+            Advisor-scope login successful — the token is valid only on advisor
+            tool-face endpoints (e.g. GET /:region/dashboard/advisor-context)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdvisorLoginResponseDto'
         '401':
           description: Invalid access token
       tags:
@@ -32159,6 +32187,15 @@ components:
             External account ID for per-batch providers (e.g. GoCardless).
             Overrides sourceAccount when an ExternalAccountLink mapping exists.
           example: acc_gocardless_001
+        skipPayeeMatch:
+          type: boolean
+          description: >-
+            Skip Stage 1 payee matching for this sync (#1518). Deterministic
+            learning path: transactions with unknown payees fall through to rule
+            matching / the uncategorized (ACCOUNT_VALIDATION) branch instead of
+            a global fuzzy PAYEE_MATCH review. Omit to keep the default behavior
+            (payee matching runs).
+          default: false
       required:
         - sourceAccount
         - defaultCurrency
@@ -32841,7 +32878,9 @@ components:
           description: Original payee string from user input
           example: 星巴
         suggestedPayee:
-          description: Suggested payee to use (null when no similar payees found)
+          description: >-
+            Suggested payee to use (null when no suggestion is emitted — below
+            the auto-map threshold or no similar payees found, #1524)
           nullable: true
           allOf:
             - $ref: '#/components/schemas/NlpSuggestedPayeeDto'
@@ -32857,8 +32896,8 @@ components:
         reasons:
           description: Human-readable reasons for the match
           example:
-            - Moderate similarity (65%)
-            - Fuzzy match on name
+            - Similarity below auto-map threshold (65%)
+            - User should input correct payee name
           type: array
           items:
             type: string
@@ -32916,9 +32955,11 @@ components:
         confidence:
           type: number
           description: >-
-            Confidence score for this suggestion (0-1). Present = predicted
-            (confirm/confirm_rule/confirm_account); omitted = actual persisted
-            account (created). (#586)
+            Confidence score for this suggestion (0-1). Present only when a real
+            match signal exists (confirm_rule legs carry the rule-engine score).
+            Zero-signal predicted legs omit it entirely (#1525,
+            fire-la/firela-app-private#488 ruling: no flat constant), and
+            created legs omit it = actual persisted account (#586).
           example: 0.9
       required:
         - account
@@ -33156,10 +33197,11 @@ components:
         suggestedAccounts:
           description: >-
             Suggested accounts for this transaction (#586).
-            confirm/confirm_rule/confirm_account: predicted (source/destination
-            carry confidence); created: actual persisted accounts (confidence
-            omitted). confirm_account destination is the suggested replacement,
-            never the invalid account.
+            confirm/confirm_rule/confirm_account: predicted; legs carry
+            confidence only when a real match signal exists (confirm_rule rule
+            score) — zero-signal legs omit it (#1525). created: actual persisted
+            accounts (confidence omitted). confirm_account destination is the
+            suggested replacement, never the invalid account.
           allOf:
             - $ref: '#/components/schemas/NlpSuggestedAccountsDto'
         defaultAccounts:
@@ -34474,6 +34516,23 @@ components:
         authToken:
           type: string
           description: JWT auth token
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+      required:
+        - authToken
+    AdvisorLoginDto:
+      type: object
+      properties:
+        accessToken:
+          type: string
+          description: Access token to exchange for an advisor-scoped token
+      required:
+        - accessToken
+    AdvisorLoginResponseDto:
+      type: object
+      properties:
+        authToken:
+          type: string
+          description: Advisor-scoped JWT auth token (short TTL, aggregate-only)
           example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
       required:
         - authToken
