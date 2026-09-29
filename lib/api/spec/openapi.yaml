@@ -6431,6 +6431,2665 @@ paths:
         - Bean Reviews
       security:
         - bearer: []
+  /api/v1/{region}/bean/transaction-rules:
+    post:
+      operationId: TransactionRuleController_create
+      summary: Create a new transaction rule (or upsert if upsertByPayee=true)
+      description: >-
+        Creates a new rule. If upsertByPayee=true, updates existing rule
+        matching payeeKeywords[0] instead of creating duplicate.
+      parameters:
+        - name: region
+          required: true
+          in: path
+          description: Region code for tenant context
+          schema:
+            enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - ar
+              - at
+              - au
+              - az
+              - ba
+              - bb
+              - bd
+              - be
+              - bf
+              - bg
+              - bh
+              - bi
+              - bj
+              - bn
+              - bo
+              - br
+              - bs
+              - bt
+              - bw
+              - by
+              - bz
+              - ca
+              - cd
+              - cf
+              - cg
+              - ch
+              - ci
+              - cl
+              - cm
+              - cn
+              - co
+              - cr
+              - cu
+              - cv
+              - cy
+              - cz
+              - de
+              - dj
+              - dk
+              - dm
+              - do
+              - dz
+              - ec
+              - ee
+              - eg
+              - er
+              - es
+              - et
+              - fj
+              - fm
+              - fr
+              - ga
+              - gb
+              - gd
+              - ge
+              - gh
+              - gm
+              - gn
+              - gq
+              - gr
+              - gt
+              - gw
+              - gy
+              - hk
+              - hn
+              - hr
+              - ht
+              - hu
+              - id
+              - ie
+              - il
+              - in
+              - iq
+              - ir
+              - is
+              - it
+              - jm
+              - jo
+              - jp
+              - ke
+              - kg
+              - kh
+              - ki
+              - km
+              - kn
+              - kr
+              - kw
+              - kz
+              - la
+              - lb
+              - lc
+              - li
+              - lk
+              - lr
+              - ls
+              - lt
+              - lu
+              - lv
+              - ly
+              - ma
+              - mc
+              - md
+              - me
+              - mg
+              - mh
+              - mk
+              - ml
+              - mm
+              - mn
+              - mr
+              - mt
+              - mu
+              - mv
+              - mw
+              - mx
+              - mz
+              - na
+              - ne
+              - ng
+              - ni
+              - nl
+              - 'no'
+              - np
+              - nr
+              - nz
+              - om
+              - pa
+              - pe
+              - pg
+              - ph
+              - pk
+              - pl
+              - ps
+              - pt
+              - pw
+              - py
+              - qa
+              - ro
+              - rs
+              - ru
+              - rw
+              - sa
+              - sb
+              - sc
+              - sd
+              - se
+              - sg
+              - sl
+              - sm
+              - sn
+              - so
+              - sr
+              - st
+              - sv
+              - sy
+              - sz
+              - td
+              - tg
+              - th
+              - tj
+              - tl
+              - tm
+              - tn
+              - to
+              - tr
+              - tt
+              - tv
+              - tw
+              - tz
+              - ua
+              - ug
+              - us
+              - uy
+              - uz
+              - va
+              - vc
+              - ve
+              - vn
+              - vu
+              - ws
+              - ye
+              - za
+              - zm
+              - zw
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTransactionRuleDto'
+      responses:
+        '200':
+          description: Rule updated successfully (upsert mode)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionRuleResponseDto'
+        '201':
+          description: Rule created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionRuleResponseDto'
+        '400':
+          description: Validation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiProblemResponseDto'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiProblemResponseDto'
+        '409':
+          description: Resource conflict - another process is updating this rule
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiProblemResponseDto'
+      tags:
+        - Bean Transaction Rules
+      security:
+        - bearer: []
+    get:
+      operationId: TransactionRuleController_list
+      summary: Get all transaction rules for user
+      parameters:
+        - name: limit
+          required: false
+          in: query
+          description: 'Max results per page (default: 20, max: 100)'
+          schema:
+            type: number
+        - name: offset
+          required: false
+          in: query
+          description: 'Pagination offset (default: 0)'
+          schema:
+            type: number
+        - name: enabled
+          required: false
+          in: query
+          description: Filter by enabled status
+          schema:
+            type: boolean
+        - name: learningSource
+          required: false
+          in: query
+          description: >-
+            Filter by learning source. Omit this parameter or pass empty string
+            to get manually created rules (learningSource is null in database).
+          schema:
+            enum:
+              - NLP
+              - REVIEW_CENTER
+            type: string
+        - name: autoApplyEnabled
+          required: false
+          in: query
+          description: Filter by auto-apply status
+          schema:
+            type: boolean
+        - name: region
+          required: true
+          in: path
+          description: Region code for tenant context
+          schema:
+            enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - ar
+              - at
+              - au
+              - az
+              - ba
+              - bb
+              - bd
+              - be
+              - bf
+              - bg
+              - bh
+              - bi
+              - bj
+              - bn
+              - bo
+              - br
+              - bs
+              - bt
+              - bw
+              - by
+              - bz
+              - ca
+              - cd
+              - cf
+              - cg
+              - ch
+              - ci
+              - cl
+              - cm
+              - cn
+              - co
+              - cr
+              - cu
+              - cv
+              - cy
+              - cz
+              - de
+              - dj
+              - dk
+              - dm
+              - do
+              - dz
+              - ec
+              - ee
+              - eg
+              - er
+              - es
+              - et
+              - fj
+              - fm
+              - fr
+              - ga
+              - gb
+              - gd
+              - ge
+              - gh
+              - gm
+              - gn
+              - gq
+              - gr
+              - gt
+              - gw
+              - gy
+              - hk
+              - hn
+              - hr
+              - ht
+              - hu
+              - id
+              - ie
+              - il
+              - in
+              - iq
+              - ir
+              - is
+              - it
+              - jm
+              - jo
+              - jp
+              - ke
+              - kg
+              - kh
+              - ki
+              - km
+              - kn
+              - kr
+              - kw
+              - kz
+              - la
+              - lb
+              - lc
+              - li
+              - lk
+              - lr
+              - ls
+              - lt
+              - lu
+              - lv
+              - ly
+              - ma
+              - mc
+              - md
+              - me
+              - mg
+              - mh
+              - mk
+              - ml
+              - mm
+              - mn
+              - mr
+              - mt
+              - mu
+              - mv
+              - mw
+              - mx
+              - mz
+              - na
+              - ne
+              - ng
+              - ni
+              - nl
+              - 'no'
+              - np
+              - nr
+              - nz
+              - om
+              - pa
+              - pe
+              - pg
+              - ph
+              - pk
+              - pl
+              - ps
+              - pt
+              - pw
+              - py
+              - qa
+              - ro
+              - rs
+              - ru
+              - rw
+              - sa
+              - sb
+              - sc
+              - sd
+              - se
+              - sg
+              - sl
+              - sm
+              - sn
+              - so
+              - sr
+              - st
+              - sv
+              - sy
+              - sz
+              - td
+              - tg
+              - th
+              - tj
+              - tl
+              - tm
+              - tn
+              - to
+              - tr
+              - tt
+              - tv
+              - tw
+              - tz
+              - ua
+              - ug
+              - us
+              - uy
+              - uz
+              - va
+              - vc
+              - ve
+              - vn
+              - vu
+              - ws
+              - ye
+              - za
+              - zm
+              - zw
+            type: string
+      responses:
+        '200':
+          description: List of rules
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionRuleListResponseDto'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiProblemResponseDto'
+      tags:
+        - Bean Transaction Rules
+      security:
+        - bearer: []
+  /api/v1/{region}/bean/transaction-rules/validate:
+    post:
+      operationId: TransactionRuleController_validate
+      summary: Validate transaction rule configuration
+      parameters:
+        - name: region
+          required: true
+          in: path
+          description: Region code for tenant context
+          schema:
+            enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - ar
+              - at
+              - au
+              - az
+              - ba
+              - bb
+              - bd
+              - be
+              - bf
+              - bg
+              - bh
+              - bi
+              - bj
+              - bn
+              - bo
+              - br
+              - bs
+              - bt
+              - bw
+              - by
+              - bz
+              - ca
+              - cd
+              - cf
+              - cg
+              - ch
+              - ci
+              - cl
+              - cm
+              - cn
+              - co
+              - cr
+              - cu
+              - cv
+              - cy
+              - cz
+              - de
+              - dj
+              - dk
+              - dm
+              - do
+              - dz
+              - ec
+              - ee
+              - eg
+              - er
+              - es
+              - et
+              - fj
+              - fm
+              - fr
+              - ga
+              - gb
+              - gd
+              - ge
+              - gh
+              - gm
+              - gn
+              - gq
+              - gr
+              - gt
+              - gw
+              - gy
+              - hk
+              - hn
+              - hr
+              - ht
+              - hu
+              - id
+              - ie
+              - il
+              - in
+              - iq
+              - ir
+              - is
+              - it
+              - jm
+              - jo
+              - jp
+              - ke
+              - kg
+              - kh
+              - ki
+              - km
+              - kn
+              - kr
+              - kw
+              - kz
+              - la
+              - lb
+              - lc
+              - li
+              - lk
+              - lr
+              - ls
+              - lt
+              - lu
+              - lv
+              - ly
+              - ma
+              - mc
+              - md
+              - me
+              - mg
+              - mh
+              - mk
+              - ml
+              - mm
+              - mn
+              - mr
+              - mt
+              - mu
+              - mv
+              - mw
+              - mx
+              - mz
+              - na
+              - ne
+              - ng
+              - ni
+              - nl
+              - 'no'
+              - np
+              - nr
+              - nz
+              - om
+              - pa
+              - pe
+              - pg
+              - ph
+              - pk
+              - pl
+              - ps
+              - pt
+              - pw
+              - py
+              - qa
+              - ro
+              - rs
+              - ru
+              - rw
+              - sa
+              - sb
+              - sc
+              - sd
+              - se
+              - sg
+              - sl
+              - sm
+              - sn
+              - so
+              - sr
+              - st
+              - sv
+              - sy
+              - sz
+              - td
+              - tg
+              - th
+              - tj
+              - tl
+              - tm
+              - tn
+              - to
+              - tr
+              - tt
+              - tv
+              - tw
+              - tz
+              - ua
+              - ug
+              - us
+              - uy
+              - uz
+              - va
+              - vc
+              - ve
+              - vn
+              - vu
+              - ws
+              - ye
+              - za
+              - zm
+              - zw
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ValidateRuleDto'
+      responses:
+        '200':
+          description: Validation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidateRuleResponseDto'
+        '400':
+          description: Validation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiProblemResponseDto'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiProblemResponseDto'
+      tags:
+        - Bean Transaction Rules
+      security:
+        - bearer: []
+  /api/v1/{region}/bean/transaction-rules/bulk:
+    post:
+      operationId: TransactionRuleController_bulkCreate
+      summary: Bulk create transaction rules
+      parameters:
+        - name: region
+          required: true
+          in: path
+          description: Region code for tenant context
+          schema:
+            enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - ar
+              - at
+              - au
+              - az
+              - ba
+              - bb
+              - bd
+              - be
+              - bf
+              - bg
+              - bh
+              - bi
+              - bj
+              - bn
+              - bo
+              - br
+              - bs
+              - bt
+              - bw
+              - by
+              - bz
+              - ca
+              - cd
+              - cf
+              - cg
+              - ch
+              - ci
+              - cl
+              - cm
+              - cn
+              - co
+              - cr
+              - cu
+              - cv
+              - cy
+              - cz
+              - de
+              - dj
+              - dk
+              - dm
+              - do
+              - dz
+              - ec
+              - ee
+              - eg
+              - er
+              - es
+              - et
+              - fj
+              - fm
+              - fr
+              - ga
+              - gb
+              - gd
+              - ge
+              - gh
+              - gm
+              - gn
+              - gq
+              - gr
+              - gt
+              - gw
+              - gy
+              - hk
+              - hn
+              - hr
+              - ht
+              - hu
+              - id
+              - ie
+              - il
+              - in
+              - iq
+              - ir
+              - is
+              - it
+              - jm
+              - jo
+              - jp
+              - ke
+              - kg
+              - kh
+              - ki
+              - km
+              - kn
+              - kr
+              - kw
+              - kz
+              - la
+              - lb
+              - lc
+              - li
+              - lk
+              - lr
+              - ls
+              - lt
+              - lu
+              - lv
+              - ly
+              - ma
+              - mc
+              - md
+              - me
+              - mg
+              - mh
+              - mk
+              - ml
+              - mm
+              - mn
+              - mr
+              - mt
+              - mu
+              - mv
+              - mw
+              - mx
+              - mz
+              - na
+              - ne
+              - ng
+              - ni
+              - nl
+              - 'no'
+              - np
+              - nr
+              - nz
+              - om
+              - pa
+              - pe
+              - pg
+              - ph
+              - pk
+              - pl
+              - ps
+              - pt
+              - pw
+              - py
+              - qa
+              - ro
+              - rs
+              - ru
+              - rw
+              - sa
+              - sb
+              - sc
+              - sd
+              - se
+              - sg
+              - sl
+              - sm
+              - sn
+              - so
+              - sr
+              - st
+              - sv
+              - sy
+              - sz
+              - td
+              - tg
+              - th
+              - tj
+              - tl
+              - tm
+              - tn
+              - to
+              - tr
+              - tt
+              - tv
+              - tw
+              - tz
+              - ua
+              - ug
+              - us
+              - uy
+              - uz
+              - va
+              - vc
+              - ve
+              - vn
+              - vu
+              - ws
+              - ye
+              - za
+              - zm
+              - zw
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkCreateRulesDto'
+      responses:
+        '201':
+          description: Bulk create completed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BulkCreateRulesResponseDto'
+        '400':
+          description: Invalid bulk create data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiProblemResponseDto'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiProblemResponseDto'
+      tags:
+        - Bean Transaction Rules
+      security:
+        - bearer: []
+  /api/v1/{region}/bean/transaction-rules/export/{format}:
+    get:
+      operationId: TransactionRuleController_export
+      summary: Export transaction rules
+      parameters:
+        - name: format
+          required: true
+          in: path
+          description: Export format (currently only JSON supported)
+          schema:
+            enum:
+              - json
+            type: string
+        - name: region
+          required: true
+          in: path
+          description: Region code for tenant context
+          schema:
+            enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - ar
+              - at
+              - au
+              - az
+              - ba
+              - bb
+              - bd
+              - be
+              - bf
+              - bg
+              - bh
+              - bi
+              - bj
+              - bn
+              - bo
+              - br
+              - bs
+              - bt
+              - bw
+              - by
+              - bz
+              - ca
+              - cd
+              - cf
+              - cg
+              - ch
+              - ci
+              - cl
+              - cm
+              - cn
+              - co
+              - cr
+              - cu
+              - cv
+              - cy
+              - cz
+              - de
+              - dj
+              - dk
+              - dm
+              - do
+              - dz
+              - ec
+              - ee
+              - eg
+              - er
+              - es
+              - et
+              - fj
+              - fm
+              - fr
+              - ga
+              - gb
+              - gd
+              - ge
+              - gh
+              - gm
+              - gn
+              - gq
+              - gr
+              - gt
+              - gw
+              - gy
+              - hk
+              - hn
+              - hr
+              - ht
+              - hu
+              - id
+              - ie
+              - il
+              - in
+              - iq
+              - ir
+              - is
+              - it
+              - jm
+              - jo
+              - jp
+              - ke
+              - kg
+              - kh
+              - ki
+              - km
+              - kn
+              - kr
+              - kw
+              - kz
+              - la
+              - lb
+              - lc
+              - li
+              - lk
+              - lr
+              - ls
+              - lt
+              - lu
+              - lv
+              - ly
+              - ma
+              - mc
+              - md
+              - me
+              - mg
+              - mh
+              - mk
+              - ml
+              - mm
+              - mn
+              - mr
+              - mt
+              - mu
+              - mv
+              - mw
+              - mx
+              - mz
+              - na
+              - ne
+              - ng
+              - ni
+              - nl
+              - 'no'
+              - np
+              - nr
+              - nz
+              - om
+              - pa
+              - pe
+              - pg
+              - ph
+              - pk
+              - pl
+              - ps
+              - pt
+              - pw
+              - py
+              - qa
+              - ro
+              - rs
+              - ru
+              - rw
+              - sa
+              - sb
+              - sc
+              - sd
+              - se
+              - sg
+              - sl
+              - sm
+              - sn
+              - so
+              - sr
+              - st
+              - sv
+              - sy
+              - sz
+              - td
+              - tg
+              - th
+              - tj
+              - tl
+              - tm
+              - tn
+              - to
+              - tr
+              - tt
+              - tv
+              - tw
+              - tz
+              - ua
+              - ug
+              - us
+              - uy
+              - uz
+              - va
+              - vc
+              - ve
+              - vn
+              - vu
+              - ws
+              - ye
+              - za
+              - zm
+              - zw
+            type: string
+      responses:
+        '200':
+          description: Exported rules
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExportRulesResponseDto'
+        '400':
+          description: Unsupported format
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiProblemResponseDto'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiProblemResponseDto'
+      tags:
+        - Bean Transaction Rules
+      security:
+        - bearer: []
+  /api/v1/{region}/bean/transaction-rules/statistics/{period}:
+    get:
+      operationId: TransactionRuleController_getStatistics
+      summary: Get transaction rule statistics
+      parameters:
+        - name: period
+          required: true
+          in: path
+          description: Statistics time period
+          schema:
+            enum:
+              - 7d
+              - 30d
+              - 90d
+            type: string
+        - name: region
+          required: true
+          in: path
+          description: Region code for tenant context
+          schema:
+            enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - ar
+              - at
+              - au
+              - az
+              - ba
+              - bb
+              - bd
+              - be
+              - bf
+              - bg
+              - bh
+              - bi
+              - bj
+              - bn
+              - bo
+              - br
+              - bs
+              - bt
+              - bw
+              - by
+              - bz
+              - ca
+              - cd
+              - cf
+              - cg
+              - ch
+              - ci
+              - cl
+              - cm
+              - cn
+              - co
+              - cr
+              - cu
+              - cv
+              - cy
+              - cz
+              - de
+              - dj
+              - dk
+              - dm
+              - do
+              - dz
+              - ec
+              - ee
+              - eg
+              - er
+              - es
+              - et
+              - fj
+              - fm
+              - fr
+              - ga
+              - gb
+              - gd
+              - ge
+              - gh
+              - gm
+              - gn
+              - gq
+              - gr
+              - gt
+              - gw
+              - gy
+              - hk
+              - hn
+              - hr
+              - ht
+              - hu
+              - id
+              - ie
+              - il
+              - in
+              - iq
+              - ir
+              - is
+              - it
+              - jm
+              - jo
+              - jp
+              - ke
+              - kg
+              - kh
+              - ki
+              - km
+              - kn
+              - kr
+              - kw
+              - kz
+              - la
+              - lb
+              - lc
+              - li
+              - lk
+              - lr
+              - ls
+              - lt
+              - lu
+              - lv
+              - ly
+              - ma
+              - mc
+              - md
+              - me
+              - mg
+              - mh
+              - mk
+              - ml
+              - mm
+              - mn
+              - mr
+              - mt
+              - mu
+              - mv
+              - mw
+              - mx
+              - mz
+              - na
+              - ne
+              - ng
+              - ni
+              - nl
+              - 'no'
+              - np
+              - nr
+              - nz
+              - om
+              - pa
+              - pe
+              - pg
+              - ph
+              - pk
+              - pl
+              - ps
+              - pt
+              - pw
+              - py
+              - qa
+              - ro
+              - rs
+              - ru
+              - rw
+              - sa
+              - sb
+              - sc
+              - sd
+              - se
+              - sg
+              - sl
+              - sm
+              - sn
+              - so
+              - sr
+              - st
+              - sv
+              - sy
+              - sz
+              - td
+              - tg
+              - th
+              - tj
+              - tl
+              - tm
+              - tn
+              - to
+              - tr
+              - tt
+              - tv
+              - tw
+              - tz
+              - ua
+              - ug
+              - us
+              - uy
+              - uz
+              - va
+              - vc
+              - ve
+              - vn
+              - vu
+              - ws
+              - ye
+              - za
+              - zm
+              - zw
+            type: string
+      responses:
+        '200':
+          description: Rule statistics
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RuleStatisticsResponseDto'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiProblemResponseDto'
+      tags:
+        - Bean Transaction Rules
+      security:
+        - bearer: []
+  /api/v1/{region}/bean/transaction-rules/{ruleId}:
+    get:
+      operationId: TransactionRuleController_getDetail
+      summary: Get transaction rule detail
+      parameters:
+        - name: ruleId
+          required: true
+          in: path
+          description: Rule ID
+          schema:
+            type: string
+        - name: region
+          required: true
+          in: path
+          description: Region code for tenant context
+          schema:
+            enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - ar
+              - at
+              - au
+              - az
+              - ba
+              - bb
+              - bd
+              - be
+              - bf
+              - bg
+              - bh
+              - bi
+              - bj
+              - bn
+              - bo
+              - br
+              - bs
+              - bt
+              - bw
+              - by
+              - bz
+              - ca
+              - cd
+              - cf
+              - cg
+              - ch
+              - ci
+              - cl
+              - cm
+              - cn
+              - co
+              - cr
+              - cu
+              - cv
+              - cy
+              - cz
+              - de
+              - dj
+              - dk
+              - dm
+              - do
+              - dz
+              - ec
+              - ee
+              - eg
+              - er
+              - es
+              - et
+              - fj
+              - fm
+              - fr
+              - ga
+              - gb
+              - gd
+              - ge
+              - gh
+              - gm
+              - gn
+              - gq
+              - gr
+              - gt
+              - gw
+              - gy
+              - hk
+              - hn
+              - hr
+              - ht
+              - hu
+              - id
+              - ie
+              - il
+              - in
+              - iq
+              - ir
+              - is
+              - it
+              - jm
+              - jo
+              - jp
+              - ke
+              - kg
+              - kh
+              - ki
+              - km
+              - kn
+              - kr
+              - kw
+              - kz
+              - la
+              - lb
+              - lc
+              - li
+              - lk
+              - lr
+              - ls
+              - lt
+              - lu
+              - lv
+              - ly
+              - ma
+              - mc
+              - md
+              - me
+              - mg
+              - mh
+              - mk
+              - ml
+              - mm
+              - mn
+              - mr
+              - mt
+              - mu
+              - mv
+              - mw
+              - mx
+              - mz
+              - na
+              - ne
+              - ng
+              - ni
+              - nl
+              - 'no'
+              - np
+              - nr
+              - nz
+              - om
+              - pa
+              - pe
+              - pg
+              - ph
+              - pk
+              - pl
+              - ps
+              - pt
+              - pw
+              - py
+              - qa
+              - ro
+              - rs
+              - ru
+              - rw
+              - sa
+              - sb
+              - sc
+              - sd
+              - se
+              - sg
+              - sl
+              - sm
+              - sn
+              - so
+              - sr
+              - st
+              - sv
+              - sy
+              - sz
+              - td
+              - tg
+              - th
+              - tj
+              - tl
+              - tm
+              - tn
+              - to
+              - tr
+              - tt
+              - tv
+              - tw
+              - tz
+              - ua
+              - ug
+              - us
+              - uy
+              - uz
+              - va
+              - vc
+              - ve
+              - vn
+              - vu
+              - ws
+              - ye
+              - za
+              - zm
+              - zw
+            type: string
+      responses:
+        '200':
+          description: Rule details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionRuleResponseDto'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiProblemResponseDto'
+        '403':
+          description: Forbidden - not owner of rule
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiProblemResponseDto'
+        '404':
+          description: Rule not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiProblemResponseDto'
+      tags:
+        - Bean Transaction Rules
+      security:
+        - bearer: []
+    put:
+      operationId: TransactionRuleController_update
+      summary: Update a transaction rule
+      parameters:
+        - name: ruleId
+          required: true
+          in: path
+          description: Rule ID to update
+          schema:
+            type: string
+        - name: region
+          required: true
+          in: path
+          description: Region code for tenant context
+          schema:
+            enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - ar
+              - at
+              - au
+              - az
+              - ba
+              - bb
+              - bd
+              - be
+              - bf
+              - bg
+              - bh
+              - bi
+              - bj
+              - bn
+              - bo
+              - br
+              - bs
+              - bt
+              - bw
+              - by
+              - bz
+              - ca
+              - cd
+              - cf
+              - cg
+              - ch
+              - ci
+              - cl
+              - cm
+              - cn
+              - co
+              - cr
+              - cu
+              - cv
+              - cy
+              - cz
+              - de
+              - dj
+              - dk
+              - dm
+              - do
+              - dz
+              - ec
+              - ee
+              - eg
+              - er
+              - es
+              - et
+              - fj
+              - fm
+              - fr
+              - ga
+              - gb
+              - gd
+              - ge
+              - gh
+              - gm
+              - gn
+              - gq
+              - gr
+              - gt
+              - gw
+              - gy
+              - hk
+              - hn
+              - hr
+              - ht
+              - hu
+              - id
+              - ie
+              - il
+              - in
+              - iq
+              - ir
+              - is
+              - it
+              - jm
+              - jo
+              - jp
+              - ke
+              - kg
+              - kh
+              - ki
+              - km
+              - kn
+              - kr
+              - kw
+              - kz
+              - la
+              - lb
+              - lc
+              - li
+              - lk
+              - lr
+              - ls
+              - lt
+              - lu
+              - lv
+              - ly
+              - ma
+              - mc
+              - md
+              - me
+              - mg
+              - mh
+              - mk
+              - ml
+              - mm
+              - mn
+              - mr
+              - mt
+              - mu
+              - mv
+              - mw
+              - mx
+              - mz
+              - na
+              - ne
+              - ng
+              - ni
+              - nl
+              - 'no'
+              - np
+              - nr
+              - nz
+              - om
+              - pa
+              - pe
+              - pg
+              - ph
+              - pk
+              - pl
+              - ps
+              - pt
+              - pw
+              - py
+              - qa
+              - ro
+              - rs
+              - ru
+              - rw
+              - sa
+              - sb
+              - sc
+              - sd
+              - se
+              - sg
+              - sl
+              - sm
+              - sn
+              - so
+              - sr
+              - st
+              - sv
+              - sy
+              - sz
+              - td
+              - tg
+              - th
+              - tj
+              - tl
+              - tm
+              - tn
+              - to
+              - tr
+              - tt
+              - tv
+              - tw
+              - tz
+              - ua
+              - ug
+              - us
+              - uy
+              - uz
+              - va
+              - vc
+              - ve
+              - vn
+              - vu
+              - ws
+              - ye
+              - za
+              - zm
+              - zw
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTransactionRuleDto'
+      responses:
+        '200':
+          description: Rule updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionRuleResponseDto'
+        '400':
+          description: Validation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiProblemResponseDto'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiProblemResponseDto'
+        '403':
+          description: Forbidden - not owner of rule
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiProblemResponseDto'
+        '404':
+          description: Rule not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiProblemResponseDto'
+        '409':
+          description: Resource conflict - rule is being modified by another process
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiProblemResponseDto'
+      tags:
+        - Bean Transaction Rules
+      security:
+        - bearer: []
+    delete:
+      operationId: TransactionRuleController_delete
+      summary: Delete a transaction rule
+      parameters:
+        - name: ruleId
+          required: true
+          in: path
+          description: Rule ID to delete
+          schema:
+            type: string
+        - name: region
+          required: true
+          in: path
+          description: Region code for tenant context
+          schema:
+            enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - ar
+              - at
+              - au
+              - az
+              - ba
+              - bb
+              - bd
+              - be
+              - bf
+              - bg
+              - bh
+              - bi
+              - bj
+              - bn
+              - bo
+              - br
+              - bs
+              - bt
+              - bw
+              - by
+              - bz
+              - ca
+              - cd
+              - cf
+              - cg
+              - ch
+              - ci
+              - cl
+              - cm
+              - cn
+              - co
+              - cr
+              - cu
+              - cv
+              - cy
+              - cz
+              - de
+              - dj
+              - dk
+              - dm
+              - do
+              - dz
+              - ec
+              - ee
+              - eg
+              - er
+              - es
+              - et
+              - fj
+              - fm
+              - fr
+              - ga
+              - gb
+              - gd
+              - ge
+              - gh
+              - gm
+              - gn
+              - gq
+              - gr
+              - gt
+              - gw
+              - gy
+              - hk
+              - hn
+              - hr
+              - ht
+              - hu
+              - id
+              - ie
+              - il
+              - in
+              - iq
+              - ir
+              - is
+              - it
+              - jm
+              - jo
+              - jp
+              - ke
+              - kg
+              - kh
+              - ki
+              - km
+              - kn
+              - kr
+              - kw
+              - kz
+              - la
+              - lb
+              - lc
+              - li
+              - lk
+              - lr
+              - ls
+              - lt
+              - lu
+              - lv
+              - ly
+              - ma
+              - mc
+              - md
+              - me
+              - mg
+              - mh
+              - mk
+              - ml
+              - mm
+              - mn
+              - mr
+              - mt
+              - mu
+              - mv
+              - mw
+              - mx
+              - mz
+              - na
+              - ne
+              - ng
+              - ni
+              - nl
+              - 'no'
+              - np
+              - nr
+              - nz
+              - om
+              - pa
+              - pe
+              - pg
+              - ph
+              - pk
+              - pl
+              - ps
+              - pt
+              - pw
+              - py
+              - qa
+              - ro
+              - rs
+              - ru
+              - rw
+              - sa
+              - sb
+              - sc
+              - sd
+              - se
+              - sg
+              - sl
+              - sm
+              - sn
+              - so
+              - sr
+              - st
+              - sv
+              - sy
+              - sz
+              - td
+              - tg
+              - th
+              - tj
+              - tl
+              - tm
+              - tn
+              - to
+              - tr
+              - tt
+              - tv
+              - tw
+              - tz
+              - ua
+              - ug
+              - us
+              - uy
+              - uz
+              - va
+              - vc
+              - ve
+              - vn
+              - vu
+              - ws
+              - ye
+              - za
+              - zm
+              - zw
+            type: string
+      responses:
+        '204':
+          description: Rule deleted successfully
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiProblemResponseDto'
+        '403':
+          description: Forbidden - not owner of rule
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiProblemResponseDto'
+        '404':
+          description: Rule not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiProblemResponseDto'
+        '409':
+          description: Resource conflict - rule is being modified by another process
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiProblemResponseDto'
+      tags:
+        - Bean Transaction Rules
+      security:
+        - bearer: []
+  /api/v1/{region}/bean/transaction-rules/{ruleId}/test:
+    post:
+      operationId: TransactionRuleController_test
+      summary: Test rule matching
+      parameters:
+        - name: ruleId
+          required: true
+          in: path
+          description: Rule ID to test
+          schema:
+            type: string
+        - name: region
+          required: true
+          in: path
+          description: Region code for tenant context
+          schema:
+            enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - ar
+              - at
+              - au
+              - az
+              - ba
+              - bb
+              - bd
+              - be
+              - bf
+              - bg
+              - bh
+              - bi
+              - bj
+              - bn
+              - bo
+              - br
+              - bs
+              - bt
+              - bw
+              - by
+              - bz
+              - ca
+              - cd
+              - cf
+              - cg
+              - ch
+              - ci
+              - cl
+              - cm
+              - cn
+              - co
+              - cr
+              - cu
+              - cv
+              - cy
+              - cz
+              - de
+              - dj
+              - dk
+              - dm
+              - do
+              - dz
+              - ec
+              - ee
+              - eg
+              - er
+              - es
+              - et
+              - fj
+              - fm
+              - fr
+              - ga
+              - gb
+              - gd
+              - ge
+              - gh
+              - gm
+              - gn
+              - gq
+              - gr
+              - gt
+              - gw
+              - gy
+              - hk
+              - hn
+              - hr
+              - ht
+              - hu
+              - id
+              - ie
+              - il
+              - in
+              - iq
+              - ir
+              - is
+              - it
+              - jm
+              - jo
+              - jp
+              - ke
+              - kg
+              - kh
+              - ki
+              - km
+              - kn
+              - kr
+              - kw
+              - kz
+              - la
+              - lb
+              - lc
+              - li
+              - lk
+              - lr
+              - ls
+              - lt
+              - lu
+              - lv
+              - ly
+              - ma
+              - mc
+              - md
+              - me
+              - mg
+              - mh
+              - mk
+              - ml
+              - mm
+              - mn
+              - mr
+              - mt
+              - mu
+              - mv
+              - mw
+              - mx
+              - mz
+              - na
+              - ne
+              - ng
+              - ni
+              - nl
+              - 'no'
+              - np
+              - nr
+              - nz
+              - om
+              - pa
+              - pe
+              - pg
+              - ph
+              - pk
+              - pl
+              - ps
+              - pt
+              - pw
+              - py
+              - qa
+              - ro
+              - rs
+              - ru
+              - rw
+              - sa
+              - sb
+              - sc
+              - sd
+              - se
+              - sg
+              - sl
+              - sm
+              - sn
+              - so
+              - sr
+              - st
+              - sv
+              - sy
+              - sz
+              - td
+              - tg
+              - th
+              - tj
+              - tl
+              - tm
+              - tn
+              - to
+              - tr
+              - tt
+              - tv
+              - tw
+              - tz
+              - ua
+              - ug
+              - us
+              - uy
+              - uz
+              - va
+              - vc
+              - ve
+              - vn
+              - vu
+              - ws
+              - ye
+              - za
+              - zm
+              - zw
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TestRuleDto'
+      responses:
+        '200':
+          description: Test result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TestRuleResponseDto'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiProblemResponseDto'
+        '403':
+          description: Forbidden - not owner of rule
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiProblemResponseDto'
+        '404':
+          description: Rule not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiProblemResponseDto'
+      tags:
+        - Bean Transaction Rules
+      security:
+        - bearer: []
+  /api/v1/users:
+    delete:
+      operationId: UserController_deleteOwnUser
+      summary: Delete own user account
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteOwnUserDto'
+      responses:
+        '204':
+          description: User deleted successfully
+        '403':
+          description: Invalid access token
+      tags:
+        - Users
+      security:
+        - bearer: []
+    get:
+      operationId: UserController_getUser
+      summary: Get current authenticated user
+      parameters:
+        - name: accept-language
+          required: true
+          in: header
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponseDto'
+      tags:
+        - Users
+      security:
+        - bearer: []
+    post:
+      operationId: UserController_signupUser
+      summary: Sign up new user
+      description: >-
+        Create a new account with auto-generated access token. Protected by
+        Cloudflare Turnstile to prevent automated signup (when enabled).
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignupDto'
+      responses:
+        '201':
+          description: User created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SignupResponseDto'
+        '400':
+          description: Invalid Turnstile token (when Turnstile is enabled)
+        '403':
+          description: User signup is disabled
+      tags:
+        - Users
+      security:
+        - bearer: []
+  /api/v1/users/{id}:
+    delete:
+      operationId: UserController_deleteUser
+      summary: Delete user by ID (admin only)
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: User ID to delete
+          schema:
+            type: string
+      responses:
+        '204':
+          description: User deleted successfully
+        '403':
+          description: Cannot delete own account or insufficient permissions
+      tags:
+        - Users
+      security:
+        - bearer: []
+  /api/v1/users/{id}/info:
+    get:
+      operationId: UserController_getUserInfo
+      summary: Get user info by user ID
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: User ID
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User info retrieved successfully
+        '403':
+          description: Cannot access other user info without admin permission
+      tags:
+        - Users
+      security:
+        - bearer: []
+  /api/v1/users/setting:
+    put:
+      operationId: UserController_updateUserSetting
+      summary: Update user settings
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserSettingDto'
+      responses:
+        '200':
+          description: Settings updated successfully
+        '403':
+          description: Insufficient permissions
+      tags:
+        - Users
+      security:
+        - bearer: []
+  /api/v1/users/settings-by-page:
+    get:
+      operationId: UserController_getAllUserSettingsByPage
+      summary: Get all user settings paginated (admin only)
+      parameters:
+        - name: pageNo
+          required: true
+          in: query
+          description: Page number
+          schema:
+            type: number
+        - name: pageSize
+          required: true
+          in: query
+          description: Page size
+          schema:
+            type: number
+      responses:
+        '200':
+          description: Settings list retrieved successfully
+      tags:
+        - Users
+      security:
+        - bearer: []
+  /api/v1/users/asset-liability-summary:
+    get:
+      operationId: UserController_getAssetLiabilitySummary
+      summary: Get asset and liability summary for current user
+      parameters: []
+      responses:
+        '200':
+          description: Summary retrieved successfully
+      tags:
+        - Users
+      security:
+        - bearer: []
+  /api/v1/admin/properties:
+    get:
+      operationId: PropertyController_getAll
+      summary: Get all system properties
+      parameters: []
+      responses:
+        '200':
+          description: Properties retrieved successfully
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden - insufficient permissions
+      tags:
+        - Properties
+      security:
+        - bearer: []
+  /api/v1/admin/properties/{key}:
+    get:
+      operationId: PropertyController_getByKey
+      summary: Get property by key
+      parameters:
+        - name: key
+          required: true
+          in: path
+          description: Property key
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Property retrieved successfully
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden - insufficient permissions
+        '404':
+          description: Property not found
+      tags:
+        - Properties
+      security:
+        - bearer: []
+    put:
+      operationId: PropertyController_update
+      summary: Update a system property
+      parameters:
+        - name: key
+          required: true
+          in: path
+          description: Property key
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatePropertyDto'
+      responses:
+        '200':
+          description: Property updated successfully
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden - insufficient permissions
+      tags:
+        - Properties
+      security:
+        - bearer: []
+    delete:
+      operationId: PropertyController_delete
+      summary: Delete a system property
+      parameters:
+        - name: key
+          required: true
+          in: path
+          description: Property key
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Property deleted successfully
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden - insufficient permissions
+        '404':
+          description: Property not found
+      tags:
+        - Properties
+      security:
+        - bearer: []
   /api/v1/bean/payees:
     post:
       operationId: PayeeController_create
@@ -11031,260 +13690,6 @@ paths:
         - Bean Prices
       security:
         - bearer: []
-  /api/v1/users:
-    delete:
-      operationId: UserController_deleteOwnUser
-      summary: Delete own user account
-      parameters: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/DeleteOwnUserDto'
-      responses:
-        '204':
-          description: User deleted successfully
-        '403':
-          description: Invalid access token
-      tags:
-        - Users
-      security:
-        - bearer: []
-    get:
-      operationId: UserController_getUser
-      summary: Get current authenticated user
-      parameters:
-        - name: accept-language
-          required: true
-          in: header
-          schema:
-            type: string
-      responses:
-        '200':
-          description: User retrieved successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UserResponseDto'
-      tags:
-        - Users
-      security:
-        - bearer: []
-    post:
-      operationId: UserController_signupUser
-      summary: Sign up new user
-      description: >-
-        Create a new account with auto-generated access token. Protected by
-        Cloudflare Turnstile to prevent automated signup (when enabled).
-      parameters: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/SignupDto'
-      responses:
-        '201':
-          description: User created successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SignupResponseDto'
-        '400':
-          description: Invalid Turnstile token (when Turnstile is enabled)
-        '403':
-          description: User signup is disabled
-      tags:
-        - Users
-      security:
-        - bearer: []
-  /api/v1/users/{id}:
-    delete:
-      operationId: UserController_deleteUser
-      summary: Delete user by ID (admin only)
-      parameters:
-        - name: id
-          required: true
-          in: path
-          description: User ID to delete
-          schema:
-            type: string
-      responses:
-        '204':
-          description: User deleted successfully
-        '403':
-          description: Cannot delete own account or insufficient permissions
-      tags:
-        - Users
-      security:
-        - bearer: []
-  /api/v1/users/{id}/info:
-    get:
-      operationId: UserController_getUserInfo
-      summary: Get user info by user ID
-      parameters:
-        - name: id
-          required: true
-          in: path
-          description: User ID
-          schema:
-            type: string
-      responses:
-        '200':
-          description: User info retrieved successfully
-        '403':
-          description: Cannot access other user info without admin permission
-      tags:
-        - Users
-      security:
-        - bearer: []
-  /api/v1/users/setting:
-    put:
-      operationId: UserController_updateUserSetting
-      summary: Update user settings
-      parameters: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UpdateUserSettingDto'
-      responses:
-        '200':
-          description: Settings updated successfully
-        '403':
-          description: Insufficient permissions
-      tags:
-        - Users
-      security:
-        - bearer: []
-  /api/v1/users/settings-by-page:
-    get:
-      operationId: UserController_getAllUserSettingsByPage
-      summary: Get all user settings paginated (admin only)
-      parameters:
-        - name: pageNo
-          required: true
-          in: query
-          description: Page number
-          schema:
-            type: number
-        - name: pageSize
-          required: true
-          in: query
-          description: Page size
-          schema:
-            type: number
-      responses:
-        '200':
-          description: Settings list retrieved successfully
-      tags:
-        - Users
-      security:
-        - bearer: []
-  /api/v1/users/asset-liability-summary:
-    get:
-      operationId: UserController_getAssetLiabilitySummary
-      summary: Get asset and liability summary for current user
-      parameters: []
-      responses:
-        '200':
-          description: Summary retrieved successfully
-      tags:
-        - Users
-      security:
-        - bearer: []
-  /api/v1/admin/properties:
-    get:
-      operationId: PropertyController_getAll
-      summary: Get all system properties
-      parameters: []
-      responses:
-        '200':
-          description: Properties retrieved successfully
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden - insufficient permissions
-      tags:
-        - Properties
-      security:
-        - bearer: []
-  /api/v1/admin/properties/{key}:
-    get:
-      operationId: PropertyController_getByKey
-      summary: Get property by key
-      parameters:
-        - name: key
-          required: true
-          in: path
-          description: Property key
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Property retrieved successfully
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden - insufficient permissions
-        '404':
-          description: Property not found
-      tags:
-        - Properties
-      security:
-        - bearer: []
-    put:
-      operationId: PropertyController_update
-      summary: Update a system property
-      parameters:
-        - name: key
-          required: true
-          in: path
-          description: Property key
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UpdatePropertyDto'
-      responses:
-        '200':
-          description: Property updated successfully
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden - insufficient permissions
-      tags:
-        - Properties
-      security:
-        - bearer: []
-    delete:
-      operationId: PropertyController_delete
-      summary: Delete a system property
-      parameters:
-        - name: key
-          required: true
-          in: path
-          description: Property key
-          schema:
-            type: string
-      responses:
-        '204':
-          description: Property deleted successfully
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden - insufficient permissions
-        '404':
-          description: Property not found
-      tags:
-        - Properties
-      security:
-        - bearer: []
   /api/v1/{region}/bean/recurring-rules:
     post:
       operationId: RecurringRuleController_create
@@ -14909,2411 +17314,6 @@ paths:
                 $ref: '#/components/schemas/ForecastResponseDto'
       tags:
         - Recurring Forecast
-      security:
-        - bearer: []
-  /api/v1/{region}/bean/transaction-rules:
-    post:
-      operationId: TransactionRuleController_create
-      summary: Create a new transaction rule (or upsert if upsertByPayee=true)
-      description: >-
-        Creates a new rule. If upsertByPayee=true, updates existing rule
-        matching payeeKeywords[0] instead of creating duplicate.
-      parameters:
-        - name: region
-          required: true
-          in: path
-          description: Region code for tenant context
-          schema:
-            enum:
-              - ad
-              - ae
-              - af
-              - ag
-              - al
-              - am
-              - ao
-              - ar
-              - at
-              - au
-              - az
-              - ba
-              - bb
-              - bd
-              - be
-              - bf
-              - bg
-              - bh
-              - bi
-              - bj
-              - bn
-              - bo
-              - br
-              - bs
-              - bt
-              - bw
-              - by
-              - bz
-              - ca
-              - cd
-              - cf
-              - cg
-              - ch
-              - ci
-              - cl
-              - cm
-              - cn
-              - co
-              - cr
-              - cu
-              - cv
-              - cy
-              - cz
-              - de
-              - dj
-              - dk
-              - dm
-              - do
-              - dz
-              - ec
-              - ee
-              - eg
-              - er
-              - es
-              - et
-              - fj
-              - fm
-              - fr
-              - ga
-              - gb
-              - gd
-              - ge
-              - gh
-              - gm
-              - gn
-              - gq
-              - gr
-              - gt
-              - gw
-              - gy
-              - hk
-              - hn
-              - hr
-              - ht
-              - hu
-              - id
-              - ie
-              - il
-              - in
-              - iq
-              - ir
-              - is
-              - it
-              - jm
-              - jo
-              - jp
-              - ke
-              - kg
-              - kh
-              - ki
-              - km
-              - kn
-              - kr
-              - kw
-              - kz
-              - la
-              - lb
-              - lc
-              - li
-              - lk
-              - lr
-              - ls
-              - lt
-              - lu
-              - lv
-              - ly
-              - ma
-              - mc
-              - md
-              - me
-              - mg
-              - mh
-              - mk
-              - ml
-              - mm
-              - mn
-              - mr
-              - mt
-              - mu
-              - mv
-              - mw
-              - mx
-              - mz
-              - na
-              - ne
-              - ng
-              - ni
-              - nl
-              - 'no'
-              - np
-              - nr
-              - nz
-              - om
-              - pa
-              - pe
-              - pg
-              - ph
-              - pk
-              - pl
-              - ps
-              - pt
-              - pw
-              - py
-              - qa
-              - ro
-              - rs
-              - ru
-              - rw
-              - sa
-              - sb
-              - sc
-              - sd
-              - se
-              - sg
-              - sl
-              - sm
-              - sn
-              - so
-              - sr
-              - st
-              - sv
-              - sy
-              - sz
-              - td
-              - tg
-              - th
-              - tj
-              - tl
-              - tm
-              - tn
-              - to
-              - tr
-              - tt
-              - tv
-              - tw
-              - tz
-              - ua
-              - ug
-              - us
-              - uy
-              - uz
-              - va
-              - vc
-              - ve
-              - vn
-              - vu
-              - ws
-              - ye
-              - za
-              - zm
-              - zw
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreateTransactionRuleDto'
-      responses:
-        '200':
-          description: Rule updated successfully (upsert mode)
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TransactionRuleResponseDto'
-        '201':
-          description: Rule created successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TransactionRuleResponseDto'
-        '400':
-          description: Validation failed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiProblemResponseDto'
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiProblemResponseDto'
-        '409':
-          description: Resource conflict - another process is updating this rule
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiProblemResponseDto'
-      tags:
-        - Bean Transaction Rules
-      security:
-        - bearer: []
-    get:
-      operationId: TransactionRuleController_list
-      summary: Get all transaction rules for user
-      parameters:
-        - name: limit
-          required: false
-          in: query
-          description: 'Max results per page (default: 20, max: 100)'
-          schema:
-            type: number
-        - name: offset
-          required: false
-          in: query
-          description: 'Pagination offset (default: 0)'
-          schema:
-            type: number
-        - name: enabled
-          required: false
-          in: query
-          description: Filter by enabled status
-          schema:
-            type: boolean
-        - name: learningSource
-          required: false
-          in: query
-          description: >-
-            Filter by learning source. Omit this parameter or pass empty string
-            to get manually created rules (learningSource is null in database).
-          schema:
-            enum:
-              - NLP
-              - REVIEW_CENTER
-            type: string
-        - name: autoApplyEnabled
-          required: false
-          in: query
-          description: Filter by auto-apply status
-          schema:
-            type: boolean
-        - name: region
-          required: true
-          in: path
-          description: Region code for tenant context
-          schema:
-            enum:
-              - ad
-              - ae
-              - af
-              - ag
-              - al
-              - am
-              - ao
-              - ar
-              - at
-              - au
-              - az
-              - ba
-              - bb
-              - bd
-              - be
-              - bf
-              - bg
-              - bh
-              - bi
-              - bj
-              - bn
-              - bo
-              - br
-              - bs
-              - bt
-              - bw
-              - by
-              - bz
-              - ca
-              - cd
-              - cf
-              - cg
-              - ch
-              - ci
-              - cl
-              - cm
-              - cn
-              - co
-              - cr
-              - cu
-              - cv
-              - cy
-              - cz
-              - de
-              - dj
-              - dk
-              - dm
-              - do
-              - dz
-              - ec
-              - ee
-              - eg
-              - er
-              - es
-              - et
-              - fj
-              - fm
-              - fr
-              - ga
-              - gb
-              - gd
-              - ge
-              - gh
-              - gm
-              - gn
-              - gq
-              - gr
-              - gt
-              - gw
-              - gy
-              - hk
-              - hn
-              - hr
-              - ht
-              - hu
-              - id
-              - ie
-              - il
-              - in
-              - iq
-              - ir
-              - is
-              - it
-              - jm
-              - jo
-              - jp
-              - ke
-              - kg
-              - kh
-              - ki
-              - km
-              - kn
-              - kr
-              - kw
-              - kz
-              - la
-              - lb
-              - lc
-              - li
-              - lk
-              - lr
-              - ls
-              - lt
-              - lu
-              - lv
-              - ly
-              - ma
-              - mc
-              - md
-              - me
-              - mg
-              - mh
-              - mk
-              - ml
-              - mm
-              - mn
-              - mr
-              - mt
-              - mu
-              - mv
-              - mw
-              - mx
-              - mz
-              - na
-              - ne
-              - ng
-              - ni
-              - nl
-              - 'no'
-              - np
-              - nr
-              - nz
-              - om
-              - pa
-              - pe
-              - pg
-              - ph
-              - pk
-              - pl
-              - ps
-              - pt
-              - pw
-              - py
-              - qa
-              - ro
-              - rs
-              - ru
-              - rw
-              - sa
-              - sb
-              - sc
-              - sd
-              - se
-              - sg
-              - sl
-              - sm
-              - sn
-              - so
-              - sr
-              - st
-              - sv
-              - sy
-              - sz
-              - td
-              - tg
-              - th
-              - tj
-              - tl
-              - tm
-              - tn
-              - to
-              - tr
-              - tt
-              - tv
-              - tw
-              - tz
-              - ua
-              - ug
-              - us
-              - uy
-              - uz
-              - va
-              - vc
-              - ve
-              - vn
-              - vu
-              - ws
-              - ye
-              - za
-              - zm
-              - zw
-            type: string
-      responses:
-        '200':
-          description: List of rules
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TransactionRuleListResponseDto'
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiProblemResponseDto'
-      tags:
-        - Bean Transaction Rules
-      security:
-        - bearer: []
-  /api/v1/{region}/bean/transaction-rules/validate:
-    post:
-      operationId: TransactionRuleController_validate
-      summary: Validate transaction rule configuration
-      parameters:
-        - name: region
-          required: true
-          in: path
-          description: Region code for tenant context
-          schema:
-            enum:
-              - ad
-              - ae
-              - af
-              - ag
-              - al
-              - am
-              - ao
-              - ar
-              - at
-              - au
-              - az
-              - ba
-              - bb
-              - bd
-              - be
-              - bf
-              - bg
-              - bh
-              - bi
-              - bj
-              - bn
-              - bo
-              - br
-              - bs
-              - bt
-              - bw
-              - by
-              - bz
-              - ca
-              - cd
-              - cf
-              - cg
-              - ch
-              - ci
-              - cl
-              - cm
-              - cn
-              - co
-              - cr
-              - cu
-              - cv
-              - cy
-              - cz
-              - de
-              - dj
-              - dk
-              - dm
-              - do
-              - dz
-              - ec
-              - ee
-              - eg
-              - er
-              - es
-              - et
-              - fj
-              - fm
-              - fr
-              - ga
-              - gb
-              - gd
-              - ge
-              - gh
-              - gm
-              - gn
-              - gq
-              - gr
-              - gt
-              - gw
-              - gy
-              - hk
-              - hn
-              - hr
-              - ht
-              - hu
-              - id
-              - ie
-              - il
-              - in
-              - iq
-              - ir
-              - is
-              - it
-              - jm
-              - jo
-              - jp
-              - ke
-              - kg
-              - kh
-              - ki
-              - km
-              - kn
-              - kr
-              - kw
-              - kz
-              - la
-              - lb
-              - lc
-              - li
-              - lk
-              - lr
-              - ls
-              - lt
-              - lu
-              - lv
-              - ly
-              - ma
-              - mc
-              - md
-              - me
-              - mg
-              - mh
-              - mk
-              - ml
-              - mm
-              - mn
-              - mr
-              - mt
-              - mu
-              - mv
-              - mw
-              - mx
-              - mz
-              - na
-              - ne
-              - ng
-              - ni
-              - nl
-              - 'no'
-              - np
-              - nr
-              - nz
-              - om
-              - pa
-              - pe
-              - pg
-              - ph
-              - pk
-              - pl
-              - ps
-              - pt
-              - pw
-              - py
-              - qa
-              - ro
-              - rs
-              - ru
-              - rw
-              - sa
-              - sb
-              - sc
-              - sd
-              - se
-              - sg
-              - sl
-              - sm
-              - sn
-              - so
-              - sr
-              - st
-              - sv
-              - sy
-              - sz
-              - td
-              - tg
-              - th
-              - tj
-              - tl
-              - tm
-              - tn
-              - to
-              - tr
-              - tt
-              - tv
-              - tw
-              - tz
-              - ua
-              - ug
-              - us
-              - uy
-              - uz
-              - va
-              - vc
-              - ve
-              - vn
-              - vu
-              - ws
-              - ye
-              - za
-              - zm
-              - zw
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ValidateRuleDto'
-      responses:
-        '200':
-          description: Validation result
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ValidateRuleResponseDto'
-        '400':
-          description: Validation failed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiProblemResponseDto'
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiProblemResponseDto'
-      tags:
-        - Bean Transaction Rules
-      security:
-        - bearer: []
-  /api/v1/{region}/bean/transaction-rules/bulk:
-    post:
-      operationId: TransactionRuleController_bulkCreate
-      summary: Bulk create transaction rules
-      parameters:
-        - name: region
-          required: true
-          in: path
-          description: Region code for tenant context
-          schema:
-            enum:
-              - ad
-              - ae
-              - af
-              - ag
-              - al
-              - am
-              - ao
-              - ar
-              - at
-              - au
-              - az
-              - ba
-              - bb
-              - bd
-              - be
-              - bf
-              - bg
-              - bh
-              - bi
-              - bj
-              - bn
-              - bo
-              - br
-              - bs
-              - bt
-              - bw
-              - by
-              - bz
-              - ca
-              - cd
-              - cf
-              - cg
-              - ch
-              - ci
-              - cl
-              - cm
-              - cn
-              - co
-              - cr
-              - cu
-              - cv
-              - cy
-              - cz
-              - de
-              - dj
-              - dk
-              - dm
-              - do
-              - dz
-              - ec
-              - ee
-              - eg
-              - er
-              - es
-              - et
-              - fj
-              - fm
-              - fr
-              - ga
-              - gb
-              - gd
-              - ge
-              - gh
-              - gm
-              - gn
-              - gq
-              - gr
-              - gt
-              - gw
-              - gy
-              - hk
-              - hn
-              - hr
-              - ht
-              - hu
-              - id
-              - ie
-              - il
-              - in
-              - iq
-              - ir
-              - is
-              - it
-              - jm
-              - jo
-              - jp
-              - ke
-              - kg
-              - kh
-              - ki
-              - km
-              - kn
-              - kr
-              - kw
-              - kz
-              - la
-              - lb
-              - lc
-              - li
-              - lk
-              - lr
-              - ls
-              - lt
-              - lu
-              - lv
-              - ly
-              - ma
-              - mc
-              - md
-              - me
-              - mg
-              - mh
-              - mk
-              - ml
-              - mm
-              - mn
-              - mr
-              - mt
-              - mu
-              - mv
-              - mw
-              - mx
-              - mz
-              - na
-              - ne
-              - ng
-              - ni
-              - nl
-              - 'no'
-              - np
-              - nr
-              - nz
-              - om
-              - pa
-              - pe
-              - pg
-              - ph
-              - pk
-              - pl
-              - ps
-              - pt
-              - pw
-              - py
-              - qa
-              - ro
-              - rs
-              - ru
-              - rw
-              - sa
-              - sb
-              - sc
-              - sd
-              - se
-              - sg
-              - sl
-              - sm
-              - sn
-              - so
-              - sr
-              - st
-              - sv
-              - sy
-              - sz
-              - td
-              - tg
-              - th
-              - tj
-              - tl
-              - tm
-              - tn
-              - to
-              - tr
-              - tt
-              - tv
-              - tw
-              - tz
-              - ua
-              - ug
-              - us
-              - uy
-              - uz
-              - va
-              - vc
-              - ve
-              - vn
-              - vu
-              - ws
-              - ye
-              - za
-              - zm
-              - zw
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/BulkCreateRulesDto'
-      responses:
-        '201':
-          description: Bulk create completed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BulkCreateRulesResponseDto'
-        '400':
-          description: Invalid bulk create data
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiProblemResponseDto'
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiProblemResponseDto'
-      tags:
-        - Bean Transaction Rules
-      security:
-        - bearer: []
-  /api/v1/{region}/bean/transaction-rules/export/{format}:
-    get:
-      operationId: TransactionRuleController_export
-      summary: Export transaction rules
-      parameters:
-        - name: format
-          required: true
-          in: path
-          description: Export format (currently only JSON supported)
-          schema:
-            enum:
-              - json
-            type: string
-        - name: region
-          required: true
-          in: path
-          description: Region code for tenant context
-          schema:
-            enum:
-              - ad
-              - ae
-              - af
-              - ag
-              - al
-              - am
-              - ao
-              - ar
-              - at
-              - au
-              - az
-              - ba
-              - bb
-              - bd
-              - be
-              - bf
-              - bg
-              - bh
-              - bi
-              - bj
-              - bn
-              - bo
-              - br
-              - bs
-              - bt
-              - bw
-              - by
-              - bz
-              - ca
-              - cd
-              - cf
-              - cg
-              - ch
-              - ci
-              - cl
-              - cm
-              - cn
-              - co
-              - cr
-              - cu
-              - cv
-              - cy
-              - cz
-              - de
-              - dj
-              - dk
-              - dm
-              - do
-              - dz
-              - ec
-              - ee
-              - eg
-              - er
-              - es
-              - et
-              - fj
-              - fm
-              - fr
-              - ga
-              - gb
-              - gd
-              - ge
-              - gh
-              - gm
-              - gn
-              - gq
-              - gr
-              - gt
-              - gw
-              - gy
-              - hk
-              - hn
-              - hr
-              - ht
-              - hu
-              - id
-              - ie
-              - il
-              - in
-              - iq
-              - ir
-              - is
-              - it
-              - jm
-              - jo
-              - jp
-              - ke
-              - kg
-              - kh
-              - ki
-              - km
-              - kn
-              - kr
-              - kw
-              - kz
-              - la
-              - lb
-              - lc
-              - li
-              - lk
-              - lr
-              - ls
-              - lt
-              - lu
-              - lv
-              - ly
-              - ma
-              - mc
-              - md
-              - me
-              - mg
-              - mh
-              - mk
-              - ml
-              - mm
-              - mn
-              - mr
-              - mt
-              - mu
-              - mv
-              - mw
-              - mx
-              - mz
-              - na
-              - ne
-              - ng
-              - ni
-              - nl
-              - 'no'
-              - np
-              - nr
-              - nz
-              - om
-              - pa
-              - pe
-              - pg
-              - ph
-              - pk
-              - pl
-              - ps
-              - pt
-              - pw
-              - py
-              - qa
-              - ro
-              - rs
-              - ru
-              - rw
-              - sa
-              - sb
-              - sc
-              - sd
-              - se
-              - sg
-              - sl
-              - sm
-              - sn
-              - so
-              - sr
-              - st
-              - sv
-              - sy
-              - sz
-              - td
-              - tg
-              - th
-              - tj
-              - tl
-              - tm
-              - tn
-              - to
-              - tr
-              - tt
-              - tv
-              - tw
-              - tz
-              - ua
-              - ug
-              - us
-              - uy
-              - uz
-              - va
-              - vc
-              - ve
-              - vn
-              - vu
-              - ws
-              - ye
-              - za
-              - zm
-              - zw
-            type: string
-      responses:
-        '200':
-          description: Exported rules
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ExportRulesResponseDto'
-        '400':
-          description: Unsupported format
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiProblemResponseDto'
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiProblemResponseDto'
-      tags:
-        - Bean Transaction Rules
-      security:
-        - bearer: []
-  /api/v1/{region}/bean/transaction-rules/statistics/{period}:
-    get:
-      operationId: TransactionRuleController_getStatistics
-      summary: Get transaction rule statistics
-      parameters:
-        - name: period
-          required: true
-          in: path
-          description: Statistics time period
-          schema:
-            enum:
-              - 7d
-              - 30d
-              - 90d
-            type: string
-        - name: region
-          required: true
-          in: path
-          description: Region code for tenant context
-          schema:
-            enum:
-              - ad
-              - ae
-              - af
-              - ag
-              - al
-              - am
-              - ao
-              - ar
-              - at
-              - au
-              - az
-              - ba
-              - bb
-              - bd
-              - be
-              - bf
-              - bg
-              - bh
-              - bi
-              - bj
-              - bn
-              - bo
-              - br
-              - bs
-              - bt
-              - bw
-              - by
-              - bz
-              - ca
-              - cd
-              - cf
-              - cg
-              - ch
-              - ci
-              - cl
-              - cm
-              - cn
-              - co
-              - cr
-              - cu
-              - cv
-              - cy
-              - cz
-              - de
-              - dj
-              - dk
-              - dm
-              - do
-              - dz
-              - ec
-              - ee
-              - eg
-              - er
-              - es
-              - et
-              - fj
-              - fm
-              - fr
-              - ga
-              - gb
-              - gd
-              - ge
-              - gh
-              - gm
-              - gn
-              - gq
-              - gr
-              - gt
-              - gw
-              - gy
-              - hk
-              - hn
-              - hr
-              - ht
-              - hu
-              - id
-              - ie
-              - il
-              - in
-              - iq
-              - ir
-              - is
-              - it
-              - jm
-              - jo
-              - jp
-              - ke
-              - kg
-              - kh
-              - ki
-              - km
-              - kn
-              - kr
-              - kw
-              - kz
-              - la
-              - lb
-              - lc
-              - li
-              - lk
-              - lr
-              - ls
-              - lt
-              - lu
-              - lv
-              - ly
-              - ma
-              - mc
-              - md
-              - me
-              - mg
-              - mh
-              - mk
-              - ml
-              - mm
-              - mn
-              - mr
-              - mt
-              - mu
-              - mv
-              - mw
-              - mx
-              - mz
-              - na
-              - ne
-              - ng
-              - ni
-              - nl
-              - 'no'
-              - np
-              - nr
-              - nz
-              - om
-              - pa
-              - pe
-              - pg
-              - ph
-              - pk
-              - pl
-              - ps
-              - pt
-              - pw
-              - py
-              - qa
-              - ro
-              - rs
-              - ru
-              - rw
-              - sa
-              - sb
-              - sc
-              - sd
-              - se
-              - sg
-              - sl
-              - sm
-              - sn
-              - so
-              - sr
-              - st
-              - sv
-              - sy
-              - sz
-              - td
-              - tg
-              - th
-              - tj
-              - tl
-              - tm
-              - tn
-              - to
-              - tr
-              - tt
-              - tv
-              - tw
-              - tz
-              - ua
-              - ug
-              - us
-              - uy
-              - uz
-              - va
-              - vc
-              - ve
-              - vn
-              - vu
-              - ws
-              - ye
-              - za
-              - zm
-              - zw
-            type: string
-      responses:
-        '200':
-          description: Rule statistics
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RuleStatisticsResponseDto'
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiProblemResponseDto'
-      tags:
-        - Bean Transaction Rules
-      security:
-        - bearer: []
-  /api/v1/{region}/bean/transaction-rules/{ruleId}:
-    get:
-      operationId: TransactionRuleController_getDetail
-      summary: Get transaction rule detail
-      parameters:
-        - name: ruleId
-          required: true
-          in: path
-          description: Rule ID
-          schema:
-            type: string
-        - name: region
-          required: true
-          in: path
-          description: Region code for tenant context
-          schema:
-            enum:
-              - ad
-              - ae
-              - af
-              - ag
-              - al
-              - am
-              - ao
-              - ar
-              - at
-              - au
-              - az
-              - ba
-              - bb
-              - bd
-              - be
-              - bf
-              - bg
-              - bh
-              - bi
-              - bj
-              - bn
-              - bo
-              - br
-              - bs
-              - bt
-              - bw
-              - by
-              - bz
-              - ca
-              - cd
-              - cf
-              - cg
-              - ch
-              - ci
-              - cl
-              - cm
-              - cn
-              - co
-              - cr
-              - cu
-              - cv
-              - cy
-              - cz
-              - de
-              - dj
-              - dk
-              - dm
-              - do
-              - dz
-              - ec
-              - ee
-              - eg
-              - er
-              - es
-              - et
-              - fj
-              - fm
-              - fr
-              - ga
-              - gb
-              - gd
-              - ge
-              - gh
-              - gm
-              - gn
-              - gq
-              - gr
-              - gt
-              - gw
-              - gy
-              - hk
-              - hn
-              - hr
-              - ht
-              - hu
-              - id
-              - ie
-              - il
-              - in
-              - iq
-              - ir
-              - is
-              - it
-              - jm
-              - jo
-              - jp
-              - ke
-              - kg
-              - kh
-              - ki
-              - km
-              - kn
-              - kr
-              - kw
-              - kz
-              - la
-              - lb
-              - lc
-              - li
-              - lk
-              - lr
-              - ls
-              - lt
-              - lu
-              - lv
-              - ly
-              - ma
-              - mc
-              - md
-              - me
-              - mg
-              - mh
-              - mk
-              - ml
-              - mm
-              - mn
-              - mr
-              - mt
-              - mu
-              - mv
-              - mw
-              - mx
-              - mz
-              - na
-              - ne
-              - ng
-              - ni
-              - nl
-              - 'no'
-              - np
-              - nr
-              - nz
-              - om
-              - pa
-              - pe
-              - pg
-              - ph
-              - pk
-              - pl
-              - ps
-              - pt
-              - pw
-              - py
-              - qa
-              - ro
-              - rs
-              - ru
-              - rw
-              - sa
-              - sb
-              - sc
-              - sd
-              - se
-              - sg
-              - sl
-              - sm
-              - sn
-              - so
-              - sr
-              - st
-              - sv
-              - sy
-              - sz
-              - td
-              - tg
-              - th
-              - tj
-              - tl
-              - tm
-              - tn
-              - to
-              - tr
-              - tt
-              - tv
-              - tw
-              - tz
-              - ua
-              - ug
-              - us
-              - uy
-              - uz
-              - va
-              - vc
-              - ve
-              - vn
-              - vu
-              - ws
-              - ye
-              - za
-              - zm
-              - zw
-            type: string
-      responses:
-        '200':
-          description: Rule details
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TransactionRuleResponseDto'
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiProblemResponseDto'
-        '403':
-          description: Forbidden - not owner of rule
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiProblemResponseDto'
-        '404':
-          description: Rule not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiProblemResponseDto'
-      tags:
-        - Bean Transaction Rules
-      security:
-        - bearer: []
-    put:
-      operationId: TransactionRuleController_update
-      summary: Update a transaction rule
-      parameters:
-        - name: ruleId
-          required: true
-          in: path
-          description: Rule ID to update
-          schema:
-            type: string
-        - name: region
-          required: true
-          in: path
-          description: Region code for tenant context
-          schema:
-            enum:
-              - ad
-              - ae
-              - af
-              - ag
-              - al
-              - am
-              - ao
-              - ar
-              - at
-              - au
-              - az
-              - ba
-              - bb
-              - bd
-              - be
-              - bf
-              - bg
-              - bh
-              - bi
-              - bj
-              - bn
-              - bo
-              - br
-              - bs
-              - bt
-              - bw
-              - by
-              - bz
-              - ca
-              - cd
-              - cf
-              - cg
-              - ch
-              - ci
-              - cl
-              - cm
-              - cn
-              - co
-              - cr
-              - cu
-              - cv
-              - cy
-              - cz
-              - de
-              - dj
-              - dk
-              - dm
-              - do
-              - dz
-              - ec
-              - ee
-              - eg
-              - er
-              - es
-              - et
-              - fj
-              - fm
-              - fr
-              - ga
-              - gb
-              - gd
-              - ge
-              - gh
-              - gm
-              - gn
-              - gq
-              - gr
-              - gt
-              - gw
-              - gy
-              - hk
-              - hn
-              - hr
-              - ht
-              - hu
-              - id
-              - ie
-              - il
-              - in
-              - iq
-              - ir
-              - is
-              - it
-              - jm
-              - jo
-              - jp
-              - ke
-              - kg
-              - kh
-              - ki
-              - km
-              - kn
-              - kr
-              - kw
-              - kz
-              - la
-              - lb
-              - lc
-              - li
-              - lk
-              - lr
-              - ls
-              - lt
-              - lu
-              - lv
-              - ly
-              - ma
-              - mc
-              - md
-              - me
-              - mg
-              - mh
-              - mk
-              - ml
-              - mm
-              - mn
-              - mr
-              - mt
-              - mu
-              - mv
-              - mw
-              - mx
-              - mz
-              - na
-              - ne
-              - ng
-              - ni
-              - nl
-              - 'no'
-              - np
-              - nr
-              - nz
-              - om
-              - pa
-              - pe
-              - pg
-              - ph
-              - pk
-              - pl
-              - ps
-              - pt
-              - pw
-              - py
-              - qa
-              - ro
-              - rs
-              - ru
-              - rw
-              - sa
-              - sb
-              - sc
-              - sd
-              - se
-              - sg
-              - sl
-              - sm
-              - sn
-              - so
-              - sr
-              - st
-              - sv
-              - sy
-              - sz
-              - td
-              - tg
-              - th
-              - tj
-              - tl
-              - tm
-              - tn
-              - to
-              - tr
-              - tt
-              - tv
-              - tw
-              - tz
-              - ua
-              - ug
-              - us
-              - uy
-              - uz
-              - va
-              - vc
-              - ve
-              - vn
-              - vu
-              - ws
-              - ye
-              - za
-              - zm
-              - zw
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UpdateTransactionRuleDto'
-      responses:
-        '200':
-          description: Rule updated successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TransactionRuleResponseDto'
-        '400':
-          description: Validation failed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiProblemResponseDto'
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiProblemResponseDto'
-        '403':
-          description: Forbidden - not owner of rule
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiProblemResponseDto'
-        '404':
-          description: Rule not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiProblemResponseDto'
-        '409':
-          description: Resource conflict - rule is being modified by another process
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiProblemResponseDto'
-      tags:
-        - Bean Transaction Rules
-      security:
-        - bearer: []
-    delete:
-      operationId: TransactionRuleController_delete
-      summary: Delete a transaction rule
-      parameters:
-        - name: ruleId
-          required: true
-          in: path
-          description: Rule ID to delete
-          schema:
-            type: string
-        - name: region
-          required: true
-          in: path
-          description: Region code for tenant context
-          schema:
-            enum:
-              - ad
-              - ae
-              - af
-              - ag
-              - al
-              - am
-              - ao
-              - ar
-              - at
-              - au
-              - az
-              - ba
-              - bb
-              - bd
-              - be
-              - bf
-              - bg
-              - bh
-              - bi
-              - bj
-              - bn
-              - bo
-              - br
-              - bs
-              - bt
-              - bw
-              - by
-              - bz
-              - ca
-              - cd
-              - cf
-              - cg
-              - ch
-              - ci
-              - cl
-              - cm
-              - cn
-              - co
-              - cr
-              - cu
-              - cv
-              - cy
-              - cz
-              - de
-              - dj
-              - dk
-              - dm
-              - do
-              - dz
-              - ec
-              - ee
-              - eg
-              - er
-              - es
-              - et
-              - fj
-              - fm
-              - fr
-              - ga
-              - gb
-              - gd
-              - ge
-              - gh
-              - gm
-              - gn
-              - gq
-              - gr
-              - gt
-              - gw
-              - gy
-              - hk
-              - hn
-              - hr
-              - ht
-              - hu
-              - id
-              - ie
-              - il
-              - in
-              - iq
-              - ir
-              - is
-              - it
-              - jm
-              - jo
-              - jp
-              - ke
-              - kg
-              - kh
-              - ki
-              - km
-              - kn
-              - kr
-              - kw
-              - kz
-              - la
-              - lb
-              - lc
-              - li
-              - lk
-              - lr
-              - ls
-              - lt
-              - lu
-              - lv
-              - ly
-              - ma
-              - mc
-              - md
-              - me
-              - mg
-              - mh
-              - mk
-              - ml
-              - mm
-              - mn
-              - mr
-              - mt
-              - mu
-              - mv
-              - mw
-              - mx
-              - mz
-              - na
-              - ne
-              - ng
-              - ni
-              - nl
-              - 'no'
-              - np
-              - nr
-              - nz
-              - om
-              - pa
-              - pe
-              - pg
-              - ph
-              - pk
-              - pl
-              - ps
-              - pt
-              - pw
-              - py
-              - qa
-              - ro
-              - rs
-              - ru
-              - rw
-              - sa
-              - sb
-              - sc
-              - sd
-              - se
-              - sg
-              - sl
-              - sm
-              - sn
-              - so
-              - sr
-              - st
-              - sv
-              - sy
-              - sz
-              - td
-              - tg
-              - th
-              - tj
-              - tl
-              - tm
-              - tn
-              - to
-              - tr
-              - tt
-              - tv
-              - tw
-              - tz
-              - ua
-              - ug
-              - us
-              - uy
-              - uz
-              - va
-              - vc
-              - ve
-              - vn
-              - vu
-              - ws
-              - ye
-              - za
-              - zm
-              - zw
-            type: string
-      responses:
-        '204':
-          description: Rule deleted successfully
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiProblemResponseDto'
-        '403':
-          description: Forbidden - not owner of rule
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiProblemResponseDto'
-        '404':
-          description: Rule not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiProblemResponseDto'
-        '409':
-          description: Resource conflict - rule is being modified by another process
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiProblemResponseDto'
-      tags:
-        - Bean Transaction Rules
-      security:
-        - bearer: []
-  /api/v1/{region}/bean/transaction-rules/{ruleId}/test:
-    post:
-      operationId: TransactionRuleController_test
-      summary: Test rule matching
-      parameters:
-        - name: ruleId
-          required: true
-          in: path
-          description: Rule ID to test
-          schema:
-            type: string
-        - name: region
-          required: true
-          in: path
-          description: Region code for tenant context
-          schema:
-            enum:
-              - ad
-              - ae
-              - af
-              - ag
-              - al
-              - am
-              - ao
-              - ar
-              - at
-              - au
-              - az
-              - ba
-              - bb
-              - bd
-              - be
-              - bf
-              - bg
-              - bh
-              - bi
-              - bj
-              - bn
-              - bo
-              - br
-              - bs
-              - bt
-              - bw
-              - by
-              - bz
-              - ca
-              - cd
-              - cf
-              - cg
-              - ch
-              - ci
-              - cl
-              - cm
-              - cn
-              - co
-              - cr
-              - cu
-              - cv
-              - cy
-              - cz
-              - de
-              - dj
-              - dk
-              - dm
-              - do
-              - dz
-              - ec
-              - ee
-              - eg
-              - er
-              - es
-              - et
-              - fj
-              - fm
-              - fr
-              - ga
-              - gb
-              - gd
-              - ge
-              - gh
-              - gm
-              - gn
-              - gq
-              - gr
-              - gt
-              - gw
-              - gy
-              - hk
-              - hn
-              - hr
-              - ht
-              - hu
-              - id
-              - ie
-              - il
-              - in
-              - iq
-              - ir
-              - is
-              - it
-              - jm
-              - jo
-              - jp
-              - ke
-              - kg
-              - kh
-              - ki
-              - km
-              - kn
-              - kr
-              - kw
-              - kz
-              - la
-              - lb
-              - lc
-              - li
-              - lk
-              - lr
-              - ls
-              - lt
-              - lu
-              - lv
-              - ly
-              - ma
-              - mc
-              - md
-              - me
-              - mg
-              - mh
-              - mk
-              - ml
-              - mm
-              - mn
-              - mr
-              - mt
-              - mu
-              - mv
-              - mw
-              - mx
-              - mz
-              - na
-              - ne
-              - ng
-              - ni
-              - nl
-              - 'no'
-              - np
-              - nr
-              - nz
-              - om
-              - pa
-              - pe
-              - pg
-              - ph
-              - pk
-              - pl
-              - ps
-              - pt
-              - pw
-              - py
-              - qa
-              - ro
-              - rs
-              - ru
-              - rw
-              - sa
-              - sb
-              - sc
-              - sd
-              - se
-              - sg
-              - sl
-              - sm
-              - sn
-              - so
-              - sr
-              - st
-              - sv
-              - sy
-              - sz
-              - td
-              - tg
-              - th
-              - tj
-              - tl
-              - tm
-              - tn
-              - to
-              - tr
-              - tt
-              - tv
-              - tw
-              - tz
-              - ua
-              - ug
-              - us
-              - uy
-              - uz
-              - va
-              - vc
-              - ve
-              - vn
-              - vu
-              - ws
-              - ye
-              - za
-              - zm
-              - zw
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/TestRuleDto'
-      responses:
-        '200':
-          description: Test result
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TestRuleResponseDto'
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiProblemResponseDto'
-        '403':
-          description: Forbidden - not owner of rule
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiProblemResponseDto'
-        '404':
-          description: Rule not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiProblemResponseDto'
-      tags:
-        - Bean Transaction Rules
       security:
         - bearer: []
   /api/v1/{region}/bean/categories:
@@ -29003,6 +29003,700 @@ components:
         - successCount
         - failedCount
         - results
+    CreateTransactionRuleDto:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        description:
+          type: string
+          maxLength: 500
+        narrationKeywords:
+          maxItems: 50
+          type: array
+          items:
+            type: string
+        payeeKeywords:
+          maxItems: 50
+          type: array
+          items:
+            type: string
+        categoryKeywords:
+          maxItems: 50
+          type: array
+          items:
+            type: string
+        methodKeywords:
+          maxItems: 50
+          description: Payment method keywords (e.g., HuaBei, YuEBao)
+          type: array
+          items:
+            type: string
+        categoryAccount:
+          type: string
+          maxLength: 200
+          description: Destination account for expenses/income (e.g., Expenses:Food:Coffee)
+        matchLogic:
+          type: string
+          enum:
+            - OR
+            - AND
+          default: OR
+        amountMin:
+          type: number
+          minimum: 0
+          description: Minimum transaction amount (inclusive)
+        amountMax:
+          type: number
+          minimum: 0
+          description: Maximum transaction amount (inclusive)
+        priority:
+          type: number
+          default: 50
+          minimum: 0
+          maximum: 1000
+        additionalTags:
+          maxItems: 20
+          type: array
+          items:
+            type: string
+        additionalMetadata:
+          type: object
+        upsertByPayee:
+          type: boolean
+          description: >-
+            If true, update existing rule with matching payeeKeywords[0] instead
+            of creating new rule
+      required:
+        - name
+        - matchLogic
+        - priority
+    AmountRangeDto:
+      type: object
+      properties:
+        min:
+          type: number
+          description: Minimum amount
+        max:
+          type: number
+          description: Maximum amount
+    TransactionRuleResponseDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Rule ID
+        name:
+          type: string
+          description: Rule name
+        description:
+          type: string
+          description: Rule description
+        narrationKeywords:
+          description: Keywords to match in transaction narration
+          type: array
+          items:
+            type: string
+        payeeKeywords:
+          description: Keywords to match in payee name
+          type: array
+          items:
+            type: string
+        categoryKeywords:
+          description: Keywords to match in category
+          type: array
+          items:
+            type: string
+        methodKeywords:
+          description: Keywords to match in payment method
+          type: array
+          items:
+            type: string
+        categoryAccount:
+          type: string
+          description: Destination account for categorization
+        matchLogic:
+          type: string
+          description: Keyword matching logic
+          enum:
+            - OR
+            - AND
+          example: OR
+        amountRange:
+          description: Amount range for matching
+          allOf:
+            - $ref: '#/components/schemas/AmountRangeDto'
+        priority:
+          type: number
+          description: Rule priority (0-1000, higher = first match)
+          example: 50
+        enabled:
+          type: boolean
+          description: Whether the rule is enabled
+        learningSource:
+          type: string
+          description: 'Learning source: NLP, REVIEW_CENTER, or null for manual'
+          enum:
+            - NLP
+            - REVIEW_CENTER
+          nullable: true
+          example: REVIEW_CENTER
+        autoApplyEnabled:
+          type: boolean
+          description: Whether auto-apply is enabled for this rule
+        confirmationCount:
+          type: number
+          description: Number of confirmations for NLP-learned rules
+          example: 3
+        additionalTags:
+          description: Additional tags
+          type: array
+          items:
+            type: string
+        additionalMetadata:
+          type: object
+          description: Additional metadata
+          additionalProperties:
+            type: string
+        createdAt:
+          format: date-time
+          type: string
+          description: Created timestamp
+        updatedAt:
+          format: date-time
+          type: string
+          description: Updated timestamp
+      required:
+        - id
+        - name
+        - narrationKeywords
+        - payeeKeywords
+        - categoryKeywords
+        - methodKeywords
+        - matchLogic
+        - priority
+        - enabled
+        - autoApplyEnabled
+        - confirmationCount
+        - additionalTags
+        - createdAt
+        - updatedAt
+    TransactionRuleListResponseDto:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/TransactionRuleResponseDto'
+        total:
+          type: number
+          description: Total count of rules
+        limit:
+          type: number
+          description: Results per page
+        offset:
+          type: number
+          description: Pagination offset
+      required:
+        - data
+        - total
+        - limit
+        - offset
+    ValidateRuleDto:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        description:
+          type: string
+          maxLength: 500
+        narrationKeywords:
+          maxItems: 50
+          type: array
+          items:
+            type: string
+        payeeKeywords:
+          maxItems: 50
+          type: array
+          items:
+            type: string
+        categoryKeywords:
+          maxItems: 50
+          type: array
+          items:
+            type: string
+        methodKeywords:
+          maxItems: 50
+          description: Payment method keywords (e.g., HuaBei, YuEBao)
+          type: array
+          items:
+            type: string
+        categoryAccount:
+          type: string
+          maxLength: 200
+          description: Destination account for expenses/income (e.g., Expenses:Food:Coffee)
+        matchLogic:
+          type: string
+          enum:
+            - OR
+            - AND
+          default: OR
+        amountMin:
+          type: number
+          minimum: 0
+          description: Minimum transaction amount (inclusive)
+        amountMax:
+          type: number
+          minimum: 0
+          description: Maximum transaction amount (inclusive)
+        priority:
+          type: number
+          default: 50
+          minimum: 0
+          maximum: 1000
+        additionalTags:
+          maxItems: 20
+          type: array
+          items:
+            type: string
+        additionalMetadata:
+          type: object
+        upsertByPayee:
+          type: boolean
+          description: >-
+            If true, update existing rule with matching payeeKeywords[0] instead
+            of creating new rule
+      required:
+        - name
+        - matchLogic
+        - priority
+    ValidateRuleResponseDto:
+      type: object
+      properties:
+        valid:
+          type: boolean
+          description: Whether the rule configuration is valid
+          example: true
+        errors:
+          description: List of validation errors (empty if valid)
+          example: []
+          type: array
+          items:
+            type: string
+        warnings:
+          description: List of validation warnings (non-blocking issues)
+          example:
+            - No account constraints specified - rule will match any account
+          type: array
+          items:
+            type: string
+      required:
+        - valid
+        - errors
+        - warnings
+    BulkCreateRulesDto:
+      type: object
+      properties:
+        rules:
+          description: Array of rules to import
+          type: array
+          items:
+            $ref: '#/components/schemas/CreateTransactionRuleDto'
+        conflictStrategy:
+          type: string
+          enum:
+            - replace
+            - skip
+          default: skip
+          description: >-
+            Conflict handling strategy: skip (default) ignores duplicates,
+            replace soft-deletes existing rule
+      required:
+        - rules
+        - conflictStrategy
+    BulkCreateRulesResponseDto:
+      type: object
+      properties:
+        successCount:
+          type: number
+          description: Number of successfully created rules
+        failureCount:
+          type: number
+          description: Number of failed rules
+        errors:
+          type: array
+          description: Error details for failed rules
+          items:
+            type: object
+            properties:
+              index:
+                type: number
+              message:
+                type: string
+        createdRuleIds:
+          description: IDs of successfully created rules
+          type: array
+          items:
+            type: string
+      required:
+        - successCount
+        - failureCount
+        - errors
+        - createdRuleIds
+    ExportRulesResponseDto:
+      type: object
+      properties:
+        exportedAt:
+          type: string
+          description: Export timestamp
+        userId:
+          type: string
+          description: User ID
+        ruleCount:
+          type: number
+          description: Number of exported rules
+        rules:
+          type: array
+          description: Exported rules
+          items:
+            type: object
+      required:
+        - exportedAt
+        - userId
+        - ruleCount
+        - rules
+    RuleStatisticsResponseDto:
+      type: object
+      properties:
+        period:
+          type: string
+          description: Statistics time period
+          enum:
+            - 7d
+            - 30d
+            - 90d
+        totalRules:
+          type: number
+          description: Total number of rules
+        rulesWithMatches:
+          type: number
+          description: Number of rules with at least one match
+        totalMatches:
+          type: number
+          description: Total number of matches across all rules
+        averageConfidence:
+          type: number
+          description: Average confidence score across all matches
+          example: 0.82
+        ruleStats:
+          type: array
+          description: Per-rule statistics
+          items:
+            type: object
+            properties:
+              ruleId:
+                type: string
+              ruleName:
+                type: string
+              matchCount:
+                type: number
+              averageConfidence:
+                type: number
+      required:
+        - period
+        - totalRules
+        - rulesWithMatches
+        - totalMatches
+        - averageConfidence
+        - ruleStats
+    UpdateTransactionRuleDto:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        description:
+          type: string
+          maxLength: 500
+        narrationKeywords:
+          maxItems: 50
+          type: array
+          items:
+            type: string
+        payeeKeywords:
+          maxItems: 50
+          type: array
+          items:
+            type: string
+        categoryKeywords:
+          maxItems: 50
+          type: array
+          items:
+            type: string
+        methodKeywords:
+          maxItems: 50
+          description: Payment method keywords (e.g., HuaBei, YuEBao)
+          type: array
+          items:
+            type: string
+        categoryAccount:
+          type: string
+          maxLength: 200
+          description: Destination account for expenses/income (e.g., Expenses:Food:Coffee)
+        matchLogic:
+          type: string
+          enum:
+            - OR
+            - AND
+          default: OR
+        amountMin:
+          type: number
+          minimum: 0
+          description: Minimum transaction amount (inclusive)
+        amountMax:
+          type: number
+          minimum: 0
+          description: Maximum transaction amount (inclusive)
+        priority:
+          type: number
+          default: 50
+          minimum: 0
+          maximum: 1000
+        additionalTags:
+          maxItems: 20
+          type: array
+          items:
+            type: string
+        additionalMetadata:
+          type: object
+        enabled:
+          type: boolean
+          description: Enable or disable the rule
+    TestRuleDto:
+      type: object
+      properties:
+        narration:
+          type: string
+          minLength: 1
+          maxLength: 500
+        payee:
+          type: string
+          maxLength: 200
+        categoryAccount:
+          type: string
+          maxLength: 200
+        amount:
+          type: number
+        currency:
+          type: string
+          maxLength: 10
+      required:
+        - narration
+    TestRuleResponseDto:
+      type: object
+      properties:
+        ruleId:
+          type: string
+          description: Rule ID that was tested
+        matches:
+          type: boolean
+          description: Whether the rule matched the test data
+        confidence:
+          type: number
+          description: Match confidence score (0-1)
+          example: 0.85
+        matchDetails:
+          type: object
+          description: Details of which fields matched
+          example:
+            narration: true
+            payee: false
+            categoryAccount: false
+      required:
+        - ruleId
+        - matches
+        - confidence
+        - matchDetails
+    DeleteOwnUserDto:
+      type: object
+      properties:
+        accessToken:
+          type: string
+          description: Access token for user verification
+          example: abc123xyz
+      required:
+        - accessToken
+    UserSettingsResponseDto:
+      type: object
+      properties:
+        baseCurrency:
+          type: string
+          description: >-
+            Stored base currency choice (ISO 4217) for net-worth/report
+            aggregation. null = user never chose; aggregates fall back to the
+            region default at display time (#713).
+          example: USD
+          nullable: true
+      required:
+        - baseCurrency
+    UserResponseDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: User ID
+        role:
+          type: string
+          description: Assigned user role
+        permissions:
+          description: Permission strings
+          type: array
+          items:
+            type: string
+        settings:
+          description: User settings
+          allOf:
+            - $ref: '#/components/schemas/UserSettingsResponseDto'
+      required:
+        - id
+        - role
+        - permissions
+        - settings
+    SignupDto:
+      type: object
+      properties:
+        turnstileToken:
+          type: string
+          description: >-
+            Cloudflare Turnstile verification token (optional when Turnstile
+            disabled)
+          example: 0.abc123def456...
+    SignupResponseDto:
+      type: object
+      properties:
+        authToken:
+          type: string
+          description: JWT auth token
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        accessToken:
+          type: string
+          description: Auto-generated access token
+        role:
+          type: string
+          description: Assigned user role
+          enum:
+            - USER
+            - ADMIN
+            - DEMO
+            - INACTIVE
+            - PAID
+            - OPS
+      required:
+        - authToken
+        - accessToken
+        - role
+    UpdateUserSettingDto:
+      type: object
+      properties:
+        secId:
+          type: number
+          description: Security ID
+        annualInterestRate:
+          type: number
+          description: Annual interest rate
+          example: 0.05
+        currency:
+          type: string
+          description: Currency code
+          example: USD
+        baseCurrency:
+          type: string
+          description: Base currency code
+          example: USD
+        benchmark:
+          type: string
+          description: Benchmark symbol
+          example: SPY
+        colorScheme:
+          type: string
+          description: Color scheme
+          enum:
+            - DARK
+            - LIGHT
+        dateRange:
+          type: string
+          description: Date range filter
+          example: 1y
+        emergencyFund:
+          type: number
+          description: Emergency fund amount
+          example: 10000
+        filters.accounts:
+          description: Account filter IDs
+          type: array
+          items:
+            type: string
+        filters.assetClasses:
+          description: Asset class filters
+          type: array
+          items:
+            type: string
+        filters.dataSource:
+          type: string
+          description: Data source filter
+        filters.symbol:
+          type: string
+          description: Symbol filter
+        filters.tags:
+          description: Tag filters
+          type: array
+          items:
+            type: string
+        isExperimentalFeatures:
+          type: boolean
+          description: Enable experimental features
+        isRestrictedView:
+          type: boolean
+          description: Enable restricted view mode
+        language:
+          type: string
+          description: Language code
+          example: en
+        locale:
+          type: string
+          description: Locale code
+          example: en-US
+        projectedTotalAmount:
+          type: number
+          description: Projected total amount
+          example: 1000000
+        retirementDate:
+          type: string
+          description: Retirement date in ISO 8601 format
+          example: '2050-01-01'
+        savingsRate:
+          type: number
+          description: Savings rate percentage
+          example: 0.2
+        viewMode:
+          type: string
+          description: View mode
+          enum:
+            - DEFAULT
+            - ZEN
+    UpdatePropertyDto:
+      type: object
+      properties:
+        value:
+          type: string
+          description: Property value
+      required:
+        - value
     CreatePayeeDto:
       type: object
       properties:
@@ -30130,181 +30824,6 @@ components:
         metadata:
           type: object
           description: Metadata
-    DeleteOwnUserDto:
-      type: object
-      properties:
-        accessToken:
-          type: string
-          description: Access token for user verification
-          example: abc123xyz
-      required:
-        - accessToken
-    UserSettingsResponseDto:
-      type: object
-      properties:
-        baseCurrency:
-          type: string
-          description: >-
-            Stored base currency choice (ISO 4217) for net-worth/report
-            aggregation. null = user never chose; aggregates fall back to the
-            region default at display time (#713).
-          example: USD
-          nullable: true
-      required:
-        - baseCurrency
-    UserResponseDto:
-      type: object
-      properties:
-        id:
-          type: string
-          description: User ID
-        role:
-          type: string
-          description: Assigned user role
-        permissions:
-          description: Permission strings
-          type: array
-          items:
-            type: string
-        settings:
-          description: User settings
-          allOf:
-            - $ref: '#/components/schemas/UserSettingsResponseDto'
-      required:
-        - id
-        - role
-        - permissions
-        - settings
-    SignupDto:
-      type: object
-      properties:
-        turnstileToken:
-          type: string
-          description: >-
-            Cloudflare Turnstile verification token (optional when Turnstile
-            disabled)
-          example: 0.abc123def456...
-    SignupResponseDto:
-      type: object
-      properties:
-        authToken:
-          type: string
-          description: JWT auth token
-          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
-        accessToken:
-          type: string
-          description: Auto-generated access token
-        role:
-          type: string
-          description: Assigned user role
-          enum:
-            - USER
-            - ADMIN
-            - DEMO
-            - INACTIVE
-            - PAID
-            - OPS
-      required:
-        - authToken
-        - accessToken
-        - role
-    UpdateUserSettingDto:
-      type: object
-      properties:
-        secId:
-          type: number
-          description: Security ID
-        annualInterestRate:
-          type: number
-          description: Annual interest rate
-          example: 0.05
-        currency:
-          type: string
-          description: Currency code
-          example: USD
-        baseCurrency:
-          type: string
-          description: Base currency code
-          example: USD
-        benchmark:
-          type: string
-          description: Benchmark symbol
-          example: SPY
-        colorScheme:
-          type: string
-          description: Color scheme
-          enum:
-            - DARK
-            - LIGHT
-        dateRange:
-          type: string
-          description: Date range filter
-          example: 1y
-        emergencyFund:
-          type: number
-          description: Emergency fund amount
-          example: 10000
-        filters.accounts:
-          description: Account filter IDs
-          type: array
-          items:
-            type: string
-        filters.assetClasses:
-          description: Asset class filters
-          type: array
-          items:
-            type: string
-        filters.dataSource:
-          type: string
-          description: Data source filter
-        filters.symbol:
-          type: string
-          description: Symbol filter
-        filters.tags:
-          description: Tag filters
-          type: array
-          items:
-            type: string
-        isExperimentalFeatures:
-          type: boolean
-          description: Enable experimental features
-        isRestrictedView:
-          type: boolean
-          description: Enable restricted view mode
-        language:
-          type: string
-          description: Language code
-          example: en
-        locale:
-          type: string
-          description: Locale code
-          example: en-US
-        projectedTotalAmount:
-          type: number
-          description: Projected total amount
-          example: 1000000
-        retirementDate:
-          type: string
-          description: Retirement date in ISO 8601 format
-          example: '2050-01-01'
-        savingsRate:
-          type: number
-          description: Savings rate percentage
-          example: 0.2
-        viewMode:
-          type: string
-          description: View mode
-          enum:
-            - DEFAULT
-            - ZEN
-    UpdatePropertyDto:
-      type: object
-      properties:
-        value:
-          type: string
-          description: Property value
-      required:
-        - value
     CreateRecurringRuleDto:
       type: object
       properties:
@@ -30908,525 +31427,6 @@ components:
         - rulesCount
         - periodStart
         - periodEnd
-    CreateTransactionRuleDto:
-      type: object
-      properties:
-        name:
-          type: string
-          minLength: 1
-          maxLength: 100
-        description:
-          type: string
-          maxLength: 500
-        narrationKeywords:
-          maxItems: 50
-          type: array
-          items:
-            type: string
-        payeeKeywords:
-          maxItems: 50
-          type: array
-          items:
-            type: string
-        categoryKeywords:
-          maxItems: 50
-          type: array
-          items:
-            type: string
-        methodKeywords:
-          maxItems: 50
-          description: Payment method keywords (e.g., HuaBei, YuEBao)
-          type: array
-          items:
-            type: string
-        categoryAccount:
-          type: string
-          maxLength: 200
-          description: Destination account for expenses/income (e.g., Expenses:Food:Coffee)
-        matchLogic:
-          type: string
-          enum:
-            - OR
-            - AND
-          default: OR
-        amountMin:
-          type: number
-          minimum: 0
-          description: Minimum transaction amount (inclusive)
-        amountMax:
-          type: number
-          minimum: 0
-          description: Maximum transaction amount (inclusive)
-        priority:
-          type: number
-          default: 50
-          minimum: 0
-          maximum: 1000
-        additionalTags:
-          maxItems: 20
-          type: array
-          items:
-            type: string
-        additionalMetadata:
-          type: object
-        upsertByPayee:
-          type: boolean
-          description: >-
-            If true, update existing rule with matching payeeKeywords[0] instead
-            of creating new rule
-      required:
-        - name
-        - matchLogic
-        - priority
-    AmountRangeDto:
-      type: object
-      properties:
-        min:
-          type: number
-          description: Minimum amount
-        max:
-          type: number
-          description: Maximum amount
-    TransactionRuleResponseDto:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Rule ID
-        name:
-          type: string
-          description: Rule name
-        description:
-          type: string
-          description: Rule description
-        narrationKeywords:
-          description: Keywords to match in transaction narration
-          type: array
-          items:
-            type: string
-        payeeKeywords:
-          description: Keywords to match in payee name
-          type: array
-          items:
-            type: string
-        categoryKeywords:
-          description: Keywords to match in category
-          type: array
-          items:
-            type: string
-        methodKeywords:
-          description: Keywords to match in payment method
-          type: array
-          items:
-            type: string
-        categoryAccount:
-          type: string
-          description: Destination account for categorization
-        matchLogic:
-          type: string
-          description: Keyword matching logic
-          enum:
-            - OR
-            - AND
-          example: OR
-        amountRange:
-          description: Amount range for matching
-          allOf:
-            - $ref: '#/components/schemas/AmountRangeDto'
-        priority:
-          type: number
-          description: Rule priority (0-1000, higher = first match)
-          example: 50
-        enabled:
-          type: boolean
-          description: Whether the rule is enabled
-        learningSource:
-          type: string
-          description: 'Learning source: NLP, REVIEW_CENTER, or null for manual'
-          enum:
-            - NLP
-            - REVIEW_CENTER
-          nullable: true
-          example: REVIEW_CENTER
-        autoApplyEnabled:
-          type: boolean
-          description: Whether auto-apply is enabled for this rule
-        confirmationCount:
-          type: number
-          description: Number of confirmations for NLP-learned rules
-          example: 3
-        additionalTags:
-          description: Additional tags
-          type: array
-          items:
-            type: string
-        additionalMetadata:
-          type: object
-          description: Additional metadata
-          additionalProperties:
-            type: string
-        createdAt:
-          format: date-time
-          type: string
-          description: Created timestamp
-        updatedAt:
-          format: date-time
-          type: string
-          description: Updated timestamp
-      required:
-        - id
-        - name
-        - narrationKeywords
-        - payeeKeywords
-        - categoryKeywords
-        - methodKeywords
-        - matchLogic
-        - priority
-        - enabled
-        - autoApplyEnabled
-        - confirmationCount
-        - additionalTags
-        - createdAt
-        - updatedAt
-    TransactionRuleListResponseDto:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/TransactionRuleResponseDto'
-        total:
-          type: number
-          description: Total count of rules
-        limit:
-          type: number
-          description: Results per page
-        offset:
-          type: number
-          description: Pagination offset
-      required:
-        - data
-        - total
-        - limit
-        - offset
-    ValidateRuleDto:
-      type: object
-      properties:
-        name:
-          type: string
-          minLength: 1
-          maxLength: 100
-        description:
-          type: string
-          maxLength: 500
-        narrationKeywords:
-          maxItems: 50
-          type: array
-          items:
-            type: string
-        payeeKeywords:
-          maxItems: 50
-          type: array
-          items:
-            type: string
-        categoryKeywords:
-          maxItems: 50
-          type: array
-          items:
-            type: string
-        methodKeywords:
-          maxItems: 50
-          description: Payment method keywords (e.g., HuaBei, YuEBao)
-          type: array
-          items:
-            type: string
-        categoryAccount:
-          type: string
-          maxLength: 200
-          description: Destination account for expenses/income (e.g., Expenses:Food:Coffee)
-        matchLogic:
-          type: string
-          enum:
-            - OR
-            - AND
-          default: OR
-        amountMin:
-          type: number
-          minimum: 0
-          description: Minimum transaction amount (inclusive)
-        amountMax:
-          type: number
-          minimum: 0
-          description: Maximum transaction amount (inclusive)
-        priority:
-          type: number
-          default: 50
-          minimum: 0
-          maximum: 1000
-        additionalTags:
-          maxItems: 20
-          type: array
-          items:
-            type: string
-        additionalMetadata:
-          type: object
-        upsertByPayee:
-          type: boolean
-          description: >-
-            If true, update existing rule with matching payeeKeywords[0] instead
-            of creating new rule
-      required:
-        - name
-        - matchLogic
-        - priority
-    ValidateRuleResponseDto:
-      type: object
-      properties:
-        valid:
-          type: boolean
-          description: Whether the rule configuration is valid
-          example: true
-        errors:
-          description: List of validation errors (empty if valid)
-          example: []
-          type: array
-          items:
-            type: string
-        warnings:
-          description: List of validation warnings (non-blocking issues)
-          example:
-            - No account constraints specified - rule will match any account
-          type: array
-          items:
-            type: string
-      required:
-        - valid
-        - errors
-        - warnings
-    BulkCreateRulesDto:
-      type: object
-      properties:
-        rules:
-          description: Array of rules to import
-          type: array
-          items:
-            $ref: '#/components/schemas/CreateTransactionRuleDto'
-        conflictStrategy:
-          type: string
-          enum:
-            - replace
-            - skip
-          default: skip
-          description: >-
-            Conflict handling strategy: skip (default) ignores duplicates,
-            replace soft-deletes existing rule
-      required:
-        - rules
-        - conflictStrategy
-    BulkCreateRulesResponseDto:
-      type: object
-      properties:
-        successCount:
-          type: number
-          description: Number of successfully created rules
-        failureCount:
-          type: number
-          description: Number of failed rules
-        errors:
-          type: array
-          description: Error details for failed rules
-          items:
-            type: object
-            properties:
-              index:
-                type: number
-              message:
-                type: string
-        createdRuleIds:
-          description: IDs of successfully created rules
-          type: array
-          items:
-            type: string
-      required:
-        - successCount
-        - failureCount
-        - errors
-        - createdRuleIds
-    ExportRulesResponseDto:
-      type: object
-      properties:
-        exportedAt:
-          type: string
-          description: Export timestamp
-        userId:
-          type: string
-          description: User ID
-        ruleCount:
-          type: number
-          description: Number of exported rules
-        rules:
-          type: array
-          description: Exported rules
-          items:
-            type: object
-      required:
-        - exportedAt
-        - userId
-        - ruleCount
-        - rules
-    RuleStatisticsResponseDto:
-      type: object
-      properties:
-        period:
-          type: string
-          description: Statistics time period
-          enum:
-            - 7d
-            - 30d
-            - 90d
-        totalRules:
-          type: number
-          description: Total number of rules
-        rulesWithMatches:
-          type: number
-          description: Number of rules with at least one match
-        totalMatches:
-          type: number
-          description: Total number of matches across all rules
-        averageConfidence:
-          type: number
-          description: Average confidence score across all matches
-          example: 0.82
-        ruleStats:
-          type: array
-          description: Per-rule statistics
-          items:
-            type: object
-            properties:
-              ruleId:
-                type: string
-              ruleName:
-                type: string
-              matchCount:
-                type: number
-              averageConfidence:
-                type: number
-      required:
-        - period
-        - totalRules
-        - rulesWithMatches
-        - totalMatches
-        - averageConfidence
-        - ruleStats
-    UpdateTransactionRuleDto:
-      type: object
-      properties:
-        name:
-          type: string
-          minLength: 1
-          maxLength: 100
-        description:
-          type: string
-          maxLength: 500
-        narrationKeywords:
-          maxItems: 50
-          type: array
-          items:
-            type: string
-        payeeKeywords:
-          maxItems: 50
-          type: array
-          items:
-            type: string
-        categoryKeywords:
-          maxItems: 50
-          type: array
-          items:
-            type: string
-        methodKeywords:
-          maxItems: 50
-          description: Payment method keywords (e.g., HuaBei, YuEBao)
-          type: array
-          items:
-            type: string
-        categoryAccount:
-          type: string
-          maxLength: 200
-          description: Destination account for expenses/income (e.g., Expenses:Food:Coffee)
-        matchLogic:
-          type: string
-          enum:
-            - OR
-            - AND
-          default: OR
-        amountMin:
-          type: number
-          minimum: 0
-          description: Minimum transaction amount (inclusive)
-        amountMax:
-          type: number
-          minimum: 0
-          description: Maximum transaction amount (inclusive)
-        priority:
-          type: number
-          default: 50
-          minimum: 0
-          maximum: 1000
-        additionalTags:
-          maxItems: 20
-          type: array
-          items:
-            type: string
-        additionalMetadata:
-          type: object
-        enabled:
-          type: boolean
-          description: Enable or disable the rule
-    TestRuleDto:
-      type: object
-      properties:
-        narration:
-          type: string
-          minLength: 1
-          maxLength: 500
-        payee:
-          type: string
-          maxLength: 200
-        categoryAccount:
-          type: string
-          maxLength: 200
-        amount:
-          type: number
-        currency:
-          type: string
-          maxLength: 10
-      required:
-        - narration
-    TestRuleResponseDto:
-      type: object
-      properties:
-        ruleId:
-          type: string
-          description: Rule ID that was tested
-        matches:
-          type: boolean
-          description: Whether the rule matched the test data
-        confidence:
-          type: number
-          description: Match confidence score (0-1)
-          example: 0.85
-        matchDetails:
-          type: object
-          description: Details of which fields matched
-          example:
-            narration: true
-            payee: false
-            categoryAccount: false
-      required:
-        - ruleId
-        - matches
-        - confidence
-        - matchDetails
     CategoryCatalogEntryDto:
       type: object
       properties:
