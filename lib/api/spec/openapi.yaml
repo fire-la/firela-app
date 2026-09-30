@@ -32702,7 +32702,10 @@ components:
       properties:
         confidence:
           type: number
-          description: Duplicate detection confidence score (0.5-0.89)
+          description: >-
+            Duplicate detection confidence score (0.5-0.89). Absent on
+            degraded/missing-data paths (#1535: no fabricated placeholder — same
+            zero-signal omission doctrine as #1525).
           example: 0.85
         sourceTransaction:
           description: Source transaction summary (the new transaction being entered)
@@ -32726,7 +32729,6 @@ components:
           items:
             type: string
       required:
-        - confidence
         - sourceTransaction
         - targetTransaction
         - similarity
@@ -32736,7 +32738,10 @@ components:
       properties:
         confidence:
           type: number
-          description: Rule match confidence score (0.5-0.74)
+          description: >-
+            Rule match confidence score (0.5-0.74). Absent on
+            degraded/missing-data paths (#1535: no fabricated placeholder — same
+            zero-signal omission doctrine as #1525).
           example: 0.65
         matchedRule:
           type: object
@@ -32765,7 +32770,6 @@ components:
           items:
             type: string
       required:
-        - confidence
         - matchedRule
         - suggestedAccounts
         - alternatives
