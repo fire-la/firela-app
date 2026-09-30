@@ -8,7 +8,7 @@ part of 'nlp_rule_confirmation_data_dto.dart';
 
 class _$NlpRuleConfirmationDataDto extends NlpRuleConfirmationDataDto {
   @override
-  final num confidence;
+  final num? confidence;
   @override
   final JsonObject matchedRule;
   @override
@@ -23,14 +23,12 @@ class _$NlpRuleConfirmationDataDto extends NlpRuleConfirmationDataDto {
       (new NlpRuleConfirmationDataDtoBuilder()..update(updates))._build();
 
   _$NlpRuleConfirmationDataDto._(
-      {required this.confidence,
+      {this.confidence,
       required this.matchedRule,
       required this.suggestedAccounts,
       required this.alternatives,
       required this.reasons})
       : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        confidence, r'NlpRuleConfirmationDataDto', 'confidence');
     BuiltValueNullFieldError.checkNotNull(
         matchedRule, r'NlpRuleConfirmationDataDto', 'matchedRule');
     BuiltValueNullFieldError.checkNotNull(
@@ -153,8 +151,7 @@ class NlpRuleConfirmationDataDtoBuilder
     try {
       _$result = _$v ??
           new _$NlpRuleConfirmationDataDto._(
-              confidence: BuiltValueNullFieldError.checkNotNull(
-                  confidence, r'NlpRuleConfirmationDataDto', 'confidence'),
+              confidence: confidence,
               matchedRule: BuiltValueNullFieldError.checkNotNull(
                   matchedRule, r'NlpRuleConfirmationDataDto', 'matchedRule'),
               suggestedAccounts: BuiltValueNullFieldError.checkNotNull(
