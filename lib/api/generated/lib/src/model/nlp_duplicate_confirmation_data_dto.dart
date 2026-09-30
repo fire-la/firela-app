@@ -15,16 +15,16 @@ part 'nlp_duplicate_confirmation_data_dto.g.dart';
 /// NlpDuplicateConfirmationDataDto
 ///
 /// Properties:
-/// * [confidence] - Duplicate detection confidence score (0.5-0.89)
+/// * [confidence] - Duplicate detection confidence score (0.5-0.89). Absent on degraded/missing-data paths (#1535: no fabricated placeholder — same zero-signal omission doctrine as #1525).
 /// * [sourceTransaction] 
 /// * [targetTransaction] 
 /// * [similarity] 
 /// * [reasons] - Human-readable reasons for duplicate detection
 @BuiltValue()
 abstract class NlpDuplicateConfirmationDataDto implements Built<NlpDuplicateConfirmationDataDto, NlpDuplicateConfirmationDataDtoBuilder> {
-  /// Duplicate detection confidence score (0.5-0.89)
+  /// Duplicate detection confidence score (0.5-0.89). Absent on degraded/missing-data paths (#1535: no fabricated placeholder — same zero-signal omission doctrine as #1525).
   @BuiltValueField(wireName: r'confidence')
-  num get confidence;
+  num? get confidence;
 
   @BuiltValueField(wireName: r'sourceTransaction')
   NlpSourceTransactionDto get sourceTransaction;
@@ -62,11 +62,13 @@ class _$NlpDuplicateConfirmationDataDtoSerializer implements PrimitiveSerializer
     NlpDuplicateConfirmationDataDto object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'confidence';
-    yield serializers.serialize(
-      object.confidence,
-      specifiedType: const FullType(num),
-    );
+    if (object.confidence != null) {
+      yield r'confidence';
+      yield serializers.serialize(
+        object.confidence,
+        specifiedType: const FullType(num),
+      );
+    }
     yield r'sourceTransaction';
     yield serializers.serialize(
       object.sourceTransaction,

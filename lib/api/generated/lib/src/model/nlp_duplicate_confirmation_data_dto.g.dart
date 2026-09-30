@@ -9,7 +9,7 @@ part of 'nlp_duplicate_confirmation_data_dto.dart';
 class _$NlpDuplicateConfirmationDataDto
     extends NlpDuplicateConfirmationDataDto {
   @override
-  final num confidence;
+  final num? confidence;
   @override
   final NlpSourceTransactionDto sourceTransaction;
   @override
@@ -24,14 +24,12 @@ class _$NlpDuplicateConfirmationDataDto
       (new NlpDuplicateConfirmationDataDtoBuilder()..update(updates))._build();
 
   _$NlpDuplicateConfirmationDataDto._(
-      {required this.confidence,
+      {this.confidence,
       required this.sourceTransaction,
       required this.targetTransaction,
       required this.similarity,
       required this.reasons})
       : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        confidence, r'NlpDuplicateConfirmationDataDto', 'confidence');
     BuiltValueNullFieldError.checkNotNull(sourceTransaction,
         r'NlpDuplicateConfirmationDataDto', 'sourceTransaction');
     BuiltValueNullFieldError.checkNotNull(targetTransaction,
@@ -155,8 +153,7 @@ class NlpDuplicateConfirmationDataDtoBuilder
     try {
       _$result = _$v ??
           new _$NlpDuplicateConfirmationDataDto._(
-              confidence: BuiltValueNullFieldError.checkNotNull(
-                  confidence, r'NlpDuplicateConfirmationDataDto', 'confidence'),
+              confidence: confidence,
               sourceTransaction: sourceTransaction.build(),
               targetTransaction: targetTransaction.build(),
               similarity: similarity.build(),

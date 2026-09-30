@@ -14,16 +14,16 @@ part 'nlp_rule_confirmation_data_dto.g.dart';
 /// NlpRuleConfirmationDataDto
 ///
 /// Properties:
-/// * [confidence] - Rule match confidence score (0.5-0.74)
+/// * [confidence] - Rule match confidence score (0.5-0.74). Absent on degraded/missing-data paths (#1535: no fabricated placeholder — same zero-signal omission doctrine as #1525).
 /// * [matchedRule] - Matched rule information
 /// * [suggestedAccounts] - Suggested accounts from the rule
 /// * [alternatives] - Alternative rules that also match
 /// * [reasons] - Human-readable reasons for the match
 @BuiltValue()
 abstract class NlpRuleConfirmationDataDto implements Built<NlpRuleConfirmationDataDto, NlpRuleConfirmationDataDtoBuilder> {
-  /// Rule match confidence score (0.5-0.74)
+  /// Rule match confidence score (0.5-0.74). Absent on degraded/missing-data paths (#1535: no fabricated placeholder — same zero-signal omission doctrine as #1525).
   @BuiltValueField(wireName: r'confidence')
-  num get confidence;
+  num? get confidence;
 
   /// Matched rule information
   @BuiltValueField(wireName: r'matchedRule')
@@ -64,11 +64,13 @@ class _$NlpRuleConfirmationDataDtoSerializer implements PrimitiveSerializer<NlpR
     NlpRuleConfirmationDataDto object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'confidence';
-    yield serializers.serialize(
-      object.confidence,
-      specifiedType: const FullType(num),
-    );
+    if (object.confidence != null) {
+      yield r'confidence';
+      yield serializers.serialize(
+        object.confidence,
+        specifiedType: const FullType(num),
+      );
+    }
     yield r'matchedRule';
     yield serializers.serialize(
       object.matchedRule,
