@@ -22,6 +22,7 @@ part 'process_nlp_dto.g.dart';
 /// * [viewpointAccount] - Viewpoint account hint: the beancount path the user drilled into (e.g. from an account drill-down). Tie-break only — never overrides accounts resolved from the text. Must be an owned, OPEN Assets:/Liabilities: account; unresolvable hints are silently ignored.
 /// * [viewpointCategory] - Viewpoint category hint: the ADR-0075 Group segment the user drilled into (e.g. 'Food'). Resolved to a concrete OPEN account in that group; tie-break only — never overrides a category resolved from the text.
 /// * [viewpointFlow] - Companion flow root for viewpointCategory ('income' | 'expense'), mirroring the ADR-0126 list-endpoint invariant. Derived from the session's routed intent (multi-turn) when absent; a first-turn flow-less category hint is dropped — send the flow explicitly.
+/// * [clientTimezoneOffsetMinutes] - Client timezone hint: minutes east of UTC (+480 = UTC+8). Resolves relative date tokens and the no-date-token default against the client's local today; absent = server UTC behavior (backward compatible). NLP-chain-only — not connected to Settings.timezone.
 @BuiltValue()
 abstract class ProcessNlpDto implements Built<ProcessNlpDto, ProcessNlpDtoBuilder> {
   /// Natural language text describing a transaction. Optional when `confirm` is true (structured confirm); otherwise required.
@@ -59,6 +60,10 @@ abstract class ProcessNlpDto implements Built<ProcessNlpDto, ProcessNlpDtoBuilde
   @BuiltValueField(wireName: r'viewpointFlow')
   ProcessNlpDtoViewpointFlowEnum? get viewpointFlow;
   // enum viewpointFlowEnum {  income,  expense,  };
+
+  /// Client timezone hint: minutes east of UTC (+480 = UTC+8). Resolves relative date tokens and the no-date-token default against the client's local today; absent = server UTC behavior (backward compatible). NLP-chain-only — not connected to Settings.timezone.
+  @BuiltValueField(wireName: r'clientTimezoneOffsetMinutes')
+  num? get clientTimezoneOffsetMinutes;
 
   ProcessNlpDto._();
 
@@ -146,6 +151,13 @@ class _$ProcessNlpDtoSerializer implements PrimitiveSerializer<ProcessNlpDto> {
         specifiedType: const FullType(ProcessNlpDtoViewpointFlowEnum),
       );
     }
+    if (object.clientTimezoneOffsetMinutes != null) {
+      yield r'clientTimezoneOffsetMinutes';
+      yield serializers.serialize(
+        object.clientTimezoneOffsetMinutes,
+        specifiedType: const FullType(num),
+      );
+    }
   }
 
   @override
@@ -231,6 +243,13 @@ class _$ProcessNlpDtoSerializer implements PrimitiveSerializer<ProcessNlpDto> {
             specifiedType: const FullType(ProcessNlpDtoViewpointFlowEnum),
           ) as ProcessNlpDtoViewpointFlowEnum;
           result.viewpointFlow = valueDes;
+          break;
+        case r'clientTimezoneOffsetMinutes':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(num),
+          ) as num;
+          result.clientTimezoneOffsetMinutes = valueDes;
           break;
         default:
           unhandled.add(key);

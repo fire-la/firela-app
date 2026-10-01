@@ -83,6 +83,8 @@ class _$ProcessNlpDto extends ProcessNlpDto {
   final String? viewpointCategory;
   @override
   final ProcessNlpDtoViewpointFlowEnum? viewpointFlow;
+  @override
+  final num? clientTimezoneOffsetMinutes;
 
   factory _$ProcessNlpDto([void Function(ProcessNlpDtoBuilder)? updates]) =>
       (new ProcessNlpDtoBuilder()..update(updates))._build();
@@ -96,7 +98,8 @@ class _$ProcessNlpDto extends ProcessNlpDto {
       this.selectedAccount,
       this.viewpointAccount,
       this.viewpointCategory,
-      this.viewpointFlow})
+      this.viewpointFlow,
+      this.clientTimezoneOffsetMinutes})
       : super._();
 
   @override
@@ -118,7 +121,8 @@ class _$ProcessNlpDto extends ProcessNlpDto {
         selectedAccount == other.selectedAccount &&
         viewpointAccount == other.viewpointAccount &&
         viewpointCategory == other.viewpointCategory &&
-        viewpointFlow == other.viewpointFlow;
+        viewpointFlow == other.viewpointFlow &&
+        clientTimezoneOffsetMinutes == other.clientTimezoneOffsetMinutes;
   }
 
   @override
@@ -133,6 +137,7 @@ class _$ProcessNlpDto extends ProcessNlpDto {
     _$hash = $jc(_$hash, viewpointAccount.hashCode);
     _$hash = $jc(_$hash, viewpointCategory.hashCode);
     _$hash = $jc(_$hash, viewpointFlow.hashCode);
+    _$hash = $jc(_$hash, clientTimezoneOffsetMinutes.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -148,7 +153,8 @@ class _$ProcessNlpDto extends ProcessNlpDto {
           ..add('selectedAccount', selectedAccount)
           ..add('viewpointAccount', viewpointAccount)
           ..add('viewpointCategory', viewpointCategory)
-          ..add('viewpointFlow', viewpointFlow))
+          ..add('viewpointFlow', viewpointFlow)
+          ..add('clientTimezoneOffsetMinutes', clientTimezoneOffsetMinutes))
         .toString();
   }
 }
@@ -200,6 +206,11 @@ class ProcessNlpDtoBuilder
   set viewpointFlow(ProcessNlpDtoViewpointFlowEnum? viewpointFlow) =>
       _$this._viewpointFlow = viewpointFlow;
 
+  num? _clientTimezoneOffsetMinutes;
+  num? get clientTimezoneOffsetMinutes => _$this._clientTimezoneOffsetMinutes;
+  set clientTimezoneOffsetMinutes(num? clientTimezoneOffsetMinutes) =>
+      _$this._clientTimezoneOffsetMinutes = clientTimezoneOffsetMinutes;
+
   ProcessNlpDtoBuilder() {
     ProcessNlpDto._defaults(this);
   }
@@ -216,6 +227,7 @@ class ProcessNlpDtoBuilder
       _viewpointAccount = $v.viewpointAccount;
       _viewpointCategory = $v.viewpointCategory;
       _viewpointFlow = $v.viewpointFlow;
+      _clientTimezoneOffsetMinutes = $v.clientTimezoneOffsetMinutes;
       _$v = null;
     }
     return this;
@@ -248,7 +260,8 @@ class ProcessNlpDtoBuilder
               selectedAccount: selectedAccount,
               viewpointAccount: viewpointAccount,
               viewpointCategory: viewpointCategory,
-              viewpointFlow: viewpointFlow);
+              viewpointFlow: viewpointFlow,
+              clientTimezoneOffsetMinutes: clientTimezoneOffsetMinutes);
     } catch (_) {
       late String _$failedField;
       try {
