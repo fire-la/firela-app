@@ -32710,6 +32710,16 @@ components:
             - income
             - expense
           example: expense
+        clientTimezoneOffsetMinutes:
+          type: number
+          description: >-
+            Client timezone hint: minutes east of UTC (+480 = UTC+8). Resolves
+            relative date tokens and the no-date-token default against the
+            client's local today; absent = server UTC behavior (backward
+            compatible). NLP-chain-only — not connected to Settings.timezone.
+          example: 480
+          minimum: -720
+          maximum: 840
     NlpTransactionInfoDto:
       type: object
       properties:
