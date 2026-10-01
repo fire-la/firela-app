@@ -8,6 +8,7 @@ import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
 
 import 'dart:typed_data';
+import 'package:firela_api/src/api_util.dart';
 
 class BeanExportApi {
 
@@ -21,6 +22,7 @@ class BeanExportApi {
   /// Export all user Beancount data as a ZIP file containing ledger.beancount and yearly files in community format.
   ///
   /// Parameters:
+  /// * [region] - Region code for tenant context
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -31,6 +33,7 @@ class BeanExportApi {
   /// Returns a [Future] containing a [Response] with a [Uint8List] as data
   /// Throws [DioException] if API call or serialization fails
   Future<Response<Uint8List>> exportControllerExportBeancount({ 
+    required String region,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -38,7 +41,7 @@ class BeanExportApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/api/v1/{region}/bean/export/beancount';
+    final _path = r'/api/v1/{region}/bean/export/beancount'.replaceAll('{' r'region' '}', encodeQueryParameter(_serializers, region, const FullType(String)).toString());
     final _options = Options(
       method: r'GET',
       responseType: ResponseType.bytes,
