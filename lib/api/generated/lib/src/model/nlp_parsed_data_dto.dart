@@ -13,7 +13,7 @@ part 'nlp_parsed_data_dto.g.dart';
 ///
 /// Properties:
 /// * [amount] - Extracted amount
-/// * [currency] - Currency code
+/// * [currency] - Currency code (ISO 4217). Omitted when the parse hit a bare number with no explicit currency signal — the booking currency then derives from the default account (#662/#665). Carries no spec-level default: a baked value would mask wire omission as explicit CNY in generated clients (#1604).
 /// * [date] - Transaction date (ISO format)
 /// * [payee] - Payee name
 /// * [narration] - Transaction narration
@@ -33,7 +33,7 @@ abstract class NlpParsedDataDto implements Built<NlpParsedDataDto, NlpParsedData
   @BuiltValueField(wireName: r'amount')
   num? get amount;
 
-  /// Currency code
+  /// Currency code (ISO 4217). Omitted when the parse hit a bare number with no explicit currency signal — the booking currency then derives from the default account (#662/#665). Carries no spec-level default: a baked value would mask wire omission as explicit CNY in generated clients (#1604).
   @BuiltValueField(wireName: r'currency')
   String? get currency;
 
@@ -96,8 +96,7 @@ abstract class NlpParsedDataDto implements Built<NlpParsedDataDto, NlpParsedData
   factory NlpParsedDataDto([void updates(NlpParsedDataDtoBuilder b)]) = _$NlpParsedDataDto;
 
   @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(NlpParsedDataDtoBuilder b) => b
-      ..currency = 'CNY';
+  static void _defaults(NlpParsedDataDtoBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
   static Serializer<NlpParsedDataDto> get serializer => _$NlpParsedDataDtoSerializer();
