@@ -32760,8 +32760,12 @@ components:
           description: Extracted amount
         currency:
           type: string
-          description: Currency code
-          default: CNY
+          description: >-
+            Currency code (ISO 4217). Omitted when the parse hit a bare number
+            with no explicit currency signal — the booking currency then derives
+            from the default account (#662/#665). Carries no spec-level default:
+            a baked value would mask wire omission as explicit CNY in generated
+            clients (#1604).
         date:
           type: string
           description: Transaction date (ISO format)
