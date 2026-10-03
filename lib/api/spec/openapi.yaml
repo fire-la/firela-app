@@ -20837,7 +20837,7 @@ paths:
                 properties:
                   type:
                     type: string
-                    example: INVALID_INPUT
+                    example: invalid-input
                   title:
                     type: string
                     example: Invalid Input
@@ -26999,9 +26999,9 @@ info:
     ```json
 
     {
-      "type": "VALIDATION_ERROR",
+      "type": "validation-failed",
       "title": "Validation Failed",
-      "status": 400,
+      "status": 422,
       "detail": "Field 'amount' is required",
       "instance": "/api/v1/bean/transactions",
       "extensions": {
