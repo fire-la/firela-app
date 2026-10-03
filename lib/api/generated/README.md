@@ -38,9 +38,9 @@ Current version: **v1**. All paths are prefixed with `/api/v1`
 ### Error Response (RFC 9457)
 ```json
 {
-  \"type\": \"VALIDATION_ERROR\",
+  \"type\": \"validation-failed\",
   \"title\": \"Validation Failed\",
-  \"status\": 400,
+  \"status\": 422,
   \"detail\": \"Field 'amount' is required\",
   \"instance\": \"/api/v1/bean/transactions\",
   \"extensions\": {
