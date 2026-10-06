@@ -27126,6 +27126,16 @@ components:
           type: string
           description: Account open date (server defaults to today)
           example: '2024-01-01T00:00:00Z'
+        clientTimezoneOffsetMinutes:
+          type: number
+          description: >-
+            Client timezone hint: minutes east of UTC (+480 = UTC+8). Resolves
+            openDate against the client's local calendar day; absent = legacy
+            server behavior (backward compatible). Not connected to
+            Settings.timezone.
+          example: 480
+          minimum: -720
+          maximum: 840
         currencies:
           description: Allowed currencies (null = no restriction)
           example:
@@ -27411,6 +27421,16 @@ components:
           type: string
           description: New open date (optional)
           example: '2025-01-01T00:00:00Z'
+        clientTimezoneOffsetMinutes:
+          type: number
+          description: >-
+            Client timezone hint: minutes east of UTC (+480 = UTC+8). Normalizes
+            reopenDate to the client's local calendar day; absent = legacy raw
+            passthrough (backward compatible). Not connected to
+            Settings.timezone.
+          example: 480
+          minimum: -720
+          maximum: 840
     CreateOpeningBalanceDto:
       type: object
       properties:
@@ -31838,6 +31858,13 @@ components:
           nullable: true
           maxLength: 50
           example: Salary card
+        openDate:
+          format: date-time
+          type: string
+          description: >-
+            Account open date (client sends local day as 00:00Z; server defaults
+            to today)
+          example: '2026-10-05T00:00:00Z'
       required:
         - path
         - currency
