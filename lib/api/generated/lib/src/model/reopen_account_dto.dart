@@ -12,11 +12,16 @@ part 'reopen_account_dto.g.dart';
 ///
 /// Properties:
 /// * [reopenDate] - New open date (optional)
+/// * [clientTimezoneOffsetMinutes] - Client timezone hint: minutes east of UTC (+480 = UTC+8). Normalizes reopenDate to the client's local calendar day; absent = legacy raw passthrough (backward compatible). Not connected to Settings.timezone.
 @BuiltValue()
 abstract class ReopenAccountDto implements Built<ReopenAccountDto, ReopenAccountDtoBuilder> {
   /// New open date (optional)
   @BuiltValueField(wireName: r'reopenDate')
   DateTime? get reopenDate;
+
+  /// Client timezone hint: minutes east of UTC (+480 = UTC+8). Normalizes reopenDate to the client's local calendar day; absent = legacy raw passthrough (backward compatible). Not connected to Settings.timezone.
+  @BuiltValueField(wireName: r'clientTimezoneOffsetMinutes')
+  num? get clientTimezoneOffsetMinutes;
 
   ReopenAccountDto._();
 
@@ -48,6 +53,13 @@ class _$ReopenAccountDtoSerializer implements PrimitiveSerializer<ReopenAccountD
         specifiedType: const FullType(DateTime),
       );
     }
+    if (object.clientTimezoneOffsetMinutes != null) {
+      yield r'clientTimezoneOffsetMinutes';
+      yield serializers.serialize(
+        object.clientTimezoneOffsetMinutes,
+        specifiedType: const FullType(num),
+      );
+    }
   }
 
   @override
@@ -77,6 +89,13 @@ class _$ReopenAccountDtoSerializer implements PrimitiveSerializer<ReopenAccountD
             specifiedType: const FullType(DateTime),
           ) as DateTime;
           result.reopenDate = valueDes;
+          break;
+        case r'clientTimezoneOffsetMinutes':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(num),
+          ) as num;
+          result.clientTimezoneOffsetMinutes = valueDes;
           break;
         default:
           unhandled.add(key);

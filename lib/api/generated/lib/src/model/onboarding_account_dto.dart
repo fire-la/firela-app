@@ -16,6 +16,7 @@ part 'onboarding_account_dto.g.dart';
 /// * [openingBalance] - Opening balance as a non-negative Decimal string (e.g. \"1000.00\")
 /// * [platformId] - Platform ID to bind the account to (references Platform.id); omit for unbound
 /// * [displayName] - User-set display name override (omit/null = keep the derived name)
+/// * [openDate] - Account open date (client sends local day as 00:00Z; server defaults to today)
 @BuiltValue()
 abstract class OnboardingAccountDto implements Built<OnboardingAccountDto, OnboardingAccountDtoBuilder> {
   /// Account path (Assets/Liabilities only; format validated by the account service)
@@ -37,6 +38,10 @@ abstract class OnboardingAccountDto implements Built<OnboardingAccountDto, Onboa
   /// User-set display name override (omit/null = keep the derived name)
   @BuiltValueField(wireName: r'displayName')
   String? get displayName;
+
+  /// Account open date (client sends local day as 00:00Z; server defaults to today)
+  @BuiltValueField(wireName: r'openDate')
+  DateTime? get openDate;
 
   OnboardingAccountDto._();
 
@@ -90,6 +95,13 @@ class _$OnboardingAccountDtoSerializer implements PrimitiveSerializer<Onboarding
       yield serializers.serialize(
         object.displayName,
         specifiedType: const FullType.nullable(String),
+      );
+    }
+    if (object.openDate != null) {
+      yield r'openDate';
+      yield serializers.serialize(
+        object.openDate,
+        specifiedType: const FullType(DateTime),
       );
     }
   }
@@ -150,6 +162,13 @@ class _$OnboardingAccountDtoSerializer implements PrimitiveSerializer<Onboarding
           ) as String?;
           if (valueDes == null) continue;
           result.displayName = valueDes;
+          break;
+        case r'openDate':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(DateTime),
+          ) as DateTime;
+          result.openDate = valueDes;
           break;
         default:
           unhandled.add(key);

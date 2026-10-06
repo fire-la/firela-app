@@ -9,12 +9,15 @@ part of 'reopen_account_dto.dart';
 class _$ReopenAccountDto extends ReopenAccountDto {
   @override
   final DateTime? reopenDate;
+  @override
+  final num? clientTimezoneOffsetMinutes;
 
   factory _$ReopenAccountDto(
           [void Function(ReopenAccountDtoBuilder)? updates]) =>
       (new ReopenAccountDtoBuilder()..update(updates))._build();
 
-  _$ReopenAccountDto._({this.reopenDate}) : super._();
+  _$ReopenAccountDto._({this.reopenDate, this.clientTimezoneOffsetMinutes})
+      : super._();
 
   @override
   ReopenAccountDto rebuild(void Function(ReopenAccountDtoBuilder) updates) =>
@@ -27,13 +30,16 @@ class _$ReopenAccountDto extends ReopenAccountDto {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is ReopenAccountDto && reopenDate == other.reopenDate;
+    return other is ReopenAccountDto &&
+        reopenDate == other.reopenDate &&
+        clientTimezoneOffsetMinutes == other.clientTimezoneOffsetMinutes;
   }
 
   @override
   int get hashCode {
     var _$hash = 0;
     _$hash = $jc(_$hash, reopenDate.hashCode);
+    _$hash = $jc(_$hash, clientTimezoneOffsetMinutes.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -41,7 +47,8 @@ class _$ReopenAccountDto extends ReopenAccountDto {
   @override
   String toString() {
     return (newBuiltValueToStringHelper(r'ReopenAccountDto')
-          ..add('reopenDate', reopenDate))
+          ..add('reopenDate', reopenDate)
+          ..add('clientTimezoneOffsetMinutes', clientTimezoneOffsetMinutes))
         .toString();
   }
 }
@@ -54,6 +61,11 @@ class ReopenAccountDtoBuilder
   DateTime? get reopenDate => _$this._reopenDate;
   set reopenDate(DateTime? reopenDate) => _$this._reopenDate = reopenDate;
 
+  num? _clientTimezoneOffsetMinutes;
+  num? get clientTimezoneOffsetMinutes => _$this._clientTimezoneOffsetMinutes;
+  set clientTimezoneOffsetMinutes(num? clientTimezoneOffsetMinutes) =>
+      _$this._clientTimezoneOffsetMinutes = clientTimezoneOffsetMinutes;
+
   ReopenAccountDtoBuilder() {
     ReopenAccountDto._defaults(this);
   }
@@ -62,6 +74,7 @@ class ReopenAccountDtoBuilder
     final $v = _$v;
     if ($v != null) {
       _reopenDate = $v.reopenDate;
+      _clientTimezoneOffsetMinutes = $v.clientTimezoneOffsetMinutes;
       _$v = null;
     }
     return this;
@@ -82,7 +95,10 @@ class ReopenAccountDtoBuilder
   ReopenAccountDto build() => _build();
 
   _$ReopenAccountDto _build() {
-    final _$result = _$v ?? new _$ReopenAccountDto._(reopenDate: reopenDate);
+    final _$result = _$v ??
+        new _$ReopenAccountDto._(
+            reopenDate: reopenDate,
+            clientTimezoneOffsetMinutes: clientTimezoneOffsetMinutes);
     replace(_$result);
     return _$result;
   }
