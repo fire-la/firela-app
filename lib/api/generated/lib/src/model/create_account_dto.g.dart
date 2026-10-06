@@ -112,6 +112,8 @@ class _$CreateAccountDto extends CreateAccountDto {
   @override
   final DateTime? openDate;
   @override
+  final num? clientTimezoneOffsetMinutes;
+  @override
   final BuiltList<String>? currencies;
   @override
   final CreateAccountDtoBookingMethodEnum? bookingMethod;
@@ -135,6 +137,7 @@ class _$CreateAccountDto extends CreateAccountDto {
   _$CreateAccountDto._(
       {required this.path,
       this.openDate,
+      this.clientTimezoneOffsetMinutes,
       this.currencies,
       this.bookingMethod,
       this.templatePath,
@@ -161,6 +164,7 @@ class _$CreateAccountDto extends CreateAccountDto {
     return other is CreateAccountDto &&
         path == other.path &&
         openDate == other.openDate &&
+        clientTimezoneOffsetMinutes == other.clientTimezoneOffsetMinutes &&
         currencies == other.currencies &&
         bookingMethod == other.bookingMethod &&
         templatePath == other.templatePath &&
@@ -176,6 +180,7 @@ class _$CreateAccountDto extends CreateAccountDto {
     var _$hash = 0;
     _$hash = $jc(_$hash, path.hashCode);
     _$hash = $jc(_$hash, openDate.hashCode);
+    _$hash = $jc(_$hash, clientTimezoneOffsetMinutes.hashCode);
     _$hash = $jc(_$hash, currencies.hashCode);
     _$hash = $jc(_$hash, bookingMethod.hashCode);
     _$hash = $jc(_$hash, templatePath.hashCode);
@@ -193,6 +198,7 @@ class _$CreateAccountDto extends CreateAccountDto {
     return (newBuiltValueToStringHelper(r'CreateAccountDto')
           ..add('path', path)
           ..add('openDate', openDate)
+          ..add('clientTimezoneOffsetMinutes', clientTimezoneOffsetMinutes)
           ..add('currencies', currencies)
           ..add('bookingMethod', bookingMethod)
           ..add('templatePath', templatePath)
@@ -216,6 +222,11 @@ class CreateAccountDtoBuilder
   DateTime? _openDate;
   DateTime? get openDate => _$this._openDate;
   set openDate(DateTime? openDate) => _$this._openDate = openDate;
+
+  num? _clientTimezoneOffsetMinutes;
+  num? get clientTimezoneOffsetMinutes => _$this._clientTimezoneOffsetMinutes;
+  set clientTimezoneOffsetMinutes(num? clientTimezoneOffsetMinutes) =>
+      _$this._clientTimezoneOffsetMinutes = clientTimezoneOffsetMinutes;
 
   ListBuilder<String>? _currencies;
   ListBuilder<String> get currencies =>
@@ -262,6 +273,7 @@ class CreateAccountDtoBuilder
     if ($v != null) {
       _path = $v.path;
       _openDate = $v.openDate;
+      _clientTimezoneOffsetMinutes = $v.clientTimezoneOffsetMinutes;
       _currencies = $v.currencies?.toBuilder();
       _bookingMethod = $v.bookingMethod;
       _templatePath = $v.templatePath;
@@ -297,6 +309,7 @@ class CreateAccountDtoBuilder
               path: BuiltValueNullFieldError.checkNotNull(
                   path, r'CreateAccountDto', 'path'),
               openDate: openDate,
+              clientTimezoneOffsetMinutes: clientTimezoneOffsetMinutes,
               currencies: _currencies?.build(),
               bookingMethod: bookingMethod,
               templatePath: templatePath,

@@ -17,6 +17,8 @@ class _$OnboardingAccountDto extends OnboardingAccountDto {
   final String? platformId;
   @override
   final String? displayName;
+  @override
+  final DateTime? openDate;
 
   factory _$OnboardingAccountDto(
           [void Function(OnboardingAccountDtoBuilder)? updates]) =>
@@ -27,7 +29,8 @@ class _$OnboardingAccountDto extends OnboardingAccountDto {
       required this.currency,
       this.openingBalance,
       this.platformId,
-      this.displayName})
+      this.displayName,
+      this.openDate})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(
         path, r'OnboardingAccountDto', 'path');
@@ -52,7 +55,8 @@ class _$OnboardingAccountDto extends OnboardingAccountDto {
         currency == other.currency &&
         openingBalance == other.openingBalance &&
         platformId == other.platformId &&
-        displayName == other.displayName;
+        displayName == other.displayName &&
+        openDate == other.openDate;
   }
 
   @override
@@ -63,6 +67,7 @@ class _$OnboardingAccountDto extends OnboardingAccountDto {
     _$hash = $jc(_$hash, openingBalance.hashCode);
     _$hash = $jc(_$hash, platformId.hashCode);
     _$hash = $jc(_$hash, displayName.hashCode);
+    _$hash = $jc(_$hash, openDate.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -74,7 +79,8 @@ class _$OnboardingAccountDto extends OnboardingAccountDto {
           ..add('currency', currency)
           ..add('openingBalance', openingBalance)
           ..add('platformId', platformId)
-          ..add('displayName', displayName))
+          ..add('displayName', displayName)
+          ..add('openDate', openDate))
         .toString();
   }
 }
@@ -104,6 +110,10 @@ class OnboardingAccountDtoBuilder
   String? get displayName => _$this._displayName;
   set displayName(String? displayName) => _$this._displayName = displayName;
 
+  DateTime? _openDate;
+  DateTime? get openDate => _$this._openDate;
+  set openDate(DateTime? openDate) => _$this._openDate = openDate;
+
   OnboardingAccountDtoBuilder() {
     OnboardingAccountDto._defaults(this);
   }
@@ -116,6 +126,7 @@ class OnboardingAccountDtoBuilder
       _openingBalance = $v.openingBalance;
       _platformId = $v.platformId;
       _displayName = $v.displayName;
+      _openDate = $v.openDate;
       _$v = null;
     }
     return this;
@@ -144,7 +155,8 @@ class OnboardingAccountDtoBuilder
                 currency, r'OnboardingAccountDto', 'currency'),
             openingBalance: openingBalance,
             platformId: platformId,
-            displayName: displayName);
+            displayName: displayName,
+            openDate: openDate);
     replace(_$result);
     return _$result;
   }

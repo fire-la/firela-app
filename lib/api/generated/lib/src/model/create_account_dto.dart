@@ -15,6 +15,7 @@ part 'create_account_dto.g.dart';
 /// Properties:
 /// * [path] - Account path (hierarchical, colon-separated)
 /// * [openDate] - Account open date (server defaults to today)
+/// * [clientTimezoneOffsetMinutes] - Client timezone hint: minutes east of UTC (+480 = UTC+8). Resolves openDate against the client's local calendar day; absent = legacy server behavior (backward compatible). Not connected to Settings.timezone.
 /// * [currencies] - Allowed currencies (null = no restriction)
 /// * [bookingMethod] - Booking method for cost basis
 /// * [templatePath] - Reference to account-standards template path
@@ -32,6 +33,10 @@ abstract class CreateAccountDto implements Built<CreateAccountDto, CreateAccount
   /// Account open date (server defaults to today)
   @BuiltValueField(wireName: r'openDate')
   DateTime? get openDate;
+
+  /// Client timezone hint: minutes east of UTC (+480 = UTC+8). Resolves openDate against the client's local calendar day; absent = legacy server behavior (backward compatible). Not connected to Settings.timezone.
+  @BuiltValueField(wireName: r'clientTimezoneOffsetMinutes')
+  num? get clientTimezoneOffsetMinutes;
 
   /// Allowed currencies (null = no restriction)
   @BuiltValueField(wireName: r'currencies')
@@ -101,6 +106,13 @@ class _$CreateAccountDtoSerializer implements PrimitiveSerializer<CreateAccountD
       yield serializers.serialize(
         object.openDate,
         specifiedType: const FullType(DateTime),
+      );
+    }
+    if (object.clientTimezoneOffsetMinutes != null) {
+      yield r'clientTimezoneOffsetMinutes';
+      yield serializers.serialize(
+        object.clientTimezoneOffsetMinutes,
+        specifiedType: const FullType(num),
       );
     }
     if (object.currencies != null) {
@@ -195,6 +207,13 @@ class _$CreateAccountDtoSerializer implements PrimitiveSerializer<CreateAccountD
             specifiedType: const FullType(DateTime),
           ) as DateTime;
           result.openDate = valueDes;
+          break;
+        case r'clientTimezoneOffsetMinutes':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(num),
+          ) as num;
+          result.clientTimezoneOffsetMinutes = valueDes;
           break;
         case r'currencies':
           final valueDes = serializers.deserialize(
