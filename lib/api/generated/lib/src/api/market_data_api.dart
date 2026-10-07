@@ -101,7 +101,7 @@ class MarketDataApi {
   /// Parameters:
   /// * [q] - Search term — matched against symbol and instrument name. Empty string returns [].
   /// * [limit] - Maximum number of results (clamped 1..50)
-  /// * [exchange] - Filter by exchange code (e.g. US, HK, SS, SZ)
+  /// * [exchange] - Filter by exchange code (e.g. US, HK, SS, SZ). A-share codes also match symbol notations and venue-code aliases (exchange=SS matches SH/SHH column values and bare 6-digit Shanghai symbols; SZ likewise)
   /// * [assetType] - Filter by OpenBB asset_type (e.g. stock, etf)
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request

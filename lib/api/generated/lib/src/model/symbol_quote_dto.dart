@@ -13,7 +13,7 @@ part 'symbol_quote_dto.g.dart';
 /// Properties:
 /// * [symbol] 
 /// * [name] 
-/// * [exchange] 
+/// * [exchange] - Exchange code. A-share values are derived from the symbol notation when the underlying exchange column is empty (bare 6-digit codes → SS/SZ) and venue-code aliases normalize to SS/SZ.
 /// * [assetType] - OpenBB asset_type
 /// * [assetClass] - IGN asset class
 /// * [assetSubClass] - IGN asset sub-class
@@ -37,6 +37,7 @@ abstract class SymbolQuoteDto implements Built<SymbolQuoteDto, SymbolQuoteDtoBui
   @BuiltValueField(wireName: r'name')
   String? get name;
 
+  /// Exchange code. A-share values are derived from the symbol notation when the underlying exchange column is empty (bare 6-digit codes → SS/SZ) and venue-code aliases normalize to SS/SZ.
   @BuiltValueField(wireName: r'exchange')
   String? get exchange;
 

@@ -13,7 +13,7 @@ part 'symbol_search_result_dto.g.dart';
 /// Properties:
 /// * [symbol] 
 /// * [name] 
-/// * [exchange] 
+/// * [exchange] - Exchange code. A-share values are derived from the symbol notation when the underlying exchange column is empty (bare 6-digit codes → SS/SZ) and venue-code aliases normalize to SS/SZ.
 /// * [assetType] - OpenBB asset_type (e.g. stock, etf)
 /// * [assetClass] - IGN asset class (region.types.ts ASSET_CLASSES)
 /// * [assetSubClass] - IGN asset sub-class (region.types.ts ASSET_SUB_CLASSES)
@@ -26,6 +26,7 @@ abstract class SymbolSearchResultDto implements Built<SymbolSearchResultDto, Sym
   @BuiltValueField(wireName: r'name')
   String? get name;
 
+  /// Exchange code. A-share values are derived from the symbol notation when the underlying exchange column is empty (bare 6-digit codes → SS/SZ) and venue-code aliases normalize to SS/SZ.
   @BuiltValueField(wireName: r'exchange')
   String? get exchange;
 
