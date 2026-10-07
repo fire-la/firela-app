@@ -26884,7 +26884,10 @@ paths:
         - name: exchange
           required: false
           in: query
-          description: Filter by exchange code (e.g. US, HK, SS, SZ)
+          description: >-
+            Filter by exchange code (e.g. US, HK, SS, SZ). A-share codes also
+            match symbol notations and venue-code aliases (exchange=SS matches
+            SH/SHH column values and bare 6-digit Shanghai symbols; SZ likewise)
           schema:
             example: US
             type: string
@@ -34964,6 +34967,10 @@ components:
           nullable: true
         exchange:
           type: string
+          description: >-
+            Exchange code. A-share values are derived from the symbol notation
+            when the underlying exchange column is empty (bare 6-digit codes →
+            SS/SZ) and venue-code aliases normalize to SS/SZ.
           example: US
           nullable: true
         assetType:
@@ -35000,6 +35007,10 @@ components:
           nullable: true
         exchange:
           type: string
+          description: >-
+            Exchange code. A-share values are derived from the symbol notation
+            when the underlying exchange column is empty (bare 6-digit codes →
+            SS/SZ) and venue-code aliases normalize to SS/SZ.
           example: US
           nullable: true
         assetType:
