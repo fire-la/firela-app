@@ -32177,7 +32177,7 @@ components:
         importerName:
           type: string
           description: Name of the importer that can handle this file
-          example: AlipayImporter
+          example: alipay
         importerId:
           type: string
           description: Unique identifier of the importer
