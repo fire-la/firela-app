@@ -20612,9 +20612,10 @@ paths:
       operationId: FileImportController_identifyFile
       summary: Identify file type
       description: >-
-        Upload a file to check if it can be processed by any registered
-        importer. Does not perform actual import - useful for pre-validation.
-        Uses user-specific importer configuration.
+        Server-side importer identification has been removed (ADR-0101); file
+        matching is handled client-side via the community parser pipeline.
+        Always returns identified=false with an explanatory message; kept for
+        backward compatibility. Does not perform actual import.
       parameters:
         - name: region
           required: true
