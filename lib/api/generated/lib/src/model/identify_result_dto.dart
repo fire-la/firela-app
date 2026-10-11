@@ -12,9 +12,9 @@ part 'identify_result_dto.g.dart';
 ///
 /// Properties:
 /// * [identified] - Whether the file was successfully identified
-/// * [importerName] - Name of the importer that can handle this file
-/// * [importerId] - Unique identifier of the importer
-/// * [account] - Default account used by this importer
+/// * [importerName] - [Deprecated: never populated since the importer-registry retirement] Name of the importer that can handle this file
+/// * [importerId] - [Deprecated: never populated since the importer-registry retirement] Unique identifier of the importer
+/// * [account] - [Deprecated: never populated since the importer-registry retirement] Default account used by this importer
 /// * [message] - Message when file cannot be identified
 @BuiltValue()
 abstract class IdentifyResultDto implements Built<IdentifyResultDto, IdentifyResultDtoBuilder> {
@@ -22,15 +22,18 @@ abstract class IdentifyResultDto implements Built<IdentifyResultDto, IdentifyRes
   @BuiltValueField(wireName: r'identified')
   bool get identified;
 
-  /// Name of the importer that can handle this file
+  /// [Deprecated: never populated since the importer-registry retirement] Name of the importer that can handle this file
+  @Deprecated('importerName has been deprecated')
   @BuiltValueField(wireName: r'importerName')
   String? get importerName;
 
-  /// Unique identifier of the importer
+  /// [Deprecated: never populated since the importer-registry retirement] Unique identifier of the importer
+  @Deprecated('importerId has been deprecated')
   @BuiltValueField(wireName: r'importerId')
   String? get importerId;
 
-  /// Default account used by this importer
+  /// [Deprecated: never populated since the importer-registry retirement] Default account used by this importer
+  @Deprecated('account has been deprecated')
   @BuiltValueField(wireName: r'account')
   String? get account;
 
