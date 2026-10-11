@@ -23,7 +23,7 @@ class BeanImportApi {
   const BeanImportApi(this._dio, this._serializers);
 
   /// Identify file type
-  /// Upload a file to check if it can be processed by any registered importer. Does not perform actual import - useful for pre-validation. Uses user-specific importer configuration.
+  /// Server-side importer identification has been removed (ADR-0101); file matching is handled client-side via the community parser pipeline. Always returns identified&#x3D;false with an explanatory message; kept for backward compatibility. Does not perform actual import.
   ///
   /// Parameters:
   /// * [region] - Region code for tenant context
