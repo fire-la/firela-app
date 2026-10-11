@@ -32177,16 +32177,25 @@ components:
           example: true
         importerName:
           type: string
-          description: Name of the importer that can handle this file
+          description: >-
+            [Deprecated: never populated since the importer-registry retirement]
+            Name of the importer that can handle this file
           example: alipay
+          deprecated: true
         importerId:
           type: string
-          description: Unique identifier of the importer
+          description: >-
+            [Deprecated: never populated since the importer-registry retirement]
+            Unique identifier of the importer
           example: alipay
+          deprecated: true
         account:
           type: string
-          description: Default account used by this importer
+          description: >-
+            [Deprecated: never populated since the importer-registry retirement]
+            Default account used by this importer
           example: Assets:CN:Alipay:Balance
+          deprecated: true
         message:
           type: string
           description: Message when file cannot be identified
