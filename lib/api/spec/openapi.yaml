@@ -32235,16 +32235,6 @@ components:
             Convert CNY to CNH (offshore RMB) (for HK importers). Default:
             false.
           example: false
-        methodAccountMapping:
-          type: object
-          description: >-
-            Payment method to source account mapping. Maps payment method
-            keywords to Beancount account paths. Used by Alipay/WeChat importers
-            to determine sourceAccount based on payment method (e.g., HuaBei,
-            CreditCard).
-          example:
-            HuaBei: Liabilities:CN:CreditLine
-            CreditCard: Liabilities:CreditCard
       required:
         - sourceAccount
         - currency
@@ -32366,16 +32356,6 @@ components:
           example: Income:Unknown
           pattern: >-
             ^(Assets|Liabilities|Income|Expenses|Equity)(:[A-Za-z0-9][A-Za-z0-9-]*)+$
-        methodAccountMapping:
-          type: object
-          description: >-
-            Payment method to source account mapping. Maps payment method
-            keywords to Beancount account paths. Used by Alipay/WeChat importers
-            to determine sourceAccount based on payment method (e.g., HuaBei,
-            CreditCard).
-          example:
-            HuaBei: Liabilities:CN:CreditLine
-            CreditCard: Liabilities:CreditCard
     UpdateConfigDataDto:
       type: object
       properties:
@@ -32434,6 +32414,14 @@ components:
             a global fuzzy PAYEE_MATCH review. Omit to keep the default behavior
             (payee matching runs).
           default: false
+        platform:
+          type: string
+          description: >-
+            Platform canonical name for method-namespace funding routing
+            (ADR-0130 decision 7). Parsed-bill rows carrying a fundingSource
+            token resolve via ExternalAccountLink 'method:{platform}:{token}'
+            keys (provider='parsed-bill') before the generic alias leg.
+          example: alipay
       required:
         - sourceAccount
         - defaultCurrency
