@@ -15,8 +15,6 @@ class _$UpdateMapperDefaultsDto extends UpdateMapperDefaultsDto {
   final String? expenseAccount;
   @override
   final String? incomeAccount;
-  @override
-  final JsonObject? methodAccountMapping;
 
   factory _$UpdateMapperDefaultsDto(
           [void Function(UpdateMapperDefaultsDtoBuilder)? updates]) =>
@@ -26,8 +24,7 @@ class _$UpdateMapperDefaultsDto extends UpdateMapperDefaultsDto {
       {this.sourceAccount,
       this.currency,
       this.expenseAccount,
-      this.incomeAccount,
-      this.methodAccountMapping})
+      this.incomeAccount})
       : super._();
 
   @override
@@ -46,8 +43,7 @@ class _$UpdateMapperDefaultsDto extends UpdateMapperDefaultsDto {
         sourceAccount == other.sourceAccount &&
         currency == other.currency &&
         expenseAccount == other.expenseAccount &&
-        incomeAccount == other.incomeAccount &&
-        methodAccountMapping == other.methodAccountMapping;
+        incomeAccount == other.incomeAccount;
   }
 
   @override
@@ -57,7 +53,6 @@ class _$UpdateMapperDefaultsDto extends UpdateMapperDefaultsDto {
     _$hash = $jc(_$hash, currency.hashCode);
     _$hash = $jc(_$hash, expenseAccount.hashCode);
     _$hash = $jc(_$hash, incomeAccount.hashCode);
-    _$hash = $jc(_$hash, methodAccountMapping.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -68,8 +63,7 @@ class _$UpdateMapperDefaultsDto extends UpdateMapperDefaultsDto {
           ..add('sourceAccount', sourceAccount)
           ..add('currency', currency)
           ..add('expenseAccount', expenseAccount)
-          ..add('incomeAccount', incomeAccount)
-          ..add('methodAccountMapping', methodAccountMapping))
+          ..add('incomeAccount', incomeAccount))
         .toString();
   }
 }
@@ -98,11 +92,6 @@ class UpdateMapperDefaultsDtoBuilder
   set incomeAccount(String? incomeAccount) =>
       _$this._incomeAccount = incomeAccount;
 
-  JsonObject? _methodAccountMapping;
-  JsonObject? get methodAccountMapping => _$this._methodAccountMapping;
-  set methodAccountMapping(JsonObject? methodAccountMapping) =>
-      _$this._methodAccountMapping = methodAccountMapping;
-
   UpdateMapperDefaultsDtoBuilder() {
     UpdateMapperDefaultsDto._defaults(this);
   }
@@ -114,7 +103,6 @@ class UpdateMapperDefaultsDtoBuilder
       _currency = $v.currency;
       _expenseAccount = $v.expenseAccount;
       _incomeAccount = $v.incomeAccount;
-      _methodAccountMapping = $v.methodAccountMapping;
       _$v = null;
     }
     return this;
@@ -140,8 +128,7 @@ class UpdateMapperDefaultsDtoBuilder
             sourceAccount: sourceAccount,
             currency: currency,
             expenseAccount: expenseAccount,
-            incomeAccount: incomeAccount,
-            methodAccountMapping: methodAccountMapping);
+            incomeAccount: incomeAccount);
     replace(_$result);
     return _$result;
   }

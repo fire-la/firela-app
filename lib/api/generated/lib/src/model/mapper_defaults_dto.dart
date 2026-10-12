@@ -18,7 +18,6 @@ part 'mapper_defaults_dto.g.dart';
 /// * [incomeAccount] - Default income account
 /// * [accountMapping] - Filename prefix to account mapping (for HK importers). Maps filename prefix to Beancount account path.
 /// * [useCnh] - Convert CNY to CNH (offshore RMB) (for HK importers). Default: false.
-/// * [methodAccountMapping] - Payment method to source account mapping. Maps payment method keywords to Beancount account paths. Used by Alipay/WeChat importers to determine sourceAccount based on payment method (e.g., HuaBei, CreditCard).
 @BuiltValue()
 abstract class MapperDefaultsDto implements Built<MapperDefaultsDto, MapperDefaultsDtoBuilder> {
   /// Source account for transactions (Beancount format)
@@ -44,10 +43,6 @@ abstract class MapperDefaultsDto implements Built<MapperDefaultsDto, MapperDefau
   /// Convert CNY to CNH (offshore RMB) (for HK importers). Default: false.
   @BuiltValueField(wireName: r'useCnh')
   bool? get useCnh;
-
-  /// Payment method to source account mapping. Maps payment method keywords to Beancount account paths. Used by Alipay/WeChat importers to determine sourceAccount based on payment method (e.g., HuaBei, CreditCard).
-  @BuiltValueField(wireName: r'methodAccountMapping')
-  JsonObject? get methodAccountMapping;
 
   MapperDefaultsDto._();
 
@@ -108,13 +103,6 @@ class _$MapperDefaultsDtoSerializer implements PrimitiveSerializer<MapperDefault
       yield serializers.serialize(
         object.useCnh,
         specifiedType: const FullType(bool),
-      );
-    }
-    if (object.methodAccountMapping != null) {
-      yield r'methodAccountMapping';
-      yield serializers.serialize(
-        object.methodAccountMapping,
-        specifiedType: const FullType(JsonObject),
       );
     }
   }
@@ -181,13 +169,6 @@ class _$MapperDefaultsDtoSerializer implements PrimitiveSerializer<MapperDefault
             specifiedType: const FullType(bool),
           ) as bool;
           result.useCnh = valueDes;
-          break;
-        case r'methodAccountMapping':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(JsonObject),
-          ) as JsonObject;
-          result.methodAccountMapping = valueDes;
           break;
         default:
           unhandled.add(key);

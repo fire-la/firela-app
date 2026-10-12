@@ -18,6 +18,7 @@ part 'provider_sync_config_dto.g.dart';
 /// * [filterPending] - Filter pending transactions
 /// * [externalAccountId] - External account ID for per-batch providers (e.g. GoCardless). Overrides sourceAccount when an ExternalAccountLink mapping exists.
 /// * [skipPayeeMatch] - Skip Stage 1 payee matching for this sync (#1518). Deterministic learning path: transactions with unknown payees fall through to rule matching / the uncategorized (ACCOUNT_VALIDATION) branch instead of a global fuzzy PAYEE_MATCH review. Omit to keep the default behavior (payee matching runs).
+/// * [platform] - Platform canonical name for method-namespace funding routing (ADR-0130 decision 7). Parsed-bill rows carrying a fundingSource token resolve via ExternalAccountLink 'method:{platform}:{token}' keys (provider='parsed-bill') before the generic alias leg.
 @BuiltValue()
 abstract class ProviderSyncConfigDto implements Built<ProviderSyncConfigDto, ProviderSyncConfigDtoBuilder> {
   /// Source account for the first posting
@@ -47,6 +48,10 @@ abstract class ProviderSyncConfigDto implements Built<ProviderSyncConfigDto, Pro
   /// Skip Stage 1 payee matching for this sync (#1518). Deterministic learning path: transactions with unknown payees fall through to rule matching / the uncategorized (ACCOUNT_VALIDATION) branch instead of a global fuzzy PAYEE_MATCH review. Omit to keep the default behavior (payee matching runs).
   @BuiltValueField(wireName: r'skipPayeeMatch')
   bool? get skipPayeeMatch;
+
+  /// Platform canonical name for method-namespace funding routing (ADR-0130 decision 7). Parsed-bill rows carrying a fundingSource token resolve via ExternalAccountLink 'method:{platform}:{token}' keys (provider='parsed-bill') before the generic alias leg.
+  @BuiltValueField(wireName: r'platform')
+  String? get platform;
 
   ProviderSyncConfigDto._();
 
@@ -116,6 +121,13 @@ class _$ProviderSyncConfigDtoSerializer implements PrimitiveSerializer<ProviderS
       yield serializers.serialize(
         object.skipPayeeMatch,
         specifiedType: const FullType(bool),
+      );
+    }
+    if (object.platform != null) {
+      yield r'platform';
+      yield serializers.serialize(
+        object.platform,
+        specifiedType: const FullType(String),
       );
     }
   }
@@ -189,6 +201,13 @@ class _$ProviderSyncConfigDtoSerializer implements PrimitiveSerializer<ProviderS
             specifiedType: const FullType(bool),
           ) as bool;
           result.skipPayeeMatch = valueDes;
+          break;
+        case r'platform':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.platform = valueDes;
           break;
         default:
           unhandled.add(key);

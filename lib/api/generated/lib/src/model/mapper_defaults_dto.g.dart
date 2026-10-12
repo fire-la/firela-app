@@ -19,8 +19,6 @@ class _$MapperDefaultsDto extends MapperDefaultsDto {
   final JsonObject? accountMapping;
   @override
   final bool? useCnh;
-  @override
-  final JsonObject? methodAccountMapping;
 
   factory _$MapperDefaultsDto(
           [void Function(MapperDefaultsDtoBuilder)? updates]) =>
@@ -32,8 +30,7 @@ class _$MapperDefaultsDto extends MapperDefaultsDto {
       this.expenseAccount,
       this.incomeAccount,
       this.accountMapping,
-      this.useCnh,
-      this.methodAccountMapping})
+      this.useCnh})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(
         sourceAccount, r'MapperDefaultsDto', 'sourceAccount');
@@ -58,8 +55,7 @@ class _$MapperDefaultsDto extends MapperDefaultsDto {
         expenseAccount == other.expenseAccount &&
         incomeAccount == other.incomeAccount &&
         accountMapping == other.accountMapping &&
-        useCnh == other.useCnh &&
-        methodAccountMapping == other.methodAccountMapping;
+        useCnh == other.useCnh;
   }
 
   @override
@@ -71,7 +67,6 @@ class _$MapperDefaultsDto extends MapperDefaultsDto {
     _$hash = $jc(_$hash, incomeAccount.hashCode);
     _$hash = $jc(_$hash, accountMapping.hashCode);
     _$hash = $jc(_$hash, useCnh.hashCode);
-    _$hash = $jc(_$hash, methodAccountMapping.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -84,8 +79,7 @@ class _$MapperDefaultsDto extends MapperDefaultsDto {
           ..add('expenseAccount', expenseAccount)
           ..add('incomeAccount', incomeAccount)
           ..add('accountMapping', accountMapping)
-          ..add('useCnh', useCnh)
-          ..add('methodAccountMapping', methodAccountMapping))
+          ..add('useCnh', useCnh))
         .toString();
   }
 }
@@ -122,11 +116,6 @@ class MapperDefaultsDtoBuilder
   bool? get useCnh => _$this._useCnh;
   set useCnh(bool? useCnh) => _$this._useCnh = useCnh;
 
-  JsonObject? _methodAccountMapping;
-  JsonObject? get methodAccountMapping => _$this._methodAccountMapping;
-  set methodAccountMapping(JsonObject? methodAccountMapping) =>
-      _$this._methodAccountMapping = methodAccountMapping;
-
   MapperDefaultsDtoBuilder() {
     MapperDefaultsDto._defaults(this);
   }
@@ -140,7 +129,6 @@ class MapperDefaultsDtoBuilder
       _incomeAccount = $v.incomeAccount;
       _accountMapping = $v.accountMapping;
       _useCnh = $v.useCnh;
-      _methodAccountMapping = $v.methodAccountMapping;
       _$v = null;
     }
     return this;
@@ -170,8 +158,7 @@ class MapperDefaultsDtoBuilder
             expenseAccount: expenseAccount,
             incomeAccount: incomeAccount,
             accountMapping: accountMapping,
-            useCnh: useCnh,
-            methodAccountMapping: methodAccountMapping);
+            useCnh: useCnh);
     replace(_$result);
     return _$result;
   }
