@@ -18,7 +18,7 @@ part 'transaction_summary_dto.g.dart';
 /// * [payee] - Payee/Merchant name
 /// * [narration] - Transaction narration
 /// * [accountName] - Source account name (first posting)
-/// * [sourceType] - Source type (free-form string from transaction metadata, e.g. import, api)
+/// * [sourceType] - Source type (free-form string from transaction metadata, e.g. nlp, provider name)
 /// * [sourcePlatform] - Source platform (e.g., alipay, wechat)
 @BuiltValue(instantiable: false)
 abstract class TransactionSummaryDto  {
@@ -50,7 +50,7 @@ abstract class TransactionSummaryDto  {
   @BuiltValueField(wireName: r'accountName')
   String? get accountName;
 
-  /// Source type (free-form string from transaction metadata, e.g. import, api)
+  /// Source type (free-form string from transaction metadata, e.g. nlp, provider name)
   @BuiltValueField(wireName: r'sourceType')
   String? get sourceType;
 

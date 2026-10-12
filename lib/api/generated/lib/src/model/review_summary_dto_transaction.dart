@@ -19,7 +19,7 @@ part 'review_summary_dto_transaction.g.dart';
 /// * [payee] - Payee/Merchant name
 /// * [narration] - Transaction narration
 /// * [accountName] - Source account name (first posting)
-/// * [sourceType] - Source type (free-form string from transaction metadata, e.g. import, api)
+/// * [sourceType] - Source type (free-form string from transaction metadata, e.g. nlp, provider name)
 /// * [sourcePlatform] - Source platform (e.g., alipay, wechat)
 @BuiltValue()
 abstract class ReviewSummaryDtoTransaction implements TransactionSummaryDto, Built<ReviewSummaryDtoTransaction, ReviewSummaryDtoTransactionBuilder> {

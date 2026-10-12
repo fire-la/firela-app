@@ -23,7 +23,7 @@ part 'review_detail_dto.g.dart';
 /// * [summaryKey] - i18n message key for summary (e.g., review.summary.duplicate). Translate on frontend with summaryParams.
 /// * [summaryParams] - Parameters for summary message interpolation (e.g., { date: \"2024-01-15\", amount: \"50\" }). PAYEE_MATCH items may additionally carry suggestedDisplay — the localized dir PayeeProfile display name per request locale (#1389); absent when untranslated (use suggested, the canonical).
 /// * [matchReasons] - Human-readable reasons for branching
-/// * [sourceType] - Source type (free-form string from transaction metadata, e.g. import, api)
+/// * [sourceType] - Source type (free-form string from transaction metadata, e.g. nlp, provider name)
 /// * [sourcePlatform] - Source platform (e.g., alipay, wechat)
 /// * [createdAt] - Creation timestamp
 /// * [transaction] 
@@ -72,7 +72,7 @@ abstract class ReviewDetailDto implements Built<ReviewDetailDto, ReviewDetailDto
   @BuiltValueField(wireName: r'matchReasons')
   BuiltList<String> get matchReasons;
 
-  /// Source type (free-form string from transaction metadata, e.g. import, api)
+  /// Source type (free-form string from transaction metadata, e.g. nlp, provider name)
   @BuiltValueField(wireName: r'sourceType')
   String get sourceType;
 

@@ -24,7 +24,7 @@ part 'transaction_list_item_dto.g.dart';
 /// * [links] - Transaction links
 /// * [meta] - Transaction metadata
 /// * [status] - Transaction status
-/// * [sourceType] - Source type (free-form string from transaction metadata, e.g. import, api)
+/// * [sourceType] - Source type (free-form string from transaction metadata, e.g. nlp, provider name)
 /// * [sourcePlatform] - Source platform (e.g., alipay, wechat)
 /// * [postings] - Transaction postings
 /// * [createdAt] - Created at timestamp
@@ -79,7 +79,7 @@ abstract class TransactionListItemDto implements Built<TransactionListItemDto, T
   TransactionListItemDtoStatusEnum get status;
   // enum statusEnum {  ACTIVE,  VOIDED,  SUPERSEDED,  };
 
-  /// Source type (free-form string from transaction metadata, e.g. import, api)
+  /// Source type (free-form string from transaction metadata, e.g. nlp, provider name)
   @BuiltValueField(wireName: r'sourceType')
   String? get sourceType;
 
