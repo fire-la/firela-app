@@ -28302,8 +28302,8 @@ components:
         sourceType:
           type: string
           description: >-
-            Source type (free-form string from transaction metadata, e.g.
-            import, api)
+            Source type (free-form string from transaction metadata, e.g. nlp,
+            provider name)
         sourcePlatform:
           type: string
           description: Source platform (e.g., alipay, wechat)
@@ -28412,8 +28412,8 @@ components:
         sourceType:
           type: string
           description: >-
-            Source type (free-form string from transaction metadata, e.g.
-            import, api)
+            Source type (free-form string from transaction metadata, e.g. nlp,
+            provider name)
         sourcePlatform:
           type: string
           description: Source platform (e.g., alipay, wechat)
@@ -28757,8 +28757,8 @@ components:
         sourceType:
           type: string
           description: >-
-            Source type (free-form string from transaction metadata, e.g.
-            import, api)
+            Source type (free-form string from transaction metadata, e.g. nlp,
+            provider name)
         sourcePlatform:
           type: string
           description: Source platform (e.g., alipay, wechat)
@@ -28827,8 +28827,8 @@ components:
         sourceType:
           type: string
           description: >-
-            Source type (free-form string from transaction metadata, e.g.
-            import, api)
+            Source type (free-form string from transaction metadata, e.g. nlp,
+            provider name)
         sourcePlatform:
           type: string
           description: Source platform (e.g., alipay, wechat)
@@ -29000,8 +29000,8 @@ components:
         sourceType:
           type: string
           description: >-
-            Source type (free-form string from transaction metadata, e.g.
-            import, api)
+            Source type (free-form string from transaction metadata, e.g. nlp,
+            provider name)
         sourcePlatform:
           type: string
           description: Source platform (e.g., alipay, wechat)
