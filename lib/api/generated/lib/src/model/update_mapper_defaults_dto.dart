@@ -3,7 +3,6 @@
 //
 
 // ignore_for_file: unused_element
-import 'package:built_value/json_object.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
@@ -16,7 +15,6 @@ part 'update_mapper_defaults_dto.g.dart';
 /// * [currency] - Default currency (ISO 4217 code)
 /// * [expenseAccount] - Default expense account (optional)
 /// * [incomeAccount] - Default income account (optional)
-/// * [methodAccountMapping] - Payment method to source account mapping. Maps payment method keywords to Beancount account paths. Used by Alipay/WeChat importers to determine sourceAccount based on payment method (e.g., HuaBei, CreditCard).
 @BuiltValue()
 abstract class UpdateMapperDefaultsDto implements Built<UpdateMapperDefaultsDto, UpdateMapperDefaultsDtoBuilder> {
   /// Source account for transactions (Beancount format)
@@ -34,10 +32,6 @@ abstract class UpdateMapperDefaultsDto implements Built<UpdateMapperDefaultsDto,
   /// Default income account (optional)
   @BuiltValueField(wireName: r'incomeAccount')
   String? get incomeAccount;
-
-  /// Payment method to source account mapping. Maps payment method keywords to Beancount account paths. Used by Alipay/WeChat importers to determine sourceAccount based on payment method (e.g., HuaBei, CreditCard).
-  @BuiltValueField(wireName: r'methodAccountMapping')
-  JsonObject? get methodAccountMapping;
 
   UpdateMapperDefaultsDto._();
 
@@ -90,13 +84,6 @@ class _$UpdateMapperDefaultsDtoSerializer implements PrimitiveSerializer<UpdateM
         specifiedType: const FullType(String),
       );
     }
-    if (object.methodAccountMapping != null) {
-      yield r'methodAccountMapping';
-      yield serializers.serialize(
-        object.methodAccountMapping,
-        specifiedType: const FullType(JsonObject),
-      );
-    }
   }
 
   @override
@@ -147,13 +134,6 @@ class _$UpdateMapperDefaultsDtoSerializer implements PrimitiveSerializer<UpdateM
             specifiedType: const FullType(String),
           ) as String;
           result.incomeAccount = valueDes;
-          break;
-        case r'methodAccountMapping':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(JsonObject),
-          ) as JsonObject;
-          result.methodAccountMapping = valueDes;
           break;
         default:
           unhandled.add(key);

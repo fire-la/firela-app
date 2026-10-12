@@ -21,6 +21,8 @@ class _$ProviderSyncConfigDto extends ProviderSyncConfigDto {
   final String? externalAccountId;
   @override
   final bool? skipPayeeMatch;
+  @override
+  final String? platform;
 
   factory _$ProviderSyncConfigDto(
           [void Function(ProviderSyncConfigDtoBuilder)? updates]) =>
@@ -33,7 +35,8 @@ class _$ProviderSyncConfigDto extends ProviderSyncConfigDto {
       this.defaultIncomeAccount,
       this.filterPending,
       this.externalAccountId,
-      this.skipPayeeMatch})
+      this.skipPayeeMatch,
+      this.platform})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(
         sourceAccount, r'ProviderSyncConfigDto', 'sourceAccount');
@@ -60,7 +63,8 @@ class _$ProviderSyncConfigDto extends ProviderSyncConfigDto {
         defaultIncomeAccount == other.defaultIncomeAccount &&
         filterPending == other.filterPending &&
         externalAccountId == other.externalAccountId &&
-        skipPayeeMatch == other.skipPayeeMatch;
+        skipPayeeMatch == other.skipPayeeMatch &&
+        platform == other.platform;
   }
 
   @override
@@ -73,6 +77,7 @@ class _$ProviderSyncConfigDto extends ProviderSyncConfigDto {
     _$hash = $jc(_$hash, filterPending.hashCode);
     _$hash = $jc(_$hash, externalAccountId.hashCode);
     _$hash = $jc(_$hash, skipPayeeMatch.hashCode);
+    _$hash = $jc(_$hash, platform.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -86,7 +91,8 @@ class _$ProviderSyncConfigDto extends ProviderSyncConfigDto {
           ..add('defaultIncomeAccount', defaultIncomeAccount)
           ..add('filterPending', filterPending)
           ..add('externalAccountId', externalAccountId)
-          ..add('skipPayeeMatch', skipPayeeMatch))
+          ..add('skipPayeeMatch', skipPayeeMatch)
+          ..add('platform', platform))
         .toString();
   }
 }
@@ -130,6 +136,10 @@ class ProviderSyncConfigDtoBuilder
   set skipPayeeMatch(bool? skipPayeeMatch) =>
       _$this._skipPayeeMatch = skipPayeeMatch;
 
+  String? _platform;
+  String? get platform => _$this._platform;
+  set platform(String? platform) => _$this._platform = platform;
+
   ProviderSyncConfigDtoBuilder() {
     ProviderSyncConfigDto._defaults(this);
   }
@@ -144,6 +154,7 @@ class ProviderSyncConfigDtoBuilder
       _filterPending = $v.filterPending;
       _externalAccountId = $v.externalAccountId;
       _skipPayeeMatch = $v.skipPayeeMatch;
+      _platform = $v.platform;
       _$v = null;
     }
     return this;
@@ -174,7 +185,8 @@ class ProviderSyncConfigDtoBuilder
             defaultIncomeAccount: defaultIncomeAccount,
             filterPending: filterPending,
             externalAccountId: externalAccountId,
-            skipPayeeMatch: skipPayeeMatch);
+            skipPayeeMatch: skipPayeeMatch,
+            platform: platform);
     replace(_$result);
     return _$result;
   }
