@@ -32708,7 +32708,11 @@ components:
             confirm_account echo-back: account path selected from the prior
             confirm_account response (suggestedAccount, similarAccounts[i].path,
             or a typed path). Applied directly when the session is
-            confirming_account — no NL re-parse.
+            confirming_account — no NL re-parse. Also consumed on plain confirm
+            (confirm=true) in the confirming state (#2090): overrides the
+            funding (source) leg of the booking when it resolves to an OPEN,
+            owned Assets:/Liabilities: account (else 400); ignored on
+            non-expense intents.
           example: Expenses:Food:Coffee
         viewpointAccount:
           type: string
