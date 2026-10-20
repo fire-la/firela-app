@@ -32709,10 +32709,13 @@ components:
             confirm_account response (suggestedAccount, similarAccounts[i].path,
             or a typed path). Applied directly when the session is
             confirming_account — no NL re-parse. Also consumed on plain confirm
-            (confirm=true) in the confirming state (#2090): overrides the
-            funding (source) leg of the booking when it resolves to an OPEN,
-            owned Assets:/Liabilities: account (else 400); ignored on
-            non-expense intents.
+            (confirm=true) in the confirming state (#2090): overrides the card
+            source (money-from) leg of the booking when it resolves to an OPEN,
+            owned account with the (intent, sub-type) root set —
+            Assets:/Liabilities: on expense, Liabilities: on liability borrow,
+            Assets: on liability repay and asset investment/lend/lend_collect
+            (else 400); ignored on the remaining intents, income included
+            (#2097).
           example: Expenses:Food:Coffee
         viewpointAccount:
           type: string
