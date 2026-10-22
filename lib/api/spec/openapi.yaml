@@ -32713,9 +32713,8 @@ components:
             source (money-from) leg of the booking when it resolves to an OPEN,
             owned account with the (intent, sub-type) root set —
             Assets:/Liabilities: on expense, Liabilities: on liability borrow,
-            Assets: on liability repay and asset investment/lend/lend_collect
-            (else 400); ignored on the remaining intents, income included
-            (#2097).
+            Assets: on liability repay, asset investment/lend/lend_collect and
+            income (#2118) (else 400); ignored on the remaining intents (#2097).
           example: Expenses:Food:Coffee
         viewpointAccount:
           type: string
