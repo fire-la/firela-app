@@ -32721,6 +32721,16 @@ components:
             Assets: on liability repay, asset investment/lend/lend_collect and
             income (#2118) (else 400); ignored on the remaining intents (#2097).
           example: Expenses:Food:Coffee
+        selectedDestinationAccount:
+          type: string
+          description: >-
+            Transfer destination (money-to) leg override, consumed on plain
+            confirm (confirm=true) in the confirming state for asset-intent
+            transfer (#2146): replaces the booking destination leg when it
+            resolves to an OPEN, owned Assets: account (else 400); ignored on
+            other intents/sub-types and non-confirm turns; absent = behavior
+            unchanged. Echoable via suggestedAccounts.destination afterwards.
+          example: Assets:Cash
         viewpointAccount:
           type: string
           description: >-
