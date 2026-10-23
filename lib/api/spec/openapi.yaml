@@ -28501,7 +28501,12 @@ components:
       properties:
         type:
           type: string
-          description: Warning type
+          description: >-
+            Warning type — closed vocabulary: single value
+            'MISSING_EXCHANGE_RATE' today. Closed at the TypeScript type level
+            only (no runtime enum guard on this output-only family); new kinds
+            would arrive as a spec-visible widening of the literal union, so
+            tolerate future values
           example: MISSING_EXCHANGE_RATE
         currency:
           type: string
