@@ -11,12 +11,12 @@ part 'exchange_rate_warning_dto.g.dart';
 /// ExchangeRateWarningDto
 ///
 /// Properties:
-/// * [type] - Warning type
+/// * [type] - Warning type — closed vocabulary: single value 'MISSING_EXCHANGE_RATE' today. Closed at the TypeScript type level only (no runtime enum guard on this output-only family); new kinds would arrive as a spec-visible widening of the literal union, so tolerate future values
 /// * [currency] - Currency without exchange rate
 /// * [totalAmount] - Total amount affected
 @BuiltValue()
 abstract class ExchangeRateWarningDto implements Built<ExchangeRateWarningDto, ExchangeRateWarningDtoBuilder> {
-  /// Warning type
+  /// Warning type — closed vocabulary: single value 'MISSING_EXCHANGE_RATE' today. Closed at the TypeScript type level only (no runtime enum guard on this output-only family); new kinds would arrive as a spec-visible widening of the literal union, so tolerate future values
   @BuiltValueField(wireName: r'type')
   String get type;
 
