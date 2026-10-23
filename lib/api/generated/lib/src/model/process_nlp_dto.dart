@@ -19,6 +19,7 @@ part 'process_nlp_dto.g.dart';
 /// * [parsedData] 
 /// * [selectedRuleId] - confirm_rule echo-back: rule id selected from the prior confirm_rule response (matchedRule.id or alternatives[i].ruleId). Applied directly when the session is confirming_rule — no NL re-parse.
 /// * [selectedAccount] - confirm_account echo-back: account path selected from the prior confirm_account response (suggestedAccount, similarAccounts[i].path, or a typed path). Applied directly when the session is confirming_account — no NL re-parse. Also consumed on plain confirm (confirm=true) in the confirming state (#2090): overrides the card source (money-from) leg of the booking when it resolves to an OPEN, owned account with the (intent, sub-type) root set — Assets:/Liabilities: on expense, Liabilities: on liability borrow, Assets: on liability repay, asset investment/lend/lend_collect and income (#2118) (else 400); ignored on the remaining intents (#2097).
+/// * [selectedDestinationAccount] - Transfer destination (money-to) leg override, consumed on plain confirm (confirm=true) in the confirming state for asset-intent transfer (#2146): replaces the booking destination leg when it resolves to an OPEN, owned Assets: account (else 400); ignored on other intents/sub-types and non-confirm turns; absent = behavior unchanged. Echoable via suggestedAccounts.destination afterwards.
 /// * [viewpointAccount] - Viewpoint account hint: the beancount path the user drilled into (e.g. from an account drill-down). Tie-break only — never overrides accounts resolved from the text. Must be an owned, OPEN Assets:/Liabilities: account; unresolvable hints are silently ignored.
 /// * [viewpointCategory] - Viewpoint category hint: the ADR-0075 Group segment the user drilled into (e.g. 'Food'). Resolved to a concrete OPEN account in that group; tie-break only — never overrides a category resolved from the text.
 /// * [viewpointFlow] - Companion flow root for viewpointCategory ('income' | 'expense'), mirroring the ADR-0126 list-endpoint invariant. Derived from the session's routed intent (multi-turn) when absent; a first-turn flow-less category hint is dropped — send the flow explicitly.
@@ -47,6 +48,10 @@ abstract class ProcessNlpDto implements Built<ProcessNlpDto, ProcessNlpDtoBuilde
   /// confirm_account echo-back: account path selected from the prior confirm_account response (suggestedAccount, similarAccounts[i].path, or a typed path). Applied directly when the session is confirming_account — no NL re-parse. Also consumed on plain confirm (confirm=true) in the confirming state (#2090): overrides the card source (money-from) leg of the booking when it resolves to an OPEN, owned account with the (intent, sub-type) root set — Assets:/Liabilities: on expense, Liabilities: on liability borrow, Assets: on liability repay, asset investment/lend/lend_collect and income (#2118) (else 400); ignored on the remaining intents (#2097).
   @BuiltValueField(wireName: r'selectedAccount')
   String? get selectedAccount;
+
+  /// Transfer destination (money-to) leg override, consumed on plain confirm (confirm=true) in the confirming state for asset-intent transfer (#2146): replaces the booking destination leg when it resolves to an OPEN, owned Assets: account (else 400); ignored on other intents/sub-types and non-confirm turns; absent = behavior unchanged. Echoable via suggestedAccounts.destination afterwards.
+  @BuiltValueField(wireName: r'selectedDestinationAccount')
+  String? get selectedDestinationAccount;
 
   /// Viewpoint account hint: the beancount path the user drilled into (e.g. from an account drill-down). Tie-break only — never overrides accounts resolved from the text. Must be an owned, OPEN Assets:/Liabilities: account; unresolvable hints are silently ignored.
   @BuiltValueField(wireName: r'viewpointAccount')
@@ -127,6 +132,13 @@ class _$ProcessNlpDtoSerializer implements PrimitiveSerializer<ProcessNlpDto> {
       yield r'selectedAccount';
       yield serializers.serialize(
         object.selectedAccount,
+        specifiedType: const FullType(String),
+      );
+    }
+    if (object.selectedDestinationAccount != null) {
+      yield r'selectedDestinationAccount';
+      yield serializers.serialize(
+        object.selectedDestinationAccount,
         specifiedType: const FullType(String),
       );
     }
@@ -222,6 +234,13 @@ class _$ProcessNlpDtoSerializer implements PrimitiveSerializer<ProcessNlpDto> {
             specifiedType: const FullType(String),
           ) as String;
           result.selectedAccount = valueDes;
+          break;
+        case r'selectedDestinationAccount':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.selectedDestinationAccount = valueDes;
           break;
         case r'viewpointAccount':
           final valueDes = serializers.deserialize(

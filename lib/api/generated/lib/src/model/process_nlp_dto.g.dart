@@ -78,6 +78,8 @@ class _$ProcessNlpDto extends ProcessNlpDto {
   @override
   final String? selectedAccount;
   @override
+  final String? selectedDestinationAccount;
+  @override
   final String? viewpointAccount;
   @override
   final String? viewpointCategory;
@@ -96,6 +98,7 @@ class _$ProcessNlpDto extends ProcessNlpDto {
       this.parsedData,
       this.selectedRuleId,
       this.selectedAccount,
+      this.selectedDestinationAccount,
       this.viewpointAccount,
       this.viewpointCategory,
       this.viewpointFlow,
@@ -119,6 +122,7 @@ class _$ProcessNlpDto extends ProcessNlpDto {
         parsedData == other.parsedData &&
         selectedRuleId == other.selectedRuleId &&
         selectedAccount == other.selectedAccount &&
+        selectedDestinationAccount == other.selectedDestinationAccount &&
         viewpointAccount == other.viewpointAccount &&
         viewpointCategory == other.viewpointCategory &&
         viewpointFlow == other.viewpointFlow &&
@@ -134,6 +138,7 @@ class _$ProcessNlpDto extends ProcessNlpDto {
     _$hash = $jc(_$hash, parsedData.hashCode);
     _$hash = $jc(_$hash, selectedRuleId.hashCode);
     _$hash = $jc(_$hash, selectedAccount.hashCode);
+    _$hash = $jc(_$hash, selectedDestinationAccount.hashCode);
     _$hash = $jc(_$hash, viewpointAccount.hashCode);
     _$hash = $jc(_$hash, viewpointCategory.hashCode);
     _$hash = $jc(_$hash, viewpointFlow.hashCode);
@@ -151,6 +156,7 @@ class _$ProcessNlpDto extends ProcessNlpDto {
           ..add('parsedData', parsedData)
           ..add('selectedRuleId', selectedRuleId)
           ..add('selectedAccount', selectedAccount)
+          ..add('selectedDestinationAccount', selectedDestinationAccount)
           ..add('viewpointAccount', viewpointAccount)
           ..add('viewpointCategory', viewpointCategory)
           ..add('viewpointFlow', viewpointFlow)
@@ -191,6 +197,11 @@ class ProcessNlpDtoBuilder
   set selectedAccount(String? selectedAccount) =>
       _$this._selectedAccount = selectedAccount;
 
+  String? _selectedDestinationAccount;
+  String? get selectedDestinationAccount => _$this._selectedDestinationAccount;
+  set selectedDestinationAccount(String? selectedDestinationAccount) =>
+      _$this._selectedDestinationAccount = selectedDestinationAccount;
+
   String? _viewpointAccount;
   String? get viewpointAccount => _$this._viewpointAccount;
   set viewpointAccount(String? viewpointAccount) =>
@@ -224,6 +235,7 @@ class ProcessNlpDtoBuilder
       _parsedData = $v.parsedData?.toBuilder();
       _selectedRuleId = $v.selectedRuleId;
       _selectedAccount = $v.selectedAccount;
+      _selectedDestinationAccount = $v.selectedDestinationAccount;
       _viewpointAccount = $v.viewpointAccount;
       _viewpointCategory = $v.viewpointCategory;
       _viewpointFlow = $v.viewpointFlow;
@@ -258,6 +270,7 @@ class ProcessNlpDtoBuilder
               parsedData: _parsedData?.build(),
               selectedRuleId: selectedRuleId,
               selectedAccount: selectedAccount,
+              selectedDestinationAccount: selectedDestinationAccount,
               viewpointAccount: viewpointAccount,
               viewpointCategory: viewpointCategory,
               viewpointFlow: viewpointFlow,
