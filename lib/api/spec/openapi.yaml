@@ -32717,9 +32717,10 @@ components:
             (confirm=true) in the confirming state (#2090): overrides the card
             source (money-from) leg of the booking when it resolves to an OPEN,
             owned account with the (intent, sub-type) root set —
-            Assets:/Liabilities: on expense, Liabilities: on liability borrow,
-            Assets: on liability repay, asset investment/lend/lend_collect and
-            income (#2118) (else 400); ignored on the remaining intents (#2097).
+            Assets:/Liabilities: on expense and asset transfer/banking (#2147),
+            Liabilities: on liability borrow, Assets: on liability repay, asset
+            investment/lend/lend_collect and income (#2118) (else 400); ignored
+            on equity.
           example: Expenses:Food:Coffee
         selectedDestinationAccount:
           type: string
