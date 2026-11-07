@@ -10,6 +10,8 @@ import 'package:dio/dio.dart';
 import 'package:firela_api/src/api_util.dart';
 import 'package:firela_api/src/model/batch_create_transaction_dto.dart';
 import 'package:firela_api/src/model/batch_transaction_response_dto.dart';
+import 'package:firela_api/src/model/batch_void_result_dto.dart';
+import 'package:firela_api/src/model/batch_void_transactions_dto.dart';
 import 'package:firela_api/src/model/correct_transaction_dto.dart';
 import 'package:firela_api/src/model/create_transaction_dto.dart';
 import 'package:firela_api/src/model/tag_suggestions_response_dto.dart';
@@ -25,6 +27,103 @@ class BeanTransactionsApi {
   final Serializers _serializers;
 
   const BeanTransactionsApi(this._dio, this._serializers);
+
+  /// Batch void transactions
+  /// Soft-deletes (VOIDED) a batch of the caller&#39;s ACTIVE transactions in one DB transaction. Voiding releases each row&#39;s importId dedup slot, so re-importing the same file after an undo batch-void imports every row again instead of skipping them as duplicates.
+  ///
+  /// Parameters:
+  /// * [region] - Region code for tenant context
+  /// * [batchVoidTransactionsDto] - Batch void request (1-500 unique transaction IDs)
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future] containing a [Response] with a [BatchVoidResultDto] as data
+  /// Throws [DioException] if API call or serialization fails
+  Future<Response<BatchVoidResultDto>> transactionControllerBatchVoid({ 
+    required String region,
+    required BatchVoidTransactionsDto batchVoidTransactionsDto,
+    CancelToken? cancelToken,
+    Map<String, dynamic>? headers,
+    Map<String, dynamic>? extra,
+    ValidateStatus? validateStatus,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {
+    final _path = r'/api/v1/{region}/bean/transactions/batch-void'.replaceAll('{' r'region' '}', encodeQueryParameter(_serializers, region, const FullType(String)).toString());
+    final _options = Options(
+      method: r'POST',
+      headers: <String, dynamic>{
+        ...?headers,
+      },
+      extra: <String, dynamic>{
+        'secure': <Map<String, String>>[],
+        ...?extra,
+      },
+      contentType: 'application/json',
+      validateStatus: validateStatus,
+    );
+
+    dynamic _bodyData;
+
+    try {
+      const _type = FullType(BatchVoidTransactionsDto);
+      _bodyData = _serializers.serialize(batchVoidTransactionsDto, specifiedType: _type);
+
+    } catch(error, stackTrace) {
+      throw DioException(
+         requestOptions: _options.compose(
+          _dio.options,
+          _path,
+        ),
+        type: DioExceptionType.unknown,
+        error: error,
+        stackTrace: stackTrace,
+      );
+    }
+
+    final _response = await _dio.request<Object>(
+      _path,
+      data: _bodyData,
+      options: _options,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+    );
+
+    BatchVoidResultDto? _responseData;
+
+    try {
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(BatchVoidResultDto),
+      ) as BatchVoidResultDto;
+
+    } catch (error, stackTrace) {
+      throw DioException(
+        requestOptions: _response.requestOptions,
+        response: _response,
+        type: DioExceptionType.unknown,
+        error: error,
+        stackTrace: stackTrace,
+      );
+    }
+
+    return Response<BatchVoidResultDto>(
+      data: _responseData,
+      headers: _response.headers,
+      isRedirect: _response.isRedirect,
+      requestOptions: _response.requestOptions,
+      redirects: _response.redirects,
+      statusCode: _response.statusCode,
+      statusMessage: _response.statusMessage,
+      extra: _response.extra,
+    );
+  }
 
   /// Correct (supersede) a transaction
   /// Atomically voids the original (SUPERSEDED) and creates a replacement through the full validation pipeline.

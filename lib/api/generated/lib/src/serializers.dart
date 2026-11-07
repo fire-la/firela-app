@@ -44,6 +44,8 @@ import 'package:firela_api/src/model/batch_resolve_item_dto.dart';
 import 'package:firela_api/src/model/batch_resolve_result_dto.dart';
 import 'package:firela_api/src/model/batch_transaction_error_dto.dart';
 import 'package:firela_api/src/model/batch_transaction_response_dto.dart';
+import 'package:firela_api/src/model/batch_void_result_dto.dart';
+import 'package:firela_api/src/model/batch_void_transactions_dto.dart';
 import 'package:firela_api/src/model/bulk_create_rules_dto.dart';
 import 'package:firela_api/src/model/bulk_create_rules_response_dto.dart';
 import 'package:firela_api/src/model/bulk_create_rules_response_dto_errors_inner.dart';
@@ -282,6 +284,8 @@ part 'serializers.g.dart';
   BatchResolveResultDto,
   BatchTransactionErrorDto,
   BatchTransactionResponseDto,
+  BatchVoidResultDto,
+  BatchVoidTransactionsDto,
   BulkCreateRulesDto,
   BulkCreateRulesResponseDto,
   BulkCreateRulesResponseDtoErrorsInner,

@@ -52,6 +52,8 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(BatchResolveResultDto.serializer)
       ..add(BatchTransactionErrorDto.serializer)
       ..add(BatchTransactionResponseDto.serializer)
+      ..add(BatchVoidResultDto.serializer)
+      ..add(BatchVoidTransactionsDto.serializer)
       ..add(BulkCreateRulesDto.serializer)
       ..add(BulkCreateRulesDtoConflictStrategyEnum.serializer)
       ..add(BulkCreateRulesResponseDto.serializer)
@@ -581,6 +583,12 @@ Serializers _$serializers = (new Serializers().toBuilder()
           const FullType(BuiltList,
               const [const FullType(RuleStatisticsResponseDtoRuleStatsInner)]),
           () => new ListBuilder<RuleStatisticsResponseDtoRuleStatsInner>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())
