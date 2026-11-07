@@ -3342,6 +3342,254 @@ paths:
         - Bean Transactions
       security:
         - bearer: []
+  /api/v1/{region}/bean/transactions/batch-void:
+    post:
+      operationId: TransactionController_batchVoid
+      summary: Batch void transactions
+      description: >-
+        Soft-deletes (VOIDED) a batch of the caller's ACTIVE transactions in one
+        DB transaction. Voiding releases each row's importId dedup slot, so
+        re-importing the same file after an undo batch-void imports every row
+        again instead of skipping them as duplicates.
+      parameters:
+        - name: region
+          required: true
+          in: path
+          description: Region code for tenant context
+          schema:
+            enum:
+              - ad
+              - ae
+              - af
+              - ag
+              - al
+              - am
+              - ao
+              - ar
+              - at
+              - au
+              - az
+              - ba
+              - bb
+              - bd
+              - be
+              - bf
+              - bg
+              - bh
+              - bi
+              - bj
+              - bn
+              - bo
+              - br
+              - bs
+              - bt
+              - bw
+              - by
+              - bz
+              - ca
+              - cd
+              - cf
+              - cg
+              - ch
+              - ci
+              - cl
+              - cm
+              - cn
+              - co
+              - cr
+              - cu
+              - cv
+              - cy
+              - cz
+              - de
+              - dj
+              - dk
+              - dm
+              - do
+              - dz
+              - ec
+              - ee
+              - eg
+              - er
+              - es
+              - et
+              - fj
+              - fm
+              - fr
+              - ga
+              - gb
+              - gd
+              - ge
+              - gh
+              - gm
+              - gn
+              - gq
+              - gr
+              - gt
+              - gw
+              - gy
+              - hk
+              - hn
+              - hr
+              - ht
+              - hu
+              - id
+              - ie
+              - il
+              - in
+              - iq
+              - ir
+              - is
+              - it
+              - jm
+              - jo
+              - jp
+              - ke
+              - kg
+              - kh
+              - ki
+              - km
+              - kn
+              - kr
+              - kw
+              - kz
+              - la
+              - lb
+              - lc
+              - li
+              - lk
+              - lr
+              - ls
+              - lt
+              - lu
+              - lv
+              - ly
+              - ma
+              - mc
+              - md
+              - me
+              - mg
+              - mh
+              - mk
+              - ml
+              - mm
+              - mn
+              - mr
+              - mt
+              - mu
+              - mv
+              - mw
+              - mx
+              - mz
+              - na
+              - ne
+              - ng
+              - ni
+              - nl
+              - 'no'
+              - np
+              - nr
+              - nz
+              - om
+              - pa
+              - pe
+              - pg
+              - ph
+              - pk
+              - pl
+              - ps
+              - pt
+              - pw
+              - py
+              - qa
+              - ro
+              - rs
+              - ru
+              - rw
+              - sa
+              - sb
+              - sc
+              - sd
+              - se
+              - sg
+              - sl
+              - sm
+              - sn
+              - so
+              - sr
+              - st
+              - sv
+              - sy
+              - sz
+              - td
+              - tg
+              - th
+              - tj
+              - tl
+              - tm
+              - tn
+              - to
+              - tr
+              - tt
+              - tv
+              - tw
+              - tz
+              - ua
+              - ug
+              - us
+              - uy
+              - uz
+              - va
+              - vc
+              - ve
+              - vn
+              - vu
+              - ws
+              - ye
+              - za
+              - zm
+              - zw
+            type: string
+      requestBody:
+        required: true
+        description: Batch void request (1-500 unique transaction IDs)
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BatchVoidTransactionsDto'
+      responses:
+        '200':
+          description: >-
+            Batch void result: count of rows voided plus ids not found / no
+            longer ACTIVE
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatchVoidResultDto'
+        '400':
+          description: Validation failed (empty, over 500, duplicate or non-string ids)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiProblemResponseDto'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiProblemResponseDto'
+        '403':
+          description: >-
+            Batch contains ids owned by another user — whole request rejected,
+            nothing committed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiProblemResponseDto'
+      tags:
+        - Bean Transactions
+      security:
+        - bearer: []
   /api/v1/{region}/bean/transactions/{id}/correct:
     post:
       operationId: TransactionController_correct
@@ -28101,6 +28349,45 @@ components:
       required:
         - succeeded
         - failed
+    BatchVoidTransactionsDto:
+      type: object
+      properties:
+        ids:
+          description: >-
+            Transaction IDs to void. Only the caller's ACTIVE rows are voided;
+            already VOIDED/SUPERSEDED and nonexistent ids are reported in
+            notFound.
+          minItems: 1
+          maxItems: 500
+          example:
+            - 019a3f4e-5c1d-7c2e-9f3a-2b8c1d6e4a70
+          type: array
+          items:
+            type: string
+      required:
+        - ids
+    BatchVoidResultDto:
+      type: object
+      properties:
+        voided:
+          type: number
+          description: >-
+            Number of transactions transitioned to VOIDED by this call (single
+            DB transaction).
+          example: 3
+        notFound:
+          description: >-
+            IDs not voided: nonexistent, or owned but no longer ACTIVE (already
+            VOIDED/SUPERSEDED). An idempotent retry of a fully voided batch
+            therefore reads as success: voided 0 with notFound holding every id.
+          example:
+            - 019a3f4e-5c1d-7c2e-9f3a-2b8c1d6e4a71
+          type: array
+          items:
+            type: string
+      required:
+        - voided
+        - notFound
     CorrectTransactionDto:
       type: object
       properties:
