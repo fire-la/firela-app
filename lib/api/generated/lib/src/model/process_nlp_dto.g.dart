@@ -78,6 +78,8 @@ class _$ProcessNlpDto extends ProcessNlpDto {
   @override
   final String? selectedAccount;
   @override
+  final BuiltList<AccountSelectionDto>? accountSelections;
+  @override
   final String? selectedDestinationAccount;
   @override
   final String? viewpointAccount;
@@ -98,6 +100,7 @@ class _$ProcessNlpDto extends ProcessNlpDto {
       this.parsedData,
       this.selectedRuleId,
       this.selectedAccount,
+      this.accountSelections,
       this.selectedDestinationAccount,
       this.viewpointAccount,
       this.viewpointCategory,
@@ -122,6 +125,7 @@ class _$ProcessNlpDto extends ProcessNlpDto {
         parsedData == other.parsedData &&
         selectedRuleId == other.selectedRuleId &&
         selectedAccount == other.selectedAccount &&
+        accountSelections == other.accountSelections &&
         selectedDestinationAccount == other.selectedDestinationAccount &&
         viewpointAccount == other.viewpointAccount &&
         viewpointCategory == other.viewpointCategory &&
@@ -138,6 +142,7 @@ class _$ProcessNlpDto extends ProcessNlpDto {
     _$hash = $jc(_$hash, parsedData.hashCode);
     _$hash = $jc(_$hash, selectedRuleId.hashCode);
     _$hash = $jc(_$hash, selectedAccount.hashCode);
+    _$hash = $jc(_$hash, accountSelections.hashCode);
     _$hash = $jc(_$hash, selectedDestinationAccount.hashCode);
     _$hash = $jc(_$hash, viewpointAccount.hashCode);
     _$hash = $jc(_$hash, viewpointCategory.hashCode);
@@ -156,6 +161,7 @@ class _$ProcessNlpDto extends ProcessNlpDto {
           ..add('parsedData', parsedData)
           ..add('selectedRuleId', selectedRuleId)
           ..add('selectedAccount', selectedAccount)
+          ..add('accountSelections', accountSelections)
           ..add('selectedDestinationAccount', selectedDestinationAccount)
           ..add('viewpointAccount', viewpointAccount)
           ..add('viewpointCategory', viewpointCategory)
@@ -197,6 +203,12 @@ class ProcessNlpDtoBuilder
   set selectedAccount(String? selectedAccount) =>
       _$this._selectedAccount = selectedAccount;
 
+  ListBuilder<AccountSelectionDto>? _accountSelections;
+  ListBuilder<AccountSelectionDto> get accountSelections =>
+      _$this._accountSelections ??= new ListBuilder<AccountSelectionDto>();
+  set accountSelections(ListBuilder<AccountSelectionDto>? accountSelections) =>
+      _$this._accountSelections = accountSelections;
+
   String? _selectedDestinationAccount;
   String? get selectedDestinationAccount => _$this._selectedDestinationAccount;
   set selectedDestinationAccount(String? selectedDestinationAccount) =>
@@ -235,6 +247,7 @@ class ProcessNlpDtoBuilder
       _parsedData = $v.parsedData?.toBuilder();
       _selectedRuleId = $v.selectedRuleId;
       _selectedAccount = $v.selectedAccount;
+      _accountSelections = $v.accountSelections?.toBuilder();
       _selectedDestinationAccount = $v.selectedDestinationAccount;
       _viewpointAccount = $v.viewpointAccount;
       _viewpointCategory = $v.viewpointCategory;
@@ -270,6 +283,7 @@ class ProcessNlpDtoBuilder
               parsedData: _parsedData?.build(),
               selectedRuleId: selectedRuleId,
               selectedAccount: selectedAccount,
+              accountSelections: _accountSelections?.build(),
               selectedDestinationAccount: selectedDestinationAccount,
               viewpointAccount: viewpointAccount,
               viewpointCategory: viewpointCategory,
@@ -280,6 +294,9 @@ class ProcessNlpDtoBuilder
       try {
         _$failedField = 'parsedData';
         _parsedData?.build();
+
+        _$failedField = 'accountSelections';
+        _accountSelections?.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             r'ProcessNlpDto', _$failedField, e.toString());

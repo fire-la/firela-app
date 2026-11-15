@@ -16,6 +16,8 @@ class _$NlpAccountConfirmationDataDto extends NlpAccountConfirmationDataDto {
   @override
   final String errorMessage;
   @override
+  final BuiltList<NlpInvalidAccountEntryDto>? invalidAccounts;
+  @override
   final JsonObject transactionContext;
 
   factory _$NlpAccountConfirmationDataDto(
@@ -27,6 +29,7 @@ class _$NlpAccountConfirmationDataDto extends NlpAccountConfirmationDataDto {
       this.suggestedAccount,
       required this.similarAccounts,
       required this.errorMessage,
+      this.invalidAccounts,
       required this.transactionContext})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(
@@ -56,6 +59,7 @@ class _$NlpAccountConfirmationDataDto extends NlpAccountConfirmationDataDto {
         suggestedAccount == other.suggestedAccount &&
         similarAccounts == other.similarAccounts &&
         errorMessage == other.errorMessage &&
+        invalidAccounts == other.invalidAccounts &&
         transactionContext == other.transactionContext;
   }
 
@@ -66,6 +70,7 @@ class _$NlpAccountConfirmationDataDto extends NlpAccountConfirmationDataDto {
     _$hash = $jc(_$hash, suggestedAccount.hashCode);
     _$hash = $jc(_$hash, similarAccounts.hashCode);
     _$hash = $jc(_$hash, errorMessage.hashCode);
+    _$hash = $jc(_$hash, invalidAccounts.hashCode);
     _$hash = $jc(_$hash, transactionContext.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
@@ -78,6 +83,7 @@ class _$NlpAccountConfirmationDataDto extends NlpAccountConfirmationDataDto {
           ..add('suggestedAccount', suggestedAccount)
           ..add('similarAccounts', similarAccounts)
           ..add('errorMessage', errorMessage)
+          ..add('invalidAccounts', invalidAccounts)
           ..add('transactionContext', transactionContext))
         .toString();
   }
@@ -109,6 +115,13 @@ class NlpAccountConfirmationDataDtoBuilder
   String? get errorMessage => _$this._errorMessage;
   set errorMessage(String? errorMessage) => _$this._errorMessage = errorMessage;
 
+  ListBuilder<NlpInvalidAccountEntryDto>? _invalidAccounts;
+  ListBuilder<NlpInvalidAccountEntryDto> get invalidAccounts =>
+      _$this._invalidAccounts ??= new ListBuilder<NlpInvalidAccountEntryDto>();
+  set invalidAccounts(
+          ListBuilder<NlpInvalidAccountEntryDto>? invalidAccounts) =>
+      _$this._invalidAccounts = invalidAccounts;
+
   JsonObject? _transactionContext;
   JsonObject? get transactionContext => _$this._transactionContext;
   set transactionContext(JsonObject? transactionContext) =>
@@ -125,6 +138,7 @@ class NlpAccountConfirmationDataDtoBuilder
       _suggestedAccount = $v.suggestedAccount;
       _similarAccounts = $v.similarAccounts.toBuilder();
       _errorMessage = $v.errorMessage;
+      _invalidAccounts = $v.invalidAccounts?.toBuilder();
       _transactionContext = $v.transactionContext;
       _$v = null;
     }
@@ -158,6 +172,7 @@ class NlpAccountConfirmationDataDtoBuilder
               similarAccounts: similarAccounts.build(),
               errorMessage: BuiltValueNullFieldError.checkNotNull(errorMessage,
                   r'NlpAccountConfirmationDataDto', 'errorMessage'),
+              invalidAccounts: _invalidAccounts?.build(),
               transactionContext: BuiltValueNullFieldError.checkNotNull(
                   transactionContext,
                   r'NlpAccountConfirmationDataDto',
@@ -167,6 +182,9 @@ class NlpAccountConfirmationDataDtoBuilder
       try {
         _$failedField = 'similarAccounts';
         similarAccounts.build();
+
+        _$failedField = 'invalidAccounts';
+        _invalidAccounts?.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             r'NlpAccountConfirmationDataDto', _$failedField, e.toString());
