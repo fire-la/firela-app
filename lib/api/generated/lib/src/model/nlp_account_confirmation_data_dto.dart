@@ -3,6 +3,7 @@
 //
 
 // ignore_for_file: unused_element
+import 'package:firela_api/src/model/nlp_invalid_account_entry_dto.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:firela_api/src/model/nlp_account_candidate_dto.dart';
 import 'package:built_value/json_object.dart';
@@ -18,6 +19,7 @@ part 'nlp_account_confirmation_data_dto.g.dart';
 /// * [suggestedAccount] - Suggested replacement account (omitted when no clear candidate)
 /// * [similarAccounts] - Similar accounts for user selection (path + localized name, #680)
 /// * [errorMessage] - Error message explaining the issue
+/// * [invalidAccounts] - Every invalid posting leg aggregated into this confirm_account round (per-leg invalidAccount/suggestedAccount/similarAccounts/errorMessage, first-seen posting order). Echo back as accountSelections to resolve all legs in one confirm. The singular fields above keep carrying the FIRST leg so pre-aggregation clients keep working (back-compat).
 /// * [transactionContext] - Transaction context for reference
 @BuiltValue()
 abstract class NlpAccountConfirmationDataDto implements Built<NlpAccountConfirmationDataDto, NlpAccountConfirmationDataDtoBuilder> {
@@ -36,6 +38,10 @@ abstract class NlpAccountConfirmationDataDto implements Built<NlpAccountConfirma
   /// Error message explaining the issue
   @BuiltValueField(wireName: r'errorMessage')
   String get errorMessage;
+
+  /// Every invalid posting leg aggregated into this confirm_account round (per-leg invalidAccount/suggestedAccount/similarAccounts/errorMessage, first-seen posting order). Echo back as accountSelections to resolve all legs in one confirm. The singular fields above keep carrying the FIRST leg so pre-aggregation clients keep working (back-compat).
+  @BuiltValueField(wireName: r'invalidAccounts')
+  BuiltList<NlpInvalidAccountEntryDto>? get invalidAccounts;
 
   /// Transaction context for reference
   @BuiltValueField(wireName: r'transactionContext')
@@ -86,6 +92,13 @@ class _$NlpAccountConfirmationDataDtoSerializer implements PrimitiveSerializer<N
       object.errorMessage,
       specifiedType: const FullType(String),
     );
+    if (object.invalidAccounts != null) {
+      yield r'invalidAccounts';
+      yield serializers.serialize(
+        object.invalidAccounts,
+        specifiedType: const FullType(BuiltList, [FullType(NlpInvalidAccountEntryDto)]),
+      );
+    }
     yield r'transactionContext';
     yield serializers.serialize(
       object.transactionContext,
@@ -141,6 +154,13 @@ class _$NlpAccountConfirmationDataDtoSerializer implements PrimitiveSerializer<N
             specifiedType: const FullType(String),
           ) as String;
           result.errorMessage = valueDes;
+          break;
+        case r'invalidAccounts':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(BuiltList, [FullType(NlpInvalidAccountEntryDto)]),
+          ) as BuiltList<NlpInvalidAccountEntryDto>;
+          result.invalidAccounts.replace(valueDes);
           break;
         case r'transactionContext':
           final valueDes = serializers.deserialize(

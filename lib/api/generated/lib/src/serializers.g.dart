@@ -22,6 +22,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(AccountResponseDtoBookingMethodEnum.serializer)
       ..add(AccountResponseDtoStatusEnum.serializer)
       ..add(AccountResponseDtoTypeEnum.serializer)
+      ..add(AccountSelectionDto.serializer)
       ..add(AccountStandardListResponseDto.serializer)
       ..add(AccountStandardResponseDto.serializer)
       ..add(AccountStandardResponseDtoAssetClassEnum.serializer)
@@ -165,6 +166,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(NlpAlternativePayeeDto.serializer)
       ..add(NlpDefaultAccountsDto.serializer)
       ..add(NlpDuplicateConfirmationDataDto.serializer)
+      ..add(NlpInvalidAccountEntryDto.serializer)
       ..add(NlpParsedDataDto.serializer)
       ..add(NlpParsedDataDtoInvestmentActionEnum.serializer)
       ..add(NlpParsedDataDtoPaymentSourceEnum.serializer)
@@ -355,6 +357,10 @@ Serializers _$serializers = (new Serializers().toBuilder()
           () => new ListBuilder<AccountResponseDto>())
       ..addBuilderFactory(
           const FullType(
+              BuiltList, const [const FullType(AccountSelectionDto)]),
+          () => new ListBuilder<AccountSelectionDto>())
+      ..addBuilderFactory(
+          const FullType(
               BuiltList, const [const FullType(AccountStandardResponseDto)]),
           () => new ListBuilder<AccountStandardResponseDto>())
       ..addBuilderFactory(
@@ -524,6 +530,14 @@ Serializers _$serializers = (new Serializers().toBuilder()
           const FullType(
               BuiltList, const [const FullType(NlpAccountCandidateDto)]),
           () => new ListBuilder<NlpAccountCandidateDto>())
+      ..addBuilderFactory(
+          const FullType(
+              BuiltList, const [const FullType(NlpAccountCandidateDto)]),
+          () => new ListBuilder<NlpAccountCandidateDto>())
+      ..addBuilderFactory(
+          const FullType(
+              BuiltList, const [const FullType(NlpInvalidAccountEntryDto)]),
+          () => new ListBuilder<NlpInvalidAccountEntryDto>())
       ..addBuilderFactory(
           const FullType(
               BuiltList, const [const FullType(NlpAlternativePayeeDto)]),

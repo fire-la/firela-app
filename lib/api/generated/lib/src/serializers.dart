@@ -19,6 +19,7 @@ import 'package:firela_api/src/model/account_item_dto.dart';
 import 'package:firela_api/src/model/account_item_with_asset_class_dto.dart';
 import 'package:firela_api/src/model/account_list_response_dto.dart';
 import 'package:firela_api/src/model/account_response_dto.dart';
+import 'package:firela_api/src/model/account_selection_dto.dart';
 import 'package:firela_api/src/model/account_standard_list_response_dto.dart';
 import 'package:firela_api/src/model/account_standard_response_dto.dart';
 import 'package:firela_api/src/model/accounts_response_dto.dart';
@@ -138,6 +139,7 @@ import 'package:firela_api/src/model/nlp_account_confirmation_data_dto.dart';
 import 'package:firela_api/src/model/nlp_alternative_payee_dto.dart';
 import 'package:firela_api/src/model/nlp_default_accounts_dto.dart';
 import 'package:firela_api/src/model/nlp_duplicate_confirmation_data_dto.dart';
+import 'package:firela_api/src/model/nlp_invalid_account_entry_dto.dart';
 import 'package:firela_api/src/model/nlp_parsed_data_dto.dart';
 import 'package:firela_api/src/model/nlp_payee_confirmation_data_dto.dart';
 import 'package:firela_api/src/model/nlp_payee_confirmation_data_dto_suggested_payee.dart';
@@ -259,6 +261,7 @@ part 'serializers.g.dart';
   AccountItemWithAssetClassDto,
   AccountListResponseDto,
   AccountResponseDto,
+  AccountSelectionDto,
   AccountStandardListResponseDto,
   AccountStandardResponseDto,
   AccountsResponseDto,
@@ -378,6 +381,7 @@ part 'serializers.g.dart';
   NlpAlternativePayeeDto,
   NlpDefaultAccountsDto,
   NlpDuplicateConfirmationDataDto,
+  NlpInvalidAccountEntryDto,
   NlpParsedDataDto,
   NlpPayeeConfirmationDataDto,
   NlpPayeeConfirmationDataDtoSuggestedPayee,
