@@ -32954,6 +32954,22 @@ components:
           type: string
           description: Display-only warning from the prior response; accepted but ignored.
           example: Cross-currency settlement applies.
+    AccountSelectionDto:
+      type: object
+      properties:
+        invalidAccount:
+          type: string
+          description: >-
+            The invalid leg this pick answers — echo back
+            accountData.invalidAccounts[i].invalidAccount from the prior
+            confirm_account response.
+          example: Assets:Uncategorized
+        selectedAccount:
+          type: string
+          description: >-
+            The account picked for that leg (suggestedAccount,
+            similarAccounts[i].path, or a typed path).
+          example: Assets:Stocks
     ProcessNlpDto:
       type: object
       properties:
@@ -33009,6 +33025,21 @@ components:
             investment/lend/lend_collect and income (#2118) (else 400); ignored
             on equity.
           example: Expenses:Food:Coffee
+        accountSelections:
+          description: >-
+            Plural confirm_account echo-back: one {invalidAccount,
+            selectedAccount} pair per leg of the prior
+            accountData.invalidAccounts. Non-empty wins over selectedAccount and
+            NL confirm-word matching; absent/blank keeps the legacy singular
+            behavior.
+          example:
+            - invalidAccount: Assets:Uncategorized
+              selectedAccount: Assets:Stocks
+            - invalidAccount: Assets:Trading
+              selectedAccount: Assets:Bank:Checking
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountSelectionDto'
         selectedDestinationAccount:
           type: string
           description: >-
@@ -33337,6 +33368,32 @@ components:
       required:
         - path
         - name
+    NlpInvalidAccountEntryDto:
+      type: object
+      properties:
+        invalidAccount:
+          type: string
+          description: The invalid account name for this leg
+          example: Assets:Uncategorized
+        suggestedAccount:
+          type: string
+          description: >-
+            Suggested replacement account for this leg (omitted when no clear
+            candidate)
+          example: Assets:Stocks
+        similarAccounts:
+          description: 'Similar accounts for this leg (path + localized name, #680)'
+          type: array
+          items:
+            $ref: '#/components/schemas/NlpAccountCandidateDto'
+        errorMessage:
+          type: string
+          description: Error message explaining this leg issue
+          example: Account 'Assets:Uncategorized' does not exist
+      required:
+        - invalidAccount
+        - similarAccounts
+        - errorMessage
     NlpAccountConfirmationDataDto:
       type: object
       properties:
@@ -33357,6 +33414,17 @@ components:
           type: string
           description: Error message explaining the issue
           example: No similar account found
+        invalidAccounts:
+          description: >-
+            Every invalid posting leg aggregated into this confirm_account round
+            (per-leg
+            invalidAccount/suggestedAccount/similarAccounts/errorMessage,
+            first-seen posting order). Echo back as accountSelections to resolve
+            all legs in one confirm. The singular fields above keep carrying the
+            FIRST leg so pre-aggregation clients keep working (back-compat).
+          type: array
+          items:
+            $ref: '#/components/schemas/NlpInvalidAccountEntryDto'
         transactionContext:
           type: object
           description: Transaction context for reference
