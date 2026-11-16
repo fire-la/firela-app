@@ -34231,6 +34231,15 @@ components:
           type: string
           description: Data as of date (ISO 8601)
           example: '2024-06-15T00:00:00.000Z'
+        computedAt:
+          type: string
+          description: >-
+            Server wall-clock time when this aggregate was computed (ISO 8601);
+            unlike asOf (the queried bookkeeping date), this tracks the compute
+            moment. Served verbatim from cache — compare against the client
+            clock to observe staleness. Omitted when the cached payload predates
+            the field (#2290)
+          example: '2026-11-14T02:07:51.000Z'
         byCurrency:
           description: Balances grouped by original currency
           allOf:
@@ -34393,6 +34402,14 @@ components:
           description: Summary statistics
           allOf:
             - $ref: '#/components/schemas/AccountsSummaryDto'
+        computedAt:
+          type: string
+          description: >-
+            Server wall-clock time when this aggregate was computed (ISO 8601).
+            Served verbatim from cache — compare against the client clock to
+            observe staleness. Omitted when the cached payload predates the
+            field (#2290)
+          example: '2026-11-14T02:07:51.000Z'
       required:
         - groups
         - summary
