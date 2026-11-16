@@ -11,12 +11,15 @@ class _$AccountsResponseDto extends AccountsResponseDto {
   final BuiltList<PlatformGroupDto> groups;
   @override
   final AccountsSummaryDto summary;
+  @override
+  final String? computedAt;
 
   factory _$AccountsResponseDto(
           [void Function(AccountsResponseDtoBuilder)? updates]) =>
       (new AccountsResponseDtoBuilder()..update(updates))._build();
 
-  _$AccountsResponseDto._({required this.groups, required this.summary})
+  _$AccountsResponseDto._(
+      {required this.groups, required this.summary, this.computedAt})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(
         groups, r'AccountsResponseDto', 'groups');
@@ -38,7 +41,8 @@ class _$AccountsResponseDto extends AccountsResponseDto {
     if (identical(other, this)) return true;
     return other is AccountsResponseDto &&
         groups == other.groups &&
-        summary == other.summary;
+        summary == other.summary &&
+        computedAt == other.computedAt;
   }
 
   @override
@@ -46,6 +50,7 @@ class _$AccountsResponseDto extends AccountsResponseDto {
     var _$hash = 0;
     _$hash = $jc(_$hash, groups.hashCode);
     _$hash = $jc(_$hash, summary.hashCode);
+    _$hash = $jc(_$hash, computedAt.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -54,7 +59,8 @@ class _$AccountsResponseDto extends AccountsResponseDto {
   String toString() {
     return (newBuiltValueToStringHelper(r'AccountsResponseDto')
           ..add('groups', groups)
-          ..add('summary', summary))
+          ..add('summary', summary)
+          ..add('computedAt', computedAt))
         .toString();
   }
 }
@@ -73,6 +79,10 @@ class AccountsResponseDtoBuilder
       _$this._summary ??= new AccountsSummaryDtoBuilder();
   set summary(AccountsSummaryDtoBuilder? summary) => _$this._summary = summary;
 
+  String? _computedAt;
+  String? get computedAt => _$this._computedAt;
+  set computedAt(String? computedAt) => _$this._computedAt = computedAt;
+
   AccountsResponseDtoBuilder() {
     AccountsResponseDto._defaults(this);
   }
@@ -82,6 +92,7 @@ class AccountsResponseDtoBuilder
     if ($v != null) {
       _groups = $v.groups.toBuilder();
       _summary = $v.summary.toBuilder();
+      _computedAt = $v.computedAt;
       _$v = null;
     }
     return this;
@@ -106,7 +117,9 @@ class AccountsResponseDtoBuilder
     try {
       _$result = _$v ??
           new _$AccountsResponseDto._(
-              groups: groups.build(), summary: summary.build());
+              groups: groups.build(),
+              summary: summary.build(),
+              computedAt: computedAt);
     } catch (_) {
       late String _$failedField;
       try {

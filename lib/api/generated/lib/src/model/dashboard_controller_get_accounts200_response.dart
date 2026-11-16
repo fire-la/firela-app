@@ -17,6 +17,7 @@ part 'dashboard_controller_get_accounts200_response.g.dart';
 /// Properties:
 /// * [groups] - Account groups by asset class
 /// * [summary] 
+/// * [computedAt] - Server wall-clock time when this aggregate was computed (ISO 8601). Served verbatim from cache — compare against the client clock to observe staleness. Omitted when the cached payload predates the field (#2290)
 /// * [uncategorized] 
 /// * [global] 
 /// * [byAccount] - Per-account slices

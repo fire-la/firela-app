@@ -22,6 +22,8 @@ class _$NetWorthResponseDto extends NetWorthResponseDto {
   @override
   final String asOf;
   @override
+  final String? computedAt;
+  @override
   final NetWorthByCurrencyDto? byCurrency;
   @override
   final ConvertedNetWorthDto? converted;
@@ -40,6 +42,7 @@ class _$NetWorthResponseDto extends NetWorthResponseDto {
       required this.monthlyReturnPercentage,
       required this.currency,
       required this.asOf,
+      this.computedAt,
       this.byCurrency,
       this.converted,
       this.warnings})
@@ -79,6 +82,7 @@ class _$NetWorthResponseDto extends NetWorthResponseDto {
         monthlyReturnPercentage == other.monthlyReturnPercentage &&
         currency == other.currency &&
         asOf == other.asOf &&
+        computedAt == other.computedAt &&
         byCurrency == other.byCurrency &&
         converted == other.converted &&
         warnings == other.warnings;
@@ -94,6 +98,7 @@ class _$NetWorthResponseDto extends NetWorthResponseDto {
     _$hash = $jc(_$hash, monthlyReturnPercentage.hashCode);
     _$hash = $jc(_$hash, currency.hashCode);
     _$hash = $jc(_$hash, asOf.hashCode);
+    _$hash = $jc(_$hash, computedAt.hashCode);
     _$hash = $jc(_$hash, byCurrency.hashCode);
     _$hash = $jc(_$hash, converted.hashCode);
     _$hash = $jc(_$hash, warnings.hashCode);
@@ -111,6 +116,7 @@ class _$NetWorthResponseDto extends NetWorthResponseDto {
           ..add('monthlyReturnPercentage', monthlyReturnPercentage)
           ..add('currency', currency)
           ..add('asOf', asOf)
+          ..add('computedAt', computedAt)
           ..add('byCurrency', byCurrency)
           ..add('converted', converted)
           ..add('warnings', warnings))
@@ -152,6 +158,10 @@ class NetWorthResponseDtoBuilder
   String? get asOf => _$this._asOf;
   set asOf(String? asOf) => _$this._asOf = asOf;
 
+  String? _computedAt;
+  String? get computedAt => _$this._computedAt;
+  set computedAt(String? computedAt) => _$this._computedAt = computedAt;
+
   NetWorthByCurrencyDtoBuilder? _byCurrency;
   NetWorthByCurrencyDtoBuilder get byCurrency =>
       _$this._byCurrency ??= new NetWorthByCurrencyDtoBuilder();
@@ -184,6 +194,7 @@ class NetWorthResponseDtoBuilder
       _monthlyReturnPercentage = $v.monthlyReturnPercentage;
       _currency = $v.currency;
       _asOf = $v.asOf;
+      _computedAt = $v.computedAt;
       _byCurrency = $v.byCurrency?.toBuilder();
       _converted = $v.converted?.toBuilder();
       _warnings = $v.warnings?.toBuilder();
@@ -227,6 +238,7 @@ class NetWorthResponseDtoBuilder
                   currency, r'NetWorthResponseDto', 'currency'),
               asOf: BuiltValueNullFieldError.checkNotNull(
                   asOf, r'NetWorthResponseDto', 'asOf'),
+              computedAt: computedAt,
               byCurrency: _byCurrency?.build(),
               converted: _converted?.build(),
               warnings: _warnings?.build());

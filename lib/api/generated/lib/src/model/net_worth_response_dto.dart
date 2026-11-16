@@ -22,6 +22,7 @@ part 'net_worth_response_dto.g.dart';
 /// * [monthlyReturnPercentage] - Monthly return percentage
 /// * [currency] - Base currency code
 /// * [asOf] - Data as of date (ISO 8601)
+/// * [computedAt] - Server wall-clock time when this aggregate was computed (ISO 8601); unlike asOf (the queried bookkeeping date), this tracks the compute moment. Served verbatim from cache — compare against the client clock to observe staleness. Omitted when the cached payload predates the field (#2290)
 /// * [byCurrency] 
 /// * [converted] 
 /// * [warnings] - Exchange rate warnings
@@ -54,6 +55,10 @@ abstract class NetWorthResponseDto implements Built<NetWorthResponseDto, NetWort
   /// Data as of date (ISO 8601)
   @BuiltValueField(wireName: r'asOf')
   String get asOf;
+
+  /// Server wall-clock time when this aggregate was computed (ISO 8601); unlike asOf (the queried bookkeeping date), this tracks the compute moment. Served verbatim from cache — compare against the client clock to observe staleness. Omitted when the cached payload predates the field (#2290)
+  @BuiltValueField(wireName: r'computedAt')
+  String? get computedAt;
 
   @BuiltValueField(wireName: r'byCurrency')
   NetWorthByCurrencyDto? get byCurrency;
@@ -123,6 +128,13 @@ class _$NetWorthResponseDtoSerializer implements PrimitiveSerializer<NetWorthRes
       object.asOf,
       specifiedType: const FullType(String),
     );
+    if (object.computedAt != null) {
+      yield r'computedAt';
+      yield serializers.serialize(
+        object.computedAt,
+        specifiedType: const FullType(String),
+      );
+    }
     if (object.byCurrency != null) {
       yield r'byCurrency';
       yield serializers.serialize(
@@ -215,6 +227,13 @@ class _$NetWorthResponseDtoSerializer implements PrimitiveSerializer<NetWorthRes
             specifiedType: const FullType(String),
           ) as String;
           result.asOf = valueDes;
+          break;
+        case r'computedAt':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.computedAt = valueDes;
           break;
         case r'byCurrency':
           final valueDes = serializers.deserialize(

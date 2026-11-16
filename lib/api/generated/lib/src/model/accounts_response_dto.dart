@@ -16,6 +16,7 @@ part 'accounts_response_dto.g.dart';
 /// Properties:
 /// * [groups] - Account groups by platform
 /// * [summary] 
+/// * [computedAt] - Server wall-clock time when this aggregate was computed (ISO 8601). Served verbatim from cache — compare against the client clock to observe staleness. Omitted when the cached payload predates the field (#2290)
 @BuiltValue()
 abstract class AccountsResponseDto implements Built<AccountsResponseDto, AccountsResponseDtoBuilder> {
   /// Account groups by platform
@@ -24,6 +25,10 @@ abstract class AccountsResponseDto implements Built<AccountsResponseDto, Account
 
   @BuiltValueField(wireName: r'summary')
   AccountsSummaryDto get summary;
+
+  /// Server wall-clock time when this aggregate was computed (ISO 8601). Served verbatim from cache — compare against the client clock to observe staleness. Omitted when the cached payload predates the field (#2290)
+  @BuiltValueField(wireName: r'computedAt')
+  String? get computedAt;
 
   AccountsResponseDto._();
 
@@ -58,6 +63,13 @@ class _$AccountsResponseDtoSerializer implements PrimitiveSerializer<AccountsRes
       object.summary,
       specifiedType: const FullType(AccountsSummaryDto),
     );
+    if (object.computedAt != null) {
+      yield r'computedAt';
+      yield serializers.serialize(
+        object.computedAt,
+        specifiedType: const FullType(String),
+      );
+    }
   }
 
   @override
@@ -94,6 +106,13 @@ class _$AccountsResponseDtoSerializer implements PrimitiveSerializer<AccountsRes
             specifiedType: const FullType(AccountsSummaryDto),
           ) as AccountsSummaryDto;
           result.summary.replace(valueDes);
+          break;
+        case r'computedAt':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.computedAt = valueDes;
           break;
         default:
           unhandled.add(key);
