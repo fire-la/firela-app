@@ -25882,7 +25882,9 @@ paths:
         Returns amounts pre-aggregated by functional category (account-path
         Group segment) with server-side multi-currency conversion. flow=expense
         (default) aggregates ^Expenses: accounts; flow=income aggregates
-        ^Income: accounts (issue #518)
+        ^Income: accounts (issue #518). period accepts a relative window
+        (1m/3m/6m/1y) or an absolute month YYYY-MM, computed over that calendar
+        month with the same month-boundary rule as cash-flow (#2312)
       parameters:
         - name: groupBy
           required: false
@@ -25895,13 +25897,11 @@ paths:
         - name: period
           required: false
           in: query
-          description: Time window (1m = current calendar month)
+          description: >-
+            Relative window token (1m/3m/6m/1y; 1m = current calendar month) or
+            absolute month YYYY-MM (month boundaries resolved like cash-flow)
           schema:
-            enum:
-              - 1m
-              - 3m
-              - 6m
-              - 1y
+            example: 1m
             type: string
         - name: flow
           required: false
@@ -34790,7 +34790,9 @@ components:
       properties:
         period:
           type: string
-          description: Period requested
+          description: >-
+            Period requested: relative window token (1m/3m/6m/1y) or absolute
+            month YYYY-MM
           example: 1m
         baseCurrency:
           type: string
