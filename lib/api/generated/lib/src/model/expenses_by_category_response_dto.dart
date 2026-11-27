@@ -15,14 +15,14 @@ part 'expenses_by_category_response_dto.g.dart';
 /// ExpensesByCategoryResponseDto
 ///
 /// Properties:
-/// * [period] - Period requested
+/// * [period] - Period requested: relative window token (1m/3m/6m/1y) or absolute month YYYY-MM
 /// * [baseCurrency] - Base currency for converted values
 /// * [groups] - Expense groups by functional category, sorted by converted total desc
 /// * [summary] 
 /// * [warnings] - Exchange rate warnings (e.g. missing rate for a currency)
 @BuiltValue()
 abstract class ExpensesByCategoryResponseDto implements Built<ExpensesByCategoryResponseDto, ExpensesByCategoryResponseDtoBuilder> {
-  /// Period requested
+  /// Period requested: relative window token (1m/3m/6m/1y) or absolute month YYYY-MM
   @BuiltValueField(wireName: r'period')
   String get period;
 

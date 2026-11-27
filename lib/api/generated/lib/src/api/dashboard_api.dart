@@ -275,12 +275,12 @@ class DashboardApi {
   }
 
   /// Get expenses/income grouped by functional category
-  /// Returns amounts pre-aggregated by functional category (account-path Group segment) with server-side multi-currency conversion. flow&#x3D;expense (default) aggregates ^Expenses: accounts; flow&#x3D;income aggregates ^Income: accounts (issue #518)
+  /// Returns amounts pre-aggregated by functional category (account-path Group segment) with server-side multi-currency conversion. flow&#x3D;expense (default) aggregates ^Expenses: accounts; flow&#x3D;income aggregates ^Income: accounts (issue #518). period accepts a relative window (1m/3m/6m/1y) or an absolute month YYYY-MM, computed over that calendar month with the same month-boundary rule as cash-flow (#2312)
   ///
   /// Parameters:
   /// * [region] - Region code for tenant context
   /// * [groupBy] - Grouping strategy
-  /// * [period] - Time window (1m = current calendar month)
+  /// * [period] - Relative window token (1m/3m/6m/1y; 1m = current calendar month) or absolute month YYYY-MM (month boundaries resolved like cash-flow)
   /// * [flow] - Account root to aggregate (expense → ^Expenses:, income → ^Income:)
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
